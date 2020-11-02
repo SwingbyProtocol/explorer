@@ -12,6 +12,7 @@ export const Main = () => {
       <Button variant="secondary" size="country">
         {data}
       </Button>
+      <h1>Hello World</h1>
     </>
   );
 };
