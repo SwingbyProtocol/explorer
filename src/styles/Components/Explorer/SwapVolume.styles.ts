@@ -20,7 +20,4 @@ export const SwapVolumeContainer = styled.div`
       width: 33rem !important;
     }
   }
-  /* .test {
-    color: ${({ theme }) => theme.pulsar.color.text.masked};
-  } */
 `;
