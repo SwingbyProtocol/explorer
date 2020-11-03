@@ -1,4 +1,4 @@
-import { isProduction } from '../utils/isProduction';
+import { isProduction } from './utils/isProduction';
 
 export const CoinSymbol = {
   BTC: 'BTC',
@@ -14,4 +14,12 @@ export const CoinSymbol = {
 };
 export const DocumentTitle = {
   Explorer: 'Swingby Explorer',
+};
+
+export const StylingConstants = {
+  maxWidth: 445,
+  media: {
+    medium: 375,
+    big: 510,
+  },
 };

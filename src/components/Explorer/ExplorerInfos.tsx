@@ -1,10 +1,10 @@
 import { Icon } from '@swingby-protocol/pulsar';
 import React from 'react';
 
-import { addComma } from '../../utils/addComma';
+import { addComma } from '../../modules/utils/addComma';
 import { DescribeSpan } from '../customSpan.styles';
 
-import { ExplorerInfosContainerContainer } from './ExplorerInfosContainer.styles';
+import { ExplorerInfosContainerContainer } from './ExplorerInfos.styles';
 
 const ExplorerInfos = (): JSX.Element => {
   const dummyData = [

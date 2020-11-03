@@ -1,4 +1,4 @@
-import { addComma } from './../addComma';
+import { addComma } from '../addComma';
 
 it('should return true', () => {
   expect(addComma(1234, 0)).toStrictEqual('1,234');

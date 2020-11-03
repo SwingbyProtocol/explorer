@@ -1,4 +1,4 @@
-import { CoinSymbol } from '../../modules/constants';
+import { CoinSymbol } from '../../constants';
 import { getCoinIcon } from '../getCoinIcon';
 
 it('should return svg file name of chosen coins', () => {
