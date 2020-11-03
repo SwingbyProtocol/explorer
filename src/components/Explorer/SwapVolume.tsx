@@ -1,8 +1,6 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
 
-import { TitleSpan } from '../../styles/Components/Common/customSpan';
-
 import { SwapVolumeContainer } from './SwapVolume.styles';
 
 const SwapVolume = (): JSX.Element => {
@@ -65,7 +63,7 @@ const SwapVolume = (): JSX.Element => {
     <SwapVolumeContainer>
       <div className="title">
         {/* <span className="test">Total Swap Vol. 7d</span> */}
-        <TitleSpan>Total Swap Vol. 7d</TitleSpan>
+        <span className="Title-text">Total Swap Vol. 7d</span>
       </div>
       <div className="chart">
         <Line type="line" data={data} options={options} height={140} />

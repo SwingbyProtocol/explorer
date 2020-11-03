@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { CoinSymbol } from '../../types';
-import { TitleSpan } from '../../styles/Components/Common/customSpan';
 import { getCoinIcon } from '../../utils/getCoinIcon';
 
 import { NetworkBridgesContainer } from './NetworkBridges.styles';
@@ -17,7 +16,7 @@ const NetworkBridges = (): JSX.Element => {
   return (
     <NetworkBridgesContainer>
       <div className="title">
-        <TitleSpan>Network Bridges</TitleSpan>
+        <span className="Title-text">Network Bridges</span>
       </div>
       <div className="coin-container">
         {dummyData.map((coin) => {

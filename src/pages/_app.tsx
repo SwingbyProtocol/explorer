@@ -4,7 +4,7 @@ import { IntlProvider } from 'react-intl';
 
 import Layout from '../components/Layout';
 import { en } from '../modules/i18n';
-import '../styles/index.scss';
+import '../index.scss';
 import 'semantic-ui-css/semantic.min.css';
 
 function MyApp({ Component, pageProps }) {

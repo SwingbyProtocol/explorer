@@ -1,12 +1,11 @@
 import React from 'react';
 import { Icon } from 'semantic-ui-react';
 
-import { TitleSpan } from '../..//styles/Components/Common/customSpan';
-import { CoinSymbol } from '../..//types';
-import { getCoinIcon } from '../..//utils/getCoinIcon';
+import { CoinSymbol } from '../../types';
+import { getCoinIcon } from '../../utils/getCoinIcon';
+import expend from '../../assets/icons/EXPEND.svg';
 import filter from '../../assets/icons/FILTER.svg';
 import swap from '../../assets/icons/SWAP.svg';
-import expend from '../../assets/icons/EXPEND.svg';
 
 import { TxHistoriesContainer } from './TxHistories.styles';
 
@@ -15,10 +14,10 @@ const TxHistories = () => {
     <TxHistoriesContainer>
       <div className="title-row">
         <div className="left">
-          <TitleSpan>Recent Swaps</TitleSpan>
+          <span className="Title-text">Recent Swaps</span>
         </div>
         <div className="right">
-          <TitleSpan>Fees</TitleSpan>
+          <span className="Title-text">Fees</span>
           <img src={filter} alt="filter" className="filter" />
         </div>
       </div>
