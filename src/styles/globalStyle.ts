@@ -62,7 +62,7 @@ h1,h2,h3,h4,h5,p,span,a {
   }
 
   body {
-    color: ${localTheme.colors.greyBlack};
+    color: #48556A;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

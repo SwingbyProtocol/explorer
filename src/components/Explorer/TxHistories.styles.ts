@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 
 export const TxHistoriesContainer = styled.div`
-  .wrapper-tx-histories {
-  }
   .address-text {
     color: #3799da;
     font-weight: bold;

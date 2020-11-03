@@ -1,4 +1,3 @@
-import { localTheme } from 'src/styles/localTheme';
 import styled from 'styled-components';
 
 export const BrowserContainer = styled.div`
@@ -7,7 +6,7 @@ export const BrowserContainer = styled.div`
   .wrapper-browser {
     height: 50rem;
     max-width: 140rem;
-    background: ${localTheme.colors.white};
+    background: white;
     margin-top: 5rem;
     padding-top: 4rem;
     padding-bottom: 4rem;

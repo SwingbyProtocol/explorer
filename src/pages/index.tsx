@@ -1,7 +1,8 @@
 import Head from 'next/head';
 import React from 'react';
-import ExplorerMain from 'src/components/Explorer/ExplorerMain';
-import { DocumentTitle } from 'src/types';
+
+import { DocumentTitle } from '../types';
+import ExplorerMain from '../components/Explorer/ExplorerMain';
 
 const Home = (): JSX.Element => {
   return (

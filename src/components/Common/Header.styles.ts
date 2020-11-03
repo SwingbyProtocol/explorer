@@ -1,8 +1,5 @@
 import styled from 'styled-components';
 
-import { customMedia } from '../../globalStyle';
-import { localTheme } from '../../localTheme';
-
 export const HeaderContainer = styled.div`
   .wrapper-header {
     .header {
@@ -13,16 +10,7 @@ export const HeaderContainer = styled.div`
       padding-right: 4rem;
       padding-left: 4rem;
       padding-bottom: 2rem;
-      border-bottom: 1px solid ${localTheme.colors.rat};
-      ${customMedia.lessThan('largeTablet')`
-      display: grid;
-      padding-right: 2rem;
-      padding-left: 2rem;
-      justify-items: center;
-      justify-content: center;
-      grid-row-gap: 2rem;
-      margin: 1.8rem 0rem;
-    `};
+      border-bottom: 1px solid #cecddc;
     }
     .left {
       display: flex;
@@ -32,9 +20,6 @@ export const HeaderContainer = styled.div`
         :hover {
           cursor: pointer;
         }
-        ${customMedia.lessThan('largeTablet')`
-          width: 32rem;
-        `};
       }
       .menu {
         margin-left: 5rem;
@@ -58,7 +43,7 @@ export const HeaderContainer = styled.div`
         margin-left: 0.2rem;
         font-weight: bolder;
         font-size: 1.6rem;
-        color: ${localTheme.colors.teal};
+        color: #31d5b8;
       }
     }
   }

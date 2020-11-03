@@ -1,5 +1,4 @@
-import { CoinSymbol } from 'src/types';
-
+import { CoinSymbol } from '../types';
 import btc from '../assets/icons/coin/BTC.svg';
 import btcs from '../assets/icons/coin/BTCB.svg';
 import renBtc from '../assets/icons/coin/REN-BTC.svg';

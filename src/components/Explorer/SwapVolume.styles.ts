@@ -1,14 +1,12 @@
 import styled from 'styled-components';
 
 export const SwapVolumeContainer = styled.div`
-  .wrapper-swap-volume {
-    min-width: 16rem;
-    padding-left: 2rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-  }
+  min-width: 16rem;
+  padding-left: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   .title {
     align-self: flex-start;
     margin-bottom: 1rem;

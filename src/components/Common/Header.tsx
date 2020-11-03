@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Dropdown } from 'semantic-ui-react';
 
-import logo from '../../assets/logos/Explorer-logo.svg';
-import { HeaderContainer } from '../../styles/Components/Common/Header.styles';
+// import logo from '../../assets/logos/Explorer-logo.svg';
+import logo from '../../../public/assets/logos/Explorer-logo.svg';
 
-export const Header = (): JSX.Element => {
+import { HeaderContainer } from './Header.styles';
+
+export const Header = () => {
   const [lang, setLang] = useState('EN');
   return (
     <HeaderContainer>
