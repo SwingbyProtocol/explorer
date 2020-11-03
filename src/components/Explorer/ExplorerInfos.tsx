@@ -2,7 +2,7 @@ import { Icon } from '@swingby-protocol/pulsar';
 import React from 'react';
 
 import { addComma } from '../../modules/utils/addComma';
-import { DescribeSpan } from '../customSpan.styles';
+import { DescribeSpan } from '../CustomSpan.styles';
 
 import { ExplorerInfosContainerContainer } from './ExplorerInfos.styles';
 

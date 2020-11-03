@@ -1,7 +1,7 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
 
-import { TitleSpan } from '../customSpan.styles';
+import { TitleSpan } from '../CustomSpan.styles';
 
 import { SwapVolumeContainer } from './SwapVolume.styles';
 
