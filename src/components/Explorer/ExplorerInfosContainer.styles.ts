@@ -9,10 +9,8 @@ export const ExplorerInfosContainerContainer = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 2.4rem;
-    /* ${customMedia.greaterThan('macBook13')`
-      padding-left: 6%;
-      padding-right: 6%;
-    `} */
+    /* padding-left: 6%; */
+    /* padding-right: 6%; */
   }
 
   .info-container {
