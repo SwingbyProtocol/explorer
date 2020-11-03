@@ -1,4 +1,4 @@
-import { isProduction } from './../utils/isProduction';
+import { isProduction } from '../utils/isProduction';
 
 export const CoinSymbol = {
   BTC: 'BTC',

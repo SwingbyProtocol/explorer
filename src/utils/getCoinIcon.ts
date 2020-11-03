@@ -4,8 +4,7 @@ import renBtc from '../assets/icons/coin/REN-BTC.svg';
 import wbtc from '../assets/icons/coin/WBTC.svg';
 import btce from '../assets/icons/coin/BTCE.svg';
 import bnb from '../assets/icons/coin/BNB.svg';
-
-import { CoinSymbol } from './../modules/constants';
+import { CoinSymbol } from '../modules/constants';
 
 export const getCoinIcon = (symbol: string): string => {
   switch (symbol) {
