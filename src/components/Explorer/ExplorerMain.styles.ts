@@ -15,26 +15,27 @@ export const ExplorerMainContainer = styled.div`
     height: 6rem;
     max-width: 140rem;
   }
-  .left {
+  .left-head-line {
     .title-text {
       color: ${({ theme }) => theme.pulsar.color.primary.text};
       font-weight: 800;
       font-size: 3.2rem;
-      margin-bottom: 0;
+      margin: 0;
     }
   }
-  .right {
+  .right-head-line {
     .search-input {
       input {
+        height: 5.6rem;
         border-radius: 0.6rem;
-        height: 4.6rem;
         width: 40rem;
+        font-size: 1.4rem;
         ::placeholder {
-          font-weight: 800;
+          opacity: 0.8;
         }
       }
-      .icon {
-        color: #31d5b8;
+      .search-icon {
+        color: ${({ theme }) => theme.pulsar.color.primary.normal};
         font-size: 2rem;
       }
     }

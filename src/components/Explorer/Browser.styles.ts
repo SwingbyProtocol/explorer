@@ -6,6 +6,7 @@ export const BrowserContainer = styled.div`
   .wrapper-browser {
     height: 50rem;
     max-width: 140rem;
+    min-width: 122.2rem;
     background: ${({ theme }) => theme.pulsar.color.bg.normal};
     margin-top: 5rem;
     padding-top: 4rem;

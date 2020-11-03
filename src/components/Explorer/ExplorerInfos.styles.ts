@@ -40,7 +40,7 @@ export const ExplorerInfosContainerContainer = styled.div`
           font-size: 1.4rem;
           margin-left: 1.2rem;
           color: ${({ theme }) => theme.pulsar.color.primary.normal};
-          border-bottom: 0.1rem solid #31d5b8;
+          border-bottom: 0.1rem solid ${({ theme }) => theme.pulsar.color.primary.normal};
           margin-bottom: -0.1rem;
           :hover {
             cursor: pointer;
