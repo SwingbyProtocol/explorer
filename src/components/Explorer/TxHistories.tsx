@@ -1,5 +1,4 @@
 import React from 'react';
-import { Icon } from 'semantic-ui-react';
 
 import { getCoinIcon } from '../../utils/getCoinIcon';
 import expend from '../../assets/icons/EXPEND.svg';
@@ -24,19 +23,20 @@ const TxHistories = () => {
       <div className="tx-history-row">
         <div className="column">
           <div className="status">
-            <Icon name="circle" className="circle" />
+            {/* Todo: Add circle icon */}
+            {/* <Icon name="circle" className="circle" /> */}
             <span className="status-text">Waiting</span>
           </div>
           <div className="bottom">
-            <span className="Half-opacity">1 min. ago</span>
+            <span>1 min. ago</span>
           </div>
         </div>
         <div className="column">
           <div className="top">
-            <span className="Half-opacity">From</span>
+            <span>From</span>
           </div>
           <div className="bottom">
-            <span className="Half-opacity">To</span>
+            <span>To</span>
           </div>
         </div>
         <div className="column">
@@ -53,7 +53,7 @@ const TxHistories = () => {
           </div>
           <div className="right-column">
             <div className="top">
-              <span className="Half-opacity">BTC</span>
+              <span>BTC</span>
             </div>
             <div className="bottom">
               <span className="amount-text">0.00039708</span>
@@ -69,7 +69,7 @@ const TxHistories = () => {
           </div>
           <div className="right-column">
             <div className="top">
-              <span className="Half-opacity">BTC on Bnbchain</span>
+              <span>BTC on Bnbchain</span>
             </div>
             <div className="bottom">
               <span className="amount-text">0.00039308</span>
@@ -78,7 +78,7 @@ const TxHistories = () => {
         </div>
         <div />
         <div className="column">
-          <span className="Half-opacity">
+          <span>
             <strong>0.002BTC</strong>
           </span>
         </div>

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Dropdown } from 'semantic-ui-react';
 
 // import logo from '../../assets/logos/Explorer-logo.svg';
 import logo from '../../../public/assets/logos/Explorer-logo.svg';
@@ -30,7 +29,8 @@ export const Header = () => {
             </div>
           </div>
           <div className="right">
-            <Dropdown text={lang} icon="angle down" className="Ui-library">
+            {/* Todo: add dropdown */}
+            {/* <Dropdown text={lang} icon="angle down" className="Ui-library">
               <Dropdown.Menu className="Ui-library">
                 <Dropdown.Item
                   text="EN"
@@ -47,7 +47,7 @@ export const Header = () => {
                   }}
                 />
               </Dropdown.Menu>
-            </Dropdown>
+            </Dropdown> */}
           </div>
         </div>
       </div>

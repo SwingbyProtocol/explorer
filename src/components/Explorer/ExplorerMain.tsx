@@ -1,5 +1,4 @@
 import React from 'react';
-import { Input } from 'semantic-ui-react';
 
 import Browser from './Browser';
 import { ExplorerMainContainer } from './ExplorerMain.styles';
@@ -13,11 +12,12 @@ const ExplorerMain = (): JSX.Element => {
         </div>
         <div className="right">
           <div className="search-input">
-            <Input
+            {/* Todo: Add input */}
+            {/* <Input
               icon="search"
               placeholder="Search by address or Txn Hash"
               className="Ui-library"
-            />
+            /> */}
           </div>
         </div>
       </div>
