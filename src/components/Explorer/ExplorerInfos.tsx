@@ -1,7 +1,7 @@
 import { Icon } from '@swingby-protocol/pulsar';
 import React from 'react';
+import { FormattedNumber } from 'react-intl';
 
-import { addComma } from '../../modules/utils/addComma';
 import { DescribeSpan } from '../CustomSpan.styles';
 
 import { ExplorerInfosContainerContainer } from './ExplorerInfos.styles';
@@ -11,17 +11,17 @@ const ExplorerInfos = (): JSX.Element => {
     {
       icon: <Icon.NetworkVolume className="icon-image" />,
       description: 'Volume (24hr)',
-      value: '$' + addComma(128130, 0),
+      value: <FormattedNumber value={128130} />,
     },
     {
       icon: <Icon.NetworkRewards className="icon-image" />,
       description: 'Rewards (24hr)',
-      value: '$' + addComma(128130, 0),
+      value: <FormattedNumber value={128130} />,
     },
     {
       icon: <Icon.NetworkCapacity className="icon-image" />,
       description: 'Capacity (Float)',
-      value: '$' + addComma(128130, 0),
+      value: <FormattedNumber value={128130} />,
     },
     {
       icon: <Icon.NetworkValidators className="icon-image" />,
@@ -50,7 +50,7 @@ const ExplorerInfos = (): JSX.Element => {
                 )}
 
                 <div className="row">
-                  <DescribeSpan className="value-text">{info.value}</DescribeSpan>
+                  <DescribeSpan className="value-text">${info.value}</DescribeSpan>
                 </div>
               </div>
             </div>
