@@ -1,54 +1,56 @@
+import { Icon } from '@swingby-protocol/pulsar';
 import React from 'react';
 
 import { addComma } from '../../utils/addComma';
-import capacity from '../../assets/icons/network/NetworkCapacity.svg';
-import rewards from '../../assets/icons/network/NetworkRewards.svg';
-import validators from '../../assets/icons/network/NetworkValidators.svg';
-import volume from '../../assets/icons/network/NetworkVolume.svg';
+import { DescribeSpan } from '../customSpan.styles';
 
 import { ExplorerInfosContainerContainer } from './ExplorerInfosContainer.styles';
 
 const ExplorerInfos = (): JSX.Element => {
   const dummyData = [
     {
-      icon: volume,
+      icon: <Icon.NetworkVolume className="icon-image" />,
       description: 'Volume (24hr)',
       value: '$' + addComma(128130, 0),
     },
     {
-      icon: rewards,
+      icon: <Icon.NetworkRewards className="icon-image" />,
       description: 'Rewards (24hr)',
       value: '$' + addComma(128130, 0),
     },
     {
-      icon: capacity,
+      icon: <Icon.NetworkCapacity className="icon-image" />,
       description: 'Capacity (Float)',
       value: '$' + addComma(128130, 0),
     },
-    { icon: validators, description: 'Validators', value: 50 },
+    {
+      icon: <Icon.NetworkValidators className="icon-image" />,
+      description: 'Validators',
+      value: 50,
+    },
   ];
 
   return (
     <ExplorerInfosContainerContainer>
       <div className="infos-container">
-        {dummyData.map((info) => {
+        {dummyData.map((info, i) => {
           return (
-            <div className="info-container" key={info.icon}>
-              <img src={info.icon} alt={info.icon} className="icon-image" />
+            <div className="info-container" key={i}>
+              {info.icon}
               <div className="data">
                 {info.description === 'Validators' ? (
                   <div className="row-validator">
-                    <span>{info.description}</span>
+                    <DescribeSpan>{info.description}</DescribeSpan>
                     <span className="validator-link">All</span>
                   </div>
                 ) : (
                   <div className="row">
-                    <span>{info.description}</span>
+                    <DescribeSpan>{info.description}</DescribeSpan>
                   </div>
                 )}
 
                 <div className="row">
-                  <span className="value-text">{info.value}</span>
+                  <DescribeSpan className="value-text">{info.value}</DescribeSpan>
                 </div>
               </div>
             </div>

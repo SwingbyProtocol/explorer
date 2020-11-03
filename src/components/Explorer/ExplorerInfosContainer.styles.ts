@@ -2,8 +2,8 @@ import styled from 'styled-components';
 export const ExplorerInfosContainerContainer = styled.div`
   border-right: 0.1rem solid #cecddc;
   border-left: 0.1rem solid #cecddc;
-  padding-right: 2rem;
-  padding-left: 3rem;
+  padding-right: 1rem;
+  padding-left: 4rem;
   .infos-container {
     padding-top: 6rem;
     display: grid;
@@ -16,11 +16,11 @@ export const ExplorerInfosContainerContainer = styled.div`
   .info-container {
     min-width: 16rem;
     display: grid;
-    grid-template-columns: 5rem auto;
+    grid-template-columns: 4.2rem auto;
     align-items: center;
     .icon-image {
-      width: 3rem;
-      opacity: 0.3;
+      font-size: 2.4rem;
+      opacity: 0.4;
     }
     .data {
       display: grid;
@@ -37,8 +37,9 @@ export const ExplorerInfosContainerContainer = styled.div`
       .row-validator {
         display: flex;
         .validator-link {
+          font-size: 1.4rem;
           margin-left: 1.2rem;
-          color: #31d5b8;
+          color: ${({ theme }) => theme.pulsar.color.primary.normal};
           border-bottom: 0.1rem solid #31d5b8;
           margin-bottom: -0.1rem;
           :hover {

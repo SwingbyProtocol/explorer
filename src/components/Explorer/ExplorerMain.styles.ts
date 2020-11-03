@@ -17,10 +17,9 @@ export const ExplorerMainContainer = styled.div`
   }
   .left {
     .title-text {
-      color: white;
+      color: ${({ theme }) => theme.pulsar.color.primary.text};
       font-weight: 800;
       font-size: 3.2rem;
-      font-family: Inter;
       margin-bottom: 0;
     }
   }

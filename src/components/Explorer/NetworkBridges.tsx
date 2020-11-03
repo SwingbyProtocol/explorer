@@ -2,6 +2,7 @@ import React from 'react';
 
 import { CoinSymbol } from '../../modules/constants';
 import { getCoinIcon } from '../../utils/getCoinIcon';
+import { DescribeSpan, TitleSpan } from '../customSpan.styles';
 
 import { NetworkBridgesContainer } from './NetworkBridges.styles';
 
@@ -16,7 +17,7 @@ const NetworkBridges = (): JSX.Element => {
   return (
     <NetworkBridgesContainer>
       <div className="title">
-        <span className="Title-text">Network Bridges</span>
+        <TitleSpan>Network Bridges</TitleSpan>
       </div>
       <div className="coin-container">
         {dummyData.map((coin) => {
@@ -25,12 +26,12 @@ const NetworkBridges = (): JSX.Element => {
               <img src={getCoinIcon(coin.coin)} alt={coin.coin} className="coin-image" />
               <div className="data">
                 <div className="row">
-                  <span>Float</span>
-                  <strong>{coin.float}</strong>
+                  <DescribeSpan>Float</DescribeSpan>
+                  <strong className="amount-text">{coin.float}</strong>
                 </div>
                 <div className="row">
-                  <span>Vol</span>
-                  <span>{coin.vol}</span>
+                  <DescribeSpan>Vol</DescribeSpan>
+                  <span className="amount-text">{coin.vol}</span>
                 </div>
               </div>
             </div>

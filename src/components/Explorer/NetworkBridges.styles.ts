@@ -28,4 +28,7 @@ export const NetworkBridgesContainer = styled.div`
       }
     }
   }
+  .amount-text {
+    font-size: 1.4rem;
+  }
 `;

@@ -1,10 +1,9 @@
+import { Icon } from '@swingby-protocol/pulsar';
 import React from 'react';
 
-import { getCoinIcon } from '../../utils/getCoinIcon';
-import expend from '../../assets/icons/EXPEND.svg';
-import filter from '../../assets/icons/FILTER.svg';
-import swap from '../../assets/icons/SWAP.svg';
 import { CoinSymbol } from '../../modules/constants';
+import { getCoinIcon } from '../../utils/getCoinIcon';
+import { DescribeSpan, TitleSpan } from '../customSpan.styles';
 
 import { TxHistoriesContainer } from './TxHistories.styles';
 
@@ -13,11 +12,11 @@ const TxHistories = () => {
     <TxHistoriesContainer>
       <div className="title-row">
         <div className="left">
-          <span className="Title-text">Recent Swaps</span>
+          <TitleSpan>Recent Swaps</TitleSpan>
         </div>
         <div className="right">
-          <span className="Title-text">Fees</span>
-          <img src={filter} alt="filter" className="filter" />
+          <TitleSpan>Fees</TitleSpan>
+          <Icon.Filter className="filter" />
         </div>
       </div>
       <div className="tx-history-row">
@@ -28,15 +27,15 @@ const TxHistories = () => {
             <span className="status-text">Waiting</span>
           </div>
           <div className="bottom">
-            <span>1 min. ago</span>
+            <span className="time-past-text">1 min. ago</span>
           </div>
         </div>
         <div className="column">
           <div className="top">
-            <span>From</span>
+            <DescribeSpan>From</DescribeSpan>
           </div>
           <div className="bottom">
-            <span>To</span>
+            <DescribeSpan>To</DescribeSpan>
           </div>
         </div>
         <div className="column">
@@ -53,7 +52,7 @@ const TxHistories = () => {
           </div>
           <div className="right-column">
             <div className="top">
-              <span>BTC</span>
+              <DescribeSpan>BTC</DescribeSpan>
             </div>
             <div className="bottom">
               <span className="amount-text">0.00039708</span>
@@ -61,7 +60,7 @@ const TxHistories = () => {
           </div>
         </div>
         <div className="column">
-          <img src={swap} alt="swap" className="icon" />
+          <Icon.SwapHorizontal className="swap-icon" />
         </div>
         <div className="column column-amount">
           <div className="left-column">
@@ -69,7 +68,7 @@ const TxHistories = () => {
           </div>
           <div className="right-column">
             <div className="top">
-              <span>BTC on Bnbchain</span>
+              <DescribeSpan>BTC on Bnbchain</DescribeSpan>
             </div>
             <div className="bottom">
               <span className="amount-text">0.00039308</span>
@@ -78,12 +77,12 @@ const TxHistories = () => {
         </div>
         <div />
         <div className="column">
-          <span>
+          <DescribeSpan>
             <strong>0.002BTC</strong>
-          </span>
+          </DescribeSpan>
         </div>
         <div className="column Pointer">
-          <img src={expend} alt="expend" className="expend-icon" />
+          <Icon.Ellipsis className="ellipsis-icon" />
         </div>
       </div>
     </TxHistoriesContainer>
