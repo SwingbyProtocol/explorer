@@ -2,7 +2,8 @@ import { Icon } from '@swingby-protocol/pulsar';
 import React from 'react';
 
 import { CoinSymbol } from '../../modules/constants';
-import { getCoinIcon } from '../../modules/utils/getCoinIcon';
+import { getCoinIcon } from '../../modules/explorer';
+// import { getCoinIcon } from '../../modules/utils/Explorer/getCoinIcon';
 import { DescribeSpan, TitleSpan } from '../CustomSpan.styles';
 
 import { TxHistoriesContainer } from './TxHistories.styles';

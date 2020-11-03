@@ -1495,10 +1495,10 @@
   resolved "https://registry.yarnpkg.com/@sideway/pinpoint/-/pinpoint-2.0.0.tgz#cff8ffadc372ad29fd3f78277aeb29e632cc70df"
   integrity sha512-RNiOoTPkptFtSVzQevY/yWtZwf/RxyVnPy/OcA9HBM3MlGDnBEYL5B41H0MTn0Uec8Hi+2qUtTfG2WWZBmMejQ==
 
-"@swingby-protocol/eslint-config@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@swingby-protocol/eslint-config/-/eslint-config-1.1.1.tgz#9d14dceaa61267297402d3eee3188e400da99926"
-  integrity sha512-R0Yw+Y32bnubavH0KB9330cT+9CCrqcFFW389khwQRINzSa7jJ3v9IxuAchvRS2z+1Fc8l6L82uI02UyJ934WA==
+"@swingby-protocol/eslint-config@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@swingby-protocol/eslint-config/-/eslint-config-1.2.0.tgz#dcb1fdc6c055f96638a01e08c8981ae57769db5c"
+  integrity sha512-7DkqNoCnOzM0+HRpkVEx5FBpIfOXEb8Ln+ZjHZLZD6La/NE01y3QmzS9RW04y4IFXtFsG2CgOvXpaTRxsdzWHg==
   dependencies:
     "@typescript-eslint/eslint-plugin" "^4.6.0"
     "@typescript-eslint/parser" "^4.6.0"

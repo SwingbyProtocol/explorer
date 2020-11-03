@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-// import logo from '../../assets/logos/Explorer-logo.svg';
 import logo from '../../../public/assets/logos/Explorer-logo.svg';
 
 import { HeaderContainer } from './Header.styles';
 
 export const Header = () => {
-  const [lang, setLang] = useState('EN');
+  // const [lang, setLang] = useState('EN');
   return (
     <HeaderContainer>
       <div className="wrapper-header">

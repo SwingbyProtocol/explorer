@@ -1,7 +1,8 @@
 import React from 'react';
 
 import { CoinSymbol } from '../../modules/constants';
-import { getCoinIcon } from '../../modules/utils/getCoinIcon';
+import { getCoinIcon } from '../../modules/explorer';
+// import { getCoinIcon } from '../../modules/utils/getCoinIcon';
 import { DescribeSpan, TitleSpan } from '../CustomSpan.styles';
 
 import { NetworkBridgesContainer } from './NetworkBridges.styles';

@@ -1,9 +1,9 @@
-import btc from '../../assets/icons/coin/BTC.svg';
-import btcs from '../../assets/icons/coin/BTCB.svg';
-import renBtc from '../../assets/icons/coin/REN-BTC.svg';
-import wbtc from '../../assets/icons/coin/WBTC.svg';
-import btce from '../../assets/icons/coin/BTCE.svg';
-import bnb from '../../assets/icons/coin/BNB.svg';
+import btc from '../../../public/assets/icons/coin/BTC.svg';
+import btcs from '../../../public/assets/icons/coin/BTCB.svg';
+import renBtc from '../../../public/assets/icons/coin/REN-BTC.svg';
+import wbtc from '../../../public/assets/icons/coin/WBTC.svg';
+import btce from '../../../public/assets/icons/coin/BTCE.svg';
+import bnb from '../../../public/assets/icons/coin/BNB.svg';
 import { CoinSymbol } from '../constants';
 export const getCoinIcon = (symbol: string): string => {
   switch (symbol) {

@@ -1,6 +1,6 @@
 import Head from 'next/head';
 
-import ExplorerMain from '../../../components/Explorer/ExplorerMain';
+import { ExplorerMain } from '../../../components/Explorer';
 import { DocumentTitle } from '../../constants';
 
 export const Main = () => {

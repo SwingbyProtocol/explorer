@@ -30,4 +30,4 @@ const ExplorerMain = (): JSX.Element => {
   );
 };
 
-export default ExplorerMain;
+export { ExplorerMain };
