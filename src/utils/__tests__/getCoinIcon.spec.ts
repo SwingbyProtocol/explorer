@@ -1,5 +1,5 @@
+import { CoinSymbol } from '../../modules/constants';
 import { getCoinIcon } from '../getCoinIcon';
-import { CoinSymbol } from '../../types';
 
 it('should return svg file name of chosen coins', () => {
   expect(getCoinIcon(CoinSymbol.BTC)).toStrictEqual('BTC.svg');

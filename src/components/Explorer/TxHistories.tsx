@@ -1,11 +1,11 @@
 import React from 'react';
 import { Icon } from 'semantic-ui-react';
 
-import { CoinSymbol } from '../../types';
 import { getCoinIcon } from '../../utils/getCoinIcon';
 import expend from '../../assets/icons/EXPEND.svg';
 import filter from '../../assets/icons/FILTER.svg';
 import swap from '../../assets/icons/SWAP.svg';
+import { CoinSymbol } from '../../modules/constants';
 
 import { TxHistoriesContainer } from './TxHistories.styles';
 

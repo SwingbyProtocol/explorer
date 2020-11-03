@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { CoinSymbol } from '../../types';
+import { CoinSymbol } from '../../modules/constants';
 import { getCoinIcon } from '../../utils/getCoinIcon';
 
 import { NetworkBridgesContainer } from './NetworkBridges.styles';
