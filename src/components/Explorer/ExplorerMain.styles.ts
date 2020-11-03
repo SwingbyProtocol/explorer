@@ -26,6 +26,7 @@ export const ExplorerMainContainer = styled.div`
   .right-head-line {
     .search-input {
       input {
+        /* Memo: cannot change height */
         height: 5.6rem;
         border-radius: 0.6rem;
         width: 40rem;
