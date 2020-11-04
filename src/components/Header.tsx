@@ -1,6 +1,6 @@
 import React from 'react';
 
-import logo from '../../../public/assets/logos/Explorer-logo.svg';
+import logo from '../../public/assets/logos/Explorer-logo.svg';
 
 import { HeaderContainer } from './Header.styles';
 
@@ -8,28 +8,20 @@ export const Header = () => {
   // const [lang, setLang] = useState('EN');
   return (
     <HeaderContainer>
-      <div className="wrapper-header">
-        <div className="header">
-          <div className="left">
-            <div className="explorer-logo">
-              <img
-                src={logo}
-                alt="logo"
-                className="logo"
-                onClick={() => {
-                  window && window.location.reload();
-                }}
-              />
-            </div>
-            <div className="menu">
-              <span>Stake</span>
-              <span>Validators</span>
-              <span>Analytics</span>
-            </div>
+      <div className="header">
+        <div className="left">
+          <div className="explorer-logo">
+            <img src={logo} alt="logo" className="logo" onClick={() => window.location.reload()} />
           </div>
-          <div className="right">
-            {/* Todo: add dropdown */}
-            {/* <Dropdown text={lang} icon="angle down" className="Ui-library">
+          <div className="menu">
+            <span>Stake</span>
+            <span>Validators</span>
+            <span>Analytics</span>
+          </div>
+        </div>
+        <div className="right">
+          {/* Todo: add dropdown */}
+          {/* <Dropdown text={lang} icon="angle down" className="Ui-library">
               <Dropdown.Menu className="Ui-library">
                 <Dropdown.Item
                   text="EN"
@@ -47,7 +39,6 @@ export const Header = () => {
                 />
               </Dropdown.Menu>
             </Dropdown> */}
-          </div>
         </div>
       </div>
     </HeaderContainer>
