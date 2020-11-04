@@ -8,7 +8,7 @@ import TxHistories from './TxHistories';
 const Browser = (): JSX.Element => {
   return (
     <BrowserContainer>
-      <div className="wrapper-browser">
+      <div className="browser">
         <div className="top-browser">
           <NetworkBridges />
           <ExplorerInfos />

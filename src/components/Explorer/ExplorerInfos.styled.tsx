@@ -1,47 +1,49 @@
 import styled from 'styled-components';
+import { rem } from 'polished';
+
 export const ExplorerInfosContainerContainer = styled.div`
-  border-right: 0.1rem solid #cecddc;
-  border-left: 0.1rem solid #cecddc;
-  padding-right: 1rem;
-  padding-left: 4rem;
+  border-right: 1px solid #cecddc;
+  border-left: 1px solid #cecddc;
+  padding-right: ${rem(10)};
+  padding-left: ${({ theme }) => rem(theme.pulsar.size.city)};
   .infos-container {
-    padding-top: 6rem;
+    padding-top: ${rem(60)};
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-gap: 2.4rem;
+    grid-gap: ${({ theme }) => rem(theme.pulsar.size.street)};
     /* padding-left: 6%; */
     /* padding-right: 6%; */
   }
 
   .info-container {
-    min-width: 16rem;
+    min-width: ${({ theme }) => rem(theme.pulsar.size.house)};
     display: grid;
-    grid-template-columns: 4.2rem auto;
+    grid-template-columns: ${rem(42)} auto;
     align-items: center;
     .icon-image {
-      font-size: 2.4rem;
+      font-size: ${({ theme }) => rem(theme.pulsar.size.street)};
       color: ${({ theme }) => theme.pulsar.color.text.masked};
     }
     .data {
       display: grid;
-      grid-row-gap: 0.4rem;
+      grid-row-gap: ${({ theme }) => rem(theme.pulsar.size.box)};
       .row {
         display: grid;
-        grid-template-columns: 5rem auto;
+        grid-template-columns: ${rem(50)} auto;
         white-space: nowrap;
         .value-text {
-          font-size: 1.8rem;
+          font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
           font-weight: bold;
         }
       }
       .row-validator {
         display: flex;
         .validator-link {
-          font-size: 1.4rem;
-          margin-left: 1.2rem;
+          font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
+          margin-left: ${({ theme }) => rem(theme.pulsar.size.closet)};
           color: ${({ theme }) => theme.pulsar.color.primary.normal};
-          border-bottom: 0.1rem solid ${({ theme }) => theme.pulsar.color.primary.normal};
-          margin-bottom: -0.1rem;
+          border-bottom: 1px solid ${({ theme }) => theme.pulsar.color.primary.normal};
+          margin-bottom: ${-rem(10)};
           :hover {
             cursor: pointer;
           }

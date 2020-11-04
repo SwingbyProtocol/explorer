@@ -10,7 +10,7 @@ export const Main = () => {
         <title>{DocumentTitle.Explorer}</title>
       </Head>
       {/* Todo: Add Swap later */}
-      <div style={{ height: '7rem' }}>
+      <div style={{ height: '70px' }}>
         <h1>Swap</h1>
       </div>
       <ExplorerMain />

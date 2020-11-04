@@ -1,21 +1,22 @@
 import styled from 'styled-components';
+import { rem } from 'polished';
 
 export const SwapVolumeContainer = styled.div`
-  min-width: 16rem;
-  padding-left: 2rem;
+  min-width: ${rem(160)};
+  padding-left: ${rem(20)};
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   .title {
     align-self: flex-start;
-    margin-bottom: 1rem;
+    margin-bottom: ${rem(10)};
   }
   .chart {
-    height: 14rem;
+    height: ${rem(140)};
     .chartjs-render-monitor {
-      height: 14.6rem !important;
-      width: 33rem !important;
+      height: ${rem(146)} !important;
+      width: ${rem(330)} !important;
     }
   }
 `;

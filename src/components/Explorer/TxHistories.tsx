@@ -7,7 +7,6 @@ import { DescribeSpan } from '../DescribeSpan';
 import { TitleSpan } from '../TitleSpan';
 
 import { TxHistoriesContainer } from './TxHistories.styled';
-// import { getCoinIcon } from '../../modules/utils/Explorer/getCoinIcon';
 
 const TxHistories = () => {
   return (

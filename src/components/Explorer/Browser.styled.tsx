@@ -1,27 +1,28 @@
 import styled from 'styled-components';
+import { rem } from 'polished';
 
 export const BrowserContainer = styled.div`
   display: grid;
   justify-content: center;
-  .wrapper-browser {
-    height: 50rem;
-    max-width: 140rem;
-    min-width: 122.2rem;
+  .browser {
+    height: ${rem(500)};
+    max-width: ${rem(1400)};
+    min-width: ${rem(1220)};
     background: ${({ theme }) => theme.pulsar.color.bg.normal};
-    margin-top: 5rem;
-    padding-top: 4rem;
-    padding-bottom: 4rem;
-    padding-left: 4rem;
-    padding-right: 4rem;
-    border-radius: 1rem;
-    box-shadow: 0 1.5rem 2.5rem -1rem rgba(43, 55, 74, 0.152644);
+    margin-top: ${rem(50)};
+    padding-top: ${({ theme }) => rem(theme.pulsar.size.city)};
+    padding-bottom: ${({ theme }) => rem(theme.pulsar.size.city)};
+    padding-left: ${({ theme }) => rem(theme.pulsar.size.city)};
+    padding-right: ${({ theme }) => rem(theme.pulsar.size.street)};
+    border-radius: ${rem(10)};
+    box-shadow: 0 15px 25px -10px rgba(43, 55, 74, 0.152644);
     .top-browser {
-      height: 20rem;
+      height: ${rem(200)};
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
       justify-content: space-between;
       align-items: start;
-      margin-bottom: 4rem;
+      margin-bottom: ${({ theme }) => rem(theme.pulsar.size.city)};
     }
   }
 `;

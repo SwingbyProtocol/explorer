@@ -14,7 +14,6 @@ const ExplorerMain = (): JSX.Element => {
         </div>
         <div className="right-head-line ">
           <div className="search-input">
-            {/* Todo: Make Input height as 4.6 or 5.6 rem */}
             <TextInput
               size="country"
               value={search}

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { rem } from 'polished';
 
 export const TxHistoriesContainer = styled.div`
   .title-row {
@@ -6,80 +7,80 @@ export const TxHistoriesContainer = styled.div`
     justify-content: space-between;
   }
   .right {
-    padding-right: 2rem;
+    padding-right: ${rem(20)};
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-column-gap: 4rem;
+    grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.city)};
     .filter {
       color: ${({ theme }) => theme.pulsar.color.text.masked};
-      font-size: 1.8rem;
+      font-size: ${rem(18)};
     }
   }
   .tx-history-row {
-    height: 9.2rem;
+    height: ${rem(92)};
     background: rgba(43, 55, 74, 0.02);
-    padding-top: 2rem;
-    padding-bottom: 2rem;
-    padding-right: 1.6rem;
-    padding-left: 1.6rem;
+    padding-top: ${rem(20)};
+    padding-bottom: ${rem(20)};
+    padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
+    padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
     display: grid;
     grid-template-columns: 10% 4% 30% 18% 6% 18% auto 8% 4%;
     .column {
-      height: 5rem;
+      height: ${rem(50)};
       display: flex;
       flex-direction: column;
       align-items: flex-start;
       justify-content: center;
     }
     .top {
-      margin-bottom: 0.4rem;
-      height: 2rem;
+      margin-bottom: ${({ theme }) => theme.pulsar.size.box};
+      height: ${rem(20)};
     }
     .bottom {
     }
     .status {
       align-items: center;
       display: flex;
-      width: 10rem;
+      width: ${rem(100)};
       .circle {
-        margin-top: -0.8rem;
+        margin-top: ${-rem(8)};
         color: #a8b3c3;
-        font-size: 0.8rem;
+        font-size: ${({ theme }) => rem(theme.pulsar.size.drawer)};
       }
     }
     .column-amount {
       display: grid;
-      grid-template-columns: 4.6rem 15rem;
+      grid-template-columns: ${rem(46)} ${rem(150)};
       align-items: center;
     }
   }
   .ellipsis-icon {
-    font-size: 2.2rem;
+    font-size: ${({ theme }) => rem(theme.pulsar.size.street)};
   }
   .swap-icon {
-    font-size: 2.2rem;
+    font-size: ${({ theme }) => rem(theme.pulsar.size.street)};
     color: ${({ theme }) => theme.pulsar.color.text.masked};
   }
   .address-text {
     color: #3799da;
     font-weight: bold;
-    max-width: 32rem;
+    max-width: ${rem(320)};
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-size: 1.4rem;
+    font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
   }
   .amount-text {
     font-weight: bold;
-    font-size: 1.8rem;
+    font-size: ${rem(18)};
   }
   .status-text {
-    font-size: 1.4rem;
-    margin-left: 0.4rem;
+    font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
+    margin-left: ${({ theme }) => theme.pulsar.size.box};
     font-weight: bold;
   }
   .time-past-text {
     color: ${({ theme }) => theme.pulsar.color.text.masked};
-    font-size: 1.2rem;
+    font-size: ${({ theme }) => rem(theme.pulsar.size.closet)};
   }
 `;
