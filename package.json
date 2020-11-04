@@ -22,8 +22,6 @@
     "@swingby-protocol/pulsar": "^1.0.0-alpha.16",
     "chart.js": "^2.9.4",
     "next": "10.0.0",
-    "next-compose-plugins": "^2.2.0",
-    "next-transpile-modules": "^3.3.0",
     "polished": "^4.0.3",
     "react": "17.0.1",
     "react-chartjs-2": "^2.10.0",
@@ -45,7 +43,6 @@
     "@types/styled-components": "^5.1.4",
     "cypress": "^5.5.0",
     "eslint": "^7.12.1",
-    "next-images": "^1.4.0",
     "prettier": "^2.1.2",
     "typescript": "^4.0.5",
     "wait-on": "^5.2.0"
