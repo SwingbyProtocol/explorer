@@ -1,28 +1,23 @@
-import btc from '../../../public/assets/icons/coin/BTC.svg';
-import btcs from '../../../public/assets/icons/coin/BTCB.svg';
-import renBtc from '../../../public/assets/icons/coin/REN-BTC.svg';
-import wbtc from '../../../public/assets/icons/coin/WBTC.svg';
-import btce from '../../../public/assets/icons/coin/BTCE.svg';
-import bnb from '../../../public/assets/icons/coin/BNB.svg';
 import { CoinSymbol } from '../constants';
+
 export const getCoinIcon = (symbol: string): string => {
   switch (symbol) {
     case CoinSymbol.BTC:
-      return btc;
+      return 'assets/icons/coin/BTC.svg';
     case CoinSymbol.BTC_S:
-      return btcs;
+      return 'assets/icons/coin/BTCB.svg';
     case CoinSymbol.BTC_B:
     case CoinSymbol.BTCB_1DE:
     case CoinSymbol.BTC_B_888:
-      return btcs;
+      return 'assets/icons/coin/BTCB.svg';
     case CoinSymbol.REN_BTC:
-      return renBtc;
+      return 'assets/icons/coin/REN-BTC.svg';
     case CoinSymbol.WBTC:
-      return wbtc;
+      return 'assets/icons/coin/WBTC.svg';
     case CoinSymbol.BTC_E:
-      return btce;
+      return 'assets/icons/coin/BTCE.svg';
     case CoinSymbol.BNB:
-      return bnb;
+      return 'assets/icons/coin/BNB.svg';
     default:
       return '';
   }

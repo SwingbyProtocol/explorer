@@ -1,7 +1,5 @@
 import React from 'react';
 
-import logo from '../../public/assets/logos/Explorer-logo.svg';
-
 import { HeaderContainer } from './Header.styled';
 
 export const Header = () => {
@@ -11,7 +9,12 @@ export const Header = () => {
       <div className="header">
         <div className="left">
           <div className="explorer-logo">
-            <img src={logo} alt="logo" className="logo" onClick={() => window.location.reload()} />
+            <img
+              src="assets/logos/Explorer-logo.svg"
+              alt="logo"
+              className="logo"
+              onClick={() => window.location.reload()}
+            />
           </div>
           <div className="menu">
             <span>Stake</span>
