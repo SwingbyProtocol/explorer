@@ -20,7 +20,7 @@ export const ExplorerInfosContainerContainer = styled.div`
     align-items: center;
     .icon-image {
       font-size: 2.4rem;
-      opacity: 0.4;
+      color: ${({ theme }) => theme.pulsar.color.text.masked};
     }
     .data {
       display: grid;

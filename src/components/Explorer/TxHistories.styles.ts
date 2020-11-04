@@ -11,7 +11,7 @@ export const TxHistoriesContainer = styled.div`
     grid-template-columns: 1fr 1fr;
     grid-column-gap: 4rem;
     .filter {
-      opacity: 0.3;
+      color: ${({ theme }) => theme.pulsar.color.text.masked};
       font-size: 1.8rem;
     }
   }
@@ -58,7 +58,7 @@ export const TxHistoriesContainer = styled.div`
   }
   .swap-icon {
     font-size: 2.2rem;
-    opacity: 0.5;
+    color: ${({ theme }) => theme.pulsar.color.text.masked};
   }
   .address-text {
     color: #3799da;
@@ -79,7 +79,7 @@ export const TxHistoriesContainer = styled.div`
     font-weight: bold;
   }
   .time-past-text {
-    opacity: 0.5;
+    color: ${({ theme }) => theme.pulsar.color.text.masked};
     font-size: 1.2rem;
   }
 `;
