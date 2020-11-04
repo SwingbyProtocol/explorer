@@ -2,9 +2,9 @@ import { Icon } from '@swingby-protocol/pulsar';
 import React from 'react';
 import { FormattedNumber } from 'react-intl';
 
-import { DescribeSpan } from '../CustomSpan.styles';
+import { DescribeSpan } from '../DescribeSpan';
 
-import { ExplorerInfosContainerContainer } from './ExplorerInfos.styles';
+import { ExplorerInfosContainerContainer } from './ExplorerInfos.styled';
 
 const ExplorerInfos = (): JSX.Element => {
   const dummyData = [

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
 
-import { TitleSpan } from '../CustomSpan.styles';
+import { TitleSpan } from '../TitleSpan';
 
-import { SwapVolumeContainer } from './SwapVolume.styles';
+import { SwapVolumeContainer } from './SwapVolume.styled';
 
 const SwapVolume = (): JSX.Element => {
   // Ref: https://github.com/jerairrest/react-chartjs-2/issues/306

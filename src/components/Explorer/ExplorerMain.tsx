@@ -2,7 +2,7 @@ import { Icon, TextInput } from '@swingby-protocol/pulsar';
 import React, { useState } from 'react';
 
 import Browser from './Browser';
-import { ExplorerMainContainer } from './ExplorerMain.styles';
+import { ExplorerMainContainer } from './ExplorerMain.styled';
 
 const ExplorerMain = (): JSX.Element => {
   const [search, setSearch] = useState('');

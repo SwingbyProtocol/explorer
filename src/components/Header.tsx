@@ -2,7 +2,7 @@ import React from 'react';
 
 import logo from '../../public/assets/logos/Explorer-logo.svg';
 
-import { HeaderContainer } from './Header.styles';
+import { HeaderContainer } from './Header.styled';
 
 export const Header = () => {
   // const [lang, setLang] = useState('EN');

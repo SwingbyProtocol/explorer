@@ -2,10 +2,10 @@ import React from 'react';
 
 import { CoinSymbol } from '../../modules/constants';
 import { getCoinIcon } from '../../modules/explorer';
-// import { getCoinIcon } from '../../modules/utils/getCoinIcon';
-import { DescribeSpan, TitleSpan } from '../CustomSpan.styles';
+import { DescribeSpan } from '../DescribeSpan';
+import { TitleSpan } from '../TitleSpan';
 
-import { NetworkBridgesContainer } from './NetworkBridges.styles';
+import { NetworkBridgesContainer } from './NetworkBridges.stylesd';
 
 const dummyData = [
   { coin: CoinSymbol.BTC, float: 24.493, vol: 232.12 },

@@ -3,10 +3,11 @@ import React from 'react';
 
 import { CoinSymbol } from '../../modules/constants';
 import { getCoinIcon } from '../../modules/explorer';
-// import { getCoinIcon } from '../../modules/utils/Explorer/getCoinIcon';
-import { DescribeSpan, TitleSpan } from '../CustomSpan.styles';
+import { DescribeSpan } from '../DescribeSpan';
+import { TitleSpan } from '../TitleSpan';
 
-import { TxHistoriesContainer } from './TxHistories.styles';
+import { TxHistoriesContainer } from './TxHistories.styled';
+// import { getCoinIcon } from '../../modules/utils/Explorer/getCoinIcon';
 
 const TxHistories = () => {
   return (

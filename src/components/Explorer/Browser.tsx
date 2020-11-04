@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { BrowserContainer } from './Browser.styles';
+import { BrowserContainer } from './Browser.styled';
 import ExplorerInfos from './ExplorerInfos';
 import NetworkBridges from './NetworkBridges';
 import SwapVolume from './SwapVolume';
