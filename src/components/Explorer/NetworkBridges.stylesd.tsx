@@ -8,8 +8,6 @@ export const NetworkBridgesContainer = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: ${({ theme }) => rem(theme.pulsar.size.street)};
-    /* padding-left: 6%;
-    padding-right: 6%; */
   }
 
   .coin-info {

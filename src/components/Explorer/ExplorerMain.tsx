@@ -1,7 +1,7 @@
 import { Icon, TextInput } from '@swingby-protocol/pulsar';
 import React, { useState } from 'react';
 
-import Browser from './Browser';
+import { Browser } from './Browser';
 import { ExplorerMainContainer } from './ExplorerMain.styled';
 
 const ExplorerMain = (): JSX.Element => {

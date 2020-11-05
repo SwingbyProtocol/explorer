@@ -1,17 +1,16 @@
+import { logos } from '@swingby-protocol/pulsar';
 import React from 'react';
 
-import { CoinSymbol } from '../../modules/constants';
-import { getCoinIcon } from '../../modules/explorer';
 import { DescribeSpan } from '../DescribeSpan';
 import { TitleSpan } from '../TitleSpan';
 
 import { NetworkBridgesContainer } from './NetworkBridges.stylesd';
 
 const dummyData = [
-  { coin: CoinSymbol.BTC, float: 24.493, vol: 232.12 },
-  { coin: CoinSymbol.BTC_E, float: 24.493, vol: 232.12 },
-  { coin: CoinSymbol.BNB, float: 24.493, vol: 232.12 },
-  { coin: CoinSymbol.BTC_B, float: 24.493, vol: 232.12 },
+  { coin: logos.CoinBtc, float: 24.493, vol: 232.12 },
+  { coin: logos.CoinBtce, float: 24.493, vol: 232.12 },
+  { coin: logos.CoinBnb, float: 24.493, vol: 232.12 },
+  { coin: logos.CoinBtcb, float: 24.493, vol: 232.12 },
 ];
 
 const NetworkBridges = (): JSX.Element => {
@@ -24,7 +23,7 @@ const NetworkBridges = (): JSX.Element => {
         {dummyData.map((coin) => {
           return (
             <div className="coin-info" key={coin.coin}>
-              <img src={getCoinIcon(coin.coin)} alt={coin.coin} className="coin-image" />
+              <img src={coin.coin} alt={coin.coin} className="coin-image" />
               <div className="data">
                 <div className="row">
                   <DescribeSpan>Float</DescribeSpan>

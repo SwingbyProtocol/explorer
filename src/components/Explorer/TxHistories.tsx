@@ -1,12 +1,10 @@
-import { Icon } from '@swingby-protocol/pulsar';
+import { Icon, logos } from '@swingby-protocol/pulsar';
 import React from 'react';
 
-import { CoinSymbol } from '../../modules/constants';
-import { getCoinIcon } from '../../modules/explorer';
 import { DescribeSpan } from '../DescribeSpan';
 import { TitleSpan } from '../TitleSpan';
 
-import { TxHistoriesContainer } from './TxHistories.styled';
+import { CoinImg, TxHistoriesContainer } from './TxHistories.styled';
 
 const TxHistories = () => {
   return (
@@ -49,7 +47,7 @@ const TxHistories = () => {
         </div>
         <div className="column column-amount">
           <div className="left-column">
-            <img src={getCoinIcon(CoinSymbol.BTC)} alt="Coin" className="coin-img" />
+            <CoinImg src={logos.CoinBtc} alt="Coin" />
           </div>
           <div className="right-column">
             <div className="top">
@@ -65,7 +63,7 @@ const TxHistories = () => {
         </div>
         <div className="column column-amount">
           <div className="left-column">
-            <img src={getCoinIcon(CoinSymbol.BTC_B)} alt="Coin" className="coin-img" />
+            <CoinImg src={logos.CoinBtcb} alt="Coin" />
           </div>
           <div className="right-column">
             <div className="top">

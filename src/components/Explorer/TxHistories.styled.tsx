@@ -84,3 +84,7 @@ export const TxHistoriesContainer = styled.div`
     font-size: ${({ theme }) => rem(theme.pulsar.size.closet)};
   }
 `;
+
+export const CoinImg = styled.img`
+  width: ${({ theme }) => rem(theme.pulsar.size.town)};
+`;

@@ -3,7 +3,6 @@ import React from 'react';
 import { HeaderContainer } from './Header.styled';
 
 export const Header = () => {
-  // const [lang, setLang] = useState('EN');
   return (
     <HeaderContainer>
       <div className="header">
@@ -22,27 +21,7 @@ export const Header = () => {
             <span>Analytics</span>
           </div>
         </div>
-        <div className="right">
-          {/* Todo: add dropdown */}
-          {/* <Dropdown text={lang} icon="angle down" className="Ui-library">
-              <Dropdown.Menu className="Ui-library">
-                <Dropdown.Item
-                  text="EN"
-                  className="Ui-library"
-                  onClick={() => {
-                    setLang('EN');
-                  }}
-                />
-                <Dropdown.Item
-                  text="中文"
-                  className="Ui-library"
-                  onClick={() => {
-                    setLang('中文');
-                  }}
-                />
-              </Dropdown.Menu>
-            </Dropdown> */}
-        </div>
+        <div className="right">{/* Todo: add dropdown */}</div>
       </div>
     </HeaderContainer>
   );
