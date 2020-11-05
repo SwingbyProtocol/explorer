@@ -1,24 +1,27 @@
 import React from 'react';
 
 import ExplorerInfos from '../ExplorerInfos';
-import NetworkBridges from '../NetworkBridges';
 import SwapVolume from '../SwapVolume';
 import TxHistories from '../TxHistories';
 
-import { BrowserContainerDiv, TopBrowserDiv, BrowserDiv } from './styled';
-export const Browser = (): JSX.Element => {
+import NetworkBridges from './NetworkBridges';
+import { BrowserContainer, BrowserDiv, Top, Bottom } from './styled';
+
+const Browser = (): JSX.Element => {
   return (
-    <BrowserContainerDiv>
+    <BrowserContainer>
       <BrowserDiv>
-        <TopBrowserDiv>
+        <Top>
           <NetworkBridges />
           <ExplorerInfos />
           <SwapVolume />
-        </TopBrowserDiv>
-        <div className="bottom-browser">
+        </Top>
+        <Bottom>
           <TxHistories />
-        </div>
+        </Bottom>
       </BrowserDiv>
-    </BrowserContainerDiv>
+    </BrowserContainer>
   );
 };
+
+export default Browser;

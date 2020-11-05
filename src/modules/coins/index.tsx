@@ -1,4 +1,4 @@
-import { isProduction } from './explorer';
+import { isProduction } from '../explorer';
 
 export const CoinSymbol = {
   BTC: 'BTC',
@@ -11,15 +11,4 @@ export const CoinSymbol = {
   BNB: 'BNB',
   REN_BTC: 'REN-BTC',
   WBTC: 'WBTC',
-};
-export const DocumentTitle = {
-  Explorer: 'Swingby Explorer',
-};
-
-export const StylingConstants = {
-  maxWidth: 445,
-  media: {
-    medium: 375,
-    big: 510,
-  },
 };

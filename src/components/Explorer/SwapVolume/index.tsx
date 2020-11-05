@@ -1,10 +1,9 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
 
-import { TitleSpan } from '../TitleSpan';
+import { TitleSpan } from '../../TitleSpan';
 
-import { SwapVolumeContainer } from './SwapVolume.styled';
-
+import { SwapVolumeContainer, TitleDiv } from './styled';
 const SwapVolume = (): JSX.Element => {
   // Ref: https://github.com/jerairrest/react-chartjs-2/issues/306
   const data = (canvas) => {
@@ -28,7 +27,7 @@ const SwapVolume = (): JSX.Element => {
   };
 
   const options = {
-    // responsive: true,
+    responsive: true,
     pointDotStrokeWidth: 0,
     legend: { display: false },
     elements: {
@@ -63,12 +62,10 @@ const SwapVolume = (): JSX.Element => {
   };
   return (
     <SwapVolumeContainer>
-      <div className="title">
+      <TitleDiv>
         <TitleSpan>Total Swap Vol. 7d</TitleSpan>
-      </div>
-      <div className="chart">
-        <Line type="line" data={data} options={options} height={140} />
-      </div>
+      </TitleDiv>
+      <Line type="line" data={data} options={options} height={110} />
     </SwapVolumeContainer>
   );
 };
