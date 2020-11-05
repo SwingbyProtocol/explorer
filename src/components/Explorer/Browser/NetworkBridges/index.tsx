@@ -1,10 +1,9 @@
-import { logos } from '@swingby-protocol/pulsar';
+import { logos, Text } from '@swingby-protocol/pulsar';
 import React from 'react';
 
 import { DescribeSpan } from '../../../DescribeSpan';
-import { TitleSpan } from '../../../TitleSpan';
 
-import { CoinContainer, CoinInfo, CoinImg, DataDiv, AmountSpan, Row } from './styled';
+import { AmountSpan, CoinContainer, CoinImg, CoinInfo, DataDiv, Row } from './styled';
 
 const dummyData = [
   { coin: logos.CoinBtc, float: 24.493, vol: 232.12 },
@@ -16,7 +15,7 @@ const dummyData = [
 const NetworkBridges = (): JSX.Element => {
   return (
     <div>
-      <TitleSpan>Network Bridges</TitleSpan>
+      <Text variant="section-title">Network Bridges</Text>
       <CoinContainer>
         {dummyData.map((coin) => {
           return (

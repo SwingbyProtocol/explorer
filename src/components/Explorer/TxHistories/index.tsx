@@ -1,8 +1,7 @@
-import { logos } from '@swingby-protocol/pulsar';
+import { logos, Text } from '@swingby-protocol/pulsar';
 import React from 'react';
 
 import { DescribeSpan } from '../../DescribeSpan';
-import { TitleSpan } from '../../TitleSpan';
 
 import {
   AddressP,
@@ -31,10 +30,10 @@ const TxHistories = () => {
     <TxHistoriesContainer>
       <TitleRow>
         <Left>
-          <TitleSpan>Recent Swaps</TitleSpan>
+          <Text variant="section-title">Recent Swaps</Text>
         </Left>
         <Right>
-          <TitleSpan>Fees</TitleSpan>
+          <Text variant="section-title">Fees</Text>
           <Filter />
         </Right>
       </TitleRow>

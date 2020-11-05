@@ -1,9 +1,9 @@
+import { Text } from '@swingby-protocol/pulsar';
 import React from 'react';
 import { Line } from 'react-chartjs-2';
 
-import { TitleSpan } from '../../TitleSpan';
-
 import { SwapVolumeContainer, TitleDiv } from './styled';
+
 const SwapVolume = (): JSX.Element => {
   // Ref: https://github.com/jerairrest/react-chartjs-2/issues/306
   const data = (canvas) => {
@@ -63,7 +63,7 @@ const SwapVolume = (): JSX.Element => {
   return (
     <SwapVolumeContainer>
       <TitleDiv>
-        <TitleSpan>Total Swap Vol. 7d</TitleSpan>
+        <Text variant="section-title">Total Swap Vol. 7d</Text>
       </TitleDiv>
       <Line type="line" data={data} options={options} height={110} />
     </SwapVolumeContainer>
