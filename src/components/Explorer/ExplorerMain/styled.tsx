@@ -3,8 +3,7 @@ import { rem } from 'polished';
 import { Icon, TextInput } from '@swingby-protocol/pulsar';
 
 export const ExplorerMainContainer = styled.div`
-  /* Request: Please Add #2b374a into bg in pulsar */
-  background: ${({ theme }) => theme.pulsar.color.text.accent};
+  background: ${({ theme }) => theme.pulsar.color.bg.normal};
   height: ${rem(280)};
   padding-top: ${({ theme }) => rem(theme.pulsar.size.state)};
   padding-left: ${rem(140)};
