@@ -1,25 +1,30 @@
-import React from 'react';
+import { AppLogo, Dropdown } from '@swingby-protocol/pulsar';
+import React, { useState } from 'react';
 
-import { Logo, HeaderContainer, Left, Menu, MenuSpan } from './styled';
+import { HeaderContainer, Left, Menu, MenuSpan, Right } from './styled';
 
 export const Header = () => {
+  const [lang, setLang] = useState('EN');
   return (
     <HeaderContainer>
       <Left>
-        <div>
-          <Logo
-            src="assets/logos/Explorer-logo.svg"
-            alt="logo"
-            onClick={() => window.location.reload()}
-          />
-        </div>
+        <AppLogo productName="Explorer" onClick={() => window.location.reload()} />
         <Menu>
           <MenuSpan variant="menu">Stake</MenuSpan>
           <MenuSpan variant="menu">Validators</MenuSpan>
           <MenuSpan variant="menu">Analytics</MenuSpan>
         </Menu>
       </Left>
-      {/* Todo: add dropdown */}
+      <Right>
+        <Dropdown
+          target={<Dropdown.DefaultTarget>{lang}</Dropdown.DefaultTarget>}
+          data-testid="dropdown"
+        >
+          <Dropdown.Item onClick={() => setLang('EN')}>EN</Dropdown.Item>
+
+          <Dropdown.Item onClick={() => setLang('中文')}>中文</Dropdown.Item>
+        </Dropdown>
+      </Right>
     </HeaderContainer>
   );
 };

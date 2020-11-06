@@ -1,6 +1,6 @@
-import styled from 'styled-components';
-import { rem } from 'polished';
 import { Text } from '@swingby-protocol/pulsar';
+import { rem } from 'polished';
+import styled from 'styled-components';
 
 export const HeaderContainer = styled.div`
   display: flex;
@@ -16,12 +16,8 @@ export const Left = styled.div`
   display: flex;
   align-items: center;
 `;
-export const Logo = styled.img`
-  width: ${rem(220)};
-  :hover {
-    cursor: pointer;
-  }
-`;
+export const Right = styled.div``;
+
 export const Menu = styled.div`
   margin-left: ${({ theme }) => rem(theme.pulsar.size.country)};
   width: ${rem(200)};
