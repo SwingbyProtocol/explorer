@@ -5,6 +5,7 @@ export const BrowserContainer = styled.div`
   display: grid;
   justify-content: center;
 `;
+
 export const BrowserDiv = styled.div`
   height: ${rem(500)};
   max-width: ${rem(1400)};
@@ -18,6 +19,7 @@ export const BrowserDiv = styled.div`
   border-radius: ${({ theme }) => rem(theme.pulsar.size.drawer)};
   box-shadow: 0 15px 25px -10px rgba(43, 55, 74, 0.152644);
 `;
+
 export const Top = styled.div`
   height: ${rem(200)};
   display: grid;
@@ -26,4 +28,5 @@ export const Top = styled.div`
   align-items: start;
   margin-bottom: ${({ theme }) => rem(theme.pulsar.size.city)};
 `;
+
 export const Bottom = styled.div``;

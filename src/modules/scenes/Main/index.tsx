@@ -1,6 +1,6 @@
 import Head from 'next/head';
 
-import { ExplorerMain } from '../../../components/Explorer';
+import { ExplorerMain } from './Explorer';
 
 export const Main = () => {
   return (

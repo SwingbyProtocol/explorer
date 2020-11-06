@@ -17,7 +17,7 @@ import {
   ValueSpan,
 } from './styled';
 
-const ExplorerInfos = (): JSX.Element => {
+export const ExplorerInfos = () => {
   const dummyData = [
     {
       icon: <Network />,
@@ -71,5 +71,3 @@ const ExplorerInfos = (): JSX.Element => {
     </ExplorerInfosContainer>
   );
 };
-
-export default ExplorerInfos;

@@ -12,13 +12,16 @@ export const HeaderContainer = styled.div`
   padding-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
   border-bottom: 1px solid ${({ theme }) => theme.pulsar.color.border.normal};
 `;
+
 export const Logo = styled(AppLogo)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.street)};
 `;
+
 export const Left = styled.div`
   display: flex;
   align-items: center;
 `;
+
 export const Right = styled.div``;
 
 export const Menu = styled.div`
@@ -27,6 +30,7 @@ export const Menu = styled.div`
   display: flex;
   justify-content: space-between;
 `;
+
 export const MenuSpan = styled(Text)`
   :hover {
     cursor: pointer;

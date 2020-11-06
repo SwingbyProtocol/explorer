@@ -11,6 +11,7 @@ export const ExplorerMainContainer = styled.div`
   display: grid;
   justify-content: center;
 `;
+
 export const HeadLine = styled.div`
   display: flex;
   justify-content: space-between;
@@ -18,6 +19,7 @@ export const HeadLine = styled.div`
   height: ${({ theme }) => rem(theme.pulsar.size.country)};
   max-width: ${rem(1400)};
 `;
+
 export const TitleH1 = styled.h1`
   color: ${({ theme }) => theme.pulsar.color.primary.text};
   font-weight: 800;

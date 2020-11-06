@@ -3,17 +3,21 @@ import { Icon, Text } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
 
 export const TxHistoriesContainer = styled.div``;
+
 export const TitleRow = styled.div`
   display: flex;
   justify-content: space-between;
 `;
+
 export const Left = styled.div``;
+
 export const Right = styled.div`
   padding-right: ${({ theme }) => rem(theme.pulsar.size.street)};
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.city)};
 `;
+
 export const Filter = styled(Icon.Filter)`
   color: ${({ theme }) => theme.pulsar.color.text.masked};
   font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
@@ -30,6 +34,7 @@ export const TxHistoriesRow = styled.div`
   display: grid;
   grid-template-columns: 10% 4% 30% 18% 6% 20% 8% 4%;
 `;
+
 export const Column = styled.div`
   height: ${({ theme }) => rem(theme.pulsar.size.state)};
   display: flex;
@@ -37,11 +42,14 @@ export const Column = styled.div`
   align-items: flex-start;
   justify-content: center;
 `;
+
 export const Top = styled.div`
   margin-bottom: ${({ theme }) => theme.pulsar.size.box};
   height: ${({ theme }) => rem(theme.pulsar.size.street)};
 `;
+
 export const Bottom = styled.div``;
+
 export const Status = styled.div`
   align-items: center;
   display: flex;
@@ -62,10 +70,12 @@ export const Ellipsis = styled(Icon.Ellipsis)`
     cursor: pointer;
   }
 `;
+
 export const SwapHorizontal = styled(Icon.SwapHorizontal)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.street)};
   color: ${({ theme }) => theme.pulsar.color.text.masked};
 `;
+
 export const AddressP = styled.p`
   color: #3799da;
   font-weight: bold;
@@ -75,9 +85,11 @@ export const AddressP = styled.p`
   white-space: nowrap;
   font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
 `;
+
 export const AmountSpan = styled(Text)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
 `;
+
 export const StatusText = styled(Text)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
 `;

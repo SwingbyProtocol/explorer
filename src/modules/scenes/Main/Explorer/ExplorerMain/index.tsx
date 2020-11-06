@@ -1,11 +1,11 @@
 import { PulsarThemeProvider } from '@swingby-protocol/pulsar';
 import React, { useState } from 'react';
 
-import Browser from '../Browser';
+import { Browser } from '../Browser';
 
 import { ExplorerMainContainer, HeadLine, SearchIcon, SearchInput, TitleH1 } from './styled';
 
-const ExplorerMain = (): JSX.Element => {
+export const ExplorerMain = () => {
   const [search, setSearch] = useState('');
   return (
     <PulsarThemeProvider theme="accent">
@@ -29,5 +29,3 @@ const ExplorerMain = (): JSX.Element => {
     </PulsarThemeProvider>
   );
 };
-
-export { ExplorerMain };

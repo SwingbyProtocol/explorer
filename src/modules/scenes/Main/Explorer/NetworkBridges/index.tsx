@@ -10,7 +10,7 @@ const dummyData = [
   { coin: logos.CoinBtcb, float: 24.493, vol: 232.12 },
 ];
 
-const NetworkBridges = (): JSX.Element => {
+export const NetworkBridges = () => {
   return (
     <div>
       <Text variant="section-title">Network Bridges</Text>
@@ -36,5 +36,3 @@ const NetworkBridges = (): JSX.Element => {
     </div>
   );
 };
-
-export default NetworkBridges;

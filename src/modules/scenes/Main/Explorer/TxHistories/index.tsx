@@ -21,7 +21,7 @@ import {
   TxHistoriesRow,
 } from './styled';
 
-const TxHistories = () => {
+export const TxHistories = () => {
   return (
     <TxHistoriesContainer>
       <TitleRow>
@@ -94,5 +94,3 @@ const TxHistories = () => {
     </TxHistoriesContainer>
   );
 };
-
-export default TxHistories;

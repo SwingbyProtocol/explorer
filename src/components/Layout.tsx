@@ -7,7 +7,7 @@ type Props = {
   children: ReactNode;
 };
 
-const Layout = (props: Props): JSX.Element => {
+export const Layout = (props: Props) => {
   return (
     <>
       <Head>
@@ -19,5 +19,3 @@ const Layout = (props: Props): JSX.Element => {
     </>
   );
 };
-
-export default Layout;

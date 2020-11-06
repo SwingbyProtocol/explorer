@@ -1,13 +1,13 @@
 import React from 'react';
 
-import ExplorerInfos from '../ExplorerInfos';
-import SwapVolume from '../SwapVolume';
-import TxHistories from '../TxHistories';
-import NetworkBridges from '../NetworkBridges';
+import { ExplorerInfos } from '../ExplorerInfos';
+import { SwapVolume } from '../SwapVolume';
+import { TxHistories } from '../TxHistories';
+import { NetworkBridges } from '../NetworkBridges';
 
 import { BrowserContainer, BrowserDiv, Top, Bottom } from './styled';
 
-const Browser = (): JSX.Element => {
+export const Browser = () => {
   return (
     <BrowserContainer>
       <BrowserDiv>
@@ -23,5 +23,3 @@ const Browser = (): JSX.Element => {
     </BrowserContainer>
   );
 };
-
-export default Browser;

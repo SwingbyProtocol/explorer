@@ -4,7 +4,7 @@ import { Line } from 'react-chartjs-2';
 
 import { SwapVolumeContainer, TitleDiv } from './styled';
 
-const SwapVolume = (): JSX.Element => {
+export const SwapVolume = () => {
   // Ref: https://github.com/jerairrest/react-chartjs-2/issues/306
   const data = (canvas) => {
     const ctx = canvas.getContext('2d');
@@ -69,5 +69,3 @@ const SwapVolume = (): JSX.Element => {
     </SwapVolumeContainer>
   );
 };
-
-export default SwapVolume;
