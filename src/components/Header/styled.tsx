@@ -32,7 +32,5 @@ export const Menu = styled.div`
 `;
 
 export const MenuSpan = styled(Text)`
-  :hover {
-    cursor: pointer;
-  }
+  cursor: pointer;
 `;
