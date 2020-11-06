@@ -1,1 +1,3 @@
-{ "extends": ["@swingby-protocol/eslint-config"] }
+{
+  "extends": ["@swingby-protocol/eslint-config"]
+}

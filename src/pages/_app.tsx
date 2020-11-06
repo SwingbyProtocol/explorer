@@ -6,6 +6,7 @@ import { Provider as ReduxProvider } from 'react-redux';
 
 import { languages } from '../modules/i18n';
 import { useStore } from '../modules/store';
+import { Layout } from '../components/Layout';
 
 const DEFAULT_LOCALE = 'en';
 
@@ -30,7 +31,9 @@ function MyApp({ Component, pageProps }) {
       <IntlProvider messages={messages} locale={locale} defaultLocale={DEFAULT_LOCALE}>
         <PulsarGlobalStyles />
         <ReduxProvider store={store}>
-          <Component {...pageProps} />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
         </ReduxProvider>
       </IntlProvider>
     </PulsarThemeProvider>
