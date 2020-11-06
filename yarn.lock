@@ -1511,10 +1511,10 @@
   resolved "https://registry.yarnpkg.com/@swingby-protocol/prettier-config/-/prettier-config-1.0.0.tgz#42d320794d4705df2fed5037ba6243d40ef1337b"
   integrity sha512-ugPj1pYogquSqQL3S+gR2EJp+c0t6zaU50uayD7PXeM32x8B9ZynC5o7h91nYxnCxBlVb5DoPcLNQ5z6rKcSFA==
 
-"@swingby-protocol/pulsar@^1.0.0-alpha.29":
-  version "1.0.0-alpha.29"
-  resolved "https://registry.yarnpkg.com/@swingby-protocol/pulsar/-/pulsar-1.0.0-alpha.29.tgz#c21d5dcee37b4130878a74b4b701f29a48974b90"
-  integrity sha512-+pVV2wfF0rAX1a1dcTBNGI+4g0AXcY2BJkGj31qcFX5Eq5c9J9NWweqc04Z//rjpNSO98sTO+5CElIVf+PyIAw==
+"@swingby-protocol/pulsar@^1.0.0-alpha.30":
+  version "1.0.0-alpha.30"
+  resolved "https://registry.yarnpkg.com/@swingby-protocol/pulsar/-/pulsar-1.0.0-alpha.30.tgz#8f386d0a94ef7b0fdb22d57673cc4b5fb5510983"
+  integrity sha512-hMH7jKJsAKnC0RAH6SmGVmKARsG/gDOpSkcls/YkFWjY1AS8vMAYrNE/2Ep1aYjRXdGSDcydriFkAvV/K//wHw==
   dependencies:
     "@tippyjs/react" "^4.2.0"
     "@types/styled-components" "^5.1.4"

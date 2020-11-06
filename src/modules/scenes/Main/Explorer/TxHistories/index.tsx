@@ -13,6 +13,7 @@ import {
   Left,
   Right,
   Status,
+  StatusCircle,
   StatusText,
   SwapHorizontal,
   TitleRow,
@@ -36,7 +37,7 @@ export const TxHistories = () => {
       <TxHistoriesRow>
         <Column>
           <Status>
-            {/* Todo: Add circle icon */}
+            <StatusCircle variant="warning" />
             <StatusText variant="accent">Waiting</StatusText>
           </Status>
           <Bottom>

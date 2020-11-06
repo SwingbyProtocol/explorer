@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Icon, Text } from '@swingby-protocol/pulsar';
+import { Icon, StatusIcon, Text } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
 
 export const TxHistoriesContainer = styled.div``;
@@ -96,4 +96,10 @@ export const StatusText = styled(Text)`
 
 export const CoinImg = styled.img`
   width: ${({ theme }) => rem(theme.pulsar.size.town)};
+`;
+
+export const StatusCircle = styled(StatusIcon)`
+  width: ${({ theme }) => rem(theme.pulsar.size.drawer)};
+  height: ${({ theme }) => rem(theme.pulsar.size.drawer)};
+  margin-right: ${({ theme }) => rem(theme.pulsar.size.box)};
 `;
