@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Icon } from '@swingby-protocol/pulsar';
+import { Icon, Text } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
 
 export const TxHistoriesContainer = styled.div``;
@@ -28,7 +28,7 @@ export const TxHistoriesRow = styled.div`
   padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
   padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
   display: grid;
-  grid-template-columns: 10% 4% 30% 18% 6% 18% auto 8% 4%;
+  grid-template-columns: 10% 4% 30% 18% 6% 20% 8% 4%;
 `;
 export const Column = styled.div`
   height: ${({ theme }) => rem(theme.pulsar.size.state)};
@@ -75,26 +75,13 @@ export const AddressP = styled.p`
   white-space: nowrap;
   font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
 `;
-export const AmountSpan = styled.span`
-  font-weight: bold;
+export const AmountSpan = styled(Text)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
 `;
-export const StatusText = styled.span`
+export const StatusText = styled(Text)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
-  margin-left: ${({ theme }) => theme.pulsar.size.box};
-  font-weight: bold;
-`;
-export const TimePastText = styled.span`
-  color: ${({ theme }) => theme.pulsar.color.text.masked};
-  font-size: ${({ theme }) => rem(theme.pulsar.size.closet)};
 `;
 
 export const CoinImg = styled.img`
   width: ${({ theme }) => rem(theme.pulsar.size.town)};
-`;
-
-export const FeeSpan = styled.span`
-  font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
-  color: ${({ theme }) => theme.pulsar.color.text.masked};
-  font-weight: bolder;
 `;

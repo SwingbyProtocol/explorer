@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { Icon } from '@swingby-protocol/pulsar';
+import { Icon, Text } from '@swingby-protocol/pulsar';
 
 export const ExplorerInfosContainer = styled.div`
   border-right: 1px solid #cecddc;
@@ -33,9 +33,8 @@ export const RowValidator = styled.div`
   display: flex;
 `;
 
-export const ValueSpan = styled.span`
+export const ValueSpan = styled(Text)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
-  font-weight: bold;
 `;
 export const ValidatorLinkSpan = styled.span`
   font-size: ${({ theme }) => rem(theme.pulsar.size.room)};

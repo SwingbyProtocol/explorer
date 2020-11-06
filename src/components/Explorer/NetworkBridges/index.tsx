@@ -1,8 +1,6 @@
 import { logos, Text } from '@swingby-protocol/pulsar';
 import React from 'react';
 
-import { DescribeSpan } from '../../../DescribeSpan';
-
 import { AmountSpan, CoinContainer, CoinImg, CoinInfo, DataDiv, Row } from './styled';
 
 const dummyData = [
@@ -23,11 +21,11 @@ const NetworkBridges = (): JSX.Element => {
               <CoinImg src={coin.coin} alt={coin.coin} />
               <DataDiv>
                 <Row>
-                  <DescribeSpan>Float</DescribeSpan>
+                  <Text variant="label">Float</Text>
                   <AmountSpan>{coin.float}</AmountSpan>
                 </Row>
                 <Row>
-                  <DescribeSpan>Vol</DescribeSpan>
+                  <Text variant="label">Vol</Text>
                   <AmountSpan>{coin.vol}</AmountSpan>
                 </Row>
               </DataDiv>

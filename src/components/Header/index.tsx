@@ -14,9 +14,9 @@ export const Header = () => {
           />
         </div>
         <Menu>
-          <MenuSpan>Stake</MenuSpan>
-          <MenuSpan>Validators</MenuSpan>
-          <MenuSpan>Analytics</MenuSpan>
+          <MenuSpan variant="menu">Stake</MenuSpan>
+          <MenuSpan variant="menu">Validators</MenuSpan>
+          <MenuSpan variant="menu">Analytics</MenuSpan>
         </Menu>
       </Left>
       {/* Todo: add dropdown */}

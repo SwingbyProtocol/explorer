@@ -1,8 +1,6 @@
 import { logos, Text } from '@swingby-protocol/pulsar';
 import React from 'react';
 
-import { DescribeSpan } from '../../DescribeSpan';
-
 import {
   AddressP,
   AmountSpan,
@@ -11,14 +9,12 @@ import {
   Column,
   ColumnAmount,
   Ellipsis,
-  FeeSpan,
   Filter,
   Left,
   Right,
   Status,
   StatusText,
   SwapHorizontal,
-  TimePastText,
   TitleRow,
   Top,
   TxHistoriesContainer,
@@ -41,18 +37,18 @@ const TxHistories = () => {
         <Column>
           <Status>
             {/* Todo: Add circle icon */}
-            <StatusText>Waiting</StatusText>
+            <StatusText variant="accent">Waiting</StatusText>
           </Status>
           <Bottom>
-            <TimePastText>1 min. ago</TimePastText>
+            <Text variant="label">1 min. ago</Text>
           </Bottom>
         </Column>
         <Column>
           <Top>
-            <DescribeSpan>From</DescribeSpan>
+            <Text variant="label">From</Text>
           </Top>
           <Bottom>
-            <DescribeSpan>To</DescribeSpan>
+            <Text variant="label">To</Text>
           </Bottom>
         </Column>
         <Column>
@@ -67,10 +63,10 @@ const TxHistories = () => {
           <CoinImg src={logos.CoinBtc} alt="Coin" />
           <div>
             <Top>
-              <DescribeSpan>BTC</DescribeSpan>
+              <Text variant="label">BTC</Text>
             </Top>
             <Bottom>
-              <AmountSpan>0.00039708</AmountSpan>
+              <AmountSpan variant="accent">0.00039708</AmountSpan>
             </Bottom>
           </div>
         </ColumnAmount>
@@ -81,16 +77,15 @@ const TxHistories = () => {
           <CoinImg src={logos.CoinBtcb} alt="Coin" />
           <div>
             <Top>
-              <DescribeSpan>BTC on Bnbchain</DescribeSpan>
+              <Text variant="label">BTC on Bnbchain</Text>
             </Top>
             <Bottom>
-              <AmountSpan>0.00039308</AmountSpan>
+              <AmountSpan variant="accent">0.00039308</AmountSpan>
             </Bottom>
           </div>
         </ColumnAmount>
-        <div />
         <Column>
-          <FeeSpan>0.002BTC</FeeSpan>
+          <Text variant="section-title">0.002BTC</Text>
         </Column>
         <Column>
           <Ellipsis />

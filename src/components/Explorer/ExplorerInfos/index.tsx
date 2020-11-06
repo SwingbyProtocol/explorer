@@ -1,7 +1,6 @@
+import { Text } from '@swingby-protocol/pulsar';
 import React from 'react';
 import { FormattedNumber } from 'react-intl';
-
-import { DescribeSpan } from '../../DescribeSpan';
 
 import {
   DataDiv,
@@ -9,13 +8,13 @@ import {
   InfoContainer,
   InfosContainer,
   Network,
+  NetworkCapacity,
+  NetworkRewards,
+  NetworkValidators,
   Row,
   RowValidator,
   ValidatorLinkSpan,
   ValueSpan,
-  NetworkRewards,
-  NetworkCapacity,
-  NetworkValidators,
 } from './styled';
 
 const ExplorerInfos = (): JSX.Element => {
@@ -52,17 +51,17 @@ const ExplorerInfos = (): JSX.Element => {
               <DataDiv>
                 {info.description === 'Validators' ? (
                   <RowValidator>
-                    <DescribeSpan>{info.description}</DescribeSpan>
+                    <Text variant="label">{info.description}</Text>
                     <ValidatorLinkSpan>All</ValidatorLinkSpan>
                   </RowValidator>
                 ) : (
                   <Row>
-                    <DescribeSpan>{info.description}</DescribeSpan>
+                    <Text variant="label">{info.description}</Text>
                   </Row>
                 )}
 
                 <Row>
-                  <ValueSpan>${info.value}</ValueSpan>
+                  <ValueSpan variant="accent">${info.value}</ValueSpan>
                 </Row>
               </DataDiv>
             </InfoContainer>

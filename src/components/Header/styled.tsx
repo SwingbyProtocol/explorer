@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { rem } from 'polished';
+import { Text } from '@swingby-protocol/pulsar';
 
 export const HeaderContainer = styled.div`
   display: flex;
@@ -27,8 +28,7 @@ export const Menu = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-export const MenuSpan = styled.span`
-  font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
+export const MenuSpan = styled(Text)`
   :hover {
     cursor: pointer;
   }
