@@ -1,4 +1,4 @@
-import { Text } from '@swingby-protocol/pulsar';
+import { AppLogo, Text } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
 import styled from 'styled-components';
 
@@ -11,6 +11,9 @@ export const HeaderContainer = styled.div`
   padding-left: ${({ theme }) => rem(theme.pulsar.size.town)};
   padding-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
   border-bottom: 1px solid ${({ theme }) => theme.pulsar.color.border.normal};
+`;
+export const Logo = styled(AppLogo)`
+  font-size: ${({ theme }) => rem(theme.pulsar.size.street)};
 `;
 export const Left = styled.div`
   display: flex;

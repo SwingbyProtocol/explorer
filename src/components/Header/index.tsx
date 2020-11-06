@@ -1,14 +1,14 @@
-import { AppLogo, Dropdown } from '@swingby-protocol/pulsar';
+import { Dropdown } from '@swingby-protocol/pulsar';
 import React, { useState } from 'react';
 
-import { HeaderContainer, Left, Menu, MenuSpan, Right } from './styled';
+import { HeaderContainer, Left, Logo, Menu, MenuSpan, Right } from './styled';
 
 export const Header = () => {
   const [lang, setLang] = useState('EN');
   return (
     <HeaderContainer>
       <Left>
-        <AppLogo productName="Explorer" onClick={() => window.location.reload()} />
+        <Logo productName="Explorer" onClick={() => window.location.reload()} />
         <Menu>
           <MenuSpan variant="menu">Stake</MenuSpan>
           <MenuSpan variant="menu">Validators</MenuSpan>
@@ -21,7 +21,6 @@ export const Header = () => {
           data-testid="dropdown"
         >
           <Dropdown.Item onClick={() => setLang('EN')}>EN</Dropdown.Item>
-
           <Dropdown.Item onClick={() => setLang('中文')}>中文</Dropdown.Item>
         </Dropdown>
       </Right>
