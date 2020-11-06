@@ -1,16 +1,16 @@
 import React from 'react';
 
 import { ExplorerInfos } from '../ExplorerInfos';
+import { NetworkBridges } from '../NetworkBridges';
 import { SwapVolume } from '../SwapVolume';
 import { TxHistories } from '../TxHistories';
-import { NetworkBridges } from '../NetworkBridges';
 
-import { BrowserContainer, BrowserDiv, Top, Bottom } from './styled';
+import { Bottom, BrowserContainer, BrowserDiv, Top } from './styled';
 
 export const Browser = () => {
   return (
     <BrowserContainer>
-      <BrowserDiv>
+      <BrowserDiv size="bare">
         <Top>
           <NetworkBridges />
           <ExplorerInfos />
