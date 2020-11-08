@@ -11,6 +11,7 @@ import {
   statusColor,
   SwapRawObject,
 } from '../../../../explorer';
+import { useInterval } from '../../../../hooks';
 import { getHistory } from '../../../../store';
 
 import {
@@ -67,10 +68,19 @@ export const TxHistories = () => {
 
   useEffect(() => {
     (async () => {
-      const data = await fetchHistory(page - 1, q);
+      const data = await fetchHistory(page - 1, q, swapHistory);
       dispatch(getHistory(data));
     })();
-  }, [dispatch, page, q]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, q]);
+
+  useInterval(() => {
+    (async () => {
+      const data = await fetchHistory(page - 1, q, swapHistory);
+      dispatch(getHistory(data));
+    })();
+  }, [10000]);
+
   return (
     <>
       <TxHistoriesContainer>
