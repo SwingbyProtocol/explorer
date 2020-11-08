@@ -1,10 +1,29 @@
 import { get } from '../../../apiClient';
-import { ITransactions, PAGE_COUNT, SwapRawObject, IFetchSwapHistoryResponse } from '../../index';
+import { ITransactions, SwapRawObject, IFetchSwapHistoryResponse } from '../../index';
 
+import { TxStatus } from './../transaction';
+import { PAGE_COUNT, ENDPOINT_API } from './../../../env';
 import { isAddress } from './../validator';
-import { ENDPOINT_API } from './../../../env';
 
-export const fetchHistory = async (page, query, prev) => {
+const {
+  COMPLETED,
+  REJECTED,
+  CANCELED,
+  BROADCASTED,
+  SENDING,
+  PENDING,
+  SIGNING,
+  REFUNDING,
+  SIGNING_REFUND,
+  REFUNDED,
+} = TxStatus;
+
+export const fetchHistory = async (
+  page: number,
+  query: string,
+  prev: ITransactions | null,
+  isHideWaiting: boolean,
+) => {
   const baseUrl = ENDPOINT_API.BTCB_NODE + '/api/v1/swaps/query';
 
   let txsWithPage: ITransactions = {
@@ -20,8 +39,15 @@ export const fetchHistory = async (page, query, prev) => {
     let url = '';
     let nextPageUrl = '';
     if (query === '') {
-      url = `${baseUrl}?page=${page}&page_size=${PAGE_COUNT}&sort=0`;
-      nextPageUrl = `${baseUrl}?page=${page + 1}&page_size=${PAGE_COUNT}&sort=0`;
+      if (!isHideWaiting) {
+        url = `${baseUrl}?page=${page}&page_size=${PAGE_COUNT}&sort=0`;
+        nextPageUrl = `${baseUrl}?page=${page + 1}&page_size=${PAGE_COUNT}&sort=0`;
+      } else {
+        url = `${baseUrl}?page=${page}&page_size=${PAGE_COUNT}&status=${COMPLETED},${REJECTED},${CANCELED},${BROADCASTED},${SENDING},${PENDING},${SIGNING},${REFUNDING},${SIGNING_REFUND},${REFUNDED}&sort=0`;
+        nextPageUrl = `${baseUrl}?page=${
+          page + 1
+        }&page_size=${PAGE_COUNT}&status=${COMPLETED},${REJECTED},${CANCELED},${BROADCASTED},${SENDING},${PENDING},${SIGNING},${REFUNDING},${SIGNING_REFUND},${REFUNDED}&sort=0`;
+      }
     } else {
       const isAddr = isAddress(query);
       const f = isAddr ? 'address' : 'hash';

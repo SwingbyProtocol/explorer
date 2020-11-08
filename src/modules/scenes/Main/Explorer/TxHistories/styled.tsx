@@ -23,10 +23,11 @@ export const TitleRow = styled.div`
 export const Left = styled.div``;
 
 export const Right = styled.div`
-  padding-right: ${({ theme }) => rem(theme.pulsar.size.room)};
+  padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.city)};
+  grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.street)};
+  align-items: center;
 `;
 
 export const Filter = styled(Icon.Filter)`
@@ -42,7 +43,7 @@ export const TxHistoryRow = styled.div`
   padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
   padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
   display: grid;
-  grid-template-columns: 10% 4% 24% 18% 6% 20% 15% 4%;
+  grid-template-columns: 10% 4% 24% 18% 6% 20% 15.5% 4%;
 `;
 
 export const Column = styled.div`

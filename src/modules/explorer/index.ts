@@ -35,5 +35,3 @@ export interface Reward {
   amount: string;
   txId?: string;
 }
-
-export const PAGE_COUNT = 4;

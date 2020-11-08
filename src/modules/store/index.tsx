@@ -1,2 +1,2 @@
 export { useStore } from './store';
-export { getHistory } from './explorer';
+export { getHistory, clearHistory } from './explorer';

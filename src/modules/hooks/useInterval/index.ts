@@ -10,6 +10,7 @@ export const useInterval = (callback, delay) => {
 
   React.useEffect(() => {
     function tick() {
+      // @ts-ignore
       savedCallback.current();
     }
     if (delay !== null) {
