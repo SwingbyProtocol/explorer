@@ -2,17 +2,28 @@ import styled from 'styled-components';
 import { Icon, StatusIcon, Text } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
 
-export const TxHistoriesContainer = styled.div``;
+interface BgProps {
+  bg: boolean;
+}
+// Request: Please add `disable` Props for icon
+interface ButtonProps {
+  disable: boolean;
+}
+export const TxHistoriesContainer = styled.div`
+  /* Memo: Make space for when loading txs data */
+  min-height: ${rem(413)};
+`;
 
 export const TitleRow = styled.div`
   display: flex;
   justify-content: space-between;
+  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
 `;
 
 export const Left = styled.div``;
 
 export const Right = styled.div`
-  padding-right: ${({ theme }) => rem(theme.pulsar.size.street)};
+  padding-right: ${({ theme }) => rem(theme.pulsar.size.room)};
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.city)};
@@ -23,16 +34,15 @@ export const Filter = styled(Icon.Filter)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
 `;
 
-export const TxHistoriesRow = styled.div`
+export const TxHistoryRow = styled.div`
   height: ${rem(92)};
-  background: rgba(43, 55, 74, 0.02);
-  margin-top: ${({ theme }) => rem(theme.pulsar.size.street)};
+  background: ${(props: BgProps) => !props.bg && 'rgba(43, 55, 74, 0.02)'};
   padding-top: ${({ theme }) => rem(theme.pulsar.size.street)};
   padding-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
   padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
   padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
   display: grid;
-  grid-template-columns: 10% 4% 30% 18% 6% 20% 8% 4%;
+  grid-template-columns: 10% 4% 24% 18% 6% 20% 15% 4%;
 `;
 
 export const Column = styled.div`
@@ -79,7 +89,7 @@ export const SwapHorizontal = styled(Icon.SwapHorizontal)`
 export const AddressP = styled.p`
   color: #3799da;
   font-weight: bold;
-  max-width: ${rem(320)};
+  max-width: ${rem(240)};
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -102,4 +112,29 @@ export const StatusCircle = styled(StatusIcon)`
   width: ${({ theme }) => rem(theme.pulsar.size.drawer)};
   height: ${({ theme }) => rem(theme.pulsar.size.drawer)};
   margin-right: ${({ theme }) => rem(theme.pulsar.size.box)};
+`;
+export const BrowserFooter = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
+export const Pagination = styled.div`
+  display: flex;
+  align-items: center;
+`;
+export const PageText = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
+
+export const IconCaretLeft = styled(Icon.CaretLeft)`
+  color: ${({ theme }) => theme.pulsar.color.text.masked};
+  margin-right: ${({ theme }) => rem(theme.pulsar.size.room)};
+  opacity: ${(props: ButtonProps) => props.disable && 0.4};
+  cursor: ${(props: ButtonProps) => (props.disable ? 'not-allowed' : 'pointer')};
+`;
+export const IconCaretRight = styled(Icon.CaretRight)`
+  color: ${({ theme }) => theme.pulsar.color.text.masked};
+  margin-left: ${({ theme }) => rem(theme.pulsar.size.room)};
+  opacity: ${(props: ButtonProps) => props.disable && 0.4};
+  cursor: ${(props: ButtonProps) => (props.disable ? 'not-allowed' : 'pointer')};
 `;

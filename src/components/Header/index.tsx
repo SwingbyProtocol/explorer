@@ -1,14 +1,16 @@
 import { Dropdown } from '@swingby-protocol/pulsar';
+import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
 import { HeaderContainer, Left, Logo, Menu, MenuSpan, Right } from './styled';
 
 export const Header = () => {
   const [lang, setLang] = useState('EN');
+  const router = useRouter();
   return (
     <HeaderContainer>
       <Left>
-        <Logo productName="Explorer" onClick={() => window.location.reload()} />
+        <Logo productName="Explorer" onClick={() => router.push('/')} />
         <Menu>
           <MenuSpan variant="menu">Stake</MenuSpan>
           <MenuSpan variant="menu">Validators</MenuSpan>

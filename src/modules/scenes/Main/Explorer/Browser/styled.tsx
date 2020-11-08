@@ -11,6 +11,7 @@ export const BrowserDiv = styled(Card)`
   max-width: ${rem(1400)};
   min-width: ${rem(1220)};
   margin-top: ${({ theme }) => rem(theme.pulsar.size.state)};
+  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.state)};
   padding-top: ${({ theme }) => rem(theme.pulsar.size.city)};
   padding-bottom: ${({ theme }) => rem(theme.pulsar.size.city)};
   padding-left: ${({ theme }) => rem(theme.pulsar.size.city)};

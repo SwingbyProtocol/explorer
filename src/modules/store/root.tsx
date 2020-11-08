@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
 
-import { demo } from './demo';
+import { explorer } from './explorer';
 
-export const rootReducer = combineReducers({ demo });
+export const rootReducer = combineReducers({ explorer });
