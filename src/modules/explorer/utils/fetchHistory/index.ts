@@ -85,6 +85,8 @@ export const fetchHistory = async (
       },
       total: txRes.total - delta,
     };
+    console.log('hello');
+    console.log('txsWithPage', txsWithPage);
 
     return txsWithPage;
   } catch (error) {

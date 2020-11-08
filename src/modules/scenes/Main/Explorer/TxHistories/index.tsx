@@ -1,6 +1,6 @@
 import { Dropdown, Text } from '@swingby-protocol/pulsar';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { PAGE_COUNT } from '../../../../env';
@@ -12,7 +12,7 @@ import {
   SwapRawObject,
 } from '../../../../explorer';
 import { useInterval } from '../../../../hooks';
-import { getHistory, clearHistory } from '../../../../store';
+import { clearHistory, getHistory, setIsHideWaiting } from '../../../../store';
 
 import {
   AddressP,
@@ -41,8 +41,8 @@ import {
 
 export const TxHistories = () => {
   const explorer = useSelector((state) => state.explorer);
-  const { swapHistory } = explorer;
-  const [isHideWaiting, setIsHideWaiting] = useState(false);
+  const { swapHistory, isHideWaiting } = explorer;
+
   const router = useRouter();
   const dispatch = useDispatch();
   const params = router.query;
@@ -51,6 +51,11 @@ export const TxHistories = () => {
   const maximumPage = swapHistory && Math.ceil(swapHistory.total / PAGE_COUNT);
 
   const currentTxs = (swapHistory && swapHistory.data[page - 1]) || [];
+
+  const dispatchGetHistory = async () => {
+    const data = await fetchHistory(page - 1, q, swapHistory, isHideWaiting);
+    dispatch(getHistory(data));
+  };
 
   const goNextPage = () => {
     router.push({
@@ -68,18 +73,12 @@ export const TxHistories = () => {
   };
 
   useEffect(() => {
-    (async () => {
-      const data = await fetchHistory(page - 1, q, swapHistory, isHideWaiting);
-      dispatch(getHistory(data));
-    })();
+    dispatchGetHistory();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, q, isHideWaiting]);
 
   useInterval(() => {
-    (async () => {
-      const data = await fetchHistory(page - 1, q, swapHistory, isHideWaiting);
-      dispatch(getHistory(data));
-    })();
+    dispatchGetHistory();
   }, [10000]);
 
   return (
@@ -96,7 +95,7 @@ export const TxHistories = () => {
                 selected={isHideWaiting}
                 onClick={() => {
                   dispatch(clearHistory());
-                  setIsHideWaiting(!isHideWaiting);
+                  dispatch(setIsHideWaiting());
                 }}
               >
                 Hide waiting
