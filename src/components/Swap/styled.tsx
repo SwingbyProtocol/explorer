@@ -8,5 +8,5 @@ export const StyledSwap = styled.iframe`
   padding: 0;
   display: block;
   width: 100%;
-  height: ${({ theme }) => rem(theme.pulsar.size.state)};
+  height: ${({ theme }) => rem(theme.pulsar.size.state + theme.pulsar.size.street * 2)};
 `;
