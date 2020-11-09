@@ -5,3 +5,5 @@ export const isProduction = (): boolean => {
     return network === 'mainnet';
   }
 };
+
+export const swapUrl = process.env.NEXT_PUBLIC_SWAP_URL || 'https://widget-seven.vercel.app/';
