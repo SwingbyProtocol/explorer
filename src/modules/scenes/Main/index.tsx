@@ -1,6 +1,9 @@
 import Head from 'next/head';
 
+import { Swap } from '../../../components/Swap';
+
 import { ExplorerMain } from './Explorer';
+import { SwapContainer } from './styled';
 
 export const Main = () => {
   return (
@@ -8,10 +11,9 @@ export const Main = () => {
       <Head>
         <title>Swingby Explorer</title>
       </Head>
-      {/* Todo: Add Swap later */}
-      <div style={{ height: '70px' }}>
-        <h1>Swap</h1>
-      </div>
+      <SwapContainer>
+        <Swap />
+      </SwapContainer>
       <ExplorerMain />
     </>
   );
