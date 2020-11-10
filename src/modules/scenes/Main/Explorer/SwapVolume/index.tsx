@@ -2,7 +2,7 @@ import { Text } from '@swingby-protocol/pulsar';
 import React from 'react';
 import { Line } from 'react-chartjs-2';
 
-import { SwapVolumeContainer, TitleDiv } from './styled';
+import { SwapVolumeContainer, TitleDiv, AllVolumeSpan } from './styled';
 
 export const SwapVolume = () => {
   // Ref: https://github.com/jerairrest/react-chartjs-2/issues/306
@@ -64,6 +64,7 @@ export const SwapVolume = () => {
     <SwapVolumeContainer>
       <TitleDiv>
         <Text variant="section-title">Total Swap Vol. 7d</Text>
+        <AllVolumeSpan variant="accent">See More</AllVolumeSpan>
       </TitleDiv>
       <Line type="line" data={data} options={options} height={110} />
     </SwapVolumeContainer>

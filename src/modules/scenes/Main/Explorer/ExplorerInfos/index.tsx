@@ -52,7 +52,7 @@ export const ExplorerInfos = () => {
                 {info.description === 'Validators' ? (
                   <RowValidator>
                     <Text variant="label">{info.description}</Text>
-                    <ValidatorLinkSpan>All</ValidatorLinkSpan>
+                    <ValidatorLinkSpan variant="accent">All</ValidatorLinkSpan>
                   </RowValidator>
                 ) : (
                   <Row>

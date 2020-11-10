@@ -42,15 +42,13 @@ export const ValueSpan = styled(Text)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
 `;
 
-export const ValidatorLinkSpan = styled.span`
+export const ValidatorLinkSpan = styled(Text)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
   margin-left: ${({ theme }) => rem(theme.pulsar.size.closet)};
   color: ${({ theme }) => theme.pulsar.color.primary.normal};
   border-bottom: 1px solid ${({ theme }) => theme.pulsar.color.primary.normal};
   margin-bottom: ${({ theme }) => -rem(theme.pulsar.size.closet)};
-  :hover {
-    cursor: pointer;
-  }
+  cursor: pointer;
 `;
 
 export const Network = styled(Icon.NetworkVolume)`
