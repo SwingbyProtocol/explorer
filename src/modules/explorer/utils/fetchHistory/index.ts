@@ -1,8 +1,8 @@
 import { get } from '../../../apiClient';
-import { ITransactions, SwapRawObject, IFetchSwapHistoryResponse } from '../../index';
+import { BRIDGE, IFetchSwapHistoryResponse, ITransactions, SwapRawObject } from '../../index';
 
-import { TxStatus } from './../transaction';
-import { PAGE_COUNT, ENDPOINT_API } from './../../../env';
+import { removeDuplicatedTxs, TxStatus } from './../transaction';
+import { ENDPOINT_API, PAGE_COUNT } from './../../../env';
 import { isAddress } from './../validator';
 
 const {
@@ -18,14 +18,89 @@ const {
   REFUNDED,
 } = TxStatus;
 
+const generateEndpoint = (
+  baseUrl: string,
+  page: number,
+  query: string,
+  isHideWaiting: boolean,
+): string => {
+  if (query === '') {
+    if (!isHideWaiting) {
+      return `${baseUrl}?page=${page}&page_size=${PAGE_COUNT}&sort=0`;
+    } else {
+      return `${baseUrl}?page=${page}&page_size=${PAGE_COUNT}&status=${COMPLETED},${REJECTED},${CANCELED},${BROADCASTED},${SENDING},${PENDING},${SIGNING},${REFUNDING},${SIGNING_REFUND},${REFUNDED}&sort=0`;
+    }
+    // Memo: Search the query
+  } else {
+    const isAddr = isAddress(query);
+    const f = isAddr ? 'address' : 'hash';
+    return `${baseUrl}?page=${page}&page_size=${PAGE_COUNT}&OR_in_${f}=${query}&OR_out_${f}=${query}&sort=0`;
+  }
+};
+
+const divideTxs = (
+  btcbTxs: SwapRawObject[],
+  btceTxs: SwapRawObject[],
+  tempMixedHistories: SwapRawObject[],
+  query: string,
+): SwapRawObject[] => {
+  const newPageTxs = [];
+
+  // Memo: Clear the array
+  if (query) {
+    tempMixedHistories = [];
+  }
+  btcbTxs.forEach((tx: SwapRawObject) => {
+    tempMixedHistories.push(tx);
+  });
+
+  btceTxs.forEach((tx: SwapRawObject) => {
+    tempMixedHistories.push(tx);
+  });
+
+  tempMixedHistories.sort((x, y) => {
+    return y.timestamp - x.timestamp;
+  });
+
+  for (let index = 0; index < PAGE_COUNT; index++) {
+    const tx = tempMixedHistories[0];
+    if (tx) {
+      newPageTxs.push(tx);
+      tempMixedHistories.splice(0, 1);
+    }
+  }
+
+  return newPageTxs;
+};
+
+const getLatestTx = (txs: SwapRawObject[], txsETH: SwapRawObject[]): SwapRawObject => {
+  const latestTxsArray = [];
+  txs.forEach((tx: SwapRawObject) => {
+    latestTxsArray.push(tx);
+  });
+
+  txsETH.forEach((tx: SwapRawObject) => {
+    latestTxsArray.push(tx);
+  });
+
+  latestTxsArray.sort((x, y) => {
+    return y.timestamp - x.timestamp;
+  });
+
+  return latestTxsArray[0];
+};
+
 export const fetchHistory = async (
   page: number,
   query: string,
   prev: ITransactions | null,
   isHideWaiting: boolean,
+  swapHistoryTemp,
+  bridge: string,
 ) => {
-  const baseUrl = ENDPOINT_API.BTCB_NODE + '/api/v1/swaps/query';
-
+  const baseUrlBinance = ENDPOINT_API.BTCB_NODE + '/api/v1/swaps/query';
+  const baseUrlETH = ENDPOINT_API.BTCE_NODE + '/api/v1/swaps/query';
+  let tempMixedHistories: SwapRawObject[] = [];
   let txsWithPage: ITransactions = {
     data: {},
     total: 0,
@@ -35,60 +110,141 @@ export const fetchHistory = async (
     txsWithPage = prev;
   }
 
-  try {
-    let url = '';
-    let nextPageUrl = '';
-    if (query === '') {
-      if (!isHideWaiting) {
-        url = `${baseUrl}?page=${page}&page_size=${PAGE_COUNT}&sort=0`;
-        nextPageUrl = `${baseUrl}?page=${page + 1}&page_size=${PAGE_COUNT}&sort=0`;
-      } else {
-        url = `${baseUrl}?page=${page}&page_size=${PAGE_COUNT}&status=${COMPLETED},${REJECTED},${CANCELED},${BROADCASTED},${SENDING},${PENDING},${SIGNING},${REFUNDING},${SIGNING_REFUND},${REFUNDED}&sort=0`;
-        nextPageUrl = `${baseUrl}?page=${
-          page + 1
-        }&page_size=${PAGE_COUNT}&status=${COMPLETED},${REJECTED},${CANCELED},${BROADCASTED},${SENDING},${PENDING},${SIGNING},${REFUNDING},${SIGNING_REFUND},${REFUNDED}&sort=0`;
-      }
-    } else {
-      const isAddr = isAddress(query);
-      const f = isAddr ? 'address' : 'hash';
+  if (swapHistoryTemp !== null) {
+    tempMixedHistories = swapHistoryTemp;
+  }
 
-      url = `${baseUrl}?page=${page}&page_size=${PAGE_COUNT}&OR_in_${f}=${query}&OR_out_${f}=${query}&sort=0`;
-      nextPageUrl = `${baseUrl}?page=${
-        page + 1
-      }&page_size=${PAGE_COUNT}&OR_in_${f}=${query}&OR_out_${f}=${query}&sort=0`;
-    }
-    const res = await get(url);
+  try {
+    /****************** Get txs ******************/
+    const urlBinance = generateEndpoint(baseUrlBinance, page, query, isHideWaiting);
+    let nextPageUrlBinance = generateEndpoint(baseUrlBinance, page + 1, query, isHideWaiting);
+    let urlETH = generateEndpoint(baseUrlETH, page, query, isHideWaiting);
+    let nextPageUrlETH = generateEndpoint(baseUrlETH, page + 1, query, isHideWaiting);
+    const results = await Promise.all([
+      get(urlBinance),
+      get(nextPageUrlBinance),
+      get(urlETH),
+      get(nextPageUrlETH),
+    ]);
+
     // @ts-ignore
-    const txRes: IFetchSwapHistoryResponse = await res.parsedBody;
+    const txRes: IFetchSwapHistoryResponse = results[0].parsedBody;
     const txsResItems: SwapRawObject[] = txRes.items;
 
     // Memo: Remove the duplicated txIdIn
-    const txs: SwapRawObject[] = txsResItems.filter(
-      (tx, idx, self) => !tx.txIdIn || self.findIndex((_tx) => _tx.txIdIn === tx.txIdIn) === idx,
-    );
+    const txs: SwapRawObject[] = removeDuplicatedTxs(txsResItems, 'txId');
 
-    const nextPageRes = await get(nextPageUrl);
     // @ts-ignore
-    const nextPageTxRes: IFetchSwapHistoryResponse = await nextPageRes.parsedBody;
+    const nextPageTxRes: IFetchSwapHistoryResponse = results[1].parsedBody;
     const nextPageTxsResItems: SwapRawObject[] = nextPageTxRes.items;
-    const nextPageTxs: SwapRawObject[] = nextPageTxsResItems.filter(
-      (tx, idx, self) => !tx.txIdIn || self.findIndex((_tx) => _tx.txIdIn === tx.txIdIn) === idx,
-    );
-    const delta = txsResItems.length + nextPageTxsResItems.length - txs.length - nextPageTxs.length;
+    const nextPageTxs: SwapRawObject[] = removeDuplicatedTxs(nextPageTxsResItems, 'txId');
+    const deltaBinance =
+      txsResItems.length + nextPageTxsResItems.length - txs.length - nextPageTxs.length;
 
-    txsWithPage = {
-      data: {
-        // Memo: Merge the new one with the previous one.
-        ...txsWithPage.data,
-        [page]: txs,
-        [page + 1]: nextPageTxs,
-      },
-      total: txRes.total - delta,
-    };
-    console.log('hello');
-    console.log('txsWithPage', txsWithPage);
+    // @ts-ignore
+    const txResETH: IFetchSwapHistoryResponse = results[2].parsedBody;
+    const txsResItemsETH: SwapRawObject[] = txResETH.items;
 
-    return txsWithPage;
+    // Memo: Remove the duplicated txIdIn
+    const txsETH: SwapRawObject[] = removeDuplicatedTxs(txsResItemsETH, 'txId');
+
+    // @ts-ignore
+    const nextPageTxResETH: IFetchSwapHistoryResponse = results[3].parsedBody;
+    const nextPageTxsResItemsETH: SwapRawObject[] = nextPageTxResETH.items;
+    const nextPageTxsETH: SwapRawObject[] = removeDuplicatedTxs(nextPageTxsResItemsETH, 'txId');
+    const deltaETH =
+      txsResItemsETH.length + nextPageTxsResItemsETH.length - txsETH.length - nextPageTxsETH.length;
+    const delta = deltaBinance + deltaETH;
+
+    /****************** End get txs ******************/
+
+    // When: Multi bridges
+    // Memo: Aggregate 2 array into 1 array
+    if (bridge === '') {
+      let crossPageTxs = [];
+      let crossNextPageTxs = [];
+      const latestTx = getLatestTx(txs, txsETH);
+
+      // When: The app is refreshed
+      if (!txsWithPage.data[page]) {
+        crossPageTxs = divideTxs(txs, txsETH, tempMixedHistories, query);
+        crossNextPageTxs = divideTxs(nextPageTxs, nextPageTxsETH, tempMixedHistories, query);
+        txsWithPage = {
+          data: {
+            ...txsWithPage.data, // Memo: Merge the new one with the previous one.
+            [page]: crossPageTxs,
+            [page + 1]: crossNextPageTxs,
+          },
+          total: crossNextPageTxs.length
+            ? txRes.total + txResETH.total
+            : txRes.total + txResETH.total - delta, // Memo: Calculated actual total QTY to make button disable in the last page
+        };
+        // When: Update latest tx automatically
+        // Memo: Check the both of object after convert to string
+      } else if (
+        page === 0 &&
+        JSON.stringify(txsWithPage.data[0][0]) !== JSON.stringify(latestTx)
+      ) {
+        // When: Reset tempMixedHistories
+        tempMixedHistories = [];
+        crossPageTxs = divideTxs(txs, txsETH, tempMixedHistories, query);
+        crossNextPageTxs = divideTxs(nextPageTxs, nextPageTxsETH, tempMixedHistories, query);
+
+        txsWithPage = {
+          data: {
+            ...txsWithPage.data,
+            [page]: crossPageTxs,
+            [page + 1]: crossNextPageTxs,
+          },
+          total: crossNextPageTxs.length
+            ? txRes.total + txResETH.total
+            : txRes.total + txResETH.total - delta,
+        };
+        // When: Back to previous page. Won't change anything
+      } else if (txsWithPage.data[page] && txsWithPage.data[page + 1]) {
+        txsWithPage = {
+          data: {
+            ...txsWithPage.data,
+          },
+          total: txRes.total + txResETH.total,
+        };
+        // When: Go to next page
+      } else {
+        crossNextPageTxs = divideTxs(nextPageTxs, nextPageTxsETH, tempMixedHistories, query);
+        txsWithPage = {
+          data: {
+            ...txsWithPage.data,
+            [page + 1]: crossNextPageTxs,
+          },
+          total: crossNextPageTxs.length
+            ? txRes.total + txResETH.total
+            : txRes.total + txResETH.total - delta,
+        };
+      }
+    }
+    // When: Filtered chain
+    else {
+      if (bridge === BRIDGE.binance.toLowerCase()) {
+        txsWithPage = {
+          data: {
+            ...txsWithPage.data,
+            [page]: txs,
+            [page + 1]: nextPageTxs,
+          },
+          total: nextPageTxs.length ? txRes.total : txRes.total - deltaBinance,
+        };
+      } else if (bridge === BRIDGE.ethereum.toLowerCase()) {
+        txsWithPage = {
+          data: {
+            ...txsWithPage.data,
+            [page]: txsETH,
+            [page + 1]: nextPageTxsETH,
+          },
+          total: nextPageTxsETH.length ? txResETH.total : txResETH.total - deltaETH,
+        };
+      }
+    }
+    return { txsWithPage, tempMixedHistories };
   } catch (error) {
     console.log(error);
   }

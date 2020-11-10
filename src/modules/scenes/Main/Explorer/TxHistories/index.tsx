@@ -1,18 +1,20 @@
 import { Dropdown, Text } from '@swingby-protocol/pulsar';
 import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { PAGE_COUNT } from '../../../../env';
 import {
+  BRIDGE,
   currencyImg,
   currencyNetwork,
   fetchHistory,
+  removeDuplicatedTxs,
   statusColor,
   SwapRawObject,
 } from '../../../../explorer';
 import { useInterval } from '../../../../hooks';
-import { clearHistory, getHistory, setIsHideWaiting } from '../../../../store';
+import { getHistory, toggleIsHideWaiting, updateSwapHistoryTemp } from '../../../../store';
 
 import {
   AddressP,
@@ -40,42 +42,59 @@ import {
 } from './styled';
 
 export const TxHistories = () => {
+  const [isLoadingUrl, setIsLoadingUrl] = useState(true);
   const explorer = useSelector((state) => state.explorer);
-  const { swapHistory, isHideWaiting } = explorer;
+  const { swapHistory, isHideWaiting, swapHistoryTemp } = explorer;
 
   const router = useRouter();
   const dispatch = useDispatch();
   const params = router.query;
   const q = String(params.q || '');
   const page = Number(params.page || 1);
+  const chainBridge = String(params.bridge || '');
   const maximumPage = swapHistory && Math.ceil(swapHistory.total / PAGE_COUNT);
 
   const currentTxs = (swapHistory && swapHistory.data[page - 1]) || [];
 
-  const dispatchGetHistory = async () => {
-    const data = await fetchHistory(page - 1, q, swapHistory, isHideWaiting);
-    dispatch(getHistory(data));
-  };
-
-  const goNextPage = () => {
+  const routerPush = (bridge: string, q: string, page: number): void => {
     router.push({
       pathname: '/',
-      query: { q: q, page: page + 1 },
+      query: { bridge, q, page },
     });
   };
+
+  const goNextPage = () => routerPush(chainBridge, q, page + 1);
 
   const goBackPage = () => {
     if (page === 0) return;
-    router.push({
-      pathname: '/',
-      query: { q: q, page: page - 1 },
-    });
+    routerPush(chainBridge, q, page - 1);
   };
 
   useEffect(() => {
-    dispatchGetHistory();
+    setTimeout(() => {
+      // Memo: To run `dispatchGetHistory` after resolved `url params`
+      setIsLoadingUrl(false);
+    }, 200);
+  }, []);
+
+  const dispatchGetHistory = async () => {
+    const data = await fetchHistory(
+      page - 1,
+      q,
+      swapHistory,
+      isHideWaiting,
+      swapHistoryTemp,
+      chainBridge,
+    );
+    dispatch(getHistory(data.txsWithPage));
+    const uniqueTempMixedHistories = removeDuplicatedTxs(data.tempMixedHistories);
+    dispatch(updateSwapHistoryTemp(uniqueTempMixedHistories));
+  };
+
+  useEffect(() => {
+    !isLoadingUrl && dispatchGetHistory();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, q, isHideWaiting]);
+  }, [page, q, isHideWaiting, chainBridge, isLoadingUrl]);
 
   useInterval(() => {
     dispatchGetHistory();
@@ -94,12 +113,23 @@ export const TxHistories = () => {
               <Dropdown.Item
                 selected={isHideWaiting}
                 onClick={() => {
-                  dispatch(clearHistory());
-                  dispatch(setIsHideWaiting());
+                  routerPush(chainBridge, q, 1);
+                  dispatch(toggleIsHideWaiting());
                 }}
               >
                 Hide waiting
               </Dropdown.Item>
+              {Object.values(BRIDGE).map((chain: string) => {
+                const bridge = chain === BRIDGE.multipleBridges ? '' : chain.toLowerCase();
+                return (
+                  <Dropdown.Item
+                    selected={chainBridge === bridge}
+                    onClick={() => routerPush(bridge, q, 1)}
+                  >
+                    Bitcoin - {chain}
+                  </Dropdown.Item>
+                );
+              })}
             </Dropdown>
           </Right>
         </TitleRow>
@@ -113,6 +143,7 @@ export const TxHistories = () => {
                     <StatusText variant="accent">{tx.status}</StatusText>
                   </Status>
                   <Bottom>
+                    {/* Todo: use Moment.js to add function */}
                     <Text variant="label">1 min. ago</Text>
                   </Bottom>
                 </Column>
@@ -173,7 +204,8 @@ export const TxHistories = () => {
         <Pagination>
           <IconCaretLeft onClick={() => page > 1 && goBackPage()} disable={1 >= page} />
           <Text variant="masked">
-            Page {page} of {maximumPage}
+            {/* Memo: Disable `maximumPage` because `swapHistory.total` is never gonna fixed due to removing duplicated txs */}
+            Page {page} {/* of {maximumPage} */}
           </Text>
           <IconCaretRight
             onClick={() => maximumPage > page && goNextPage()}

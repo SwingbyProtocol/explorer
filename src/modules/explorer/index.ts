@@ -1,4 +1,17 @@
-export { fetchHistory, currencyNetwork, statusColor, currencyImg, TxStatus } from './utils';
+export {
+  fetchHistory,
+  currencyNetwork,
+  statusColor,
+  currencyImg,
+  TxStatus,
+  removeDuplicatedTxs,
+} from './utils';
+
+export const BRIDGE = {
+  multipleBridges: 'Multiple Bridges',
+  binance: 'Binance',
+  ethereum: 'Ethereum',
+};
 
 // Memo: interface
 export interface SwapRawObject {

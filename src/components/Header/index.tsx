@@ -1,16 +1,26 @@
 import { Dropdown } from '@swingby-protocol/pulsar';
-import { useRouter } from 'next/router';
+import Link from 'next/link';
 import React, { useState } from 'react';
 
 import { HeaderContainer, Left, Logo, Menu, MenuSpan, Right } from './styled';
 
 export const Header = () => {
   const [lang, setLang] = useState('EN');
-  const router = useRouter();
   return (
     <HeaderContainer>
       <Left>
-        <Logo productName="Explorer" onClick={() => router.push('/')} />
+        <Link href="/">
+          <Logo
+            productName="Explorer"
+            onClick={() => {
+              // Memo: To reset URL and state
+              // Request: Perhaps make `AppLogo` components with `a tag (<a></a>)` but without changing color
+              setTimeout(() => {
+                window.location.reload();
+              }, 10);
+            }}
+          />
+        </Link>
         <Menu>
           <MenuSpan variant="menu">Stake</MenuSpan>
           <MenuSpan variant="menu">Validators</MenuSpan>

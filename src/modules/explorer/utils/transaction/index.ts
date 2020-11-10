@@ -2,6 +2,8 @@ import { logos } from '@swingby-protocol/pulsar';
 
 import { CoinSymbol, BTCBCoins, ETHCoins } from '../../../coins';
 
+import { SwapRawObject } from './../../index';
+
 export const TxStatus = {
   COMPLETED: 'COMPLETED',
   REJECTED: 'REJECTED',
@@ -31,6 +33,7 @@ const {
 const rejectStatus = [REJECTED, CANCELED, REFUNDED, REFUNDING, SIGNING_REFUND, SENDING_REFUND];
 
 type statusType = 'success' | 'danger' | 'warning';
+
 export const statusColor = (status: string): statusType => {
   if (status === COMPLETED) {
     return 'success';
@@ -50,6 +53,7 @@ export const currencyNetwork = (currency: string): string => {
     return 'BTC on Ethereum';
   }
 };
+
 export const currencyImg = (currency: string): string => {
   if (currency === CoinSymbol.BTC) {
     return logos.CoinBtc;
@@ -57,5 +61,23 @@ export const currencyImg = (currency: string): string => {
     return logos.CoinBtcb;
   } else if (ETHCoins.includes(currency)) {
     return logos.CoinBtce;
+  }
+};
+
+export const removeDuplicatedTxs = (
+  txArray: SwapRawObject[],
+  filterBy?: string,
+): SwapRawObject[] => {
+  if (filterBy === 'txId') {
+    return txArray.filter(
+      (tx, idx, self) => !tx.txIdIn || self.findIndex((_tx) => _tx.txIdIn === tx.txIdIn) === idx,
+    );
+  } else {
+    return txArray.filter(
+      (tx, index, self) =>
+        self.findIndex(
+          (t: SwapRawObject) => t.timestamp === tx.timestamp && t.addressIn === tx.addressIn,
+        ) === index,
+    );
   }
 };
