@@ -1,8 +1,2 @@
 export { fetchHistory } from './fetchHistory';
-export {
-  currencyNetwork,
-  statusColor,
-  currencyImg,
-  TxStatus,
-  removeDuplicatedTxs,
-} from './transaction';
+export { currencyNetwork, statusColor, TxStatus, removeDuplicatedTxs } from './transaction';

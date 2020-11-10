@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Icon, StatusIcon, Text } from '@swingby-protocol/pulsar';
+import { CoinIcon, Icon, StatusIcon, Text } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
 
 interface BgProps {
@@ -106,8 +106,8 @@ export const StatusText = styled(Text)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
 `;
 
-export const CoinImg = styled.img`
-  width: ${({ theme }) => rem(theme.pulsar.size.town)};
+export const Coin = styled(CoinIcon)`
+  font-size: ${({ theme }) => rem(theme.pulsar.size.town)};
 `;
 
 export const StatusCircle = styled(StatusIcon)`

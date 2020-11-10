@@ -1,6 +1,4 @@
-import { logos } from '@swingby-protocol/pulsar';
-
-import { CoinSymbol, BTCBCoins, ETHCoins } from '../../../coins';
+import { BTCBCoins, CoinSymbol, ETHCoins } from '../../../coins';
 
 import { SwapRawObject } from './../../index';
 
@@ -51,16 +49,6 @@ export const currencyNetwork = (currency: string): string => {
     return 'BTC on Bnbchain';
   } else if (ETHCoins.includes(currency)) {
     return 'BTC on Ethereum';
-  }
-};
-
-export const currencyImg = (currency: string): string => {
-  if (currency === CoinSymbol.BTC) {
-    return logos.CoinBtc;
-  } else if (BTCBCoins.includes(currency)) {
-    return logos.CoinBtcb;
-  } else if (ETHCoins.includes(currency)) {
-    return logos.CoinBtce;
   }
 };
 

@@ -1,11 +1,4 @@
-export {
-  fetchHistory,
-  currencyNetwork,
-  statusColor,
-  currencyImg,
-  TxStatus,
-  removeDuplicatedTxs,
-} from './utils';
+export { fetchHistory, currencyNetwork, statusColor, TxStatus, removeDuplicatedTxs } from './utils';
 
 export const BRIDGE = {
   multipleBridges: 'Multiple Bridges',

@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { PAGE_COUNT } from '../../../../env';
 import {
   BRIDGE,
-  currencyImg,
   currencyNetwork,
   fetchHistory,
   removeDuplicatedTxs,
@@ -21,7 +20,7 @@ import {
   AmountSpan,
   Bottom,
   BrowserFooter,
-  CoinImg,
+  Coin,
   Column,
   ColumnAmount,
   Ellipsis,
@@ -29,6 +28,7 @@ import {
   IconCaretLeft,
   IconCaretRight,
   Left,
+  PageRow,
   Pagination,
   Right,
   Status,
@@ -39,7 +39,6 @@ import {
   Top,
   TxHistoriesContainer,
   TxHistoryRow,
-  PageRow,
 } from './styled';
 
 export const TxHistories = () => {
@@ -165,7 +164,7 @@ export const TxHistories = () => {
                   </Bottom>
                 </Column>
                 <ColumnAmount>
-                  <CoinImg src={currencyImg(tx.currencyIn)} alt={tx.currencyIn} />
+                  <Coin symbol={tx.currencyIn} />
                   <div>
                     <Top>
                       <Text variant="label">{currencyNetwork(tx.currencyIn)}</Text>
@@ -179,7 +178,7 @@ export const TxHistories = () => {
                   <SwapHorizontal />
                 </Column>
                 <ColumnAmount>
-                  <CoinImg src={currencyImg(tx.currencyOut)} alt={tx.currencyOut} />
+                  <Coin symbol={tx.currencyOut} />
                   <div>
                     <Top>
                       <Text variant="label">{currencyNetwork(tx.currencyOut)}</Text>
