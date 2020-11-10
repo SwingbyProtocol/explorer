@@ -26,9 +26,9 @@ export const TitleRow = styled.div`
 export const Left = styled.div``;
 
 export const Right = styled.div`
-  padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
+  padding-right: ${({ theme }) => rem(theme.pulsar.size.street)};
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: ${rem(100)} 1fr;
   grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.street)};
   align-items: center;
 `;
@@ -57,6 +57,12 @@ export const Column = styled.div`
   justify-content: center;
 `;
 
+export const ColumnAmount = styled(Column)`
+  display: grid;
+  grid-template-columns: ${({ theme }) => rem(theme.pulsar.size.state)} ${rem(150)};
+  align-items: center;
+`;
+
 export const Top = styled.div`
   margin-bottom: ${({ theme }) => theme.pulsar.size.box};
   height: ${({ theme }) => rem(theme.pulsar.size.street)};
@@ -68,14 +74,6 @@ export const Status = styled.div`
   align-items: center;
   display: flex;
   width: ${rem(100)};
-`;
-
-export const ColumnAmount = styled.div`
-  height: ${({ theme }) => rem(theme.pulsar.size.state)};
-  justify-content: center;
-  display: grid;
-  grid-template-columns: ${({ theme }) => rem(theme.pulsar.size.state)} ${rem(150)};
-  align-items: center;
 `;
 
 export const Ellipsis = styled(Icon.Ellipsis)`
