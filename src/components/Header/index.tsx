@@ -29,7 +29,7 @@ export const Header = () => {
       </Left>
       <Right>
         <Dropdown
-          target={<Dropdown.DefaultTarget>{lang}</Dropdown.DefaultTarget>}
+          target={<Dropdown.DefaultTarget size="city">{lang}</Dropdown.DefaultTarget>}
           data-testid="dropdown"
         >
           <Dropdown.Item onClick={() => setLang('EN')}>EN</Dropdown.Item>
