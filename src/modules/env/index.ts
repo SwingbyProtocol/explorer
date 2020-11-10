@@ -7,3 +7,5 @@ export const ENDPOINT_API = {
   BTCE_NODE: 'https://tbtc-goerli-1.swingby.network',
   BTCB_NODE: 'https://testnet-node.swingby.network',
 };
+
+export const swapUrl = process.env.NEXT_PUBLIC_SWAP_URL || 'https://widget-seven.vercel.app/';
