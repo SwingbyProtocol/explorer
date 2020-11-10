@@ -121,10 +121,10 @@ export const fetchHistory = async (
     let urlETH = generateEndpoint(baseUrlETH, page, query, isHideWaiting);
     let nextPageUrlETH = generateEndpoint(baseUrlETH, page + 1, query, isHideWaiting);
     const results = await Promise.all([
-      fetch<{ itemCount: number; items: SwapRawObject[]; total: number }>(urlBinance),
-      fetch<{ itemCount: number; items: SwapRawObject[]; total: number }>(nextPageUrlBinance),
-      fetch<{ itemCount: number; items: SwapRawObject[]; total: number }>(urlETH),
-      fetch<{ itemCount: number; items: SwapRawObject[]; total: number }>(nextPageUrlETH),
+      fetch<{ items: SwapRawObject[]; total: number }>(urlBinance),
+      fetch<{ items: SwapRawObject[]; total: number }>(nextPageUrlBinance),
+      fetch<{ items: SwapRawObject[]; total: number }>(urlETH),
+      fetch<{ items: SwapRawObject[]; total: number }>(nextPageUrlETH),
     ]);
 
     const txRes: IFetchSwapHistoryResponse = results[0].ok && results[0].response;

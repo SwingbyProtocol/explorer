@@ -25,7 +25,6 @@ export interface SwapRawObject {
 
 export interface IFetchSwapHistoryResponse {
   items: SwapRawObject[];
-  itemCount: number;
   total: number;
 }
 
