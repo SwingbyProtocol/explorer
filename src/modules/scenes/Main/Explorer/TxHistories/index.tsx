@@ -39,6 +39,7 @@ import {
   Top,
   TxHistoriesContainer,
   TxHistoryRow,
+  PageRow,
 } from './styled';
 
 export const TxHistories = () => {
@@ -203,10 +204,12 @@ export const TxHistories = () => {
       <BrowserFooter>
         <Pagination>
           <IconCaretLeft onClick={() => page > 1 && goBackPage()} disable={1 >= page} />
-          <Text variant="masked">
-            {/* Memo: Disable `maximumPage` because `swapHistory.total` is never gonna fixed due to removing duplicated txs */}
-            Page {page} {/* of {maximumPage} */}
-          </Text>
+          <PageRow page={page}>
+            <Text variant="masked">
+              {/* Memo: Disable `maximumPage` because `swapHistory.total` is never gonna fixed due to removing duplicated txs */}
+              Page {page} {/* of {maximumPage} */}
+            </Text>
+          </PageRow>
           <IconCaretRight
             onClick={() => maximumPage > page && goNextPage()}
             disable={page >= maximumPage}

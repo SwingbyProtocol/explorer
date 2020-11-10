@@ -9,6 +9,9 @@ interface BgProps {
 interface ButtonProps {
   disable: boolean;
 }
+interface PageProps {
+  page: number;
+}
 export const TxHistoriesContainer = styled.div`
   /* Memo: Make space for when loading txs data */
   min-height: ${rem(413)};
@@ -138,4 +141,11 @@ export const IconCaretRight = styled(Icon.CaretRight)`
   margin-left: ${({ theme }) => rem(theme.pulsar.size.room)};
   opacity: ${(props: ButtonProps) => props.disable && 0.4};
   cursor: ${(props: ButtonProps) => (props.disable ? 'not-allowed' : 'pointer')};
+`;
+
+export const PageRow = styled.div`
+  /* Memo: Fix the width to avoid moving the back/next arrow in besides */
+  width: ${(props: PageProps) => (props.page > 99 ? rem(100) : rem(80))};
+  text-align: center;
+  white-space: nowrap;
 `;
