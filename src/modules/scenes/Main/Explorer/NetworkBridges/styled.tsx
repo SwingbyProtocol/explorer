@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { rem } from 'polished';
+import { CoinIcon } from '@swingby-protocol/pulsar';
 
 export const CoinContainer = styled.div`
   margin-top: ${({ theme }) => rem(theme.pulsar.size.city)};
@@ -16,8 +17,8 @@ export const CoinInfo = styled.div`
   align-items: center;
 `;
 
-export const CoinImg = styled.img`
-  width: ${({ theme }) => rem(theme.pulsar.size.city)};
+export const Coin = styled(CoinIcon)`
+  font-size: ${({ theme }) => rem(theme.pulsar.size.city)};
 `;
 
 export const DataDiv = styled.div`

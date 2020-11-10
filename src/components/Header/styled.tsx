@@ -34,3 +34,8 @@ export const Menu = styled.div`
 export const MenuSpan = styled(Text)`
   cursor: pointer;
 `;
+
+export const LinkA = styled.a`
+  text-decoration: none;
+  color: ${({ theme }) => theme.pulsar.color.primary.normal}; ;
+`;

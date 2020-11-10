@@ -1,4 +1,5 @@
 import { Dropdown } from '@swingby-protocol/pulsar';
+import Link from 'next/link';
 import React, { useState } from 'react';
 
 import { HeaderContainer, Left, Logo, Menu, MenuSpan, Right } from './styled';
@@ -8,7 +9,18 @@ export const Header = () => {
   return (
     <HeaderContainer>
       <Left>
-        <Logo productName="Explorer" onClick={() => window.location.reload()} />
+        <Link href="/">
+          <Logo
+            productName="Explorer"
+            onClick={() => {
+              // Memo: To reset URL and state
+              // Request: Perhaps make `AppLogo` components with `a tag (<a></a>)` but without changing color
+              setTimeout(() => {
+                window.location.reload();
+              }, 10);
+            }}
+          />
+        </Link>
         <Menu>
           <MenuSpan variant="menu">Stake</MenuSpan>
           <MenuSpan variant="menu">Validators</MenuSpan>
@@ -17,7 +29,7 @@ export const Header = () => {
       </Left>
       <Right>
         <Dropdown
-          target={<Dropdown.DefaultTarget>{lang}</Dropdown.DefaultTarget>}
+          target={<Dropdown.DefaultTarget size="city">{lang}</Dropdown.DefaultTarget>}
           data-testid="dropdown"
         >
           <Dropdown.Item onClick={() => setLang('EN')}>EN</Dropdown.Item>

@@ -1,13 +1,15 @@
-import { logos, Text } from '@swingby-protocol/pulsar';
+import { Text } from '@swingby-protocol/pulsar';
 import React from 'react';
 
-import { AmountSpan, CoinContainer, CoinImg, CoinInfo, DataDiv, Row } from './styled';
+import { CoinSymbol } from '../../../../coins';
+
+import { AmountSpan, Coin, CoinContainer, CoinInfo, DataDiv, Row } from './styled';
 
 const dummyData = [
-  { coin: logos.CoinBtc, float: 24.493, vol: 232.12 },
-  { coin: logos.CoinBtce, float: 24.493, vol: 232.12 },
-  { coin: logos.CoinBnb, float: 24.493, vol: 232.12 },
-  { coin: logos.CoinBtcb, float: 24.493, vol: 232.12 },
+  { coin: CoinSymbol.BTC, float: 24.493, vol: 232.12 },
+  { coin: CoinSymbol.BTC_E, float: 24.493, vol: 232.12 },
+  { coin: CoinSymbol.BNB, float: 24.493, vol: 232.12 },
+  { coin: CoinSymbol.BTC_B, float: 24.493, vol: 232.12 },
 ];
 
 export const NetworkBridges = () => {
@@ -18,7 +20,7 @@ export const NetworkBridges = () => {
         {dummyData.map((coin) => {
           return (
             <CoinInfo key={coin.coin}>
-              <CoinImg src={coin.coin} alt={coin.coin} />
+              <Coin symbol={coin.coin} />
               <DataDiv>
                 <Row>
                   <Text variant="label">Float</Text>
