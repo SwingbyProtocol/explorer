@@ -1,4 +1,4 @@
-import { get } from '../../../apiClient';
+import { fetch } from '../../../fetch';
 import { BRIDGE, IFetchSwapHistoryResponse, ITransactions, SwapRawObject } from '../../index';
 
 import { removeDuplicatedTxs, TxStatus } from './../transaction';
@@ -121,35 +121,31 @@ export const fetchHistory = async (
     let urlETH = generateEndpoint(baseUrlETH, page, query, isHideWaiting);
     let nextPageUrlETH = generateEndpoint(baseUrlETH, page + 1, query, isHideWaiting);
     const results = await Promise.all([
-      get(urlBinance),
-      get(nextPageUrlBinance),
-      get(urlETH),
-      get(nextPageUrlETH),
+      fetch<{ itemCount: number; items: SwapRawObject[]; total: number }>(urlBinance),
+      fetch<{ itemCount: number; items: SwapRawObject[]; total: number }>(nextPageUrlBinance),
+      fetch<{ itemCount: number; items: SwapRawObject[]; total: number }>(urlETH),
+      fetch<{ itemCount: number; items: SwapRawObject[]; total: number }>(nextPageUrlETH),
     ]);
 
-    // @ts-ignore
-    const txRes: IFetchSwapHistoryResponse = results[0].parsedBody;
+    const txRes: IFetchSwapHistoryResponse = results[0].ok && results[0].response;
     const txsResItems: SwapRawObject[] = txRes.items;
 
     // Memo: Remove the duplicated txIdIn
     const txs: SwapRawObject[] = removeDuplicatedTxs(txsResItems, 'txId');
 
-    // @ts-ignore
-    const nextPageTxRes: IFetchSwapHistoryResponse = results[1].parsedBody;
+    const nextPageTxRes: IFetchSwapHistoryResponse = results[1].ok && results[1].response;
     const nextPageTxsResItems: SwapRawObject[] = nextPageTxRes.items;
     const nextPageTxs: SwapRawObject[] = removeDuplicatedTxs(nextPageTxsResItems, 'txId');
     const deltaBinance =
       txsResItems.length + nextPageTxsResItems.length - txs.length - nextPageTxs.length;
 
-    // @ts-ignore
-    const txResETH: IFetchSwapHistoryResponse = results[2].parsedBody;
+    const txResETH: IFetchSwapHistoryResponse = results[2].ok && results[2].response;
     const txsResItemsETH: SwapRawObject[] = txResETH.items;
 
     // Memo: Remove the duplicated txIdIn
     const txsETH: SwapRawObject[] = removeDuplicatedTxs(txsResItemsETH, 'txId');
 
-    // @ts-ignore
-    const nextPageTxResETH: IFetchSwapHistoryResponse = results[3].parsedBody;
+    const nextPageTxResETH: IFetchSwapHistoryResponse = results[3].ok && results[3].response;
     const nextPageTxsResItemsETH: SwapRawObject[] = nextPageTxResETH.items;
     const nextPageTxsETH: SwapRawObject[] = removeDuplicatedTxs(nextPageTxsResItemsETH, 'txId');
     const deltaETH =
