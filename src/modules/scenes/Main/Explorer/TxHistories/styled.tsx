@@ -38,9 +38,9 @@ export const Filter = styled(Icon.Filter)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
 `;
 
-export const TxHistoryRow = styled.div`
+export const TxHistoryRow = styled.div<BgProps>`
   height: ${rem(92)};
-  background: ${(props: BgProps) => !props.bg && 'rgba(43, 55, 74, 0.02)'};
+  background: ${(props) => !props.bg && 'rgba(43, 55, 74, 0.02)'};
   padding-top: ${({ theme }) => rem(theme.pulsar.size.street)};
   padding-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
   padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
@@ -128,22 +128,22 @@ export const PageText = styled.div`
   justify-content: flex-end;
 `;
 
-export const IconCaretLeft = styled(Icon.CaretLeft)`
+export const IconCaretLeft = styled(Icon.CaretLeft)<ButtonProps>`
   color: ${({ theme }) => theme.pulsar.color.text.masked};
   margin-right: ${({ theme }) => rem(theme.pulsar.size.room)};
-  opacity: ${(props: ButtonProps) => props.disable && 0.4};
-  cursor: ${(props: ButtonProps) => (props.disable ? 'not-allowed' : 'pointer')};
+  opacity: ${(props) => props.disable && 0.4};
+  cursor: ${(props) => (props.disable ? 'not-allowed' : 'pointer')};
 `;
-export const IconCaretRight = styled(Icon.CaretRight)`
+export const IconCaretRight = styled(Icon.CaretRight)<ButtonProps>`
   color: ${({ theme }) => theme.pulsar.color.text.masked};
   margin-left: ${({ theme }) => rem(theme.pulsar.size.room)};
-  opacity: ${(props: ButtonProps) => props.disable && 0.4};
-  cursor: ${(props: ButtonProps) => (props.disable ? 'not-allowed' : 'pointer')};
+  opacity: ${(props) => props.disable && 0.4};
+  cursor: ${(props) => (props.disable ? 'not-allowed' : 'pointer')};
 `;
 
-export const PageRow = styled.div`
+export const PageRow = styled.div<PageProps>`
   /* Memo: Fix the width to avoid moving the back/next arrow in besides */
-  width: ${(props: PageProps) => (props.page > 99 ? rem(100) : rem(80))};
+  width: ${(props) => (props.page > 99 ? rem(100) : rem(80))};
   text-align: center;
   white-space: nowrap;
 `;

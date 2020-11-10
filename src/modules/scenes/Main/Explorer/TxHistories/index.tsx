@@ -100,6 +100,12 @@ export const TxHistories = () => {
     dispatchGetHistory();
   }, [10000]);
 
+  const testDate = new Intl.RelativeTimeFormat('en').format(
+    (1604995117000 - Date.now()) / 1000,
+    'second',
+  );
+  console.log('testDate', testDate);
+
   return (
     <>
       <TxHistoriesContainer>
