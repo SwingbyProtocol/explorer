@@ -2,6 +2,7 @@ import { Dropdown, Text } from '@swingby-protocol/pulsar';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { ScaleLoader } from 'react-spinners';
 
 import { PAGE_COUNT } from '../../../../env';
 import {
@@ -39,6 +40,7 @@ import {
   Top,
   TxHistoriesContainer,
   TxHistoryRow,
+  LoadContainer,
 } from './styled';
 
 export const TxHistories = () => {
@@ -100,11 +102,11 @@ export const TxHistories = () => {
     dispatchGetHistory();
   }, [10000]);
 
-  const testDate = new Intl.RelativeTimeFormat('en').format(
-    (1604995117000 - Date.now()) / 1000,
-    'second',
+  const loader = (
+    <LoadContainer>
+      <ScaleLoader margin={3} color="#36D7B7" />
+    </LoadContainer>
   );
-  console.log('testDate', testDate);
 
   return (
     <>
@@ -139,6 +141,7 @@ export const TxHistories = () => {
             </Dropdown>
           </Right>
         </TitleRow>
+        {!currentTxs.length && loader}
         {currentTxs &&
           currentTxs.map((tx: SwapRawObject, i: number) => {
             return (
