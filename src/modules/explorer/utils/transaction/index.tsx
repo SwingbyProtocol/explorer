@@ -1,8 +1,8 @@
 import { DateTime, Interval } from 'luxon';
+import { FormattedDate, FormattedRelativeTime, FormattedTime } from 'react-intl';
 
 import { BTCBCoins, CoinSymbol, ETHCoins } from '../../../coins';
-
-import { SwapRawObject } from './../../index';
+import { SwapRawObject } from '../../index';
 
 export const TxStatus = {
   COMPLETED: 'COMPLETED',
@@ -72,8 +72,7 @@ export const removeDuplicatedTxs = (
   }
 };
 
-export const convertTxTime = (unixTimestamp: number): string => {
-  let formattedTime: string;
+export const convertTxTime = (unixTimestamp: number) => {
   const ts = unixTimestamp * 1000;
   const txTime = DateTime.fromMillis(ts);
   const now = DateTime.local();
@@ -81,14 +80,41 @@ export const convertTxTime = (unixTimestamp: number): string => {
 
   // Memo: TxTime is less than 1 hours from now
   if (Interval.fromDateTimes(Ago60Mins, now).contains(txTime)) {
-    const diffNow = Math.abs(txTime.diffNow('minutes').minutes).toFixed();
-    formattedTime = diffNow + ' min. ago';
+    return (
+      <FormattedRelativeTime
+        value={(ts - Date.now()) / 1000}
+        numeric="auto"
+        updateIntervalInSeconds={1}
+        // Request: Please remove this warning => `Style prop value must be an object (eslintreact/style-prop-object)`
+        style="short"
+      />
+    );
     // Memo: TxTime is today
   } else if (txTime.toLocaleString() === now.toLocaleString()) {
-    formattedTime = txTime.toFormat('hh:mm') + ' Today';
+    return (
+      <>
+        <FormattedTime value={ts} /> <FormattedRelativeTime value={0} unit="day" numeric="auto" />
+      </>
+    );
+    // Memo: TxTime is yesterday
+  } else if (txTime.toLocaleString() === now.minus({ days: 1 }).toLocaleString()) {
+    return (
+      <>
+        <FormattedTime value={ts} format="auto" />{' '}
+        <FormattedRelativeTime value={-1} unit="day" numeric="auto" />
+      </>
+    );
   } else {
-    formattedTime = txTime.toFormat('hh:mm dd/MM/yy');
+    return (
+      <FormattedDate
+        value={ts}
+        format="auto"
+        hour="numeric"
+        minute="numeric"
+        year="numeric"
+        month="short"
+        day="2-digit"
+      />
+    );
   }
-
-  return formattedTime;
 };

@@ -1,6 +1,7 @@
 import { Dropdown, Text } from '@swingby-protocol/pulsar';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import { FormattedDate } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { PAGE_COUNT } from '../../../../env';
@@ -100,7 +101,10 @@ export const TxHistories = () => {
   useInterval(() => {
     dispatchGetHistory();
   }, [10000]);
-
+  const ts = 1605096745;
+  const milliTs = ts * 1000;
+  const test = <FormattedDate value={new Date(milliTs)} />;
+  console.log('test', test.props);
   return (
     <>
       <TxHistoriesContainer>
