@@ -147,3 +147,10 @@ export const PageRow = styled.div<PageProps>`
   text-align: center;
   white-space: nowrap;
 `;
+
+export const LoadContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: ${rem(413)};
+`;

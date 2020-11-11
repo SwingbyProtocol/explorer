@@ -1,18 +1,18 @@
 import { Dropdown, Text } from '@swingby-protocol/pulsar';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import { FormattedDate } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
+import { ScaleLoader } from 'react-spinners';
 
 import { PAGE_COUNT } from '../../../../env';
 import {
   BRIDGE,
+  convertTxTime,
   currencyNetwork,
   fetchHistory,
   removeDuplicatedTxs,
   statusColor,
   SwapRawObject,
-  convertTxTime,
 } from '../../../../explorer';
 import { useInterval } from '../../../../hooks';
 import { getHistory, toggleIsHideWaiting, updateSwapHistoryTemp } from '../../../../store';
@@ -30,6 +30,7 @@ import {
   IconCaretLeft,
   IconCaretRight,
   Left,
+  LoadContainer,
   PageRow,
   Pagination,
   Right,
@@ -101,10 +102,13 @@ export const TxHistories = () => {
   useInterval(() => {
     dispatchGetHistory();
   }, [10000]);
-  const ts = 1605096745;
-  const milliTs = ts * 1000;
-  const test = <FormattedDate value={new Date(milliTs)} />;
-  console.log('test', test.props);
+
+  const loader = (
+    <LoadContainer>
+      <ScaleLoader margin={3} color="#36D7B7" />
+    </LoadContainer>
+  );
+
   return (
     <>
       <TxHistoriesContainer>
@@ -138,6 +142,7 @@ export const TxHistories = () => {
             </Dropdown>
           </Right>
         </TitleRow>
+        {!currentTxs.length && loader}
         {currentTxs &&
           currentTxs.map((tx: SwapRawObject, i: number) => {
             return (

@@ -85,8 +85,7 @@ export const convertTxTime = (unixTimestamp: number) => {
         value={(ts - Date.now()) / 1000}
         numeric="auto"
         updateIntervalInSeconds={1}
-        // Request: Please remove this warning => `Style prop value must be an object (eslintreact/style-prop-object)`
-        style="short"
+        style="short" // eslint-disable-line react/style-prop-object
       />
     );
     // Memo: TxTime is today
