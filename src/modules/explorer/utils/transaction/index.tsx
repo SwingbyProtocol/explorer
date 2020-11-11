@@ -93,14 +93,15 @@ export const convertTxTime = (unixTimestamp: number) => {
   } else if (txTime.toLocaleString() === now.toLocaleString()) {
     return (
       <>
-        <FormattedTime value={ts} /> <FormattedRelativeTime value={0} unit="day" numeric="auto" />
+        <FormattedTime value={ts} hour12={false} />{' '}
+        <FormattedRelativeTime value={0} unit="day" numeric="auto" />
       </>
     );
     // Memo: TxTime is yesterday
   } else if (txTime.toLocaleString() === now.minus({ days: 1 }).toLocaleString()) {
     return (
       <>
-        <FormattedTime value={ts} format="auto" />{' '}
+        <FormattedTime value={ts} hour12={false} format="auto" />{' '}
         <FormattedRelativeTime value={-1} unit="day" numeric="auto" />
       </>
     );
@@ -114,6 +115,7 @@ export const convertTxTime = (unixTimestamp: number) => {
         year="numeric"
         month="short"
         day="2-digit"
+        hour12={false}
       />
     );
   }

@@ -1,6 +1,6 @@
+import styled from 'styled-components';
 import { CoinIcon, Icon, StatusIcon, Text } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
-import styled from 'styled-components';
 
 interface BgProps {
   bg: boolean;
