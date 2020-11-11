@@ -1,3 +1,5 @@
+import { DateTime, Interval } from 'luxon';
+
 import { BTCBCoins, CoinSymbol, ETHCoins } from '../../../coins';
 
 import { SwapRawObject } from './../../index';
@@ -68,4 +70,22 @@ export const removeDuplicatedTxs = (
         ) === index,
     );
   }
+};
+
+export const getTime = (unixTimestamp: number): string => {
+  let formattedTime: string;
+  const ts = unixTimestamp * 1000;
+  const txTime = DateTime.fromMillis(ts);
+  const now = DateTime.local();
+  const Ago60Mins = now.minus({ hours: 1 });
+
+  if (Interval.fromDateTimes(Ago60Mins, now).contains(txTime)) {
+    formattedTime = txTime.toFormat('mm') + ' min. ago';
+  } else if (txTime.toLocaleString() === now.toLocaleString()) {
+    formattedTime = txTime.toFormat('hh:mm') + ' Today';
+  } else {
+    formattedTime = txTime.toFormat('hh:mm dd/MM/yy');
+  }
+
+  return formattedTime;
 };
