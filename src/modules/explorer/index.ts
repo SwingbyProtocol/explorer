@@ -4,7 +4,7 @@ export {
   statusColor,
   TxStatus,
   removeDuplicatedTxs,
-  getTime,
+  convertTxTime,
 } from './utils';
 
 export const BRIDGE = {

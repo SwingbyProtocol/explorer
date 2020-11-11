@@ -72,15 +72,18 @@ export const removeDuplicatedTxs = (
   }
 };
 
-export const getTime = (unixTimestamp: number): string => {
+export const convertTxTime = (unixTimestamp: number): string => {
   let formattedTime: string;
   const ts = unixTimestamp * 1000;
   const txTime = DateTime.fromMillis(ts);
   const now = DateTime.local();
   const Ago60Mins = now.minus({ hours: 1 });
 
+  // Memo: TxTime is less than 1 hours from now
   if (Interval.fromDateTimes(Ago60Mins, now).contains(txTime)) {
-    formattedTime = txTime.toFormat('mm') + ' min. ago';
+    const diffNow = Math.abs(txTime.diffNow('minutes').minutes).toFixed();
+    formattedTime = diffNow + ' min. ago';
+    // Memo: TxTime is today
   } else if (txTime.toLocaleString() === now.toLocaleString()) {
     formattedTime = txTime.toFormat('hh:mm') + ' Today';
   } else {

@@ -4,5 +4,5 @@ export {
   statusColor,
   TxStatus,
   removeDuplicatedTxs,
-  getTime,
+  convertTxTime,
 } from './transaction';

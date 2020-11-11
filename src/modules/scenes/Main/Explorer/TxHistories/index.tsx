@@ -11,7 +11,7 @@ import {
   removeDuplicatedTxs,
   statusColor,
   SwapRawObject,
-  getTime,
+  convertTxTime,
 } from '../../../../explorer';
 import { useInterval } from '../../../../hooks';
 import { getHistory, toggleIsHideWaiting, updateSwapHistoryTemp } from '../../../../store';
@@ -145,7 +145,7 @@ export const TxHistories = () => {
                   </Status>
                   <Bottom>
                     {/* Todo: use Moment.js to add function */}
-                    <Text variant="label">{getTime(tx.timestamp)}</Text>
+                    <Text variant="label">{convertTxTime(tx.timestamp)}</Text>
                   </Bottom>
                 </Column>
                 <Column>
