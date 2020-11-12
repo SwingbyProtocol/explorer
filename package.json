@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint .",
     "test": "echo 'No tests here so far'",
+    "cypress": "TZ=Etc/UTC cypress",
     "format": "prettier --write '**/*.{js,jsx,ts,tsx,css,json,md,mdx,html}'"
   },
   "prettier": {
