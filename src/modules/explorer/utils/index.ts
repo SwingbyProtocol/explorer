@@ -7,4 +7,4 @@ export {
   convertTxTime,
 } from './transaction';
 
-export { fetchFloatBalances } from './network';
+export { fetchFloatBalances, fetchStatsInfo } from './network';

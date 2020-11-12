@@ -6,6 +6,7 @@ export {
   removeDuplicatedTxs,
   convertTxTime,
   fetchFloatBalances,
+  fetchStatsInfo,
 } from './utils';
 
 export const BRIDGE = {
@@ -64,4 +65,11 @@ export interface IFloat {
   btc: string;
   btcb: string;
   bnb: string;
+}
+
+export interface IStats {
+  volume24Hr: string;
+  rewards24Hr: number;
+  volumes: string[];
+  validators: number;
 }

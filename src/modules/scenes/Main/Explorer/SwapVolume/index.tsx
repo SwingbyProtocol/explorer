@@ -1,26 +1,54 @@
 import { Text } from '@swingby-protocol/pulsar';
+import { DateTime } from 'luxon';
 import React from 'react';
 import { Line } from 'react-chartjs-2';
 
-import { SwapVolumeContainer, TitleDiv, AllVolumeSpan } from './styled';
+import { IStats } from '../../../../explorer';
 
-export const SwapVolume = () => {
+import { AllVolumeSpan, SwapVolumeContainer, TitleDiv } from './styled';
+
+interface Props {
+  stats: IStats;
+}
+
+export const SwapVolume = (props: Props) => {
   // Ref: https://github.com/jerairrest/react-chartjs-2/issues/306
+  const { stats } = props;
+  const { volumes } = stats;
+
   const data = (canvas) => {
     const ctx = canvas.getContext('2d');
     const gradient = ctx.createLinearGradient(0, 0, 0, 140);
     gradient.addColorStop(0, '#31D5B8');
     gradient.addColorStop(0.8, 'rgba(255,255,255, 0.3)');
+    const today = DateTime.local();
 
+    // Memo: Cannot pass the `FormattedDate(react-intl)` into labels
     return {
-      labels: ['Oct 3', '', '', 'Oct 6', '', '', 'Oct 9'],
+      labels: [
+        today.minus({ days: 6 }).toFormat('MMM d'),
+        '',
+        '',
+        today.minus({ days: 3 }).toFormat('MMM d'),
+        '',
+        '',
+        today.toFormat('MMM d'),
+      ],
       datasets: [
         {
           fill: 'start',
 
           backgroundColor: gradient,
           borderColor: '#31D5B8',
-          data: [800, 1200, 1000, 900, 1400, 1500, 1300],
+          data: [
+            volumes[6],
+            volumes[5],
+            volumes[4],
+            volumes[3],
+            volumes[2],
+            volumes[1],
+            volumes[0],
+          ],
         },
       ],
     };
@@ -49,9 +77,8 @@ export const SwapVolume = () => {
       yAxes: [
         {
           ticks: {
-            stepSize: 500,
+            stepSize: 2,
             padding: 10,
-            labelString: 'K',
           },
           gridLines: {
             display: false,
