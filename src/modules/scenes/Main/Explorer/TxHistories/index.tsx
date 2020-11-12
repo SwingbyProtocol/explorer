@@ -7,6 +7,7 @@ import { ScaleLoader } from 'react-spinners';
 import { PAGE_COUNT } from '../../../../env';
 import {
   BRIDGE,
+  convertTxTime,
   currencyNetwork,
   fetchHistory,
   removeDuplicatedTxs,
@@ -29,6 +30,7 @@ import {
   IconCaretLeft,
   IconCaretRight,
   Left,
+  LoadContainer,
   PageRow,
   Pagination,
   Right,
@@ -40,7 +42,6 @@ import {
   Top,
   TxHistoriesContainer,
   TxHistoryRow,
-  LoadContainer,
 } from './styled';
 
 export const TxHistories = () => {
@@ -103,7 +104,7 @@ export const TxHistories = () => {
   }, [10000]);
 
   const loader = (
-    <LoadContainer>
+    <LoadContainer data-testid="main.loading-container">
       <ScaleLoader margin={3} color="#36D7B7" />
     </LoadContainer>
   );
@@ -152,8 +153,7 @@ export const TxHistories = () => {
                     <StatusText variant="accent">{tx.status}</StatusText>
                   </Status>
                   <Bottom>
-                    {/* Todo: use Moment.js to add function */}
-                    <Text variant="label">1 min. ago</Text>
+                    <Text variant="label">{convertTxTime(tx.timestamp)}</Text>
                   </Bottom>
                 </Column>
                 <Column>

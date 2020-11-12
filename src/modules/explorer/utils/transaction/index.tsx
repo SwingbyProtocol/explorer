@@ -1,6 +1,8 @@
-import { BTCBCoins, CoinSymbol, ETHCoins } from '../../../coins';
+import { DateTime, Interval } from 'luxon';
+import { FormattedDate, FormattedRelativeTime, FormattedTime } from 'react-intl';
 
-import { SwapRawObject } from './../../index';
+import { BTCBCoins, CoinSymbol, ETHCoins } from '../../../coins';
+import { SwapRawObject } from '../../index';
 
 export const TxStatus = {
   COMPLETED: 'COMPLETED',
@@ -68,4 +70,48 @@ export const removeDuplicatedTxs = (
         ) === index,
     );
   }
+};
+
+export const convertTxTime = (unixTimestamp: number) => {
+  const ts = unixTimestamp * 1000;
+  const txTime = DateTime.fromMillis(ts).toLocal();
+  console.log('txTime', txTime.toISO());
+
+  const now = DateTime.local();
+  const Ago60Mins = now.minus({ hours: 1 });
+
+  if (Interval.fromDateTimes(Ago60Mins, now).contains(txTime)) {
+    return (
+      <FormattedRelativeTime
+        value={(ts - Date.now()) / 1000}
+        numeric="auto"
+        updateIntervalInSeconds={1}
+        style="short" // eslint-disable-line react/style-prop-object
+      />
+    );
+  }
+
+  const diffDays = Math.floor(Math.abs(now.endOf('day').diff(txTime).as('days')));
+  if (diffDays < 2) {
+    return (
+      <>
+        <FormattedTime value={ts} hour12={false} />
+        &nbsp;
+        <FormattedRelativeTime value={-diffDays} unit="day" numeric="auto" />
+      </>
+    );
+  }
+
+  return (
+    <FormattedDate
+      value={ts}
+      format="auto"
+      hour="numeric"
+      minute="numeric"
+      year="numeric"
+      month="short"
+      day="2-digit"
+      hour12={false}
+    />
+  );
 };

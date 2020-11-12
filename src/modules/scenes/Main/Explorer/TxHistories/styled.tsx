@@ -46,7 +46,7 @@ export const TxHistoryRow = styled.div<BgProps>`
   padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
   padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
   display: grid;
-  grid-template-columns: 10% 4% 24% 18% 6% 20% 15.5% 4%;
+  grid-template-columns: 13.5% 4% 23.5% 15.5% 6% 20% 15.5% 4%;
 `;
 
 export const Column = styled.div`
@@ -91,7 +91,7 @@ export const SwapHorizontal = styled(Icon.SwapHorizontal)`
 export const AddressP = styled.p`
   color: #3799da;
   font-weight: bold;
-  max-width: ${rem(240)};
+  max-width: ${rem(230)};
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
