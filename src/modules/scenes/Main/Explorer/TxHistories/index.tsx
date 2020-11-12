@@ -104,7 +104,7 @@ export const TxHistories = () => {
   }, [10000]);
 
   const loader = (
-    <LoadContainer>
+    <LoadContainer data-testid="main.loading-container">
       <ScaleLoader margin={3} color="#36D7B7" />
     </LoadContainer>
   );
