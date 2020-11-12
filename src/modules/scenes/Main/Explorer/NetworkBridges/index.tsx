@@ -2,22 +2,27 @@ import { Text } from '@swingby-protocol/pulsar';
 import React from 'react';
 
 import { CoinSymbol } from '../../../../coins';
+import { IFloat } from '../../../../explorer';
 
 import { AmountSpan, Coin, CoinContainer, CoinInfo, DataDiv, Row } from './styled';
 
-const dummyData = [
-  { coin: CoinSymbol.BTC, float: 24.493, vol: 232.12 },
-  { coin: CoinSymbol.BTC_E, float: 24.493, vol: 232.12 },
-  { coin: CoinSymbol.BNB, float: 24.493, vol: 232.12 },
-  { coin: CoinSymbol.BTC_B, float: 24.493, vol: 232.12 },
-];
+interface Props {
+  floatBalances: IFloat;
+}
 
-export const NetworkBridges = () => {
+export const NetworkBridges = (props: Props) => {
+  const { floatBalances } = props;
+  const data = [
+    { coin: CoinSymbol.BTC, float: floatBalances.btc, vol: 232.12 },
+    { coin: CoinSymbol.BTC_E, float: 24.493, vol: 232.12 },
+    { coin: CoinSymbol.BNB, float: floatBalances.bnb, vol: 232.12 },
+    { coin: CoinSymbol.BTC_B, float: floatBalances.btcb, vol: 232.12 },
+  ];
   return (
     <div>
       <Text variant="section-title">Network Bridges</Text>
       <CoinContainer>
-        {dummyData.map((coin) => {
+        {data.map((coin) => {
           return (
             <CoinInfo key={coin.coin}>
               <Coin symbol={coin.coin} />

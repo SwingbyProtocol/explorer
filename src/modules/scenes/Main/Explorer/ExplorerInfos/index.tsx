@@ -17,8 +17,12 @@ import {
   ValueSpan,
 } from './styled';
 
-export const ExplorerInfos = () => {
-  const dummyData = [
+interface Props {
+  capacity: string;
+}
+
+export const ExplorerInfos = (props: Props) => {
+  const data = [
     {
       icon: <Network />,
       description: 'Volume (24hr)',
@@ -32,7 +36,7 @@ export const ExplorerInfos = () => {
     {
       icon: <NetworkCapacity />,
       description: 'Capacity (Float)',
-      value: <FormattedNumber value={128130} />,
+      value: <FormattedNumber value={Number(props.capacity)} />,
     },
     {
       icon: <NetworkValidators />,
@@ -44,7 +48,7 @@ export const ExplorerInfos = () => {
   return (
     <ExplorerInfosContainer>
       <InfosContainer>
-        {dummyData.map((info) => {
+        {data.map((info) => {
           return (
             <InfoContainer key={info.description}>
               {info.icon}
