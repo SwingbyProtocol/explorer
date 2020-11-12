@@ -74,11 +74,12 @@ export const removeDuplicatedTxs = (
 
 export const convertTxTime = (unixTimestamp: number) => {
   const ts = unixTimestamp * 1000;
-  const txTime = DateTime.fromMillis(ts);
+  const txTime = DateTime.fromMillis(ts).toLocal();
+  console.log('txTime', txTime.toISO());
+
   const now = DateTime.local();
   const Ago60Mins = now.minus({ hours: 1 });
 
-  // Memo: TxTime is less than 1 hours from now
   if (Interval.fromDateTimes(Ago60Mins, now).contains(txTime)) {
     return (
       <FormattedRelativeTime
@@ -88,34 +89,29 @@ export const convertTxTime = (unixTimestamp: number) => {
         style="short" // eslint-disable-line react/style-prop-object
       />
     );
-    // Memo: TxTime is today
-  } else if (txTime.toLocaleString() === now.toLocaleString()) {
+  }
+
+  const diffDays = Math.floor(Math.abs(now.endOf('day').diff(txTime).as('days')));
+  if (diffDays < 2) {
     return (
       <>
-        <FormattedTime value={ts} hour12={false} />{' '}
-        <FormattedRelativeTime value={0} unit="day" numeric="auto" />
+        <FormattedTime value={ts} hour12={false} />
+        &nbsp;
+        <FormattedRelativeTime value={-diffDays} unit="day" numeric="auto" />
       </>
-    );
-    // Memo: TxTime is yesterday
-  } else if (txTime.toLocaleString() === now.minus({ days: 1 }).toLocaleString()) {
-    return (
-      <>
-        <FormattedTime value={ts} hour12={false} format="auto" />{' '}
-        <FormattedRelativeTime value={-1} unit="day" numeric="auto" />
-      </>
-    );
-  } else {
-    return (
-      <FormattedDate
-        value={ts}
-        format="auto"
-        hour="numeric"
-        minute="numeric"
-        year="numeric"
-        month="short"
-        day="2-digit"
-        hour12={false}
-      />
     );
   }
+
+  return (
+    <FormattedDate
+      value={ts}
+      format="auto"
+      hour="numeric"
+      minute="numeric"
+      year="numeric"
+      month="short"
+      day="2-digit"
+      hour12={false}
+    />
+  );
 };
