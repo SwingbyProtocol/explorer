@@ -153,7 +153,6 @@ export const TxHistories = () => {
                     <StatusText variant="accent">{tx.status}</StatusText>
                   </Status>
                   <Bottom>
-                    {/* Todo: use Moment.js to add function */}
                     <Text variant="label">{convertTxTime(tx.timestamp)}</Text>
                   </Bottom>
                 </Column>
