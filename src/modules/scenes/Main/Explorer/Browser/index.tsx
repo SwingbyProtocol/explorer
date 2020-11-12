@@ -9,7 +9,7 @@ import { TxHistories } from '../TxHistories';
 import { Bottom, BrowserContainer, BrowserDiv, Top } from './styled';
 
 export const Browser = () => {
-  const [floatBalances, setFloatBalances] = useState(null);
+  const [floatBalances, setFloatBalances] = useState({ btc: '0', btcb: '0', bnb: '0' });
   const [capacity, setCapacity] = useState(null);
   useEffect(() => {
     (async () => {
