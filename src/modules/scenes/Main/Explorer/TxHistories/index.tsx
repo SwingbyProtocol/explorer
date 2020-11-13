@@ -1,6 +1,7 @@
-import { Dropdown, Text } from '@swingby-protocol/pulsar';
+import { Dropdown, formatCryptoAsset, Text } from '@swingby-protocol/pulsar';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { ScaleLoader } from 'react-spinners';
 
@@ -48,6 +49,7 @@ export const TxHistories = () => {
   const [isLoadingUrl, setIsLoadingUrl] = useState(true);
   const explorer = useSelector((state) => state.explorer);
   const { swapHistory, isHideWaiting, swapHistoryTemp } = explorer;
+  const { locale } = useIntl();
 
   const router = useRouter();
   const dispatch = useDispatch();
@@ -199,7 +201,11 @@ export const TxHistories = () => {
                 </ColumnAmount>
                 <Column>
                   <Text variant="section-title">
-                    {tx.fee} {tx.currencyOut}
+                    {formatCryptoAsset({
+                      amount: Number(tx.fee),
+                      locale: locale,
+                      displaySymbol: tx.currencyOut,
+                    })}
                   </Text>
                 </Column>
                 <Column>

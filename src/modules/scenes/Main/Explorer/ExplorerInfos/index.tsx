@@ -1,6 +1,6 @@
-import { Text } from '@swingby-protocol/pulsar';
+import { formatFiatAsset, Text } from '@swingby-protocol/pulsar';
 import React from 'react';
-import { FormattedNumber } from 'react-intl';
+import { useIntl } from 'react-intl';
 
 import { IStats } from '../../../../explorer';
 
@@ -26,23 +26,35 @@ interface Props {
 
 export const ExplorerInfos = (props: Props) => {
   const { capacity, stats } = props;
+  const { locale } = useIntl();
+
   const data = [
     {
       icon: <Network />,
       description: 'Volume (24hr)',
-      value: <FormattedNumber value={Number(stats.volume24Hr)} />,
+      value: formatFiatAsset({
+        amount: Number(stats.volume24Hr),
+        locale: locale,
+        currency: 'USD',
+      }),
     },
     {
       icon: <NetworkRewards />,
       description: 'Rewards (24hr)',
-      // Todo: Use `FormattedNumber` once `rewards24Hr` value becomes more than 1
-      // value: <FormattedNumber value={stats.rewards24Hr} />,
-      value: stats.rewards24Hr,
+      value: formatFiatAsset({
+        amount: stats.rewards24Hr,
+        locale: locale,
+        currency: 'USD',
+      }),
     },
     {
       icon: <NetworkCapacity />,
       description: 'Capacity (Float)',
-      value: <FormattedNumber value={Number(capacity)} />,
+      value: formatFiatAsset({
+        amount: Number(capacity),
+        locale: locale,
+        currency: 'USD',
+      }),
     },
     {
       icon: <NetworkValidators />,
@@ -71,7 +83,7 @@ export const ExplorerInfos = (props: Props) => {
                 )}
 
                 <Row>
-                  <ValueSpan variant="accent">${info.value}</ValueSpan>
+                  <ValueSpan variant="accent">{info.value}</ValueSpan>
                 </Row>
               </DataDiv>
             </InfoContainer>
