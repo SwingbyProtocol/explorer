@@ -50,7 +50,6 @@ interface Props {
 }
 
 export const TxHistories = (props: Props) => {
-  const [isLoadingUrl, setIsLoadingUrl] = useState(true);
   const explorer = useSelector((state) => state.explorer);
   const { swapHistory, isHideWaiting, swapHistoryTemp } = explorer;
   const { locale } = useIntl();
@@ -80,13 +79,6 @@ export const TxHistories = (props: Props) => {
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      // Memo: To run `dispatchGetHistory` after resolved `url params`
-      setIsLoadingUrl(false);
-    }, 200);
-  }, []);
-
-  useEffect(() => {
     currentTxs.length > 0 && props.setIsFetchedTxs(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentTxs]);
@@ -106,9 +98,9 @@ export const TxHistories = (props: Props) => {
   };
 
   useEffect(() => {
-    !isLoadingUrl && dispatchGetHistory();
+    dispatchGetHistory();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, q, isHideWaiting, chainBridge, isLoadingUrl]);
+  }, [page, q, isHideWaiting, chainBridge]);
 
   useInterval(() => {
     dispatchGetHistory();
