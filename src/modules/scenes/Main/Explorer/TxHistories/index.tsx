@@ -45,7 +45,11 @@ import {
   TxHistoryRow,
 } from './styled';
 
-export const TxHistories = () => {
+interface Props {
+  setIsFetchedTxs: (arg: boolean) => void;
+}
+
+export const TxHistories = (props: Props) => {
   const [isLoadingUrl, setIsLoadingUrl] = useState(true);
   const explorer = useSelector((state) => state.explorer);
   const { swapHistory, isHideWaiting, swapHistoryTemp } = explorer;
@@ -82,6 +86,11 @@ export const TxHistories = () => {
     }, 200);
   }, []);
 
+  useEffect(() => {
+    currentTxs.length > 0 && props.setIsFetchedTxs(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentTxs]);
+
   const dispatchGetHistory = async () => {
     const data = await fetchHistory(
       page - 1,
@@ -106,7 +115,7 @@ export const TxHistories = () => {
   }, [10000]);
 
   const loader = (
-    <LoadContainer data-testid="main.loading-container">
+    <LoadContainer>
       <ScaleLoader margin={3} color="#36D7B7" />
     </LoadContainer>
   );
