@@ -1,7 +1,7 @@
 import { Text } from '@swingby-protocol/pulsar';
-import { DateTime } from 'luxon';
 import React from 'react';
 import { Line } from 'react-chartjs-2';
+import { useIntl } from 'react-intl';
 
 import { IStats } from '../../../../explorer';
 
@@ -15,24 +15,33 @@ export const SwapVolume = (props: Props) => {
   // Ref: https://github.com/jerairrest/react-chartjs-2/issues/306
   const { stats } = props;
   const { volumes } = stats;
+  const { formatDate } = useIntl();
 
   const data = (canvas) => {
     const ctx = canvas.getContext('2d');
     const gradient = ctx.createLinearGradient(0, 0, 0, 140);
     gradient.addColorStop(0, '#31D5B8');
     gradient.addColorStop(0.8, 'rgba(255,255,255, 0.3)');
-    const today = DateTime.local();
+    const today = new Date();
 
-    // Memo: Cannot pass the `FormattedDate(react-intl)` into labels
     return {
       labels: [
-        today.minus({ days: 6 }).toFormat('MMM d'),
+        formatDate(new Date().setDate(today.getDate() - 6), {
+          month: 'short',
+          day: 'numeric',
+        }),
         '',
         '',
-        today.minus({ days: 3 }).toFormat('MMM d'),
+        formatDate(new Date().setDate(today.getDate() - 3), {
+          month: 'short',
+          day: 'numeric',
+        }),
         '',
         '',
-        today.toFormat('MMM d'),
+        formatDate(today, {
+          month: 'short',
+          day: 'numeric',
+        }),
       ],
       datasets: [
         {
