@@ -75,7 +75,6 @@ export const removeDuplicatedTxs = (
 export const convertTxTime = (unixTimestamp: number) => {
   const ts = unixTimestamp * 1000;
   const txTime = DateTime.fromMillis(ts).toLocal();
-  console.log('txTime', txTime.toISO());
 
   const now = DateTime.local();
   const Ago60Mins = now.minus({ hours: 1 });

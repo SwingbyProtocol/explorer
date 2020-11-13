@@ -6,3 +6,5 @@ export {
   removeDuplicatedTxs,
   convertTxTime,
 } from './transaction';
+
+export { fetchFloatBalances, fetchStatsInfo } from './network';

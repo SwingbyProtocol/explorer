@@ -1,6 +1,8 @@
-import { Text } from '@swingby-protocol/pulsar';
+import { formatFiatAsset, Text } from '@swingby-protocol/pulsar';
 import React from 'react';
-import { FormattedNumber } from 'react-intl';
+import { useIntl } from 'react-intl';
+
+import { IStats } from '../../../../explorer';
 
 import {
   DataDiv,
@@ -17,34 +19,54 @@ import {
   ValueSpan,
 } from './styled';
 
-export const ExplorerInfos = () => {
-  const dummyData = [
+interface Props {
+  capacity: string;
+  stats: IStats;
+}
+
+export const ExplorerInfos = (props: Props) => {
+  const { capacity, stats } = props;
+  const { locale } = useIntl();
+
+  const data = [
     {
       icon: <Network />,
       description: 'Volume (24hr)',
-      value: <FormattedNumber value={128130} />,
+      value: formatFiatAsset({
+        amount: Number(stats.volume24Hr),
+        locale: locale,
+        currency: 'USD',
+      }),
     },
     {
       icon: <NetworkRewards />,
       description: 'Rewards (24hr)',
-      value: <FormattedNumber value={128130} />,
+      value: formatFiatAsset({
+        amount: stats.rewards24Hr,
+        locale: locale,
+        currency: 'USD',
+      }),
     },
     {
       icon: <NetworkCapacity />,
       description: 'Capacity (Float)',
-      value: <FormattedNumber value={128130} />,
+      value: formatFiatAsset({
+        amount: Number(capacity),
+        locale: locale,
+        currency: 'USD',
+      }),
     },
     {
       icon: <NetworkValidators />,
       description: 'Validators',
-      value: 50,
+      value: stats.validators,
     },
   ];
 
   return (
     <ExplorerInfosContainer>
       <InfosContainer>
-        {dummyData.map((info) => {
+        {data.map((info) => {
           return (
             <InfoContainer key={info.description}>
               {info.icon}
@@ -61,7 +83,7 @@ export const ExplorerInfos = () => {
                 )}
 
                 <Row>
-                  <ValueSpan variant="accent">${info.value}</ValueSpan>
+                  <ValueSpan variant="accent">{info.value}</ValueSpan>
                 </Row>
               </DataDiv>
             </InfoContainer>
