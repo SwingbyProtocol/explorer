@@ -55,7 +55,7 @@ export const Browser = () => {
         {/* {!isReady && loader} */}
         <Top isReady={true}>
           <NetworkBridges floatBalances={floatBalances} />
-          <ExplorerInfos capacity={capacity} stats={stats} initialState={initialState} />
+          <ExplorerInfos capacity={capacity} stats={stats} />
           <SwapVolume stats={stats} />
         </Top>
         <Bottom isReady={true}>
