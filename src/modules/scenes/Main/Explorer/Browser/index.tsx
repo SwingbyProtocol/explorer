@@ -52,13 +52,13 @@ export const Browser = () => {
   return (
     <BrowserContainer>
       <BrowserDiv size="bare">
-        {!isReady && loader}
-        <Top isReady={isReady}>
+        {/* {!isReady && loader} */}
+        <Top isReady={true}>
           <NetworkBridges floatBalances={floatBalances} />
-          <ExplorerInfos capacity={capacity} stats={stats} />
+          <ExplorerInfos capacity={capacity} stats={stats} initialState={initialState} />
           <SwapVolume stats={stats} />
         </Top>
-        <Bottom isReady={isReady}>
+        <Bottom isReady={true}>
           <TxHistories setIsFetchedTxs={setIsFetchedTxs} />
         </Bottom>
       </BrowserDiv>

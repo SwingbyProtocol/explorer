@@ -1,5 +1,6 @@
 import { formatFiatAsset, Text } from '@swingby-protocol/pulsar';
 import React from 'react';
+import ContentLoader from 'react-content-loader';
 import { useIntl } from 'react-intl';
 
 import { IStats } from '../../../../explorer';
@@ -27,39 +28,55 @@ interface Props {
 export const ExplorerInfos = (props: Props) => {
   const { capacity, stats } = props;
   const { locale } = useIntl();
+  const ItemLoader = () => (
+    <ContentLoader viewBox="0 0 400 160" backgroundColor="transparent" {...props}>
+      <circle cx="150" cy="86" r="18" />
+      <circle cx="194" cy="86" r="18" />
+      <circle cx="238" cy="86" r="18" />
+    </ContentLoader>
+  );
 
   const data = [
     {
       icon: <Network />,
       description: 'Volume (24hr)',
-      value: formatFiatAsset({
-        amount: Number(stats.volume24Hr),
-        locale: locale,
-        currency: 'USD',
-      }),
+      value:
+        stats.volume24Hr !== '0'
+          ? formatFiatAsset({
+              amount: Number(stats.volume24Hr),
+              locale: locale,
+              currency: 'USD',
+            })
+          : ItemLoader(),
     },
     {
       icon: <NetworkRewards />,
       description: 'Rewards (24hr)',
-      value: formatFiatAsset({
-        amount: stats.rewards24Hr,
-        locale: locale,
-        currency: 'USD',
-      }),
+      value:
+        stats.rewards24Hr !== 0
+          ? formatFiatAsset({
+              amount: stats.rewards24Hr,
+              locale: locale,
+              currency: 'USD',
+            })
+          : ItemLoader(),
     },
     {
       icon: <NetworkCapacity />,
       description: 'Capacity (Float)',
-      value: formatFiatAsset({
-        amount: Number(capacity),
-        locale: locale,
-        currency: 'USD',
-      }),
+      value:
+        capacity !== null
+          ? formatFiatAsset({
+              amount: Number(capacity),
+              locale: locale,
+              currency: 'USD',
+            })
+          : ItemLoader(),
     },
     {
       icon: <NetworkValidators />,
       description: 'Validators',
-      value: stats.validators,
+      value: stats.validators !== 0 ? stats.validators : ItemLoader(),
     },
   ];
 
