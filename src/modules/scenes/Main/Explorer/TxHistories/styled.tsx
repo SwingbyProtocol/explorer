@@ -1,14 +1,12 @@
 import styled from 'styled-components';
-import { CoinIcon, Icon, StatusIcon, Text } from '@swingby-protocol/pulsar';
+import { Button, CoinIcon, Icon, StatusIcon, Text } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
 
 interface BgProps {
   bg: boolean;
 }
 // Request: Please add `disable` Props for icon
-interface ButtonProps {
-  disable: boolean;
-}
+
 interface PageProps {
   page: number;
 }
@@ -128,17 +126,15 @@ export const PageText = styled.div`
   justify-content: flex-end;
 `;
 
-export const IconCaretLeft = styled(Icon.CaretLeft)<ButtonProps>`
+export const BackButton = styled(Button)`
   color: ${({ theme }) => theme.pulsar.color.text.masked};
   margin-right: ${({ theme }) => rem(theme.pulsar.size.room)};
-  opacity: ${(props) => props.disable && 0.4};
-  cursor: ${(props) => (props.disable ? 'not-allowed' : 'pointer')};
+  background-color: transparent;
 `;
-export const IconCaretRight = styled(Icon.CaretRight)<ButtonProps>`
+export const NextButton = styled(Button)`
   color: ${({ theme }) => theme.pulsar.color.text.masked};
   margin-left: ${({ theme }) => rem(theme.pulsar.size.room)};
-  opacity: ${(props) => props.disable && 0.4};
-  cursor: ${(props) => (props.disable ? 'not-allowed' : 'pointer')};
+  background-color: transparent;
 `;
 
 export const PageRow = styled.div<PageProps>`
@@ -152,5 +148,5 @@ export const LoadContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: ${rem(413)};
+  min-height: ${rem(360)};
 `;

@@ -13,7 +13,7 @@ export const BrowserDiv = styled(Card)`
   margin-top: ${({ theme }) => rem(theme.pulsar.size.state)};
   margin-bottom: ${({ theme }) => rem(theme.pulsar.size.state)};
   padding-top: ${({ theme }) => rem(theme.pulsar.size.city)};
-  padding-bottom: ${({ theme }) => rem(theme.pulsar.size.city)};
+  padding-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
   padding-left: ${({ theme }) => rem(theme.pulsar.size.city)};
   padding-right: ${({ theme }) => rem(theme.pulsar.size.street)};
 `;

@@ -1,4 +1,4 @@
-import { Dropdown, formatCryptoAsset, Text } from '@swingby-protocol/pulsar';
+import { Dropdown, formatCryptoAsset, Icon, Text } from '@swingby-protocol/pulsar';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -28,8 +28,8 @@ import {
   ColumnAmount,
   Ellipsis,
   Filter,
-  IconCaretLeft,
-  IconCaretRight,
+  BackButton,
+  NextButton,
   Left,
   LoadContainer,
   PageRow,
@@ -217,17 +217,29 @@ export const TxHistories = () => {
       </TxHistoriesContainer>
       <BrowserFooter>
         <Pagination>
-          <IconCaretLeft onClick={() => page > 1 && goBackPage()} disable={1 >= page} />
+          <BackButton
+            variant="secondary"
+            size="state"
+            onClick={() => page > 1 && goBackPage()}
+            // Request: Please make `cursor: not-allowed` when disabled = true
+            disabled={1 >= page}
+          >
+            <Icon.CaretLeft />
+          </BackButton>
           <PageRow page={page}>
             <Text variant="masked">
               {/* Memo: Disable `maximumPage` because `swapHistory.total` is never gonna fixed due to removing duplicated txs */}
               Page {page} {/* of {maximumPage} */}
             </Text>
           </PageRow>
-          <IconCaretRight
+          <NextButton
+            variant="secondary"
+            size="state"
             onClick={() => maximumPage > page && goNextPage()}
-            disable={page >= maximumPage}
-          />
+            disabled={page >= maximumPage}
+          >
+            <Icon.CaretRight />
+          </NextButton>
         </Pagination>
       </BrowserFooter>
     </>
