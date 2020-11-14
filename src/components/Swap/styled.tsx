@@ -19,8 +19,8 @@ export const StyledSwap = styled.iframe`
 
 export const SwapMobileRow = styled.div`
   width: 100%;
-  padding-top: ${({ theme }) => rem(theme.pulsar.size.house)};
-  padding-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
+  padding-top: ${({ theme }) => rem(theme.pulsar.size.room)};
+  padding-bottom: ${({ theme }) => rem(theme.pulsar.size.room)};
   padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
   padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
   @media (min-width: ${rem(media.sm)}) {

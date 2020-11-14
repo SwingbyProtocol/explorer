@@ -7,12 +7,14 @@ enum Actions {
   ClearHistory = 'Explorer/CLEAR_HISTORY',
   ToggleIsHideWaiting = 'Explorer/TOGGLE_IS_HIDE_WAITING',
   UpdateSwapHistoryTemp = 'Explorer/UPDATE_SWAP_HISTORY_TEMP',
+  SetWidthSize = 'Explorer/SET_WIDTH_SIZE',
 }
 
 const initialState = {
   swapHistory: null,
   isHideWaiting: false,
   swapHistoryTemp: null,
+  width: null,
 };
 
 type State = typeof initialState;
@@ -26,6 +28,8 @@ export const explorer: Reducer<State, Action> = (state = initialState, action) =
     return { ...state, isHideWaiting: !state.isHideWaiting };
   } else if (action.type === Actions.UpdateSwapHistoryTemp) {
     return { ...state, swapHistoryTemp: action.data };
+  } else if (action.type === Actions.SetWidthSize) {
+    return { ...state, width: action.data };
   }
 
   return state;
@@ -36,9 +40,11 @@ export const clearHistory = () => ({ type: Actions.ClearHistory } as const);
 export const toggleIsHideWaiting = () => ({ type: Actions.ToggleIsHideWaiting } as const);
 export const updateSwapHistoryTemp = (data: SwapRawObject[]) =>
   ({ type: Actions.UpdateSwapHistoryTemp, data } as const);
+export const setWidthSize = (data: number) => ({ type: Actions.SetWidthSize, data } as const);
 
 type Action =
   | ReturnType<typeof getHistory>
   | ReturnType<typeof clearHistory>
   | ReturnType<typeof toggleIsHideWaiting>
-  | ReturnType<typeof updateSwapHistoryTemp>;
+  | ReturnType<typeof updateSwapHistoryTemp>
+  | ReturnType<typeof setWidthSize>;

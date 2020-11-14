@@ -1,3 +1,4 @@
+export { debounce } from './debounce';
 export const NETWORK = 'testnet';
 export const PAGE_COUNT = 4;
 export const isDevelopment = process.env.NODE_ENV !== 'production';

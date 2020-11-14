@@ -1,2 +1,8 @@
 export { useStore } from './store';
-export { getHistory, clearHistory, toggleIsHideWaiting, updateSwapHistoryTemp } from './explorer';
+export {
+  getHistory,
+  clearHistory,
+  toggleIsHideWaiting,
+  updateSwapHistoryTemp,
+  setWidthSize,
+} from './explorer';
