@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@binance-chain/javascript-sdk": "git+https://github.com/SwingbyProtocol/javascript-sdk.git",
+    "@react-hook/window-size": "^3.0.7",
     "@swingby-protocol/pulsar": "^1.0.0-alpha.49",
     "bitcoin-address-validation": "^1.0.0",
     "chart.js": "^2.9.4",
