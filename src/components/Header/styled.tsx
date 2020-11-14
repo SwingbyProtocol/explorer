@@ -1,6 +1,10 @@
-import { AppLogo, Text } from '@swingby-protocol/pulsar';
+import { AppLogo, Dropdown, Text } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
 import styled from 'styled-components';
+
+import { StylingConstants } from '../../modules/styles';
+
+const { media } = StylingConstants;
 
 export const HeaderContainer = styled.div`
   display: flex;
@@ -25,10 +29,17 @@ export const Left = styled.div`
 export const Right = styled.div``;
 
 export const Menu = styled.div`
-  margin-left: ${({ theme }) => rem(theme.pulsar.size.country)};
-  width: ${rem(200)};
-  display: flex;
-  justify-content: space-between;
+  display: none;
+  @media (min-width: ${rem(media.sm)}) {
+    margin-left: ${({ theme }) => rem(theme.pulsar.size.town)};
+    width: ${rem(180)};
+    display: flex;
+    justify-content: space-between;
+  }
+  @media (min-width: ${rem(media.md)}) {
+    margin-left: ${({ theme }) => rem(theme.pulsar.size.country)};
+    width: ${rem(200)};
+  }
 `;
 
 export const MenuSpan = styled(Text)`
@@ -38,4 +49,28 @@ export const MenuSpan = styled(Text)`
 export const LinkA = styled.a`
   text-decoration: none;
   color: ${({ theme }) => theme.pulsar.color.primary.normal}; ;
+`;
+
+export const LanguageDropDown = styled(Dropdown)`
+  display: none;
+  @media (min-width: ${rem(media.sm)}) {
+    display: block;
+  }
+`;
+
+export const MobileMenu = styled(Dropdown)`
+  @media (min-width: ${rem(media.sm)}) {
+    display: none;
+  }
+`;
+
+export const RoutineTitle = styled(Text)`
+  font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
+  text-align: center;
+  padding-top: ${({ theme }) => rem(theme.pulsar.size.closet)};
+`;
+
+export const LanguageTitle = styled(Dropdown.DefaultTarget)`
+  font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
+  background-color: transparent;
 `;
