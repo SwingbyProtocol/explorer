@@ -5,7 +5,7 @@ import { useIntl } from 'react-intl';
 
 import { IStats } from '../../../../explorer';
 
-import { AllVolumeSpan, SwapVolumeContainer, TitleDiv } from './styled';
+import { AllVolumeSpan, Box, SwapVolumeContainer, TitleDiv } from './styled';
 
 interface Props {
   stats: IStats;
@@ -98,11 +98,13 @@ export const SwapVolume = (props: Props) => {
   };
   return (
     <SwapVolumeContainer>
-      <TitleDiv>
-        <Text variant="section-title">Total Swap Vol. 7d</Text>
-        <AllVolumeSpan variant="accent">See More</AllVolumeSpan>
-      </TitleDiv>
-      <Line type="line" data={data} options={options} height={110} />
+      <Box>
+        <TitleDiv>
+          <Text variant="section-title">Total Swap Vol. 7d</Text>
+          <AllVolumeSpan variant="accent">See More</AllVolumeSpan>
+        </TitleDiv>
+        <Line type="line" data={data} options={options} height={110} />
+      </Box>
     </SwapVolumeContainer>
   );
 };

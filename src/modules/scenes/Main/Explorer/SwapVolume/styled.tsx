@@ -2,13 +2,32 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { Text } from '@swingby-protocol/pulsar';
 
+import { StylingConstants } from '../../../../styles';
+
+const { media } = StylingConstants;
+
 export const SwapVolumeContainer = styled.div`
-  min-width: ${rem(160)};
   padding-left: ${({ theme }) => rem(theme.pulsar.size.closet)};
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  padding-top: ${({ theme }) => rem(theme.pulsar.size.town)};
+  padding-bottom: ${({ theme }) => rem(theme.pulsar.size.town)};
+
+  @media (min-width: ${rem(media.sm)}) {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+`;
+
+export const Box = styled.div`
+  @media (min-width: ${rem(media.xs)}) {
+    width: ${rem(342)};
+  }
+  @media (min-width: ${rem(media.sm)}) {
+    width: 100%;
+  }
 `;
 
 export const TitleDiv = styled.div`

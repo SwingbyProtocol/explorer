@@ -49,9 +49,7 @@ export const Browser = () => {
           <ExplorerInfos capacity={capacity} stats={stats} />
           <SwapVolume stats={stats} />
         </Top>
-        <Bottom>
-          <TxHistories />
-        </Bottom>
+        <Bottom>{/* <TxHistories /> */}</Bottom>
       </BrowserDiv>
     </BrowserContainer>
   );

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { StylingConstants } from '../../modules/styles';
 
 const { media } = StylingConstants;
+
 export const StyledSwap = styled.iframe`
   display: none;
   @media (min-width: ${rem(media.sm)}) {

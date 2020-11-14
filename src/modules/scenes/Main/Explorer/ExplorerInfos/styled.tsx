@@ -2,18 +2,40 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { Icon, Text } from '@swingby-protocol/pulsar';
 
+import { StylingConstants } from '../../../../styles';
+
+const { media } = StylingConstants;
+
 export const ExplorerInfosContainer = styled.div`
-  border-right: 1px solid #cecddc;
-  border-left: 1px solid #cecddc;
-  padding-right: ${({ theme }) => rem(theme.pulsar.size.drawer)};
-  padding-left: ${({ theme }) => rem(theme.pulsar.size.city)};
+  padding-right: ${({ theme }) => rem(theme.pulsar.size.street)};
+  padding-left: ${({ theme }) => rem(theme.pulsar.size.street)};
+  @media (min-width: ${rem(media.xs)}) {
+    display: flex;
+    flex-direction: column;
+  }
+  @media (min-width: ${rem(media.sm)}) {
+    padding-right: 0;
+    padding-left: ${({ theme }) => rem(theme.pulsar.size.town)};
+    border-right: 1px solid #cecddc;
+    border-left: 1px solid #cecddc;
+  }
 `;
 
 export const InfosContainer = styled.div`
-  padding-top: ${({ theme }) => rem(theme.pulsar.size.country)};
+  border-top: 1px solid #cecddc;
+  border-bottom: 1px solid #cecddc;
+  padding-top: ${({ theme }) => rem(theme.pulsar.size.town)};
+  padding-bottom: ${({ theme }) => rem(theme.pulsar.size.town)};
   display: grid;
+  align-self: center;
   grid-template-columns: 1fr 1fr;
   grid-gap: ${({ theme }) => rem(theme.pulsar.size.street)};
+  @media (min-width: ${rem(media.sm)}) {
+    padding-top: ${({ theme }) => rem(theme.pulsar.size.country)};
+    padding-bottom: 0;
+    border-top: 0px solid transparent;
+    border-bottom: 0px solid transparent;
+  }
 `;
 
 export const InfoContainer = styled.div`
@@ -21,6 +43,9 @@ export const InfoContainer = styled.div`
   display: grid;
   grid-template-columns: ${({ theme }) => rem(theme.pulsar.size.city)} auto;
   align-items: center;
+  @media (min-width: ${rem(media.xs)}) {
+    width: ${rem(160)};
+  }
 `;
 
 export const DataDiv = styled.div`

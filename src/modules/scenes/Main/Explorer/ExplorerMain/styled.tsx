@@ -7,9 +7,10 @@ import { StylingConstants } from '../../../../styles';
 const { media } = StylingConstants;
 export const ExplorerMainContainer = styled.div`
   background: ${({ theme }) => theme.pulsar.color.bg.normal};
-  height: ${rem(280)};
+  height: ${rem(250)};
 
   @media (min-width: ${rem(media.sm)}) {
+    height: ${rem(280)};
     display: grid;
     padding-top: ${({ theme }) => rem(theme.pulsar.size.state)};
     justify-content: center;
@@ -22,10 +23,10 @@ export const ExplorerMainContainer = styled.div`
 export const HeadLine = styled.div`
   display: flex;
   align-items: center;
-  height: ${({ theme }) => rem(theme.pulsar.size.country)};
   justify-content: center;
   width: 100%;
   @media (min-width: ${rem(media.sm)}) {
+    height: ${({ theme }) => rem(theme.pulsar.size.country)};
     max-width: ${rem(1400)};
     justify-content: space-between;
   }
@@ -44,7 +45,8 @@ export const TitleH1 = styled.h1`
 
 export const SearchInput = styled(TextInput)`
   width: 100%;
-  padding-top: ${({ theme }) => rem(theme.pulsar.size.city)};
+  padding-top: ${({ theme }) => rem(theme.pulsar.size.street)};
+  padding-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
   padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
   padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
   font-size: ${({ theme }) => rem(theme.pulsar.size.house)};

@@ -4,7 +4,16 @@ import React from 'react';
 import { CoinSymbol } from '../../../../coins';
 import { IFloat } from '../../../../explorer';
 
-import { AmountSpan, Coin, CoinContainer, CoinInfo, DataDiv, Row } from './styled';
+import {
+  AmountSpan,
+  Coin,
+  CoinContainer,
+  CoinInfo,
+  DataDiv,
+  NetworkBridgeContainer,
+  Row,
+  TitleText,
+} from './styled';
 
 interface Props {
   floatBalances: IFloat;
@@ -19,8 +28,8 @@ export const NetworkBridges = (props: Props) => {
     { coin: CoinSymbol.BTC_B, float: floatBalances.btcb, vol: 232.12 },
   ];
   return (
-    <div>
-      <Text variant="section-title">Network Bridges</Text>
+    <NetworkBridgeContainer>
+      <TitleText variant="section-title">Network Bridges</TitleText>
       <CoinContainer>
         {data.map((coin) => {
           return (
@@ -40,6 +49,6 @@ export const NetworkBridges = (props: Props) => {
           );
         })}
       </CoinContainer>
-    </div>
+    </NetworkBridgeContainer>
   );
 };
