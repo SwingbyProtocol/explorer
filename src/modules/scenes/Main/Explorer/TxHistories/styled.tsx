@@ -5,7 +5,6 @@ import { rem } from 'polished';
 interface BgProps {
   bg: boolean;
 }
-// Request: Please add `disable` Props for icon
 
 interface PageProps {
   page: number;

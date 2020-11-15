@@ -1,6 +1,6 @@
 import { formatFiatAsset, Text } from '@swingby-protocol/pulsar';
 import React from 'react';
-import { useIntl } from 'react-intl';
+import { FormattedNumber, useIntl } from 'react-intl';
 
 import { IStats } from '../../../../explorer';
 
@@ -26,35 +26,42 @@ interface Props {
 
 export const ExplorerInfos = (props: Props) => {
   const { capacity, stats } = props;
-  const { locale } = useIntl();
+  // const { locale } = useIntl();
 
   const data = [
     {
       icon: <Network />,
       description: 'Volume (24hr)',
-      value: formatFiatAsset({
-        amount: Number(stats.volume24Hr),
-        locale: locale,
-        currency: 'USD',
-      }),
+      // eslint-disable-next-line
+      value: <FormattedNumber value={Number(stats.volume24Hr)} style="currency" currency="USD" />,
+      // Memo: Show error when using hand phone
+      // value: formatFiatAsset({
+      //   amount: Number(stats.volume24Hr),
+      //   locale: locale,
+      //   currency: 'USD',
+      // }),
     },
     {
       icon: <NetworkRewards />,
       description: 'Rewards (24hr)',
-      value: formatFiatAsset({
-        amount: stats.rewards24Hr,
-        locale: locale,
-        currency: 'USD',
-      }),
+      // eslint-disable-next-line
+      value: <FormattedNumber value={stats.rewards24Hr} style="currency" currency="USD" />,
+      // value: formatFiatAsset({
+      //   amount: stats.rewards24Hr,
+      //   locale: locale,
+      //   currency: 'USD',
+      // }),
     },
     {
       icon: <NetworkCapacity />,
       description: 'Capacity (Float)',
-      value: formatFiatAsset({
-        amount: Number(capacity),
-        locale: locale,
-        currency: 'USD',
-      }),
+      // eslint-disable-next-line
+      value: <FormattedNumber value={Number(capacity)} style="currency" currency="USD" />,
+      // value: formatFiatAsset({
+      //   amount: Number(capacity),
+      //   locale: locale,
+      //   currency: 'USD',
+      // }),
     },
     {
       icon: <NetworkValidators />,
