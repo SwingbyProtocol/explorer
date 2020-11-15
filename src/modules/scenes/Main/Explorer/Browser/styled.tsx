@@ -43,4 +43,9 @@ export const Top = styled.div`
   }
 `;
 
-export const Bottom = styled.div``;
+export const Bottom = styled.div`
+  display: none;
+  @media (min-width: ${rem(media.sm)}) {
+    display: block;
+  }
+`;

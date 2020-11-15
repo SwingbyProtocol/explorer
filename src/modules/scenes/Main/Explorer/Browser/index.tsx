@@ -5,6 +5,7 @@ import { ExplorerInfos } from '../ExplorerInfos';
 import { NetworkBridges } from '../NetworkBridges';
 import { SwapVolume } from '../SwapVolume';
 import { TxHistories } from '../TxHistories';
+import { TxHistoriesMobile } from '../TxHistoriesMobile';
 
 import { Bottom, BrowserContainer, BrowserDiv, Top } from './styled';
 
@@ -49,8 +50,11 @@ export const Browser = () => {
           <ExplorerInfos capacity={capacity} stats={stats} />
           <SwapVolume stats={stats} />
         </Top>
-        <Bottom>{/* <TxHistories /> */}</Bottom>
+        <Bottom>
+          <TxHistories />
+        </Bottom>
       </BrowserDiv>
+      <TxHistoriesMobile />
     </BrowserContainer>
   );
 };

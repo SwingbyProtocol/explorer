@@ -7,7 +7,6 @@ import { StylingConstants } from '../../../../styles';
 const { media } = StylingConstants;
 
 export const SwapVolumeContainer = styled.div`
-  padding-left: ${({ theme }) => rem(theme.pulsar.size.closet)};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -18,6 +17,7 @@ export const SwapVolumeContainer = styled.div`
   @media (min-width: ${rem(media.sm)}) {
     padding-top: 0;
     padding-bottom: 0;
+    padding-left: ${({ theme }) => rem(theme.pulsar.size.closet)};
   }
 `;
 
@@ -33,10 +33,12 @@ export const Box = styled.div`
 export const TitleDiv = styled.div`
   align-self: flex-start;
   margin-bottom: ${({ theme }) => rem(theme.pulsar.size.closet)};
-  padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
   display: flex;
   justify-content: space-between;
   width: 100%;
+  @media (min-width: ${rem(media.sm)}) {
+    padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
+  }
 `;
 
 export const AllVolumeSpan = styled(Text)`

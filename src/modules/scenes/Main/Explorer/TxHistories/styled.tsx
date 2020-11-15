@@ -17,6 +17,7 @@ export const TxHistoriesContainer = styled.div`
 export const TitleRow = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
 `;
 
@@ -75,9 +76,7 @@ export const Status = styled.div`
 
 export const Ellipsis = styled(Icon.Ellipsis)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.street)};
-  :hover {
-    cursor: pointer;
-  }
+  cursor: pointer;
 `;
 
 export const SwapHorizontal = styled(Icon.SwapHorizontal)`
