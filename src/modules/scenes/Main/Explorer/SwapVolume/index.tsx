@@ -80,17 +80,21 @@ export const SwapVolume = (props: Props) => {
           },
           ticks: {
             stepSize: 2,
+            fontSize: 10,
+            fontColor: '#929D9D',
           },
         },
       ],
       yAxes: [
         {
-          ticks: {
-            stepSize: 2,
-            padding: 10,
-          },
           gridLines: {
             display: false,
+          },
+          ticks: {
+            stepSize: 2,
+            fontColor: '#929D9D',
+            fontSize: 10,
+            padding: 10,
           },
         },
       ],

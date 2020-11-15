@@ -5,7 +5,6 @@ import { CoinSymbol } from '../../../../coins';
 import { IFloat } from '../../../../explorer';
 
 import {
-  AmountSpan,
   Coin,
   CoinContainer,
   CoinInfo,
@@ -13,6 +12,8 @@ import {
   NetworkBridgeContainer,
   Row,
   TitleText,
+  FloatSpan,
+  VolSpan,
 } from './styled';
 
 interface Props {
@@ -38,11 +39,11 @@ export const NetworkBridges = (props: Props) => {
               <DataDiv>
                 <Row>
                   <Text variant="label">Float</Text>
-                  <AmountSpan>{coin.float}</AmountSpan>
+                  <FloatSpan>{coin.float}</FloatSpan>
                 </Row>
                 <Row>
                   <Text variant="label">Vol</Text>
-                  <AmountSpan>{coin.vol}</AmountSpan>
+                  <VolSpan>{coin.vol}</VolSpan>
                 </Row>
               </DataDiv>
             </CoinInfo>

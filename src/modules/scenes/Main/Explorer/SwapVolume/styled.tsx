@@ -13,7 +13,7 @@ export const SwapVolumeContainer = styled.div`
   align-items: center;
   flex-direction: column;
   padding-top: ${({ theme }) => rem(theme.pulsar.size.town)};
-  padding-bottom: ${({ theme }) => rem(theme.pulsar.size.town)};
+  padding-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
 
   @media (min-width: ${rem(media.sm)}) {
     padding-top: 0;

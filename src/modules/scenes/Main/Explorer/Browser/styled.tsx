@@ -9,6 +9,7 @@ const { media } = StylingConstants;
 export const BrowserContainer = styled.div`
   display: grid;
   padding-top: ${({ theme }) => rem(theme.pulsar.size.room)};
+  padding-bottom: ${({ theme }) => rem(theme.pulsar.size.room)};
   padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
   padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
   @media (min-width: ${rem(media.sm)}) {

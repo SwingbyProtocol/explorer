@@ -38,7 +38,7 @@ export const TitleText = styled(Text)`
 export const CoinContainer = styled.div`
   margin-top: ${({ theme }) => rem(theme.pulsar.size.street)};
   display: grid;
-  grid-gap: ${({ theme }) => rem(theme.pulsar.size.house)};
+  grid-gap: ${({ theme }) => rem(theme.pulsar.size.street)};
   align-self: center;
   justify-content: center;
   grid-template-columns: 1fr 1fr;
@@ -84,7 +84,10 @@ export const Row = styled.div`
   grid-template-columns: ${rem(50)} auto;
 `;
 
-export const AmountSpan = styled.div`
+export const FloatSpan = styled.div`
   font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
   font-weight: bold;
+`;
+export const VolSpan = styled.div`
+  font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
 `;
