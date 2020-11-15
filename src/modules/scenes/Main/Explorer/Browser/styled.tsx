@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { Card } from '@swingby-protocol/pulsar';
+import { Card, Icon } from '@swingby-protocol/pulsar';
 
 import { StylingConstants } from '../../../../styles';
 
@@ -48,4 +48,16 @@ export const Bottom = styled.div`
   @media (min-width: ${rem(media.sm)}) {
     display: block;
   }
+`;
+
+export const Filter = styled(Icon.Filter)`
+  color: ${({ theme }) => theme.pulsar.color.text.masked};
+  font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
+`;
+
+export const LoadContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: ${rem(360)};
 `;

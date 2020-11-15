@@ -1,6 +1,6 @@
-import styled from 'styled-components';
-import { Button, CoinIcon, Icon, StatusIcon, Text } from '@swingby-protocol/pulsar';
+import { CoinIcon, Icon, StatusIcon, Text } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
+import styled from 'styled-components';
 
 import { StylingConstants } from '../../../../styles';
 
@@ -10,13 +10,7 @@ interface BgProps {
   bg: boolean;
 }
 
-interface PageProps {
-  page: number;
-}
 export const TxHistoriesMobileContainer = styled.div`
-  /* Memo: Make space for when loading txs data */
-  /* min-height: ${rem(413)}; */
-
   margin-top: ${({ theme }) => rem(theme.pulsar.size.state)};
   @media (min-width: ${rem(media.xs)}) {
     padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
@@ -74,7 +68,6 @@ export const ColumnAmount = styled(Column)`
   display: grid;
   grid-template-columns: ${({ theme }) => rem(theme.pulsar.size.town)} ${rem(90 - 32)};
   align-items: center;
-  /* background-color: red; */
 `;
 
 export const Top = styled.div`
@@ -122,11 +115,4 @@ export const StatusCircle = styled(StatusIcon)`
   width: ${({ theme }) => rem(theme.pulsar.size.box * 1.5)};
   height: ${({ theme }) => rem(theme.pulsar.size.box * 1.5)};
   margin-right: ${({ theme }) => rem(theme.pulsar.size.box)};
-`;
-
-export const LoadContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: ${rem(360)};
 `;

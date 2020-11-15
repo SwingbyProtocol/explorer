@@ -31,11 +31,6 @@ export const Right = styled.div`
   align-items: center;
 `;
 
-export const Filter = styled(Icon.Filter)`
-  color: ${({ theme }) => theme.pulsar.color.text.masked};
-  font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
-`;
-
 export const TxHistoryRow = styled.div<BgProps>`
   height: ${rem(92)};
   background: ${(props) => !props.bg && 'rgba(43, 55, 74, 0.02)'};
@@ -140,11 +135,4 @@ export const PageRow = styled.div<PageProps>`
   width: ${(props) => (props.page > 99 ? rem(100) : rem(80))};
   text-align: center;
   white-space: nowrap;
-`;
-
-export const LoadContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: ${rem(360)};
 `;
