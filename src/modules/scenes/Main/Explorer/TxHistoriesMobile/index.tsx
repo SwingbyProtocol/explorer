@@ -1,4 +1,4 @@
-import { Text } from '@swingby-protocol/pulsar';
+import { Icon, Text } from '@swingby-protocol/pulsar';
 import React from 'react';
 import { useIntl } from 'react-intl';
 
@@ -23,6 +23,11 @@ import {
   Top,
   TxHistoriesMobileContainer,
   TxHistoryRow,
+  BackButton,
+  BrowserFooter,
+  NextButton,
+  PageRow,
+  Pagination,
 } from './styled';
 
 interface Props {
@@ -100,29 +105,29 @@ export const TxHistoriesMobile = (props: Props) => {
             );
           })}
       </TxHistoriesMobileContainer>
-      {/* <BrowserFooter>
+      <BrowserFooter>
         <Pagination>
           <BackButton
             variant="secondary"
-            size="state"
+            size="city"
             onClick={() => page > 1 && goBackPage()}
             disabled={1 >= page}
           >
             <Icon.CaretLeft />
           </BackButton>
           <PageRow page={page}>
-            <Text variant="masked">Page {page}</Text>
+            <Text variant="label">Page {page}</Text>
           </PageRow>
           <NextButton
             variant="secondary"
-            size="state"
+            size="city"
             onClick={() => maximumPage > page && goNextPage()}
             disabled={page >= maximumPage}
           >
             <Icon.CaretRight />
           </NextButton>
         </Pagination>
-      </BrowserFooter> */}
+      </BrowserFooter>
     </>
   );
 };
