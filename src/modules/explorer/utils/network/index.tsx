@@ -27,7 +27,7 @@ export const fetchFloatBalances = async (): Promise<{ floats: IFloat; capacity: 
       btcUsd * Number(floats.btc) +
       btcUsd * Number(floats.btcb) +
       bnbUsd * Number(floats.bnb)
-    ).toFixed(0);
+    ).toFixed(2);
 
     return { floats, capacity };
   } catch (err) {

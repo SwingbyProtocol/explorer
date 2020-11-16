@@ -27,6 +27,8 @@ import {
   Top,
   TxHistoriesContainer,
   TxHistoryRow,
+  ColumnFee,
+  TextFee,
 } from './styled';
 
 interface Props {
@@ -52,7 +54,7 @@ export const TxHistories = (props: Props) => {
             <Text variant="section-title">Recent Swaps</Text>
           </Left>
           <Right>
-            <Text variant="section-title">Fees</Text>
+            <TextFee variant="section-title">Fees</TextFee>
             {filter}
           </Right>
         </TitleRow>
@@ -61,6 +63,7 @@ export const TxHistories = (props: Props) => {
           currentTxs.map((tx: SwapRawObject, i: number) => {
             return (
               <TxHistoryRow key={i} bg={i % 2 !== 0}>
+                {/* <TxHistoryRow interactive={false} htmlTag="div"> */}
                 <Column>
                   <Status>
                     <StatusCircle variant={statusColor(tx.status)} />
@@ -111,7 +114,7 @@ export const TxHistories = (props: Props) => {
                     </Bottom>
                   </div>
                 </ColumnAmount>
-                <Column>
+                <ColumnFee>
                   <Text variant="section-title">
                     {formatCryptoAsset({
                       amount: Number(tx.fee),
@@ -119,7 +122,7 @@ export const TxHistories = (props: Props) => {
                       displaySymbol: tx.currencyOut,
                     })}
                   </Text>
-                </Column>
+                </ColumnFee>
                 <Column>
                   <Ellipsis />
                 </Column>

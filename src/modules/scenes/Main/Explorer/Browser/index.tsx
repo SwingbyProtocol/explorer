@@ -106,9 +106,11 @@ export const Browser = () => {
       swapHistoryTemp,
       chainBridge,
     );
-    dispatch(getHistory(data.txsWithPage));
-    const uniqueTempMixedHistories = removeDuplicatedTxs(data.tempMixedHistories);
-    dispatch(updateSwapHistoryTemp(uniqueTempMixedHistories));
+    if (data) {
+      dispatch(getHistory(data.txsWithPage));
+      const uniqueTempMixedHistories = removeDuplicatedTxs(data.tempMixedHistories);
+      dispatch(updateSwapHistoryTemp(uniqueTempMixedHistories));
+    }
   };
 
   useEffect(() => {

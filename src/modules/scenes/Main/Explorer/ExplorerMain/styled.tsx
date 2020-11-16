@@ -9,10 +9,22 @@ export const ExplorerMainContainer = styled.div`
   background: ${({ theme }) => theme.pulsar.color.bg.normal};
   height: ${rem(250)};
 
-  @media (min-width: ${rem(media.sm)}) {
-    height: ${rem(280)};
+  @media (min-width: ${rem(media.xs)}) {
+    height: ${rem(240)};
     display: grid;
-    padding-top: ${({ theme }) => rem(theme.pulsar.size.state)};
+    padding-top: ${({ theme }) => rem(theme.pulsar.size.street)};
+    padding-left: ${({ theme }) => rem(theme.pulsar.size.town)};
+    padding-right: ${({ theme }) => rem(theme.pulsar.size.town)};
+    width: 100%;
+  }
+  @media (min-width: ${rem(media.lg)}) {
+    height: ${rem(274)};
+    padding-left: ${({ theme }) => rem(theme.pulsar.size.closet)};
+    padding-right: ${({ theme }) => rem(theme.pulsar.size.closet)};
+    padding-top: ${({ theme }) => rem(theme.pulsar.size.country)};
+  }
+  @media (min-width: ${rem(media.xl)}) {
+    display: grid;
     justify-content: center;
     padding-left: ${rem(140)};
     padding-right: ${rem(140)};
@@ -29,6 +41,10 @@ export const HeadLine = styled.div`
     height: ${({ theme }) => rem(theme.pulsar.size.country)};
     max-width: ${rem(1400)};
     justify-content: space-between;
+    margin-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
+  }
+  @media (min-width: ${rem(media.lg)}) {
+    margin-bottom: ${({ theme }) => rem(theme.pulsar.size.country)};
   }
 `;
 
@@ -38,8 +54,11 @@ export const TitleH1 = styled.h1`
     display: block;
     color: ${({ theme }) => theme.pulsar.color.primary.text};
     font-weight: 800;
-    font-size: ${({ theme }) => rem(theme.pulsar.size.town)};
+    font-size: ${({ theme }) => rem(theme.pulsar.size.street)};
     margin: 0;
+  }
+  @media (min-width: ${rem(media.md)}) {
+    font-size: ${({ theme }) => rem(theme.pulsar.size.town)};
   }
 `;
 
@@ -54,6 +73,20 @@ export const SearchInput = styled(TextInput)`
     opacity: 0.8;
   }
   @media (min-width: ${rem(media.sm)}) {
+    width: ${rem(250)};
+    font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
+    padding-left: 0;
+    padding-right: 0;
+  }
+  @media (min-width: ${rem(media.md)}) {
+    width: ${rem(300)};
+    font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
+  }
+  @media (min-width: ${rem(media.lg)}) {
+    padding-top: ${({ theme }) => rem(theme.pulsar.size.room)};
+    width: ${rem(350)};
+  }
+  @media (min-width: ${rem(media.xl)}) {
     width: ${rem(400)};
   }
 `;

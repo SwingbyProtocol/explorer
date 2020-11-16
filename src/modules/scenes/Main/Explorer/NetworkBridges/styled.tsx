@@ -7,6 +7,7 @@ import { StylingConstants } from '../../../../styles';
 const { media } = StylingConstants;
 
 export const NetworkBridgeContainer = styled.div`
+  grid-area: network;
   padding-top: ${({ theme }) => rem(theme.pulsar.size.house)};
   padding-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
   padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
@@ -18,10 +19,17 @@ export const NetworkBridgeContainer = styled.div`
     flex-direction: column;
   }
   @media (min-width: ${rem(media.sm)}) {
+    padding-top: ${({ theme }) => rem(theme.pulsar.size.street)};
+    margin-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
+  }
+  @media (min-width: ${rem(media.lg)}) {
+    grid-area: auto;
     padding-top: 0;
     padding-bottom: 0;
-    padding-left: 0;
     padding-right: 0;
+  }
+  @media (min-width: ${rem(media.xl)}) {
+    padding-left: 0;
     margin-bottom: 0;
   }
 `;
@@ -30,7 +38,7 @@ export const TitleText = styled(Text)`
   @media (min-width: ${rem(media.xs)}) {
     text-align: center;
   }
-  @media (min-width: ${rem(media.sm)}) {
+  @media (min-width: ${rem(media.md)}) {
     text-align: left;
   }
 `;
@@ -45,12 +53,19 @@ export const CoinContainer = styled.div`
   @media (min-width: ${rem(media.xs)}) {
     grid-gap: ${({ theme }) => rem(theme.pulsar.size.town)};
   }
-  @media (min-width: ${rem(media.sm)}) {
+  @media (min-width: ${rem(media.md)}) {
     margin-top: ${({ theme }) => rem(theme.pulsar.size.city)};
     width: 100%;
-    padding-right: ${({ theme }) => rem(theme.pulsar.size.city)};
     grid-gap: ${({ theme }) => rem(theme.pulsar.size.street)};
     grid-template-columns: 1fr 1fr;
+  }
+  @media (min-width: ${rem(media.lg)}) {
+    margin-top: ${({ theme }) => rem(theme.pulsar.size.street)};
+    grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.room)};
+  }
+  @media (min-width: ${rem(media.xl)}) {
+    padding-right: ${({ theme }) => rem(theme.pulsar.size.city)};
+    grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.street)};
   }
 `;
 
@@ -64,14 +79,16 @@ export const CoinInfo = styled.div`
   @media (min-width: ${rem(media.sm)}) {
     grid-template-columns: ${rem(50)} auto;
   }
+  @media (min-width: ${rem(media.lg)}) {
+    grid-template-columns: ${rem(40)} auto;
+  }
+  @media (min-width: ${rem(media.xl)}) {
+    grid-template-columns: ${rem(50)} auto;
+  }
 `;
 
 export const Coin = styled(CoinIcon)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.town)};
-
-  @media (min-width: ${rem(media.sm)}) {
-    font-size: ${({ theme }) => rem(theme.pulsar.size.city)};
-  }
 `;
 
 export const DataDiv = styled.div`

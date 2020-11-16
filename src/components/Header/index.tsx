@@ -15,6 +15,7 @@ import {
   MobileMenu,
   Right,
   RoutineTitle,
+  LanguageDropTarget,
 } from './styled';
 
 export const Header = () => {
@@ -72,7 +73,7 @@ export const Header = () => {
 
         {/* Media: screen > sm */}
         <LanguageDropDown
-          target={<Dropdown.DefaultTarget size="city">{lang}</Dropdown.DefaultTarget>}
+          target={<LanguageDropTarget size="city">{lang}</LanguageDropTarget>}
           data-testid="dropdown"
         >
           {languageItems}

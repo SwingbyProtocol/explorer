@@ -7,17 +7,33 @@ import { StylingConstants } from '../../../../styles';
 const { media } = StylingConstants;
 
 export const SwapVolumeContainer = styled.div`
+  grid-area: volume;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   padding-top: ${({ theme }) => rem(theme.pulsar.size.town)};
   padding-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
-
   @media (min-width: ${rem(media.sm)}) {
+    padding-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
+  }
+  @media (min-width: ${rem(media.md)}) {
+    width: ${rem(370)};
+    padding-left: 0;
     padding-top: 0;
     padding-bottom: 0;
-    padding-left: ${({ theme }) => rem(theme.pulsar.size.closet)};
+    align-self: start;
+  }
+  @media (min-width: ${rem(media.lg)}) {
+    width: ${rem(338)};
+    grid-area: auto;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: ${({ theme }) => rem(theme.pulsar.size.drawer)};
+  }
+  @media (min-width: ${rem(media.xl)}) {
+    width: ${rem(370)};
+    padding-left: ${({ theme }) => rem(theme.pulsar.size.street)};
   }
 `;
 
@@ -25,8 +41,13 @@ export const Box = styled.div`
   @media (min-width: ${rem(media.xs)}) {
     width: ${rem(342)};
   }
-  @media (min-width: ${rem(media.sm)}) {
+  @media (min-width: ${rem(media.md)}) {
     width: 100%;
+  }
+`;
+export const LineContainer = styled.div`
+  @media (min-width: ${rem(media.lg)}) {
+    height: ${rem(120)};
   }
 `;
 
@@ -38,6 +59,9 @@ export const TitleDiv = styled.div`
   width: 100%;
   @media (min-width: ${rem(media.sm)}) {
     padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
+  }
+  @media (min-width: ${rem(media.lg)}) {
+    margin-bottom: ${({ theme }) => rem(theme.pulsar.size.box)};
   }
 `;
 

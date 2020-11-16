@@ -1,18 +1,22 @@
 import { Icon, Text } from '@swingby-protocol/pulsar';
 import React from 'react';
-import { useIntl } from 'react-intl';
 
 import { convertTxTime, currencyNetwork, statusColor, SwapRawObject } from '../../../../explorer';
 
 import {
   AmountText,
+  BackButton,
   Bottom,
+  BrowserFooter,
   Coin,
   Column,
   ColumnAmount,
   Detail,
   LabelText,
   Left,
+  NextButton,
+  PageRow,
+  Pagination,
   Right,
   Status,
   StatusCircle,
@@ -23,11 +27,6 @@ import {
   Top,
   TxHistoriesMobileContainer,
   TxHistoryRow,
-  BackButton,
-  BrowserFooter,
-  NextButton,
-  PageRow,
-  Pagination,
 } from './styled';
 
 interface Props {
@@ -42,8 +41,6 @@ interface Props {
 
 export const TxHistoriesMobile = (props: Props) => {
   const { filter, page, maximumPage, currentTxs, goNextPage, goBackPage, loader } = props;
-
-  const { locale } = useIntl();
 
   return (
     <>
@@ -76,9 +73,7 @@ export const TxHistoriesMobile = (props: Props) => {
                       <LabelText variant="label">{currencyNetwork(tx.currencyIn)}</LabelText>
                     </Top>
                     <Bottom>
-                      <AmountText variant="accent">
-                        {Number(tx.amountIn).toLocaleString()}
-                      </AmountText>
+                      <AmountText variant="accent">{tx.amountIn}</AmountText>
                     </Bottom>
                   </div>
                 </ColumnAmount>
@@ -92,9 +87,7 @@ export const TxHistoriesMobile = (props: Props) => {
                       <LabelText variant="label">{currencyNetwork(tx.currencyOut)}</LabelText>
                     </Top>
                     <Bottom>
-                      <AmountText variant="accent">
-                        {Number(tx.amountOut).toLocaleString()}
-                      </AmountText>
+                      <AmountText variant="accent">{tx.amountOut}</AmountText>
                     </Bottom>
                   </div>
                 </ColumnAmount>

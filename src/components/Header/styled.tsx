@@ -74,3 +74,7 @@ export const LanguageTitle = styled(Dropdown.DefaultTarget)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
   background-color: transparent;
 `;
+
+export const LanguageDropTarget = styled(Dropdown.DefaultTarget)`
+  padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
+`;

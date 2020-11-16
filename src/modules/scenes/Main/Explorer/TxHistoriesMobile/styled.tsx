@@ -20,7 +20,7 @@ export const TxHistoriesMobileContainer = styled.div`
     padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
     padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
   }
-  @media (min-width: ${rem(media.sm)}) {
+  @media (min-width: ${rem(media.md)}) {
     display: none;
   }
 `;
@@ -45,12 +45,21 @@ export const Filter = styled(Icon.Filter)`
 
 export const TxHistoryRow = styled.div<BgProps>`
   height: ${rem(92)};
-  background: ${(props) => !props.bg && 'rgba(43, 55, 74, 0.02)'};
+  background: ${(props) => !props.bg && props.theme.pulsar.color.bg.hover};
   padding-top: ${({ theme }) => rem(theme.pulsar.size.street)};
   padding-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
   padding-right: ${({ theme }) => rem(theme.pulsar.size.box)};
   padding-left: ${({ theme }) => rem(theme.pulsar.size.drawer)};
   display: flex;
+
+  @media (min-width: ${rem(media.xs)}) {
+    display: grid;
+    grid-template-columns: 28% 26% 12% 26% 10%;
+  }
+  @media (min-width: ${rem(media.sm)}) {
+    display: grid;
+    grid-template-columns: 24% 29% 12% 29% 10%;
+  }
 `;
 
 export const Column = styled.div`
@@ -72,6 +81,14 @@ export const ColumnAmount = styled(Column)`
   display: grid;
   grid-template-columns: ${({ theme }) => rem(theme.pulsar.size.town)} ${rem(90 - 32)};
   align-items: center;
+  @media (min-width: ${rem(media.xs)}) {
+    width: ${rem(110)};
+    grid-template-columns: ${({ theme }) => rem(theme.pulsar.size.town)} ${rem(110 - 32)};
+  }
+  @media (min-width: ${rem(media.sm)}) {
+    width: ${rem(120)};
+    grid-template-columns: ${({ theme }) => rem(theme.pulsar.size.town)} ${rem(120 - 32)};
+  }
 `;
 
 export const Top = styled.div`
@@ -104,7 +121,16 @@ export const SwapHorizontal = styled(Icon.SwapHorizontal)`
 export const AmountText = styled(Text)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.closet)};
   text-align: center;
-  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  max-width: ${rem(54)};
+  @media (min-width: ${rem(media.xs)}) {
+    max-width: ${rem(60)};
+  }
+  @media (min-width: ${rem(media.sm)}) {
+    max-width: ${rem(100)};
+  }
 `;
 
 export const StatusText = styled(Text)`
@@ -124,10 +150,14 @@ export const StatusCircle = styled(StatusIcon)`
 export const BrowserFooter = styled.div`
   display: flex;
   justify-content: flex-end;
+  @media (min-width: ${rem(media.md)}) {
+    display: none;
+  }
 `;
 export const Pagination = styled.div`
   display: flex;
   align-items: center;
+  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.country)};
 `;
 
 export const BackButton = styled(Button)`

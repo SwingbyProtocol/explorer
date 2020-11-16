@@ -22,7 +22,7 @@ export const ExplorerMain = () => {
           <TitleH1>Skybridge Explorer</TitleH1>
           <PulsarThemeProvider>
             <SearchInput
-              size={width > media.sm ? 'country' : 'state'}
+              size={width > media.lg ? 'country' : width > media.md ? 'state' : 'city'}
               value={search || router.query.q}
               onChange={(evt) => {
                 setSearch(evt.target.value);
