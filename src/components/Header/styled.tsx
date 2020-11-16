@@ -1,4 +1,4 @@
-import { AppLogo, Dropdown, Text } from '@swingby-protocol/pulsar';
+import { AppLogo, Dropdown, Icon, Text } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
 import styled from 'styled-components';
 
@@ -11,10 +11,18 @@ export const HeaderContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   padding-top: ${({ theme }) => rem(theme.pulsar.size.street)};
-  padding-right: ${({ theme }) => rem(theme.pulsar.size.town)};
-  padding-left: ${({ theme }) => rem(theme.pulsar.size.town)};
+  padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
+  padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
   padding-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
   border-bottom: 1px solid ${({ theme }) => theme.pulsar.color.border.normal};
+  width: 100%;
+  position: fixed;
+  z-index: 10;
+  background-color: ${({ theme }) => theme.pulsar.color.bg.normal};
+  @media (min-width: ${rem(media.sm)}) {
+    padding-right: ${({ theme }) => rem(theme.pulsar.size.town)};
+    padding-left: ${({ theme }) => rem(theme.pulsar.size.town)};
+  }
 `;
 
 export const Logo = styled(AppLogo)`
@@ -77,4 +85,8 @@ export const LanguageTitle = styled(Dropdown.DefaultTarget)`
 
 export const LanguageDropTarget = styled(Dropdown.DefaultTarget)`
   padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
+`;
+export const Hamburger = styled(Icon.Hamburger)`
+  font-weight: bold;
+  font-size: ${({ theme }) => rem(theme.pulsar.size.box * 5)};
 `;

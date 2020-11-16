@@ -1,12 +1,14 @@
-import { Dropdown, Icon } from '@swingby-protocol/pulsar';
+import { Dropdown } from '@swingby-protocol/pulsar';
 import Link from 'next/link';
 import React, { useState } from 'react';
 
 import { languagesSelector } from '../../modules/i18n';
 
 import {
+  Hamburger,
   HeaderContainer,
   LanguageDropDown,
+  LanguageDropTarget,
   LanguageTitle,
   Left,
   Logo,
@@ -15,7 +17,6 @@ import {
   MobileMenu,
   Right,
   RoutineTitle,
-  LanguageDropTarget,
 } from './styled';
 
 export const Header = () => {
@@ -57,7 +58,7 @@ export const Header = () => {
         </Menu>
       </Left>
       <Right>
-        <MobileMenu target={<Icon.CaretDown />} data-testid="dropdown">
+        <MobileMenu target={<Hamburger />} data-testid="dropdown">
           <RoutineTitle variant="accent">Link</RoutineTitle>
           {routing.map((link) => (
             <Dropdown.Item>{link.text}</Dropdown.Item>
