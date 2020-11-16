@@ -23,12 +23,13 @@ export const BrowserContainer = styled.div`
 `;
 
 export const BrowserDiv = styled(Card)`
+  padding-bottom: ${({ theme }) => rem(theme.pulsar.size.drawer)};
   @media (min-width: ${rem(media.lg)}) {
     margin-bottom: ${({ theme }) => rem(theme.pulsar.size.state)};
     padding-top: ${({ theme }) => rem(theme.pulsar.size.town)};
     padding-left: ${({ theme }) => rem(theme.pulsar.size.box)};
     padding-right: ${({ theme }) => rem(theme.pulsar.size.box)};
-    padding-bottom: ${({ theme }) => rem(theme.pulsar.size.drawer)};
+    padding-bottom: ${({ theme }) => rem(theme.pulsar.size.closet)};
   }
   @media (min-width: ${rem(media.xl)}) {
     max-width: ${rem(1188)};
