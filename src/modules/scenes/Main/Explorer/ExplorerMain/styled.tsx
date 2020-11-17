@@ -13,9 +13,15 @@ export const ExplorerMainContainer = styled.div`
     height: ${rem(240)};
     display: grid;
     padding-top: ${({ theme }) => rem(theme.pulsar.size.street)};
+    width: 100%;
+  }
+  @media (min-width: ${rem(media.sm)}) {
     padding-left: ${({ theme }) => rem(theme.pulsar.size.town)};
     padding-right: ${({ theme }) => rem(theme.pulsar.size.town)};
-    width: 100%;
+  }
+  @media (min-width: ${rem(media.md)}) {
+    padding-left: ${({ theme }) => rem(theme.pulsar.size.street)};
+    padding-right: ${({ theme }) => rem(theme.pulsar.size.street)};
   }
   @media (min-width: ${rem(media.lg)}) {
     height: ${rem(274)};

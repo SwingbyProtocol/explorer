@@ -12,10 +12,9 @@ export const BrowserContainer = styled.div`
   padding-bottom: ${({ theme }) => rem(theme.pulsar.size.room)};
   padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
   padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
-  @media (min-width: ${rem(media.md)}) {
-    justify-content: center;
-    padding-left: 0;
-    padding-right: 0;
+  @media (min-width: ${rem(media.xs)}) {
+    padding-left: ${({ theme }) => rem(theme.pulsar.size.closet)};
+    padding-right: ${({ theme }) => rem(theme.pulsar.size.closet)};
   }
   @media (min-width: ${rem(media.lg)}) {
     padding-top: 0;
@@ -63,6 +62,7 @@ export const Bottom = styled.div`
   display: none;
   @media (min-width: ${rem(media.md)}) {
     display: block;
+    margin-top: ${({ theme }) => rem(-theme.pulsar.size.street)};
   }
 `;
 

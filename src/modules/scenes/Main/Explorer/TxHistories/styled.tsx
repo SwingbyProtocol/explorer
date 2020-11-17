@@ -61,12 +61,12 @@ export const TxHistoryRow = styled.div<BgProps>`
   padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
   padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
   display: grid;
-  grid-template-columns: 19% 5% 22.5% 19.5% 10% 21% 2%;
+  grid-template-columns: 19% 5% 20.5% 20.5% 10% 22% 2%;
   @media (min-width: ${rem(media.lg)}) {
-    grid-template-columns: 13.5% 4% 23.5% 15.5% 6% 19.5% 16% 2%;
+    grid-template-columns: 13.5% 4% 23.5% 16.5% 5% 19.5% 16% 2%;
   }
   @media (min-width: ${rem(media.xl)}) {
-    grid-template-columns: 13.5% 4% 23.5% 15.5% 6% 19.5% 15.5% 2.5%;
+    grid-template-columns: 13.5% 4% 23.5% 16.5% 3.5% 21% 15.5% 2.5%;
   }
 `;
 
@@ -121,7 +121,7 @@ export const SwapHorizontal = styled(Icon.SwapHorizontal)`
 export const AddressP = styled.p`
   color: #3799da;
   font-weight: bold;
-  max-width: ${rem(100)};
+  max-width: ${rem(92)};
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

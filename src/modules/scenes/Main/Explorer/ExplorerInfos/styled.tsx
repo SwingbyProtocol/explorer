@@ -50,7 +50,9 @@ export const InfosContainer = styled.div`
     border-top: 0px solid transparent;
     border-bottom: 0px solid transparent;
     grid-gap: ${({ theme }) => rem(theme.pulsar.size.house)};
+    grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.box)};
   }
+  ${({ theme }) => rem(theme.pulsar.size.house)};
   @media (min-width: ${rem(media.lg)}) {
     grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.house)};
     padding-left: 0;

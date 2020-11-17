@@ -25,7 +25,7 @@ export const SwapVolumeContainer = styled.div`
     align-self: start;
   }
   @media (min-width: ${rem(media.lg)}) {
-    width: ${rem(338)};
+    width: ${rem(300)};
     grid-area: auto;
     padding-top: 0;
     padding-bottom: 0;

@@ -16,7 +16,7 @@ interface PageProps {
 
 export const TxHistoriesMobileContainer = styled.div`
   margin-top: ${({ theme }) => rem(theme.pulsar.size.state)};
-  @media (min-width: ${rem(media.xs)}) {
+  @media (min-width: ${rem(media.sm)}) {
     padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
     padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
   }
@@ -54,11 +54,11 @@ export const TxHistoryRow = styled.div<BgProps>`
 
   @media (min-width: ${rem(media.xs)}) {
     display: grid;
-    grid-template-columns: 28% 26% 12% 26% 10%;
+    grid-template-columns: 28% 27% 9% 26% 10%;
   }
   @media (min-width: ${rem(media.sm)}) {
     display: grid;
-    grid-template-columns: 24% 29% 12% 29% 10%;
+    grid-template-columns: 24% 30% 8% 32% 6%;
   }
 `;
 
