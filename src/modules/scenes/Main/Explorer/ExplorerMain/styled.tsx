@@ -1,13 +1,14 @@
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { Icon, TextInput } from '@swingby-protocol/pulsar';
+import { Icon, logos, TextInput } from '@swingby-protocol/pulsar';
 
 import { StylingConstants } from '../../../../styles';
 
 const { media } = StylingConstants;
 export const ExplorerMainContainer = styled.div`
-  background: ${({ theme }) => theme.pulsar.color.bg.normal};
   height: ${rem(250)};
+  background: ${({ theme }) => theme.pulsar.color.bg.normal};
+  background-image: ${logos.StarsBg};
 
   @media (min-width: ${rem(media.xs)}) {
     height: ${rem(240)};
