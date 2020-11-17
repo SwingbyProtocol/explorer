@@ -45,6 +45,7 @@ export const InfosContainer = styled.div`
   }
   @media (min-width: ${rem(media.md)}) {
     padding-top: ${({ theme }) => rem(theme.pulsar.size.country)};
+    padding-left: ${({ theme }) => rem(theme.pulsar.size.state)};
     padding-bottom: 0;
     border-top: 0px solid transparent;
     border-bottom: 0px solid transparent;
@@ -52,6 +53,7 @@ export const InfosContainer = styled.div`
   }
   @media (min-width: ${rem(media.lg)}) {
     grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.house)};
+    padding-left: 0;
     padding-top: ${({ theme }) => rem(theme.pulsar.size.town)};
   }
   @media (min-width: ${rem(media.xl)}) {

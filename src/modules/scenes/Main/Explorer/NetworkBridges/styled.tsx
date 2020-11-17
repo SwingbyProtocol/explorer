@@ -46,7 +46,8 @@ export const TitleText = styled(Text)`
 export const CoinContainer = styled.div`
   margin-top: ${({ theme }) => rem(theme.pulsar.size.street)};
   display: grid;
-  grid-gap: ${({ theme }) => rem(theme.pulsar.size.street)};
+  grid-gap: ${({ theme }) => rem(theme.pulsar.size.house)};
+  grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.street)};
   align-self: center;
   justify-content: center;
   grid-template-columns: 1fr 1fr;
@@ -58,8 +59,10 @@ export const CoinContainer = styled.div`
     width: 100%;
     grid-gap: ${({ theme }) => rem(theme.pulsar.size.street)};
     grid-template-columns: 1fr 1fr;
+    padding-left: ${({ theme }) => rem(theme.pulsar.size.street)};
   }
   @media (min-width: ${rem(media.lg)}) {
+    padding-left: 0;
     margin-top: ${({ theme }) => rem(theme.pulsar.size.street)};
     grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.room)};
   }
@@ -71,19 +74,13 @@ export const CoinContainer = styled.div`
 
 export const CoinInfo = styled.div`
   display: grid;
-  grid-template-columns: ${rem(40)} auto;
+  grid-template-columns: ${rem(38)} auto;
   align-items: center;
   @media (min-width: ${rem(media.xs)}) {
     width: ${rem(160)};
   }
   @media (min-width: ${rem(media.sm)}) {
-    grid-template-columns: ${rem(50)} auto;
-  }
-  @media (min-width: ${rem(media.lg)}) {
-    grid-template-columns: ${rem(40)} auto;
-  }
-  @media (min-width: ${rem(media.xl)}) {
-    grid-template-columns: ${rem(50)} auto;
+    grid-template-columns: ${rem(46)} auto;
   }
 `;
 

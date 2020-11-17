@@ -45,16 +45,17 @@ export const Browser = () => {
       const results = await Promise.all([fetchFloatBalances(), fetchStatsInfo()]);
 
       const data = results[0];
-      setFloatBalances(data.floats);
-      setCapacity(data.capacity);
+      data && setFloatBalances(data.floats);
+      data && setCapacity(data.capacity);
 
       const stats = results[1];
-      setStats({
-        volume24Hr: stats.volume24Hr,
-        rewards24Hr: stats.rewards24Hr,
-        volumes: stats.volumes,
-        validators: stats.validators,
-      });
+      stats &&
+        setStats({
+          volume24Hr: stats.volume24Hr,
+          rewards24Hr: stats.rewards24Hr,
+          volumes: stats.volumes,
+          validators: stats.validators,
+        });
     })();
   }, []);
 
