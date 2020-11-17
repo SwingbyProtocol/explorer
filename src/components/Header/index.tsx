@@ -22,7 +22,7 @@ import {
 export const Header = () => {
   const [lang, setLang] = useState('EN');
   const routing = [
-    { text: 'Stake', route: '/' },
+    { text: 'Pool', route: '/' },
     { text: 'Metanodes', route: '/' },
     { text: 'Analytics', route: '/' },
   ];
