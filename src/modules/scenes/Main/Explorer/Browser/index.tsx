@@ -1,6 +1,6 @@
 import { Dropdown } from '@swingby-protocol/pulsar';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ScaleLoader } from 'react-spinners';
 
@@ -8,7 +8,7 @@ import { PAGE_COUNT } from '../../../../env';
 import {
   BRIDGE,
   fetchFloatBalances,
-  fetchHistory,
+  loadHistory,
   fetchStatsInfo,
   removeDuplicatedTxs,
 } from '../../../../explorer';
@@ -98,29 +98,29 @@ export const Browser = () => {
     }, 200);
   }, []);
 
-  const dispatchGetHistory = async () => {
-    const data = await fetchHistory(
+  const dispatchLoadHistory = useCallback(async () => {
+    const data = await loadHistory(
       page - 1,
       q,
-      swapHistory,
       isHideWaiting,
-      swapHistoryTemp,
       chainBridge,
+      swapHistory,
+      swapHistoryTemp,
     );
     if (data) {
       dispatch(getHistory(data.txsWithPage));
       const uniqueTempMixedHistories = removeDuplicatedTxs(data.tempMixedHistories);
       dispatch(updateSwapHistoryTemp(uniqueTempMixedHistories));
     }
-  };
+    // Todo: Fix the error of " React Hook useCallback has missing dependencies: 'dispatch', 'swapHistory', and 'swapHistoryTemp' "
+  }, [page, q, isHideWaiting, chainBridge]);
 
   useEffect(() => {
-    !isLoadingUrl && dispatchGetHistory();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, q, isHideWaiting, chainBridge, isLoadingUrl]);
+    !isLoadingUrl && dispatchLoadHistory();
+  }, [isLoadingUrl, dispatchLoadHistory]);
 
   useInterval(() => {
-    dispatchGetHistory();
+    dispatchLoadHistory();
   }, [10000]);
 
   const filter = (
@@ -137,7 +137,11 @@ export const Browser = () => {
       {Object.values(BRIDGE).map((chain: string) => {
         const bridge = chain === BRIDGE.multipleBridges ? '' : chain.toLowerCase();
         return (
-          <Dropdown.Item selected={chainBridge === bridge} onClick={() => routerPush(bridge, q, 1)}>
+          <Dropdown.Item
+            selected={chainBridge === bridge}
+            onClick={() => routerPush(bridge, q, 1)}
+            key={chain}
+          >
             Bitcoin - {chain}
           </Dropdown.Item>
         );

@@ -1,5 +1,5 @@
 export {
-  fetchHistory,
+  loadHistory,
   currencyNetwork,
   statusColor,
   TxStatus,
@@ -72,4 +72,10 @@ export interface IStats {
   rewards24Hr: number;
   volumes: string[];
   metanodes: number;
+}
+
+export interface IFetchHistory {
+  txs: SwapRawObject[];
+  duplicatedTxQTY: number;
+  total: number;
 }

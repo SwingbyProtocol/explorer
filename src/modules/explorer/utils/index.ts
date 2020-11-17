@@ -1,4 +1,4 @@
-export { fetchHistory } from './fetchHistory';
+export { loadHistory } from './loadHistory';
 export {
   currencyNetwork,
   statusColor,

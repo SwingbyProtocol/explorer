@@ -29,7 +29,11 @@ export const Header = () => {
   const languageItems = (
     <>
       {languagesSelector.map((language) => (
-        <Dropdown.Item selected={lang === language.text} onClick={() => setLang(language.text)}>
+        <Dropdown.Item
+          selected={lang === language.text}
+          onClick={() => setLang(language.text)}
+          key={language.code}
+        >
           {language.text}
         </Dropdown.Item>
       ))}
