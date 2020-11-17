@@ -98,26 +98,21 @@ export const Browser = () => {
     }, 200);
   }, []);
 
-  const dispatchLoadHistory = useCallback(async () => {
-    const data = await loadHistory(
-      page - 1,
-      q,
-      isHideWaiting,
-      chainBridge,
-      swapHistory,
-      swapHistoryTemp,
+  const dispatchLoadHistory = useCallback(() => {
+    loadHistory(page - 1, q, isHideWaiting, chainBridge, swapHistory, swapHistoryTemp).then(
+      (data) => {
+        const uniqueTempMixedHistories = removeDuplicatedTxs(data.tempMixedHistories);
+        dispatch(getHistory(data.txsWithPage));
+        dispatch(updateSwapHistoryTemp(uniqueTempMixedHistories));
+      },
     );
-    if (data) {
-      dispatch(getHistory(data.txsWithPage));
-      const uniqueTempMixedHistories = removeDuplicatedTxs(data.tempMixedHistories);
-      dispatch(updateSwapHistoryTemp(uniqueTempMixedHistories));
-    }
-    // Todo: Fix the error of " React Hook useCallback has missing dependencies: 'dispatch', 'swapHistory', and 'swapHistoryTemp' "
-  }, [page, q, isHideWaiting, chainBridge]);
+
+    // Todo: Fix the error of "React Hook useCallback has missing dependencies: 'swapHistory', and 'swapHistoryTemp' "
+  }, [dispatch, page, q, isHideWaiting, chainBridge]);
 
   useEffect(() => {
     !isLoadingUrl && dispatchLoadHistory();
-  }, [isLoadingUrl, dispatchLoadHistory]);
+  }, [dispatchLoadHistory, isLoadingUrl]);
 
   useInterval(() => {
     dispatchLoadHistory();
