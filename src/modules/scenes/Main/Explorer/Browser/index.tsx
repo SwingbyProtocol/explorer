@@ -11,6 +11,7 @@ import {
   loadHistory,
   fetchStatsInfo,
   removeDuplicatedTxs,
+  ILoadHistory,
 } from '../../../../explorer';
 import { useInterval } from '../../../../hooks';
 import { getHistory, toggleIsHideWaiting, updateSwapHistoryTemp } from '../../../../store';
@@ -100,7 +101,7 @@ export const Browser = () => {
 
   const dispatchLoadHistory = useCallback(() => {
     loadHistory(page - 1, q, isHideWaiting, chainBridge, swapHistory, swapHistoryTemp).then(
-      (data) => {
+      (data: ILoadHistory) => {
         const uniqueTempMixedHistories = removeDuplicatedTxs(data.tempMixedHistories);
         dispatch(getHistory(data.txsWithPage));
         dispatch(updateSwapHistoryTemp(uniqueTempMixedHistories));

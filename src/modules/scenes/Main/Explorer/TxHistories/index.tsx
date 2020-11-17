@@ -1,4 +1,4 @@
-import { formatCryptoAsset, Icon, Text } from '@swingby-protocol/pulsar';
+import { getCryptoAssetFormatter, Icon, Text } from '@swingby-protocol/pulsar';
 import React from 'react';
 import { useIntl } from 'react-intl';
 
@@ -13,6 +13,7 @@ import {
   Coin,
   Column,
   ColumnAmount,
+  ColumnFee,
   Ellipsis,
   Left,
   NextButton,
@@ -23,12 +24,11 @@ import {
   StatusCircle,
   StatusText,
   SwapHorizontal,
+  TextFee,
   TitleRow,
   Top,
   TxHistoriesContainer,
   TxHistoryRow,
-  ColumnFee,
-  TextFee,
 } from './styled';
 
 interface Props {
@@ -63,7 +63,6 @@ export const TxHistories = (props: Props) => {
           currentTxs.map((tx: SwapRawObject, i: number) => {
             return (
               <TxHistoryRow key={i} bg={i % 2 !== 0}>
-                {/* <TxHistoryRow interactive={false} htmlTag="div"> */}
                 <Column>
                   <Status>
                     <StatusCircle variant={statusColor(tx.status)} />
@@ -116,11 +115,10 @@ export const TxHistories = (props: Props) => {
                 </ColumnAmount>
                 <ColumnFee>
                   <Text variant="section-title">
-                    {formatCryptoAsset({
-                      amount: Number(tx.fee),
+                    {getCryptoAssetFormatter({
                       locale: locale,
                       displaySymbol: tx.currencyOut,
-                    })}
+                    }).format(Number(tx.fee))}
                   </Text>
                 </ColumnFee>
                 <Column>

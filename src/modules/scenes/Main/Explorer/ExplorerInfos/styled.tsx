@@ -49,7 +49,7 @@ export const InfosContainer = styled.div`
     padding-bottom: 0;
     border-top: 0px solid transparent;
     border-bottom: 0px solid transparent;
-    grid-gap: ${({ theme }) => rem(theme.pulsar.size.house)};
+    grid-gap: ${({ theme }) => rem(theme.pulsar.size.room)};
     grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.box)};
   }
   ${({ theme }) => rem(theme.pulsar.size.house)};

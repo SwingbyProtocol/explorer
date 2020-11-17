@@ -5,6 +5,7 @@ import {
   ITransactions,
   SwapRawObject,
   IFetchHistory,
+  ILoadHistory,
 } from '../../index';
 import { removeDuplicatedTxs, TxStatus } from '../transaction';
 import { ENDPOINT_API, PAGE_COUNT } from '../../../env';
@@ -173,7 +174,7 @@ export const loadHistory = async (
   bridge: string,
   prevTxsWithPage: ITransactions | null,
   swapHistoryTemp: SwapRawObject[],
-): Promise<{ txsWithPage: ITransactions; tempMixedHistories: SwapRawObject[] }> => {
+): Promise<ILoadHistory> => {
   let tempMixedHistories: SwapRawObject[] = [];
   let txsWithPage: ITransactions = {
     data: {},

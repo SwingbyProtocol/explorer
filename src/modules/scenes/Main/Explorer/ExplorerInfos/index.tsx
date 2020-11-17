@@ -1,4 +1,4 @@
-import { formatFiatAsset, Text } from '@swingby-protocol/pulsar';
+import { getFiatAssetFormatter, Text } from '@swingby-protocol/pulsar';
 import React from 'react';
 import { useIntl } from 'react-intl';
 
@@ -32,29 +32,28 @@ export const ExplorerInfos = (props: Props) => {
     {
       icon: <Network />,
       description: 'Volume (24hr)',
-      value: formatFiatAsset({
-        amount: Number(stats.volume24Hr),
+      value: getFiatAssetFormatter({
         locale: locale,
         currency: 'USD',
-      }),
+      }).format(Number(stats.volume24Hr)),
     },
     {
       icon: <NetworkRewards />,
       description: 'Rewards (24hr)',
-      value: formatFiatAsset({
-        amount: stats.rewards24Hr,
+      value: getFiatAssetFormatter({
         locale: locale,
         currency: 'USD',
-      }),
+      }).format(stats.rewards24Hr),
     },
     {
       icon: <NetworkCapacity />,
       description: 'Capacity (Float)',
-      value: formatFiatAsset({
-        amount: Number(capacity),
+      value: getFiatAssetFormatter({
         locale: locale,
         currency: 'USD',
-      }),
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      }).format(Number(capacity)),
     },
     {
       icon: <NetworkMetanodes />,

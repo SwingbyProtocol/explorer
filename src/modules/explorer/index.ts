@@ -79,3 +79,7 @@ export interface IFetchHistory {
   duplicatedTxQTY: number;
   total: number;
 }
+export interface ILoadHistory {
+  txsWithPage: ITransactions;
+  tempMixedHistories: SwapRawObject[];
+}

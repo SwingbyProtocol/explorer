@@ -30,6 +30,7 @@ export const SwapVolumeContainer = styled.div`
     padding-top: 0;
     padding-bottom: 0;
     padding-left: ${({ theme }) => rem(theme.pulsar.size.drawer)};
+    justify-self: center;
   }
   @media (min-width: ${rem(media.xl)}) {
     width: ${rem(370)};
@@ -47,7 +48,10 @@ export const Box = styled.div`
 `;
 export const LineContainer = styled.div`
   @media (min-width: ${rem(media.lg)}) {
-    height: ${rem(120)};
+    padding-top: ${({ theme }) => rem(theme.pulsar.size.house)};
+  }
+  @media (min-width: ${rem(media.xl)}) {
+    padding-top: 0;
   }
 `;
 
