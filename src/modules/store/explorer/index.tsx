@@ -22,13 +22,21 @@ type State = typeof initialState;
 export const explorer: Reducer<State, Action> = (state = initialState, action) => {
   if (action.type === Actions.FetchHistory) {
     return { ...state, swapHistory: action.data };
-  } else if (action.type === Actions.ClearHistory) {
+  }
+
+  if (action.type === Actions.ClearHistory) {
     return { ...state, swapHistory: null };
-  } else if (action.type === Actions.ToggleIsHideWaiting) {
+  }
+
+  if (action.type === Actions.ToggleIsHideWaiting) {
     return { ...state, isHideWaiting: !state.isHideWaiting };
-  } else if (action.type === Actions.UpdateSwapHistoryTemp) {
+  }
+
+  if (action.type === Actions.UpdateSwapHistoryTemp) {
     return { ...state, swapHistoryTemp: action.data };
-  } else if (action.type === Actions.SetWidthSize) {
+  }
+
+  if (action.type === Actions.SetWidthSize) {
     return { ...state, width: action.data };
   }
 
