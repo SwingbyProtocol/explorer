@@ -66,13 +66,13 @@ export const fetchStatsInfo = async (): Promise<IStats> => {
     const volumes: string[] = binanceRes.network24hrSwapsVolume.map((volume, i) =>
       (volume + ethereumRes.network24hrSwapsVolume[i]).toFixed(3),
     );
-    const validators = binancePeersRes.length + ethereumPeersRes.length;
+    const metanodes = binancePeersRes.length + ethereumPeersRes.length;
 
     return {
       volume24Hr,
       rewards24Hr,
       volumes,
-      validators,
+      metanodes,
     };
   } catch (err) {
     console.log(err);

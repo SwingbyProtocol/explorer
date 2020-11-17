@@ -32,7 +32,7 @@ export const Browser = () => {
       volume24Hr: '0',
       rewards24Hr: 0,
       volumes: ['1', '1', '1', '1', '1', '1', '1'],
-      validators: 0,
+      metanodes: 0,
     },
   };
 
@@ -54,7 +54,7 @@ export const Browser = () => {
           volume24Hr: stats.volume24Hr,
           rewards24Hr: stats.rewards24Hr,
           volumes: stats.volumes,
-          validators: stats.validators,
+          metanodes: stats.metanodes,
         });
     })();
   }, []);

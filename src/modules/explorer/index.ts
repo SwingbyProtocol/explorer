@@ -71,5 +71,5 @@ export interface IStats {
   volume24Hr: string;
   rewards24Hr: number;
   volumes: string[];
-  validators: number;
+  metanodes: number;
 }

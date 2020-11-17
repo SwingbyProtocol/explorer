@@ -12,7 +12,7 @@ import {
   Network,
   NetworkCapacity,
   NetworkRewards,
-  NetworkValidators,
+  NetworkMetanodes,
   Row,
   RowValidator,
   ValidatorLinkSpan,
@@ -57,9 +57,9 @@ export const ExplorerInfos = (props: Props) => {
       }),
     },
     {
-      icon: <NetworkValidators />,
-      description: 'Validators',
-      value: stats.validators,
+      icon: <NetworkMetanodes />,
+      description: 'Metanodes',
+      value: stats.metanodes,
     },
   ];
 
@@ -71,7 +71,7 @@ export const ExplorerInfos = (props: Props) => {
             <InfoContainer key={info.description}>
               {info.icon}
               <DataDiv>
-                {info.description === 'Validators' ? (
+                {info.description === 'Metanodes' ? (
                   <RowValidator>
                     <Text variant="label">{info.description}</Text>
                     <ValidatorLinkSpan variant="accent">All</ValidatorLinkSpan>

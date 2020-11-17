@@ -23,7 +23,7 @@ export const Header = () => {
   const [lang, setLang] = useState('EN');
   const routing = [
     { text: 'Stake', route: '/' },
-    { text: 'Validators', route: '/' },
+    { text: 'Metanodes', route: '/' },
     { text: 'Analytics', route: '/' },
   ];
   const languageItems = (

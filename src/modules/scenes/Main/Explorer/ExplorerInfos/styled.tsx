@@ -117,7 +117,7 @@ export const NetworkCapacity = styled(Icon.NetworkCapacity)`
   color: ${({ theme }) => theme.pulsar.color.text.masked};
 `;
 
-export const NetworkValidators = styled(Icon.NetworkValidators)`
+export const NetworkMetanodes = styled(Icon.NetworkValidators)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.street)};
   color: ${({ theme }) => theme.pulsar.color.text.masked};
 `;
