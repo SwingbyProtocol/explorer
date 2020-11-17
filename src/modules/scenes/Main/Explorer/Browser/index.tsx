@@ -94,22 +94,30 @@ export const Browser = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      // Memo: To run `dispatchGetHistory` after resolved `url params`
+      // Memo: To run `dispatchLoadHistory` after resolved `url params`
       setIsLoadingUrl(false);
     }, 200);
   }, []);
 
-  const dispatchLoadHistory = useCallback(() => {
-    loadHistory(page - 1, q, isHideWaiting, chainBridge, swapHistory, swapHistoryTemp).then(
-      (data: ILoadHistory) => {
-        const uniqueTempMixedHistories = removeDuplicatedTxs(data.tempMixedHistories);
-        dispatch(getHistory(data.txsWithPage));
-        dispatch(updateSwapHistoryTemp(uniqueTempMixedHistories));
-      },
+  const dispatchLoadHistory = useCallback(async () => {
+    const data: ILoadHistory = await loadHistory(
+      page - 1,
+      q,
+      isHideWaiting,
+      chainBridge,
+      swapHistory,
+      swapHistoryTemp,
     );
+    if (data) {
+      const uniqueTempMixedHistories = removeDuplicatedTxs(data.tempMixedHistories);
+      dispatch(getHistory(data.txsWithPage));
+      dispatch(updateSwapHistoryTemp(uniqueTempMixedHistories));
+    }
 
-    // Todo: Fix the error of "React Hook useCallback has missing dependencies: 'swapHistory', and 'swapHistoryTemp' "
-  }, [dispatch, page, q, isHideWaiting, chainBridge]);
+    /* Memo: Add `swapHistory` and `swapHistoryTemp` in dependencies will occur infinity loop
+    due to this function is going to dispatch the action of update the`swapHistory` and`swapHistoryTemp` state(redux). */
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, q, isHideWaiting, chainBridge]);
 
   useEffect(() => {
     !isLoadingUrl && dispatchLoadHistory();
