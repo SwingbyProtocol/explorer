@@ -142,7 +142,7 @@ const loadHistoryFiltered = async (
   query: string,
   isHideWaiting: boolean,
   bridge: string,
-  prevTxsWithPage,
+  prevTxsWithPage: ITransactions,
 ): Promise<ITransactions> => {
   const results = await Promise.all([
     fetchHistory(page, query, isHideWaiting, bridge),
@@ -173,7 +173,7 @@ export const loadHistory = async (
   bridge: string,
   prevTxsWithPage: ITransactions | null,
   swapHistoryTemp: SwapRawObject[],
-) => {
+): Promise<{ txsWithPage: ITransactions; tempMixedHistories: SwapRawObject[] }> => {
   let tempMixedHistories: SwapRawObject[] = [];
   let txsWithPage: ITransactions = {
     data: {},
