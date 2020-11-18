@@ -64,6 +64,9 @@ export const Bottom = styled.div`
     display: block;
     margin-top: ${({ theme }) => rem(-theme.pulsar.size.street)};
   }
+  @media (min-width: ${rem(media.lg)}) {
+    margin-top: ${({ theme }) => rem(theme.pulsar.size.country)};
+  }
 `;
 
 export const Filter = styled(Icon.Filter)`

@@ -16,7 +16,7 @@ const initialState = {
   isHideWaiting: false,
   swapHistoryTemp: null,
   width: null,
-  usd: null,
+  usd: { btc: 0, bnb: 0 },
 };
 
 type State = typeof initialState;
