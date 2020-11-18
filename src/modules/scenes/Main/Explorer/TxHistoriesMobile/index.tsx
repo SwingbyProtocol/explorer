@@ -1,20 +1,18 @@
-import { getCryptoAssetFormatter, Icon, Text } from '@swingby-protocol/pulsar';
+import { Icon, Text } from '@swingby-protocol/pulsar';
 import React from 'react';
-import { useIntl } from 'react-intl';
 
 import { convertTxTime, currencyNetwork, statusColor, SwapRawObject } from '../../../../explorer';
 
 import {
-  AddressP,
-  AmountSpan,
+  AmountText,
   BackButton,
   Bottom,
   BrowserFooter,
   Coin,
   Column,
   ColumnAmount,
-  ColumnFee,
-  Ellipsis,
+  Detail,
+  LabelText,
   Left,
   NextButton,
   PageRow,
@@ -24,10 +22,10 @@ import {
   StatusCircle,
   StatusText,
   SwapHorizontal,
-  TextFee,
+  Time,
   TitleRow,
   Top,
-  TxHistoriesContainer,
+  TxHistoriesMobileContainer,
   TxHistoryRow,
 } from './styled';
 
@@ -41,22 +39,17 @@ interface Props {
   goBackPage: () => void;
 }
 
-export const TxHistories = (props: Props) => {
+export const TxHistoriesMobile = (props: Props) => {
   const { filter, page, maximumPage, currentTxs, goNextPage, goBackPage, loader } = props;
-
-  const { locale } = useIntl();
 
   return (
     <>
-      <TxHistoriesContainer>
+      <TxHistoriesMobileContainer>
         <TitleRow>
           <Left>
             <Text variant="section-title">Recent Swaps</Text>
           </Left>
-          <Right>
-            <TextFee variant="section-title">Fees</TextFee>
-            {filter}
-          </Right>
+          <Right>{filter}</Right>
         </TitleRow>
         {!currentTxs.length && loader}
         {currentTxs &&
@@ -68,34 +61,19 @@ export const TxHistories = (props: Props) => {
                     <StatusCircle variant={statusColor(tx.status)} />
                     <StatusText variant="accent">{tx.status}</StatusText>
                   </Status>
-                  <Bottom>
-                    <Text variant="label">{convertTxTime(tx.timestamp)}</Text>
-                  </Bottom>
+                  <Time>
+                    <LabelText variant="label">{convertTxTime(tx.timestamp)}</LabelText>
+                  </Time>
                 </Column>
-                <Column>
-                  <Top>
-                    <Text variant="label">From</Text>
-                  </Top>
-                  <Bottom>
-                    <Text variant="label">To</Text>
-                  </Bottom>
-                </Column>
-                <Column>
-                  <Top>
-                    <AddressP>{tx.addressIn}</AddressP>
-                  </Top>
-                  <Bottom>
-                    <AddressP>{tx.addressOut}</AddressP>
-                  </Bottom>
-                </Column>
+
                 <ColumnAmount>
                   <Coin symbol={tx.currencyIn} />
                   <div>
                     <Top>
-                      <Text variant="label">{currencyNetwork(tx.currencyIn)}</Text>
+                      <LabelText variant="label">{currencyNetwork(tx.currencyIn)}</LabelText>
                     </Top>
                     <Bottom>
-                      <AmountSpan variant="accent">{tx.amountIn}</AmountSpan>
+                      <AmountText variant="accent">{tx.amountIn}</AmountText>
                     </Bottom>
                   </div>
                 </ColumnAmount>
@@ -106,48 +84,36 @@ export const TxHistories = (props: Props) => {
                   <Coin symbol={tx.currencyOut} />
                   <div>
                     <Top>
-                      <Text variant="label">{currencyNetwork(tx.currencyOut)}</Text>
+                      <LabelText variant="label">{currencyNetwork(tx.currencyOut)}</LabelText>
                     </Top>
                     <Bottom>
-                      <AmountSpan variant="accent">{tx.amountOut}</AmountSpan>
+                      <AmountText variant="accent">{tx.amountOut}</AmountText>
                     </Bottom>
                   </div>
                 </ColumnAmount>
-                <ColumnFee>
-                  <Text variant="section-title">
-                    {getCryptoAssetFormatter({
-                      locale: locale,
-                      displaySymbol: tx.currencyOut,
-                    }).format(Number(tx.fee))}
-                  </Text>
-                </ColumnFee>
                 <Column>
-                  <Ellipsis />
+                  <Detail />
                 </Column>
               </TxHistoryRow>
             );
           })}
-      </TxHistoriesContainer>
+      </TxHistoriesMobileContainer>
       <BrowserFooter>
         <Pagination>
           <BackButton
             variant="secondary"
-            size="state"
+            size="city"
             onClick={() => page > 1 && goBackPage()}
-            // Request: Please make `cursor: not-allowed` when disabled = true
             disabled={1 >= page}
           >
             <Icon.CaretLeft />
           </BackButton>
           <PageRow page={page}>
-            <Text variant="masked">
-              {/* Memo: Disable `maximumPage` because `swapHistory.total` is never gonna fixed due to removing duplicated txs */}
-              Page {page} {/* of {maximumPage} */}
-            </Text>
+            <Text variant="label">Page {page}</Text>
           </PageRow>
           <NextButton
             variant="secondary"
-            size="state"
+            size="city"
             onClick={() => maximumPage > page && goNextPage()}
             disabled={page >= maximumPage}
           >

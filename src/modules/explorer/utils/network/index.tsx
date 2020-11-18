@@ -1,33 +1,42 @@
-import { IFloat, IFloatBalance, IStats } from '../../index';
+import { IFetchUsd, IFloat, IFloatBalance, IStats, IFloatBalances } from '../../index';
 import { ENDPOINT_API } from '../../../env';
 import { fetch } from '../../../fetch';
 
-export const fetchFloatBalances = async (): Promise<{ floats: IFloat; capacity: string }> => {
-  const floatUrl = ENDPOINT_API.FLOAT_BALANCES;
+export const getUsdPrice = async (): Promise<IFetchUsd> => {
   const priceBtcUrl = ENDPOINT_API.COINGECKO + '/simple/price?ids=bitcoin&vs_currencies=usd';
   const priceBnbUrl = ENDPOINT_API.COINGECKO + '/simple/price?ids=binancecoin&vs_currencies=usd';
 
+  const results = await Promise.all([
+    fetch<{ bitcoin: { usd } }>(priceBtcUrl),
+    fetch<{ binancecoin: { usd } }>(priceBnbUrl),
+  ]);
+  const btc = results[0].ok && results[0].response.bitcoin.usd;
+  const bnb = results[1].ok && results[1].response.binancecoin.usd;
+
+  return {
+    btc,
+    bnb,
+  };
+};
+
+export const fetchFloatBalances = async (
+  usdBtc: number,
+  usdBnb: number,
+): Promise<IFloatBalances> => {
+  const floatUrl = ENDPOINT_API.FLOAT_BALANCES;
+
   try {
-    const results = await Promise.all([
-      fetch<{ balances: IFloatBalance }>(floatUrl),
-      fetch<{ bitcoin: { usd } }>(priceBtcUrl),
-      fetch<{ binancecoin: { usd } }>(priceBnbUrl),
-    ]);
-    const floatBalances: IFloatBalance = results[0].ok && results[0].response.balances;
-    const btcUsd: number = results[1].ok && results[1].response.bitcoin.usd;
-    const bnbUsd: number = results[2].ok && results[2].response.binancecoin.usd;
+    const result = await fetch<{ balances: IFloatBalance }>(floatUrl);
+    const floatBalances: IFloatBalance = result.ok && result.response.balances;
 
     const floats: IFloat = {
-      btc: Number(floatBalances.BTC.confirmed).toFixed(3),
-      btcb: Number(floatBalances['BTCB-1DE']).toFixed(3),
-      bnb: Number(floatBalances.BNB).toFixed(3),
+      btc: Number(floatBalances.BTC.confirmed),
+      btcb: Number(floatBalances['BTCB-1DE']),
+      bnb: Number(floatBalances.BNB),
     };
 
-    const capacity: string = (
-      btcUsd * Number(floats.btc) +
-      btcUsd * Number(floats.btcb) +
-      bnbUsd * Number(floats.bnb)
-    ).toFixed(0);
+    const capacity: number =
+      usdBtc * Number(floats.btc) + usdBtc * Number(floats.btcb) + usdBnb * Number(floats.bnb);
 
     return { floats, capacity };
   } catch (err) {
@@ -57,22 +66,24 @@ export const fetchStatsInfo = async (): Promise<IStats> => {
     const binancePeersRes = results[2].ok && results[2].response;
     const ethereumPeersRes = results[3].ok && results[3].response;
 
-    const volume24Hr: string = (
-      binanceRes.network24hrSwapsVolume[0] + ethereumRes.network24hrSwapsVolume[0]
-    ).toFixed(3);
+    const volume24HrBinance: number = binanceRes.network24hrSwapsVolume[0];
+    const volume24HrEthereum: number = ethereumRes.network24hrSwapsVolume[0];
+    // Memo: `volume24HrBTC` means same as `volume24HrTOTAL`.
+    const volume24HrBtc: number = volume24HrBinance + volume24HrEthereum;
     const rewards24Hr: number = Number(
       binanceRes.networkRewards24hrVolume[0] + ethereumRes.networkRewards24hrVolume[0],
     );
     const volumes: string[] = binanceRes.network24hrSwapsVolume.map((volume, i) =>
       (volume + ethereumRes.network24hrSwapsVolume[i]).toFixed(3),
     );
-    const validators = binancePeersRes.length + ethereumPeersRes.length;
-
+    const metanodes = binancePeersRes.length + ethereumPeersRes.length;
     return {
-      volume24Hr,
+      volume24HrBinance,
+      volume24HrEthereum,
+      volume24HrBtc,
       rewards24Hr,
       volumes,
-      validators,
+      metanodes,
     };
   } catch (err) {
     console.log(err);

@@ -1,6 +1,7 @@
-import { formatFiatAsset, Text } from '@swingby-protocol/pulsar';
+import { getFiatAssetFormatter, Text } from '@swingby-protocol/pulsar';
 import React from 'react';
 import { useIntl } from 'react-intl';
+import { useSelector } from 'react-redux';
 
 import { IStats } from '../../../../explorer';
 
@@ -12,7 +13,7 @@ import {
   Network,
   NetworkCapacity,
   NetworkRewards,
-  NetworkValidators,
+  NetworkMetanodes,
   Row,
   RowValidator,
   ValidatorLinkSpan,
@@ -26,69 +27,74 @@ interface Props {
 
 export const ExplorerInfos = (props: Props) => {
   const { capacity, stats } = props;
+  const explorer = useSelector((state) => state.explorer);
+  const { usd } = explorer;
+
   const { locale } = useIntl();
 
-  const data = [
+  const data = usd && [
     {
       icon: <Network />,
       description: 'Volume (24hr)',
-      value: formatFiatAsset({
-        amount: Number(stats.volume24Hr),
+      value: getFiatAssetFormatter({
         locale: locale,
         currency: 'USD',
-      }),
+        minimumFractionDigits: 3,
+        maximumFractionDigits: 3,
+      }).format(Number(stats.volume24HrBtc) * usd.btc),
     },
     {
       icon: <NetworkRewards />,
       description: 'Rewards (24hr)',
-      value: formatFiatAsset({
-        amount: stats.rewards24Hr,
+      value: getFiatAssetFormatter({
         locale: locale,
         currency: 'USD',
-      }),
+      }).format(stats.rewards24Hr * usd.btc),
     },
     {
       icon: <NetworkCapacity />,
       description: 'Capacity (Float)',
-      value: formatFiatAsset({
-        amount: Number(capacity),
+      value: getFiatAssetFormatter({
         locale: locale,
         currency: 'USD',
-      }),
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      }).format(Number(capacity)),
     },
     {
-      icon: <NetworkValidators />,
-      description: 'Validators',
-      value: stats.validators,
+      icon: <NetworkMetanodes />,
+      description: 'Metanodes',
+      value: stats.metanodes,
     },
   ];
 
   return (
     <ExplorerInfosContainer>
       <InfosContainer>
-        {data.map((info) => {
-          return (
-            <InfoContainer key={info.description}>
-              {info.icon}
-              <DataDiv>
-                {info.description === 'Validators' ? (
-                  <RowValidator>
-                    <Text variant="label">{info.description}</Text>
-                    <ValidatorLinkSpan variant="accent">All</ValidatorLinkSpan>
-                  </RowValidator>
-                ) : (
-                  <Row>
-                    <Text variant="label">{info.description}</Text>
-                  </Row>
-                )}
+        {usd &&
+          data.map((info) => {
+            return (
+              <InfoContainer key={info.description}>
+                {info.icon}
+                <DataDiv>
+                  {info.description === 'Metanodes' ? (
+                    <RowValidator>
+                      <Text variant="label">{info.description}</Text>
+                      <ValidatorLinkSpan variant="accent">All</ValidatorLinkSpan>
+                    </RowValidator>
+                  ) : (
+                    <Row>
+                      <Text variant="label">{info.description}</Text>
+                    </Row>
+                  )}
 
-                <Row>
-                  <ValueSpan variant="accent">{info.value}</ValueSpan>
-                </Row>
-              </DataDiv>
-            </InfoContainer>
-          );
-        })}
+                  <Row>
+                    <ValueSpan variant="accent">{info.value}</ValueSpan>
+                  </Row>
+                </DataDiv>
+              </InfoContainer>
+            );
+          })}
       </InfosContainer>
     </ExplorerInfosContainer>
   );

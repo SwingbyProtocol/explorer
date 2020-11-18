@@ -2,18 +2,65 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { Icon, Text } from '@swingby-protocol/pulsar';
 
+import { StylingConstants } from '../../../../styles';
+
+const { media } = StylingConstants;
+
 export const ExplorerInfosContainer = styled.div`
-  border-right: 1px solid #cecddc;
-  border-left: 1px solid #cecddc;
-  padding-right: ${({ theme }) => rem(theme.pulsar.size.drawer)};
-  padding-left: ${({ theme }) => rem(theme.pulsar.size.city)};
+  grid-area: infos;
+  padding-right: ${({ theme }) => rem(theme.pulsar.size.street)};
+  padding-left: ${({ theme }) => rem(theme.pulsar.size.street)};
+  @media (min-width: ${rem(media.xs)}) {
+    display: flex;
+    flex-direction: column;
+  }
+  @media (min-width: ${rem(media.md)}) {
+    padding-top: ${({ theme }) => rem(theme.pulsar.size.box * 7)};
+  }
+  @media (min-width: ${rem(media.lg)}) {
+    padding-top: ${({ theme }) => rem(theme.pulsar.size.closet)};
+    grid-area: auto;
+    border-right: 1px solid #cecddc;
+    border-left: 1px solid #cecddc;
+    padding-right: 0;
+    padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
+  }
+  @media (min-width: ${rem(media.xl)}) {
+    padding-left: ${({ theme }) => rem(theme.pulsar.size.town)};
+  }
 `;
 
 export const InfosContainer = styled.div`
-  padding-top: ${({ theme }) => rem(theme.pulsar.size.country)};
+  border-top: 1px solid #cecddc;
+  border-bottom: 1px solid #cecddc;
+  padding-top: ${({ theme }) => rem(theme.pulsar.size.town)};
+  padding-bottom: ${({ theme }) => rem(theme.pulsar.size.town)};
   display: grid;
+  align-self: center;
   grid-template-columns: 1fr 1fr;
   grid-gap: ${({ theme }) => rem(theme.pulsar.size.street)};
+  @media (min-width: ${rem(media.sm)}) {
+    padding-top: ${({ theme }) => rem(theme.pulsar.size.state)};
+    padding-bottom: ${({ theme }) => rem(theme.pulsar.size.state)};
+  }
+  @media (min-width: ${rem(media.md)}) {
+    padding-top: ${({ theme }) => rem(theme.pulsar.size.country)};
+    padding-left: ${({ theme }) => rem(theme.pulsar.size.city)};
+    padding-bottom: 0;
+    border-top: 0px solid transparent;
+    border-bottom: 0px solid transparent;
+    grid-gap: ${({ theme }) => rem(theme.pulsar.size.room)};
+    grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.box)};
+  }
+  ${({ theme }) => rem(theme.pulsar.size.house)};
+  @media (min-width: ${rem(media.lg)}) {
+    grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.house)};
+    padding-left: 0;
+    padding-top: ${({ theme }) => rem(theme.pulsar.size.town)};
+  }
+  @media (min-width: ${rem(media.xl)}) {
+    grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.street)};
+  }
 `;
 
 export const InfoContainer = styled.div`
@@ -21,6 +68,12 @@ export const InfoContainer = styled.div`
   display: grid;
   grid-template-columns: ${({ theme }) => rem(theme.pulsar.size.city)} auto;
   align-items: center;
+  @media (min-width: ${rem(media.xs)}) {
+    width: ${rem(160)};
+  }
+  @media (min-width: ${rem(media.lg)}) {
+    width: ${rem(160)};
+  }
 `;
 
 export const DataDiv = styled.div`
@@ -66,7 +119,7 @@ export const NetworkCapacity = styled(Icon.NetworkCapacity)`
   color: ${({ theme }) => theme.pulsar.color.text.masked};
 `;
 
-export const NetworkValidators = styled(Icon.NetworkValidators)`
+export const NetworkMetanodes = styled(Icon.NetworkValidators)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.street)};
   color: ${({ theme }) => theme.pulsar.color.text.masked};
 `;

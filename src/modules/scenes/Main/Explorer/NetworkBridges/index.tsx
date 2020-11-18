@@ -1,26 +1,38 @@
 import { Text } from '@swingby-protocol/pulsar';
 import React from 'react';
+import { FormattedNumber } from 'react-intl';
 
 import { CoinSymbol } from '../../../../coins';
-import { IFloat } from '../../../../explorer';
+import { IFloat, IStats } from '../../../../explorer';
 
-import { AmountSpan, Coin, CoinContainer, CoinInfo, DataDiv, Row } from './styled';
+import {
+  Coin,
+  CoinContainer,
+  CoinInfo,
+  DataDiv,
+  FloatSpan,
+  NetworkBridgeContainer,
+  Row,
+  TitleText,
+  VolSpan,
+} from './styled';
 
 interface Props {
   floatBalances: IFloat;
+  stats: IStats;
 }
 
 export const NetworkBridges = (props: Props) => {
-  const { floatBalances } = props;
+  const { floatBalances, stats } = props;
   const data = [
-    { coin: CoinSymbol.BTC, float: floatBalances.btc, vol: 232.12 },
-    { coin: CoinSymbol.BTC_E, float: 24.493, vol: 232.12 },
+    { coin: CoinSymbol.BTC, float: floatBalances.btc, vol: stats.volume24HrBtc },
+    { coin: CoinSymbol.BTC_E, float: 24.493, vol: stats.volume24HrEthereum },
     { coin: CoinSymbol.BNB, float: floatBalances.bnb, vol: 232.12 },
-    { coin: CoinSymbol.BTC_B, float: floatBalances.btcb, vol: 232.12 },
+    { coin: CoinSymbol.BTC_B, float: floatBalances.btcb, vol: stats.volume24HrBinance },
   ];
   return (
-    <div>
-      <Text variant="section-title">Network Bridges</Text>
+    <NetworkBridgeContainer>
+      <TitleText variant="section-title">Network Bridges</TitleText>
       <CoinContainer>
         {data.map((coin) => {
           return (
@@ -29,17 +41,21 @@ export const NetworkBridges = (props: Props) => {
               <DataDiv>
                 <Row>
                   <Text variant="label">Float</Text>
-                  <AmountSpan>{coin.float}</AmountSpan>
+                  <FloatSpan>
+                    <FormattedNumber value={Number(coin.float)} />
+                  </FloatSpan>
                 </Row>
                 <Row>
                   <Text variant="label">Vol</Text>
-                  <AmountSpan>{coin.vol}</AmountSpan>
+                  <VolSpan>
+                    <FormattedNumber value={coin.vol} />
+                  </VolSpan>
                 </Row>
               </DataDiv>
             </CoinInfo>
           );
         })}
       </CoinContainer>
-    </div>
+    </NetworkBridgeContainer>
   );
 };

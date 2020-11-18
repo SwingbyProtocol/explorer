@@ -5,7 +5,7 @@ import { useIntl } from 'react-intl';
 
 import { IStats } from '../../../../explorer';
 
-import { AllVolumeSpan, SwapVolumeContainer, TitleDiv } from './styled';
+import { AllVolumeSpan, Box, LineContainer, SwapVolumeContainer, TitleDiv } from './styled';
 
 interface Props {
   stats: IStats;
@@ -80,17 +80,21 @@ export const SwapVolume = (props: Props) => {
           },
           ticks: {
             stepSize: 2,
+            fontSize: 10,
+            fontColor: '#929D9D',
           },
         },
       ],
       yAxes: [
         {
-          ticks: {
-            stepSize: 2,
-            padding: 10,
-          },
           gridLines: {
             display: false,
+          },
+          ticks: {
+            stepSize: 2,
+            fontColor: '#929D9D',
+            fontSize: 10,
+            padding: 10,
           },
         },
       ],
@@ -98,11 +102,15 @@ export const SwapVolume = (props: Props) => {
   };
   return (
     <SwapVolumeContainer>
-      <TitleDiv>
-        <Text variant="section-title">Total Swap Vol. 7d</Text>
-        <AllVolumeSpan variant="accent">See More</AllVolumeSpan>
-      </TitleDiv>
-      <Line type="line" data={data} options={options} height={110} />
+      <Box>
+        <TitleDiv>
+          <Text variant="section-title">Total Swap Vol. 7d</Text>
+          <AllVolumeSpan variant="accent">See More</AllVolumeSpan>
+        </TitleDiv>
+        <LineContainer>
+          <Line type="line" data={data} options={options} height={110} />
+        </LineContainer>
+      </Box>
     </SwapVolumeContainer>
   );
 };

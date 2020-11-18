@@ -1,4 +1,4 @@
-export { fetchHistory } from './fetchHistory';
+export { loadHistory } from './loadHistory';
 export {
   currencyNetwork,
   statusColor,
@@ -7,4 +7,4 @@ export {
   convertTxTime,
 } from './transaction';
 
-export { fetchFloatBalances, fetchStatsInfo } from './network';
+export { fetchFloatBalances, fetchStatsInfo, getUsdPrice } from './network';

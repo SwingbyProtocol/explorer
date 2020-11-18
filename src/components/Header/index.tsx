@@ -2,10 +2,44 @@ import { Dropdown } from '@swingby-protocol/pulsar';
 import Link from 'next/link';
 import React, { useState } from 'react';
 
-import { HeaderContainer, Left, Logo, Menu, MenuSpan, Right } from './styled';
+import { languagesSelector } from '../../modules/i18n';
+
+import {
+  Hamburger,
+  HeaderContainer,
+  LanguageDropDown,
+  LanguageDropTarget,
+  LanguageTitle,
+  Left,
+  Logo,
+  Menu,
+  MenuSpan,
+  MobileMenu,
+  Right,
+  RoutineTitle,
+} from './styled';
 
 export const Header = () => {
   const [lang, setLang] = useState('EN');
+  const routing = [
+    { text: 'Pool', route: '/' },
+    { text: 'Metanodes', route: '/' },
+    { text: 'Analytics', route: '/' },
+  ];
+  const languageItems = (
+    <>
+      {languagesSelector.map((language) => (
+        <Dropdown.Item
+          selected={lang === language.text}
+          onClick={() => setLang(language.text)}
+          key={language.code}
+        >
+          {language.text}
+        </Dropdown.Item>
+      ))}
+    </>
+  );
+
   return (
     <HeaderContainer>
       <Left>
@@ -22,19 +56,33 @@ export const Header = () => {
           />
         </Link>
         <Menu>
-          <MenuSpan variant="menu">Stake</MenuSpan>
-          <MenuSpan variant="menu">Validators</MenuSpan>
-          <MenuSpan variant="menu">Analytics</MenuSpan>
+          {routing.map((link) => (
+            <MenuSpan variant="menu">{link.text}</MenuSpan>
+          ))}
         </Menu>
       </Left>
       <Right>
-        <Dropdown
-          target={<Dropdown.DefaultTarget size="city">{lang}</Dropdown.DefaultTarget>}
+        <MobileMenu target={<Hamburger />} data-testid="dropdown">
+          <RoutineTitle variant="accent">Link</RoutineTitle>
+          {routing.map((link) => (
+            <Dropdown.Item>{link.text}</Dropdown.Item>
+          ))}
+          <Dropdown.Divider />
+          <Dropdown
+            target={<LanguageTitle size="city">Language</LanguageTitle>}
+            data-testid="dropdown"
+          >
+            {languageItems}
+          </Dropdown>
+        </MobileMenu>
+
+        {/* Media: screen > sm */}
+        <LanguageDropDown
+          target={<LanguageDropTarget size="city">{lang}</LanguageDropTarget>}
           data-testid="dropdown"
         >
-          <Dropdown.Item onClick={() => setLang('EN')}>EN</Dropdown.Item>
-          <Dropdown.Item onClick={() => setLang('中文')}>中文</Dropdown.Item>
-        </Dropdown>
+          {languageItems}
+        </LanguageDropDown>
       </Right>
     </HeaderContainer>
   );

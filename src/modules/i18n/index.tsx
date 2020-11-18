@@ -11,3 +11,14 @@ export const languages = {
   zh,
   'zh-TW': zh_TW,
 };
+
+export const languagesSelector = [
+  {
+    text: 'EN',
+    code: 'en',
+  },
+  {
+    text: '中文',
+    code: 'zh',
+  },
+];

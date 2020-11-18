@@ -1,7 +1,9 @@
 import { PulsarThemeProvider } from '@swingby-protocol/pulsar';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 
+import { StylingConstants } from '../../../../styles';
 import { Browser } from '../Browser';
 
 import { ExplorerMainContainer, HeadLine, SearchIcon, SearchInput, TitleH1 } from './styled';
@@ -9,6 +11,9 @@ import { ExplorerMainContainer, HeadLine, SearchIcon, SearchInput, TitleH1 } fro
 export const ExplorerMain = () => {
   const [search, setSearch] = useState('');
   const router = useRouter();
+  const { media } = StylingConstants;
+  const explorer = useSelector((state) => state.explorer);
+  const { width } = explorer;
 
   return (
     <PulsarThemeProvider theme="accent">
@@ -17,7 +22,7 @@ export const ExplorerMain = () => {
           <TitleH1>Skybridge Explorer</TitleH1>
           <PulsarThemeProvider>
             <SearchInput
-              size="country"
+              size={width > media.lg ? 'country' : width > media.md ? 'state' : 'city'}
               value={search || router.query.q}
               onChange={(evt) => {
                 setSearch(evt.target.value);

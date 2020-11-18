@@ -1,17 +1,19 @@
-import styled from 'styled-components';
-import { CoinIcon, Icon, StatusIcon, Text } from '@swingby-protocol/pulsar';
+import { Button, CoinIcon, Icon, StatusIcon, Text } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
+import styled from 'styled-components';
+
+import { StylingConstants } from '../../../../styles';
 
 interface BgProps {
   bg: boolean;
 }
-// Request: Please add `disable` Props for icon
-interface ButtonProps {
-  disable: boolean;
-}
+
 interface PageProps {
   page: number;
 }
+
+const { media } = StylingConstants;
+
 export const TxHistoriesContainer = styled.div`
   /* Memo: Make space for when loading txs data */
   min-height: ${rem(413)};
@@ -20,33 +22,52 @@ export const TxHistoriesContainer = styled.div`
 export const TitleRow = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
 `;
 
-export const Left = styled.div``;
-
-export const Right = styled.div`
-  padding-right: ${({ theme }) => rem(theme.pulsar.size.street)};
-  display: grid;
-  grid-template-columns: ${rem(100)} 1fr;
-  grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.street)};
-  align-items: center;
+export const Left = styled.div`
+  padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
+  @media (min-width: ${rem(media.xl)}) {
+    padding-right: 0;
+  }
 `;
 
-export const Filter = styled(Icon.Filter)`
-  color: ${({ theme }) => theme.pulsar.color.text.masked};
-  font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
+export const Right = styled.div`
+  padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
+  @media (min-width: ${rem(media.lg)}) {
+    display: grid;
+    grid-template-columns: ${rem(100)} 1fr;
+    grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.street)};
+    align-items: center;
+  }
+  @media (min-width: ${rem(media.xl)}) {
+    padding-right: ${({ theme }) => rem(theme.pulsar.size.street)};
+  }
+`;
+
+export const TextFee = styled(Text)`
+  display: none;
+  @media (min-width: ${rem(media.lg)}) {
+    display: block;
+  }
 `;
 
 export const TxHistoryRow = styled.div<BgProps>`
   height: ${rem(92)};
-  background: ${(props) => !props.bg && 'rgba(43, 55, 74, 0.02)'};
+  background: ${(props) => !props.bg && props.theme.pulsar.color.bg.hover};
   padding-top: ${({ theme }) => rem(theme.pulsar.size.street)};
   padding-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
   padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
   padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
   display: grid;
-  grid-template-columns: 13.5% 4% 23.5% 15.5% 6% 20% 15.5% 4%;
+  grid-template-columns: 19% 5% 20.5% 20.5% 10% 22% 2%;
+  @media (min-width: ${rem(media.lg)}) {
+    grid-template-columns: 13.5% 4% 23.5% 16.5% 5% 19.5% 16% 2%;
+  }
+  @media (min-width: ${rem(media.xl)}) {
+    grid-template-columns: 13.5% 4% 23.5% 16.5% 3.5% 21% 15.5% 2.5%;
+  }
 `;
 
 export const Column = styled.div`
@@ -61,6 +82,17 @@ export const ColumnAmount = styled(Column)`
   display: grid;
   grid-template-columns: ${({ theme }) => rem(theme.pulsar.size.state)} ${rem(150)};
   align-items: center;
+`;
+
+export const ColumnFee = styled.div`
+  display: none;
+  @media (min-width: ${rem(media.lg)}) {
+    height: ${({ theme }) => rem(theme.pulsar.size.state)};
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
 `;
 
 export const Top = styled.div`
@@ -78,9 +110,7 @@ export const Status = styled.div`
 
 export const Ellipsis = styled(Icon.Ellipsis)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.street)};
-  :hover {
-    cursor: pointer;
-  }
+  cursor: pointer;
 `;
 
 export const SwapHorizontal = styled(Icon.SwapHorizontal)`
@@ -91,11 +121,17 @@ export const SwapHorizontal = styled(Icon.SwapHorizontal)`
 export const AddressP = styled.p`
   color: #3799da;
   font-weight: bold;
-  max-width: ${rem(230)};
+  max-width: ${rem(92)};
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
+  @media (min-width: ${rem(media.lg)}) {
+    max-width: ${rem(200)};
+  }
+  @media (min-width: ${rem(media.xl)}) {
+    max-width: ${rem(230)};
+  }
 `;
 
 export const AmountSpan = styled(Text)`
@@ -128,17 +164,15 @@ export const PageText = styled.div`
   justify-content: flex-end;
 `;
 
-export const IconCaretLeft = styled(Icon.CaretLeft)<ButtonProps>`
+export const BackButton = styled(Button)`
   color: ${({ theme }) => theme.pulsar.color.text.masked};
   margin-right: ${({ theme }) => rem(theme.pulsar.size.room)};
-  opacity: ${(props) => props.disable && 0.4};
-  cursor: ${(props) => (props.disable ? 'not-allowed' : 'pointer')};
+  background-color: transparent;
 `;
-export const IconCaretRight = styled(Icon.CaretRight)<ButtonProps>`
+export const NextButton = styled(Button)`
   color: ${({ theme }) => theme.pulsar.color.text.masked};
   margin-left: ${({ theme }) => rem(theme.pulsar.size.room)};
-  opacity: ${(props) => props.disable && 0.4};
-  cursor: ${(props) => (props.disable ? 'not-allowed' : 'pointer')};
+  background-color: transparent;
 `;
 
 export const PageRow = styled.div<PageProps>`
@@ -146,11 +180,4 @@ export const PageRow = styled.div<PageProps>`
   width: ${(props) => (props.page > 99 ? rem(100) : rem(80))};
   text-align: center;
   white-space: nowrap;
-`;
-
-export const LoadContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: ${rem(413)};
 `;
