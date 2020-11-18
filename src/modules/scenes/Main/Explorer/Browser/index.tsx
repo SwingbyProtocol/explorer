@@ -24,13 +24,17 @@ import { TxHistoriesMobile } from '../TxHistoriesMobile';
 import { Bottom, BrowserContainer, BrowserDiv, Top, Filter, LoadContainer } from './styled';
 
 export const Browser = () => {
+  const explorer = useSelector((state) => state.explorer);
+  const { swapHistory, isHideWaiting, swapHistoryTemp, usd } = explorer;
   /**
    * Memo: For Network information
    **/
   const initialState = {
-    floatBalances: { btc: '0', btcb: '0', bnb: '0' },
+    floatBalances: { btc: 0, btcb: 0, bnb: 0 },
     stats: {
-      volume24Hr: '0',
+      volume24HrBinance: 0,
+      volume24HrEthereum: 0,
+      volume24HrBtc: 0,
       rewards24Hr: 0,
       volumes: ['1', '1', '1', '1', '1', '1', '1'],
       metanodes: 0,
@@ -42,29 +46,30 @@ export const Browser = () => {
   const [stats, setStats] = useState(initialState.stats);
 
   useEffect(() => {
-    (async () => {
-      const results = await Promise.all([fetchFloatBalances(), fetchStatsInfo()]);
+    usd &&
+      (async () => {
+        const results = await Promise.all([fetchFloatBalances(usd.btc, usd.bnb), fetchStatsInfo()]);
 
-      const data = results[0];
-      data && setFloatBalances(data.floats);
-      data && setCapacity(data.capacity);
+        const data = results[0];
+        data && setFloatBalances(data.floats);
+        data && setCapacity(data.capacity);
 
-      const stats = results[1];
-      stats &&
-        setStats({
-          volume24Hr: stats.volume24Hr,
-          rewards24Hr: stats.rewards24Hr,
-          volumes: stats.volumes,
-          metanodes: stats.metanodes,
-        });
-    })();
-  }, []);
+        const stats = results[1];
+        stats &&
+          setStats({
+            volume24HrBinance: stats.volume24HrBinance,
+            volume24HrEthereum: stats.volume24HrEthereum,
+            volume24HrBtc: stats.volume24HrBtc,
+            rewards24Hr: stats.rewards24Hr,
+            volumes: stats.volumes,
+            metanodes: stats.metanodes,
+          });
+      })();
+  }, [usd]);
 
   /**
    * Memo: For TxHistories
    **/
-  const explorer = useSelector((state) => state.explorer);
-  const { swapHistory, isHideWaiting, swapHistoryTemp } = explorer;
   const [isLoadingUrl, setIsLoadingUrl] = useState(true);
 
   const dispatch = useDispatch();
@@ -163,7 +168,7 @@ export const Browser = () => {
     <BrowserContainer>
       <BrowserDiv size="bare">
         <Top>
-          <NetworkBridges floatBalances={floatBalances} />
+          <NetworkBridges floatBalances={floatBalances} stats={stats} />
           <ExplorerInfos capacity={capacity} stats={stats} />
           <SwapVolume stats={stats} />
         </Top>

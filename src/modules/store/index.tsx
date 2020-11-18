@@ -5,4 +5,5 @@ export {
   toggleIsHideWaiting,
   updateSwapHistoryTemp,
   setWidthSize,
+  fetchUsdPrice,
 } from './explorer';

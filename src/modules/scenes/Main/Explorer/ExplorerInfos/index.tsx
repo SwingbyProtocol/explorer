@@ -1,6 +1,7 @@
 import { getFiatAssetFormatter, Text } from '@swingby-protocol/pulsar';
 import React from 'react';
 import { useIntl } from 'react-intl';
+import { useSelector } from 'react-redux';
 
 import { IStats } from '../../../../explorer';
 
@@ -26,16 +27,21 @@ interface Props {
 
 export const ExplorerInfos = (props: Props) => {
   const { capacity, stats } = props;
+  const explorer = useSelector((state) => state.explorer);
+  const { usd } = explorer;
+
   const { locale } = useIntl();
 
-  const data = [
+  const data = usd && [
     {
       icon: <Network />,
       description: 'Volume (24hr)',
       value: getFiatAssetFormatter({
         locale: locale,
         currency: 'USD',
-      }).format(Number(stats.volume24Hr)),
+        minimumFractionDigits: 3,
+        maximumFractionDigits: 3,
+      }).format(Number(stats.volume24HrBtc) * usd.btc),
     },
     {
       icon: <NetworkRewards />,
@@ -43,7 +49,7 @@ export const ExplorerInfos = (props: Props) => {
       value: getFiatAssetFormatter({
         locale: locale,
         currency: 'USD',
-      }).format(stats.rewards24Hr),
+      }).format(stats.rewards24Hr * usd.btc),
     },
     {
       icon: <NetworkCapacity />,
@@ -65,29 +71,30 @@ export const ExplorerInfos = (props: Props) => {
   return (
     <ExplorerInfosContainer>
       <InfosContainer>
-        {data.map((info) => {
-          return (
-            <InfoContainer key={info.description}>
-              {info.icon}
-              <DataDiv>
-                {info.description === 'Metanodes' ? (
-                  <RowValidator>
-                    <Text variant="label">{info.description}</Text>
-                    <ValidatorLinkSpan variant="accent">All</ValidatorLinkSpan>
-                  </RowValidator>
-                ) : (
-                  <Row>
-                    <Text variant="label">{info.description}</Text>
-                  </Row>
-                )}
+        {usd &&
+          data.map((info) => {
+            return (
+              <InfoContainer key={info.description}>
+                {info.icon}
+                <DataDiv>
+                  {info.description === 'Metanodes' ? (
+                    <RowValidator>
+                      <Text variant="label">{info.description}</Text>
+                      <ValidatorLinkSpan variant="accent">All</ValidatorLinkSpan>
+                    </RowValidator>
+                  ) : (
+                    <Row>
+                      <Text variant="label">{info.description}</Text>
+                    </Row>
+                  )}
 
-                <Row>
-                  <ValueSpan variant="accent">{info.value}</ValueSpan>
-                </Row>
-              </DataDiv>
-            </InfoContainer>
-          );
-        })}
+                  <Row>
+                    <ValueSpan variant="accent">{info.value}</ValueSpan>
+                  </Row>
+                </DataDiv>
+              </InfoContainer>
+            );
+          })}
       </InfosContainer>
     </ExplorerInfosContainer>
   );

@@ -7,6 +7,7 @@ export {
   convertTxTime,
   fetchFloatBalances,
   fetchStatsInfo,
+  getUsdPrice,
 } from './utils';
 
 export const BRIDGE = {
@@ -62,13 +63,15 @@ export interface IBtcFloatBalance {
 }
 
 export interface IFloat {
-  btc: string;
-  btcb: string;
-  bnb: string;
+  btc: number;
+  btcb: number;
+  bnb: number;
 }
 
 export interface IStats {
-  volume24Hr: string;
+  volume24HrBinance: number;
+  volume24HrEthereum: number;
+  volume24HrBtc: number;
   rewards24Hr: number;
   volumes: string[];
   metanodes: number;
@@ -82,4 +85,12 @@ export interface IFetchHistory {
 export interface ILoadHistory {
   txsWithPage: ITransactions;
   tempMixedHistories: SwapRawObject[];
+}
+export interface IFloatBalances {
+  floats: IFloat;
+  capacity: number;
+}
+export interface IFetchUsd {
+  btc: number;
+  bnb: number;
 }

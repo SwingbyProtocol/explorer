@@ -3,7 +3,9 @@ import Head from 'next/head';
 import React, { ReactNode, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { setWidthSize } from '../modules/store';
+import { getUsdPrice, IFetchUsd } from '../modules/explorer';
+import { useInterval } from '../modules/hooks';
+import { setWidthSize, fetchUsdPrice } from '../modules/store';
 
 import { Header } from './Header';
 
@@ -20,6 +22,18 @@ export const Layout = (props: Props) => {
   useEffect(() => {
     dispatch(setWidthSize(width));
   }, [width, dispatch]);
+
+  useEffect(() => {
+    getUsdPrice().then((price: IFetchUsd) => {
+      dispatch(fetchUsdPrice(price));
+    });
+  }, [dispatch]);
+
+  useInterval(() => {
+    getUsdPrice().then((price: IFetchUsd) => {
+      dispatch(fetchUsdPrice(price));
+    });
+  }, [60000]);
 
   return (
     <>
