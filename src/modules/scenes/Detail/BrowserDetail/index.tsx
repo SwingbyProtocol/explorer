@@ -1,17 +1,17 @@
 import { useRouter } from 'next/router';
 import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ScaleLoader } from 'react-spinners';
 
-import { ILoadHistory, loadHistory } from '../../../explorer';
-import { useInterval } from '../../../hooks';
+import { Loader } from '../../../../components/Loader';
+import { ILoadHistory, loadHistory, SwapRawObject } from '../../../explorer';
 import { selectSwapDetails } from '../../../store';
 import { ActionButtons } from '../ActionButtons';
 import { DetailCard } from '../DetailCard';
 import { FeeDistribution } from '../FeeDistribution';
+import { StatusCard } from '../StatusCard';
 import { SwapFees } from '../SwapFees';
 
-import { BrowserDetailContainer, BrowserDetailDiv, LoadContainer } from './styled';
+import { BrowserDetailContainer, BrowserDetailDiv } from './styled';
 
 export const BrowserDetail = () => {
   const explorer = useSelector((state) => state.explorer);
@@ -45,45 +45,34 @@ export const BrowserDetail = () => {
     !swapDetails && hash && dispatchSelectSwapDetails(hash);
   }, [dispatchSelectSwapDetails, hash, swapDetails]);
 
-  useInterval(() => {
-    dispatchSelectSwapDetails(hash);
-  }, [10000]);
-
-  const data = swapDetails && swapDetails;
-
-  const loader = (
-    <LoadContainer>
-      <ScaleLoader margin={3} color="#36D7B7" />
-    </LoadContainer>
-  );
+  const tx = swapDetails && (swapDetails as SwapRawObject);
 
   return (
     <BrowserDetailContainer>
+      <StatusCard tx={tx} />
       <BrowserDetailDiv size="bare">
-        {data && router.pathname !== undefined ? (
+        {tx && router.pathname !== undefined ? (
           <>
             <ActionButtons />
             <DetailCard
               role="From"
-              currency={data.currencyIn}
-              amount={data.amountIn}
-              address={data.addressIn}
-              txId={data.txIdIn}
+              currency={tx.currencyIn}
+              amount={tx.amountIn}
+              address={tx.addressIn}
+              txId={tx.txIdIn}
             />
             <DetailCard
               role="To"
-              currency={data.currencyOut}
-              amount={data.amountOut}
-              address={data.addressOut}
-              txId={data.txIdOut}
+              currency={tx.currencyOut}
+              amount={tx.amountOut}
+              address={tx.addressOut}
+              txId={tx.txIdOut}
             />
-            <SwapFees fee={data.fee} currency={data.feeCurrency} />
-            {data.rewards.length > 0 && (
-              <FeeDistribution rewards={data.rewards} currency={data.currencyOut} />
-            )}
+            <SwapFees tx={tx} />
+            {tx.rewards.length > 0 && <FeeDistribution tx={tx} />}
           </>
         ) : (
-          loader
+          <Loader minHeight={686} />
         )}
       </BrowserDetailDiv>
     </BrowserDetailContainer>

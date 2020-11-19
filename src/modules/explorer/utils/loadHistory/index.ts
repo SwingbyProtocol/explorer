@@ -177,7 +177,6 @@ const loadHistoryFiltered = async (
 
 export const loadHistory = async (arg: ILoadHistoryArgs): Promise<ILoadHistory> => {
   const { page, query, hash, isHideWaiting, bridge, prevTxsWithPage, swapHistoryTemp } = arg;
-  console.log('hash', hash);
 
   let tempMixedHistories: SwapRawObject[] = [];
   let txsWithPage: ITransactions = {

@@ -2,8 +2,8 @@ import { Dropdown } from '@swingby-protocol/pulsar';
 import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ScaleLoader } from 'react-spinners';
 
+import { Loader } from '../../../../../components/Loader';
 import { PAGE_COUNT } from '../../../../env';
 import {
   BRIDGE,
@@ -168,11 +168,7 @@ export const Browser = (props: Props) => {
     </Dropdown>
   );
 
-  const loader = (
-    <LoadContainer data-testid="main.loading-container">
-      <ScaleLoader margin={3} color="#36D7B7" />
-    </LoadContainer>
-  );
+  const loader = <Loader minHeight={368} testId="main.loading-container" />;
 
   return (
     <BrowserContainer>

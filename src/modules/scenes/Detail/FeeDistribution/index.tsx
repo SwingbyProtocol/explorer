@@ -1,39 +1,38 @@
 import { Text } from '@swingby-protocol/pulsar';
 import React from 'react';
 
-import { exponentialToNumber, Reward } from '../../../explorer';
+import { exponentialToNumber, Reward, SwapRawObject } from '../../../explorer';
 
 import {
+  AddressP,
+  Arrow,
   Coin,
   CoinContainer,
   FeeDistributionContainer,
-  Row,
-  AddressP,
-  TitleText,
   RewardsContainer,
+  Row,
   SeeMore,
-  Arrow,
   SeeMoreRow,
+  TitleText,
 } from './styled';
 
 interface Props {
-  rewards: Reward[];
-  currency: string;
+  tx: SwapRawObject;
 }
 
 export const FeeDistribution = (props: Props) => {
-  const { rewards, currency } = props;
+  const { tx } = props;
 
   return (
     <FeeDistributionContainer>
       <TitleText variant="accent">Fee Distribution</TitleText>
       <RewardsContainer>
-        {rewards &&
-          rewards.map((reward: Reward, i: number) => {
+        {tx.rewards &&
+          tx.rewards.map((reward: Reward, i: number) => {
             return (
               <Row key={i}>
                 <CoinContainer>
-                  <Coin symbol={currency} />
+                  <Coin symbol={tx.currencyOut} />
                   <Text variant="accent"> {exponentialToNumber(reward.amount)}</Text>
                 </CoinContainer>
                 <AddressP>{reward.address}</AddressP>

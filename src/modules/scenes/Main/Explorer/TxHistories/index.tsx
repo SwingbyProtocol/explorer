@@ -3,7 +3,13 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 
-import { convertTxTime, currencyNetwork, statusColor, SwapRawObject } from '../../../../explorer';
+import {
+  capitalize,
+  convertTxTime,
+  currencyNetwork,
+  statusColor,
+  SwapRawObject,
+} from '../../../../explorer';
 import { selectSwapDetails } from '../../../../store';
 
 import {
@@ -78,16 +84,13 @@ export const TxHistories = (props: Props) => {
               <TxHistoryRow
                 key={i}
                 bg={i % 2 !== 0}
-                onMouseEnter={() => {
-                  console.log('hi');
-                  dispatch(selectSwapDetails(tx));
-                }}
+                onMouseEnter={() => dispatch(selectSwapDetails(tx))}
                 onClick={() => goToDetail(tx.hash)}
               >
                 <Column>
                   <Status>
                     <StatusCircle variant={statusColor(tx.status)} />
-                    <StatusText variant="accent">{tx.status}</StatusText>
+                    <StatusText variant="accent">{capitalize(tx.status)}</StatusText>
                   </Status>
                   <Bottom>
                     <Text variant="label">{convertTxTime(tx.timestamp)}</Text>

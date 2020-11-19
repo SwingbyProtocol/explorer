@@ -5,6 +5,7 @@ export const ActionButtonsContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
 `;
 export const Buttons = styled.div`
   display: grid;

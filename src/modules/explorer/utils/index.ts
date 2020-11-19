@@ -5,6 +5,7 @@ export {
   TxStatus,
   removeDuplicatedTxs,
   convertTxTime,
+  capitalize,
 } from './transaction';
 export { calculateFixedFee, getTransactionFees, exponentialToNumber } from './transactionFee';
 

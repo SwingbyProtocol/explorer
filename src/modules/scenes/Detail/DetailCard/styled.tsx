@@ -7,7 +7,6 @@ import { StylingConstants } from '../../../styles';
 const { media } = StylingConstants;
 
 export const DetailCardContainer = styled.div`
-  /* height: ${rem(174)}; */
   background-color: ${({ theme }) => theme.pulsar.color.bg.hover};
   margin-top: ${({ theme }) => rem(theme.pulsar.size.box * 5)};
   padding: ${({ theme }) => rem(theme.pulsar.size.house)};

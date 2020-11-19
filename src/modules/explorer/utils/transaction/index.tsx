@@ -114,3 +114,8 @@ export const convertTxTime = (unixTimestamp: number) => {
     />
   );
 };
+
+export const capitalize = (s: string): string => {
+  const word = s.toLowerCase();
+  return word.charAt(0).toUpperCase() + word.slice(1);
+};

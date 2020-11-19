@@ -11,6 +11,7 @@ export {
   calculateFixedFee,
   getTransactionFees,
   exponentialToNumber,
+  capitalize,
 } from './utils';
 
 export const BRIDGE = {
