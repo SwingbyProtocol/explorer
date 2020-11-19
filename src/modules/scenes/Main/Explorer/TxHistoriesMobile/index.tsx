@@ -1,7 +1,9 @@
 import { Icon, Text } from '@swingby-protocol/pulsar';
 import React from 'react';
+import { useDispatch } from 'react-redux';
 
 import { convertTxTime, currencyNetwork, statusColor, SwapRawObject } from '../../../../explorer';
+import { selectSwapDetails } from '../../../../store';
 
 import {
   AmountText,
@@ -51,6 +53,8 @@ export const TxHistoriesMobile = (props: Props) => {
     goToDetail,
     loader,
   } = props;
+  const dispatch = useDispatch();
+
   return (
     <>
       <TxHistoriesMobileContainer>
@@ -64,7 +68,15 @@ export const TxHistoriesMobile = (props: Props) => {
         {currentTxs &&
           currentTxs.map((tx: SwapRawObject, i: number) => {
             return (
-              <TxHistoryRow key={i} bg={i % 2 !== 0} onClick={() => goToDetail(tx.txIdIn)}>
+              <TxHistoryRow
+                key={i}
+                bg={i % 2 !== 0}
+                onMouseEnter={() => {
+                  console.log('hi');
+                  dispatch(selectSwapDetails(tx));
+                }}
+                onClick={() => goToDetail(tx.hash)}
+              >
                 <Column>
                   <Status>
                     <StatusCircle variant={statusColor(tx.status)} />

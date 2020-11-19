@@ -5,7 +5,7 @@ import { ScaleLoader } from 'react-spinners';
 
 import { ILoadHistory, loadHistory } from '../../../explorer';
 import { useInterval } from '../../../hooks';
-import { getHistory } from '../../../store';
+import { selectSwapDetails } from '../../../store';
 import { ActionButtons } from '../ActionButtons';
 import { DetailCard } from '../DetailCard';
 import { FeeDistribution } from '../FeeDistribution';
@@ -15,28 +15,41 @@ import { BrowserDetailContainer, BrowserDetailDiv, LoadContainer } from './style
 
 export const BrowserDetail = () => {
   const explorer = useSelector((state) => state.explorer);
-  const { swapHistory } = explorer;
+  const { swapDetails } = explorer;
   const dispatch = useDispatch();
   const router = useRouter();
   const params = router.query;
-  const txid = String(params.txid);
+  const hash = String(params.hash);
 
-  const dispatchLoadHistory = useCallback(async () => {
-    const data: ILoadHistory = await loadHistory(0, txid, false, '', null, null);
-    if (data) {
-      dispatch(getHistory(data.txsWithPage));
-    }
-  }, [dispatch, txid]);
+  const dispatchSelectSwapDetails = useCallback(
+    async (hash: string) => {
+      if (hash !== 'undefined') {
+        const data: ILoadHistory = await loadHistory({
+          page: 0,
+          query: '',
+          hash,
+          isHideWaiting: false,
+          bridge: '',
+          prevTxsWithPage: null,
+          swapHistoryTemp: null,
+        });
+        if (data) {
+          dispatch(selectSwapDetails(data.txsWithPage.data[0][0]));
+        }
+      }
+    },
+    [dispatch],
+  );
 
   useEffect(() => {
-    dispatchLoadHistory();
-  }, [dispatchLoadHistory]);
+    !swapDetails && hash && dispatchSelectSwapDetails(hash);
+  }, [dispatchSelectSwapDetails, hash, swapDetails]);
 
   useInterval(() => {
-    dispatchLoadHistory();
+    dispatchSelectSwapDetails(hash);
   }, [10000]);
 
-  const data = swapHistory && swapHistory.data[0][0];
+  const data = swapDetails && swapDetails;
 
   const loader = (
     <LoadContainer>
@@ -47,7 +60,7 @@ export const BrowserDetail = () => {
   return (
     <BrowserDetailContainer>
       <BrowserDetailDiv size="bare">
-        {data ? (
+        {data && router.pathname !== undefined ? (
           <>
             <ActionButtons />
             <DetailCard

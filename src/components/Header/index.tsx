@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { languagesSelector } from '../../modules/i18n';
 
 import {
+  Atag,
   Hamburger,
   HeaderContainer,
   LanguageDropDown,
@@ -44,12 +45,14 @@ export const Header = () => {
       <Left>
         {/* Memo: To reset URL and state */}
         {/* Request: Perhaps make `AppLogo` components with `a tag (<a></a>)` but without changing logo color */}
-        <a href="/">
+        <Atag href="/">
           <Logo productName="Explorer" />
-        </a>
+        </Atag>
         <Menu>
           {routing.map((link) => (
-            <MenuSpan variant="menu">{link.text}</MenuSpan>
+            <MenuSpan variant="menu" key={link.text}>
+              {link.text}
+            </MenuSpan>
           ))}
         </Menu>
       </Left>
@@ -57,7 +60,7 @@ export const Header = () => {
         <MobileMenu target={<Hamburger />} data-testid="dropdown">
           <RoutineTitle variant="accent">Link</RoutineTitle>
           {routing.map((link) => (
-            <Dropdown.Item>{link.text}</Dropdown.Item>
+            <Dropdown.Item key={link.text}>{link.text}</Dropdown.Item>
           ))}
           <Dropdown.Divider />
           <Dropdown

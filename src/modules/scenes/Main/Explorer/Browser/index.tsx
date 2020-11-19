@@ -8,27 +8,26 @@ import { PAGE_COUNT } from '../../../../env';
 import {
   BRIDGE,
   fetchFloatBalances,
-  loadHistory,
   fetchStatsInfo,
-  removeDuplicatedTxs,
   ILoadHistory,
+  loadHistory,
+  removeDuplicatedTxs,
 } from '../../../../explorer';
 import { useInterval } from '../../../../hooks';
-import {
-  getHistory,
-  toggleIsHideWaiting,
-  updateSwapHistoryTemp,
-  clearHistory,
-} from '../../../../store';
+import { getHistory, toggleIsHideWaiting, updateSwapHistoryTemp } from '../../../../store';
 import { ExplorerInfos } from '../ExplorerInfos';
 import { NetworkBridges } from '../NetworkBridges';
 import { SwapVolume } from '../SwapVolume';
 import { TxHistories } from '../TxHistories';
 import { TxHistoriesMobile } from '../TxHistoriesMobile';
 
-import { Bottom, BrowserContainer, BrowserDiv, Top, Filter, LoadContainer } from './styled';
+import { Bottom, BrowserContainer, BrowserDiv, Filter, LoadContainer, Top } from './styled';
 
-export const Browser = () => {
+interface Props {
+  setBrowser: (arg: string) => void;
+}
+
+export const Browser = (props: Props) => {
   const explorer = useSelector((state) => state.explorer);
   const { swapHistory, isHideWaiting, swapHistoryTemp, usd } = explorer;
   /**
@@ -84,9 +83,9 @@ export const Browser = () => {
   const page = Number(params.page || 1);
   const chainBridge = String(params.bridge || '');
 
-  const goToDetail = (txid: string) => {
-    dispatch(clearHistory());
-    router.push(`/detail?txid=${txid}`);
+  const goToDetail = (hash: string) => {
+    props.setBrowser('BrowserDetail');
+    router.push(`/detail?hash=${hash}`);
   };
 
   const routerPush = (bridge: string, q: string, page: number): void => {
@@ -115,14 +114,15 @@ export const Browser = () => {
   }, []);
 
   const dispatchLoadHistory = useCallback(async () => {
-    const data: ILoadHistory = await loadHistory(
-      page - 1,
-      q,
+    const data: ILoadHistory = await loadHistory({
+      page: page - 1,
+      query: q,
+      hash: '',
       isHideWaiting,
-      chainBridge,
-      swapHistory,
-      swapHistoryTemp,
-    );
+      bridge: chainBridge,
+      prevTxsWithPage: swapHistory,
+      swapHistoryTemp: swapHistoryTemp,
+    });
     if (data) {
       const uniqueTempMixedHistories = removeDuplicatedTxs(data.tempMixedHistories);
       dispatch(getHistory(data.txsWithPage));

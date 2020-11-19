@@ -28,6 +28,7 @@ export interface SwapRawObject {
   currencyIn: string;
   currencyOut: string;
   fee?: string;
+  hash?: string;
   feeCurrency: string;
   status: string;
   timestamp?: number;
@@ -102,4 +103,14 @@ export interface IFee {
   bridgeFeePercent: string;
   currency: string;
   minerFee: string;
+}
+
+export interface ILoadHistoryArgs {
+  page: number;
+  query: string;
+  hash: string;
+  isHideWaiting: boolean;
+  bridge: string;
+  prevTxsWithPage: ITransactions | null;
+  swapHistoryTemp: SwapRawObject[] | null;
 }

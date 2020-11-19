@@ -1,8 +1,10 @@
 import { getCryptoAssetFormatter, Icon, Text } from '@swingby-protocol/pulsar';
 import React from 'react';
 import { useIntl } from 'react-intl';
+import { useDispatch } from 'react-redux';
 
 import { convertTxTime, currencyNetwork, statusColor, SwapRawObject } from '../../../../explorer';
+import { selectSwapDetails } from '../../../../store';
 
 import {
   AddressP,
@@ -55,6 +57,7 @@ export const TxHistories = (props: Props) => {
   } = props;
 
   const { locale } = useIntl();
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -72,7 +75,15 @@ export const TxHistories = (props: Props) => {
         {currentTxs &&
           currentTxs.map((tx: SwapRawObject, i: number) => {
             return (
-              <TxHistoryRow key={i} bg={i % 2 !== 0} onClick={() => goToDetail(tx.txIdIn)}>
+              <TxHistoryRow
+                key={i}
+                bg={i % 2 !== 0}
+                onMouseEnter={() => {
+                  console.log('hi');
+                  dispatch(selectSwapDetails(tx));
+                }}
+                onClick={() => goToDetail(tx.hash)}
+              >
                 <Column>
                   <Status>
                     <StatusCircle variant={statusColor(tx.status)} />

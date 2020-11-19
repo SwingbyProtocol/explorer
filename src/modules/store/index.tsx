@@ -7,4 +7,5 @@ export {
   setWidthSize,
   fetchUsdPrice,
   fetchTransactionFees,
+  selectSwapDetails,
 } from './explorer';

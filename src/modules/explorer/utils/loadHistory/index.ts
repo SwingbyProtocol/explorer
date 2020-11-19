@@ -6,6 +6,7 @@ import {
   SwapRawObject,
   IFetchHistory,
   ILoadHistory,
+  ILoadHistoryArgs,
 } from '../../index';
 import { removeDuplicatedTxs, TxStatus } from '../transaction';
 import { ENDPOINT_API, PAGE_COUNT } from '../../../env';
@@ -29,7 +30,12 @@ const generateEndpoint = (
   page: number,
   query: string,
   isHideWaiting: boolean,
+  hash: string,
 ): string => {
+  if (hash !== '') {
+    return `${baseUrl}?page=${page}&page_size=${PAGE_COUNT}&hash=${hash}&sort=0`;
+  }
+
   if (query === '') {
     if (!isHideWaiting) {
       return `${baseUrl}?page=${page}&page_size=${PAGE_COUNT}&sort=0`;
@@ -110,6 +116,7 @@ const getTotal = (
 const fetchHistory = async (
   page: number,
   query: string,
+  hash: string,
   isHideWaiting: boolean,
   bridge: string,
 ): Promise<{ txs: SwapRawObject[]; duplicatedTxQTY: number; total: number }> => {
@@ -124,7 +131,7 @@ const fetchHistory = async (
     }
   };
 
-  const url = generateEndpoint(baseUrl(bridge), page, query, isHideWaiting);
+  const url = generateEndpoint(baseUrl(bridge), page, query, isHideWaiting, hash);
   const result = await fetch<{ items: SwapRawObject[]; total: number }>(url);
 
   const txRes: IFetchSwapHistoryResponse = result.ok && result.response;
@@ -141,13 +148,14 @@ const fetchHistory = async (
 const loadHistoryFiltered = async (
   page: number,
   query: string,
+  hash: string,
   isHideWaiting: boolean,
   bridge: string,
   prevTxsWithPage: ITransactions,
 ): Promise<ITransactions> => {
   const results = await Promise.all([
-    fetchHistory(page, query, isHideWaiting, bridge),
-    fetchHistory(page + 1, query, isHideWaiting, bridge),
+    fetchHistory(page, query, hash, isHideWaiting, bridge),
+    fetchHistory(page + 1, query, hash, isHideWaiting, bridge),
   ]);
 
   const data = results[0];
@@ -167,14 +175,10 @@ const loadHistoryFiltered = async (
   return txsWithPage;
 };
 
-export const loadHistory = async (
-  page: number,
-  query: string,
-  isHideWaiting: boolean,
-  bridge: string,
-  prevTxsWithPage: ITransactions | null,
-  swapHistoryTemp: SwapRawObject[],
-): Promise<ILoadHistory> => {
+export const loadHistory = async (arg: ILoadHistoryArgs): Promise<ILoadHistory> => {
+  const { page, query, hash, isHideWaiting, bridge, prevTxsWithPage, swapHistoryTemp } = arg;
+  console.log('hash', hash);
+
   let tempMixedHistories: SwapRawObject[] = [];
   let txsWithPage: ITransactions = {
     data: {},
@@ -194,10 +198,10 @@ export const loadHistory = async (
     // Memo: Aggregate 2 bridges' query result into 1 array
     if (bridge === '') {
       const results = await Promise.all([
-        fetchHistory(page, query, isHideWaiting, BRIDGE.binance),
-        fetchHistory(page + 1, query, isHideWaiting, BRIDGE.binance),
-        fetchHistory(page, query, isHideWaiting, BRIDGE.ethereum),
-        fetchHistory(page + 1, query, isHideWaiting, BRIDGE.ethereum),
+        fetchHistory(page, query, hash, isHideWaiting, BRIDGE.binance),
+        fetchHistory(page + 1, query, hash, isHideWaiting, BRIDGE.binance),
+        fetchHistory(page, query, hash, isHideWaiting, BRIDGE.ethereum),
+        fetchHistory(page + 1, query, hash, isHideWaiting, BRIDGE.ethereum),
       ]);
 
       const dataBinance: IFetchHistory = results[0];
@@ -269,7 +273,14 @@ export const loadHistory = async (
     }
     // When: Filtered chain
     else {
-      txsWithPage = await loadHistoryFiltered(page, query, isHideWaiting, bridge, txsWithPage);
+      txsWithPage = await loadHistoryFiltered(
+        page,
+        query,
+        hash,
+        isHideWaiting,
+        bridge,
+        txsWithPage,
+      );
     }
     return { txsWithPage, tempMixedHistories };
   } catch (error) {

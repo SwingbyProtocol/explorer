@@ -17,6 +17,9 @@ export const ExplorerMain = () => {
   const { media } = StylingConstants;
   const explorer = useSelector((state) => state.explorer);
   const { width } = explorer;
+  const [browser, setBrowser] = useState(
+    router.pathname === PATH.ROOT ? 'Browser' : 'BrowserDetail',
+  );
 
   return (
     <PulsarThemeProvider theme="accent">
@@ -40,7 +43,7 @@ export const ExplorerMain = () => {
           </PulsarThemeProvider>
         </HeadLine>
         <PulsarThemeProvider>
-          {router.pathname === PATH.ROOT ? <Browser /> : <BrowserDetail />}
+          {browser === 'Browser' ? <Browser setBrowser={setBrowser} /> : <BrowserDetail />}
         </PulsarThemeProvider>
       </ExplorerMainContainer>
     </PulsarThemeProvider>
