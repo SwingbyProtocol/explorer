@@ -6,4 +6,5 @@ export {
   updateSwapHistoryTemp,
   setWidthSize,
   fetchUsdPrice,
+  fetchTransactionFees,
 } from './explorer';

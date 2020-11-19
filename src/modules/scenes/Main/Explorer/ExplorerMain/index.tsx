@@ -3,7 +3,10 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 
+import { PATH } from '../../../../env';
 import { StylingConstants } from '../../../../styles';
+// Todo: Fix error: 'Reaching to "../../../Detail/BrowserDetail" is not allowed.eslintimport/no-internal-modules'
+import { BrowserDetail } from '../../../Detail/BrowserDetail';
 import { Browser } from '../Browser';
 
 import { ExplorerMainContainer, HeadLine, SearchIcon, SearchInput, TitleH1 } from './styled';
@@ -22,7 +25,7 @@ export const ExplorerMain = () => {
           <TitleH1>Skybridge Explorer</TitleH1>
           <PulsarThemeProvider>
             <SearchInput
-              size={width > media.lg ? 'country' : width > media.md ? 'state' : 'city'}
+              size={width > media.lg ? 'country' : width > media.md ? 'state' : 'country'}
               value={search || router.query.q}
               onChange={(evt) => {
                 setSearch(evt.target.value);
@@ -37,7 +40,7 @@ export const ExplorerMain = () => {
           </PulsarThemeProvider>
         </HeadLine>
         <PulsarThemeProvider>
-          <Browser />
+          {router.pathname === PATH.ROOT ? <Browser /> : <BrowserDetail />}
         </PulsarThemeProvider>
       </ExplorerMainContainer>
     </PulsarThemeProvider>

@@ -76,8 +76,8 @@ export const SearchInput = styled(TextInput)`
   width: 100%;
   padding-top: ${({ theme }) => rem(theme.pulsar.size.street)};
   padding-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
-  padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
-  padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
+  padding-left: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  padding-right: ${({ theme }) => rem(theme.pulsar.size.closet)};
   font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
   ::placeholder {
     opacity: 0.8;

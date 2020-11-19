@@ -8,14 +8,10 @@ const { media } = StylingConstants;
 
 export const BrowserContainer = styled.div`
   display: grid;
-  padding-top: ${({ theme }) => rem(theme.pulsar.size.room)};
+  padding-top: ${({ theme }) => rem(theme.pulsar.size.drawer)};
   padding-bottom: ${({ theme }) => rem(theme.pulsar.size.room)};
-  padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
-  padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
-  @media (min-width: ${rem(media.xs)}) {
-    padding-left: ${({ theme }) => rem(theme.pulsar.size.closet)};
-    padding-right: ${({ theme }) => rem(theme.pulsar.size.closet)};
-  }
+  padding-left: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  padding-right: ${({ theme }) => rem(theme.pulsar.size.closet)};
   @media (min-width: ${rem(media.lg)}) {
     padding-top: 0;
   }

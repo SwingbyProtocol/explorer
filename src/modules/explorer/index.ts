@@ -8,6 +8,9 @@ export {
   fetchFloatBalances,
   fetchStatsInfo,
   getUsdPrice,
+  calculateFixedFee,
+  getTransactionFees,
+  exponentialToNumber,
 } from './utils';
 
 export const BRIDGE = {
@@ -93,4 +96,10 @@ export interface IFloatBalances {
 export interface IFetchUsd {
   btc: number;
   bnb: number;
+}
+
+export interface IFee {
+  bridgeFeePercent: string;
+  currency: string;
+  minerFee: string;
 }
