@@ -39,10 +39,20 @@ interface Props {
   currentTxs: SwapRawObject[];
   goNextPage: () => void;
   goBackPage: () => void;
+  goToDetail: (arg: string) => void;
 }
 
 export const TxHistories = (props: Props) => {
-  const { filter, page, maximumPage, currentTxs, goNextPage, goBackPage, loader } = props;
+  const {
+    filter,
+    page,
+    maximumPage,
+    currentTxs,
+    goNextPage,
+    goBackPage,
+    goToDetail,
+    loader,
+  } = props;
 
   const { locale } = useIntl();
 
@@ -62,7 +72,7 @@ export const TxHistories = (props: Props) => {
         {currentTxs &&
           currentTxs.map((tx: SwapRawObject, i: number) => {
             return (
-              <TxHistoryRow key={i} bg={i % 2 !== 0}>
+              <TxHistoryRow key={i} bg={i % 2 !== 0} onClick={() => goToDetail(tx.txIdIn)}>
                 <Column>
                   <Status>
                     <StatusCircle variant={statusColor(tx.status)} />

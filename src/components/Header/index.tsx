@@ -1,5 +1,5 @@
 import { Dropdown } from '@swingby-protocol/pulsar';
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
 import { languagesSelector } from '../../modules/i18n';
@@ -20,6 +20,8 @@ import {
 } from './styled';
 
 export const Header = () => {
+  const router = useRouter();
+  const params = router.query;
   const [lang, setLang] = useState('EN');
   const routing = [
     { text: 'Pool', route: '/' },
@@ -43,18 +45,11 @@ export const Header = () => {
   return (
     <HeaderContainer>
       <Left>
-        <Link href="/">
-          <Logo
-            productName="Explorer"
-            onClick={() => {
-              // Memo: To reset URL and state
-              // Request: Perhaps make `AppLogo` components with `a tag (<a></a>)` but without changing color
-              setTimeout(() => {
-                window.location.reload();
-              }, 10);
-            }}
-          />
-        </Link>
+        {/* Memo: To reset URL and state */}
+        {/* Request: Perhaps make `AppLogo` components with `a tag (<a></a>)` but without changing logo color */}
+        <a href="/">
+          <Logo productName="Explorer" />
+        </a>
         <Menu>
           {routing.map((link) => (
             <MenuSpan variant="menu">{link.text}</MenuSpan>

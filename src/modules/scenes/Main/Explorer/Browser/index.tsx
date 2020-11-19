@@ -14,7 +14,12 @@ import {
   ILoadHistory,
 } from '../../../../explorer';
 import { useInterval } from '../../../../hooks';
-import { getHistory, toggleIsHideWaiting, updateSwapHistoryTemp } from '../../../../store';
+import {
+  getHistory,
+  toggleIsHideWaiting,
+  updateSwapHistoryTemp,
+  clearHistory,
+} from '../../../../store';
 import { ExplorerInfos } from '../ExplorerInfos';
 import { NetworkBridges } from '../NetworkBridges';
 import { SwapVolume } from '../SwapVolume';
@@ -78,6 +83,11 @@ export const Browser = () => {
   const q = String(params.q || '');
   const page = Number(params.page || 1);
   const chainBridge = String(params.bridge || '');
+
+  const goToDetail = (txid: string) => {
+    dispatch(clearHistory());
+    router.push(`/detail?txid=${txid}`);
+  };
 
   const routerPush = (bridge: string, q: string, page: number): void => {
     router.push({
@@ -181,6 +191,7 @@ export const Browser = () => {
             goNextPage={goNextPage}
             goBackPage={goBackPage}
             loader={loader}
+            goToDetail={goToDetail}
           />
         </Bottom>
       </BrowserDiv>
@@ -192,6 +203,7 @@ export const Browser = () => {
         goNextPage={goNextPage}
         goBackPage={goBackPage}
         loader={loader}
+        goToDetail={goToDetail}
       />
     </BrowserContainer>
   );

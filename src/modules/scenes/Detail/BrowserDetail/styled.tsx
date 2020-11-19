@@ -37,3 +37,10 @@ export const BrowserDetailDiv = styled(Card)`
     padding-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
   }
 `;
+
+export const LoadContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: ${rem(686)};
+`;

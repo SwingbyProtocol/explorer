@@ -62,6 +62,8 @@ export const TxHistoryRow = styled.div<BgProps>`
   padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
   display: grid;
   grid-template-columns: 19% 5% 20.5% 20.5% 10% 22% 2%;
+  cursor: pointer;
+
   @media (min-width: ${rem(media.lg)}) {
     grid-template-columns: 13.5% 4% 23.5% 16.5% 5% 19.5% 16% 2%;
   }

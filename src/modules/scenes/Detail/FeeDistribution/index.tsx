@@ -28,17 +28,18 @@ export const FeeDistribution = (props: Props) => {
     <FeeDistributionContainer>
       <TitleText variant="accent">Fee Distribution</TitleText>
       <RewardsContainer>
-        {rewards.map((reward: Reward, i: number) => {
-          return (
-            <Row key={i}>
-              <CoinContainer>
-                <Coin symbol={currency} />
-                <Text variant="accent"> {exponentialToNumber(reward.amount)}</Text>
-              </CoinContainer>
-              <AddressP>{reward.address}</AddressP>
-            </Row>
-          );
-        })}
+        {rewards &&
+          rewards.map((reward: Reward, i: number) => {
+            return (
+              <Row key={i}>
+                <CoinContainer>
+                  <Coin symbol={currency} />
+                  <Text variant="accent"> {exponentialToNumber(reward.amount)}</Text>
+                </CoinContainer>
+                <AddressP>{reward.address}</AddressP>
+              </Row>
+            );
+          })}
         <SeeMoreRow>
           <SeeMore>
             <Text variant="accent">See more</Text>

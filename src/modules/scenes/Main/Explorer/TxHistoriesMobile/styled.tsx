@@ -51,6 +51,7 @@ export const TxHistoryRow = styled.div<BgProps>`
   padding-right: ${({ theme }) => rem(theme.pulsar.size.box)};
   padding-left: ${({ theme }) => rem(theme.pulsar.size.drawer)};
   display: flex;
+  cursor: pointer;
 
   @media (min-width: ${rem(media.xs)}) {
     display: grid;
