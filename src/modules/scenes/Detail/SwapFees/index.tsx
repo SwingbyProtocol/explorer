@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 import { calculateFixedFee } from '../../../explorer';
 
-import { Coin, Row, SwapFeesContainer, TitleText, CoinContainer } from './styled';
+import { Coin, CoinContainer, Row, SwapFeesContainer, TitleText } from './styled';
 
 interface Props {
   fee: string;

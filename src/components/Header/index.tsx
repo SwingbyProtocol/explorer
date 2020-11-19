@@ -1,5 +1,4 @@
 import { Dropdown } from '@swingby-protocol/pulsar';
-import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
 import { languagesSelector } from '../../modules/i18n';
@@ -20,8 +19,6 @@ import {
 } from './styled';
 
 export const Header = () => {
-  const router = useRouter();
-  const params = router.query;
   const [lang, setLang] = useState('EN');
   const routing = [
     { text: 'Pool', route: '/' },

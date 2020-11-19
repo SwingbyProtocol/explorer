@@ -34,9 +34,6 @@ export const Row = styled.div`
 export const Coin = styled(CoinIcon)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.town)};
   margin-right: ${({ theme }) => rem(theme.pulsar.size.closet)};
-  @media (min-width: ${rem(media.xs)}) {
-    padding: ${({ theme }) => rem(theme.pulsar.size.street)};
-  }
 `;
 export const CoinContainer = styled.div`
   display: flex;
