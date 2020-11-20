@@ -153,14 +153,17 @@ export const StatusCircle = styled(StatusIcon)`
   height: ${({ theme }) => rem(theme.pulsar.size.drawer)};
   margin-right: ${({ theme }) => rem(theme.pulsar.size.box)};
 `;
+
 export const BrowserFooter = styled.div`
   display: flex;
   justify-content: flex-end;
 `;
+
 export const Pagination = styled.div`
   display: flex;
   align-items: center;
 `;
+
 export const PageText = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -171,6 +174,7 @@ export const BackButton = styled(Button)`
   margin-right: ${({ theme }) => rem(theme.pulsar.size.room)};
   background-color: transparent;
 `;
+
 export const NextButton = styled(Button)`
   color: ${({ theme }) => theme.pulsar.color.text.masked};
   margin-left: ${({ theme }) => rem(theme.pulsar.size.room)};
