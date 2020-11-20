@@ -14,7 +14,12 @@ import {
   removeDuplicatedTxs,
 } from '../../../../explorer';
 import { useInterval } from '../../../../hooks';
-import { getHistory, toggleIsHideWaiting, updateSwapHistoryTemp } from '../../../../store';
+import {
+  getHistory,
+  toggleIsHideWaiting,
+  updateSwapHistoryTemp,
+  updateNetworkInfos,
+} from '../../../../store';
 import { ExplorerInfos } from '../ExplorerInfos';
 import { NetworkBridges } from '../NetworkBridges';
 import { SwapVolume } from '../SwapVolume';
@@ -29,54 +34,34 @@ interface Props {
 
 export const Browser = (props: Props) => {
   const explorer = useSelector((state) => state.explorer);
-  const { swapHistory, isHideWaiting, swapHistoryTemp, usd } = explorer;
+  const dispatch = useDispatch();
+  const { swapHistory, isHideWaiting, swapHistoryTemp, usd, networkInfos } = explorer;
+
   /**
    * Memo: For Network information
    **/
-  const initialState = {
-    floatBalances: { btc: 0, btcb: 0, bnb: 0 },
-    stats: {
-      volume24HrBinance: 0,
-      volume24HrEthereum: 0,
-      volume24HrBtc: 0,
-      rewards24Hr: 0,
-      volumes: ['1', '1', '1', '1', '1', '1', '1'],
-      metanodes: 0,
-    },
-  };
-
-  const [floatBalances, setFloatBalances] = useState(initialState.floatBalances);
-  const [capacity, setCapacity] = useState(null);
-  const [stats, setStats] = useState(initialState.stats);
-
+  const { floatBalances, stats, capacity } = networkInfos;
   useEffect(() => {
     usd &&
       (async () => {
         const results = await Promise.all([fetchFloatBalances(usd.btc, usd.bnb), fetchStatsInfo()]);
 
         const data = results[0];
-        data && setFloatBalances(data.floats);
-        data && setCapacity(data.capacity);
-
         const stats = results[1];
-        stats &&
-          setStats({
-            volume24HrBinance: stats.volume24HrBinance,
-            volume24HrEthereum: stats.volume24HrEthereum,
-            volume24HrBtc: stats.volume24HrBtc,
-            rewards24Hr: stats.rewards24Hr,
-            volumes: stats.volumes,
-            metanodes: stats.metanodes,
-          });
+
+        data &&
+          stats &&
+          dispatch(
+            updateNetworkInfos({ floatBalances: data.floats, capacity: data.capacity, stats }),
+          );
       })();
-  }, [usd]);
+  }, [usd, dispatch]);
 
   /**
    * Memo: For TxHistories
    **/
   const [isLoadingUrl, setIsLoadingUrl] = useState(true);
 
-  const dispatch = useDispatch();
   const router = useRouter();
   const params = router.query;
   const q = String(params.q || '');

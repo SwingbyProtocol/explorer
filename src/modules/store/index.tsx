@@ -8,4 +8,5 @@ export {
   fetchUsdPrice,
   fetchTransactionFees,
   selectSwapDetails,
+  updateNetworkInfos,
 } from './explorer';

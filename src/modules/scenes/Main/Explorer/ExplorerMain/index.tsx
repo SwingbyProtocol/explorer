@@ -12,12 +12,13 @@ import { Browser } from '../Browser';
 import { ExplorerMainContainer, HeadLine, SearchIcon, SearchInput, TitleH1 } from './styled';
 
 export const ExplorerMain = () => {
-  const [search, setSearch] = useState('');
   const router = useRouter();
+  const [search, setSearch] = useState('');
+  const [browser, setBrowser] = useState(router.pathname === PATH.ROOT ? 'Explorer' : 'Detail');
   const { media } = StylingConstants;
+
   const explorer = useSelector((state) => state.explorer);
   const { width } = explorer;
-  const [browser, setBrowser] = useState(router.pathname === PATH.ROOT ? 'Explorer' : 'Detail');
 
   return (
     <PulsarThemeProvider theme="accent">

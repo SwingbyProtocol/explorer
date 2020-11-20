@@ -1,6 +1,8 @@
 import { Reducer } from 'redux';
 
-import { IFee, IFetchUsd, ITransactions, SwapRawObject } from '../../explorer';
+import { IFee, IFetchUsd, INetworkInfos, ITransactions, SwapRawObject } from '../../explorer';
+
+import * as initial from './initialState';
 
 enum Actions {
   FetchHistory = 'Explorer/FETCH_HISTORY',
@@ -11,6 +13,7 @@ enum Actions {
   SetWidthSize = 'Explorer/SET_WIDTH_SIZE',
   FetchUsdPrice = 'Explorer/FETCH_USD_PRICE',
   FetchTransactionFees = 'Explorer/FETCH_TRANSACTION_FEES',
+  UpdateNetworkInfos = 'Explorer/UPDATE_NETWORK_INFOS',
 }
 
 const initialState = {
@@ -18,7 +21,8 @@ const initialState = {
   swapHistoryTemp: null,
   swapDetails: null,
   isHideWaiting: false,
-  usd: { btc: 0, bnb: 0 },
+  usd: initial.usd,
+  networkInfos: initial.networkInfos,
   transactionFees: null,
   width: null,
 };
@@ -58,6 +62,10 @@ export const explorer: Reducer<State, Action> = (state = initialState, action) =
     return { ...state, transactionFees: action.data };
   }
 
+  if (action.type === Actions.UpdateNetworkInfos) {
+    return { ...state, networkInfos: action.data };
+  }
+
   return state;
 };
 
@@ -80,6 +88,9 @@ export const fetchUsdPrice = (data: IFetchUsd) => ({ type: Actions.FetchUsdPrice
 export const fetchTransactionFees = (data: IFee[]) =>
   ({ type: Actions.FetchTransactionFees, data } as const);
 
+export const updateNetworkInfos = (data: INetworkInfos) =>
+  ({ type: Actions.UpdateNetworkInfos, data } as const);
+
 type Action =
   | ReturnType<typeof getHistory>
   | ReturnType<typeof selectSwapDetails>
@@ -88,4 +99,5 @@ type Action =
   | ReturnType<typeof updateSwapHistoryTemp>
   | ReturnType<typeof setWidthSize>
   | ReturnType<typeof fetchUsdPrice>
-  | ReturnType<typeof fetchTransactionFees>;
+  | ReturnType<typeof fetchTransactionFees>
+  | ReturnType<typeof updateNetworkInfos>;

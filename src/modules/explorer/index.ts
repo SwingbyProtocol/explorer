@@ -115,3 +115,20 @@ export interface ILoadHistoryArgs {
   prevTxsWithPage: ITransactions | null;
   swapHistoryTemp: SwapRawObject[] | null;
 }
+
+export interface INetworkInfos {
+  capacity: number;
+  floatBalances: {
+    btc: number;
+    btcb: number;
+    bnb: number;
+  };
+  stats: {
+    volume24HrBinance: number;
+    volume24HrEthereum: number;
+    volume24HrBtc: number;
+    rewards24Hr: number;
+    volumes: string[];
+    metanodes: number;
+  };
+}
