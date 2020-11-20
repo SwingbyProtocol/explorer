@@ -4,6 +4,7 @@ import React from 'react';
 
 import { Loader } from '../../../../../components/Loader';
 import { capitalize, convertTxTime, statusColor, SwapRawObject } from '../../../../explorer';
+import { generateMessage } from '../../../../swap';
 
 import {
   Arrow,
@@ -23,6 +24,7 @@ interface Props {
 export const StatusCard = (props: Props) => {
   const { tx, setBrowser } = props;
   const router = useRouter();
+
   return (
     <StatusCardContainer>
       {tx ? (
@@ -38,10 +40,7 @@ export const StatusCard = (props: Props) => {
             <StatusText variant="accent">{capitalize(tx.status)}</StatusText>
           </Row>
           <h1 style={{ margin: 0 }}>Status images</h1>
-          {/* Todo: Show the text according to tx status */}
-          <TextMsg variant="label">
-            Funds have been successfully swapped and funds have been delivered
-          </TextMsg>
+          <TextMsg variant="label">{generateMessage(tx.status)}</TextMsg>
           <Row>
             <Clock />
             <Text variant="section-title">{convertTxTime(tx.timestamp)}</Text>
