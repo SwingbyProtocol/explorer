@@ -1,4 +1,4 @@
-import { CoinIcon, Text } from '@swingby-protocol/pulsar';
+import { CoinIcon, Icon, Text } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
 import styled from 'styled-components';
 
@@ -35,7 +35,19 @@ export const AmountSpan = styled(Text)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
 `;
 
-export const Row = styled.div`
+export const IconInfo = styled(Icon.Search)`
+  font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
+  color: ${({ theme }) => theme.pulsar.color.text.masked};
+  cursor: pointer;
+`;
+
+export const RowRole = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const RowAddress = styled.div`
   display: grid;
   grid-template-columns: ${({ theme }) => rem(theme.pulsar.size.state)} auto;
   align-items: center;

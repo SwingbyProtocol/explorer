@@ -2,6 +2,7 @@ import { Text } from '@swingby-protocol/pulsar';
 import React from 'react';
 
 import { currencyNetwork } from '../../../../explorer';
+import { transactionDetail } from '../../../../swap/';
 
 import {
   Coin,
@@ -9,9 +10,11 @@ import {
   DetailCardContainer,
   AmountSpan,
   AddressP,
-  Row,
+  RowAddress,
+  RowRole,
   Top,
   Bottom,
+  IconInfo,
 } from './styled';
 
 interface Props {
@@ -26,7 +29,14 @@ export const DetailCard = (props: Props) => {
   const { role, currency, amount, address, txId } = props;
   return (
     <DetailCardContainer>
-      <Text variant="section-title">{role}</Text>
+      <RowRole>
+        <Text variant="section-title">{role}</Text>
+        {txId && (
+          <a href={transactionDetail(currency, txId)} rel="noopener noreferrer" target="_blank">
+            <IconInfo />
+          </a>
+        )}
+      </RowRole>
       <Column>
         <Coin symbol={currency} />
         <div>
@@ -38,14 +48,14 @@ export const DetailCard = (props: Props) => {
           </Bottom>
         </div>
       </Column>
-      <Row>
+      <RowAddress>
         <Text variant="label">{role}</Text>
         <AddressP>{address}</AddressP>
-      </Row>
-      <Row>
+      </RowAddress>
+      <RowAddress>
         <Text variant="label">TxId</Text>
         <AddressP>{txId}</AddressP>
-      </Row>
+      </RowAddress>
     </DetailCardContainer>
   );
 };

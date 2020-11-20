@@ -58,7 +58,7 @@ export const BrowserDetail = (props: Props) => {
         {tx && router.pathname !== undefined ? (
           <>
             <ActionButtons />
-            <Row>
+            <Row isTxId={tx.txIdIn !== undefined}>
               <DetailCard
                 role="From"
                 currency={tx.currencyIn}

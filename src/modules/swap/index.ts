@@ -1,1 +1,1 @@
-export { generateMessage } from './utils';
+export { generateMessage, transactionDetail } from './utils';

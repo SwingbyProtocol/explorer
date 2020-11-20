@@ -1,7 +1,7 @@
-import { CoinSymbol } from '../../../../coins';
+import { CoinSymbol } from '../../../coins';
+import { TxStatus } from '../../index';
 
-import { TxStatus } from './../../../index';
-import { currencyNetwork, statusColor, capitalize } from './../index';
+import { currencyNetwork, statusColor, capitalize } from './index';
 
 it('return network name', () => {
   expect(currencyNetwork(CoinSymbol.BTC)).toStrictEqual('BTC');

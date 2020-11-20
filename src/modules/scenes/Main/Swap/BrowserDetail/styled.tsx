@@ -6,6 +6,10 @@ import { StylingConstants } from '../../../../styles';
 
 const { media } = StylingConstants;
 
+interface RowProps {
+  isTxId: boolean;
+}
+
 // Memo: make browser width size same as explorer page
 const browserDetailWidthXl = 806;
 
@@ -63,10 +67,11 @@ export const IconSwap = styled(Icon.SwapHorizontal)`
   }
 `;
 
-export const Row = styled.div`
+export const Row = styled.div<RowProps>`
   @media (min-width: ${rem(media.lg)}) {
     display: grid;
-    grid-template-columns: auto ${rem(70)} auto;
+    grid-template-columns: ${(props) =>
+      props.isTxId ? `auto ${rem(70)} auto` : `45.3% ${rem(70)} auto`};
     align-items: center;
   }
 `;
