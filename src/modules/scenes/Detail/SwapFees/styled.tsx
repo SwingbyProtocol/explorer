@@ -10,6 +10,7 @@ export const SwapFeesContainer = styled.div`
   margin-top: ${({ theme }) => rem(-theme.pulsar.size.box)};
   padding-top: ${({ theme }) => rem(theme.pulsar.size.street)};
 `;
+
 export const TitleText = styled(Text)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
 `;
@@ -29,7 +30,9 @@ export const Row = styled.div`
 export const Coin = styled(CoinIcon)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.town)};
   margin-right: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  filter: saturate(0);
 `;
+
 export const CoinContainer = styled.div`
   display: flex;
   justify-content: space-between;

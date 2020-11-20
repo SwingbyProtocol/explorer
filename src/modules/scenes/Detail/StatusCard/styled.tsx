@@ -1,4 +1,4 @@
-import { Card, Icon, StatusIcon, Text } from '@swingby-protocol/pulsar';
+import { Icon, StatusIcon, Text } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
 import styled from 'styled-components';
 

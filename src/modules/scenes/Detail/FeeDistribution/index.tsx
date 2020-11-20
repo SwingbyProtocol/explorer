@@ -5,7 +5,7 @@ import { exponentialToNumber, Reward, SwapRawObject } from '../../../explorer';
 
 import {
   AddressP,
-  Arrow,
+  IconLinkArrow,
   Coin,
   CoinContainer,
   FeeDistributionContainer,
@@ -14,6 +14,7 @@ import {
   SeeMore,
   SeeMoreRow,
   TitleText,
+  IconRightArrow,
 } from './styled';
 
 interface Props {
@@ -35,16 +36,20 @@ export const FeeDistribution = (props: Props) => {
                   <Coin symbol={tx.currencyOut} />
                   <Text variant="accent"> {exponentialToNumber(reward.amount)}</Text>
                 </CoinContainer>
+                <IconRightArrow />
                 <AddressP>{reward.address}</AddressP>
               </Row>
             );
           })}
-        <SeeMoreRow>
-          <SeeMore>
-            <Text variant="accent">See more</Text>
-            <Arrow />
-          </SeeMore>
-        </SeeMoreRow>
+        {tx.rewards.length > 5 && (
+          <SeeMoreRow>
+            <SeeMore>
+              {/* Todo: Add click logic */}
+              <Text variant="accent">See more</Text>
+              <IconLinkArrow />
+            </SeeMore>
+          </SeeMoreRow>
+        )}
       </RewardsContainer>
     </FeeDistributionContainer>
   );

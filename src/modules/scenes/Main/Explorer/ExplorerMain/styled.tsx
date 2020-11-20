@@ -16,10 +16,10 @@ export const ExplorerMainContainer = styled.div`
   @media (min-width: ${rem(media.xs)}) {
     height: ${rem(240)};
     display: grid;
-    padding-top: ${({ theme }) => rem(theme.pulsar.size.street)};
     width: 100%;
   }
   @media (min-width: ${rem(media.sm)}) {
+    padding-top: ${({ theme }) => rem(theme.pulsar.size.street)};
     padding-left: ${({ theme }) => rem(theme.pulsar.size.town)};
     padding-right: ${({ theme }) => rem(theme.pulsar.size.town)};
   }

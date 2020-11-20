@@ -12,8 +12,10 @@ export const BrowserContainer = styled.div`
   padding-bottom: ${({ theme }) => rem(theme.pulsar.size.room)};
   padding-left: ${({ theme }) => rem(theme.pulsar.size.closet)};
   padding-right: ${({ theme }) => rem(theme.pulsar.size.closet)};
-  @media (min-width: ${rem(media.lg)}) {
+  @media (min-width: ${rem(media.sm)}) {
     padding-top: 0;
+    padding-left: 0;
+    padding-right: 0;
   }
 `;
 
@@ -68,11 +70,4 @@ export const Bottom = styled.div`
 export const Filter = styled(Icon.Filter)`
   color: ${({ theme }) => theme.pulsar.color.text.masked};
   font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
-`;
-
-export const LoadContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: ${rem(368)};
 `;

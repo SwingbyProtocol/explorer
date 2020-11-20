@@ -21,7 +21,7 @@ import { SwapVolume } from '../SwapVolume';
 import { TxHistories } from '../TxHistories';
 import { TxHistoriesMobile } from '../TxHistoriesMobile';
 
-import { Bottom, BrowserContainer, BrowserDiv, Filter, LoadContainer, Top } from './styled';
+import { Bottom, BrowserContainer, BrowserDiv, Filter, Top } from './styled';
 
 interface Props {
   setBrowser: (arg: string) => void;

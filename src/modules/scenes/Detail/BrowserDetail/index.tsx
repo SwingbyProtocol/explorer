@@ -11,7 +11,7 @@ import { FeeDistribution } from '../FeeDistribution';
 import { StatusCard } from '../StatusCard';
 import { SwapFees } from '../SwapFees';
 
-import { BrowserDetailContainer, BrowserDetailDiv } from './styled';
+import { BrowserDetailContainer, BrowserDetailDiv, IconSwap, Row } from './styled';
 
 export const BrowserDetail = () => {
   const explorer = useSelector((state) => state.explorer);
@@ -54,20 +54,23 @@ export const BrowserDetail = () => {
         {tx && router.pathname !== undefined ? (
           <>
             <ActionButtons />
-            <DetailCard
-              role="From"
-              currency={tx.currencyIn}
-              amount={tx.amountIn}
-              address={tx.addressIn}
-              txId={tx.txIdIn}
-            />
-            <DetailCard
-              role="To"
-              currency={tx.currencyOut}
-              amount={tx.amountOut}
-              address={tx.addressOut}
-              txId={tx.txIdOut}
-            />
+            <Row>
+              <DetailCard
+                role="From"
+                currency={tx.currencyIn}
+                amount={tx.amountIn}
+                address={tx.addressIn}
+                txId={tx.txIdIn}
+              />
+              <IconSwap />
+              <DetailCard
+                role="To"
+                currency={tx.currencyOut}
+                amount={tx.amountOut}
+                address={tx.addressOut}
+                txId={tx.txIdOut}
+              />
+            </Row>
             <SwapFees tx={tx} />
             {tx.rewards.length > 0 && <FeeDistribution tx={tx} />}
           </>
