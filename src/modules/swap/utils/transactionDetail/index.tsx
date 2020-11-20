@@ -14,11 +14,12 @@ export const transactionDetail = (currency: string, hash: string): string => {
 
   if (currency === CoinSymbol.BTC) {
     return `${btcExplorerBaseUrl}/${hash}`;
-  } else if (ETHCoins.includes(currency)) {
-    return `${etherExplorerBaseUrl}/${hash}`;
-  } else if (BTCBCoins.includes(currency)) {
-    return `${bnbExplorerBaseUrl}/${hash}`;
-  } else {
-    return 'invalid format';
   }
+  if (ETHCoins.includes(currency)) {
+    return `${etherExplorerBaseUrl}/${hash}`;
+  }
+  if (BTCBCoins.includes(currency)) {
+    return `${bnbExplorerBaseUrl}/${hash}`;
+  }
+  return 'invalid format';
 };
