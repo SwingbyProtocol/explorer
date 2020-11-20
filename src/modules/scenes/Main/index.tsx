@@ -1,6 +1,9 @@
 import Head from 'next/head';
 
-import { ExplorerMain } from './Explorer';
+import { ExplorerMain } from '../Common';
+
+export { Browser } from './Explorer';
+export { BrowserDetail } from './Swap';
 
 export const Main = () => {
   return (

@@ -1,7 +1,7 @@
 import { Text } from '@swingby-protocol/pulsar';
 import React from 'react';
 
-import { currencyNetwork } from '../../../explorer';
+import { currencyNetwork } from '../../../../explorer';
 
 import {
   Coin,

@@ -3,11 +3,9 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { PATH } from '../../../../env';
-import { StylingConstants } from '../../../../styles';
-// Todo: Fix error: 'Reaching to "../../../Detail/BrowserDetail" is not allowed.eslintimport/no-internal-modules'
-import { BrowserDetail } from '../../../Detail/BrowserDetail';
-import { Browser } from '../Browser';
+import { PATH } from '../../../env';
+import { StylingConstants } from '../../../styles';
+import { Browser, BrowserDetail } from '../../Main';
 
 import { ExplorerMainContainer, HeadLine, SearchIcon, SearchInput, TitleH1 } from './styled';
 

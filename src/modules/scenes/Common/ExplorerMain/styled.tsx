@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { Icon, logos, TextInput } from '@swingby-protocol/pulsar';
 
-import { StylingConstants } from '../../../../styles';
+import { StylingConstants } from '../../../styles';
 
 const { media } = StylingConstants;
 export const ExplorerMainContainer = styled.div`

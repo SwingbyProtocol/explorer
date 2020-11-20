@@ -1,7 +1,7 @@
 import { Text } from '@swingby-protocol/pulsar';
 import React from 'react';
 
-import { exponentialToNumber, Reward, SwapRawObject } from '../../../explorer';
+import { exponentialToNumber, Reward, SwapRawObject } from '../../../../explorer';
 
 import {
   AddressP,

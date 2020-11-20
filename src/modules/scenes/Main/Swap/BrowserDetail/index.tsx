@@ -2,9 +2,9 @@ import { useRouter } from 'next/router';
 import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Loader } from '../../../../components/Loader';
-import { ILoadHistory, loadHistory, SwapRawObject } from '../../../explorer';
-import { selectSwapDetails } from '../../../store';
+import { Loader } from '../../../../../components/Loader';
+import { ILoadHistory, loadHistory, SwapRawObject } from '../../../../explorer';
+import { selectSwapDetails } from '../../../../store';
 import { ActionButtons } from '../ActionButtons';
 import { DetailCard } from '../DetailCard';
 import { FeeDistribution } from '../FeeDistribution';

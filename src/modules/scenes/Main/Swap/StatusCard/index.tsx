@@ -2,8 +2,8 @@ import { Text } from '@swingby-protocol/pulsar';
 import { useRouter } from 'next/router';
 import React from 'react';
 
-import { Loader } from '../../../../components/Loader';
-import { capitalize, convertTxTime, statusColor, SwapRawObject } from '../../../explorer';
+import { Loader } from '../../../../../components/Loader';
+import { capitalize, convertTxTime, statusColor, SwapRawObject } from '../../../../explorer';
 
 import {
   Arrow,

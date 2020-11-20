@@ -1,0 +1,1 @@
+export { BrowserDetail } from './BrowserDetail';

@@ -1,7 +1,7 @@
 import { rem } from 'polished';
 import styled from 'styled-components';
 
-import { StylingConstants } from '../../../styles';
+import { StylingConstants } from '../../../../styles';
 
 const { media } = StylingConstants;
 
