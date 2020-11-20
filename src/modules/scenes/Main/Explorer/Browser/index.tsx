@@ -85,7 +85,7 @@ export const Browser = (props: Props) => {
 
   const goToDetail = (hash: string) => {
     props.setBrowser('Detail');
-    router.push(`/detail?hash=${hash}`);
+    router.push(`/swap/${hash}`);
   };
 
   const routerPush = (bridge: string, q: string, page: number): void => {
