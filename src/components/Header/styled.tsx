@@ -91,6 +91,7 @@ export const LanguageTitle = styled(Dropdown.DefaultTarget)`
 export const LanguageDropTarget = styled(Dropdown.DefaultTarget)`
   padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
 `;
+
 export const Hamburger = styled(Icon.Hamburger)`
   font-weight: bold;
   font-size: ${({ theme }) => rem(theme.pulsar.size.box * 5)};
