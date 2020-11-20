@@ -13,7 +13,11 @@ import { SwapFees } from '../SwapFees';
 
 import { BrowserDetailContainer, BrowserDetailDiv, IconSwap, Row } from './styled';
 
-export const BrowserDetail = () => {
+interface Props {
+  setBrowser: (arg: string) => void;
+}
+
+export const BrowserDetail = (props: Props) => {
   const explorer = useSelector((state) => state.explorer);
   const { swapDetails } = explorer;
   const dispatch = useDispatch();
@@ -49,7 +53,7 @@ export const BrowserDetail = () => {
 
   return (
     <BrowserDetailContainer>
-      <StatusCard tx={tx} />
+      <StatusCard tx={tx} setBrowser={props.setBrowser} />
       <BrowserDetailDiv size="bare">
         {tx && router.pathname !== undefined ? (
           <>

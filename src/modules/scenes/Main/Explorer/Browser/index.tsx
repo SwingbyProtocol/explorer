@@ -84,7 +84,7 @@ export const Browser = (props: Props) => {
   const chainBridge = String(params.bridge || '');
 
   const goToDetail = (hash: string) => {
-    props.setBrowser('BrowserDetail');
+    props.setBrowser('Detail');
     router.push(`/detail?hash=${hash}`);
   };
 

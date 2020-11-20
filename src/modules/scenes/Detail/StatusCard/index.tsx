@@ -17,16 +17,22 @@ import {
 
 interface Props {
   tx: SwapRawObject;
+  setBrowser: (arg: string) => void;
 }
 
 export const StatusCard = (props: Props) => {
-  const { tx } = props;
+  const { tx, setBrowser } = props;
   const router = useRouter();
   return (
     <StatusCardContainer>
       {tx ? (
         <>
-          <Arrow onClick={() => router.back()} />
+          <Arrow
+            onClick={() => {
+              setBrowser('Explorer');
+              router.back();
+            }}
+          />
           <Row>
             <StatusCircle variant={statusColor(tx.status)} />
             <StatusText variant="accent">{capitalize(tx.status)}</StatusText>
