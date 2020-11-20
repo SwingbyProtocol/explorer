@@ -36,9 +36,6 @@ export const ExplorerMainContainer = styled.div`
   @media (min-width: ${rem(media.xl)}) {
     display: grid;
     justify-content: center;
-    padding-left: ${rem(140)};
-    padding-right: ${rem(140)};
-    width: 100%;
   }
 `;
 

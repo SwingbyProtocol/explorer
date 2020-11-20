@@ -6,6 +6,9 @@ import { StylingConstants } from '../../../styles';
 
 const { media } = StylingConstants;
 
+// Memo: make browser width size same as explorer page
+const browserDetailWidthXl = 806;
+
 export const BrowserDetailContainer = styled.div`
   display: grid;
   padding-top: ${({ theme }) => rem(theme.pulsar.size.drawer)};
@@ -23,7 +26,7 @@ export const BrowserDetailContainer = styled.div`
     grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.town)};
   }
   @media (min-width: ${rem(media.xl)}) {
-    grid-template-columns: auto ${rem(730)};
+    grid-template-columns: auto ${rem(browserDetailWidthXl)};
   }
 `;
 
@@ -46,6 +49,7 @@ export const BrowserDetailDiv = styled(Card)`
   @media (min-width: ${rem(media.xl)}) {
     padding-left: ${({ theme }) => rem(theme.pulsar.size.box * 10)};
     padding-right: ${({ theme }) => rem(theme.pulsar.size.box * 10)};
+    width: ${rem(browserDetailWidthXl)};
   }
 `;
 
