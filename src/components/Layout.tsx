@@ -7,7 +7,9 @@ import { getUsdPrice, IFetchUsd, getTransactionFees } from '../modules/explorer'
 import { useInterval } from '../modules/hooks';
 import { setWidthSize, fetchUsdPrice, fetchTransactionFees } from '../modules/store';
 
+import { SwapContainer } from './styled';
 import { Header } from './Header';
+import { Swap } from './Swap';
 
 type Props = {
   children: ReactNode;
@@ -44,6 +46,9 @@ export const Layout = (props: Props) => {
       </Head>
 
       <Header />
+      <SwapContainer>
+        <Swap />
+      </SwapContainer>
       {props.children}
     </>
   );
