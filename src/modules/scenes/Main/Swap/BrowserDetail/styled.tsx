@@ -44,6 +44,7 @@ export const BrowserDetailDiv = styled(Card)`
     padding-right: ${({ theme }) => rem(theme.pulsar.size.street)};
   }
   @media (min-width: ${rem(media.lg)}) {
+    min-width: ${rem(664)};
     margin-bottom: ${({ theme }) => rem(theme.pulsar.size.state)};
     padding-top: ${({ theme }) => rem(theme.pulsar.size.town)};
     padding-left: ${({ theme }) => rem(theme.pulsar.size.town)};
