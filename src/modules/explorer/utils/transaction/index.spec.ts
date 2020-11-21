@@ -5,6 +5,7 @@ import { currencyNetwork, statusColor, capitalize } from './index';
 
 it('return network name', () => {
   expect(currencyNetwork(CoinSymbol.BTC)).toStrictEqual('BTC');
+  expect(currencyNetwork(CoinSymbol.BTCB)).toStrictEqual('BTC on Bnbchain');
   expect(currencyNetwork(CoinSymbol.BTC_B)).toStrictEqual('BTC on Bnbchain');
   expect(currencyNetwork(CoinSymbol.BTC_E)).toStrictEqual('BTC on Ethereum');
   expect(currencyNetwork(CoinSymbol.BTC_E)).toStrictEqual('BTC on Ethereum');

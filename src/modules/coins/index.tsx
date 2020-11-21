@@ -4,6 +4,7 @@ export const CoinSymbol = {
   BTC: 'BTC',
   BTC_S: 'BTC.S',
   BTC_B: NETWORK === 'testnet' ? 'BTC.B' : 'BTCB',
+  BTCB: 'BTCB',
   BTC_B_918: 'BTC.B-918',
   BTCB_1DE: 'BTCB-1DE',
   BTC_B_888: 'BTC.B-888',
@@ -20,4 +21,5 @@ export const BTCBCoins = [
   CoinSymbol.BTCB_1DE,
   CoinSymbol.BTC_B_888,
   CoinSymbol.BTC_S,
+  CoinSymbol.BTCB,
 ];
