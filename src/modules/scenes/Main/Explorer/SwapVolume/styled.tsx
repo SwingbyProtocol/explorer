@@ -18,13 +18,16 @@ export const SwapVolumeContainer = styled.div`
     padding-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
   }
   @media (min-width: ${rem(media.md)}) {
-    width: ${rem(370)};
+    width: ${rem(650)};
+    margin-top: ${({ theme }) => rem(-theme.pulsar.size.house)};
+    justify-self: center;
     padding-left: 0;
     padding-top: 0;
     padding-bottom: 0;
     align-self: start;
   }
   @media (min-width: ${rem(media.lg)}) {
+    margin-top: 0;
     width: ${rem(300)};
     grid-area: auto;
     padding-top: 0;

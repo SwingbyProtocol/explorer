@@ -22,11 +22,15 @@ export const NetworkBridgeContainer = styled.div`
     padding-top: ${({ theme }) => rem(theme.pulsar.size.street)};
     margin-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
   }
+  @media (min-width: ${rem(media.md)}) {
+    margin-bottom: 0;
+  }
   @media (min-width: ${rem(media.lg)}) {
     grid-area: auto;
     padding-top: 0;
     padding-bottom: 0;
     padding-right: 0;
+    margin-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
   }
   @media (min-width: ${rem(media.xl)}) {
     padding-left: 0;

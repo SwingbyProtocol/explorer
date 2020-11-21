@@ -91,7 +91,7 @@ export const SwapVolume = (props: Props) => {
             display: false,
           },
           ticks: {
-            stepSize: 2,
+            stepSize: 1,
             fontColor: '#929D9D',
             fontSize: 10,
             padding: 10,
@@ -109,6 +109,7 @@ export const SwapVolume = (props: Props) => {
         </TitleDiv>
         <LineContainer>
           <Line type="line" data={data} options={options} height={110} />
+          {/* <Line type="line" data={data} options={options} height={110} /> */}
         </LineContainer>
       </Box>
     </SwapVolumeContainer>

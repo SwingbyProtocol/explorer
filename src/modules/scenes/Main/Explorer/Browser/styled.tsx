@@ -39,11 +39,12 @@ export const BrowserDiv = styled(Card)`
 export const Top = styled.div`
   @media (min-width: ${rem(media.md)}) {
     display: grid;
+    margin-bottom: ${({ theme }) => rem(theme.pulsar.size.country)};
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr;
     grid-template-areas:
       'network network infos infos'
-      'auto volume volume volume';
+      'volume volume volume volume';
   }
   @media (min-width: ${rem(media.lg)}) {
     margin-bottom: ${({ theme }) => rem(theme.pulsar.size.city)};
