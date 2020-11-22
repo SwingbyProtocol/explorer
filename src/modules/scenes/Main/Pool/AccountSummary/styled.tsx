@@ -9,10 +9,12 @@ const { media } = StylingConstants;
 export const AccountSummaryContainer = styled.div`
   background-color: ${({ theme }) => theme.pulsar.color.bg.hover};
   padding: ${({ theme }) => rem(theme.pulsar.size.house)};
+  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
   @media (min-width: ${rem(media.xs)}) {
     padding: ${({ theme }) => rem(theme.pulsar.size.street)};
   }
   @media (min-width: ${rem(media.lg)}) {
+    margin-bottom: 0;
     width: ${rem(280)};
     height: ${rem(190)};
     padding-top: ${({ theme }) => rem(theme.pulsar.size.house)};

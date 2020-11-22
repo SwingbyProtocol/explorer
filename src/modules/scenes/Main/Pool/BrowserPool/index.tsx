@@ -3,6 +3,7 @@ import React from 'react';
 import { AccountSummary } from '../AccountSummary';
 import { ActionButtonsPool } from '../ActionButtonsPool';
 import { Bridges } from '../Bridges';
+import { BridgesMobile } from '../BridgesMobile';
 import { EarningsChart } from '../EarningsChart';
 import { TransactionsPool } from '../TransactionsPool';
 
@@ -12,6 +13,7 @@ export const BrowserPool = () => {
     <BrowserPoolContainer>
       <BrowserPoolDiv size="bare">
         <Left>
+          <BridgesMobile />
           <Bridges />
         </Left>
         <Right>

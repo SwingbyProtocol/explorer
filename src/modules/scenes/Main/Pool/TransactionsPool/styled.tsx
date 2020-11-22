@@ -25,6 +25,7 @@ export const Row = styled.div`
   align-items: center;
   border-bottom: 1px solid ${({ theme }) => theme.pulsar.color.border.normal};
   ${({ theme }) => theme.pulsar.color.bg.hover};
+  grid-row-gap: ${({ theme }) => rem(theme.pulsar.size.drawer)};
   @media (min-width: ${rem(media.xs)}) {
     padding: ${({ theme }) => rem(theme.pulsar.size.street)};
   }

@@ -8,10 +8,10 @@ export const ActionButtons = () => {
     <ActionButtonsSwapContainer>
       <div>Status</div>
       <Buttons>
-        <Button variant="secondary" size="town">
+        <Button variant="secondary" size="city">
           Duplicate
         </Button>
-        <Button variant="primary" size="town">
+        <Button variant="primary" size="city">
           Share
         </Button>
       </Buttons>

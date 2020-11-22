@@ -13,7 +13,12 @@ export const ActionButtonsPoolContainer = styled.div`
   margin-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
 `;
 
-export const RowText = styled.div``;
+export const RowText = styled.div`
+  width: ${rem(80)};
+  @media (min-width: ${rem(media.sm)}) {
+    width: auto;
+  }
+`;
 
 export const Buttons = styled.div`
   display: grid;

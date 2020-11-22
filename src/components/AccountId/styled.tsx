@@ -14,9 +14,6 @@ export const AccountIdWrapper = styled.div`
   padding-left: 0.75rem;
   padding-right: 0.75rem;
   font-size: 1rem;
-  @media (min-width: ${rem(media.xs)}) {
-    padding-top: 0.2rem;
-  }
   @media (min-width: ${rem(media.sm)}) {
     width: auto;
     padding: 0;

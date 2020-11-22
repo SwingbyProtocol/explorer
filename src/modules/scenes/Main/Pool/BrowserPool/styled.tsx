@@ -20,11 +20,19 @@ export const BrowserPoolContainer = styled.div`
 `;
 
 export const BrowserPoolDiv = styled(Card)`
-  padding-bottom: ${({ theme }) => rem(theme.pulsar.size.drawer)};
+  padding-top: ${({ theme }) => rem(theme.pulsar.size.street)};
+  padding-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
+  padding-right: ${({ theme }) => rem(theme.pulsar.size.drawer)};
+  padding-left: ${({ theme }) => rem(theme.pulsar.size.drawer)};
+  @media (min-width: ${rem(media.xs)}) {
+    padding: ${({ theme }) => rem(theme.pulsar.size.street)};
+  }
   @media (min-width: ${rem(media.lg)}) {
     margin-bottom: ${({ theme }) => rem(theme.pulsar.size.state)};
     padding-top: ${({ theme }) => rem(theme.pulsar.size.city)};
     padding-bottom: ${({ theme }) => rem(theme.pulsar.size.city)};
+    padding-right: 0;
+    padding-left: 0;
     display: grid;
     grid-template-columns: ${rem(290)} auto;
     min-height: ${rem(700)};
@@ -35,7 +43,9 @@ export const BrowserPoolDiv = styled(Card)`
 `;
 
 export const Left = styled.div`
-  border-right: 1px solid ${({ theme }) => theme.pulsar.color.border.normal};
+  @media (min-width: ${rem(media.lg)}) {
+    border-right: 1px solid ${({ theme }) => theme.pulsar.color.border.normal};
+  }
 `;
 
 export const Right = styled.div`
@@ -51,8 +61,8 @@ export const Right = styled.div`
 
 export const Row = styled.div`
   @media (min-width: ${rem(media.lg)}) {
-    height: ${rem(190)};
     display: grid;
+    height: ${rem(190)};
   }
   @media (min-width: ${rem(media.lg)}) {
     grid-template-columns: ${rem(190)} auto ${rem(375)};

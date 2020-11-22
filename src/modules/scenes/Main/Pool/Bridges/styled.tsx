@@ -15,7 +15,9 @@ interface ActiveProps {
 }
 
 export const BridgesContainer = styled.div`
+  display: none;
   @media (min-width: ${rem(media.lg)}) {
+    display: block;
   }
 `;
 
