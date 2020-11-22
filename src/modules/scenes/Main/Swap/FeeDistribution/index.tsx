@@ -1,20 +1,19 @@
 import { Text } from '@swingby-protocol/pulsar';
 import React from 'react';
 
+import { SeeMore } from '../../../../../components/SeeMore';
+import { TXS_COUNT } from '../../../../env';
 import { exponentialToNumber, Reward, SwapRawObject } from '../../../../explorer';
 
 import {
   AddressP,
-  IconLinkArrow,
   Coin,
   CoinContainer,
   FeeDistributionContainer,
+  IconRightArrow,
   RewardsContainer,
   Row,
-  SeeMore,
-  SeeMoreRow,
   TitleText,
-  IconRightArrow,
 } from './styled';
 
 interface Props {
@@ -24,12 +23,14 @@ interface Props {
 export const FeeDistribution = (props: Props) => {
   const { tx } = props;
 
+  const rewardsDataSlice = tx.rewards.slice(0, TXS_COUNT);
+
   return (
     <FeeDistributionContainer>
       <TitleText variant="accent">Fee Distribution</TitleText>
       <RewardsContainer>
         {tx.rewards &&
-          tx.rewards.map((reward: Reward, i: number) => {
+          rewardsDataSlice.map((reward: Reward, i: number) => {
             return (
               <Row key={i}>
                 <CoinContainer>
@@ -41,15 +42,7 @@ export const FeeDistribution = (props: Props) => {
               </Row>
             );
           })}
-        {tx.rewards.length > 5 && (
-          <SeeMoreRow>
-            <SeeMore>
-              {/* Todo: Add click logic */}
-              <Text variant="accent">See more</Text>
-              <IconLinkArrow />
-            </SeeMore>
-          </SeeMoreRow>
-        )}
+        {tx.rewards.length > 4 && tx.rewards.length !== 5 && <SeeMore />}
       </RewardsContainer>
     </FeeDistributionContainer>
   );

@@ -18,11 +18,10 @@ import {
 
 interface Props {
   tx: SwapRawObject;
-  setBrowser: (arg: string) => void;
 }
 
 export const StatusCard = (props: Props) => {
-  const { tx, setBrowser } = props;
+  const { tx } = props;
   const router = useRouter();
 
   return (
@@ -31,7 +30,6 @@ export const StatusCard = (props: Props) => {
         <>
           <Arrow
             onClick={() => {
-              setBrowser('Explorer');
               router.back();
             }}
           />

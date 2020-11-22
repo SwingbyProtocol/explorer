@@ -11,4 +11,4 @@ export const networkInfos = {
   },
 };
 
-export const usd = { BTC: 0, BNB: 0 };
+export const usd = { btc: 0, bnb: 0 };

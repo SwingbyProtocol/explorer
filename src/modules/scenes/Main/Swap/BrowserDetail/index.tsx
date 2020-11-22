@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Loader } from '../../../../../components/Loader';
 import { ILoadHistory, loadHistory, SwapRawObject } from '../../../../explorer';
 import { selectSwapDetails } from '../../../../store';
-import { ActionButtons } from '../ActionButtons';
+import { ActionButtons } from '../ActionButtonsSwap';
 import { DetailCard } from '../DetailCard';
 import { FeeDistribution } from '../FeeDistribution';
 import { StatusCard } from '../StatusCard';
@@ -13,11 +13,7 @@ import { SwapFees } from '../SwapFees';
 
 import { BrowserDetailContainer, BrowserDetailDiv, IconSwap, Row } from './styled';
 
-interface Props {
-  setBrowser: (arg: string) => void;
-}
-
-export const BrowserDetail = (props: Props) => {
+export const BrowserDetail = () => {
   const explorer = useSelector((state) => state.explorer);
   const { swapDetails } = explorer;
   const dispatch = useDispatch();
@@ -53,7 +49,7 @@ export const BrowserDetail = (props: Props) => {
 
   return (
     <BrowserDetailContainer>
-      <StatusCard tx={tx} setBrowser={props.setBrowser} />
+      <StatusCard tx={tx} />
       <BrowserDetailDiv size="bare">
         {tx && router.pathname !== undefined ? (
           <>

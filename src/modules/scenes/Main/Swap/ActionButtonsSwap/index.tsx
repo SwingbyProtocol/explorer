@@ -1,11 +1,11 @@
 import { Button } from '@swingby-protocol/pulsar';
 import React from 'react';
 
-import { ActionButtonsContainer, Buttons } from './styled';
+import { ActionButtonsSwapContainer, Buttons } from './styled';
 
 export const ActionButtons = () => {
   return (
-    <ActionButtonsContainer>
+    <ActionButtonsSwapContainer>
       <div>Status</div>
       <Buttons>
         <Button variant="secondary" size="town">
@@ -15,6 +15,6 @@ export const ActionButtons = () => {
           Share
         </Button>
       </Buttons>
-    </ActionButtonsContainer>
+    </ActionButtonsSwapContainer>
   );
 };

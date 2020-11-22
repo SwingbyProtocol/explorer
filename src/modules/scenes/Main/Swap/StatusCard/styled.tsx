@@ -47,6 +47,7 @@ export const TextMsg = styled(Text)`
   text-align: center;
   margin-top: ${({ theme }) => rem(theme.pulsar.size.house)};
   margin-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
+  font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
 `;
 
 export const Clock = styled(Icon.Swingby)`

@@ -96,8 +96,8 @@ export interface IFloatBalances {
   capacity: number;
 }
 export interface IFetchUsd {
-  btc: number;
-  bnb: number;
+  BTC: number;
+  BNB: number;
 }
 
 export interface IFee {

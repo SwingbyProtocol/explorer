@@ -1,20 +1,14 @@
 import { Text } from '@swingby-protocol/pulsar';
-import React from 'react';
+import React, { useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import { useIntl } from 'react-intl';
 
-import { IStats } from '../../../../explorer';
+import { Box, Column, EarningsChartContainer, LineContainer, TextDate, TitleDiv } from './styled';
 
-import { AllVolumeSpan, Box, LineContainer, SwapVolumeContainer, TitleDiv } from './styled';
-
-interface Props {
-  stats: IStats;
-}
-
-export const SwapVolume = (props: Props) => {
-  // Ref: https://github.com/jerairrest/react-chartjs-2/issues/306
-  const { stats } = props;
-  const { volumes } = stats;
+export const EarningsChart = () => {
+  const volumes = ['13', '10', '12.5', '11.7', '12', '11.5', '9'];
+  const [chartDate, setChartDate] = useState('All');
+  const chartDateOption = ['1d', '30d', 'All'];
   const { formatDate } = useIntl();
 
   const data = (canvas) => {
@@ -101,16 +95,29 @@ export const SwapVolume = (props: Props) => {
     },
   };
   return (
-    <SwapVolumeContainer>
+    <EarningsChartContainer>
       <Box>
         <TitleDiv>
-          <Text variant="section-title">Total Swap Vol. 7d</Text>
-          <AllVolumeSpan variant="accent">See More</AllVolumeSpan>
+          <Text variant="section-title">Earnings</Text>
+          <Column>
+            {chartDateOption.map((date: string) => {
+              return (
+                <TextDate
+                  variant="label"
+                  onClick={() => setChartDate(date)}
+                  isActive={date === chartDate}
+                  isAll={date === 'All'}
+                >
+                  {date}
+                </TextDate>
+              );
+            })}
+          </Column>
         </TitleDiv>
         <LineContainer>
           <Line type="line" data={data} options={options} height={110} />
         </LineContainer>
       </Box>
-    </SwapVolumeContainer>
+    </EarningsChartContainer>
   );
 };

@@ -10,12 +10,12 @@ export const getUsdPrice = async (): Promise<IFetchUsd> => {
     fetch<{ bitcoin: { usd } }>(priceBtcUrl),
     fetch<{ binancecoin: { usd } }>(priceBnbUrl),
   ]);
-  const btc = results[0].ok && results[0].response.bitcoin.usd;
-  const bnb = results[1].ok && results[1].response.binancecoin.usd;
+  const BTC = results[0].ok && results[0].response.bitcoin.usd;
+  const BNB = results[1].ok && results[1].response.binancecoin.usd;
 
   return {
-    btc,
-    bnb,
+    BTC,
+    BNB,
   };
 };
 

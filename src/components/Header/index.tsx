@@ -1,6 +1,9 @@
 import { Dropdown } from '@swingby-protocol/pulsar';
+import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
+import { PATH } from '../../modules/env';
+import { capitalize } from '../../modules/explorer';
 import { languagesSelector } from '../../modules/i18n';
 
 import {
@@ -15,17 +18,24 @@ import {
   Menu,
   MenuSpan,
   MobileMenu,
+  ColumnPool,
+  IconLive,
   Right,
   RoutineTitle,
+  DropDownItemMobile,
 } from './styled';
 
 export const Header = () => {
   const [lang, setLang] = useState('EN');
+  const router = useRouter();
+  const currentPath = router.pathname;
+
   const routing = [
-    { text: 'Pool', route: '/' },
-    { text: 'Metanodes', route: '/' },
-    { text: 'Analytics', route: '/' },
+    { text: 'pool', route: PATH.POOL },
+    { text: 'metanodes', route: PATH.METANODES },
+    { text: 'analytics', route: PATH.ANALYTICS },
   ];
+
   const languageItems = (
     <>
       {languagesSelector.map((language) => (
@@ -43,15 +53,25 @@ export const Header = () => {
   return (
     <HeaderContainer>
       <Left>
-        {/* Memo: To reset URL and state */}
-        {/* Request: Perhaps make `AppLogo` components with `a tag (<a></a>)` but without changing logo color */}
-        <Atag href="/">
+        <Atag href={PATH.ROOT}>
           <Logo productName="Explorer" />
         </Atag>
         <Menu>
           {routing.map((link) => (
-            <MenuSpan variant="menu" key={link.text}>
-              {link.text}
+            <MenuSpan
+              variant="menu"
+              key={link.text}
+              onClick={() => router.push(link.route)}
+              isActive={link.route === currentPath}
+            >
+              {link.route === PATH.POOL ? (
+                <ColumnPool>
+                  {capitalize(link.text)}
+                  <IconLive variant="success" />
+                </ColumnPool>
+              ) : (
+                <>{capitalize(link.text)}</>
+              )}
             </MenuSpan>
           ))}
         </Menu>
@@ -60,7 +80,13 @@ export const Header = () => {
         <MobileMenu target={<Hamburger />} data-testid="dropdown">
           <RoutineTitle variant="accent">Link</RoutineTitle>
           {routing.map((link) => (
-            <Dropdown.Item key={link.text}>{link.text}</Dropdown.Item>
+            <DropDownItemMobile
+              key={link.text}
+              onClick={() => router.push(link.route)}
+              isActive={link.route === currentPath}
+            >
+              {capitalize(link.text)}
+            </DropDownItemMobile>
           ))}
           <Dropdown.Divider />
           <Dropdown

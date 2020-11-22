@@ -129,7 +129,7 @@ export const AddressP = styled.p`
   white-space: nowrap;
   font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
   @media (min-width: ${rem(media.lg)}) {
-    max-width: ${rem(200)};
+    max-width: ${rem(190)};
   }
   @media (min-width: ${rem(media.xl)}) {
     max-width: ${rem(230)};

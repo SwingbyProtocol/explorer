@@ -1,4 +1,4 @@
-import { CoinIcon, Icon, Text } from '@swingby-protocol/pulsar';
+import { CoinIcon, Text } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
 import styled from 'styled-components';
 
@@ -6,12 +6,25 @@ import { StylingConstants } from '../../../../styles';
 
 const { media } = StylingConstants;
 
-export const DetailCardContainer = styled.div`
+export const AccountSummaryContainer = styled.div`
   background-color: ${({ theme }) => theme.pulsar.color.bg.hover};
-  margin-top: ${({ theme }) => rem(theme.pulsar.size.box * 5)};
   padding: ${({ theme }) => rem(theme.pulsar.size.house)};
   @media (min-width: ${rem(media.xs)}) {
     padding: ${({ theme }) => rem(theme.pulsar.size.street)};
+  }
+  @media (min-width: ${rem(media.lg)}) {
+    width: ${rem(280)};
+    height: ${rem(190)};
+    padding-top: ${({ theme }) => rem(theme.pulsar.size.house)};
+    padding-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
+    padding-left: ${({ theme }) => rem(theme.pulsar.size.street)};
+    padding-right: ${({ theme }) => rem(theme.pulsar.size.street)};
+  }
+  @media (min-width: ${rem((media.lg + media.xl) / 2)}) {
+    width: ${rem(280 * 1.4)};
+  }
+  @media (min-width: ${rem(media.xl)}) {
+    width: ${rem(280)};
   }
 `;
 
@@ -39,32 +52,13 @@ export const TextRoom = styled(Text)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
 `;
 
-export const IconInfo = styled(Icon.Search)`
-  font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
-  color: ${({ theme }) => theme.pulsar.color.text.masked};
-  cursor: pointer;
+export const RowTitle = styled.div`
+  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.room)};
 `;
 
-export const RowRole = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-export const RowAddress = styled.div`
+export const RowEarning = styled.div`
   display: grid;
-  grid-template-columns: ${({ theme }) => rem(theme.pulsar.size.state)} auto;
+  grid-template-columns: auto auto;
   align-items: center;
-  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.drawer)};
-`;
-
-export const AddressP = styled.p`
-  color: #3799da;
-  font-weight: bold;
-  font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
-  margin: 0;
-  max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  justify-content: space-between;
 `;
