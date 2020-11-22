@@ -3,15 +3,18 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { StylingConstants } from '../../../../styles';
-import { Browser } from '../Browser';
+import { PATH } from '../../../env';
+import { StylingConstants } from '../../../styles';
+import { Browser, BrowserDetail } from '../../Main';
 
 import { ExplorerMainContainer, HeadLine, SearchIcon, SearchInput, TitleH1 } from './styled';
 
 export const ExplorerMain = () => {
-  const [search, setSearch] = useState('');
   const router = useRouter();
+  const [search, setSearch] = useState('');
+  const [browser, setBrowser] = useState(router.pathname === PATH.ROOT ? 'Explorer' : 'Detail');
   const { media } = StylingConstants;
+
   const explorer = useSelector((state) => state.explorer);
   const { width } = explorer;
 
@@ -22,7 +25,7 @@ export const ExplorerMain = () => {
           <TitleH1>Skybridge Explorer</TitleH1>
           <PulsarThemeProvider>
             <SearchInput
-              size={width > media.lg ? 'country' : width > media.md ? 'state' : 'city'}
+              size={width > media.lg ? 'country' : width > media.md ? 'state' : 'country'}
               value={search || router.query.q}
               onChange={(evt) => {
                 setSearch(evt.target.value);
@@ -37,7 +40,11 @@ export const ExplorerMain = () => {
           </PulsarThemeProvider>
         </HeadLine>
         <PulsarThemeProvider>
-          <Browser />
+          {browser === 'Explorer' ? (
+            <Browser setBrowser={setBrowser} />
+          ) : (
+            <BrowserDetail setBrowser={setBrowser} />
+          )}
         </PulsarThemeProvider>
       </ExplorerMainContainer>
     </PulsarThemeProvider>

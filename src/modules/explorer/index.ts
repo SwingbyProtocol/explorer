@@ -8,6 +8,10 @@ export {
   fetchFloatBalances,
   fetchStatsInfo,
   getUsdPrice,
+  calculateFixedFee,
+  getTransactionFees,
+  exponentialToNumber,
+  capitalize,
 } from './utils';
 
 export const BRIDGE = {
@@ -25,6 +29,7 @@ export interface SwapRawObject {
   currencyIn: string;
   currencyOut: string;
   fee?: string;
+  hash?: string;
   feeCurrency: string;
   status: string;
   timestamp?: number;
@@ -93,4 +98,37 @@ export interface IFloatBalances {
 export interface IFetchUsd {
   btc: number;
   bnb: number;
+}
+
+export interface IFee {
+  bridgeFeePercent: string;
+  currency: string;
+  minerFee: string;
+}
+
+export interface ILoadHistoryArgs {
+  page: number;
+  query: string;
+  hash: string;
+  isHideWaiting: boolean;
+  bridge: string;
+  prevTxsWithPage: ITransactions | null;
+  swapHistoryTemp: SwapRawObject[] | null;
+}
+
+export interface INetworkInfos {
+  capacity: number;
+  floatBalances: {
+    btc: number;
+    btcb: number;
+    bnb: number;
+  };
+  stats: {
+    volume24HrBinance: number;
+    volume24HrEthereum: number;
+    volume24HrBtc: number;
+    rewards24Hr: number;
+    volumes: string[];
+    metanodes: number;
+  };
 }

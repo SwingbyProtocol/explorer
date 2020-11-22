@@ -47,11 +47,14 @@ export const statusColor = (status: string): statusType => {
 export const currencyNetwork = (currency: string): string => {
   if (currency === CoinSymbol.BTC) {
     return CoinSymbol.BTC;
-  } else if (BTCBCoins.includes(currency)) {
+  }
+  if (BTCBCoins.includes(currency)) {
     return 'BTC on Bnbchain';
-  } else if (ETHCoins.includes(currency)) {
+  }
+  if (ETHCoins.includes(currency)) {
     return 'BTC on Ethereum';
   }
+  return '';
 };
 
 export const removeDuplicatedTxs = (
@@ -113,4 +116,9 @@ export const convertTxTime = (unixTimestamp: number) => {
       hour12={false}
     />
   );
+};
+
+export const capitalize = (s: string): string => {
+  const word = s.toLowerCase();
+  return word.charAt(0).toUpperCase() + word.slice(1);
 };

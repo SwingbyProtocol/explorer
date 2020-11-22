@@ -2,82 +2,76 @@ import { Dropdown } from '@swingby-protocol/pulsar';
 import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ScaleLoader } from 'react-spinners';
 
+import { Loader } from '../../../../../components/Loader';
 import { PAGE_COUNT } from '../../../../env';
 import {
   BRIDGE,
   fetchFloatBalances,
-  loadHistory,
   fetchStatsInfo,
-  removeDuplicatedTxs,
   ILoadHistory,
+  loadHistory,
+  removeDuplicatedTxs,
 } from '../../../../explorer';
 import { useInterval } from '../../../../hooks';
-import { getHistory, toggleIsHideWaiting, updateSwapHistoryTemp } from '../../../../store';
+import {
+  getHistory,
+  toggleIsHideWaiting,
+  updateSwapHistoryTemp,
+  updateNetworkInfos,
+} from '../../../../store';
 import { ExplorerInfos } from '../ExplorerInfos';
 import { NetworkBridges } from '../NetworkBridges';
 import { SwapVolume } from '../SwapVolume';
 import { TxHistories } from '../TxHistories';
 import { TxHistoriesMobile } from '../TxHistoriesMobile';
 
-import { Bottom, BrowserContainer, BrowserDiv, Top, Filter, LoadContainer } from './styled';
+import { Bottom, BrowserContainer, BrowserDiv, Filter, Top } from './styled';
 
-export const Browser = () => {
+interface Props {
+  setBrowser: (arg: string) => void;
+}
+
+export const Browser = (props: Props) => {
   const explorer = useSelector((state) => state.explorer);
-  const { swapHistory, isHideWaiting, swapHistoryTemp, usd } = explorer;
+  const dispatch = useDispatch();
+  const { swapHistory, isHideWaiting, swapHistoryTemp, usd, networkInfos } = explorer;
+
   /**
    * Memo: For Network information
    **/
-  const initialState = {
-    floatBalances: { btc: 0, btcb: 0, bnb: 0 },
-    stats: {
-      volume24HrBinance: 0,
-      volume24HrEthereum: 0,
-      volume24HrBtc: 0,
-      rewards24Hr: 0,
-      volumes: ['1', '1', '1', '1', '1', '1', '1'],
-      metanodes: 0,
-    },
-  };
-
-  const [floatBalances, setFloatBalances] = useState(initialState.floatBalances);
-  const [capacity, setCapacity] = useState(null);
-  const [stats, setStats] = useState(initialState.stats);
-
+  const { floatBalances, stats, capacity } = networkInfos;
   useEffect(() => {
     usd &&
       (async () => {
         const results = await Promise.all([fetchFloatBalances(usd.btc, usd.bnb), fetchStatsInfo()]);
 
         const data = results[0];
-        data && setFloatBalances(data.floats);
-        data && setCapacity(data.capacity);
-
         const stats = results[1];
-        stats &&
-          setStats({
-            volume24HrBinance: stats.volume24HrBinance,
-            volume24HrEthereum: stats.volume24HrEthereum,
-            volume24HrBtc: stats.volume24HrBtc,
-            rewards24Hr: stats.rewards24Hr,
-            volumes: stats.volumes,
-            metanodes: stats.metanodes,
-          });
+
+        data &&
+          stats &&
+          dispatch(
+            updateNetworkInfos({ floatBalances: data.floats, capacity: data.capacity, stats }),
+          );
       })();
-  }, [usd]);
+  }, [usd, dispatch]);
 
   /**
    * Memo: For TxHistories
    **/
   const [isLoadingUrl, setIsLoadingUrl] = useState(true);
 
-  const dispatch = useDispatch();
   const router = useRouter();
   const params = router.query;
   const q = String(params.q || '');
   const page = Number(params.page || 1);
   const chainBridge = String(params.bridge || '');
+
+  const goToDetail = (hash: string) => {
+    props.setBrowser('Detail');
+    router.push(`/swap/${hash}`);
+  };
 
   const routerPush = (bridge: string, q: string, page: number): void => {
     router.push({
@@ -105,14 +99,15 @@ export const Browser = () => {
   }, []);
 
   const dispatchLoadHistory = useCallback(async () => {
-    const data: ILoadHistory = await loadHistory(
-      page - 1,
-      q,
+    const data: ILoadHistory = await loadHistory({
+      page: page - 1,
+      query: q,
+      hash: '',
       isHideWaiting,
-      chainBridge,
-      swapHistory,
-      swapHistoryTemp,
-    );
+      bridge: chainBridge,
+      prevTxsWithPage: swapHistory,
+      swapHistoryTemp: swapHistoryTemp,
+    });
     if (data) {
       const uniqueTempMixedHistories = removeDuplicatedTxs(data.tempMixedHistories);
       dispatch(getHistory(data.txsWithPage));
@@ -158,11 +153,7 @@ export const Browser = () => {
     </Dropdown>
   );
 
-  const loader = (
-    <LoadContainer data-testid="main.loading-container">
-      <ScaleLoader margin={3} color="#36D7B7" />
-    </LoadContainer>
-  );
+  const loader = <Loader minHeight={368} testId="main.loading-container" />;
 
   return (
     <BrowserContainer>
@@ -181,6 +172,7 @@ export const Browser = () => {
             goNextPage={goNextPage}
             goBackPage={goBackPage}
             loader={loader}
+            goToDetail={goToDetail}
           />
         </Bottom>
       </BrowserDiv>
@@ -192,6 +184,7 @@ export const Browser = () => {
         goNextPage={goNextPage}
         goBackPage={goBackPage}
         loader={loader}
+        goToDetail={goToDetail}
       />
     </BrowserContainer>
   );

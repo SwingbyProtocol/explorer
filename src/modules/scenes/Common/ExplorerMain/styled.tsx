@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { Icon, logos, TextInput } from '@swingby-protocol/pulsar';
 
-import { StylingConstants } from '../../../../styles';
+import { StylingConstants } from '../../../styles';
 
 const { media } = StylingConstants;
 export const ExplorerMainContainer = styled.div`
@@ -16,10 +16,10 @@ export const ExplorerMainContainer = styled.div`
   @media (min-width: ${rem(media.xs)}) {
     height: ${rem(240)};
     display: grid;
-    padding-top: ${({ theme }) => rem(theme.pulsar.size.street)};
     width: 100%;
   }
   @media (min-width: ${rem(media.sm)}) {
+    padding-top: ${({ theme }) => rem(theme.pulsar.size.street)};
     padding-left: ${({ theme }) => rem(theme.pulsar.size.town)};
     padding-right: ${({ theme }) => rem(theme.pulsar.size.town)};
   }
@@ -36,9 +36,6 @@ export const ExplorerMainContainer = styled.div`
   @media (min-width: ${rem(media.xl)}) {
     display: grid;
     justify-content: center;
-    padding-left: ${rem(140)};
-    padding-right: ${rem(140)};
-    width: 100%;
   }
 `;
 
@@ -76,8 +73,8 @@ export const SearchInput = styled(TextInput)`
   width: 100%;
   padding-top: ${({ theme }) => rem(theme.pulsar.size.street)};
   padding-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
-  padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
-  padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
+  padding-left: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  padding-right: ${({ theme }) => rem(theme.pulsar.size.closet)};
   font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
   ::placeholder {
     opacity: 0.8;

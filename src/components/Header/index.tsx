@@ -1,10 +1,10 @@
 import { Dropdown } from '@swingby-protocol/pulsar';
-import Link from 'next/link';
 import React, { useState } from 'react';
 
 import { languagesSelector } from '../../modules/i18n';
 
 import {
+  Atag,
   Hamburger,
   HeaderContainer,
   LanguageDropDown,
@@ -43,21 +43,16 @@ export const Header = () => {
   return (
     <HeaderContainer>
       <Left>
-        <Link href="/">
-          <Logo
-            productName="Explorer"
-            onClick={() => {
-              // Memo: To reset URL and state
-              // Request: Perhaps make `AppLogo` components with `a tag (<a></a>)` but without changing color
-              setTimeout(() => {
-                window.location.reload();
-              }, 10);
-            }}
-          />
-        </Link>
+        {/* Memo: To reset URL and state */}
+        {/* Request: Perhaps make `AppLogo` components with `a tag (<a></a>)` but without changing logo color */}
+        <Atag href="/">
+          <Logo productName="Explorer" />
+        </Atag>
         <Menu>
           {routing.map((link) => (
-            <MenuSpan variant="menu">{link.text}</MenuSpan>
+            <MenuSpan variant="menu" key={link.text}>
+              {link.text}
+            </MenuSpan>
           ))}
         </Menu>
       </Left>
@@ -65,7 +60,7 @@ export const Header = () => {
         <MobileMenu target={<Hamburger />} data-testid="dropdown">
           <RoutineTitle variant="accent">Link</RoutineTitle>
           {routing.map((link) => (
-            <Dropdown.Item>{link.text}</Dropdown.Item>
+            <Dropdown.Item key={link.text}>{link.text}</Dropdown.Item>
           ))}
           <Dropdown.Divider />
           <Dropdown

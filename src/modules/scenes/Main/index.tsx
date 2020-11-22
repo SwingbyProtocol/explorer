@@ -1,9 +1,9 @@
 import Head from 'next/head';
 
-import { Swap } from '../../../components/Swap';
+import { ExplorerMain } from '../Common';
 
-import { ExplorerMain } from './Explorer';
-import { SwapContainer } from './styled';
+export { Browser } from './Explorer';
+export { BrowserDetail } from './Swap';
 
 export const Main = () => {
   return (
@@ -11,9 +11,6 @@ export const Main = () => {
       <Head>
         <title>Swingby Explorer</title>
       </Head>
-      <SwapContainer>
-        <Swap />
-      </SwapContainer>
       <ExplorerMain />
     </>
   );

@@ -1,8 +1,16 @@
 import { getCryptoAssetFormatter, Icon, Text } from '@swingby-protocol/pulsar';
 import React from 'react';
 import { useIntl } from 'react-intl';
+import { useDispatch } from 'react-redux';
 
-import { convertTxTime, currencyNetwork, statusColor, SwapRawObject } from '../../../../explorer';
+import {
+  capitalize,
+  convertTxTime,
+  currencyNetwork,
+  statusColor,
+  SwapRawObject,
+} from '../../../../explorer';
+import { selectSwapDetails } from '../../../../store';
 
 import {
   AddressP,
@@ -39,12 +47,23 @@ interface Props {
   currentTxs: SwapRawObject[];
   goNextPage: () => void;
   goBackPage: () => void;
+  goToDetail: (arg: string) => void;
 }
 
 export const TxHistories = (props: Props) => {
-  const { filter, page, maximumPage, currentTxs, goNextPage, goBackPage, loader } = props;
+  const {
+    filter,
+    page,
+    maximumPage,
+    currentTxs,
+    goNextPage,
+    goBackPage,
+    goToDetail,
+    loader,
+  } = props;
 
   const { locale } = useIntl();
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -62,11 +81,16 @@ export const TxHistories = (props: Props) => {
         {currentTxs &&
           currentTxs.map((tx: SwapRawObject, i: number) => {
             return (
-              <TxHistoryRow key={i} bg={i % 2 !== 0}>
+              <TxHistoryRow
+                key={i}
+                bg={i % 2 !== 0}
+                onMouseEnter={() => dispatch(selectSwapDetails(tx))}
+                onClick={() => goToDetail(tx.hash)}
+              >
                 <Column>
                   <Status>
                     <StatusCircle variant={statusColor(tx.status)} />
-                    <StatusText variant="accent">{tx.status}</StatusText>
+                    <StatusText variant="accent">{capitalize(tx.status)}</StatusText>
                   </Status>
                   <Bottom>
                     <Text variant="label">{convertTxTime(tx.timestamp)}</Text>

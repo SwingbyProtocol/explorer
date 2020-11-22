@@ -21,7 +21,7 @@ import {
 } from './styled';
 
 interface Props {
-  capacity: string;
+  capacity: number;
   stats: IStats;
 }
 
@@ -59,7 +59,7 @@ export const ExplorerInfos = (props: Props) => {
         currency: 'USD',
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
-      }).format(Number(capacity)),
+      }).format(capacity),
     },
     {
       icon: <NetworkMetanodes />,

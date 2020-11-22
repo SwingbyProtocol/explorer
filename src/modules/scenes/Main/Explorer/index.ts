@@ -1,1 +1,1 @@
-export { ExplorerMain } from './ExplorerMain';
+export { Browser } from './Browser';

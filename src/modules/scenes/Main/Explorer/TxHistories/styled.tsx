@@ -62,6 +62,8 @@ export const TxHistoryRow = styled.div<BgProps>`
   padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
   display: grid;
   grid-template-columns: 19% 5% 20.5% 20.5% 10% 22% 2%;
+  cursor: pointer;
+
   @media (min-width: ${rem(media.lg)}) {
     grid-template-columns: 13.5% 4% 23.5% 16.5% 5% 19.5% 16% 2%;
   }
@@ -151,14 +153,17 @@ export const StatusCircle = styled(StatusIcon)`
   height: ${({ theme }) => rem(theme.pulsar.size.drawer)};
   margin-right: ${({ theme }) => rem(theme.pulsar.size.box)};
 `;
+
 export const BrowserFooter = styled.div`
   display: flex;
   justify-content: flex-end;
 `;
+
 export const Pagination = styled.div`
   display: flex;
   align-items: center;
 `;
+
 export const PageText = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -169,6 +174,7 @@ export const BackButton = styled(Button)`
   margin-right: ${({ theme }) => rem(theme.pulsar.size.room)};
   background-color: transparent;
 `;
+
 export const NextButton = styled(Button)`
   color: ${({ theme }) => theme.pulsar.color.text.masked};
   margin-left: ${({ theme }) => rem(theme.pulsar.size.room)};
