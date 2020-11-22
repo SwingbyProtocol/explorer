@@ -27,15 +27,18 @@ export const BrowserPoolDiv = styled(Card)`
   @media (min-width: ${rem(media.xs)}) {
     padding: ${({ theme }) => rem(theme.pulsar.size.street)};
   }
-  @media (min-width: ${rem(media.lg)}) {
+  @media (min-width: ${rem(media.md)}) {
     margin-bottom: ${({ theme }) => rem(theme.pulsar.size.state)};
     padding-top: ${({ theme }) => rem(theme.pulsar.size.city)};
     padding-bottom: ${({ theme }) => rem(theme.pulsar.size.city)};
     padding-right: 0;
     padding-left: 0;
     display: grid;
-    grid-template-columns: ${rem(290)} auto;
+    grid-template-columns: ${rem(190)} auto;
     min-height: ${rem(700)};
+  }
+  @media (min-width: ${rem(media.lg)}) {
+    grid-template-columns: ${rem(290)} auto;
   }
   @media (min-width: ${rem(media.xl)}) {
     min-width: ${rem(1188)};
@@ -43,12 +46,16 @@ export const BrowserPoolDiv = styled(Card)`
 `;
 
 export const Left = styled.div`
-  @media (min-width: ${rem(media.lg)}) {
+  @media (min-width: ${rem(media.md)}) {
     border-right: 1px solid ${({ theme }) => theme.pulsar.color.border.normal};
   }
 `;
 
 export const Right = styled.div`
+  @media (min-width: ${rem(media.md)}) {
+    padding-left: ${({ theme }) => rem(theme.pulsar.size.street)};
+    padding-right: ${({ theme }) => rem(theme.pulsar.size.street)};
+  }
   @media (min-width: ${rem(media.lg)}) {
     padding-left: ${({ theme }) => rem(theme.pulsar.size.city)};
     padding-right: ${({ theme }) => rem(theme.pulsar.size.city)};
@@ -60,14 +67,16 @@ export const Right = styled.div`
 `;
 
 export const Row = styled.div`
+  @media (min-width: ${rem(media.md)}) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
   @media (min-width: ${rem(media.lg)}) {
     display: grid;
-    height: ${rem(190)};
-  }
-  @media (min-width: ${rem(media.lg)}) {
-    grid-template-columns: ${rem(190)} auto ${rem(375)};
+    grid-template-columns: ${rem(280)} auto ${rem(375)};
   }
   @media (min-width: ${rem(media.xl)}) {
-    grid-template-columns: ${rem(190)} auto ${rem(430)};
+    grid-template-columns: ${rem(280)} auto ${rem(430)};
   }
 `;

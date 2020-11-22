@@ -28,14 +28,22 @@ export const Row = styled.div`
   grid-row-gap: ${({ theme }) => rem(theme.pulsar.size.drawer)};
   @media (min-width: ${rem(media.xs)}) {
     padding: ${({ theme }) => rem(theme.pulsar.size.street)};
+    justify-content: flex-start;
+    grid-template-columns: ${rem(140)} auto ${rem(70)};
+  }
+  @media (min-width: ${rem(620)}) {
+    justify-content: flex-start;
+    grid-template-columns: ${rem(140)} auto ${rem(70)};
+  }
+  @media (min-width: ${rem(media.md)}) {
+    justify-content: flex-start;
+    grid-template-columns: ${rem(170)} auto ${rem(70)};
   }
   @media (min-width: ${rem(media.lg)}) {
-    justify-content: flex-start;
-    grid-template-columns: ${rem(170)} ${rem(370)} ${rem(100)};
+    grid-template-columns: ${rem(170)} auto ${rem(100)};
   }
   @media (min-width: ${rem(media.xl)}) {
-    justify-content: flex-start;
-    grid-template-columns: ${rem(170)} ${rem(420)} ${rem(100)};
+    grid-template-columns: ${rem(170)} auto ${rem(100)};
   }
 `;
 
@@ -47,11 +55,8 @@ export const AddressP = styled.p`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  @media (min-width: ${rem(media.lg)}) {
-    max-width: ${rem(320)};
-  }
-  @media (min-width: ${rem(media.xl)}) {
-    max-width: ${rem(370)};
+  @media (min-width: ${rem(media.xs)}) {
+    max-width: 90%;
   }
 `;
 

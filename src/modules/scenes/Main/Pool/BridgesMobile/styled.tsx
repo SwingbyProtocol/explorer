@@ -11,7 +11,7 @@ export const BridgesMobileContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: ${({ theme }) => rem(theme.pulsar.size.drawer)};
-  @media (min-width: ${rem(media.lg)}) {
+  @media (min-width: ${rem(media.md)}) {
     display: none;
   }
 `;

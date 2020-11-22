@@ -16,13 +16,13 @@ interface ActiveProps {
 
 export const BridgesContainer = styled.div`
   display: none;
-  @media (min-width: ${rem(media.lg)}) {
+  @media (min-width: ${rem(media.md)}) {
     display: block;
   }
 `;
 
 export const RowTitle = styled.div`
-  @media (min-width: ${rem(media.lg)}) {
+  @media (min-width: ${rem(media.md)}) {
     padding-left: ${({ theme }) => rem(theme.pulsar.size.town)};
     margin-bottom: ${({ theme }) => rem(theme.pulsar.size.town)};
   }
@@ -39,7 +39,7 @@ export const RowBridge = styled.div<BgProps>`
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  @media (min-width: ${rem(media.lg)}) {
+  @media (min-width: ${rem(media.md)}) {
     height: ${({ theme }) => rem(theme.pulsar.size.state)};
     padding-left: ${({ theme }) => rem(theme.pulsar.size.state)};
     padding-right: ${({ theme }) => rem(theme.pulsar.size.street)};

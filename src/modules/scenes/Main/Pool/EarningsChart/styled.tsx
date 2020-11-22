@@ -23,14 +23,16 @@ export const EarningsChartContainer = styled.div`
   @media (min-width: ${rem(media.sm)}) {
     padding-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
   }
+  @media (min-width: ${rem((media.sm + media.md) / 2)}) {
+    width: 100%;
+  }
+
   @media (min-width: ${rem(media.md)}) {
-    width: ${rem(650)};
-    margin-top: ${({ theme }) => rem(-theme.pulsar.size.house)};
-    justify-self: center;
-    padding-left: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    align-self: start;
+    width: ${rem(480)};
+  }
+  /* Memo: Manually adjust the width size because 'responsible' for chart.js is not good */
+  @media (min-width: ${rem((media.md + media.lg) / 2)}) {
+    width: ${rem(480 * 1.3)};
   }
   @media (min-width: ${rem(media.lg)}) {
     margin-top: 0;
@@ -50,12 +52,29 @@ export const EarningsChartContainer = styled.div`
 
 export const Box = styled.div`
   @media (min-width: ${rem(media.xs)}) {
-    width: ${rem(342)};
+    width: ${rem(330)};
+  }
+  @media (min-width: ${rem((media.xs + media.sm) / 2)}) {
+    width: ${rem(330 * 1.2)};
+  }
+  @media (min-width: ${rem(media.sm)}) {
+    width: ${rem(420)};
+  }
+  @media (min-width: ${rem((media.sm + media.md) / 2)}) {
+    width: ${rem(420 * 1.4)};
+    padding-left: ${({ theme }) => rem(theme.pulsar.size.street)};
+    padding-right: ${({ theme }) => rem(theme.pulsar.size.street)};
   }
   @media (min-width: ${rem(media.md)}) {
-    width: 100%;
+    width: ${rem(420)};
+    padding-left: 0;
+    padding-right: 0;
+  }
+  @media (min-width: ${rem((media.md + media.lg) / 2)}) {
+    width: ${rem(420 * 1.3)};
   }
   @media (min-width: ${rem(media.lg)}) {
+    width: 100%;
     margin-top: ${({ theme }) => rem(theme.pulsar.size.room)};
   }
 `;
@@ -74,10 +93,6 @@ export const TitleDiv = styled.div`
   width: 100%;
   @media (min-width: ${rem(media.sm)}) {
     padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
-  }
-  @media (min-width: ${rem(media.lg)}) {
-    /* margin-bottom: ${({ theme }) => rem(theme.pulsar.size.house)}; */
-    /* margin-bottom: ${({ theme }) => rem(theme.pulsar.size.drawer)}; */
   }
 `;
 
