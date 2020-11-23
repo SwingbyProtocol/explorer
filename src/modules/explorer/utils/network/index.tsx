@@ -24,7 +24,9 @@ const getFloatBalance = (currency: string, floatInfos: IFloatAmount[]): string =
   let floatBalance: string;
   try {
     floatInfos.forEach((floatInfo) => {
+      console.log('floatInfo', floatInfo);
       if (floatInfo.currency === currency) {
+        floatBalance = floatInfo.amount;
       }
     });
   } catch (err) {
@@ -54,6 +56,7 @@ export const fetchFloatBalances = async (
       bnb: Number(getFloatBalance(CoinSymbol.BNB, floatsBinance)),
       btce: Number(getFloatBalance(CoinSymbol.BTC_E, floatsEth)),
     };
+    console.log('floats', floats);
 
     const capacity: number =
       usdBtc * Number(floats.btc) + usdBtc * Number(floats.btcb) + usdBnb * Number(floats.bnb);
