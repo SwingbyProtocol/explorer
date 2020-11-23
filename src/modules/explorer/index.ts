@@ -112,6 +112,7 @@ export interface INetworkInfos {
     btc: number;
     btcb: number;
     bnb: number;
+    btce: number;
   };
   stats: {
     volume24HrBinance: number;
