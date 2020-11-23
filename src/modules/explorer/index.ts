@@ -56,21 +56,11 @@ export interface Reward {
   txId?: string;
 }
 
-export interface IFloatBalance {
-  'BTCB-1DE': string;
-  BNB: string;
-  BTC: IBtcFloatBalance;
-}
-
-export interface IBtcFloatBalance {
-  confirmed: string;
-  unconfirmed: string;
-}
-
 export interface IFloat {
   btc: number;
   btcb: number;
   bnb: number;
+  btce: number;
 }
 
 export interface IStats {
@@ -131,4 +121,9 @@ export interface INetworkInfos {
     volumes: string[];
     metanodes: number;
   };
+}
+
+export interface IFloatAmount {
+  amount: string;
+  currency: string;
 }

@@ -15,8 +15,6 @@ export const SwapFees = (props: Props) => {
   const explorer = useSelector((state) => state.explorer);
   const { transactionFees } = explorer;
   const calculatedFees = transactionFees && calculateFixedFee(tx.feeCurrency, transactionFees);
-  console.log('tx.feeCurrency', tx.feeCurrency);
-  console.log('calculatedFees', calculatedFees);
   return (
     <SwapFeesContainer>
       <TitleText variant="accent">Swap Fees</TitleText>

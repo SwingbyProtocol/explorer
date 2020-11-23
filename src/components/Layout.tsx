@@ -28,7 +28,6 @@ export const Layout = (props: Props) => {
   useEffect(() => {
     (async () => {
       const results = await Promise.all([getUsdPrice(), getTransactionFees()]);
-      console.log('results[1]', results[1]);
       dispatch(fetchUsdPrice(results[0]));
       dispatch(fetchTransactionFees(results[1]));
     })();

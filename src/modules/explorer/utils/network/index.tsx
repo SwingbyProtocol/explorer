@@ -1,6 +1,7 @@
-import { IFetchUsd, IFloat, IFloatBalance, IStats, IFloatBalances } from '../../index';
+import { CoinSymbol } from '../../../coins';
 import { ENDPOINT_API } from '../../../env';
 import { fetch } from '../../../fetch';
+import { IFetchUsd, IFloat, IFloatAmount, IFloatBalances, IStats } from '../../index';
 
 export const getUsdPrice = async (): Promise<IFetchUsd> => {
   const priceBtcUrl = ENDPOINT_API.COINGECKO + '/simple/price?ids=bitcoin&vs_currencies=usd';
@@ -19,20 +20,39 @@ export const getUsdPrice = async (): Promise<IFetchUsd> => {
   };
 };
 
+const getFloatBalance = (currency: string, floatInfos: IFloatAmount[]): string => {
+  let floatBalance: string;
+  try {
+    floatInfos.forEach((floatInfo) => {
+      if (floatInfo.currency === currency) {
+      }
+    });
+  } catch (err) {
+    console.error(err);
+  }
+  return floatBalance;
+};
+
 export const fetchFloatBalances = async (
   usdBtc: number,
   usdBnb: number,
 ): Promise<IFloatBalances> => {
-  const floatUrl = ENDPOINT_API.FLOAT_BALANCES;
+  const urlBinance = ENDPOINT_API.BTCB_NODE + '/api/v1/floats/balances';
+  const urlEth = ENDPOINT_API.BTCE_NODE + '/api/v1/floats/balances';
 
   try {
-    const result = await fetch<{ balances: IFloatBalance }>(floatUrl);
-    const floatBalances: IFloatBalance = result.ok && result.response.balances;
+    const results = await Promise.all([
+      fetch<IFloatAmount[]>(urlBinance),
+      fetch<IFloatAmount[]>(urlEth),
+    ]);
+    const floatsBinance = results[0].ok && results[0].response;
+    const floatsEth = results[1].ok && results[1].response;
 
     const floats: IFloat = {
-      btc: Number(floatBalances.BTC.confirmed),
-      btcb: Number(floatBalances['BTCB-1DE']),
-      bnb: Number(floatBalances.BNB),
+      btc: Number(getFloatBalance(CoinSymbol.BTC, floatsBinance)),
+      btcb: Number(getFloatBalance(CoinSymbol.BTCB_1DE, floatsBinance)),
+      bnb: Number(getFloatBalance(CoinSymbol.BNB, floatsBinance)),
+      btce: Number(getFloatBalance(CoinSymbol.BTC_E, floatsEth)),
     };
 
     const capacity: number =
