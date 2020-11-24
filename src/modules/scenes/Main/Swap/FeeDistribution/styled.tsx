@@ -39,6 +39,7 @@ export const Coin = styled(CoinIcon)`
   margin-right: ${({ theme }) => rem(theme.pulsar.size.closet)};
   filter: saturate(0);
 `;
+
 export const CoinContainer = styled.div`
   display: flex;
   justify-content: space-between;

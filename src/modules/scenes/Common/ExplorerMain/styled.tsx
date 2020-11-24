@@ -68,37 +68,3 @@ export const TitleH1 = styled.h1`
     font-size: ${({ theme }) => rem(theme.pulsar.size.town)};
   }
 `;
-
-// export const SearchInput = styled(TextInput)`
-//   width: 100%;
-//   padding-top: ${({ theme }) => rem(theme.pulsar.size.street)};
-//   padding-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
-//   padding-left: ${({ theme }) => rem(theme.pulsar.size.closet)};
-//   padding-right: ${({ theme }) => rem(theme.pulsar.size.closet)};
-//   font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
-//   ::placeholder {
-//     opacity: 0.8;
-//   }
-//   @media (min-width: ${rem(media.sm)}) {
-//     width: ${rem(250)};
-//     font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
-//     padding-left: 0;
-//     padding-right: 0;
-//   }
-//   @media (min-width: ${rem(media.md)}) {
-//     width: ${rem(300)};
-//     font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
-//   }
-//   @media (min-width: ${rem(media.lg)}) {
-//     padding-top: ${({ theme }) => rem(theme.pulsar.size.room)};
-//     width: ${rem(350)};
-//   }
-//   @media (min-width: ${rem(media.xl)}) {
-//     width: ${rem(400)};
-//   }
-// `;
-
-// export const SearchIcon = styled(Icon.Search)`
-//   color: ${({ theme }) => theme.pulsar.color.primary.normal};
-//   font-size: ${({ theme }) => rem(theme.pulsar.size.street)};
-// `;

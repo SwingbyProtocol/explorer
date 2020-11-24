@@ -39,7 +39,7 @@ export const TextRoom = styled(Text)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
 `;
 
-export const IconInfo = styled(Icon.Search)`
+export const IconInfo = styled(Icon.InfoCircle)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
   color: ${({ theme }) => theme.pulsar.color.text.masked};
   cursor: pointer;

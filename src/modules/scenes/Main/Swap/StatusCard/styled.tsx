@@ -51,9 +51,10 @@ export const TextMsg = styled(Text)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
 `;
 
-export const Clock = styled(Icon.Swingby)`
+export const Clock = styled(Icon.Clock)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
   margin-right: ${({ theme }) => rem(theme.pulsar.size.drawer)};
+  color: ${({ theme }) => theme.pulsar.color.text.masked};
 `;
 
 export const SwapStatus = styled(SwapProgress)`

@@ -62,8 +62,10 @@ export const IconAvatar = styled(Icon.Swingby)`
   }
 `;
 
-export const IconClose = styled(Icon.NetworkValidators)`
+export const IconClose = styled(Icon.CrossCircle)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.street)};
+  color: ${({ theme }) => theme.pulsar.color.danger.normal};
+  cursor: pointer;
   @media (min-width: ${rem(media.sm)}) {
     font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
   }
