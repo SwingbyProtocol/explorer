@@ -7,6 +7,7 @@ const { media } = StylingConstants;
 
 export const StyledSwap = styled.iframe`
   display: none;
+
   @media (min-width: ${rem(media.sm)}) {
     outline: none;
     border: none;
@@ -14,7 +15,7 @@ export const StyledSwap = styled.iframe`
     padding: 0;
     display: block;
     width: 100%;
-    height: ${({ theme }) => rem(theme.pulsar.size.state + theme.pulsar.size.street * 2)};
+    height: ${rem(76)};
   }
 `;
 
@@ -24,6 +25,7 @@ export const SwapMobileRow = styled.div`
   padding-bottom: ${({ theme }) => rem(theme.pulsar.size.closet)};
   padding-left: ${({ theme }) => rem(theme.pulsar.size.closet)};
   padding-right: ${({ theme }) => rem(theme.pulsar.size.closet)};
+
   @media (min-width: ${rem(media.sm)}) {
     display: none;
   }

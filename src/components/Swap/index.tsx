@@ -8,7 +8,7 @@ export const Swap = () => {
   return (
     <>
       <SwapMobileRow>
-        <Button variant="primary" size="state">
+        <Button variant="primary" size="state" href={swapUrl} target="_blank">
           Swap
         </Button>
       </SwapMobileRow>

@@ -12,8 +12,8 @@ export const SwapContainer = styled.div`
   justify-content: center;
   margin: 0 auto;
   padding-top: ${rem(74)};
+
   @media (min-width: ${rem(media.sm)}) {
-    padding-top: ${rem(68)};
-    padding-bottom: ${rem(10)};
+    padding-top: ${rem(90)};
   }
 `;
