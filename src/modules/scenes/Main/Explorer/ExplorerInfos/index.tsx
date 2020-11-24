@@ -41,7 +41,7 @@ export const ExplorerInfos = (props: Props) => {
         currency: 'USD',
         minimumFractionDigits: 3,
         maximumFractionDigits: 3,
-      }).format(Number(stats.volume24HrBtc) * usd.btc),
+      }).format(Number(stats.volume24HrBtc) * usd.BTC),
     },
     {
       icon: <NetworkRewards />,
@@ -49,7 +49,7 @@ export const ExplorerInfos = (props: Props) => {
       value: getFiatAssetFormatter({
         locale: locale,
         currency: 'USD',
-      }).format(stats.rewards24Hr * usd.btc),
+      }).format(stats.rewards24Hr * usd.BTC),
     },
     {
       icon: <NetworkCapacity />,

@@ -1,0 +1,1 @@
+export { titleGenerator } from './utils';

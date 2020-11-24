@@ -1,51 +1,55 @@
 import { PulsarThemeProvider } from '@swingby-protocol/pulsar';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React from 'react';
 
+import { AccountId } from '../../../../components/AccountId';
+import { Search } from '../../../../components/Search';
+import { titleGenerator } from '../../../common';
 import { PATH } from '../../../env';
-import { StylingConstants } from '../../../styles';
-import { Browser, BrowserDetail } from '../../Main';
+import { Browser, BrowserDetail, BrowserPool } from '../../Main';
 
-import { ExplorerMainContainer, HeadLine, SearchIcon, SearchInput, TitleH1 } from './styled';
+import { ExplorerMainContainer, HeadLine, TitleH1 } from './styled';
 
 export const ExplorerMain = () => {
   const router = useRouter();
-  const [search, setSearch] = useState('');
-  const [browser, setBrowser] = useState(router.pathname === PATH.ROOT ? 'Explorer' : 'Detail');
-  const { media } = StylingConstants;
+  const currentPath = router.pathname;
 
-  const explorer = useSelector((state) => state.explorer);
-  const { width } = explorer;
+  const switchBrowser = (path: string): JSX.Element => {
+    switch (path) {
+      case PATH.ROOT:
+        return <Browser />;
+      case PATH.SWAP + '/[hash]':
+        return <BrowserDetail />;
+      case PATH.POOL:
+        return <BrowserPool />;
+
+      default:
+        <Browser />;
+    }
+  };
+
+  const switchRightComponent = (path: string): JSX.Element => {
+    switch (path) {
+      case PATH.ROOT:
+        return <Search />;
+      case PATH.SWAP + '/[hash]':
+        return <Search />;
+      case PATH.POOL:
+        return <AccountId />;
+
+      default:
+        <Browser />;
+    }
+  };
 
   return (
     <PulsarThemeProvider theme="accent">
       <ExplorerMainContainer>
         <HeadLine>
-          <TitleH1>Skybridge Explorer</TitleH1>
-          <PulsarThemeProvider>
-            <SearchInput
-              size={width > media.lg ? 'country' : width > media.md ? 'state' : 'country'}
-              value={search || router.query.q}
-              onChange={(evt) => {
-                setSearch(evt.target.value);
-                router.push({
-                  pathname: '/',
-                  query: { bridge: '', q: evt.target.value, page: 1 },
-                });
-              }}
-              placeholder="Search by address or Txn Hash"
-              right={<SearchIcon size="country" />}
-            />
-          </PulsarThemeProvider>
+          <TitleH1>{titleGenerator(currentPath)}</TitleH1>
+          <PulsarThemeProvider>{switchRightComponent(currentPath)}</PulsarThemeProvider>
         </HeadLine>
-        <PulsarThemeProvider>
-          {browser === 'Explorer' ? (
-            <Browser setBrowser={setBrowser} />
-          ) : (
-            <BrowserDetail setBrowser={setBrowser} />
-          )}
-        </PulsarThemeProvider>
+        <PulsarThemeProvider>{switchBrowser(currentPath)}</PulsarThemeProvider>
       </ExplorerMainContainer>
     </PulsarThemeProvider>
   );

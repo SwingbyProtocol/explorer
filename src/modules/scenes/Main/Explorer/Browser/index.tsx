@@ -17,8 +17,8 @@ import { useInterval } from '../../../../hooks';
 import {
   getHistory,
   toggleIsHideWaiting,
-  updateSwapHistoryTemp,
   updateNetworkInfos,
+  updateSwapHistoryTemp,
 } from '../../../../store';
 import { ExplorerInfos } from '../ExplorerInfos';
 import { NetworkBridges } from '../NetworkBridges';
@@ -28,11 +28,7 @@ import { TxHistoriesMobile } from '../TxHistoriesMobile';
 
 import { Bottom, BrowserContainer, BrowserDiv, Filter, Top } from './styled';
 
-interface Props {
-  setBrowser: (arg: string) => void;
-}
-
-export const Browser = (props: Props) => {
+export const Browser = () => {
   const explorer = useSelector((state) => state.explorer);
   const dispatch = useDispatch();
   const { swapHistory, isHideWaiting, swapHistoryTemp, usd, networkInfos } = explorer;
@@ -44,7 +40,7 @@ export const Browser = (props: Props) => {
   useEffect(() => {
     usd &&
       (async () => {
-        const results = await Promise.all([fetchFloatBalances(usd.btc, usd.bnb), fetchStatsInfo()]);
+        const results = await Promise.all([fetchFloatBalances(usd.BTC, usd.BNB), fetchStatsInfo()]);
 
         const data = results[0];
         const stats = results[1];
@@ -69,7 +65,6 @@ export const Browser = (props: Props) => {
   const chainBridge = String(params.bridge || '');
 
   const goToDetail = (hash: string) => {
-    props.setBrowser('Detail');
     router.push(`/swap/${hash}`);
   };
 

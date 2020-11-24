@@ -10,3 +10,4 @@ export {
   selectSwapDetails,
   updateNetworkInfos,
 } from './explorer';
+export { setBridge } from './pool';

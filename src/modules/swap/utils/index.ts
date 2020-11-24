@@ -1,2 +1,2 @@
-export { generateMessage } from './generateMessage';
+export { generateMessage, allocateStatus } from './generateMessage';
 export { transactionDetail } from './transactionDetail';

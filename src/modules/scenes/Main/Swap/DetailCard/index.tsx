@@ -8,13 +8,14 @@ import {
   Coin,
   Column,
   DetailCardContainer,
-  AmountSpan,
+  TextAmount,
   AddressP,
   RowAddress,
   RowRole,
   Top,
   Bottom,
   IconInfo,
+  TextRoom,
 } from './styled';
 
 interface Props {
@@ -41,19 +42,19 @@ export const DetailCard = (props: Props) => {
         <Coin symbol={currency} />
         <div>
           <Top>
-            <Text variant="label">{currencyNetwork(currency)}</Text>
+            <TextRoom variant="label">{currencyNetwork(currency)}</TextRoom>
           </Top>
           <Bottom>
-            <AmountSpan variant="accent">{amount}</AmountSpan>
+            <TextAmount variant="accent">{amount}</TextAmount>
           </Bottom>
         </div>
       </Column>
       <RowAddress>
-        <Text variant="label">{role}</Text>
+        <TextRoom variant="label">{role}</TextRoom>
         <AddressP>{address}</AddressP>
       </RowAddress>
       <RowAddress>
-        <Text variant="label">TxId</Text>
+        <TextRoom variant="label">TxId</TextRoom>
         <AddressP>{txId}</AddressP>
       </RowAddress>
     </DetailCardContainer>
