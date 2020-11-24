@@ -1,12 +1,24 @@
 import { Button } from '@swingby-protocol/pulsar';
 import React from 'react';
 
-import { ActionButtonsSwapContainer, Buttons } from './styled';
+import { TStatus, SwapRawObject } from '../../../../explorer';
+import { allocateStatus } from '../../../../swap';
 
-export const ActionButtons = () => {
+import { ActionButtonsSwapContainer, Buttons, SwapStatus } from './styled';
+
+interface Props {
+  tx: SwapRawObject;
+}
+
+export const ActionButtons = (props: Props) => {
+  const { tx } = props;
   return (
     <ActionButtonsSwapContainer>
-      <div>Status</div>
+      <SwapStatus
+        status={allocateStatus(tx.status) as TStatus}
+        currencyIn={tx.currencyIn}
+        currencyOut={tx.currencyOut}
+      />
       <Buttons>
         <Button variant="secondary" size="city">
           Duplicate

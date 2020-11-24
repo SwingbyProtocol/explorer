@@ -53,7 +53,7 @@ export const BrowserDetail = () => {
       <BrowserDetailDiv size="bare">
         {tx && router.pathname !== undefined ? (
           <>
-            <ActionButtons />
+            <ActionButtons tx={tx} />
             <Row isTxId={tx.txIdIn !== undefined}>
               <DetailCard
                 role="From"

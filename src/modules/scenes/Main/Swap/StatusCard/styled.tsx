@@ -1,4 +1,4 @@
-import { Icon, StatusIcon, Text } from '@swingby-protocol/pulsar';
+import { Icon, StatusIcon, SwapProgress, Text } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
 import styled from 'styled-components';
 
@@ -18,6 +18,7 @@ export const StatusCardContainer = styled.div`
     background-color: ${({ theme }) => theme.pulsar.color.bg.normal};
   }
 `;
+
 export const Arrow = styled(Icon.ArrowLeft)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
   cursor: pointer;
@@ -29,7 +30,7 @@ export const Row = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
+  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.town)};
 `;
 
 export const StatusCircle = styled(StatusIcon)`
@@ -45,7 +46,7 @@ export const TextMsg = styled(Text)`
   padding-left: ${({ theme }) => rem(theme.pulsar.size.state)};
   padding-right: ${({ theme }) => rem(theme.pulsar.size.state)};
   text-align: center;
-  margin-top: ${({ theme }) => rem(theme.pulsar.size.house)};
+  margin-top: ${({ theme }) => rem(theme.pulsar.size.town)};
   margin-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
   font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
 `;
@@ -53,4 +54,8 @@ export const TextMsg = styled(Text)`
 export const Clock = styled(Icon.Swingby)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
   margin-right: ${({ theme }) => rem(theme.pulsar.size.drawer)};
+`;
+
+export const SwapStatus = styled(SwapProgress)`
+  font-size: ${({ theme }) => rem(theme.pulsar.size.country)};
 `;

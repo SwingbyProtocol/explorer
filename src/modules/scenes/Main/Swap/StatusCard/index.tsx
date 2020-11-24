@@ -3,17 +3,24 @@ import { useRouter } from 'next/router';
 import React from 'react';
 
 import { Loader } from '../../../../../components/Loader';
-import { capitalize, convertTxTime, statusColor, SwapRawObject } from '../../../../explorer';
-import { generateMessage } from '../../../../swap';
+import {
+  capitalize,
+  convertTxTime,
+  statusColor,
+  SwapRawObject,
+  TStatus,
+} from '../../../../explorer';
+import { allocateStatus, generateMessage } from '../../../../swap';
 
 import {
   Arrow,
-  StatusCardContainer,
+  Clock,
   Row,
+  StatusCardContainer,
   StatusCircle,
   StatusText,
+  SwapStatus,
   TextMsg,
-  Clock,
 } from './styled';
 
 interface Props {
@@ -37,7 +44,11 @@ export const StatusCard = (props: Props) => {
             <StatusCircle variant={statusColor(tx.status)} />
             <StatusText variant="accent">{capitalize(tx.status)}</StatusText>
           </Row>
-          <h1 style={{ margin: 0 }}>Status images</h1>
+          <SwapStatus
+            status={allocateStatus(tx.status) as TStatus}
+            currencyIn={tx.currencyIn}
+            currencyOut={tx.currencyOut}
+          />
           <TextMsg variant="label">{generateMessage(tx.status)}</TextMsg>
           <Row>
             <Clock />
