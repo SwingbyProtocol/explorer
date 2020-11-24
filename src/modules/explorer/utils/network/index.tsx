@@ -51,7 +51,9 @@ export const fetchFloatBalances = async (
     const floatsEth = results[1].ok && results[1].response;
 
     const floats: IFloat = {
-      btc: Number(getFloatBalance(CoinSymbol.BTC, floatsBinance)),
+      btc:
+        Number(getFloatBalance(CoinSymbol.BTC, floatsBinance)) +
+        Number(getFloatBalance(CoinSymbol.BTC, floatsEth)),
       btcb: Number(getFloatBalance(CoinSymbol.BTCB_1DE, floatsBinance)),
       bnb: Number(getFloatBalance(CoinSymbol.BNB, floatsBinance)),
       btce: Number(getFloatBalance(CoinSymbol.BTC_E, floatsEth)),
