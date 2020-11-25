@@ -4,6 +4,8 @@ import React from 'react';
 import { SeeMore } from '../../../../../components/SeeMore';
 import { TXS_COUNT } from '../../../../env';
 import { exponentialToNumber, Reward, SwapRawObject } from '../../../../explorer';
+import { transactionDetailByAddress, transactionDetailByTxId } from '../../../../swap';
+import { Atag, IconInfo } from '../../../Common';
 
 import {
   AddressP,
@@ -13,6 +15,7 @@ import {
   IconRightArrow,
   RewardsContainer,
   Row,
+  TitleRow,
   TitleText,
 } from './styled';
 
@@ -27,7 +30,18 @@ export const FeeDistribution = (props: Props) => {
 
   return (
     <FeeDistributionContainer>
-      <TitleText variant="accent">Fee Distribution</TitleText>
+      <TitleRow>
+        <TitleText variant="accent">Fee Distribution</TitleText>
+        {tx.rewards[0].txId && (
+          <a
+            href={transactionDetailByTxId(tx.currencyOut, tx.rewards[0].txId)}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <IconInfo />
+          </a>
+        )}
+      </TitleRow>
       <RewardsContainer>
         {tx.rewards &&
           rewardsDataSlice.map((reward: Reward, i: number) => {
@@ -38,7 +52,13 @@ export const FeeDistribution = (props: Props) => {
                   <Text variant="accent"> {exponentialToNumber(reward.amount)}</Text>
                 </CoinContainer>
                 <IconRightArrow />
-                <AddressP>{reward.address}</AddressP>
+                <Atag
+                  href={transactionDetailByAddress(tx.currencyOut, reward.address)}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <AddressP>{reward.address}</AddressP>
+                </Atag>
               </Row>
             );
           })}

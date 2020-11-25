@@ -1,4 +1,4 @@
-import { CoinIcon, Icon, Text } from '@swingby-protocol/pulsar';
+import { CoinIcon, Text } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
 import styled from 'styled-components';
 
@@ -37,12 +37,6 @@ export const TextAmount = styled(Text)`
 
 export const TextRoom = styled(Text)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
-`;
-
-export const IconInfo = styled(Icon.InfoCircle)`
-  font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
-  color: ${({ theme }) => theme.pulsar.color.text.masked};
-  cursor: pointer;
 `;
 
 export const RowRole = styled.div`

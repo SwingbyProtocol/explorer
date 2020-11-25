@@ -2,7 +2,8 @@ import { Text } from '@swingby-protocol/pulsar';
 import React from 'react';
 
 import { currencyNetwork } from '../../../../explorer';
-import { transactionDetail } from '../../../../swap/';
+import { transactionDetailByTxId } from '../../../../swap/';
+import { IconInfo } from '../../../Common';
 
 import {
   Coin,
@@ -14,7 +15,6 @@ import {
   RowRole,
   Top,
   Bottom,
-  IconInfo,
   TextRoom,
 } from './styled';
 
@@ -33,7 +33,11 @@ export const DetailCard = (props: Props) => {
       <RowRole>
         <Text variant="section-title">{role}</Text>
         {txId && (
-          <a href={transactionDetail(currency, txId)} rel="noopener noreferrer" target="_blank">
+          <a
+            href={transactionDetailByTxId(currency, txId)}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
             <IconInfo />
           </a>
         )}

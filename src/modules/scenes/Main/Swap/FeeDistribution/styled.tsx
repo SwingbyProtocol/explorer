@@ -10,6 +10,13 @@ export const FeeDistributionContainer = styled.div`
   margin-top: ${({ theme }) => rem(-theme.pulsar.size.box)};
   padding-top: ${({ theme }) => rem(theme.pulsar.size.street)};
 `;
+
+export const TitleRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 export const TitleText = styled(Text)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
 `;
