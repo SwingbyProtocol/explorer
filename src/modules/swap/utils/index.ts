@@ -1,2 +1,2 @@
 export { generateMessage, allocateStatus } from './generateMessage';
-export { transactionDetail } from './transactionDetail';
+export { transactionDetailByTxId, transactionDetailByAddress } from './transactionDetail';

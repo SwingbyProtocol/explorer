@@ -1,25 +1,51 @@
 import { CoinSymbol, ETHCoins, BTCBCoins } from '../../../coins';
 import { NETWORK } from '../../../env';
 
-export const transactionDetail = (currency: string, hash: string): string => {
-  const btcExplorerBaseUrl = 'https://www.blockchain.com/btc-testnet/tx';
+const btcExplorerBaseUrl =
+  NETWORK === 'mainnet'
+    ? 'https://www.blockchain.com/btc'
+    : 'https://www.blockchain.com/btc-testnet';
 
-  const bnbExplorerBaseUrl =
-    NETWORK === 'mainnet'
-      ? 'https://explorer.binance.org/tx'
-      : 'https://testnet-explorer.binance.org/tx';
+const bnbExplorerBaseUrl =
+  NETWORK === 'mainnet' ? 'https://explorer.binance.org' : 'https://testnet-explorer.binance.org';
 
-  const etherExplorerBaseUrl =
-    NETWORK === 'mainnet' ? 'https://etherscan.io/tx' : 'https://goerli.etherscan.io/tx';
+const etherExplorerBaseUrl =
+  NETWORK === 'mainnet' ? 'https://etherscan.io' : 'https://goerli.etherscan.io';
+
+export const transactionDetailByTxId = (currency: string, hash: string): string => {
+  const btcBaseUrl = btcExplorerBaseUrl + '/tx';
+
+  const bnbBaseUrl = bnbExplorerBaseUrl + '/tx';
+
+  const etherBaseUrl = etherExplorerBaseUrl + '/tx';
 
   if (currency === CoinSymbol.BTC) {
-    return `${btcExplorerBaseUrl}/${hash}`;
+    return `${btcBaseUrl}/${hash}`;
   }
   if (ETHCoins.includes(currency)) {
-    return `${etherExplorerBaseUrl}/${hash}`;
+    return `${etherBaseUrl}/${hash}`;
   }
   if (BTCBCoins.includes(currency)) {
-    return `${bnbExplorerBaseUrl}/${hash}`;
+    return `${bnbBaseUrl}/${hash}`;
+  }
+  return 'invalid format';
+};
+
+export const transactionDetailByAddress = (currency: string, address: string): string => {
+  const btcBaseUrl = btcExplorerBaseUrl + '/address';
+
+  const bnbBaseUrl = bnbExplorerBaseUrl + '/address';
+
+  const etherBaseUrl = etherExplorerBaseUrl + '/address';
+
+  if (currency === CoinSymbol.BTC) {
+    return `${btcBaseUrl}/${address}`;
+  }
+  if (ETHCoins.includes(currency)) {
+    return `${etherBaseUrl}/${address}`;
+  }
+  if (BTCBCoins.includes(currency)) {
+    return `${bnbBaseUrl}/${address}`;
   }
   return 'invalid format';
 };

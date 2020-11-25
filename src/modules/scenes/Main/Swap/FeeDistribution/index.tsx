@@ -4,7 +4,7 @@ import React from 'react';
 import { SeeMore } from '../../../../../components/SeeMore';
 import { TXS_COUNT } from '../../../../env';
 import { exponentialToNumber, Reward, SwapRawObject } from '../../../../explorer';
-import { transactionDetail } from '../../../../swap';
+import { transactionDetailByAddress, transactionDetailByTxId } from '../../../../swap';
 import { IconInfo } from '../../../Common';
 
 import {
@@ -25,7 +25,6 @@ interface Props {
 
 export const FeeDistribution = (props: Props) => {
   const { tx } = props;
-  console.log('tx', tx);
 
   const rewardsDataSlice = tx.rewards.slice(0, TXS_COUNT);
 
@@ -35,7 +34,7 @@ export const FeeDistribution = (props: Props) => {
         <TitleText variant="accent">Fee Distribution</TitleText>
         {tx.rewards[0].txId && (
           <a
-            href={transactionDetail(tx.currencyOut, tx.rewards[0].txId)}
+            href={transactionDetailByTxId(tx.currencyOut, tx.rewards[0].txId)}
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -53,7 +52,13 @@ export const FeeDistribution = (props: Props) => {
                   <Text variant="accent"> {exponentialToNumber(reward.amount)}</Text>
                 </CoinContainer>
                 <IconRightArrow />
-                <AddressP>{reward.address}</AddressP>
+                <a
+                  href={transactionDetailByAddress(tx.currencyOut, reward.address)}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <AddressP>{reward.address}</AddressP>
+                </a>
               </Row>
             );
           })}
