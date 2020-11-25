@@ -4,6 +4,8 @@ import React from 'react';
 import { SeeMore } from '../../../../../components/SeeMore';
 import { TXS_COUNT } from '../../../../env';
 import { exponentialToNumber, Reward, SwapRawObject } from '../../../../explorer';
+import { transactionDetail } from '../../../../swap';
+import { IconInfo } from '../../../Common';
 
 import {
   AddressP,
@@ -13,6 +15,7 @@ import {
   IconRightArrow,
   RewardsContainer,
   Row,
+  TitleRow,
   TitleText,
 } from './styled';
 
@@ -22,12 +25,24 @@ interface Props {
 
 export const FeeDistribution = (props: Props) => {
   const { tx } = props;
+  console.log('tx', tx);
 
   const rewardsDataSlice = tx.rewards.slice(0, TXS_COUNT);
 
   return (
     <FeeDistributionContainer>
-      <TitleText variant="accent">Fee Distribution</TitleText>
+      <TitleRow>
+        <TitleText variant="accent">Fee Distribution</TitleText>
+        {tx.rewards[0].txId && (
+          <a
+            href={transactionDetail(tx.currencyOut, tx.rewards[0].txId)}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <IconInfo />
+          </a>
+        )}
+      </TitleRow>
       <RewardsContainer>
         {tx.rewards &&
           rewardsDataSlice.map((reward: Reward, i: number) => {

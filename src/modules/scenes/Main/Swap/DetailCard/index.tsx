@@ -3,6 +3,7 @@ import React from 'react';
 
 import { currencyNetwork } from '../../../../explorer';
 import { transactionDetail } from '../../../../swap/';
+import { IconInfo } from '../../../Common';
 
 import {
   Coin,
@@ -14,7 +15,6 @@ import {
   RowRole,
   Top,
   Bottom,
-  IconInfo,
   TextRoom,
 } from './styled';
 

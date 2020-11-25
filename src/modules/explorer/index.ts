@@ -53,7 +53,7 @@ export interface ITransactions {
 export interface Reward {
   address: string;
   amount: string;
-  txId?: string;
+  txId: string;
 }
 
 export interface IFloat {
