@@ -1,2 +1,2 @@
 export { ExplorerMain } from './ExplorerMain';
-export { IconInfo } from './Styled';
+export { IconInfo, Atag } from './Styled';

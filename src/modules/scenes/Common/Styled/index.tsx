@@ -7,3 +7,7 @@ export const IconInfo = styled(Icon.InfoCircle)`
   color: ${({ theme }) => theme.pulsar.color.text.masked};
   cursor: pointer;
 `;
+
+export const Atag = styled.a`
+  text-decoration: none;
+`;

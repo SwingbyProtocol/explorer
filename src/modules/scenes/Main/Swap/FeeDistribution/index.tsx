@@ -5,7 +5,7 @@ import { SeeMore } from '../../../../../components/SeeMore';
 import { TXS_COUNT } from '../../../../env';
 import { exponentialToNumber, Reward, SwapRawObject } from '../../../../explorer';
 import { transactionDetailByAddress, transactionDetailByTxId } from '../../../../swap';
-import { IconInfo } from '../../../Common';
+import { Atag, IconInfo } from '../../../Common';
 
 import {
   AddressP,
@@ -52,13 +52,13 @@ export const FeeDistribution = (props: Props) => {
                   <Text variant="accent"> {exponentialToNumber(reward.amount)}</Text>
                 </CoinContainer>
                 <IconRightArrow />
-                <a
+                <Atag
                   href={transactionDetailByAddress(tx.currencyOut, reward.address)}
                   rel="noopener noreferrer"
                   target="_blank"
                 >
                   <AddressP>{reward.address}</AddressP>
-                </a>
+                </Atag>
               </Row>
             );
           })}
