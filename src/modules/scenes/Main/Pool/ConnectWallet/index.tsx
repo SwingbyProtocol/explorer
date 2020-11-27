@@ -14,11 +14,13 @@ export const ConnectWallet = () => {
   const pool = useSelector((state) => state.pool);
   const { userAddress, onboard } = pool;
 
+  console.log('onboard', onboard);
   const previouslySelectedWallet =
     typeof window !== 'undefined' && window.localStorage.getItem('selectedWallet');
 
   useEffect(() => {
     const updateUserAddress = (address: string): void => {
+      console.log('address', address);
       dispatch(setUserAddress(address));
     };
 
@@ -35,6 +37,7 @@ export const ConnectWallet = () => {
         },
       },
     });
+    console.log('onboardData', onboardData);
     dispatch(setOnboard(onboardData));
   }, [dispatch, previouslySelectedWallet, theme.pulsar.id]);
 
