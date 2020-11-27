@@ -25,7 +25,8 @@ export const ConnectWallet = () => {
     };
 
     const onboardData = initOnboard({
-      isDarkMode: theme.pulsar.id === 'PulsarDark',
+      // isDarkMode: theme.pulsar.id === 'PulsarDark',
+      isDarkMode: true,
       subscriptions: {
         address: updateUserAddress,
         wallet: (wallet) => {
@@ -40,7 +41,7 @@ export const ConnectWallet = () => {
     });
     console.log('onboardData', onboardData);
     dispatch(setOnboard(onboardData));
-  }, [dispatch, theme.pulsar.id, onboard]);
+  }, [dispatch]);
 
   useEffect(() => {
     if (previouslySelectedWallet !== null && onboard) {
