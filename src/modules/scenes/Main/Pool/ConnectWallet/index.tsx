@@ -39,7 +39,7 @@ export const ConnectWallet = () => {
     });
     console.log('onboardData', onboardData);
     dispatch(setOnboard(onboardData));
-  }, [dispatch, previouslySelectedWallet, theme.pulsar.id]);
+  }, [dispatch, theme.pulsar.id]);
 
   useEffect(() => {
     if (previouslySelectedWallet !== null && onboard) {
