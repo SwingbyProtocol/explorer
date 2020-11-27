@@ -53,8 +53,8 @@ export const ConnectWallet = () => {
       <ButtonConnect
         variant="primary"
         size="state"
-        onClick={() => {
-          !userAddress && onboard.walletSelect();
+        onClick={async () => {
+          !userAddress && (await onboard.walletSelect());
         }}
       >
         Connect Wallet
