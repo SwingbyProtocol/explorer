@@ -29,6 +29,7 @@ export const ConnectWallet = () => {
       subscriptions: {
         address: updateUserAddress,
         wallet: (wallet) => {
+          console.log('wallet', wallet);
           if (wallet.provider) {
             window.localStorage.setItem('selectedWallet', wallet.name);
           } else {
@@ -39,10 +40,11 @@ export const ConnectWallet = () => {
     });
     console.log('onboardData', onboardData);
     dispatch(setOnboard(onboardData));
-  }, [dispatch, theme.pulsar.id]);
+  }, [dispatch, theme.pulsar.id, onboard]);
 
   useEffect(() => {
     if (previouslySelectedWallet !== null && onboard) {
+      console.log('hello');
       onboard.walletSelect(previouslySelectedWallet);
     }
   }, [onboard, previouslySelectedWallet]);
