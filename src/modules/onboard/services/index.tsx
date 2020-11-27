@@ -6,12 +6,11 @@ const networkId = GOERLI_NETWORK;
 const dappId = BLOCK_NATIVE_API_KEY;
 
 // Ref: https://github.com/blocknative/react-demo/blob/master/src/services.js
-export const initOnboard = ({ isDarkMode, subscriptions }) => {
+export const initOnboard = (subscriptions) => {
   return Onboard({
     dappId,
     networkId,
     hideBranding: true,
-    darkMode: isDarkMode,
     subscriptions,
     walletSelect: {
       wallets: [{ walletName: 'metamask' }],

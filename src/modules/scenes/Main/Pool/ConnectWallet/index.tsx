@@ -25,18 +25,14 @@ export const ConnectWallet = () => {
     };
 
     const onboardData = initOnboard({
-      // isDarkMode: theme.pulsar.id === 'PulsarDark',
-      isDarkMode: true,
-      subscriptions: {
-        address: updateUserAddress,
-        wallet: (wallet) => {
-          console.log('wallet', wallet);
-          if (wallet.provider) {
-            window.localStorage.setItem('selectedWallet', wallet.name);
-          } else {
-            window.localStorage.removeItem('selectedWallet');
-          }
-        },
+      address: updateUserAddress,
+      wallet: (wallet) => {
+        console.log('wallet', wallet);
+        if (wallet.provider) {
+          window.localStorage.setItem('selectedWallet', wallet.name);
+        } else {
+          window.localStorage.removeItem('selectedWallet');
+        }
       },
     });
     console.log('onboardData', onboardData);
