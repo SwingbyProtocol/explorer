@@ -1,19 +1,27 @@
-import { Text } from '@swingby-protocol/pulsar';
 import React from 'react';
+import { useSelector } from 'react-redux';
 
-import { AccountIdContainer, AccountIdWrapper, IconAvatar, IconClose } from './styled';
+import { AccountIdContainer, AccountIdWrapper, IconClose, ImageIcon, TextAddress } from './styled';
 
 export const AccountId = () => {
-  const address = '0xb680c8F33f058163185AB6121F7582BAb57Ef8a1';
-  const addressShort = address.slice(0, 12) + '...' + address.slice(-11);
+  const pool = useSelector((state) => state.pool);
+  const { userAddress, onboard } = pool;
 
   return (
     <AccountIdWrapper>
-      <AccountIdContainer>
-        <IconAvatar />
-        <Text variant="section-title">{addressShort}</Text>
-        <IconClose />
-      </AccountIdContainer>
+      {userAddress && (
+        <AccountIdContainer>
+          {/* Ref: https://avatars.dicebear.com/ */}
+          <ImageIcon
+            src={`https://avatars.dicebear.com/api/identicon/${userAddress}.svg`}
+            alt="avatar"
+          />
+          <TextAddress variant="section-title">
+            {userAddress && userAddress.slice(0, 12) + '...' + userAddress.slice(-11)}
+          </TextAddress>
+          <IconClose onClick={userAddress && onboard && onboard.walletReset} />
+        </AccountIdContainer>
+      )}
     </AccountIdWrapper>
   );
 };

@@ -1,4 +1,4 @@
-import { Icon } from '@swingby-protocol/pulsar';
+import { Icon, Text } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
 import styled from 'styled-components';
 
@@ -52,16 +52,6 @@ export const AccountIdContainer = styled.div`
   }
 `;
 
-export const IconAvatar = styled(Icon.Swingby)`
-  font-size: ${({ theme }) => rem(theme.pulsar.size.street)};
-  @media (min-width: ${rem(media.sm)}) {
-    font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
-  }
-  @media (min-width: ${rem(media.md)}) {
-    font-size: ${({ theme }) => rem(theme.pulsar.size.street)};
-  }
-`;
-
 export const IconClose = styled(Icon.CrossCircle)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.street)};
   color: ${({ theme }) => theme.pulsar.color.danger.normal};
@@ -72,4 +62,14 @@ export const IconClose = styled(Icon.CrossCircle)`
   @media (min-width: ${rem(media.md)}) {
     font-size: ${({ theme }) => rem(theme.pulsar.size.street)};
   }
+`;
+
+export const TextAddress = styled(Text)`
+  @media (min-width: ${rem(media.lg)}) {
+    font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
+  }
+`;
+
+export const ImageIcon = styled.img`
+  width: ${({ theme }) => rem(theme.pulsar.size.house)};
 `;

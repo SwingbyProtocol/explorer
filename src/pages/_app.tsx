@@ -7,6 +7,7 @@ import { Provider as ReduxProvider } from 'react-redux';
 import { languages } from '../modules/i18n';
 import { useStore } from '../modules/store';
 import { Layout } from '../components/Layout';
+import './style.css';
 
 const DEFAULT_LOCALE = 'en';
 

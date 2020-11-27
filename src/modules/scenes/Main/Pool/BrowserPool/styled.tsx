@@ -24,6 +24,7 @@ export const BrowserPoolDiv = styled(Card)`
   padding-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
   padding-right: ${({ theme }) => rem(theme.pulsar.size.drawer)};
   padding-left: ${({ theme }) => rem(theme.pulsar.size.drawer)};
+  position: relative;
   @media (min-width: ${rem(media.xs)}) {
     padding: ${({ theme }) => rem(theme.pulsar.size.street)};
   }
@@ -52,6 +53,7 @@ export const Left = styled.div`
 `;
 
 export const Right = styled.div`
+  position: relative;
   @media (min-width: ${rem(media.md)}) {
     padding-left: ${({ theme }) => rem(theme.pulsar.size.street)};
     padding-right: ${({ theme }) => rem(theme.pulsar.size.street)};

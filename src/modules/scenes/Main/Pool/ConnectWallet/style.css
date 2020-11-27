@@ -1,0 +1,4 @@
+/* Ref: https://docs.blocknative.com/onboard */
+.bn-onboard-custom.bn-onboard-modal {
+  z-index: 99;
+}

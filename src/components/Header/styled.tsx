@@ -21,7 +21,7 @@ export const HeaderContainer = styled.div`
   border-bottom: 1px solid ${({ theme }) => theme.pulsar.color.border.normal};
   width: 100%;
   position: fixed;
-  z-index: 10;
+  z-index: 20;
   background-color: ${({ theme }) => theme.pulsar.color.bg.normal};
   @media (min-width: ${rem(media.sm)}) {
     padding-right: ${({ theme }) => rem(theme.pulsar.size.town)};
