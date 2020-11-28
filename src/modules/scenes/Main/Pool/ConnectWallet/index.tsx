@@ -12,36 +12,34 @@ export const ConnectWallet = () => {
   const theme = useTheme();
 
   const pool = useSelector((state) => state.pool);
-  const { userAddress, onboard } = pool;
+  const { onboard } = pool;
 
-  console.log('onboard', onboard);
   const previouslySelectedWallet =
     typeof window !== 'undefined' && window.localStorage.getItem('selectedWallet');
 
   useEffect(() => {
     const updateUserAddress = (address: string): void => {
-      console.log('address', address);
       dispatch(setUserAddress(address));
     };
 
     const onboardData = initOnboard({
-      address: updateUserAddress,
-      wallet: (wallet) => {
-        console.log('wallet', wallet);
-        if (wallet.provider) {
-          window.localStorage.setItem('selectedWallet', wallet.name);
-        } else {
-          window.localStorage.removeItem('selectedWallet');
-        }
+      isDarkMode: theme.pulsar.id === 'PulsarDark',
+      subscriptions: {
+        address: updateUserAddress,
+        wallet: (wallet) => {
+          if (wallet.provider) {
+            window.localStorage.setItem('selectedWallet', wallet.name);
+          } else {
+            window.localStorage.removeItem('selectedWallet');
+          }
+        },
       },
     });
-    console.log('onboardData', onboardData);
     dispatch(setOnboard(onboardData));
-  }, [dispatch]);
+  }, [dispatch, previouslySelectedWallet, theme.pulsar.id]);
 
   useEffect(() => {
     if (previouslySelectedWallet !== null && onboard) {
-      console.log('hello');
       onboard.walletSelect(previouslySelectedWallet);
     }
   }, [onboard, previouslySelectedWallet]);
@@ -54,13 +52,7 @@ export const ConnectWallet = () => {
   return (
     <ConnectWalletContainer>
       <BackDrop />
-      <ButtonConnect
-        variant="primary"
-        size="state"
-        onClick={async () => {
-          await login();
-        }}
-      >
+      <ButtonConnect variant="primary" size="state" onClick={async () => await login()}>
         Connect Wallet
       </ButtonConnect>
     </ConnectWalletContainer>
