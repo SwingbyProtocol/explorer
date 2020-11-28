@@ -39,9 +39,11 @@ export const ConnectWallet = () => {
   }, [dispatch, previouslySelectedWallet, theme.pulsar.id]);
 
   useEffect(() => {
-    if (previouslySelectedWallet !== null && onboard) {
-      onboard.walletSelect(previouslySelectedWallet);
-    }
+    (async () => {
+      if (previouslySelectedWallet !== null && onboard) {
+        await onboard.walletSelect(previouslySelectedWallet);
+      }
+    })();
   }, [onboard, previouslySelectedWallet]);
 
   const login = async () => {

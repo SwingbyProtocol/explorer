@@ -14,10 +14,10 @@ export const ENDPOINT_API = {
 
 export const swapUrl = process.env.NEXT_PUBLIC_SWAP_URL || 'https://widget-seven.vercel.app/';
 
-export const PATH = {
-  ROOT: '/',
-  SWAP: '/swap',
-  POOL: '/pool',
-  METANODES: '/metanodes',
-  ANALYTICS: '/analytics',
-};
+export enum PATH {
+  ROOT = '/',
+  SWAP = '/swap',
+  POOL = '/pool',
+  METANODES = '/metanodes',
+  ANALYTICS = '/analytics',
+}

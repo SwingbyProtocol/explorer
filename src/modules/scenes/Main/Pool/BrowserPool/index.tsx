@@ -28,16 +28,12 @@ export const BrowserPool = () => {
         <TransactionsPool />
       </>
     );
-    const addLiquidity = (
-      <>
-        <AddLiquidity />
-      </>
-    );
+
     switch (mode) {
       case PoolMode.Summary:
         return summary;
       case PoolMode.AddLiquidity:
-        return addLiquidity;
+        return <AddLiquidity />;
 
       default:
         return summary;

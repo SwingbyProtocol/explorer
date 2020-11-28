@@ -24,12 +24,13 @@ export const BrowserPoolContainer = styled.div`
 
 export const BrowserPoolDiv = styled(Card)`
   padding-top: ${({ theme }) => rem(theme.pulsar.size.street)};
-  padding-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
+  padding-bottom: ${({ theme }) => rem(theme.pulsar.size.city)};
   padding-right: ${({ theme }) => rem(theme.pulsar.size.drawer)};
   padding-left: ${({ theme }) => rem(theme.pulsar.size.drawer)};
   position: relative;
   @media (min-width: ${rem(media.xs)}) {
     padding: ${({ theme }) => rem(theme.pulsar.size.street)};
+    padding-bottom: ${({ theme }) => rem(theme.pulsar.size.city)};
   }
   @media (min-width: ${rem(media.md)}) {
     padding-top: ${({ theme }) => rem(theme.pulsar.size.city)};
@@ -38,7 +39,7 @@ export const BrowserPoolDiv = styled(Card)`
     padding-left: 0;
     display: grid;
     grid-template-columns: ${rem(190)} auto;
-    min-height: ${rem(700)};
+    min-height: ${rem(500)};
   }
   @media (min-width: ${rem(media.lg)}) {
     grid-template-columns: ${rem(290)} auto;
@@ -67,7 +68,6 @@ export const Right = styled.div`
   @media (min-width: ${rem(media.xl)}) {
     padding-left: ${rem(74)};
     padding-right: ${rem(74)};
-    height: ${rem(732)};
   }
 `;
 
