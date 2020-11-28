@@ -46,6 +46,11 @@ export const ConnectWallet = () => {
     }
   }, [onboard, previouslySelectedWallet]);
 
+  const login = async () => {
+    await onboard.walletSelect();
+    await onboard.walletCheck();
+  };
+
   return (
     <ConnectWalletContainer>
       <BackDrop />
@@ -53,7 +58,7 @@ export const ConnectWallet = () => {
         variant="primary"
         size="state"
         onClick={async () => {
-          !userAddress && (await onboard.walletSelect());
+          await login();
         }}
       >
         Connect Wallet
