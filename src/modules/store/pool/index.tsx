@@ -6,7 +6,7 @@ enum Actions {
   SetBridge = 'Pool/SET_BRIDGE',
   SetUserAddress = 'Pool/SET_USER_ADDRESS',
   SetOnboard = 'Pool/SET_ONBOARD',
-  ToggleMode = 'Pool/TOGGLE_MODE',
+  TogglePoolMode = 'Pool/TOGGLE_POOL_MODE',
 }
 
 const initialState = {
@@ -31,7 +31,7 @@ export const pool: Reducer<State, Action> = (state = initialState, action) => {
     return { ...state, onboard: action.data };
   }
 
-  if (action.type === Actions.ToggleMode) {
+  if (action.type === Actions.TogglePoolMode) {
     return { ...state, mode: action.data };
   }
 
@@ -44,10 +44,10 @@ export const setUserAddress = (data: string) => ({ type: Actions.SetUserAddress,
 
 export const setOnboard = (data) => ({ type: Actions.SetOnboard, data } as const);
 
-export const toggleMode = (data) => ({ type: Actions.ToggleMode, data } as const);
+export const togglePoolMode = (data) => ({ type: Actions.TogglePoolMode, data } as const);
 
 type Action =
   | ReturnType<typeof setBridge>
   | ReturnType<typeof setUserAddress>
-  | ReturnType<typeof toggleMode>
+  | ReturnType<typeof togglePoolMode>
   | ReturnType<typeof setOnboard>;

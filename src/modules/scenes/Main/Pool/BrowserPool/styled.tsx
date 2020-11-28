@@ -17,6 +17,9 @@ export const BrowserPoolContainer = styled.div`
     padding-left: 0;
     padding-right: 0;
   }
+  @media (min-width: ${rem(media.md)}) {
+    padding-bottom: ${({ theme }) => rem(theme.pulsar.size.state)};
+  }
 `;
 
 export const BrowserPoolDiv = styled(Card)`
@@ -29,7 +32,6 @@ export const BrowserPoolDiv = styled(Card)`
     padding: ${({ theme }) => rem(theme.pulsar.size.street)};
   }
   @media (min-width: ${rem(media.md)}) {
-    margin-bottom: ${({ theme }) => rem(theme.pulsar.size.state)};
     padding-top: ${({ theme }) => rem(theme.pulsar.size.city)};
     padding-bottom: ${({ theme }) => rem(theme.pulsar.size.city)};
     padding-right: 0;
@@ -42,7 +44,7 @@ export const BrowserPoolDiv = styled(Card)`
     grid-template-columns: ${rem(290)} auto;
   }
   @media (min-width: ${rem(media.xl)}) {
-    min-width: ${rem(1188)};
+    width: ${rem(1188)};
   }
 `;
 
@@ -65,6 +67,7 @@ export const Right = styled.div`
   @media (min-width: ${rem(media.xl)}) {
     padding-left: ${rem(74)};
     padding-right: ${rem(74)};
+    height: ${rem(732)};
   }
 `;
 

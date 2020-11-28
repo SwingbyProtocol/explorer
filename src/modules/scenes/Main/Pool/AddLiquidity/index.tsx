@@ -5,7 +5,7 @@ import { AddLiquidityContainer } from './styled';
 export const AddLiquidity = () => {
   return (
     <AddLiquidityContainer>
-      <h1>hello</h1>
+      <h1>Add liquidity</h1>
     </AddLiquidityContainer>
   );
 };

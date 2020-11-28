@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router';
 import React from 'react';
 import { useSelector } from 'react-redux';
 
@@ -13,12 +12,10 @@ import { EarningsChart } from '../EarningsChart';
 import { TransactionsPool } from '../TransactionsPool';
 
 import { BrowserPoolContainer, BrowserPoolDiv, Left, Right, Row } from './styled';
+
 export const BrowserPool = () => {
   const pool = useSelector((state) => state.pool);
   const { userAddress, mode } = pool;
-  const router = useRouter();
-  console.log('location is undefined?', typeof window !== 'undefined' && window.location);
-  console.log('router is undefined?', router.pathname);
 
   const switchRightComponent = (mode: string) => {
     const summary = (

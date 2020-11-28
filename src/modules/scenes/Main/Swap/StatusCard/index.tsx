@@ -13,7 +13,6 @@ import {
 import { allocateStatus, generateMessage } from '../../../../swap';
 
 import {
-  Arrow,
   Clock,
   Row,
   StatusCardContainer,
@@ -21,6 +20,7 @@ import {
   StatusText,
   SwapStatus,
   TextMsg,
+  IconBack,
 } from './styled';
 
 interface Props {
@@ -35,7 +35,7 @@ export const StatusCard = (props: Props) => {
     <StatusCardContainer>
       {tx ? (
         <>
-          <Arrow
+          <IconBack
             onClick={() => {
               router.back();
             }}
