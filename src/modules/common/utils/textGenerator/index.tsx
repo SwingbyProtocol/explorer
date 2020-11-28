@@ -13,3 +13,7 @@ export const titleGenerator = (path: string): string => {
       break;
   }
 };
+
+export const ellipseAddress = (address: string = '', width: number = 12): string => {
+  return `${address.slice(0, width)}...${address.slice(-width)}`;
+};

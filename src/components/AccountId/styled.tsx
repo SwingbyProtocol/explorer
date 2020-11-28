@@ -71,5 +71,12 @@ export const TextAddress = styled(Text)`
 `;
 
 export const ImageIcon = styled.img`
-  width: ${({ theme }) => rem(theme.pulsar.size.house)};
+  width: ${({ theme }) => rem(theme.pulsar.size.street)};
+  border-radius: 50%;
+  @media (min-width: ${rem(media.sm)}) {
+    width: ${({ theme }) => rem(theme.pulsar.size.house)};
+  }
+  @media (min-width: ${rem(media.md)}) {
+    width: ${({ theme }) => rem(theme.pulsar.size.street)};
+  }
 `;
