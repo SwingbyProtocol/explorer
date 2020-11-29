@@ -65,12 +65,13 @@ export const IconClose = styled(Icon.CrossCircle)`
 `;
 
 export const TextAddress = styled(Text)`
+  cursor: pointer;
   @media (min-width: ${rem(media.lg)}) {
     font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
   }
 `;
 
-export const ImageIcon = styled.img`
+export const ImageAvatar = styled.img`
   width: ${({ theme }) => rem(theme.pulsar.size.street)};
   border-radius: 50%;
   @media (min-width: ${rem(media.sm)}) {

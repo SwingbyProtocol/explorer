@@ -8,6 +8,8 @@ import { languages } from '../modules/i18n';
 import { useStore } from '../modules/store';
 import { Layout } from '../components/Layout';
 import './style.css';
+// Request: Please allow to use this css for toast
+import 'react-toastify/dist/ReactToastify.min.css';
 
 const DEFAULT_LOCALE = 'en';
 
