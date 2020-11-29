@@ -1,5 +1,6 @@
 import { Dropdown } from '@swingby-protocol/pulsar';
 import React, { useState } from 'react';
+import { useTheme } from 'styled-components';
 
 import { CoinSymbol, PoolCurrencies } from '../../../../coins';
 
@@ -21,6 +22,7 @@ import {
 } from './styled';
 
 export const AddLiquidity = () => {
+  const theme = useTheme();
   const [receivingAddress, setReceivingAddress] = useState('');
   const [poolAmount, setPoolAmount] = useState(null);
   const [fromCurrency, setFromCurrency] = useState(CoinSymbol.BTC);
@@ -50,6 +52,7 @@ export const AddLiquidity = () => {
                   </DefaultTarget>
                 }
                 data-testid="dropdown"
+                isDarkMode={theme.pulsar.id === 'PulsarDark'}
               >
                 {currencyItems}
               </DropdownCurrency>

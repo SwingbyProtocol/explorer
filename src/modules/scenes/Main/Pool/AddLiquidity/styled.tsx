@@ -6,6 +6,10 @@ import { StylingConstants } from '../../../../styles';
 
 const { media } = StylingConstants;
 
+interface DropDownProps {
+  isDarkMode: boolean;
+}
+
 export const AddLiquidityContainer = styled.div`
   width: 100%;
   display: flex;
@@ -57,9 +61,16 @@ export const InputReceivingAddress = styled(TextInput)`
 `;
 
 // Request: Please add border props into Pulsar
-export const DropdownCurrency = styled(Dropdown)`
-  border: 2px solid ${({ theme }) => theme.pulsar.color.border.normal};
+export const DropdownCurrency = styled(Dropdown)<DropDownProps>`
+  border: ${(props) =>
+    props.isDarkMode ? `2px solid #1c232f` : `2px solid ${props.theme.pulsar.color.border.normal}`};
+  background: ${(props) => props.isDarkMode && `#1c232f`};
   border-radius: 0.25em;
+  transition: all ${({ theme }) => theme.pulsar.duration.normal} ease-in-out;
+  :focus-within {
+    border: 2px solid ${({ theme }) => theme.pulsar.color.primary.active};
+    transition: all ${({ theme }) => theme.pulsar.duration.normal} ease-in-out;
+  }
 `;
 
 export const DefaultTarget = styled(Dropdown.DefaultTarget)`
