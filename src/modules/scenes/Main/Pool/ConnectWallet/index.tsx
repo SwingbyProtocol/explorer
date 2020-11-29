@@ -14,8 +14,8 @@ export const ConnectWallet = () => {
   const pool = useSelector((state) => state.pool);
   const { onboard } = pool;
 
-  const previouslySelectedWallet =
-    typeof window !== 'undefined' && window.localStorage.getItem('selectedWallet');
+  // const previouslySelectedWallet =
+  //   typeof window !== 'undefined' && window.localStorage.getItem('selectedWallet');
 
   useEffect(() => {
     const updateUserAddress = (address: string): void => {
@@ -36,15 +36,18 @@ export const ConnectWallet = () => {
       },
     });
     dispatch(setOnboard(onboardData));
-  }, [dispatch, previouslySelectedWallet, theme.pulsar.id]);
+  }, [dispatch, theme.pulsar.id]);
 
   useEffect(() => {
+    const previouslySelectedWallet =
+      typeof window !== 'undefined' && window.localStorage.getItem('selectedWallet');
     (async () => {
-      if (previouslySelectedWallet !== null && onboard) {
+      // if (previouslySelectedWallet !== null && onboard) {
+      if (previouslySelectedWallet && onboard) {
         await onboard.walletSelect(previouslySelectedWallet);
       }
     })();
-  }, [onboard, previouslySelectedWallet]);
+  }, [onboard]);
 
   const login = async () => {
     await onboard.walletSelect();
