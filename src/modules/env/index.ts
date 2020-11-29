@@ -4,7 +4,10 @@ export const TXS_COUNT = 5;
 export const isDevelopment = process.env.NODE_ENV !== 'production';
 
 export const BLOCK_NATIVE_API_KEY = '52950909-d5f6-42eb-8621-acb35a8ee1d3';
-export const GOERLI_NETWORK = 5;
+export const ETHER_NETWORK = { id: 5, network: 'goerli' };
+export const INFURA_KEY = 'f35c2a4f3d0941a38a3edb62ed10c847';
+export const RPC_URL = `https://${ETHER_NETWORK.network}.infura.io/v3/${INFURA_KEY}`;
+export const APP_NAME = 'Swingby Explorer';
 
 export const ENDPOINT_API = {
   BTCE_NODE: 'https://tbtc-goerli-1.swingby.network',
