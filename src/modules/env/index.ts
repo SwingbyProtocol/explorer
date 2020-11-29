@@ -24,3 +24,7 @@ export enum PATH {
   METANODES = '/metanodes',
   ANALYTICS = '/analytics',
 }
+
+export enum LOCAL_STORAGE {
+  SelectedWallet = 'selectedWallet',
+}

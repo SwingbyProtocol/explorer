@@ -1,21 +1,30 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
 
+import { LOCAL_STORAGE } from '../../../../env';
 import { initOnboard } from '../../../../onboard';
 import { setOnboard, setUserAddress } from '../../../../store';
 
 import { BackDrop, ButtonConnect, ConnectWalletContainer } from './styled';
 
 export const ConnectWallet = () => {
-  const dispatch = useDispatch();
   const theme = useTheme();
 
+  const dispatch = useDispatch();
   const pool = useSelector((state) => state.pool);
   const { onboard } = pool;
 
-  // const previouslySelectedWallet =
-  //   typeof window !== 'undefined' && window.localStorage.getItem('selectedWallet');
+  const selectedWallet =
+    typeof window !== 'undefined' && window.localStorage.getItem(LOCAL_STORAGE.SelectedWallet);
+
+  const login = useCallback(
+    async (wallet = selectedWallet) => {
+      await onboard.walletSelect(wallet);
+      await onboard.walletCheck();
+    },
+    [onboard, selectedWallet],
+  );
 
   useEffect(() => {
     const updateUserAddress = (address: string): void => {
@@ -28,9 +37,9 @@ export const ConnectWallet = () => {
         address: updateUserAddress,
         wallet: (wallet) => {
           if (wallet.provider) {
-            window.localStorage.setItem('selectedWallet', wallet.name);
+            window.localStorage.setItem(LOCAL_STORAGE.SelectedWallet, wallet.name);
           } else {
-            window.localStorage.removeItem('selectedWallet');
+            window.localStorage.removeItem(LOCAL_STORAGE.SelectedWallet);
           }
         },
       },
@@ -39,21 +48,12 @@ export const ConnectWallet = () => {
   }, [dispatch, theme.pulsar.id]);
 
   useEffect(() => {
-    const previouslySelectedWallet =
-      typeof window !== 'undefined' && window.localStorage.getItem('selectedWallet');
     (async () => {
-      // if (previouslySelectedWallet !== null && onboard) {
-      if (previouslySelectedWallet && onboard) {
-        await onboard.walletSelect(previouslySelectedWallet);
-        await onboard.walletCheck();
+      if (selectedWallet && onboard) {
+        await login();
       }
     })();
-  }, [onboard]);
-
-  const login = async () => {
-    await onboard.walletSelect();
-    await onboard.walletCheck();
-  };
+  }, [onboard, login, selectedWallet]);
 
   return (
     <ConnectWalletContainer>
