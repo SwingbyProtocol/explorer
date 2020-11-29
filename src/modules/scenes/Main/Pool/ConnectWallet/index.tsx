@@ -45,6 +45,7 @@ export const ConnectWallet = () => {
       // if (previouslySelectedWallet !== null && onboard) {
       if (previouslySelectedWallet && onboard) {
         await onboard.walletSelect(previouslySelectedWallet);
+        await onboard.walletCheck();
       }
     })();
   }, [onboard]);
