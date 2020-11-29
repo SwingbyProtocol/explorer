@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
 import { ellipseAddress } from '../../modules/common';
+import { LOCAL_STORAGE } from '../../modules/env';
 
 import {
   AccountIdContainer,
@@ -37,7 +38,12 @@ export const AccountId = () => {
           <TextAddress variant="section-title" onClick={copyAddress}>
             {ellipseAddress(userAddress)}
           </TextAddress>
-          <IconClose onClick={onboard && onboard.walletReset} />
+          <IconClose
+            onClick={() => {
+              onboard && onboard.walletReset();
+              window.localStorage.removeItem(LOCAL_STORAGE.UserWalletAddress);
+            }}
+          />
         </AccountIdContainer>
       )}
     </AccountIdWrapper>

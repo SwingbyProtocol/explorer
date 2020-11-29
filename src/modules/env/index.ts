@@ -27,4 +27,5 @@ export enum PATH {
 
 export enum LOCAL_STORAGE {
   SelectedWallet = 'selectedWallet',
+  UserWalletAddress = 'userWalletAddress',
 }

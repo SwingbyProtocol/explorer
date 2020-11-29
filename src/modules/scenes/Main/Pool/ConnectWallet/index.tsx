@@ -17,6 +17,8 @@ export const ConnectWallet = () => {
 
   const selectedWallet =
     typeof window !== 'undefined' && window.localStorage.getItem(LOCAL_STORAGE.SelectedWallet);
+  const userWalletAddress =
+    typeof window !== 'undefined' && window.localStorage.getItem(LOCAL_STORAGE.UserWalletAddress);
 
   const login = useCallback(
     async (wallet = selectedWallet) => {
@@ -29,6 +31,7 @@ export const ConnectWallet = () => {
   useEffect(() => {
     const updateUserAddress = (address: string): void => {
       dispatch(setUserAddress(address));
+      window.localStorage.setItem(LOCAL_STORAGE.UserWalletAddress, address);
     };
 
     const onboardData = initOnboard({
@@ -40,6 +43,7 @@ export const ConnectWallet = () => {
             window.localStorage.setItem(LOCAL_STORAGE.SelectedWallet, wallet.name);
           } else {
             window.localStorage.removeItem(LOCAL_STORAGE.SelectedWallet);
+            window.localStorage.removeItem(LOCAL_STORAGE.UserWalletAddress);
           }
         },
       },
@@ -49,16 +53,16 @@ export const ConnectWallet = () => {
 
   useEffect(() => {
     (async () => {
-      if (selectedWallet && onboard) {
+      if (selectedWallet && userWalletAddress && onboard) {
         await login();
       }
     })();
-  }, [onboard, login, selectedWallet]);
+  }, [onboard, login, selectedWallet, userWalletAddress]);
 
   return (
     <ConnectWalletContainer>
       <BackDrop />
-      <ButtonConnect variant="primary" size="state" onClick={async () => await login()}>
+      <ButtonConnect variant="primary" size="state" onClick={async () => await login(null)}>
         Connect Wallet
       </ButtonConnect>
     </ConnectWalletContainer>

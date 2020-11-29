@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import React from 'react';
 import { useSelector } from 'react-redux';
 
@@ -41,18 +42,23 @@ export const BrowserPool = () => {
   };
 
   return (
-    <BrowserPoolContainer>
-      <BrowserPoolDiv size="bare">
-        <Left>
-          <BridgesMobile />
-          <Bridges />
-        </Left>
-        <Right>
-          {!userAddress && <ConnectWallet />}
-          <ActionButtonsPool />
-          {switchRightComponent(mode)}
-        </Right>
-      </BrowserPoolDiv>
-    </BrowserPoolContainer>
+    <>
+      <Head>
+        <title>Swingby Explorer | Pool</title>
+      </Head>
+      <BrowserPoolContainer>
+        <BrowserPoolDiv size="bare">
+          <Left>
+            <BridgesMobile />
+            <Bridges />
+          </Left>
+          <Right>
+            {!userAddress && <ConnectWallet />}
+            <ActionButtonsPool />
+            {switchRightComponent(mode)}
+          </Right>
+        </BrowserPoolDiv>
+      </BrowserPoolContainer>
+    </>
   );
 };
