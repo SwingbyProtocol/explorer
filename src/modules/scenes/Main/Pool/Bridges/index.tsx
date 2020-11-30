@@ -17,7 +17,7 @@ export const Bridges = () => {
       </RowTitle>
       {bridges.map((bridge: string, i: number) => {
         return (
-          <RowBridge bg={i % 2 === 0} onClick={() => dispatch(setBridge(bridge))}>
+          <RowBridge key={bridge} bg={i % 2 === 0} onClick={() => dispatch(setBridge(bridge))}>
             <TextBridge variant="accent" isActive={bridge === pool.bridge}>
               {bridge}
             </TextBridge>

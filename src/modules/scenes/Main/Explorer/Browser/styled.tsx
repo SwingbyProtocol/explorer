@@ -17,19 +17,21 @@ export const BrowserContainer = styled.div`
     padding-left: 0;
     padding-right: 0;
   }
+  @media (min-width: ${rem(media.lg)}) {
+    padding-bottom: ${({ theme }) => rem(theme.pulsar.size.state)};
+  }
 `;
 
 export const BrowserDiv = styled(Card)`
   padding-bottom: ${({ theme }) => rem(theme.pulsar.size.drawer)};
   @media (min-width: ${rem(media.lg)}) {
-    margin-bottom: ${({ theme }) => rem(theme.pulsar.size.state)};
     padding-top: ${({ theme }) => rem(theme.pulsar.size.town)};
     padding-left: ${({ theme }) => rem(theme.pulsar.size.box)};
     padding-right: ${({ theme }) => rem(theme.pulsar.size.box)};
     padding-bottom: ${({ theme }) => rem(theme.pulsar.size.closet)};
   }
   @media (min-width: ${rem(media.xl)}) {
-    max-width: ${rem(1188)};
+    width: ${rem(1188)};
     padding-left: ${({ theme }) => rem(theme.pulsar.size.town)};
     padding-right: ${({ theme }) => rem(theme.pulsar.size.town)};
     padding-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};

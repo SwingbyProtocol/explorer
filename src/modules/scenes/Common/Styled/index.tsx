@@ -11,3 +11,8 @@ export const IconInfo = styled(Icon.InfoCircle)`
 export const Atag = styled.a`
   text-decoration: none;
 `;
+
+export const IconArrowLeft = styled(Icon.ArrowLeft)`
+  font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
+  cursor: pointer;
+`;

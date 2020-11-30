@@ -100,13 +100,14 @@ export const EarningsChart = () => {
         <TitleDiv>
           <Text variant="section-title">Earnings</Text>
           <Column>
-            {chartDateOption.map((date: string) => {
+            {chartDateOption.map((date: string, i: number) => {
               return (
                 <TextDate
                   variant="label"
                   onClick={() => setChartDate(date)}
                   isActive={date === chartDate}
                   isAll={date === 'All'}
+                  key={i}
                 >
                   {date}
                 </TextDate>

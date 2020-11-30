@@ -17,31 +17,35 @@ export const BrowserPoolContainer = styled.div`
     padding-left: 0;
     padding-right: 0;
   }
+  @media (min-width: ${rem(media.md)}) {
+    padding-bottom: ${({ theme }) => rem(theme.pulsar.size.state)};
+  }
 `;
 
 export const BrowserPoolDiv = styled(Card)`
   padding-top: ${({ theme }) => rem(theme.pulsar.size.street)};
-  padding-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
+  padding-bottom: ${({ theme }) => rem(theme.pulsar.size.city)};
   padding-right: ${({ theme }) => rem(theme.pulsar.size.drawer)};
   padding-left: ${({ theme }) => rem(theme.pulsar.size.drawer)};
+  position: relative;
   @media (min-width: ${rem(media.xs)}) {
     padding: ${({ theme }) => rem(theme.pulsar.size.street)};
+    padding-bottom: ${({ theme }) => rem(theme.pulsar.size.city)};
   }
   @media (min-width: ${rem(media.md)}) {
-    margin-bottom: ${({ theme }) => rem(theme.pulsar.size.state)};
     padding-top: ${({ theme }) => rem(theme.pulsar.size.city)};
     padding-bottom: ${({ theme }) => rem(theme.pulsar.size.city)};
     padding-right: 0;
     padding-left: 0;
     display: grid;
     grid-template-columns: ${rem(190)} auto;
-    min-height: ${rem(700)};
+    min-height: ${rem(500)};
   }
   @media (min-width: ${rem(media.lg)}) {
     grid-template-columns: ${rem(290)} auto;
   }
   @media (min-width: ${rem(media.xl)}) {
-    min-width: ${rem(1188)};
+    width: ${rem(1188)};
   }
 `;
 
@@ -52,6 +56,7 @@ export const Left = styled.div`
 `;
 
 export const Right = styled.div`
+  position: relative;
   @media (min-width: ${rem(media.md)}) {
     padding-left: ${({ theme }) => rem(theme.pulsar.size.street)};
     padding-right: ${({ theme }) => rem(theme.pulsar.size.street)};

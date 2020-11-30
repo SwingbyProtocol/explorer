@@ -68,7 +68,7 @@ export const TxHistoryRow = styled.div<BgProps>`
     grid-template-columns: 13.5% 4% 23.5% 16.5% 5% 19.5% 16% 2%;
   }
   @media (min-width: ${rem(media.xl)}) {
-    grid-template-columns: 13.5% 4% 23.5% 16.5% 3.5% 21% 15.5% 2.5%;
+    grid-template-columns: 13.5% 4% 23.5% 15.5% 4.5% 21% 15.5% 2.5%;
   }
 `;
 

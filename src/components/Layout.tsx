@@ -2,13 +2,14 @@ import { useWindowWidth } from '@react-hook/window-size';
 import Head from 'next/head';
 import React, { ReactNode, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { Slide, ToastContainer } from 'react-toastify';
 
-import { getUsdPrice, IFetchUsd, getTransactionFees } from '../modules/explorer';
+import { getTransactionFees, getUsdPrice, IFetchUsd } from '../modules/explorer';
 import { useInterval } from '../modules/hooks';
-import { setWidthSize, fetchUsdPrice, fetchTransactionFees } from '../modules/store';
+import { fetchTransactionFees, fetchUsdPrice, setWidthSize } from '../modules/store';
 
-import { SwapContainer } from './styled';
 import { Header } from './Header';
+import { SwapContainer } from './styled';
 import { Swap } from './Swap';
 
 type Props = {
@@ -44,6 +45,7 @@ export const Layout = (props: Props) => {
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
+      <ToastContainer transition={Slide} />
 
       <Header />
       <SwapContainer>

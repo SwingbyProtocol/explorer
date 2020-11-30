@@ -1,19 +1,51 @@
-import { Text } from '@swingby-protocol/pulsar';
+import useCopy from '@react-hook/copy';
+import * as blockies from 'blockies-ts';
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
-import { AccountIdContainer, AccountIdWrapper, IconAvatar, IconClose } from './styled';
+import { ellipseAddress } from '../../modules/common';
+import { LOCAL_STORAGE } from '../../modules/env';
+
+import {
+  AccountIdContainer,
+  AccountIdWrapper,
+  IconClose,
+  ImageAvatar,
+  TextAddress,
+} from './styled';
 
 export const AccountId = () => {
-  const address = '0xb680c8F33f058163185AB6121F7582BAb57Ef8a1';
-  const addressShort = address.slice(0, 12) + '...' + address.slice(-11);
+  const pool = useSelector((state) => state.pool);
+  const { userAddress, onboard } = pool;
+  const avatarSrc = userAddress && blockies.create({ seed: userAddress }).toDataURL();
+
+  const { copy } = useCopy(userAddress);
+  const copyAddress = () => {
+    copy();
+    toast.info('Copied your address!', {
+      autoClose: 3000,
+      draggable: true,
+      hideProgressBar: true,
+    });
+  };
 
   return (
     <AccountIdWrapper>
-      <AccountIdContainer>
-        <IconAvatar />
-        <Text variant="section-title">{addressShort}</Text>
-        <IconClose />
-      </AccountIdContainer>
+      {userAddress && (
+        <AccountIdContainer>
+          <ImageAvatar src={avatarSrc} alt="avatar" />
+          <TextAddress variant="section-title" onClick={copyAddress}>
+            {ellipseAddress(userAddress)}
+          </TextAddress>
+          <IconClose
+            onClick={() => {
+              onboard && onboard.walletReset();
+              window.localStorage.removeItem(LOCAL_STORAGE.UserWalletAddress);
+            }}
+          />
+        </AccountIdContainer>
+      )}
     </AccountIdWrapper>
   );
 };

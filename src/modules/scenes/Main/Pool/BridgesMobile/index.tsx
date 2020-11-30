@@ -4,12 +4,13 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { setBridge } from '../../../../store';
 
-import { BridgesMobileContainer, DropTargetBridges, TextTitle } from './styled';
+import { BackDrop, BridgesMobileContainer, DropTargetBridges, TextTitle } from './styled';
 
 export const BridgesMobile = () => {
   const bridges = ['Apollo1', 'Apollo2', 'Falcon9'];
   const dispatch = useDispatch();
   const pool = useSelector((state) => state.pool);
+  const { bridge, userAddress } = pool;
 
   const bridgesItems = (
     <>
@@ -27,9 +28,10 @@ export const BridgesMobile = () => {
 
   return (
     <BridgesMobileContainer>
+      {!userAddress && <BackDrop />}
       <TextTitle variant="accent">Bridges</TextTitle>
       <Dropdown
-        target={<DropTargetBridges size="city">{pool.bridge}</DropTargetBridges>}
+        target={<DropTargetBridges size="city">{bridge}</DropTargetBridges>}
         data-testid="dropdown"
       >
         {bridgesItems}

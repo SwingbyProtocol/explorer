@@ -23,3 +23,5 @@ export const BTCBCoins = [
   CoinSymbol.BTC_S,
   CoinSymbol.BTCB,
 ];
+
+export const PoolCurrencies = [CoinSymbol.BTC, CoinSymbol.WBTC];
