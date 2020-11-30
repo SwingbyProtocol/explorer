@@ -23,7 +23,7 @@
     "@binance-chain/javascript-sdk": "git+https://github.com/SwingbyProtocol/javascript-sdk.git",
     "@react-hook/copy": "^2.0.1",
     "@react-hook/window-size": "^3.0.7",
-    "@swingby-protocol/pulsar": "^1.0.0-alpha.66",
+    "@swingby-protocol/pulsar": "^1.0.0-alpha.68",
     "bignumber.js": "^9.0.1",
     "bitcoin-address-validation": "^1.0.0",
     "blockies-ts": "^1.0.0",
@@ -48,7 +48,7 @@
   },
   "devDependencies": {
     "@percy/cypress": "^2.3.2",
-    "@swingby-protocol/eslint-config": "^1.2.0",
+    "@swingby-protocol/eslint-config": "^1.3.0",
     "@swingby-protocol/prettier-config": "^1.0.0",
     "@types/jest": "^26.0.15",
     "@types/luxon": "^1.25.0",

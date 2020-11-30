@@ -2337,10 +2337,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@swingby-protocol/eslint-config@^1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@swingby-protocol/eslint-config/-/eslint-config-1.2.0.tgz#dcb1fdc6c055f96638a01e08c8981ae57769db5c"
-  integrity sha512-7DkqNoCnOzM0+HRpkVEx5FBpIfOXEb8Ln+ZjHZLZD6La/NE01y3QmzS9RW04y4IFXtFsG2CgOvXpaTRxsdzWHg==
+"@swingby-protocol/eslint-config@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@swingby-protocol/eslint-config/-/eslint-config-1.3.0.tgz#2340fc422f70a2576bf9bcf9b80901dcb0bd3423"
+  integrity sha512-1F88tiDfYJFuo0bgaj0Dwu8Z+DUJ/OG3XlJpUp0AmWiZkZSe1FXwllFYzWeM3buQctdhsaQGcNcTcOqoO8SJow==
   dependencies:
     "@typescript-eslint/eslint-plugin" "^4.6.0"
     "@typescript-eslint/parser" "^4.6.0"
@@ -2359,10 +2359,10 @@
   resolved "https://registry.yarnpkg.com/@swingby-protocol/prettier-config/-/prettier-config-1.0.0.tgz#42d320794d4705df2fed5037ba6243d40ef1337b"
   integrity sha512-ugPj1pYogquSqQL3S+gR2EJp+c0t6zaU50uayD7PXeM32x8B9ZynC5o7h91nYxnCxBlVb5DoPcLNQ5z6rKcSFA==
 
-"@swingby-protocol/pulsar@^1.0.0-alpha.66":
-  version "1.0.0-alpha.66"
-  resolved "https://registry.yarnpkg.com/@swingby-protocol/pulsar/-/pulsar-1.0.0-alpha.66.tgz#3b37fb9dd07127782ec01e50745886077523d71f"
-  integrity sha512-kgJLT1b5OVIcqDK94hamrtKsW8iLnpDKxDh4Zg6e+7jjRX9Rs0P1Z7ORNRSDbjfekbHI00eETJChR6gR/fcDMw==
+"@swingby-protocol/pulsar@^1.0.0-alpha.68":
+  version "1.0.0-alpha.68"
+  resolved "https://registry.yarnpkg.com/@swingby-protocol/pulsar/-/pulsar-1.0.0-alpha.68.tgz#86401dbab979cf2b2acf707327d6036433015336"
+  integrity sha512-41s6jW97LxuMzkT3N9Pb52riNXCbuYTVc33nYiVxsixh7Csp/kdtn0YpB5a2+3lfV1MQgWAyoYaLNn8vKtdYZg==
   dependencies:
     "@tippyjs/react" "^4.2.0"
     nanoid "3.1.18"
