@@ -15,7 +15,8 @@ export const ENDPOINT_API = {
   COINGECKO: 'https://api.coingecko.com/api/v3',
 };
 
-export const swapUrl = process.env.NEXT_PUBLIC_SWAP_URL || 'https://widget-seven.vercel.app/';
+export const swapUrl =
+  process.env.NEXT_PUBLIC_SWAP_URL || 'https://widget-seven.vercel.app/swap/new';
 
 export enum PATH {
   ROOT = '/',
