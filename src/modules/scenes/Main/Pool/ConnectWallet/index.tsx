@@ -1,10 +1,11 @@
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
+import Web3 from 'web3';
 
 import { LOCAL_STORAGE } from '../../../../env';
 import { initOnboard } from '../../../../onboard';
-import { setOnboard, setUserAddress } from '../../../../store';
+import { setOnboard, setUserAddress, setWeb3 } from '../../../../store';
 
 import { BackDrop, ButtonConnect, ConnectWalletContainer } from './styled';
 
@@ -41,6 +42,8 @@ export const ConnectWallet = () => {
         wallet: (wallet) => {
           if (wallet.provider) {
             window.localStorage.setItem(LOCAL_STORAGE.SelectedWallet, wallet.name);
+            const web3 = new Web3(wallet.provider);
+            dispatch(setWeb3(web3));
           } else {
             window.localStorage.removeItem(LOCAL_STORAGE.SelectedWallet);
             window.localStorage.removeItem(LOCAL_STORAGE.UserWalletAddress);

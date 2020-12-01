@@ -30,3 +30,5 @@ export enum LOCAL_STORAGE {
   SelectedWallet = 'selectedWallet',
   UserWalletAddress = 'userWalletAddress',
 }
+
+export const BTCE_CONTRACT_ADDRESS = '0xeb47a21c1fc00d1e863019906df1771b80dbe182';
