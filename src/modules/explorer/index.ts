@@ -12,6 +12,7 @@ export {
   getTransactionFees,
   exponentialToNumber,
   capitalize,
+  toBTC,
 } from './utils';
 
 export const BRIDGE = {

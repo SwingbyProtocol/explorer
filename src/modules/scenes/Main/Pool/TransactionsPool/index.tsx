@@ -1,71 +1,52 @@
 import { Text } from '@swingby-protocol/pulsar';
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 import { SeeMore } from '../../../../../components/SeeMore';
-import { TXS_COUNT } from '../../../../env';
-import { convertTxTime } from '../../../../explorer';
+import { URL_ETHERSCAN } from '../../../../env';
+import { convertTxTime, toBTC } from '../../../../explorer';
+import { IRecentTx } from '../../../../pool';
 
+import { initialTxsData } from './initialData';
 import {
-  AddressP,
-  TransactionsContainer,
+  AddressA,
   Row,
   TextAmount,
   TitleText,
+  TransactionsContainer,
   TransactionsPoolContainer,
 } from './styled';
 
 export const TransactionsPool = () => {
-  const currentTime = Date.now() / 1000;
-  const txsData = [
-    {
-      timestamp: currentTime - 60,
-      txId: '0xf8c3f7b71ee69ffff3c8d124239abd1cab7e7e428a2f023ab07c09f488141413',
-      amount: 0.123,
-    },
-    {
-      timestamp: currentTime - 3559,
-      txId: '0xf8c3f7b71ee69ffff3c8d124239abd1cab7e7e428a2f023ab07c09f488141413',
-      amount: -0.123,
-    },
-    {
-      timestamp: currentTime - 30000,
-      txId: '0xf8c3f7b71ee69ffff3c8d124239abd1cab7e7e428a2f023ab07c09f488141413',
-      amount: 0.223,
-    },
-    {
-      timestamp: currentTime - 60000,
-      txId: '0xf8c3f7b71ee69ffff3c8d124239abd1cab7e7e428a2f023ab07c09f488141413',
-      amount: -0.223,
-    },
-    {
-      timestamp: currentTime - 200000,
-      txId: '0xf8c3f7b71ee69ffff3c8d124239abd1cab7e7e428a2f023ab07c09f488141413',
-      amount: 1.123,
-    },
-    {
-      timestamp: currentTime - 250000,
-      txId: '0xf8c3f7b71ee69ffff3c8d124239abd1cab7e7e428a2f023ab07c09f488141413',
-      amount: 1000.123,
-    },
-  ];
+  const pool = useSelector((state) => state.pool);
+  const { recentTxs, userAddress } = pool;
 
-  const txsDataSlice = txsData.slice(0, TXS_COUNT);
+  const txsData = userAddress ? recentTxs : initialTxsData;
 
   return (
     <TransactionsPoolContainer>
       <TitleText variant="accent">Transactions</TitleText>
       <TransactionsContainer>
-        {txsDataSlice &&
-          txsDataSlice.map((data, i) => {
+        {txsData &&
+          txsData.map((data: IRecentTx) => {
+            const value = toBTC(data.value);
+            const time = convertTxTime(data.timeStamp);
             return (
-              <Row key={i}>
-                <Text variant="label">{convertTxTime(data.timestamp)}</Text>
-                <AddressP>{data.txId}</AddressP>
-                <TextAmount variant="accent">{data.amount}</TextAmount>
+              <Row key={data.hash}>
+                <Text variant="label">{time}</Text>
+
+                <AddressA
+                  href={`${URL_ETHERSCAN}/tx/${data.hash}`}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  {data.hash}
+                </AddressA>
+                <TextAmount variant="accent">{value}</TextAmount>
               </Row>
             );
           })}
-        {txsData.length > 4 && txsData.length !== 5 && <SeeMore />}
+        {txsData && txsData.length > 4 && txsData.length !== 5 && <SeeMore />}
       </TransactionsContainer>
     </TransactionsPoolContainer>
   );

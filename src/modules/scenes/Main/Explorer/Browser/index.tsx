@@ -29,8 +29,8 @@ import { TxHistoriesMobile } from '../TxHistoriesMobile';
 import { Bottom, BrowserContainer, BrowserDiv, Filter, Top } from './styled';
 
 export const Browser = () => {
-  const explorer = useSelector((state) => state.explorer);
   const dispatch = useDispatch();
+  const explorer = useSelector((state) => state.explorer);
   const { swapHistory, isHideWaiting, swapHistoryTemp, usd, networkInfos } = explorer;
 
   /**

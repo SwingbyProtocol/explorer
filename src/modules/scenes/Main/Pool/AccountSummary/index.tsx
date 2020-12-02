@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { CoinSymbol } from '../../../../coins';
 import { BTCE_CONTRACT_ADDRESS } from '../../../../env';
-import { ABI } from '../../../../pool';
+import { toBTC } from '../../../../explorer';
+import { ABI, orgFloor } from '../../../../pool';
 import { setBalance } from '../../../../store';
 
 import {
@@ -38,10 +39,6 @@ export const AccountSummary = () => {
     maximumFractionDigits: 0,
   }).format(totalEarnings * usd[currency]);
 
-  const orgFloor = (value: number, base: number): number => {
-    return Math.floor(value * base) / base;
-  };
-
   useEffect(() => {
     if (web3 && userAddress) {
       const contract = new web3.eth.Contract(ABI, BTCE_CONTRACT_ADDRESS);
@@ -50,8 +47,8 @@ export const AccountSummary = () => {
         .balanceOf(userAddress)
         .call()
         .then((bal: number) => {
-          const balanceWei = web3.utils.fromWei(bal, 'gwei') * 10;
-          dispatch(setBalance(String(balanceWei)));
+          const balance = toBTC(bal.toString()).toString();
+          dispatch(setBalance(balance));
         });
     }
   }, [dispatch, web3, userAddress]);

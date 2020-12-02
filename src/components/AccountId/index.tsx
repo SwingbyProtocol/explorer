@@ -1,11 +1,12 @@
 import useCopy from '@react-hook/copy';
 import * as blockies from 'blockies-ts';
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
 import { ellipseAddress } from '../../modules/common';
 import { LOCAL_STORAGE } from '../../modules/env';
+import { getRecentTxs } from '../../modules/store';
 
 import {
   AccountIdContainer,
@@ -16,6 +17,7 @@ import {
 } from './styled';
 
 export const AccountId = () => {
+  const dispatch = useDispatch();
   const pool = useSelector((state) => state.pool);
   const { userAddress, onboard } = pool;
   const avatarSrc = userAddress && blockies.create({ seed: userAddress }).toDataURL();
@@ -42,6 +44,7 @@ export const AccountId = () => {
             onClick={() => {
               onboard && onboard.walletReset();
               window.localStorage.removeItem(LOCAL_STORAGE.UserWalletAddress);
+              dispatch(getRecentTxs(null));
             }}
           />
         </AccountIdContainer>

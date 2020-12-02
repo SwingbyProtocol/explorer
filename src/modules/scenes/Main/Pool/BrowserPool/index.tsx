@@ -1,8 +1,9 @@
 import Head from 'next/head';
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { PoolMode } from '../../../../pool';
+import { fetchRecentTransaction, PoolMode } from '../../../../pool';
+import { getRecentTxs } from '../../../../store';
 import { AccountSummary } from '../AccountSummary';
 import { ActionButtonsPool } from '../ActionButtonsPool';
 import { AddLiquidity } from '../AddLiquidity';
@@ -16,7 +17,17 @@ import { BrowserPoolContainer, BrowserPoolDiv, Left, Right, Row } from './styled
 
 export const BrowserPool = () => {
   const pool = useSelector((state) => state.pool);
-  const { userAddress, mode } = pool;
+  const { userAddress, mode, recentTxs } = pool;
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    (async () => {
+      if (userAddress) {
+        const histories = await fetchRecentTransaction(userAddress);
+        dispatch(getRecentTxs(histories));
+      }
+    })();
+  }, [userAddress, dispatch]);
 
   const switchRightComponent = (mode: string) => {
     const summary = (
@@ -53,7 +64,7 @@ export const BrowserPool = () => {
             <Bridges />
           </Left>
           <Right>
-            {!userAddress && <ConnectWallet />}
+            {!userAddress && !recentTxs && <ConnectWallet />}
             <ActionButtonsPool />
             {switchRightComponent(mode)}
           </Right>
