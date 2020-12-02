@@ -1,11 +1,11 @@
 import { CoinSymbol } from '../../../coins';
-import { ENDPOINT_API } from '../../../env';
+import { ENDPOINT_BTCB_NODE, ENDPOINT_BTCE_NODE, ENDPOINT_COINGECKO } from '../../../env';
 import { fetch } from '../../../fetch';
 import { IFetchUsd, IFloat, IFloatAmount, IFloatBalances, IStats } from '../../index';
 
 export const getUsdPrice = async (): Promise<IFetchUsd> => {
-  const priceBtcUrl = ENDPOINT_API.COINGECKO + '/simple/price?ids=bitcoin&vs_currencies=usd';
-  const priceBnbUrl = ENDPOINT_API.COINGECKO + '/simple/price?ids=binancecoin&vs_currencies=usd';
+  const priceBtcUrl = ENDPOINT_COINGECKO + '/simple/price?ids=bitcoin&vs_currencies=usd';
+  const priceBnbUrl = ENDPOINT_COINGECKO + '/simple/price?ids=binancecoin&vs_currencies=usd';
 
   const results = await Promise.all([
     fetch<{ bitcoin: { usd } }>(priceBtcUrl),
@@ -38,8 +38,8 @@ export const fetchFloatBalances = async (
   usdBtc: number,
   usdBnb: number,
 ): Promise<IFloatBalances> => {
-  const urlBinance = ENDPOINT_API.BTCB_NODE + '/api/v1/floats/balances';
-  const urlEth = ENDPOINT_API.BTCE_NODE + '/api/v1/floats/balances';
+  const urlBinance = ENDPOINT_BTCB_NODE + '/api/v1/floats/balances';
+  const urlEth = ENDPOINT_BTCE_NODE + '/api/v1/floats/balances';
 
   try {
     const results = await Promise.all([
@@ -68,10 +68,10 @@ export const fetchFloatBalances = async (
 };
 
 export const fetchStatsInfo = async (): Promise<IStats> => {
-  const binanceBridge = ENDPOINT_API.BTCB_NODE + '/api/v1/swaps/stats';
-  const ethereumBridge = ENDPOINT_API.BTCE_NODE + '/api/v1/swaps/stats';
-  const binanceBridgePeers = ENDPOINT_API.BTCB_NODE + '/api/v1/peers';
-  const ethereumBridgePeers = ENDPOINT_API.BTCE_NODE + '/api/v1/peers';
+  const binanceBridge = ENDPOINT_BTCB_NODE + '/api/v1/swaps/stats';
+  const ethereumBridge = ENDPOINT_BTCE_NODE + '/api/v1/swaps/stats';
+  const binanceBridgePeers = ENDPOINT_BTCB_NODE + '/api/v1/peers';
+  const ethereumBridgePeers = ENDPOINT_BTCE_NODE + '/api/v1/peers';
 
   try {
     const results = await Promise.all([
