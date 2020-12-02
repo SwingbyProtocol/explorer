@@ -1,6 +1,7 @@
-import { Text } from '@swingby-protocol/pulsar';
+import { Text, SwapProgress } from '@swingby-protocol/pulsar';
 import { useRouter } from 'next/router';
 import React from 'react';
+import { useIntl } from 'react-intl';
 
 import { Loader } from '../../../../../components/Loader';
 import {
@@ -30,6 +31,7 @@ interface Props {
 export const StatusCard = (props: Props) => {
   const { tx } = props;
   const router = useRouter();
+  const { locale } = useIntl();
 
   return (
     <StatusCardContainer>
@@ -48,6 +50,7 @@ export const StatusCard = (props: Props) => {
             status={allocateStatus(tx.status) as TStatus}
             currencyIn={tx.currencyIn}
             currencyOut={tx.currencyOut}
+            messages={SwapProgress.defaultMessages({ locale })}
           />
           <TextMsg variant="label">{generateMessage(tx.status)}</TextMsg>
           <Row>

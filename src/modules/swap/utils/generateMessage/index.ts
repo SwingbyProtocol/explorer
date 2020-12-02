@@ -61,13 +61,13 @@ export const allocateStatus = (status: string): string => {
     case PENDING:
       return 'pending';
     case SIGNING:
-      return 'sending';
+      return 'signing';
     case SENDING:
       return 'sending';
     case BROADCASTED:
       return 'sending';
     case REFUNDED:
-      return 'completed';
+      return 'refunded';
     case REFUNDING:
       return 'sending';
     case SIGNING_REFUND:
