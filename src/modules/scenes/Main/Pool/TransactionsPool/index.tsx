@@ -1,15 +1,20 @@
-import { Text } from '@swingby-protocol/pulsar';
-import React from 'react';
-import { useSelector } from 'react-redux';
+import { Icon, Text } from '@swingby-protocol/pulsar';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { SeeMore } from '../../../../../components/SeeMore';
 import { URL_ETHERSCAN } from '../../../../env';
 import { convertTxTime, toBTC } from '../../../../explorer';
-import { IRecentTx } from '../../../../pool';
+import { fetchRecentTransaction, IRecentTx } from '../../../../pool';
+import { getRecentTxs } from '../../../../store';
 
 import { initialTxsData } from './initialData';
 import {
   AddressA,
+  BackButton,
+  NextButton,
+  PageRow,
+  Pagination,
+  PaginationRow,
   Row,
   TextAmount,
   TitleText,
@@ -18,17 +23,41 @@ import {
 } from './styled';
 
 export const TransactionsPool = () => {
+  const dispatch = useDispatch();
   const pool = useSelector((state) => state.pool);
   const { recentTxs, userAddress } = pool;
 
   const txsData = userAddress ? recentTxs : initialTxsData;
+  const [page, setPage] = useState(1);
+  const goBackPage = async () => {
+    setPage(page - 1);
+    const histories = await fetchRecentTransaction(userAddress, page - 1, recentTxs);
+    dispatch(getRecentTxs(histories));
+  };
+  const goNextPage = async () => {
+    setPage(page + 1);
+    const histories = await fetchRecentTransaction(userAddress, page + 1, recentTxs);
+    dispatch(getRecentTxs(histories));
+  };
+  // Todo: Make logic
+  const maximumPage = 10;
+
+  useEffect(() => {
+    (async () => {
+      if (userAddress) {
+        const histories = await fetchRecentTransaction(userAddress, 1, null);
+        dispatch(getRecentTxs(histories));
+      }
+    })();
+  }, [userAddress, dispatch]);
 
   return (
     <TransactionsPoolContainer>
       <TitleText variant="accent">Transactions</TitleText>
       <TransactionsContainer>
         {txsData &&
-          txsData.map((data: IRecentTx) => {
+          txsData.data[page] &&
+          txsData.data[page].map((data: IRecentTx) => {
             const value = toBTC(data.value);
             const time = convertTxTime(data.timeStamp);
             return (
@@ -46,7 +75,29 @@ export const TransactionsPool = () => {
               </Row>
             );
           })}
-        {txsData && txsData.length > 4 && txsData.length !== 5 && <SeeMore />}
+        <PaginationRow>
+          <Pagination>
+            <BackButton
+              variant="secondary"
+              size="state"
+              onClick={() => page > 1 && goBackPage()}
+              disabled={1 >= page}
+            >
+              <Icon.CaretLeft />
+            </BackButton>
+            <PageRow page={page}>
+              <Text variant="masked">Page {page}</Text>
+            </PageRow>
+            <NextButton
+              variant="secondary"
+              size="state"
+              onClick={() => maximumPage > page && goNextPage()}
+              disabled={page >= maximumPage}
+            >
+              <Icon.CaretRight />
+            </NextButton>
+          </Pagination>
+        </PaginationRow>
       </TransactionsContainer>
     </TransactionsPoolContainer>
   );
