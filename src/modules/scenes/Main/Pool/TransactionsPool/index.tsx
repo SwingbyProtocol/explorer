@@ -2,7 +2,7 @@ import { Icon, Text } from '@swingby-protocol/pulsar';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { URL_ETHERSCAN } from '../../../../env';
+import { TXS_COUNT, URL_ETHERSCAN } from '../../../../env';
 import { convertTxTime, toBTC } from '../../../../explorer';
 import { fetchRecentTransaction, IRecentTx } from '../../../../pool';
 import { getRecentTxs } from '../../../../store';
@@ -39,8 +39,7 @@ export const TransactionsPool = () => {
     const histories = await fetchRecentTransaction(userAddress, page + 1, recentTxs);
     dispatch(getRecentTxs(histories));
   };
-  // Todo: Make logic
-  const maximumPage = 10;
+  const maximumPage = recentTxs && Math.ceil(recentTxs.total / TXS_COUNT);
 
   useEffect(() => {
     (async () => {
