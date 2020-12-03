@@ -1,4 +1,4 @@
-import { Dropdown } from '@swingby-protocol/pulsar';
+import { Button, Dropdown } from '@swingby-protocol/pulsar';
 import React, { useState } from 'react';
 import { useTheme } from 'styled-components';
 
@@ -7,18 +7,24 @@ import { CoinSymbol, PoolCurrencies } from '../../../../coins';
 import {
   AddLiquidityContainer,
   Bottom,
-  ColumnForm,
+  Box,
+  ButtonRow,
+  Coin,
+  CoinDropDown,
   ColumnDropdown,
+  ColumnForm,
   DefaultTarget,
   DropdownCurrency,
+  InputAmount,
   InputReceivingAddress,
-  Row,
-  CoinDropDown,
+  RowBottom,
+  RowText,
+  RowTop,
+  TargetCoin,
+  TextDescription,
+  TextFee,
   TextLabel,
   Top,
-  TargetCoin,
-  Coin,
-  InputAmount,
 } from './styled';
 
 export const AddLiquidity = () => {
@@ -39,43 +45,64 @@ export const AddLiquidity = () => {
 
   return (
     <AddLiquidityContainer>
-      <ColumnForm>
-        <Top>
-          <Row>
-            <ColumnDropdown>
-              <TextLabel variant="label">I Want to Pool</TextLabel>
-              <DropdownCurrency
-                target={
-                  <DefaultTarget size="city">
-                    {' '}
-                    <TargetCoin symbol={fromCurrency} /> {fromCurrency}
-                  </DefaultTarget>
-                }
-                data-testid="dropdown"
-                isDarkMode={theme.pulsar.id === 'PulsarDark'}
-              >
-                {currencyItems}
-              </DropdownCurrency>
-            </ColumnDropdown>
-            <InputAmount
-              value={poolAmount}
+      <Box>
+        <ColumnForm>
+          <Top>
+            <RowTop>
+              <ColumnDropdown>
+                <TextLabel variant="label">I Want to Pool</TextLabel>
+                <DropdownCurrency
+                  target={
+                    <DefaultTarget size="city">
+                      {' '}
+                      <TargetCoin symbol={fromCurrency} /> {fromCurrency}
+                    </DefaultTarget>
+                  }
+                  data-testid="dropdown"
+                  isDarkMode={theme.pulsar.id === 'PulsarDark'}
+                >
+                  {currencyItems}
+                </DropdownCurrency>
+              </ColumnDropdown>
+              <InputAmount
+                value={poolAmount}
+                size="state"
+                placeholder="Input your pool amount"
+                onChange={(e) => setPoolAmount(e.target.value)}
+              />
+            </RowTop>
+          </Top>
+          <Bottom>
+            <InputReceivingAddress
+              value={receivingAddress}
               size="state"
-              placeholder="Input your pool amount"
-              onChange={(e) => setPoolAmount(e.target.value)}
+              placeholder="Input your receiving address"
+              label="And receive my LPT’s to:"
+              left={<Coin symbol={CoinSymbol.BTC_E} />}
+              onChange={(e) => setReceivingAddress(e.target.value)}
             />
-          </Row>
-        </Top>
-        <Bottom>
-          <InputReceivingAddress
-            value={receivingAddress}
-            size="state"
-            placeholder="Input your receiving address"
-            label="Receiving Address"
-            left={<Coin symbol={CoinSymbol.BTC_E} />}
-            onChange={(e) => setReceivingAddress(e.target.value)}
-          />
-        </Bottom>
-      </ColumnForm>
+            <RowBottom>
+              <div className="left">
+                <RowText>
+                  <TextDescription variant="masked">BTC Transaction Fee:</TextDescription>
+                </RowText>
+                <TextDescription variant="masked">Deposit Fee (0.25%):</TextDescription>
+              </div>
+              <div className="right">
+                <RowText>
+                  <TextFee variant="masked">0.000023</TextFee>
+                </RowText>
+                <TextFee variant="masked">0.0000365</TextFee>
+              </div>
+            </RowBottom>
+            <ButtonRow>
+              <Button variant="primary" size="country">
+                Pool
+              </Button>
+            </ButtonRow>
+          </Bottom>
+        </ColumnForm>
+      </Box>
     </AddLiquidityContainer>
   );
 };
