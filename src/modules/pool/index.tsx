@@ -2,6 +2,7 @@ export { fetchRecentTransaction, orgFloor } from './fetchWeb3';
 export enum PoolMode {
   Summary = 'Summary',
   AddLiquidity = 'Add Liquidity',
+  Withdraw = 'Withdraw',
 }
 
 export const ABI = [

@@ -11,6 +11,7 @@ import { BridgesMobile } from '../BridgesMobile';
 import { ConnectWallet } from '../ConnectWallet';
 import { EarningsChart } from '../EarningsChart';
 import { TransactionsPool } from '../TransactionsPool';
+import { Withdraw } from '../Withdraw';
 
 import { BrowserPoolContainer, BrowserPoolDiv, Left, Right, Row } from './styled';
 
@@ -35,6 +36,8 @@ export const BrowserPool = () => {
         return summary;
       case PoolMode.AddLiquidity:
         return <AddLiquidity />;
+      case PoolMode.Withdraw:
+        return <Withdraw />;
 
       default:
         return summary;

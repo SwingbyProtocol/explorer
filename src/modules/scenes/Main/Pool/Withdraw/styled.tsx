@@ -10,7 +10,7 @@ interface DropDownProps {
   isDarkMode: boolean;
 }
 
-export const AddLiquidityContainer = styled.div`
+export const WithdrawContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -83,6 +83,7 @@ export const TextLabel = styled(Text)`
   padding-left: ${({ theme }) => rem(theme.pulsar.size.box)};
   font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
   font-weight: 500;
+  white-space: nowrap;
 `;
 
 export const ColumnDropdown = styled.div`

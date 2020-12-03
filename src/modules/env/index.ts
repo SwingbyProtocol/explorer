@@ -1,6 +1,6 @@
 export const NETWORK: 'testnet' | 'mainnet' = 'testnet';
 export const PAGE_COUNT = 4;
-export const TXS_COUNT = 5;
+export const TXS_COUNT = 10;
 export const isDevelopment = process.env.NODE_ENV !== 'production';
 
 export const API_KEY_ETHERSCAN = 'NYXXH5CD1NQJMYJGZYAFK7G9G6AZGZTT3H';
