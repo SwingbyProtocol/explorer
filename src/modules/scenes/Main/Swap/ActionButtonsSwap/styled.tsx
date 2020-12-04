@@ -1,4 +1,4 @@
-import { SwapProgress } from '@swingby-protocol/pulsar';
+import { Button, SwapProgress } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
 import styled from 'styled-components';
 
@@ -20,6 +20,12 @@ export const Buttons = styled.div`
   @media (min-width: ${rem(media.sm)}) {
     grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.house)};
   }
+  @media (min-width: ${rem(media.md)}) {
+    grid-template-columns: auto auto auto;
+  }
+  @media (min-width: ${rem(media.lg)}) {
+    grid-template-columns: auto auto;
+  }
 `;
 
 export const SwapStatus = styled(SwapProgress)`
@@ -29,6 +35,25 @@ export const SwapStatus = styled(SwapProgress)`
   }
   @media (min-width: ${rem(media.md)}) {
     font-size: ${({ theme }) => rem(theme.pulsar.size.state)};
+  }
+  @media (min-width: ${rem(media.lg)}) {
+    display: none;
+  }
+`;
+
+export const ButtonClaimSwapRow = styled.div`
+  display: none;
+  @media (min-width: ${rem(media.lg)}) {
+    display: block;
+    width: ${rem(120)};
+  }
+`;
+
+export const ButtonClaimSwapTablet = styled(Button)`
+  display: none;
+  @media (min-width: ${rem(media.md)}) {
+    display: block;
+    width: ${rem(120)};
   }
   @media (min-width: ${rem(media.lg)}) {
     display: none;

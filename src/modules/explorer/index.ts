@@ -130,4 +130,13 @@ export interface IFloatAmount {
   currency: string;
 }
 
-export type TStatus = 'waiting' | 'pending' | 'sending' | 'completed';
+export type TStatus =
+  | 'WAITING'
+  | 'PENDING'
+  | 'SIGNING'
+  | 'SENDING'
+  | 'COMPLETED'
+  | 'SIGNING_REFUND'
+  | 'SENDING_REFUND'
+  | 'REFUNDED'
+  | 'EXPIRED';

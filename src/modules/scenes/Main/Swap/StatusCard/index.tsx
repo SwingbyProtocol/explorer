@@ -11,7 +11,7 @@ import {
   SwapRawObject,
   TStatus,
 } from '../../../../explorer';
-import { allocateStatus, generateMessage } from '../../../../swap';
+import { generateMessage } from '../../../../swap';
 
 import {
   Clock,
@@ -47,7 +47,7 @@ export const StatusCard = (props: Props) => {
             <StatusText variant="accent">{capitalize(tx.status)}</StatusText>
           </Row>
           <SwapStatus
-            status={allocateStatus(tx.status) as TStatus}
+            status={tx.status as TStatus}
             currencyIn={tx.currencyIn}
             currencyOut={tx.currencyOut}
             messages={SwapProgress.defaultMessages({ locale })}

@@ -21,6 +21,8 @@ export const ENDPOINT_COINGECKO = 'https://api.coingecko.com/api/v3';
 export const ENDPOINT_ETHERSCAN = 'https://api-goerli.etherscan.io';
 export const URL_ETHERSCAN = 'https://goerli.etherscan.io';
 
+export const WIDGET_URL = process.env.NEXT_PUBLIC_SWAP_URL || 'https://widget-seven.vercel.app';
+
 export const swapUrl =
   process.env.NEXT_PUBLIC_SWAP_URL || 'https://widget-seven.vercel.app/swap/new';
 

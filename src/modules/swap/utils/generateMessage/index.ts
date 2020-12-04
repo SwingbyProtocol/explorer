@@ -51,30 +51,3 @@ export const generateMessage = (status: string): string => {
       return status;
   }
 };
-
-export const allocateStatus = (status: string): string => {
-  switch (status) {
-    case WAITING:
-      return 'waiting';
-    case COMPLETED:
-      return 'completed';
-    case PENDING:
-      return 'pending';
-    case SIGNING:
-      return 'signing';
-    case SENDING:
-      return 'sending';
-    case BROADCASTED:
-      return 'sending';
-    case REFUNDED:
-      return 'refunded';
-    case REFUNDING:
-      return 'sending';
-    case SIGNING_REFUND:
-      return 'sending';
-    case REJECTED:
-      return 'waiting';
-    default:
-      return status;
-  }
-};
