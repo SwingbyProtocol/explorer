@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useTheme } from 'styled-components';
 
 import { CoinSymbol, PoolCurrencies } from '../../../../coins';
+import { calculateDepositFee } from '../../../../pool';
 
 import {
   AddLiquidityContainer,
@@ -32,6 +33,8 @@ export const AddLiquidity = () => {
   const [receivingAddress, setReceivingAddress] = useState('');
   const [poolAmount, setPoolAmount] = useState(null);
   const [fromCurrency, setFromCurrency] = useState(CoinSymbol.BTC);
+
+  const depositRate = 0.25;
 
   const currencyItems = (
     <>
@@ -86,13 +89,13 @@ export const AddLiquidity = () => {
                 <RowText>
                   <TextDescription variant="masked">BTC Transaction Fee:</TextDescription>
                 </RowText>
-                <TextDescription variant="masked">Deposit Fee (0.25%):</TextDescription>
+                <TextDescription variant="masked">Deposit Fee ({depositRate}%):</TextDescription>
               </div>
               <div className="right">
                 <RowText>
                   <TextFee variant="masked">0.000023</TextFee>
                 </RowText>
-                <TextFee variant="masked">0.0000365</TextFee>
+                <TextFee variant="masked">{calculateDepositFee(depositRate, poolAmount)}</TextFee>
               </div>
             </RowBottom>
             <ButtonRow>

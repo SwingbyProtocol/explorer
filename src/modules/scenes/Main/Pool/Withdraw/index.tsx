@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useTheme } from 'styled-components';
 
 import { CoinSymbol, PoolCurrencies } from '../../../../coins';
+import { calculateDepositFee } from '../../../../pool';
 
 import {
   Bottom,
@@ -30,8 +31,10 @@ import {
 export const Withdraw = () => {
   const theme = useTheme();
   const [receivingAddress, setReceivingAddress] = useState('');
-  const [poolAmount, setPoolAmount] = useState(null);
+  const [withdrawAmount, setWithdrawAmount] = useState(null);
   const [fromCurrency, setFromCurrency] = useState(CoinSymbol.BTC);
+
+  const withdrawRate = 0.25;
 
   const currencyItems = (
     <>
@@ -65,10 +68,10 @@ export const Withdraw = () => {
                 </DropdownCurrency>
               </ColumnDropdown>
               <InputAmount
-                value={poolAmount}
+                value={withdrawAmount}
                 size="state"
                 placeholder="Input your withdraw amount"
-                onChange={(e) => setPoolAmount(e.target.value)}
+                onChange={(e) => setWithdrawAmount(e.target.value)}
               />
             </RowTop>
           </Top>
@@ -86,13 +89,16 @@ export const Withdraw = () => {
                 <RowText>
                   <TextDescription variant="masked">BTC Transaction Fee:</TextDescription>
                 </RowText>
-                <TextDescription variant="masked">Deposit Fee (0.25%):</TextDescription>
+                {/* Todo: Check specification */}
+                <TextDescription variant="masked">Withdraw Fee ({withdrawRate}%):</TextDescription>
               </div>
               <div className="right">
                 <RowText>
                   <TextFee variant="masked">0.000023</TextFee>
                 </RowText>
-                <TextFee variant="masked">0.0000365</TextFee>
+                <TextFee variant="masked">
+                  {calculateDepositFee(withdrawRate, withdrawAmount)}
+                </TextFee>
               </div>
             </RowBottom>
             <ButtonRow>

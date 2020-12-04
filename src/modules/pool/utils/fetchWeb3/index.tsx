@@ -1,6 +1,11 @@
-import { IEtherscanTransaction } from '..';
-import { API_KEY_ETHERSCAN, BTCE_CONTRACT_ADDRESS, ENDPOINT_ETHERSCAN, TXS_COUNT } from '../../env';
-import { fetch } from '../../fetch';
+import { IEtherscanTransaction } from '../..';
+import {
+  API_KEY_ETHERSCAN,
+  BTCE_CONTRACT_ADDRESS,
+  ENDPOINT_ETHERSCAN,
+  TXS_COUNT,
+} from '../../../env';
+import { fetch } from '../../../fetch';
 
 const base = ENDPOINT_ETHERSCAN;
 

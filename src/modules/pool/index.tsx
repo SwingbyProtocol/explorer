@@ -1,4 +1,4 @@
-export { fetchRecentTransaction, orgFloor } from './fetchWeb3';
+export { fetchRecentTransaction, orgFloor, calculateDepositFee } from './utils';
 export enum PoolMode {
   Summary = 'Summary',
   AddLiquidity = 'Add Liquidity',
