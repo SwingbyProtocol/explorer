@@ -1,9 +1,10 @@
 import { Button, Dropdown } from '@swingby-protocol/pulsar';
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
 
 import { CoinSymbol, PoolCurrencies } from '../../../../coins';
-import { calculateDepositFee } from '../../../../pool';
+import { calculateDepositFee, calculateReceivingAmount } from '../../../../pool';
 
 import {
   AddLiquidityContainer,
@@ -30,11 +31,22 @@ import {
 
 export const AddLiquidity = () => {
   const theme = useTheme();
+  const explorer = useSelector((state) => state.explorer);
+  const { transactionFees } = explorer;
   const [receivingAddress, setReceivingAddress] = useState('');
   const [poolAmount, setPoolAmount] = useState(null);
   const [fromCurrency, setFromCurrency] = useState(CoinSymbol.BTC);
 
   const depositRate = 0.25;
+
+  const estimatedReceivingAmount = calculateReceivingAmount(
+    poolAmount,
+    fromCurrency,
+    transactionFees,
+  );
+  const transactionFee = poolAmount
+    ? Number((poolAmount - estimatedReceivingAmount).toFixed(7))
+    : 0;
 
   const currencyItems = (
     <>
@@ -93,7 +105,7 @@ export const AddLiquidity = () => {
               </div>
               <div className="right">
                 <RowText>
-                  <TextFee variant="masked">0.000023</TextFee>
+                  <TextFee variant="masked">{transactionFee}</TextFee>
                 </RowText>
                 <TextFee variant="masked">{calculateDepositFee(depositRate, poolAmount)}</TextFee>
               </div>

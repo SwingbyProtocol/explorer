@@ -1,4 +1,9 @@
-export const NETWORK: 'testnet' | 'mainnet' = 'testnet';
+export enum NETWORK_MODE {
+  TESTNET = 'testnet',
+  MAINNET = 'mainnet',
+}
+
+export const NETWORK: NETWORK_MODE.TESTNET | NETWORK_MODE.MAINNET = NETWORK_MODE.TESTNET;
 export const PAGE_COUNT = 4;
 export const TXS_COUNT = 10;
 export const isDevelopment = process.env.NODE_ENV !== 'production';

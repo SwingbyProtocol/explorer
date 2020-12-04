@@ -1,4 +1,9 @@
-export { fetchRecentTransaction, orgFloor, calculateDepositFee } from './utils';
+export {
+  fetchRecentTransaction,
+  orgFloor,
+  calculateDepositFee,
+  calculateReceivingAmount,
+} from './utils';
 export enum PoolMode {
   Summary = 'Summary',
   AddLiquidity = 'Add Liquidity',
