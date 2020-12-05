@@ -88,7 +88,7 @@ export const TxHistories = (props: Props) => {
               window.open(transactionDetailByTxId(tx.currencyOut, tx.txIdOut), '_blank', 'noopener')
             }
           >
-            Get the transaction detail
+            Get the transaction details
           </p>
         </Dropdown.Item>
       )}
