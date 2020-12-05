@@ -110,6 +110,7 @@ export interface INetworkInfos {
     wbtc: number;
   };
   stats: {
+    volume24HrWBTC: number;
     volume24HrBTC: number;
     rewards24Hr: number;
     volumes: string[];
