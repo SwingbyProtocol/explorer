@@ -11,6 +11,7 @@ import {
   SwapRawObject,
 } from '../../../../explorer';
 import { selectSwapDetails } from '../../../../store';
+import { transactionDetailByTxId } from '../../../../swap';
 
 import {
   AddressP,
@@ -80,9 +81,17 @@ export const TxHistories = (props: Props) => {
       <Dropdown.Item>
         <p onClick={() => setChosenTx(tx)}>Check the swap progress</p>
       </Dropdown.Item>
-      <Dropdown.Item>
-        <p>Get the transaction detail</p>
-      </Dropdown.Item>
+      {tx.txIdOut && (
+        <Dropdown.Item>
+          <p
+            onClick={() =>
+              window.open(transactionDetailByTxId(tx.currencyOut, tx.txIdOut), '_blank', 'noopener')
+            }
+          >
+            Get the transaction detail
+          </p>
+        </Dropdown.Item>
+      )}
     </>
   );
 
