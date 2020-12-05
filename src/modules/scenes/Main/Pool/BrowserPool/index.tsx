@@ -17,7 +17,7 @@ import { BrowserPoolContainer, BrowserPoolDiv, Left, Right, Row } from './styled
 
 export const BrowserPool = () => {
   const pool = useSelector((state) => state.pool);
-  const { userAddress, mode, recentTxs } = pool;
+  const { userAddress, mode } = pool;
 
   const switchRightComponent = (mode: string) => {
     const summary = (
@@ -56,7 +56,7 @@ export const BrowserPool = () => {
             <Bridges />
           </Left>
           <Right>
-            {!userAddress && !recentTxs && <ConnectWallet />}
+            {!userAddress && <ConnectWallet />}
             <ActionButtonsPool />
             {switchRightComponent(mode)}
           </Right>

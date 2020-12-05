@@ -18,4 +18,5 @@ export {
   setBalance,
   setWeb3,
   getRecentTxs,
+  resetPoolState,
 } from './pool';

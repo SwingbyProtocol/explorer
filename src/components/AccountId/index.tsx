@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 
 import { ellipseAddress } from '../../modules/common';
 import { LOCAL_STORAGE } from '../../modules/env';
-import { getRecentTxs } from '../../modules/store';
+import { resetPoolState } from '../../modules/store';
 
 import {
   AccountIdContainer,
@@ -44,7 +44,7 @@ export const AccountId = () => {
             onClick={() => {
               onboard && onboard.walletReset();
               window.localStorage.removeItem(LOCAL_STORAGE.UserWalletAddress);
-              dispatch(getRecentTxs(null));
+              dispatch(resetPoolState());
             }}
           />
         </AccountIdContainer>

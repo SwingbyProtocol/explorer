@@ -9,7 +9,8 @@ enum Actions {
   SetOnboard = 'Pool/SET_ONBOARD',
   SetWeb3 = 'Pool/SET_WEB3',
   TogglePoolMode = 'Pool/TOGGLE_POOL_MODE',
-  GetRecentTxs = 'Pool/GetRecentTxs',
+  GetRecentTxs = 'Pool/GET_RECENT_TXS',
+  ResetPoolState = 'Pool/RESET_POOL_STATE',
 }
 
 const initialState = {
@@ -51,9 +52,14 @@ export const pool: Reducer<State, Action> = (state = initialState, action) => {
   if (action.type === Actions.GetRecentTxs) {
     return { ...state, recentTxs: action.data };
   }
+  if (action.type === Actions.ResetPoolState) {
+    return initialState;
+  }
 
   return state;
 };
+
+export const resetPoolState = () => ({ type: Actions.ResetPoolState } as const);
 
 export const setBridge = (data: string) => ({ type: Actions.SetBridge, data } as const);
 
@@ -70,6 +76,7 @@ export const togglePoolMode = (data) => ({ type: Actions.TogglePoolMode, data } 
 export const getRecentTxs = (data) => ({ type: Actions.GetRecentTxs, data } as const);
 
 type Action =
+  | ReturnType<typeof resetPoolState>
   | ReturnType<typeof setBridge>
   | ReturnType<typeof setUserAddress>
   | ReturnType<typeof setBalance>
