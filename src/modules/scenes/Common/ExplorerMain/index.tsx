@@ -1,11 +1,18 @@
 import { PulsarThemeProvider } from '@swingby-protocol/pulsar';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useTheme } from 'styled-components';
 
 import { AccountId } from '../../../../components/AccountId';
 import { Search } from '../../../../components/Search';
+import { toastWrongAddress } from '../../../../components/Toast';
+import { ETHCoins } from '../../../coins';
 import { titleGenerator } from '../../../common';
-import { PATH } from '../../../env';
+import { NETWORK_MODE, PATH, WIDGET_URL } from '../../../env';
+import { SwapRawObject } from '../../../explorer';
+import { initOnboard } from '../../../onboard';
+import { setOnboard } from '../../../store';
 import { Browser, BrowserDetail, BrowserPool } from '../../Main';
 
 import { ExplorerMainContainer, HeadLine, TitleH1 } from './styled';
@@ -14,17 +21,88 @@ export const ExplorerMain = () => {
   const router = useRouter();
   const currentPath = router.pathname;
 
+  const theme = useTheme();
+  const dispatch = useDispatch();
+  const pool = useSelector((state) => state.pool);
+  const { onboard } = pool;
+
+  //Memo: For check walletAddress === tx.addressOut
+  const [walletAddress, setWalletAddress] = useState(null);
+
+  const login = useCallback(async () => {
+    await onboard.walletSelect();
+    await onboard.walletCheck();
+  }, [onboard]);
+
+  const linkToSwapWidget = useCallback(
+    async (tx: SwapRawObject, userAddress = walletAddress) => {
+      const swap = NETWORK_MODE.TESTNET ? '/test/swap/' : '/swap/';
+      const urlSwap = WIDGET_URL + swap + tx.hash;
+      if (ETHCoins.includes(tx.currencyOut)) {
+        if (tx.addressOut.toLowerCase() === userAddress) {
+          window.open(urlSwap, '_blank', 'noopener');
+          return;
+        }
+        if (userAddress === null) {
+          await login();
+          return;
+        }
+        if (tx.addressOut.toLowerCase() !== userAddress && walletAddress !== undefined) {
+          toastWrongAddress();
+          setWalletAddress(null);
+          onboard.walletReset();
+          return;
+        }
+        if (walletAddress === undefined) {
+          setWalletAddress(null);
+          return;
+        }
+      } else {
+        window.open(urlSwap, '_blank', 'noopener');
+        return;
+      }
+    },
+    [login, onboard, walletAddress],
+  );
+
+  const runOnboard = useCallback(
+    (theme: string) => {
+      const onboardData = initOnboard({
+        isDarkMode: theme === 'PulsarDark',
+        subscriptions: {
+          address: setWalletAddress,
+        },
+      });
+      dispatch(setOnboard(onboardData));
+    },
+    [dispatch],
+  );
+
+  useEffect(() => {
+    runOnboard(theme.pulsar.id);
+  }, [theme.pulsar.id, runOnboard]);
+
   const switchBrowser = (path: string): JSX.Element => {
     switch (path) {
       case PATH.ROOT:
-        return <Browser />;
+        return (
+          <Browser
+            linkToSwapWidget={linkToSwapWidget}
+            walletAddress={walletAddress}
+            setWalletAddress={setWalletAddress}
+          />
+        );
       case PATH.SWAP + '/[hash]':
-        return <BrowserDetail />;
+        return <BrowserDetail linkToSwapWidget={linkToSwapWidget} />;
       case PATH.POOL:
         return <BrowserPool />;
 
       default:
-        <Browser />;
+        <Browser
+          linkToSwapWidget={linkToSwapWidget}
+          walletAddress={walletAddress}
+          setWalletAddress={setWalletAddress}
+        />;
     }
   };
 
@@ -38,7 +116,7 @@ export const ExplorerMain = () => {
         return <AccountId />;
 
       default:
-        <Browser />;
+        return <Search />;
     }
   };
 

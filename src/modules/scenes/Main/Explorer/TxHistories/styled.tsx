@@ -80,6 +80,8 @@ export const Column = styled.div`
   justify-content: center;
 `;
 
+export const ColumnEllipsis = styled(Column)``;
+
 export const ColumnAmount = styled(Column)`
   display: grid;
   grid-template-columns: ${({ theme }) => rem(theme.pulsar.size.state)} ${rem(150)};

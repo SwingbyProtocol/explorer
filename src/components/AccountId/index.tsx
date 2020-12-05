@@ -2,11 +2,11 @@ import useCopy from '@react-hook/copy';
 import * as blockies from 'blockies-ts';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
 
 import { ellipseAddress } from '../../modules/common';
 import { LOCAL_STORAGE } from '../../modules/env';
 import { resetPoolState } from '../../modules/store';
+import { toastCopyAddress } from '../Toast';
 
 import {
   AccountIdContainer,
@@ -25,11 +25,7 @@ export const AccountId = () => {
   const { copy } = useCopy(userAddress);
   const copyAddress = () => {
     copy();
-    toast.info('Copied your address!', {
-      autoClose: 3000,
-      draggable: true,
-      hideProgressBar: true,
-    });
+    toastCopyAddress();
   };
 
   return (

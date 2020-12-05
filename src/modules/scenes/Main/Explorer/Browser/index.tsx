@@ -12,6 +12,7 @@ import {
   ILoadHistory,
   loadHistory,
   removeDuplicatedTxs,
+  SwapRawObject,
 } from '../../../../explorer';
 import { useInterval } from '../../../../hooks';
 import {
@@ -28,7 +29,13 @@ import { TxHistoriesMobile } from '../TxHistoriesMobile';
 
 import { Bottom, BrowserContainer, BrowserDiv, Filter, Top } from './styled';
 
-export const Browser = () => {
+interface Props {
+  walletAddress: string;
+  setWalletAddress: (address: string) => void;
+  linkToSwapWidget: (tx: SwapRawObject) => void;
+}
+
+export const Browser = (props: Props) => {
   const dispatch = useDispatch();
   const explorer = useSelector((state) => state.explorer);
   const { swapHistory, isHideWaiting, swapHistoryTemp, usd, networkInfos } = explorer;
@@ -168,6 +175,7 @@ export const Browser = () => {
             goBackPage={goBackPage}
             loader={loader}
             goToDetail={goToDetail}
+            linkToSwapWidget={props.linkToSwapWidget}
           />
         </Bottom>
       </BrowserDiv>

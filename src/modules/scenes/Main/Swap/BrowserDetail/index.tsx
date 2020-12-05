@@ -13,7 +13,11 @@ import { SwapFees } from '../SwapFees';
 
 import { BrowserDetailContainer, BrowserDetailDiv, IconSwap, Row } from './styled';
 
-export const BrowserDetail = () => {
+interface Props {
+  linkToSwapWidget: (tx: SwapRawObject) => void;
+}
+
+export const BrowserDetail = (props: Props) => {
   const explorer = useSelector((state) => state.explorer);
   const { swapDetails } = explorer;
   const dispatch = useDispatch();
@@ -53,7 +57,7 @@ export const BrowserDetail = () => {
       <BrowserDetailDiv size="bare">
         {tx && router.pathname !== undefined ? (
           <>
-            <ActionButtons tx={tx} />
+            <ActionButtons tx={tx} linkToSwapWidget={props.linkToSwapWidget} />
             <Row isTxId={tx.txIdIn !== undefined}>
               <DetailCard
                 role="From"
