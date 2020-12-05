@@ -47,7 +47,7 @@ export const Browser = (props: Props) => {
   useEffect(() => {
     usd &&
       (async () => {
-        const results = await Promise.all([fetchFloatBalances(usd.BTC, usd.BNB), fetchStatsInfo()]);
+        const results = await Promise.all([fetchFloatBalances(usd.BTC), fetchStatsInfo()]);
 
         const data = results[0];
         const stats = results[1];

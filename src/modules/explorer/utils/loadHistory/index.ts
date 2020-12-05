@@ -9,7 +9,7 @@ import {
   ILoadHistoryArgs,
 } from '../../index';
 import { removeDuplicatedTxs, TxStatus } from '../transaction';
-import { ENDPOINT_BTCB_NODE, ENDPOINT_BTCE_NODE, PAGE_COUNT } from '../../../env';
+import { ENDPOINT_BTCB_NODE, ENDPOINT_WBTC_NODE, PAGE_COUNT } from '../../../env';
 import { isAddress } from '../validator';
 
 const {
@@ -121,7 +121,7 @@ const fetchHistory = async (
   bridge: string,
 ): Promise<{ txs: SwapRawObject[]; duplicatedTxQTY: number; total: number }> => {
   const baseUrlBinance = ENDPOINT_BTCB_NODE + '/api/v1/swaps/query';
-  const baseUrlETH = ENDPOINT_BTCE_NODE + '/api/v1/swaps/query';
+  const baseUrlETH = ENDPOINT_WBTC_NODE + '/api/v1/swaps/query';
   const baseUrl = (bridge: string): string => {
     if (bridge.toLowerCase() === BRIDGE.binance.toLowerCase()) {
       return baseUrlBinance;
