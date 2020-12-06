@@ -10,7 +10,7 @@ export enum PoolMode {
   Withdraw = 'Withdraw',
 }
 
-export const ABI = [
+export const ABI_TOKEN = [
   {
     constant: false,
     inputs: [
@@ -31,7 +31,20 @@ export const ABI = [
   },
 ];
 
-export const ABI_LP = [
+export const ABI_SWAP = [
+  {
+    inputs: [],
+    name: 'getCurrentPriceLP',
+    outputs: [
+      {
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    type: 'function',
+    constant: false,
+    payable: false,
+  },
   {
     inputs: [
       {
@@ -52,8 +65,6 @@ export const ABI_LP = [
     ],
     type: 'function',
     constant: false,
-    // constant: true,
-    // stateMutability: 'view',
     payable: false,
   },
 ];

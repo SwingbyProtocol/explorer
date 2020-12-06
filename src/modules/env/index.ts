@@ -40,4 +40,5 @@ export enum LOCAL_STORAGE {
 }
 
 export const CONTRACT_BTCE = '0xeb47a21c1fc00d1e863019906df1771b80dbe182';
-export const CONTRACT_LP = '0x4b979a05f0f8306fcc0d047d4965a72e4e25fdcc';
+export const CONTRACT_LP = '0x4B979a05F0f8306FCC0d047d4965A72E4e25fDcc';
+export const CONTRACT_SWAP = '0xf50b87c16bfb0781a86d4a7e91eb9e1da16906c4';

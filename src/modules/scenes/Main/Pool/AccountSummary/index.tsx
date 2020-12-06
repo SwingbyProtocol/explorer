@@ -4,9 +4,9 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { CoinSymbol } from '../../../../coins';
-import { CONTRACT_BTCE, CONTRACT_LP } from '../../../../env';
+import { CONTRACT_BTCE, CONTRACT_SWAP } from '../../../../env';
 import { toBTC } from '../../../../explorer';
-import { ABI, orgFloor, ABI_LP } from '../../../../pool';
+import { ABI_TOKEN, orgFloor, ABI_SWAP } from '../../../../pool';
 import { setBalance } from '../../../../store';
 
 import {
@@ -41,24 +41,24 @@ export const AccountSummary = () => {
 
   useEffect(() => {
     if (web3 && userAddress) {
-      const contract = new web3.eth.Contract(ABI, CONTRACT_BTCE);
+      (async () => {
+        const contractWBTC = new web3.eth.Contract(ABI_TOKEN, CONTRACT_BTCE);
+        const contractLP = new web3.eth.Contract(ABI_SWAP, CONTRACT_SWAP);
 
-      contract.methods
-        .balanceOf(userAddress)
-        .call()
-        .then((bal: number) => {
-          const balance = toBTC(bal.toString()).toString();
-          dispatch(setBalance(balance));
-        });
+        const balanceWBTC = await contractWBTC.methods.balanceOf(userAddress).call();
+        const balance = toBTC(balanceWBTC.toString()).toString();
+        dispatch(setBalance(balance));
 
-      const contractLP = new web3.eth.Contract(ABI_LP, CONTRACT_LP);
+        const satoshiLP = await contractLP.methods.getCurrentPriceLP().call();
+        const priceLP = toBTC(satoshiLP);
+        console.log('priceLP', priceLP);
 
-      contractLP.methods
-        .getFloatBalanceOf(CONTRACT_BTCE, userAddress)
-        .call()
-        .then((bal) => {
-          console.log('floatBalance', bal);
-        });
+        const userFloatBal = await contractLP.methods
+          .getFloatBalanceOf(CONTRACT_BTCE, userAddress)
+          .call();
+
+        console.log('floatBalance', userFloatBal);
+      })();
     }
   }, [dispatch, web3, userAddress]);
 
