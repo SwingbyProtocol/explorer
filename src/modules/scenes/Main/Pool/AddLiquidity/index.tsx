@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
 
-import { CoinSymbol, PoolCurrencies } from '../../../../coins';
+import { CoinSymbol, ETHCoins, PoolCurrencies } from '../../../../coins';
 import { calculateDepositFee, calculateReceivingAmount } from '../../../../pool';
 
 import {
@@ -33,8 +33,10 @@ export const AddLiquidity = () => {
   const theme = useTheme();
   const explorer = useSelector((state) => state.explorer);
   const { transactionFees } = explorer;
+  const pool = useSelector((state) => state.pool);
+  const { userAddress } = pool;
 
-  const [receivingAddress, setReceivingAddress] = useState('');
+  const [receivingAddress, setReceivingAddress] = useState(userAddress);
   const [poolAmount, setPoolAmount] = useState(null);
   const [fromCurrency, setFromCurrency] = useState(CoinSymbol.BTC);
 
@@ -89,13 +91,21 @@ export const AddLiquidity = () => {
             </RowTop>
           </Top>
           <Bottom>
+            {/* Request: Please add `readOnly` props into TextInput component */}
             <InputReceivingAddress
+              isERC20={ETHCoins.includes(fromCurrency)}
               value={receivingAddress}
               size="state"
               placeholder="Input your receiving address"
               label="And receive my LPT’s to:"
               left={<Coin symbol={CoinSymbol.BTC_E} />}
-              onChange={(e) => setReceivingAddress(e.target.value)}
+              onChange={(e) => {
+                if (ETHCoins.includes(fromCurrency)) {
+                  setReceivingAddress(userAddress);
+                } else {
+                  setReceivingAddress(e.target.value);
+                }
+              }}
             />
             <RowBottom>
               <div className="left">
