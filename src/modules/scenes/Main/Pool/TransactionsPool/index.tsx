@@ -2,6 +2,7 @@ import { Icon, Text } from '@swingby-protocol/pulsar';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { Loader } from '../../../../../components/Loader';
 import { TXS_COUNT, URL_ETHERSCAN } from '../../../../env';
 import { convertTxTime, toBTC } from '../../../../explorer';
 import { fetchRecentTransaction, IRecentTx } from '../../../../pool';
@@ -53,6 +54,7 @@ export const TransactionsPool = () => {
   return (
     <TransactionsPoolContainer>
       <TitleText variant="accent">Transactions</TitleText>
+      {!txsData && <Loader minHeight={73 * TXS_COUNT} />}
       <TransactionsContainer>
         {txsData &&
           txsData.data[page] &&

@@ -1,6 +1,6 @@
 import { PulsarThemeProvider } from '@swingby-protocol/pulsar';
 import { useRouter } from 'next/router';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
 
@@ -78,10 +78,6 @@ export const ExplorerMain = () => {
     [dispatch],
   );
 
-  useEffect(() => {
-    runOnboard(theme.pulsar.id);
-  }, [theme.pulsar.id, runOnboard]);
-
   const switchBrowser = (path: string): JSX.Element => {
     switch (path) {
       case PATH.ROOT:
@@ -90,10 +86,18 @@ export const ExplorerMain = () => {
             linkToSwapWidget={linkToSwapWidget}
             walletAddress={walletAddress}
             setWalletAddress={setWalletAddress}
+            runOnboard={runOnboard}
+            theme={theme.pulsar.id}
           />
         );
       case PATH.SWAP + '/[hash]':
-        return <BrowserDetail linkToSwapWidget={linkToSwapWidget} />;
+        return (
+          <BrowserDetail
+            linkToSwapWidget={linkToSwapWidget}
+            runOnboard={runOnboard}
+            theme={theme.pulsar.id}
+          />
+        );
       case PATH.POOL:
         return <BrowserPool />;
 
@@ -102,6 +106,8 @@ export const ExplorerMain = () => {
           linkToSwapWidget={linkToSwapWidget}
           walletAddress={walletAddress}
           setWalletAddress={setWalletAddress}
+          runOnboard={runOnboard}
+          theme={theme.pulsar.id}
         />;
     }
   };

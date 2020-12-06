@@ -33,9 +33,12 @@ interface Props {
   walletAddress: string;
   setWalletAddress: (address: string) => void;
   linkToSwapWidget: (tx: SwapRawObject) => void;
+  runOnboard: (theme: string) => void;
+  theme: string;
 }
 
 export const Browser = (props: Props) => {
+  const { runOnboard, theme } = props;
   const dispatch = useDispatch();
   const explorer = useSelector((state) => state.explorer);
   const { swapHistory, isHideWaiting, swapHistoryTemp, usd, networkInfos } = explorer;
@@ -128,6 +131,11 @@ export const Browser = (props: Props) => {
   useInterval(() => {
     dispatchLoadHistory();
   }, [10000]);
+
+  // Memo: Cannot run at `ExplorerMain.tsx` due to avoid conflict with `Pool page`
+  useEffect(() => {
+    runOnboard(theme);
+  }, [theme, runOnboard]);
 
   const filter = (
     <Dropdown target={<Filter />}>

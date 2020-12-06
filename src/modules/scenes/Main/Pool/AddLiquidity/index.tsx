@@ -33,6 +33,7 @@ export const AddLiquidity = () => {
   const theme = useTheme();
   const explorer = useSelector((state) => state.explorer);
   const { transactionFees } = explorer;
+
   const [receivingAddress, setReceivingAddress] = useState('');
   const [poolAmount, setPoolAmount] = useState(null);
   const [fromCurrency, setFromCurrency] = useState(CoinSymbol.BTC);
