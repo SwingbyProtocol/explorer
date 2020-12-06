@@ -1,16 +1,11 @@
 import { IEtherscanTransaction } from '../..';
-import {
-  API_KEY_ETHERSCAN,
-  BTCE_CONTRACT_ADDRESS,
-  ENDPOINT_ETHERSCAN,
-  TXS_COUNT,
-} from '../../../env';
+import { API_KEY_ETHERSCAN, CONTRACT_BTCE, ENDPOINT_ETHERSCAN, TXS_COUNT } from '../../../env';
 import { fetch } from '../../../fetch';
 
 const base = ENDPOINT_ETHERSCAN;
 
 const generateUrl = (page: number, walletAddress: string, limit: number) => {
-  return `${base}/api?module=account&action=tokentx&contractaddress=${BTCE_CONTRACT_ADDRESS}&address=${walletAddress}&page=${page}&offset=${limit}&sort=desc&apikey=${API_KEY_ETHERSCAN}`;
+  return `${base}/api?module=account&action=tokentx&contractaddress=${CONTRACT_BTCE}&address=${walletAddress}&page=${page}&offset=${limit}&sort=desc&apikey=${API_KEY_ETHERSCAN}`;
 };
 
 const organizeTxs = (txs: IEtherscanTransaction[], address: string) => {

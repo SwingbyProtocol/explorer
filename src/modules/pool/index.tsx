@@ -31,6 +31,33 @@ export const ABI = [
   },
 ];
 
+export const ABI_LP = [
+  {
+    inputs: [
+      {
+        name: '_token',
+        type: 'address',
+      },
+      {
+        name: '_user',
+        type: 'address',
+      },
+    ],
+    name: 'getFloatBalanceOf',
+    outputs: [
+      {
+        name: 'floatBalanceOf',
+        type: 'uint256',
+      },
+    ],
+    type: 'function',
+    constant: false,
+    // constant: true,
+    // stateMutability: 'view',
+    payable: false,
+  },
+];
+
 export interface IEtherscanTransaction {
   blockNumber: string;
   timeStamp: string;

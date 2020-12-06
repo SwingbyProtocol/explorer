@@ -4,9 +4,9 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { CoinSymbol } from '../../../../coins';
-import { BTCE_CONTRACT_ADDRESS } from '../../../../env';
+import { CONTRACT_BTCE, CONTRACT_LP } from '../../../../env';
 import { toBTC } from '../../../../explorer';
-import { ABI, orgFloor } from '../../../../pool';
+import { ABI, orgFloor, ABI_LP } from '../../../../pool';
 import { setBalance } from '../../../../store';
 
 import {
@@ -41,7 +41,7 @@ export const AccountSummary = () => {
 
   useEffect(() => {
     if (web3 && userAddress) {
-      const contract = new web3.eth.Contract(ABI, BTCE_CONTRACT_ADDRESS);
+      const contract = new web3.eth.Contract(ABI, CONTRACT_BTCE);
 
       contract.methods
         .balanceOf(userAddress)
@@ -49,6 +49,15 @@ export const AccountSummary = () => {
         .then((bal: number) => {
           const balance = toBTC(bal.toString()).toString();
           dispatch(setBalance(balance));
+        });
+
+      const contractLP = new web3.eth.Contract(ABI_LP, CONTRACT_LP);
+
+      contractLP.methods
+        .getFloatBalanceOf(CONTRACT_BTCE, userAddress)
+        .call()
+        .then((bal) => {
+          console.log('floatBalance', bal);
         });
     }
   }, [dispatch, web3, userAddress]);
