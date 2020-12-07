@@ -5,7 +5,7 @@ import { PoolMode } from '../../pool';
 enum Actions {
   SetBridge = 'Pool/SET_BRIDGE',
   SetUserAddress = 'Pool/SET_USER_ADDRESS',
-  SetBalance = 'Pool/SET_BALANCE',
+  SetBalanceLP = 'Pool/SET_BALANCE_LP',
   SetOnboard = 'Pool/SET_ONBOARD',
   SetWeb3 = 'Pool/SET_WEB3',
   TogglePoolMode = 'Pool/TOGGLE_POOL_MODE',
@@ -18,7 +18,7 @@ const initialState = {
   mode: PoolMode.Summary,
   userAddress: null,
   recentTxs: null,
-  balance: null,
+  balanceLP: null,
   onboard: null,
   web3: null,
 };
@@ -34,8 +34,8 @@ export const pool: Reducer<State, Action> = (state = initialState, action) => {
     return { ...state, userAddress: action.data };
   }
 
-  if (action.type === Actions.SetBalance) {
-    return { ...state, balance: action.data };
+  if (action.type === Actions.SetBalanceLP) {
+    return { ...state, balanceLP: action.data };
   }
 
   if (action.type === Actions.SetOnboard) {
@@ -65,7 +65,7 @@ export const setBridge = (data: string) => ({ type: Actions.SetBridge, data } as
 
 export const setUserAddress = (data: string) => ({ type: Actions.SetUserAddress, data } as const);
 
-export const setBalance = (data: string) => ({ type: Actions.SetBalance, data } as const);
+export const setBalanceLP = (data: number) => ({ type: Actions.SetBalanceLP, data } as const);
 
 export const setOnboard = (data) => ({ type: Actions.SetOnboard, data } as const);
 
@@ -79,7 +79,7 @@ type Action =
   | ReturnType<typeof resetPoolState>
   | ReturnType<typeof setBridge>
   | ReturnType<typeof setUserAddress>
-  | ReturnType<typeof setBalance>
+  | ReturnType<typeof setBalanceLP>
   | ReturnType<typeof togglePoolMode>
   | ReturnType<typeof setOnboard>
   | ReturnType<typeof setWeb3>

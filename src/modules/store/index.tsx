@@ -15,7 +15,7 @@ export {
   setUserAddress,
   setOnboard,
   togglePoolMode,
-  setBalance,
+  setBalanceLP,
   setWeb3,
   getRecentTxs,
   resetPoolState,

@@ -4,70 +4,14 @@ export {
   calculateDepositFee,
   calculateReceivingAmount,
 } from './utils';
+
+export { ABI_TOKEN, ABI_SWAP } from './contract';
+
 export enum PoolMode {
   Summary = 'Summary',
   AddLiquidity = 'Add Liquidity',
   Withdraw = 'Withdraw',
 }
-
-export const ABI_TOKEN = [
-  {
-    constant: false,
-    inputs: [
-      {
-        name: '_owner',
-        type: 'address',
-      },
-    ],
-    name: 'balanceOf',
-    outputs: [
-      {
-        name: 'balance',
-        type: 'uint256',
-      },
-    ],
-    payable: false,
-    type: 'function',
-  },
-];
-
-export const ABI_SWAP = [
-  {
-    inputs: [],
-    name: 'getCurrentPriceLP',
-    outputs: [
-      {
-        name: '',
-        type: 'uint256',
-      },
-    ],
-    type: 'function',
-    constant: false,
-    payable: false,
-  },
-  {
-    inputs: [
-      {
-        name: '_token',
-        type: 'address',
-      },
-      {
-        name: '_user',
-        type: 'address',
-      },
-    ],
-    name: 'getFloatBalanceOf',
-    outputs: [
-      {
-        name: 'floatBalanceOf',
-        type: 'uint256',
-      },
-    ],
-    type: 'function',
-    constant: false,
-    payable: false,
-  },
-];
 
 export interface IEtherscanTransaction {
   blockNumber: string;

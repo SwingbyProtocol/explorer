@@ -1,13 +1,13 @@
-import { getFiatAssetFormatter, Text } from '@swingby-protocol/pulsar';
-import React, { useEffect } from 'react';
+import { getCryptoAssetFormatter, getFiatAssetFormatter, Text } from '@swingby-protocol/pulsar';
+import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { CoinSymbol } from '../../../../coins';
-import { CONTRACT_BTCE, CONTRACT_SWAP } from '../../../../env';
+import { CONTRACT_LP, CONTRACT_SWAP } from '../../../../env';
 import { toBTC } from '../../../../explorer';
 import { ABI_TOKEN, orgFloor, ABI_SWAP } from '../../../../pool';
-import { setBalance } from '../../../../store';
+import { setBalanceLP } from '../../../../store';
 
 import {
   AccountSummaryContainer,
@@ -22,16 +22,17 @@ import {
 } from './styled';
 
 export const AccountSummary = () => {
+  const dispatch = useDispatch();
   const explorer = useSelector((state) => state.explorer);
   const { usd } = explorer;
   const pool = useSelector((state) => state.pool);
-  const { balance, web3, userAddress } = pool;
-  const dispatch = useDispatch();
+  const { balanceLP, web3, userAddress } = pool;
+
+  const [claimableAmount, setClaimableAmount] = useState(0);
+  const [totalEarnings, setTotalEarnings] = useState(0);
 
   const { locale } = useIntl();
   const currency = CoinSymbol.BTC;
-  const amount = 0.2833;
-  const totalEarnings = 0.2002;
   const usdTotalEarnings = getFiatAssetFormatter({
     locale: locale,
     currency: 'USD',
@@ -39,25 +40,34 @@ export const AccountSummary = () => {
     maximumFractionDigits: 0,
   }).format(totalEarnings * usd[currency]);
 
+  const formattedClaimableAmount = getCryptoAssetFormatter({
+    locale: locale,
+    displaySymbol: CoinSymbol.BTC,
+  }).format(Number(claimableAmount));
+
   useEffect(() => {
     if (web3 && userAddress) {
       (async () => {
-        const contractWBTC = new web3.eth.Contract(ABI_TOKEN, CONTRACT_BTCE);
-        const contractLP = new web3.eth.Contract(ABI_SWAP, CONTRACT_SWAP);
+        const contractLP = new web3.eth.Contract(ABI_TOKEN, CONTRACT_LP);
+        const contractSwap = new web3.eth.Contract(ABI_SWAP, CONTRACT_SWAP);
 
-        const balanceWBTC = await contractWBTC.methods.balanceOf(userAddress).call();
-        const balance = toBTC(balanceWBTC.toString()).toString();
-        dispatch(setBalance(balance));
+        const results = await Promise.all([
+          contractLP.methods.balanceOf(userAddress).call(), // result[0]
+          contractSwap.methods.getCurrentPriceLP().call(), //result[1]
+          contractSwap.methods.getFloatBalanceOf(CONTRACT_LP, userAddress).call(), // result[2]
+        ]);
 
-        const satoshiLP = await contractLP.methods.getCurrentPriceLP().call();
-        const priceLP = toBTC(satoshiLP);
-        console.log('priceLP', priceLP);
+        const resultBalanceOf = results[0];
+        const balanceLP = Number(toBTC(resultBalanceOf.toString()).toString());
+        dispatch(setBalanceLP(balanceLP));
 
-        const userFloatBal = await contractLP.methods
-          .getFloatBalanceOf(CONTRACT_BTCE, userAddress)
-          .call();
+        const priceLP = toBTC(results[1]);
+        const userFloatBal = Number(results[2]);
+        const totalClaimableAmount = priceLP * userFloatBal;
+        const totalEarnings = totalClaimableAmount - userFloatBal;
 
-        console.log('floatBalance', userFloatBal);
+        setClaimableAmount(totalClaimableAmount);
+        setTotalEarnings(totalEarnings);
       })();
     }
   }, [dispatch, web3, userAddress]);
@@ -74,14 +84,14 @@ export const AccountSummary = () => {
             <TextRoom variant="label">{currency} Claim</TextRoom>
           </Top>
           <Bottom>
-            <TextAmount variant="accent">{amount}</TextAmount>
+            <TextAmount variant="accent">{formattedClaimableAmount}</TextAmount>
           </Bottom>
         </div>
       </Column>
       <RowEarning>
-        <TextRoom variant="label">Balance (WBTC)</TextRoom>
+        <TextRoom variant="label">Balance (LP token)</TextRoom>
         {/* Memo: Show number at 3 decimal */}
-        <TextRoom variant="accent">{orgFloor(balance, 1000)}</TextRoom>
+        <TextRoom variant="accent">{orgFloor(balanceLP, 1000)}</TextRoom>
       </RowEarning>
       <RowEarning>
         <TextRoom variant="label">Total Earnings</TextRoom>
