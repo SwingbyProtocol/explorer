@@ -1,4 +1,5 @@
 import { PulsarThemeProvider } from '@swingby-protocol/pulsar';
+import { createWidget } from '@swingby-protocol/widget';
 import { useRouter } from 'next/router';
 import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,7 +10,7 @@ import { Search } from '../../../../components/Search';
 import { toastWrongAddress } from '../../../../components/Toast';
 import { ETHCoins } from '../../../coins';
 import { titleGenerator } from '../../../common';
-import { mode, PATH, WIDGET_URL } from '../../../env';
+import { mode, PATH } from '../../../env';
 import { SwapRawObject } from '../../../explorer';
 import { initOnboard } from '../../../onboard';
 import { setOnboard } from '../../../store';
@@ -36,11 +37,10 @@ export const ExplorerMain = () => {
 
   const linkToSwapWidget = useCallback(
     async (tx: SwapRawObject, userAddress = walletAddress) => {
-      const swap = mode === 'test' ? '/test/swap/' : '/swap/';
-      const urlSwap = WIDGET_URL + swap + tx.hash;
+      const widget = createWidget({ mode, variant: 'banner' });
       if (ETHCoins.includes(tx.currencyOut)) {
         if (tx.addressOut.toLowerCase() === userAddress) {
-          window.open(urlSwap, '_blank', 'noopener');
+          window.open(widget.url, '_blank', 'noopener');
           return;
         }
         if (userAddress === null) {
@@ -58,7 +58,7 @@ export const ExplorerMain = () => {
           return;
         }
       } else {
-        window.open(urlSwap, '_blank', 'noopener');
+        window.open(widget.url, '_blank', 'noopener');
         return;
       }
     },
