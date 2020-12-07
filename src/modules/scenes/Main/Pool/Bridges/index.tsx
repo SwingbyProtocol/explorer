@@ -6,7 +6,7 @@ import { setBridge } from '../../../../store';
 import { BridgesContainer, TextTitle, TextBridge, RowBridge, RowTitle, IconRight } from './styled';
 
 export const Bridges = () => {
-  const bridges = ['Apollo1', 'Apollo2', 'Falcon9'];
+  const bridges = ['Apollo1'];
   const dispatch = useDispatch();
   const pool = useSelector((state) => state.pool);
 

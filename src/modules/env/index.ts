@@ -1,6 +1,13 @@
 import type { Mode } from '@swingby-protocol/sdk';
 
-export const mode: Mode = process.env.NEXT_PUBLIC_MODE === 'production' ? 'production' : 'test';
+export enum MODE {
+  PRODUCTION = 'production',
+  TEST = 'test',
+}
+
+// export const mode: Mode = process.env.NEXT_PUBLIC_MODE === 'production' ? 'production' : 'test';
+export const mode: Mode =
+  process.env.NEXT_PUBLIC_MODE === MODE.PRODUCTION ? MODE.PRODUCTION : MODE.TEST;
 export const PAGE_COUNT = 4;
 export const TXS_COUNT = 10;
 

@@ -7,7 +7,7 @@ import { setBridge } from '../../../../store';
 import { BackDrop, BridgesMobileContainer, DropTargetBridges, TextTitle } from './styled';
 
 export const BridgesMobile = () => {
-  const bridges = ['Apollo1', 'Apollo2', 'Falcon9'];
+  const bridges = ['Apollo1'];
   const dispatch = useDispatch();
   const pool = useSelector((state) => state.pool);
   const { bridge, userAddress } = pool;
