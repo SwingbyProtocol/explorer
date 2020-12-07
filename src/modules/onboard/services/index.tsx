@@ -1,11 +1,11 @@
 import Onboard from 'bnc-onboard';
 
-import { APP_NAME, API_KEY_BLOCK_NATIVE, ETHER_NETWORK, INFURA_KEY, RPC_URL } from '../../env';
+import { infuraAppName, blocknativeApiKey, ETHER_NETWORK, infuraApiKey, RPC_URL } from '../../env';
 
 // Ref: https://github.com/blocknative/react-demo/blob/master/src/services.js
 export const initOnboard = ({ isDarkMode, subscriptions }) => {
   return Onboard({
-    dappId: API_KEY_BLOCK_NATIVE,
+    dappId: blocknativeApiKey,
     networkId: ETHER_NETWORK.id,
     hideBranding: true,
     darkMode: isDarkMode,
@@ -20,10 +20,10 @@ export const initOnboard = ({ isDarkMode, subscriptions }) => {
         },
         {
           walletName: 'walletConnect',
-          infuraKey: INFURA_KEY,
+          infuraKey: infuraApiKey,
           preferred: true,
         },
-        { walletName: 'walletLink', rpcUrl: RPC_URL, appName: APP_NAME, preferred: true },
+        { walletName: 'walletLink', rpcUrl: RPC_URL, appName: infuraAppName, preferred: true },
       ],
     },
     walletCheck: [
