@@ -23,9 +23,6 @@ export const URL_ETHERSCAN = 'https://goerli.etherscan.io';
 
 export const WIDGET_URL = process.env.NEXT_PUBLIC_SWAP_URL || 'https://widget-seven.vercel.app';
 
-export const swapUrl =
-  process.env.NEXT_PUBLIC_SWAP_URL || 'https://widget-seven.vercel.app/swap/new';
-
 export enum PATH {
   ROOT = '/',
   SWAP = '/swap',
