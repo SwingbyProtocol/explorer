@@ -11,6 +11,7 @@ const {
   SIGNING_REFUND,
   REFUNDED,
   WAITING,
+  EXPIRED,
 } = TxStatus;
 
 export const message = {
@@ -23,6 +24,7 @@ export const message = {
   completed: 'Your swap has been completed successfully and your funds have been delivered.',
   refunded:
     'Uh oh, the Skybridge network has encountered an error. Your funds will be sent back to your original address.',
+  expired: 'The swap is too old and has been invalidated. No funds were received or sent.',
 };
 
 export const generateMessage = (status: string): string => {
@@ -47,33 +49,8 @@ export const generateMessage = (status: string): string => {
       return message.refunded;
     case REJECTED:
       return message.refunded;
-    default:
-      return status;
-  }
-};
-
-export const allocateStatus = (status: string): string => {
-  switch (status) {
-    case WAITING:
-      return 'waiting';
-    case COMPLETED:
-      return 'completed';
-    case PENDING:
-      return 'pending';
-    case SIGNING:
-      return 'sending';
-    case SENDING:
-      return 'sending';
-    case BROADCASTED:
-      return 'sending';
-    case REFUNDED:
-      return 'completed';
-    case REFUNDING:
-      return 'sending';
-    case SIGNING_REFUND:
-      return 'sending';
-    case REJECTED:
-      return 'waiting';
+    case EXPIRED:
+      return message.expired;
     default:
       return status;
   }

@@ -25,10 +25,8 @@ interface Props {
 export const NetworkBridges = (props: Props) => {
   const { floatBalances, stats } = props;
   const data = [
-    { coin: CoinSymbol.BTC, float: floatBalances.btc, vol: stats.volume24HrBtc },
-    { coin: CoinSymbol.BTC_E, float: floatBalances.btce, vol: stats.volume24HrEthereum },
-    { coin: CoinSymbol.BNB, float: floatBalances.bnb, vol: 0 },
-    { coin: CoinSymbol.BTC_B, float: floatBalances.btcb, vol: stats.volume24HrBinance },
+    { coin: CoinSymbol.BTC, float: floatBalances.btc, vol: stats.volume24HrBTC },
+    { coin: CoinSymbol.BTC_E, float: floatBalances.wbtc, vol: stats.volume24HrWBTC },
   ];
   return (
     <NetworkBridgeContainer>
@@ -38,29 +36,20 @@ export const NetworkBridges = (props: Props) => {
           return (
             <CoinInfo key={coin.coin}>
               <Coin symbol={coin.coin} />
-              {coin.coin === CoinSymbol.BNB ? (
+              <DataDiv>
                 <Row>
                   <Text variant="label">Float</Text>
                   <FloatSpan>
                     <FormattedNumber value={Number(coin.float)} />
                   </FloatSpan>
                 </Row>
-              ) : (
-                <DataDiv>
-                  <Row>
-                    <Text variant="label">Float</Text>
-                    <FloatSpan>
-                      <FormattedNumber value={Number(coin.float)} />
-                    </FloatSpan>
-                  </Row>
-                  <Row>
-                    <Text variant="label">Vol</Text>
-                    <VolSpan>
-                      <FormattedNumber value={coin.vol} />
-                    </VolSpan>
-                  </Row>
-                </DataDiv>
-              )}
+                <Row>
+                  <Text variant="label">Vol</Text>
+                  <VolSpan>
+                    <FormattedNumber value={coin.vol} />
+                  </VolSpan>
+                </Row>
+              </DataDiv>
             </CoinInfo>
           );
         })}

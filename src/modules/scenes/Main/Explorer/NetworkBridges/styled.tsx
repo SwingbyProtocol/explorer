@@ -55,12 +55,14 @@ export const CoinContainer = styled.div`
   align-self: center;
   justify-content: center;
   grid-template-columns: 1fr 1fr;
+  height: ${rem(60)};
   @media (min-width: ${rem(media.xs)}) {
     grid-gap: ${({ theme }) => rem(theme.pulsar.size.town)};
   }
   @media (min-width: ${rem(media.md)}) {
     margin-top: ${({ theme }) => rem(theme.pulsar.size.city)};
     width: 100%;
+    height: ${rem(100)};
     grid-gap: ${({ theme }) => rem(theme.pulsar.size.street)};
     grid-template-columns: 1fr 1fr;
     padding-left: ${({ theme }) => rem(theme.pulsar.size.street)};
@@ -106,6 +108,7 @@ export const FloatSpan = styled.div`
   font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
   font-weight: bold;
 `;
+
 export const VolSpan = styled.div`
   font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
 `;

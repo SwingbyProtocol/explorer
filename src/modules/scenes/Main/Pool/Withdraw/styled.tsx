@@ -9,11 +9,8 @@ const { media } = StylingConstants;
 interface DropDownProps {
   isDarkMode: boolean;
 }
-interface ReceivingAddressProps {
-  isERC20: boolean;
-}
 
-export const AddLiquidityContainer = styled.div`
+export const WithdrawContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -93,14 +90,11 @@ export const Bottom = styled.div`
   width: 100%;
 `;
 
-export const InputReceivingAddress = styled(TextInput)<ReceivingAddressProps>`
+export const InputReceivingAddress = styled(TextInput)`
   width: 100%;
   padding-right: ${({ theme }) => rem(theme.pulsar.size.street)};
   label {
     color: ${({ theme }) => theme.pulsar.color.text.masked};
-  }
-  input {
-    cursor: ${(props) => (props.isERC20 ? 'not-allowed' : 'text')};
   }
   @media (min-width: ${rem(media.sm)}) {
     padding-right: 0;

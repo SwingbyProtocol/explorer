@@ -24,7 +24,11 @@ export const ActionButtonsPool = () => {
         <IconArrowLeft onClick={() => dispatch(togglePoolMode(PoolMode.Summary))} />
       )}
       <Buttons>
-        <Button variant="secondary" size="city">
+        <Button
+          variant="secondary"
+          size="city"
+          onClick={() => dispatch(togglePoolMode(PoolMode.Withdraw))}
+        >
           Withdraw
         </Button>
         <Button

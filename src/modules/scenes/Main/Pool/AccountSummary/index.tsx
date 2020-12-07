@@ -1,9 +1,13 @@
-import { getFiatAssetFormatter, Text } from '@swingby-protocol/pulsar';
-import React from 'react';
+import { getCryptoAssetFormatter, getFiatAssetFormatter, Text } from '@swingby-protocol/pulsar';
+import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { CoinSymbol } from '../../../../coins';
+import { CONTRACT_LP, CONTRACT_SWAP } from '../../../../env';
+import { toBTC } from '../../../../explorer';
+import { ABI_TOKEN, orgFloor, ABI_SWAP } from '../../../../pool';
+import { setBalanceLP } from '../../../../store';
 
 import {
   AccountSummaryContainer,
@@ -18,19 +22,56 @@ import {
 } from './styled';
 
 export const AccountSummary = () => {
+  const dispatch = useDispatch();
   const explorer = useSelector((state) => state.explorer);
   const { usd } = explorer;
+  const pool = useSelector((state) => state.pool);
+  const { balanceLP, web3, userAddress } = pool;
+
+  const [claimableAmount, setClaimableAmount] = useState(0);
+  const [totalEarnings, setTotalEarnings] = useState(0);
 
   const { locale } = useIntl();
   const currency = CoinSymbol.BTC;
-  const amount = 0.2833;
-  const totalEarnings = 0.2002;
   const usdTotalEarnings = getFiatAssetFormatter({
     locale: locale,
     currency: 'USD',
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(totalEarnings * usd[currency]);
+
+  const formattedClaimableAmount = getCryptoAssetFormatter({
+    locale: locale,
+    displaySymbol: CoinSymbol.BTC,
+  }).format(Number(claimableAmount));
+
+  useEffect(() => {
+    if (web3 && userAddress) {
+      (async () => {
+        const contractLP = new web3.eth.Contract(ABI_TOKEN, CONTRACT_LP);
+        const contractSwap = new web3.eth.Contract(ABI_SWAP, CONTRACT_SWAP);
+
+        const results = await Promise.all([
+          contractLP.methods.balanceOf(userAddress).call(), // result[0]
+          contractSwap.methods.getCurrentPriceLP().call(), //result[1]
+          contractSwap.methods.getFloatBalanceOf(CONTRACT_LP, userAddress).call(), // result[2]
+        ]);
+
+        const resultBalanceOf = results[0];
+        const balanceLP = Number(toBTC(resultBalanceOf.toString()).toString());
+        dispatch(setBalanceLP(balanceLP));
+
+        // Todo: Check the logic with backend team
+        const priceLP = toBTC(results[1]);
+        const userFloatBal = Number(results[2]);
+        const totalClaimableAmount = priceLP * userFloatBal;
+        const totalEarnings = totalClaimableAmount - userFloatBal;
+
+        setClaimableAmount(totalClaimableAmount);
+        setTotalEarnings(totalEarnings);
+      })();
+    }
+  }, [dispatch, web3, userAddress]);
 
   return (
     <AccountSummaryContainer>
@@ -44,10 +85,15 @@ export const AccountSummary = () => {
             <TextRoom variant="label">{currency} Claim</TextRoom>
           </Top>
           <Bottom>
-            <TextAmount variant="accent">{amount}</TextAmount>
+            <TextAmount variant="accent">{formattedClaimableAmount}</TextAmount>
           </Bottom>
         </div>
       </Column>
+      <RowEarning>
+        <TextRoom variant="label">Balance (LP token)</TextRoom>
+        {/* Memo: Show number at 3 decimal */}
+        <TextRoom variant="accent">{orgFloor(balanceLP, 1000)}</TextRoom>
+      </RowEarning>
       <RowEarning>
         <TextRoom variant="label">Total Earnings</TextRoom>
         <TextRoom variant="accent">

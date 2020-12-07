@@ -1,12 +1,12 @@
 import { BigNumber } from 'bignumber.js';
 
 import { CoinSymbol } from '../../../coins';
-import { ENDPOINT_API } from '../../../env';
 import { IFee } from '../../index';
 import { fetch } from '../../../fetch';
+import { ENDPOINT_WBTC_NODE } from '../../../env';
 
 export const getTransactionFees = async (): Promise<IFee[]> => {
-  const url = ENDPOINT_API.BTCE_NODE + '/api/v1/swaps/fees';
+  const url = ENDPOINT_WBTC_NODE + '/api/v1/swaps/fees';
   try {
     const result = await fetch<IFee[]>(url);
     return result.ok && result.response;

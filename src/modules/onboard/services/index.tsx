@@ -1,11 +1,11 @@
 import Onboard from 'bnc-onboard';
 
-import { APP_NAME, BLOCK_NATIVE_API_KEY, ETHER_NETWORK, INFURA_KEY, RPC_URL } from '../../env';
+import { APP_NAME, API_KEY_BLOCK_NATIVE, ETHER_NETWORK, INFURA_KEY, RPC_URL } from '../../env';
 
 // Ref: https://github.com/blocknative/react-demo/blob/master/src/services.js
 export const initOnboard = ({ isDarkMode, subscriptions }) => {
   return Onboard({
-    dappId: BLOCK_NATIVE_API_KEY,
+    dappId: API_KEY_BLOCK_NATIVE,
     networkId: ETHER_NETWORK.id,
     hideBranding: true,
     darkMode: isDarkMode,

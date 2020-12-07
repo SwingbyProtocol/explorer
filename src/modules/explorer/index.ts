@@ -12,6 +12,7 @@ export {
   getTransactionFees,
   exponentialToNumber,
   capitalize,
+  toBTC,
 } from './utils';
 
 export const BRIDGE = {
@@ -58,15 +59,12 @@ export interface Reward {
 
 export interface IFloat {
   btc: number;
-  btcb: number;
-  bnb: number;
-  btce: number;
+  wbtc: number;
 }
 
 export interface IStats {
-  volume24HrBinance: number;
-  volume24HrEthereum: number;
-  volume24HrBtc: number;
+  volume24HrWBTC: number;
+  volume24HrBTC: number;
   rewards24Hr: number;
   volumes: string[];
   metanodes: number;
@@ -87,7 +85,6 @@ export interface IFloatBalances {
 }
 export interface IFetchUsd {
   BTC: number;
-  BNB: number;
 }
 
 export interface IFee {
@@ -110,14 +107,11 @@ export interface INetworkInfos {
   capacity: number;
   floatBalances: {
     btc: number;
-    btcb: number;
-    bnb: number;
-    btce: number;
+    wbtc: number;
   };
   stats: {
-    volume24HrBinance: number;
-    volume24HrEthereum: number;
-    volume24HrBtc: number;
+    volume24HrWBTC: number;
+    volume24HrBTC: number;
     rewards24Hr: number;
     volumes: string[];
     metanodes: number;
@@ -129,4 +123,13 @@ export interface IFloatAmount {
   currency: string;
 }
 
-export type TStatus = 'waiting' | 'pending' | 'sending' | 'completed';
+export type TStatus =
+  | 'WAITING'
+  | 'PENDING'
+  | 'SIGNING'
+  | 'SENDING'
+  | 'COMPLETED'
+  | 'SIGNING_REFUND'
+  | 'SENDING_REFUND'
+  | 'REFUNDED'
+  | 'EXPIRED';

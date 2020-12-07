@@ -1,5 +1,5 @@
-import { getCryptoAssetFormatter, Icon, Text } from '@swingby-protocol/pulsar';
-import React from 'react';
+import { Dropdown, getCryptoAssetFormatter, Icon, Text } from '@swingby-protocol/pulsar';
+import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 
@@ -11,6 +11,7 @@ import {
   SwapRawObject,
 } from '../../../../explorer';
 import { selectSwapDetails } from '../../../../store';
+import { transactionDetailByTxId } from '../../../../swap';
 
 import {
   AddressP,
@@ -21,6 +22,7 @@ import {
   Coin,
   Column,
   ColumnAmount,
+  ColumnEllipsis,
   ColumnFee,
   Ellipsis,
   Left,
@@ -48,6 +50,7 @@ interface Props {
   goNextPage: () => void;
   goBackPage: () => void;
   goToDetail: (arg: string) => void;
+  linkToSwapWidget: (tx: SwapRawObject) => void;
 }
 
 export const TxHistories = (props: Props) => {
@@ -60,10 +63,37 @@ export const TxHistories = (props: Props) => {
     goBackPage,
     goToDetail,
     loader,
+    linkToSwapWidget,
   } = props;
 
   const { locale } = useIntl();
+
   const dispatch = useDispatch();
+  const [chosenTx, setChosenTx] = useState(null);
+  useEffect(() => {
+    if (chosenTx) {
+      linkToSwapWidget(chosenTx);
+    }
+  }, [chosenTx, linkToSwapWidget]);
+
+  const externalLinkMenu = (tx: SwapRawObject) => (
+    <>
+      <Dropdown.Item>
+        <p onClick={() => setChosenTx(tx)}>Check the swap progress</p>
+      </Dropdown.Item>
+      {tx.txIdOut && (
+        <Dropdown.Item>
+          <p
+            onClick={() =>
+              window.open(transactionDetailByTxId(tx.currencyOut, tx.txIdOut), '_blank', 'noopener')
+            }
+          >
+            Get the transaction details
+          </p>
+        </Dropdown.Item>
+      )}
+    </>
+  );
 
   return (
     <>
@@ -145,9 +175,15 @@ export const TxHistories = (props: Props) => {
                     }).format(Number(tx.fee))}
                   </Text>
                 </ColumnFee>
-                <Column>
-                  <Ellipsis />
-                </Column>
+                <ColumnEllipsis
+                  onClick={(event) => {
+                    event.stopPropagation();
+                  }}
+                >
+                  <Dropdown target={<Ellipsis />} data-testid="dropdown">
+                    {externalLinkMenu(tx)}
+                  </Dropdown>
+                </ColumnEllipsis>
               </TxHistoryRow>
             );
           })}

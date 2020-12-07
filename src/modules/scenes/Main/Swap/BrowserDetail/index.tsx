@@ -13,13 +13,21 @@ import { SwapFees } from '../SwapFees';
 
 import { BrowserDetailContainer, BrowserDetailDiv, IconSwap, Row } from './styled';
 
-export const BrowserDetail = () => {
+interface Props {
+  linkToSwapWidget: (tx: SwapRawObject) => void;
+  runOnboard: (theme: string) => void;
+  theme: string;
+}
+
+export const BrowserDetail = (props: Props) => {
+  const { runOnboard, theme } = props;
   const explorer = useSelector((state) => state.explorer);
   const { swapDetails } = explorer;
   const dispatch = useDispatch();
   const router = useRouter();
   const params = router.query;
   const hash = String(params.hash);
+  const tx = swapDetails && (swapDetails as SwapRawObject);
 
   const dispatchSelectSwapDetails = useCallback(
     async (hash: string) => {
@@ -45,7 +53,10 @@ export const BrowserDetail = () => {
     !swapDetails && hash && dispatchSelectSwapDetails(hash);
   }, [dispatchSelectSwapDetails, hash, swapDetails]);
 
-  const tx = swapDetails && (swapDetails as SwapRawObject);
+  // Memo: Cannot run at `ExplorerMain.tsx` due to avoid conflict with `Pool page`
+  useEffect(() => {
+    runOnboard(theme);
+  }, [theme, runOnboard]);
 
   return (
     <BrowserDetailContainer>
@@ -53,7 +64,7 @@ export const BrowserDetail = () => {
       <BrowserDetailDiv size="bare">
         {tx && router.pathname !== undefined ? (
           <>
-            <ActionButtons tx={tx} />
+            <ActionButtons tx={tx} linkToSwapWidget={props.linkToSwapWidget} />
             <Row isTxId={tx.txIdIn !== undefined}>
               <DetailCard
                 role="From"

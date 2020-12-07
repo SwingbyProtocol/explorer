@@ -3,11 +3,10 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
 
-import { CoinSymbol, ETHCoins, PoolCurrencies } from '../../../../coins';
+import { CoinSymbol, PoolCurrencies } from '../../../../coins';
 import { calculateDepositFee, calculateReceivingAmount } from '../../../../pool';
 
 import {
-  AddLiquidityContainer,
   Bottom,
   Box,
   ButtonRow,
@@ -27,34 +26,33 @@ import {
   TextFee,
   TextLabel,
   Top,
+  WithdrawContainer,
 } from './styled';
 
-export const AddLiquidity = () => {
+export const Withdraw = () => {
   const theme = useTheme();
   const explorer = useSelector((state) => state.explorer);
   const { transactionFees } = explorer;
-  const pool = useSelector((state) => state.pool);
-  const { userAddress } = pool;
 
-  const [receivingAddress, setReceivingAddress] = useState(userAddress);
-  const [poolAmount, setPoolAmount] = useState(null);
-  const [fromCurrency, setFromCurrency] = useState(CoinSymbol.BTC);
+  const [receivingAddress, setReceivingAddress] = useState('');
+  const [withdrawAmount, setWithdrawAmount] = useState(null);
+  const [toCurrency, setToCurrency] = useState(CoinSymbol.BTC);
 
-  const depositRate = 0.25;
+  const withdrawRate = 0.25;
 
   const estimatedReceivingAmount = calculateReceivingAmount(
-    poolAmount,
-    fromCurrency,
+    withdrawAmount,
+    toCurrency,
     transactionFees,
   );
-  const transactionFee = poolAmount
-    ? Number((poolAmount - estimatedReceivingAmount).toFixed(7))
+  const transactionFee = withdrawAmount
+    ? Number((withdrawAmount - estimatedReceivingAmount).toFixed(7))
     : 0;
 
   const currencyItems = (
     <>
       {PoolCurrencies.map((currency) => (
-        <Dropdown.Item onClick={() => setFromCurrency(currency)} key={currency}>
+        <Dropdown.Item onClick={() => setToCurrency(currency)} key={currency}>
           {<CoinDropDown symbol={currency} />} {currency}
         </Dropdown.Item>
       ))}
@@ -62,18 +60,18 @@ export const AddLiquidity = () => {
   );
 
   return (
-    <AddLiquidityContainer>
+    <WithdrawContainer>
       <Box>
         <ColumnForm>
           <Top>
             <RowTop>
               <ColumnDropdown>
-                <TextLabel variant="label">I Want to Pool</TextLabel>
+                <TextLabel variant="label">I Want to Withdraw</TextLabel>
                 <DropdownCurrency
                   target={
                     <DefaultTarget size="city">
                       {' '}
-                      <TargetCoin symbol={fromCurrency} /> {fromCurrency}
+                      <TargetCoin symbol={toCurrency} /> {toCurrency}
                     </DefaultTarget>
                   }
                   data-testid="dropdown"
@@ -83,52 +81,47 @@ export const AddLiquidity = () => {
                 </DropdownCurrency>
               </ColumnDropdown>
               <InputAmount
-                value={poolAmount}
+                value={withdrawAmount}
                 size="state"
-                placeholder="Input your pool amount"
-                onChange={(e) => setPoolAmount(e.target.value)}
+                placeholder="Input your withdraw amount"
+                onChange={(e) => setWithdrawAmount(e.target.value)}
               />
             </RowTop>
           </Top>
           <Bottom>
-            {/* Request: Please add `readOnly` props into TextInput component */}
             <InputReceivingAddress
-              isERC20={ETHCoins.includes(fromCurrency)}
               value={receivingAddress}
               size="state"
               placeholder="Input your receiving address"
-              label="And receive my LPT’s to:"
-              left={<Coin symbol={CoinSymbol.BTC_E} />}
-              onChange={(e) => {
-                if (ETHCoins.includes(fromCurrency)) {
-                  setReceivingAddress(userAddress);
-                } else {
-                  setReceivingAddress(e.target.value);
-                }
-              }}
+              label="And receive my BTC to:"
+              left={<Coin symbol={CoinSymbol.BTC} />}
+              onChange={(e) => setReceivingAddress(e.target.value)}
             />
             <RowBottom>
               <div className="left">
                 <RowText>
                   <TextDescription variant="masked">BTC Transaction Fee:</TextDescription>
                 </RowText>
-                <TextDescription variant="masked">Deposit Fee ({depositRate}%):</TextDescription>
+                {/* Todo: Check specification */}
+                <TextDescription variant="masked">Withdraw Fee ({withdrawRate}%):</TextDescription>
               </div>
               <div className="right">
                 <RowText>
                   <TextFee variant="masked">{transactionFee}</TextFee>
                 </RowText>
-                <TextFee variant="masked">{calculateDepositFee(depositRate, poolAmount)}</TextFee>
+                <TextFee variant="masked">
+                  {calculateDepositFee(withdrawRate, withdrawAmount)}
+                </TextFee>
               </div>
             </RowBottom>
             <ButtonRow>
               <Button variant="primary" size="country">
-                Pool
+                Withdraw
               </Button>
             </ButtonRow>
           </Bottom>
         </ColumnForm>
       </Box>
-    </AddLiquidityContainer>
+    </WithdrawContainer>
   );
 };

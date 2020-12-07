@@ -10,4 +10,13 @@ export {
   selectSwapDetails,
   updateNetworkInfos,
 } from './explorer';
-export { setBridge, setUserAddress, setOnboard, togglePoolMode } from './pool';
+export {
+  setBridge,
+  setUserAddress,
+  setOnboard,
+  togglePoolMode,
+  setBalanceLP,
+  setWeb3,
+  getRecentTxs,
+  resetPoolState,
+} from './pool';

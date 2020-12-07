@@ -1,6 +1,1 @@
-export {
-  generateMessage,
-  allocateStatus,
-  transactionDetailByTxId,
-  transactionDetailByAddress,
-} from './utils';
+export { generateMessage, transactionDetailByTxId, transactionDetailByAddress } from './utils';

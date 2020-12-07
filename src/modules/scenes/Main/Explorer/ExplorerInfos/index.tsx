@@ -41,7 +41,7 @@ export const ExplorerInfos = (props: Props) => {
         currency: 'USD',
         minimumFractionDigits: 3,
         maximumFractionDigits: 3,
-      }).format(Number(stats.volume24HrBtc) * usd.BTC),
+      }).format(Number(stats.volume24HrBTC) * usd.BTC),
     },
     {
       icon: <NetworkRewards />,

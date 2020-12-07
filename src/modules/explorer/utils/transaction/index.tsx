@@ -18,6 +18,7 @@ export const TxStatus = {
   SIGNING_REFUND: 'SIGNING_REFUND',
   REFUNDED: 'REFUNDED',
   SENDING_REFUND: 'SENDING_REFUND',
+  EXPIRED: 'EXPIRED',
 };
 
 const {

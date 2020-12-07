@@ -12,6 +12,7 @@ import {
   ILoadHistory,
   loadHistory,
   removeDuplicatedTxs,
+  SwapRawObject,
 } from '../../../../explorer';
 import { useInterval } from '../../../../hooks';
 import {
@@ -28,9 +29,18 @@ import { TxHistoriesMobile } from '../TxHistoriesMobile';
 
 import { Bottom, BrowserContainer, BrowserDiv, Filter, Top } from './styled';
 
-export const Browser = () => {
-  const explorer = useSelector((state) => state.explorer);
+interface Props {
+  walletAddress: string;
+  setWalletAddress: (address: string) => void;
+  linkToSwapWidget: (tx: SwapRawObject) => void;
+  runOnboard: (theme: string) => void;
+  theme: string;
+}
+
+export const Browser = (props: Props) => {
+  const { runOnboard, theme } = props;
   const dispatch = useDispatch();
+  const explorer = useSelector((state) => state.explorer);
   const { swapHistory, isHideWaiting, swapHistoryTemp, usd, networkInfos } = explorer;
 
   /**
@@ -40,7 +50,7 @@ export const Browser = () => {
   useEffect(() => {
     usd &&
       (async () => {
-        const results = await Promise.all([fetchFloatBalances(usd.BTC, usd.BNB), fetchStatsInfo()]);
+        const results = await Promise.all([fetchFloatBalances(usd.BTC), fetchStatsInfo()]);
 
         const data = results[0];
         const stats = results[1];
@@ -122,6 +132,11 @@ export const Browser = () => {
     dispatchLoadHistory();
   }, [10000]);
 
+  // Memo: Cannot run at `ExplorerMain.tsx` due to avoid conflict with `Pool page`
+  useEffect(() => {
+    runOnboard(theme);
+  }, [theme, runOnboard]);
+
   const filter = (
     <Dropdown target={<Filter />}>
       <Dropdown.Item
@@ -168,6 +183,7 @@ export const Browser = () => {
             goBackPage={goBackPage}
             loader={loader}
             goToDetail={goToDetail}
+            linkToSwapWidget={props.linkToSwapWidget}
           />
         </Bottom>
       </BrowserDiv>
