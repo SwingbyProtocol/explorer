@@ -9,7 +9,7 @@ import { Search } from '../../../../components/Search';
 import { toastWrongAddress } from '../../../../components/Toast';
 import { ETHCoins } from '../../../coins';
 import { titleGenerator } from '../../../common';
-import { NETWORK_MODE, PATH, WIDGET_URL } from '../../../env';
+import { mode, PATH, WIDGET_URL } from '../../../env';
 import { SwapRawObject } from '../../../explorer';
 import { initOnboard } from '../../../onboard';
 import { setOnboard } from '../../../store';
@@ -36,7 +36,7 @@ export const ExplorerMain = () => {
 
   const linkToSwapWidget = useCallback(
     async (tx: SwapRawObject, userAddress = walletAddress) => {
-      const swap = NETWORK_MODE.TESTNET ? '/test/swap/' : '/swap/';
+      const swap = mode === 'test' ? '/test/swap/' : '/swap/';
       const urlSwap = WIDGET_URL + swap + tx.hash;
       if (ETHCoins.includes(tx.currencyOut)) {
         if (tx.addressOut.toLowerCase() === userAddress) {

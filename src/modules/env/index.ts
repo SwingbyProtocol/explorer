@@ -1,9 +1,6 @@
-export enum NETWORK_MODE {
-  TESTNET = 'testnet',
-  MAINNET = 'mainnet',
-}
+import type { Mode } from '@swingby-protocol/sdk';
 
-export const NETWORK: NETWORK_MODE.TESTNET | NETWORK_MODE.MAINNET = NETWORK_MODE.TESTNET;
+export const mode: Mode = process.env.NEXT_PUBLIC_MODE === 'production' ? 'production' : 'test';
 export const PAGE_COUNT = 4;
 export const TXS_COUNT = 10;
 

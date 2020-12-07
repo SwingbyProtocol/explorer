@@ -1,17 +1,17 @@
 import { crypto } from '@binance-chain/javascript-sdk';
 import validate from 'bitcoin-address-validation';
 
-import { NETWORK } from '../../../env';
+import { mode } from '../../../env';
 
 export const isBitcoinAddress = (address: string): boolean => {
   const result = validate(address);
   // @ts-ignore
-  return result.network === NETWORK;
+  return result.network === mode;
 };
 
 // Ref: https://github.com/binance-chain/javascript-sdk/tree/master/docs#module_crypto.checkAddress
 export const isBinanceAddress = (address: string): boolean => {
-  const hrp = NETWORK === 'testnet' ? 'tbnb' : 'bnb';
+  const hrp = mode === 'test' ? 'tbnb' : 'bnb';
   return crypto.checkAddress(address, hrp);
 };
 

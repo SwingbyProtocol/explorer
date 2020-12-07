@@ -1,9 +1,9 @@
-import { NETWORK } from '../env';
+import { mode } from '../env';
 
 export const CoinSymbol = {
   BTC: 'BTC',
   BTC_S: 'BTC.S',
-  BTC_B: NETWORK === 'testnet' ? 'BTC.B' : 'BTCB',
+  BTC_B: mode === 'test' ? 'BTC.B' : 'BTCB',
   BTCB: 'BTCB',
   BTC_B_918: 'BTC.B-918',
   BTCB_1DE: 'BTCB-1DE',
