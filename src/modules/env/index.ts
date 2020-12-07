@@ -6,7 +6,6 @@ export enum NETWORK_MODE {
 export const NETWORK: NETWORK_MODE.TESTNET | NETWORK_MODE.MAINNET = NETWORK_MODE.TESTNET;
 export const PAGE_COUNT = 4;
 export const TXS_COUNT = 10;
-export const isDevelopment = process.env.NODE_ENV !== 'production';
 
 export const API_KEY_ETHERSCAN = 'NYXXH5CD1NQJMYJGZYAFK7G9G6AZGZTT3H';
 export const API_KEY_BLOCK_NATIVE = '52950909-d5f6-42eb-8621-acb35a8ee1d3';
