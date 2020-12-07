@@ -1,5 +1,5 @@
 import { PulsarThemeProvider } from '@swingby-protocol/pulsar';
-import { createWidget } from '@swingby-protocol/widget';
+import { createWidget, getUrl } from '@swingby-protocol/widget';
 import { useRouter } from 'next/router';
 import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -40,7 +40,7 @@ export const ExplorerMain = () => {
       const widget = createWidget({ mode, variant: 'banner' });
       if (ETHCoins.includes(tx.currencyOut)) {
         if (tx.addressOut.toLowerCase() === userAddress) {
-          window.open(widget.url, '_blank', 'noopener');
+          window.open(getUrl({ widget }), '_blank', 'noopener');
           return;
         }
         if (userAddress === null) {
@@ -58,7 +58,7 @@ export const ExplorerMain = () => {
           return;
         }
       } else {
-        window.open(widget.url, '_blank', 'noopener');
+        window.open(getUrl({ widget }), '_blank', 'noopener');
         return;
       }
     },
