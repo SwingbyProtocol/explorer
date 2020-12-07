@@ -61,6 +61,7 @@ export const AccountSummary = () => {
         const balanceLP = Number(toBTC(resultBalanceOf.toString()).toString());
         dispatch(setBalanceLP(balanceLP));
 
+        // Todo: Check the logic with backend team
         const priceLP = toBTC(results[1]);
         const userFloatBal = Number(results[2]);
         const totalClaimableAmount = priceLP * userFloatBal;
