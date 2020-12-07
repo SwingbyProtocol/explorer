@@ -6,17 +6,12 @@ import { NETWORK, NETWORK_MODE } from '../../modules/env';
 
 import { StyledSwap, SwapMobileRow } from './styled';
 
-export const Swap = () => {
-  const widget = useMemo(
-    () =>
-      createWidget({
-        mode: NETWORK === NETWORK_MODE.TESTNET ? 'test' : 'production',
-        variant: 'banner',
-      }),
-    [],
-  );
+const mode = NETWORK === NETWORK_MODE.TESTNET ? 'test' : 'production';
 
-  const show = useCallback(() => openPopup({ widget }), [widget]);
+export const Swap = () => {
+  const big = useMemo(() => createWidget({ mode, variant: 'big' }), []);
+  const banner = useMemo(() => createWidget({ mode, variant: 'banner' }), []);
+  const show = useCallback(() => openPopup({ widget: big }), [big]);
 
   return (
     <>
@@ -26,7 +21,7 @@ export const Swap = () => {
         </Button>
       </SwapMobileRow>
 
-      <StyledSwap dangerouslySetInnerHTML={{ __html: getHtml({ widget }) }} />
+      <StyledSwap dangerouslySetInnerHTML={{ __html: getHtml({ widget: banner }) }} />
     </>
   );
 };
