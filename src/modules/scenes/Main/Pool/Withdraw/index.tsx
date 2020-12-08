@@ -1,10 +1,8 @@
 import { Button, Dropdown } from '@swingby-protocol/pulsar';
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
 
 import { CoinSymbol, PoolCurrencies } from '../../../../coins';
-import { calculateDepositFee, calculateReceivingAmount } from '../../../../pool';
 
 import {
   Bottom,
@@ -18,12 +16,8 @@ import {
   DropdownCurrency,
   InputAmount,
   InputReceivingAddress,
-  RowBottom,
-  RowText,
   RowTop,
   TargetCoin,
-  TextDescription,
-  TextFee,
   TextLabel,
   Top,
   WithdrawContainer,
@@ -31,23 +25,10 @@ import {
 
 export const Withdraw = () => {
   const theme = useTheme();
-  const explorer = useSelector((state) => state.explorer);
-  const { transactionFees } = explorer;
 
   const [receivingAddress, setReceivingAddress] = useState('');
   const [withdrawAmount, setWithdrawAmount] = useState(null);
   const [toCurrency, setToCurrency] = useState(CoinSymbol.BTC);
-
-  const withdrawRate = 0.25;
-
-  const estimatedReceivingAmount = calculateReceivingAmount(
-    withdrawAmount,
-    toCurrency,
-    transactionFees,
-  );
-  const transactionFee = withdrawAmount
-    ? Number((withdrawAmount - estimatedReceivingAmount).toFixed(7))
-    : 0;
 
   const currencyItems = (
     <>
@@ -97,23 +78,7 @@ export const Withdraw = () => {
               left={<Coin symbol={CoinSymbol.BTC} />}
               onChange={(e) => setReceivingAddress(e.target.value)}
             />
-            <RowBottom>
-              <div className="left">
-                <RowText>
-                  <TextDescription variant="masked">BTC Transaction Fee:</TextDescription>
-                </RowText>
-                {/* Todo: Check specification */}
-                <TextDescription variant="masked">Withdraw Fee ({withdrawRate}%):</TextDescription>
-              </div>
-              <div className="right">
-                <RowText>
-                  <TextFee variant="masked">{transactionFee}</TextFee>
-                </RowText>
-                <TextFee variant="masked">
-                  {calculateDepositFee(withdrawRate, withdrawAmount)}
-                </TextFee>
-              </div>
-            </RowBottom>
+
             <ButtonRow>
               <Button variant="primary" size="country">
                 Withdraw

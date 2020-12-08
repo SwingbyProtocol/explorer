@@ -1,9 +1,4 @@
-export {
-  fetchRecentTransaction,
-  orgFloor,
-  calculateDepositFee,
-  calculateReceivingAmount,
-} from './utils';
+export { fetchRecentTransaction, orgFloor, calculateDepositFee } from './utils';
 
 export { ABI_TOKEN, ABI_SWAP } from './contract';
 

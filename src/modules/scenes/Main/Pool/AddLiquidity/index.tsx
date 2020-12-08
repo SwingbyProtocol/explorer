@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
 
 import { CoinSymbol, ETHCoins, PoolCurrencies } from '../../../../coins';
-import { calculateDepositFee, calculateReceivingAmount } from '../../../../pool';
+import { calculateDepositFee } from '../../../../pool';
 
 import {
   AddLiquidityContainer,
@@ -20,7 +20,6 @@ import {
   InputAmount,
   InputReceivingAddress,
   RowBottom,
-  RowText,
   RowTop,
   TargetCoin,
   TextDescription,
@@ -31,8 +30,6 @@ import {
 
 export const AddLiquidity = () => {
   const theme = useTheme();
-  const explorer = useSelector((state) => state.explorer);
-  const { transactionFees } = explorer;
   const pool = useSelector((state) => state.pool);
   const { userAddress } = pool;
 
@@ -41,15 +38,6 @@ export const AddLiquidity = () => {
   const [fromCurrency, setFromCurrency] = useState(CoinSymbol.BTC);
 
   const depositRate = 0.25;
-
-  const estimatedReceivingAmount = calculateReceivingAmount(
-    poolAmount,
-    fromCurrency,
-    transactionFees,
-  );
-  const transactionFee = poolAmount
-    ? Number((poolAmount - estimatedReceivingAmount).toFixed(7))
-    : 0;
 
   const currencyItems = (
     <>
@@ -60,6 +48,14 @@ export const AddLiquidity = () => {
       ))}
     </>
   );
+
+  const receivingWalletAddress = (): string => {
+    if (ETHCoins.includes(fromCurrency)) {
+      return userAddress;
+    } else {
+      return receivingAddress;
+    }
+  };
 
   return (
     <AddLiquidityContainer>
@@ -94,30 +90,22 @@ export const AddLiquidity = () => {
             {/* Request: Please add `readOnly` props into TextInput component */}
             <InputReceivingAddress
               isERC20={ETHCoins.includes(fromCurrency)}
-              value={receivingAddress}
+              value={receivingWalletAddress()}
               size="state"
               placeholder="Input your receiving address"
               label="And receive my LPT’s to:"
               left={<Coin symbol={CoinSymbol.BTC_E} />}
               onChange={(e) => {
-                if (ETHCoins.includes(fromCurrency)) {
-                  setReceivingAddress(userAddress);
-                } else {
+                if (!ETHCoins.includes(fromCurrency)) {
                   setReceivingAddress(e.target.value);
                 }
               }}
             />
             <RowBottom>
               <div className="left">
-                <RowText>
-                  <TextDescription variant="masked">BTC Transaction Fee:</TextDescription>
-                </RowText>
                 <TextDescription variant="masked">Deposit Fee ({depositRate}%):</TextDescription>
               </div>
               <div className="right">
-                <RowText>
-                  <TextFee variant="masked">{transactionFee}</TextFee>
-                </RowText>
                 <TextFee variant="masked">{calculateDepositFee(depositRate, poolAmount)}</TextFee>
               </div>
             </RowBottom>
