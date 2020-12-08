@@ -5,7 +5,6 @@ export enum MODE {
   TEST = 'test',
 }
 
-// export const mode: Mode = process.env.NEXT_PUBLIC_MODE === 'production' ? 'production' : 'test';
 export const mode: Mode =
   process.env.NEXT_PUBLIC_MODE === MODE.PRODUCTION ? MODE.PRODUCTION : MODE.TEST;
 export const PAGE_COUNT = 4;
