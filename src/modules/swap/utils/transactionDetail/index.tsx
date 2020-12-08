@@ -1,16 +1,18 @@
 import { CoinSymbol, ETHCoins, BTCBCoins } from '../../../coins';
-import { NETWORK } from '../../../env';
+import { MODE, mode } from '../../../env';
 
 const btcExplorerBaseUrl =
-  NETWORK === 'mainnet'
+  mode === MODE.PRODUCTION
     ? 'https://www.blockchain.com/btc'
     : 'https://www.blockchain.com/btc-testnet';
 
 const bnbExplorerBaseUrl =
-  NETWORK === 'mainnet' ? 'https://explorer.binance.org' : 'https://testnet-explorer.binance.org';
+  mode === MODE.PRODUCTION
+    ? 'https://explorer.binance.org'
+    : 'https://testnet-explorer.binance.org';
 
 const etherExplorerBaseUrl =
-  NETWORK === 'mainnet' ? 'https://etherscan.io' : 'https://goerli.etherscan.io';
+  mode === MODE.PRODUCTION ? 'https://etherscan.io' : 'https://goerli.etherscan.io';
 
 export const transactionDetailByTxId = (currency: string, hash: string): string => {
   const btcBaseUrl = btcExplorerBaseUrl + '/tx';

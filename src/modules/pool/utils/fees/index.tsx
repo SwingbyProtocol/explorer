@@ -1,5 +1,5 @@
 import { CoinSymbol } from '../../../coins';
-import { NETWORK, NETWORK_MODE } from '../../../env';
+import { MODE, mode } from '../../../env';
 import { calculateFixedFee, IFee } from '../../../explorer';
 
 export const calculateDepositFee = (rate: number, amount: number) => {
@@ -23,7 +23,7 @@ const calculateTransferFee = (currency: string, feeInfos: IFee[]): number => {
 };
 
 const switchToBTCE = (coin: string) => {
-  if (NETWORK === NETWORK_MODE.TESTNET) {
+  if (mode === MODE.TEST) {
     if (coin === CoinSymbol.WBTC) {
       return CoinSymbol.BTC_E;
     }

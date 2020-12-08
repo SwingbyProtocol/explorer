@@ -55,7 +55,7 @@ it('should return explorer url with the detail of the tx id', () => {
 
 it('should return explorer url with the detail of the address', () => {
   expect(
-    transactionDetailByAddress(CoinSymbol.BTCB, 'tbnb1mh35xew5erxmh2vyzd9h0xry6u489h8wpnvpna'),
+    transactionDetailByAddress(CoinSymbol.BTC_B, 'tbnb1mh35xew5erxmh2vyzd9h0xry6u489h8wpnvpna'),
   ).toStrictEqual(
     'https://testnet-explorer.binance.org/address/tbnb1mh35xew5erxmh2vyzd9h0xry6u489h8wpnvpna',
   );
