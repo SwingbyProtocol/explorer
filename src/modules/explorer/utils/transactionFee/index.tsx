@@ -27,11 +27,11 @@ export const calculateFixedFee = (
   let fixedFee: number;
   let feePercent: string;
   if (currency === CoinSymbol.BTCB_1DE) {
-    currency = CoinSymbol.BTCB;
+    currency = CoinSymbol.BTC_B;
   } else if (currency === CoinSymbol.BTC_B_888) {
-    currency = CoinSymbol.BTCB;
+    currency = CoinSymbol.BTC_B;
   } else if (currency === CoinSymbol.BTC_B) {
-    currency = CoinSymbol.BTCB;
+    currency = CoinSymbol.BTC_B;
   }
 
   try {
