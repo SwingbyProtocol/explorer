@@ -37,7 +37,7 @@ export const ExplorerMain = () => {
 
   const linkToSwapWidget = useCallback(
     async (tx: SwapRawObject, userAddress = walletAddress) => {
-      const widget = createWidget({ mode, variant: 'banner' });
+      const widget = createWidget({ mode, variant: 'banner', swapHash: tx.hash });
       if (ETHCoins.includes(tx.currencyOut)) {
         if (tx.addressOut.toLowerCase() === userAddress) {
           window.open(getUrl({ widget }), '_blank', 'noopener');
