@@ -74,3 +74,15 @@ export const Filter = styled(Icon.Filter)`
   color: ${({ theme }) => theme.pulsar.color.text.masked};
   font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
 `;
+
+export const NoResultsFound = styled.div`
+  display: grid;
+  grid-row-gap: ${({ theme }) => rem(theme.pulsar.size.house)};
+  margin-top: ${rem(50)};
+  margin-bottom: ${rem(50)};
+  text-align: center;
+  @media (min-width: ${rem(media.md)}) {
+    margin-top: ${rem(150)};
+    margin-bottom: 0;
+  }
+`;

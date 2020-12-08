@@ -1,4 +1,4 @@
-import { Dropdown } from '@swingby-protocol/pulsar';
+import { Dropdown, Text } from '@swingby-protocol/pulsar';
 import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -27,7 +27,7 @@ import { SwapVolume } from '../SwapVolume';
 import { TxHistories } from '../TxHistories';
 import { TxHistoriesMobile } from '../TxHistoriesMobile';
 
-import { Bottom, BrowserContainer, BrowserDiv, Filter, Top } from './styled';
+import { Bottom, BrowserContainer, BrowserDiv, Filter, Top, NoResultsFound } from './styled';
 
 interface Props {
   walletAddress: string;
@@ -67,6 +67,7 @@ export const Browser = (props: Props) => {
    * Memo: For TxHistories
    **/
   const [isLoadingUrl, setIsLoadingUrl] = useState(true);
+  const [isLoadingHistory, setIsLoadingHistory] = useState(true);
 
   const router = useRouter();
   const params = router.query;
@@ -85,8 +86,8 @@ export const Browser = (props: Props) => {
     });
   };
 
+  const isNoResult = swapHistory && swapHistory.total === 0;
   const maximumPage = swapHistory && Math.ceil(swapHistory.total / PAGE_COUNT);
-
   const currentTxs = (swapHistory && swapHistory.data[page - 1]) || [];
 
   const goNextPage = () => routerPush(chainBridge, q, page + 1);
@@ -125,7 +126,11 @@ export const Browser = (props: Props) => {
   }, [page, q, isHideWaiting, chainBridge]);
 
   useEffect(() => {
-    !isLoadingUrl && dispatchLoadHistory();
+    if (!isLoadingUrl) {
+      dispatchLoadHistory().then(() => {
+        setIsLoadingHistory(false);
+      });
+    }
   }, [dispatchLoadHistory, isLoadingUrl]);
 
   useInterval(() => {
@@ -165,6 +170,13 @@ export const Browser = (props: Props) => {
 
   const loader = <Loader minHeight={368} testId="main.loading-container" />;
 
+  const noResultFound = (
+    <NoResultsFound>
+      <Text variant="title-s">No results found :-(</Text>
+      <Text variant="title-xs">Try a different transaction or address</Text>
+    </NoResultsFound>
+  );
+
   return (
     <BrowserContainer>
       <BrowserDiv size="bare">
@@ -184,6 +196,9 @@ export const Browser = (props: Props) => {
             loader={loader}
             goToDetail={goToDetail}
             linkToSwapWidget={props.linkToSwapWidget}
+            isNoResult={isNoResult}
+            isLoadingHistory={isLoadingHistory}
+            noResultFound={noResultFound}
           />
         </Bottom>
       </BrowserDiv>
@@ -196,6 +211,9 @@ export const Browser = (props: Props) => {
         goBackPage={goBackPage}
         loader={loader}
         goToDetail={goToDetail}
+        isNoResult={isNoResult}
+        isLoadingHistory={isLoadingHistory}
+        noResultFound={noResultFound}
       />
     </BrowserContainer>
   );

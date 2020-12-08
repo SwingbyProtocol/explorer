@@ -46,6 +46,9 @@ interface Props {
   loader: JSX.Element;
   page: number;
   maximumPage: number;
+  isNoResult: boolean;
+  isLoadingHistory: boolean;
+  noResultFound: JSX.Element;
   currentTxs: SwapRawObject[];
   goNextPage: () => void;
   goBackPage: () => void;
@@ -64,6 +67,9 @@ export const TxHistories = (props: Props) => {
     goToDetail,
     loader,
     linkToSwapWidget,
+    isNoResult,
+    isLoadingHistory,
+    noResultFound,
   } = props;
 
   const { locale } = useIntl();
@@ -107,7 +113,9 @@ export const TxHistories = (props: Props) => {
             {filter}
           </Right>
         </TitleRow>
-        {!currentTxs.length && loader}
+        {isNoResult && noResultFound}
+        {/* Memo: show loader */}
+        {page > 1 ? !currentTxs.length && loader : isLoadingHistory && loader}
         {currentTxs &&
           currentTxs.map((tx: SwapRawObject, i: number) => {
             return (
