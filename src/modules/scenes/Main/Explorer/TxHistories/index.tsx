@@ -46,6 +46,9 @@ interface Props {
   loader: JSX.Element;
   page: number;
   maximumPage: number;
+  isNoResult: boolean;
+  isLoadingHistory: boolean;
+  noResultFound: JSX.Element;
   currentTxs: SwapRawObject[];
   goNextPage: () => void;
   goBackPage: () => void;
@@ -64,22 +67,33 @@ export const TxHistories = (props: Props) => {
     goToDetail,
     loader,
     linkToSwapWidget,
+    isNoResult,
+    isLoadingHistory,
+    noResultFound,
   } = props;
 
   const { locale } = useIntl();
 
   const dispatch = useDispatch();
   const [chosenTx, setChosenTx] = useState(null);
+  const [toggleOpenLink, setToggleOpenLink] = useState(1);
   useEffect(() => {
     if (chosenTx) {
       linkToSwapWidget(chosenTx);
     }
-  }, [chosenTx, linkToSwapWidget]);
+  }, [chosenTx, toggleOpenLink, linkToSwapWidget]);
 
   const externalLinkMenu = (tx: SwapRawObject) => (
     <>
       <Dropdown.Item>
-        <p onClick={() => setChosenTx(tx)}>Check the swap progress</p>
+        <p
+          onClick={() => {
+            setChosenTx(tx);
+            setToggleOpenLink(toggleOpenLink + 1);
+          }}
+        >
+          Check the swap progress
+        </p>
       </Dropdown.Item>
       {tx.txIdOut && (
         <Dropdown.Item>
@@ -107,7 +121,9 @@ export const TxHistories = (props: Props) => {
             {filter}
           </Right>
         </TitleRow>
-        {!currentTxs.length && loader}
+        {isNoResult && noResultFound}
+        {/* Memo: show loader */}
+        {page > 1 ? !currentTxs.length && loader : isLoadingHistory && loader}
         {currentTxs &&
           currentTxs.map((tx: SwapRawObject, i: number) => {
             return (

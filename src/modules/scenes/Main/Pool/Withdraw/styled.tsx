@@ -55,24 +55,11 @@ export const Top = styled.div`
   width: 100%;
 `;
 
-export const RowText = styled.div`
-  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.drawer)};
-`;
-
 export const RowTop = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-`;
-
-export const RowBottom = styled(RowTop)`
-  margin-top: ${({ theme }) => rem(theme.pulsar.size.street)};
-  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
-  padding-right: ${({ theme }) => rem(theme.pulsar.size.street)};
-  @media (min-width: ${rem(media.sm)}) {
-    padding-right: 0;
-  }
 `;
 
 export const InputAmount = styled(TextInput)`
@@ -124,16 +111,7 @@ export const TextLabel = styled(Text)`
   padding-left: ${({ theme }) => rem(theme.pulsar.size.box)};
   font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
   font-weight: 500;
-`;
-
-export const TextDescription = styled(Text)`
-  display: block;
-  font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
-  font-weight: 500;
-`;
-
-export const TextFee = styled(TextDescription)`
-  text-align: right;
+  white-space: nowrap;
 `;
 
 export const ColumnDropdown = styled.div`
@@ -157,8 +135,17 @@ export const CoinDropDown = styled(CoinIcon)`
 `;
 
 export const ButtonRow = styled.div`
+  margin-top: ${({ theme }) => rem(theme.pulsar.size.town)};
   padding-right: ${({ theme }) => rem(theme.pulsar.size.street)};
   @media (min-width: ${rem(media.sm)}) {
     padding-right: 0;
+  }
+`;
+
+export const AmountValidation = styled.div`
+  margin-top: ${({ theme }) => rem(theme.pulsar.size.box / 2)};
+  margin-left: ${rem(130)};
+  @media (min-width: ${rem(media.sm)}) {
+    margin-left: ${rem(168)};
   }
 `;

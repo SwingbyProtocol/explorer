@@ -13,11 +13,31 @@ import { EarningsChart } from '../EarningsChart';
 import { TransactionsPool } from '../TransactionsPool';
 import { Withdraw } from '../Withdraw';
 
-import { BrowserPoolContainer, BrowserPoolDiv, Left, Right, Row } from './styled';
+import {
+  BrowserPoolContainer,
+  BrowserPoolDiv,
+  Left,
+  Right,
+  Row,
+  TextValidationResult,
+  ValidationResult,
+} from './styled';
 
 export const BrowserPool = () => {
   const pool = useSelector((state) => state.pool);
   const { userAddress, mode } = pool;
+
+  const addressValidationResult = (
+    <ValidationResult>
+      <TextValidationResult variant="normal">Invalid wallet address</TextValidationResult>
+    </ValidationResult>
+  );
+
+  const amountValidationResult = (
+    <ValidationResult>
+      <TextValidationResult variant="normal">Please input number only</TextValidationResult>
+    </ValidationResult>
+  );
 
   const switchRightComponent = (mode: string) => {
     const summary = (
@@ -35,9 +55,19 @@ export const BrowserPool = () => {
       case PoolMode.Summary:
         return summary;
       case PoolMode.AddLiquidity:
-        return <AddLiquidity />;
+        return (
+          <AddLiquidity
+            addressValidationResult={addressValidationResult}
+            amountValidationResult={amountValidationResult}
+          />
+        );
       case PoolMode.Withdraw:
-        return <Withdraw />;
+        return (
+          <Withdraw
+            addressValidationResult={addressValidationResult}
+            amountValidationResult={amountValidationResult}
+          />
+        );
 
       default:
         return summary;

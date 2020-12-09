@@ -1,13 +1,15 @@
 import { Button, Dropdown } from '@swingby-protocol/pulsar';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
 
 import { CoinSymbol, ETHCoins, PoolCurrencies } from '../../../../coins';
-import { calculateDepositFee, calculateReceivingAmount } from '../../../../pool';
+import { checkIsValidAddress, checkIsValidAmount } from '../../../../explorer';
+import { calculateDepositFee } from '../../../../pool';
 
 import {
   AddLiquidityContainer,
+  AmountValidation,
   Bottom,
   Box,
   ButtonRow,
@@ -20,7 +22,6 @@ import {
   InputAmount,
   InputReceivingAddress,
   RowBottom,
-  RowText,
   RowTop,
   TargetCoin,
   TextDescription,
@@ -29,27 +30,24 @@ import {
   Top,
 } from './styled';
 
-export const AddLiquidity = () => {
+interface Props {
+  addressValidationResult: JSX.Element;
+  amountValidationResult: JSX.Element;
+}
+
+export const AddLiquidity = (props: Props) => {
+  const { addressValidationResult, amountValidationResult } = props;
   const theme = useTheme();
-  const explorer = useSelector((state) => state.explorer);
-  const { transactionFees } = explorer;
   const pool = useSelector((state) => state.pool);
   const { userAddress } = pool;
 
   const [receivingAddress, setReceivingAddress] = useState(userAddress);
   const [poolAmount, setPoolAmount] = useState(null);
   const [fromCurrency, setFromCurrency] = useState(CoinSymbol.BTC);
+  const [isValidAddress, setIsValidAddress] = useState(null);
+  const [isValidAmount, setIsValidAmount] = useState(null);
 
   const depositRate = 0.25;
-
-  const estimatedReceivingAmount = calculateReceivingAmount(
-    poolAmount,
-    fromCurrency,
-    transactionFees,
-  );
-  const transactionFee = poolAmount
-    ? Number((poolAmount - estimatedReceivingAmount).toFixed(7))
-    : 0;
 
   const currencyItems = (
     <>
@@ -60,6 +58,22 @@ export const AddLiquidity = () => {
       ))}
     </>
   );
+
+  const receivingWalletAddress = (): string => {
+    if (ETHCoins.includes(fromCurrency)) {
+      return userAddress;
+    } else {
+      return receivingAddress;
+    }
+  };
+
+  useEffect(() => {
+    checkIsValidAddress(receivingAddress, CoinSymbol.LP, setIsValidAddress);
+  }, [receivingAddress, fromCurrency]);
+
+  useEffect(() => {
+    checkIsValidAmount(poolAmount, setIsValidAmount);
+  }, [poolAmount]);
 
   return (
     <AddLiquidityContainer>
@@ -89,35 +103,31 @@ export const AddLiquidity = () => {
                 onChange={(e) => setPoolAmount(e.target.value)}
               />
             </RowTop>
+            <AmountValidation>
+              {!isValidAmount && poolAmount && amountValidationResult}
+            </AmountValidation>
           </Top>
           <Bottom>
             {/* Request: Please add `readOnly` props into TextInput component */}
             <InputReceivingAddress
               isERC20={ETHCoins.includes(fromCurrency)}
-              value={receivingAddress}
+              value={receivingWalletAddress()}
               size="state"
               placeholder="Input your receiving address"
               label="And receive my LPT’s to:"
               left={<Coin symbol={CoinSymbol.BTC_E} />}
               onChange={(e) => {
-                if (ETHCoins.includes(fromCurrency)) {
-                  setReceivingAddress(userAddress);
-                } else {
+                if (!ETHCoins.includes(fromCurrency)) {
                   setReceivingAddress(e.target.value);
                 }
               }}
             />
+            {!isValidAddress && receivingAddress && addressValidationResult}
             <RowBottom>
               <div className="left">
-                <RowText>
-                  <TextDescription variant="masked">BTC Transaction Fee:</TextDescription>
-                </RowText>
                 <TextDescription variant="masked">Deposit Fee ({depositRate}%):</TextDescription>
               </div>
               <div className="right">
-                <RowText>
-                  <TextFee variant="masked">{transactionFee}</TextFee>
-                </RowText>
                 <TextFee variant="masked">{calculateDepositFee(depositRate, poolAmount)}</TextFee>
               </div>
             </RowBottom>

@@ -1,28 +1,35 @@
-import { isBitcoinAddress, isBinanceAddress, isEtherAddress, isAddress } from '..';
+import { isAddress, isBinanceAddress, isBitcoinAddress, isEtherAddress } from '..';
+
+const bitcoinAddress = 'tb1q0fzppaflhcju7emf9sh5n5st3c47mwuczwxmt7';
+const wrongBitcoinAddress = 'tb1q0fzppaflhcju7emf9sh5n5st3c47mwuczwxmt';
+
+const bep2Address = 'tbnb18y6ak4nvd7u89dsyu205jhwaguluxt9l7fklsz';
+
+const erc20Address = '0xb680c8F33f058163185AB6121F7582BAb57Ef8a7';
+const wrongErc20Address = '0xb680c8F33f058163185AB6121F7582BAb57Ef8a7123';
 
 it('isBitcoinAddress', () => {
-  expect(isBitcoinAddress('tb1q0fzppaflhcju7emf9sh5n5st3c47mwuczwxmt7')).toStrictEqual(true);
-  expect(isBitcoinAddress('tb1q0fzppaflhcju7emf9sh5n5st3c47mwuczwxmt')).toStrictEqual(false);
+  expect(isBitcoinAddress(bitcoinAddress)).toStrictEqual(true);
+  expect(isBitcoinAddress(wrongBitcoinAddress)).toStrictEqual(false);
   expect(isBitcoinAddress('DummyAddress')).toStrictEqual(false);
-  expect(isBitcoinAddress('tbnb18y6ak4nvd7u89dsyu205jhwaguluxt9l7fklsz')).toStrictEqual(false);
+  expect(isBitcoinAddress(bep2Address)).toStrictEqual(false);
 });
 
 it('isBinanceAddress', () => {
-  expect(isBinanceAddress('tbnb1lpq6tp2p72js9jjfk7ux8g2qjpm5udzpy4h7k5')).toStrictEqual(true);
-  expect(isBinanceAddress('tbnb18y6ak4nvd7u89dsyu205jhwaguluxt9l7fklsz')).toStrictEqual(true);
+  expect(isBinanceAddress(bep2Address)).toStrictEqual(true);
+  expect(isBinanceAddress(bep2Address)).toStrictEqual(true);
   expect(isBinanceAddress('dummyAddress')).toStrictEqual(false);
-  expect(isBinanceAddress('tb1q0fzppaflhcju7emf9sh5n5st3c47mwuczwxmt')).toStrictEqual(false);
+  expect(isBinanceAddress(wrongBitcoinAddress)).toStrictEqual(false);
 });
 it('isEtherAddress', () => {
-  expect(isEtherAddress('0xb680c8F33f058163185AB6121F7582BAb57Ef8a7')).toStrictEqual(true);
-  expect(isEtherAddress('0xb680c8F33f058163185AB6121F7582BAb57Ef8a71')).toStrictEqual(false);
-  expect(isEtherAddress('tb1q0fzppaflhcju7emf9sh5n5st3c47mwuczwxmt')).toStrictEqual(false);
+  expect(isEtherAddress(erc20Address)).toStrictEqual(true);
+  expect(isEtherAddress(wrongErc20Address)).toStrictEqual(false);
+  expect(isEtherAddress(wrongBitcoinAddress)).toStrictEqual(false);
 });
 
 it('isAddress', () => {
-  expect(isAddress('tbnb18y6ak4nvd7u89dsyu205jhwaguluxt9l7fklsz')).toStrictEqual(true);
-  expect(isAddress('tb1q0fzppaflhcju7emf9sh5n5st3c47mwuczwxmt7')).toStrictEqual(true);
-  expect(isAddress('0xb680c8F33f058163185AB6121F7582BAb57Ef8a7')).toStrictEqual(true);
-  expect(isAddress('m47N1Thc213QqfYCz3PZkjoJpNv5b14kBd')).toStrictEqual(false);
-  expect(isAddress('147N1Thc213QqfYCz3PZkjoJpNv5b14kBd')).toStrictEqual(false);
+  expect(isAddress(bep2Address)).toStrictEqual(true);
+  expect(isAddress(bitcoinAddress)).toStrictEqual(true);
+  expect(isAddress(erc20Address)).toStrictEqual(true);
+  expect(isAddress(wrongBitcoinAddress)).toStrictEqual(false);
 });

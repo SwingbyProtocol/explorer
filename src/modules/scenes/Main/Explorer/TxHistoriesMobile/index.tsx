@@ -42,7 +42,10 @@ interface Props {
   loader: JSX.Element;
   page: number;
   maximumPage: number;
+  isNoResult: boolean;
+  isLoadingHistory: boolean;
   currentTxs: SwapRawObject[];
+  noResultFound: JSX.Element;
   goNextPage: () => void;
   goBackPage: () => void;
   goToDetail: (arg: string) => void;
@@ -58,6 +61,9 @@ export const TxHistoriesMobile = (props: Props) => {
     goBackPage,
     goToDetail,
     loader,
+    isLoadingHistory,
+    isNoResult,
+    noResultFound,
   } = props;
   const dispatch = useDispatch();
 
@@ -70,7 +76,9 @@ export const TxHistoriesMobile = (props: Props) => {
           </Left>
           <Right>{filter}</Right>
         </TitleRow>
-        {!currentTxs.length && loader}
+        {isNoResult && noResultFound}
+        {/* Memo: show loader */}
+        {page > 1 ? !currentTxs.length && loader : isLoadingHistory && loader}
         {currentTxs &&
           currentTxs.map((tx: SwapRawObject, i: number) => {
             return (

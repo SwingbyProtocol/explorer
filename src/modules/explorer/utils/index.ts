@@ -15,3 +15,11 @@ export {
 } from './transactionFee';
 
 export { fetchFloatBalances, fetchStatsInfo, getUsdPrice } from './network';
+
+export {
+  isEtherAddress,
+  isBinanceAddress,
+  isBitcoinAddress,
+  checkIsValidAddress,
+  checkIsValidAmount,
+} from './validator';
