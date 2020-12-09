@@ -1,4 +1,4 @@
-import { Card } from '@swingby-protocol/pulsar';
+import { Card, Text } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
 import styled from 'styled-components';
 
@@ -84,4 +84,14 @@ export const Row = styled.div`
   @media (min-width: ${rem(media.xl)}) {
     grid-template-columns: ${rem(280)} auto ${rem(430)};
   }
+`;
+
+export const ValidationResult = styled.div`
+  position: absolute;
+  margin-top: ${({ theme }) => rem(theme.pulsar.size.box / 2)};
+`;
+
+export const TextValidationResult = styled(Text)`
+  color: ${({ theme }) => theme.pulsar.color.danger.active};
+  font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
 `;

@@ -1,6 +1,7 @@
 import { crypto } from '@binance-chain/javascript-sdk';
 import validate from 'bitcoin-address-validation';
 
+import { BTCBCoins, CoinSymbol, ETHCoins } from '../../../coins';
 import { MODE, mode } from '../../../env';
 
 // Ref: /node_modules/bitcoin-address-validation/lib/types.d.ts
@@ -46,4 +47,23 @@ export const isAddress = (address: string): boolean => {
     return true;
   }
   return false;
+};
+
+export const checkIsValidAddress = (
+  address: string,
+  toCurrency: string,
+  fn: (result: boolean) => void, // useEffect's set function
+): void => {
+  if (toCurrency === CoinSymbol.BTC) {
+    const result = isBitcoinAddress(address);
+    fn(result);
+  }
+  if (ETHCoins.includes(toCurrency)) {
+    const result = isEtherAddress(address);
+    fn(result);
+  }
+  if (BTCBCoins.includes(toCurrency)) {
+    const result = isBinanceAddress(address);
+    fn(result);
+  }
 };

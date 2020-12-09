@@ -1,9 +1,10 @@
 import { Button, Dropdown } from '@swingby-protocol/pulsar';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
 
 import { CoinSymbol, ETHCoins, PoolCurrencies } from '../../../../coins';
+import { checkIsValidAddress } from '../../../../explorer';
 import { calculateDepositFee } from '../../../../pool';
 
 import {
@@ -28,7 +29,12 @@ import {
   Top,
 } from './styled';
 
-export const AddLiquidity = () => {
+interface Props {
+  addressValidationResult: JSX.Element;
+}
+
+export const AddLiquidity = (props: Props) => {
+  const { addressValidationResult } = props;
   const theme = useTheme();
   const pool = useSelector((state) => state.pool);
   const { userAddress } = pool;
@@ -36,6 +42,7 @@ export const AddLiquidity = () => {
   const [receivingAddress, setReceivingAddress] = useState(userAddress);
   const [poolAmount, setPoolAmount] = useState(null);
   const [fromCurrency, setFromCurrency] = useState(CoinSymbol.BTC);
+  const [isValidAddress, setIsValidAddress] = useState(null);
 
   const depositRate = 0.25;
 
@@ -56,6 +63,10 @@ export const AddLiquidity = () => {
       return receivingAddress;
     }
   };
+
+  useEffect(() => {
+    checkIsValidAddress(receivingAddress, CoinSymbol.LP, setIsValidAddress);
+  }, [receivingAddress, fromCurrency]);
 
   return (
     <AddLiquidityContainer>
@@ -101,6 +112,7 @@ export const AddLiquidity = () => {
                 }
               }}
             />
+            {!isValidAddress && receivingAddress && addressValidationResult}
             <RowBottom>
               <div className="left">
                 <TextDescription variant="masked">Deposit Fee ({depositRate}%):</TextDescription>

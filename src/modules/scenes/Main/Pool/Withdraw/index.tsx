@@ -1,8 +1,9 @@
 import { Button, Dropdown } from '@swingby-protocol/pulsar';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTheme } from 'styled-components';
 
 import { CoinSymbol, PoolCurrencies } from '../../../../coins';
+import { checkIsValidAddress } from '../../../../explorer';
 
 import {
   Bottom,
@@ -23,12 +24,22 @@ import {
   WithdrawContainer,
 } from './styled';
 
-export const Withdraw = () => {
+interface Props {
+  addressValidationResult: JSX.Element;
+}
+
+export const Withdraw = (props: Props) => {
+  const { addressValidationResult } = props;
   const theme = useTheme();
 
   const [receivingAddress, setReceivingAddress] = useState('');
   const [withdrawAmount, setWithdrawAmount] = useState(null);
   const [toCurrency, setToCurrency] = useState(CoinSymbol.BTC);
+  const [isValidAddress, setIsValidAddress] = useState(null);
+
+  useEffect(() => {
+    checkIsValidAddress(receivingAddress, toCurrency, setIsValidAddress);
+  }, [receivingAddress, toCurrency]);
 
   const currencyItems = (
     <>
@@ -78,6 +89,7 @@ export const Withdraw = () => {
               left={<Coin symbol={CoinSymbol.BTC} />}
               onChange={(e) => setReceivingAddress(e.target.value)}
             />
+            {!isValidAddress && receivingAddress && addressValidationResult}
 
             <ButtonRow>
               <Button variant="primary" size="country">

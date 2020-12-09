@@ -9,9 +9,10 @@ export const CoinSymbol = {
   BNB: 'BNB',
   REN_BTC: 'REN-BTC',
   WBTC: 'WBTC',
+  LP: 'LP',
 };
 
-export const ETHCoins = [CoinSymbol.REN_BTC, CoinSymbol.WBTC, CoinSymbol.BTC_E];
+export const ETHCoins = [CoinSymbol.LP, CoinSymbol.REN_BTC, CoinSymbol.WBTC, CoinSymbol.BTC_E];
 
 export const BTCBCoins = [
   CoinSymbol.BTC_B,

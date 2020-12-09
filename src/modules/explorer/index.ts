@@ -13,6 +13,10 @@ export {
   exponentialToNumber,
   capitalize,
   toBTC,
+  isEtherAddress,
+  isBinanceAddress,
+  isBitcoinAddress,
+  checkIsValidAddress,
 } from './utils';
 
 export const BRIDGE = {
