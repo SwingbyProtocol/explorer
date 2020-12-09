@@ -168,3 +168,11 @@ export const ButtonRow = styled.div`
     padding-right: 0;
   }
 `;
+
+export const AmountValidation = styled.div`
+  margin-top: ${({ theme }) => rem(theme.pulsar.size.box / 2)};
+  margin-left: ${rem(130)};
+  @media (min-width: ${rem(media.sm)}) {
+    margin-left: ${rem(168)};
+  }
+`;

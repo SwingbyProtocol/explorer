@@ -32,6 +32,13 @@ export const BrowserPool = () => {
       <TextValidationResult variant="normal">Invalid wallet address</TextValidationResult>
     </ValidationResult>
   );
+
+  const amountValidationResult = (
+    <ValidationResult>
+      <TextValidationResult variant="normal">Please input number only</TextValidationResult>
+    </ValidationResult>
+  );
+
   const switchRightComponent = (mode: string) => {
     const summary = (
       <>
@@ -48,9 +55,19 @@ export const BrowserPool = () => {
       case PoolMode.Summary:
         return summary;
       case PoolMode.AddLiquidity:
-        return <AddLiquidity addressValidationResult={addressValidationResult} />;
+        return (
+          <AddLiquidity
+            addressValidationResult={addressValidationResult}
+            amountValidationResult={amountValidationResult}
+          />
+        );
       case PoolMode.Withdraw:
-        return <Withdraw addressValidationResult={addressValidationResult} />;
+        return (
+          <Withdraw
+            addressValidationResult={addressValidationResult}
+            amountValidationResult={amountValidationResult}
+          />
+        );
 
       default:
         return summary;

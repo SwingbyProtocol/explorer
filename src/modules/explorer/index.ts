@@ -17,6 +17,7 @@ export {
   isBinanceAddress,
   isBitcoinAddress,
   checkIsValidAddress,
+  checkIsValidAmount,
 } from './utils';
 
 export const BRIDGE = {

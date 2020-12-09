@@ -67,3 +67,8 @@ export const checkIsValidAddress = (
     fn(result);
   }
 };
+
+export const checkIsValidAmount = (amount: string, fn: (result: boolean) => void): void => {
+  const result = Number.isInteger(Number(amount));
+  fn(result);
+};

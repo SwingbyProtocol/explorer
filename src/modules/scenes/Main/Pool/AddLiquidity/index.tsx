@@ -4,11 +4,12 @@ import { useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
 
 import { CoinSymbol, ETHCoins, PoolCurrencies } from '../../../../coins';
-import { checkIsValidAddress } from '../../../../explorer';
+import { checkIsValidAddress, checkIsValidAmount } from '../../../../explorer';
 import { calculateDepositFee } from '../../../../pool';
 
 import {
   AddLiquidityContainer,
+  AmountValidation,
   Bottom,
   Box,
   ButtonRow,
@@ -31,10 +32,11 @@ import {
 
 interface Props {
   addressValidationResult: JSX.Element;
+  amountValidationResult: JSX.Element;
 }
 
 export const AddLiquidity = (props: Props) => {
-  const { addressValidationResult } = props;
+  const { addressValidationResult, amountValidationResult } = props;
   const theme = useTheme();
   const pool = useSelector((state) => state.pool);
   const { userAddress } = pool;
@@ -43,6 +45,7 @@ export const AddLiquidity = (props: Props) => {
   const [poolAmount, setPoolAmount] = useState(null);
   const [fromCurrency, setFromCurrency] = useState(CoinSymbol.BTC);
   const [isValidAddress, setIsValidAddress] = useState(null);
+  const [isValidAmount, setIsValidAmount] = useState(null);
 
   const depositRate = 0.25;
 
@@ -67,6 +70,10 @@ export const AddLiquidity = (props: Props) => {
   useEffect(() => {
     checkIsValidAddress(receivingAddress, CoinSymbol.LP, setIsValidAddress);
   }, [receivingAddress, fromCurrency]);
+
+  useEffect(() => {
+    checkIsValidAmount(poolAmount, setIsValidAmount);
+  }, [poolAmount]);
 
   return (
     <AddLiquidityContainer>
@@ -96,6 +103,9 @@ export const AddLiquidity = (props: Props) => {
                 onChange={(e) => setPoolAmount(e.target.value)}
               />
             </RowTop>
+            <AmountValidation>
+              {!isValidAmount && poolAmount && amountValidationResult}
+            </AmountValidation>
           </Top>
           <Bottom>
             {/* Request: Please add `readOnly` props into TextInput component */}

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useTheme } from 'styled-components';
 
 import { CoinSymbol, PoolCurrencies } from '../../../../coins';
-import { checkIsValidAddress } from '../../../../explorer';
+import { checkIsValidAddress, checkIsValidAmount } from '../../../../explorer';
 
 import {
   Bottom,
@@ -19,6 +19,7 @@ import {
   InputReceivingAddress,
   RowTop,
   TargetCoin,
+  AmountValidation,
   TextLabel,
   Top,
   WithdrawContainer,
@@ -26,20 +27,27 @@ import {
 
 interface Props {
   addressValidationResult: JSX.Element;
+  amountValidationResult: JSX.Element;
 }
 
 export const Withdraw = (props: Props) => {
-  const { addressValidationResult } = props;
+  const { addressValidationResult, amountValidationResult } = props;
   const theme = useTheme();
 
   const [receivingAddress, setReceivingAddress] = useState('');
   const [withdrawAmount, setWithdrawAmount] = useState(null);
   const [toCurrency, setToCurrency] = useState(CoinSymbol.BTC);
   const [isValidAddress, setIsValidAddress] = useState(null);
+  const [isValidAmount, setIsValidAmount] = useState(null);
 
   useEffect(() => {
     checkIsValidAddress(receivingAddress, toCurrency, setIsValidAddress);
   }, [receivingAddress, toCurrency]);
+
+  useEffect(() => {
+    console.log(withdrawAmount);
+    checkIsValidAmount(withdrawAmount, setIsValidAmount);
+  }, [withdrawAmount]);
 
   const currencyItems = (
     <>
@@ -79,6 +87,9 @@ export const Withdraw = (props: Props) => {
                 onChange={(e) => setWithdrawAmount(e.target.value)}
               />
             </RowTop>
+            <AmountValidation>
+              {!isValidAmount && withdrawAmount && amountValidationResult}
+            </AmountValidation>
           </Top>
           <Bottom>
             <InputReceivingAddress

@@ -21,4 +21,5 @@ export {
   isBinanceAddress,
   isBitcoinAddress,
   checkIsValidAddress,
+  checkIsValidAmount,
 } from './validator';
