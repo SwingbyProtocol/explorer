@@ -76,16 +76,24 @@ export const TxHistories = (props: Props) => {
 
   const dispatch = useDispatch();
   const [chosenTx, setChosenTx] = useState(null);
+  const [toggleOpenLink, setToggleOpenLink] = useState(1);
   useEffect(() => {
     if (chosenTx) {
       linkToSwapWidget(chosenTx);
     }
-  }, [chosenTx, linkToSwapWidget]);
+  }, [chosenTx, toggleOpenLink, linkToSwapWidget]);
 
   const externalLinkMenu = (tx: SwapRawObject) => (
     <>
       <Dropdown.Item>
-        <p onClick={() => setChosenTx(tx)}>Check the swap progress</p>
+        <p
+          onClick={() => {
+            setChosenTx(tx);
+            setToggleOpenLink(toggleOpenLink + 1);
+          }}
+        >
+          Check the swap progress
+        </p>
       </Dropdown.Item>
       {tx.txIdOut && (
         <Dropdown.Item>
