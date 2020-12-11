@@ -4,8 +4,9 @@ import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { CoinSymbol } from '../../../../coins';
-import { CONTRACT_LP, CONTRACT_SWAP } from '../../../../env';
+import { CONTRACT_LP, CONTRACT_SWAP, ENDPOINT_EARNINGS } from '../../../../env';
 import { toBTC } from '../../../../explorer';
+import { fetch } from '../../../../fetch';
 import { ABI_TOKEN, orgFloor, ABI_SWAP } from '../../../../pool';
 import { setBalanceLP } from '../../../../store';
 
@@ -50,11 +51,13 @@ export const AccountSummary = () => {
       (async () => {
         const contractLP = new web3.eth.Contract(ABI_TOKEN, CONTRACT_LP);
         const contractSwap = new web3.eth.Contract(ABI_SWAP, CONTRACT_SWAP);
+        const urlEarning = ENDPOINT_EARNINGS;
 
         const results = await Promise.all([
-          contractLP.methods.balanceOf(userAddress).call(), // result[0]
-          contractSwap.methods.getCurrentPriceLP().call(), //result[1]
-          contractSwap.methods.getFloatBalanceOf(CONTRACT_LP, userAddress).call(), // result[2]
+          contractLP.methods.balanceOf(userAddress).call(),
+          contractSwap.methods.getCurrentPriceLP().call(),
+          contractSwap.methods.getFloatBalanceOf(CONTRACT_LP, userAddress).call(),
+          fetch<{ total: string }>(urlEarning),
         ]);
 
         const resultBalanceOf = results[0];
@@ -65,10 +68,12 @@ export const AccountSummary = () => {
         const priceLP = toBTC(results[1]);
         const userFloatBal = Number(results[2]);
         const totalClaimableAmount = priceLP * userFloatBal;
-        const totalEarnings = totalClaimableAmount - userFloatBal;
 
         setClaimableAmount(totalClaimableAmount);
-        setTotalEarnings(totalEarnings);
+
+        // Todo: Check unit. BTC? Satoshi?
+        const totalEarnings = results[3].ok && results[3].response.total;
+        setTotalEarnings(Number(totalEarnings));
       })();
     }
   }, [dispatch, web3, userAddress]);

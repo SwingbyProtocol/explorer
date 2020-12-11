@@ -85,25 +85,21 @@ export const TxHistories = (props: Props) => {
 
   const externalLinkMenu = (tx: SwapRawObject) => (
     <>
-      <Dropdown.Item>
-        <p
-          onClick={() => {
-            setChosenTx(tx);
-            setToggleOpenLink(toggleOpenLink + 1);
-          }}
-        >
-          Check the swap progress
-        </p>
+      <Dropdown.Item
+        onClick={() => {
+          setChosenTx(tx);
+          setToggleOpenLink(toggleOpenLink + 1);
+        }}
+      >
+        <p>Check the swap progress</p>
       </Dropdown.Item>
       {tx.txIdOut && (
-        <Dropdown.Item>
-          <p
-            onClick={() =>
-              window.open(transactionDetailByTxId(tx.currencyOut, tx.txIdOut), '_blank', 'noopener')
-            }
-          >
-            Get the transaction details
-          </p>
+        <Dropdown.Item
+          onClick={() =>
+            window.open(transactionDetailByTxId(tx.currencyOut, tx.txIdOut), '_blank', 'noopener')
+          }
+        >
+          <p>Get the transaction details</p>
         </Dropdown.Item>
       )}
     </>

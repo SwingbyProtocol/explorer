@@ -6,6 +6,12 @@ import { useIntl } from 'react-intl';
 import { Box, Column, EarningsChartContainer, LineContainer, TextDate, TitleDiv } from './styled';
 
 export const EarningsChart = () => {
+  // Todo: Make a logic with Earnings API
+  // const initialVolumesAll = ['13', '10', '12.5', '11.7', '12', '11.5', '9'];
+  // const [volumesAll, setVolumesAll] = useState(initialVolumesAll);
+  // const [volumes24Hr, setVolumes24Hr] = useState(null);
+  // const [volumes30Days, setVolumes30Days] = useState(null);
+
   const volumes = ['13', '10', '12.5', '11.7', '12', '11.5', '9'];
   const [chartDate, setChartDate] = useState('All');
   const chartDateOption = ['1d', '30d', 'All'];

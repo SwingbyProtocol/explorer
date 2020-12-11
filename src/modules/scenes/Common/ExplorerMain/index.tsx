@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
 
 import { AccountId } from '../../../../components/AccountId';
+import { LinkToWidgetModal } from '../../../../components/LinkToWidgetModal';
 import { Search } from '../../../../components/Search';
 import { toastWrongAddress } from '../../../../components/Toast';
 import { ETHCoins } from '../../../coins';
@@ -26,9 +27,12 @@ export const ExplorerMain = () => {
   const dispatch = useDispatch();
   const pool = useSelector((state) => state.pool);
   const { onboard } = pool;
+  const explorer = useSelector((state) => state.explorer);
+  const { swapDetails } = explorer;
 
   //Memo: For check walletAddress === tx.addressOut
   const [walletAddress, setWalletAddress] = useState(null);
+  const [isWidgetModalOpen, setIsWidgetModalOpen] = useState(false);
 
   const login = useCallback(async () => {
     await onboard.walletSelect();
@@ -58,7 +62,8 @@ export const ExplorerMain = () => {
           return;
         }
       } else {
-        window.open(getUrl({ widget }), '_blank', 'noopener');
+        // WHEN: Not swap to ERC20 coin
+        setIsWidgetModalOpen(true);
         return;
       }
     },
@@ -128,6 +133,11 @@ export const ExplorerMain = () => {
 
   return (
     <PulsarThemeProvider theme="accent">
+      <LinkToWidgetModal
+        isWidgetModalOpen={isWidgetModalOpen}
+        setIsWidgetModalOpen={setIsWidgetModalOpen}
+        tx={swapDetails}
+      />
       <ExplorerMainContainer>
         <HeadLine>
           <TitleH1>{titleGenerator(currentPath)}</TitleH1>
