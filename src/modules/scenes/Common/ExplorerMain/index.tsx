@@ -132,19 +132,21 @@ export const ExplorerMain = () => {
   };
 
   return (
-    <PulsarThemeProvider theme="accent">
+    <>
       <LinkToWidgetModal
         isWidgetModalOpen={isWidgetModalOpen}
         setIsWidgetModalOpen={setIsWidgetModalOpen}
         tx={swapDetails}
       />
-      <ExplorerMainContainer>
-        <HeadLine>
-          <TitleH1>{titleGenerator(currentPath)}</TitleH1>
-          <PulsarThemeProvider>{switchRightComponent(currentPath)}</PulsarThemeProvider>
-        </HeadLine>
-        <PulsarThemeProvider>{switchBrowser(currentPath)}</PulsarThemeProvider>
-      </ExplorerMainContainer>
-    </PulsarThemeProvider>
+      <PulsarThemeProvider theme="accent">
+        <ExplorerMainContainer>
+          <HeadLine>
+            <TitleH1>{titleGenerator(currentPath)}</TitleH1>
+            <PulsarThemeProvider>{switchRightComponent(currentPath)}</PulsarThemeProvider>
+          </HeadLine>
+          <PulsarThemeProvider>{switchBrowser(currentPath)}</PulsarThemeProvider>
+        </ExplorerMainContainer>
+      </PulsarThemeProvider>
+    </>
   );
 };
