@@ -7,12 +7,11 @@ export const CoinSymbol = {
   BTC_B_888: 'BTC.B-888',
   BTC_E: 'BTCE',
   BNB: 'BNB',
-  REN_BTC: 'REN-BTC',
   WBTC: 'WBTC',
   LP: 'sbBTC',
 };
 
-export const ETHCoins = [CoinSymbol.LP, CoinSymbol.REN_BTC, CoinSymbol.WBTC, CoinSymbol.BTC_E];
+export const ETHCoins = [CoinSymbol.LP, CoinSymbol.WBTC, CoinSymbol.BTC_E];
 
 export const BTCBCoins = [
   CoinSymbol.BTC_B,
