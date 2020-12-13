@@ -6,15 +6,9 @@ import { useIntl } from 'react-intl';
 import { LoaderComingSoon } from '../../../../../components/LoaderComingSoon';
 import { IStats } from '../../../../explorer';
 import { networkInfos } from '../../../../store/explorer';
+import { LineBox } from '../../../Common';
 
-import {
-  AllVolumeSpan,
-  Box,
-  LineBox,
-  LineContainer,
-  SwapVolumeContainer,
-  TitleDiv,
-} from './styled';
+import { AllVolumeSpan, Box, LineContainer, SwapVolumeContainer, TitleDiv } from './styled';
 
 interface Props {
   stats: IStats;

@@ -6,10 +6,6 @@ import { StylingConstants } from '../../../../styles';
 
 const { media } = StylingConstants;
 
-interface LoadingProps {
-  isLoading: boolean;
-}
-
 export const SwapVolumeContainer = styled.div`
   grid-area: volume;
   display: flex;
@@ -62,11 +58,6 @@ export const LineContainer = styled.div`
   @media (min-width: ${rem(media.xl)}) {
     padding-top: 0;
   }
-`;
-
-export const LineBox = styled.div<LoadingProps>`
-  opacity: ${(props) => props.isLoading && 0.1};
-  transition: all 1s ease 0s;
 `;
 
 export const TitleDiv = styled.div`

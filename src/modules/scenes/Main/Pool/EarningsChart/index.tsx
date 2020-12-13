@@ -2,10 +2,13 @@ import { Text } from '@swingby-protocol/pulsar';
 import React, { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import { useIntl } from 'react-intl';
+import { useSelector } from 'react-redux';
 
+import { LoaderComingSoon } from '../../../../../components/LoaderComingSoon';
 import { ENDPOINT_EARNINGS } from '../../../../env';
 import { fetch } from '../../../../fetch';
 import { IEarning, makeEarningsData, makeTimeLabels, TEarningPeriod } from '../../../../pool';
+import { LineBox } from '../../../Common';
 
 import { Box, Column, EarningsChartContainer, LineContainer, TextDate, TitleDiv } from './styled';
 
@@ -29,6 +32,10 @@ export const EarningsChart = () => {
   const [earnings14Days, setEarnings14Days] = useState(null);
   const [earnings24Hours, setEarnings24Hours] = useState(null);
   const [earnings, setEarnings] = useState(earningsAll);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const pool = useSelector((state) => state.pool);
+  const { userAddress } = pool;
 
   useEffect(() => {
     (async () => {
@@ -123,6 +130,15 @@ export const EarningsChart = () => {
     },
   };
 
+  useEffect(() => {
+    const loading = earnings.values === initialEarningsAll.values;
+    if (!loading && userAddress) {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 800);
+    }
+  }, [earnings.values, initialEarningsAll.values, userAddress]);
+
   return (
     <EarningsChartContainer>
       <Box>
@@ -157,7 +173,10 @@ export const EarningsChart = () => {
           </Column>
         </TitleDiv>
         <LineContainer>
-          <Line type="line" data={data} options={options} height={110} />
+          {isLoading && <LoaderComingSoon />}
+          <LineBox isLoading={isLoading}>
+            <Line type="line" data={data} options={options} height={110} />
+          </LineBox>
         </LineContainer>
       </Box>
     </EarningsChartContainer>
