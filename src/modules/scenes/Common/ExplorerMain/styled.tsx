@@ -35,7 +35,7 @@ export const ExplorerMainContainer = styled.div`
   }
   @media (min-width: ${rem(media.xl)}) {
     display: grid;
-    justify-content: center;
+    /* justify-content: center; */
   }
 `;
 
