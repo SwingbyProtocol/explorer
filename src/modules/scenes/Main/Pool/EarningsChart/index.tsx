@@ -1,63 +1,87 @@
 import { Text } from '@swingby-protocol/pulsar';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import { useIntl } from 'react-intl';
+
+import { ENDPOINT_EARNINGS } from '../../../../env';
+import { fetch } from '../../../../fetch';
+import { IEarning, makeEarningsData, makeTimeLabels, TEarningPeriod } from '../../../../pool';
 
 import { Box, Column, EarningsChartContainer, LineContainer, TextDate, TitleDiv } from './styled';
 
 export const EarningsChart = () => {
-  // Todo: Make a logic with Earnings API
-  // const initialVolumesAll = ['13', '10', '12.5', '11.7', '12', '11.5', '9'];
-  // const [volumesAll, setVolumesAll] = useState(initialVolumesAll);
-  // const [volumes24Hr, setVolumes24Hr] = useState(null);
-  // const [volumes30Days, setVolumes30Days] = useState(null);
+  const today = new Date();
+  const initialEarningsAll = {
+    values: ['0', '0', '0', '0', '0', '0', '0'],
+    times: [
+      new Date().setDate(today.getDate() - 6),
+      new Date().setDate(today.getDate() - 5),
+      new Date().setDate(today.getDate() - 4),
+      new Date().setDate(today.getDate() - 3),
+      new Date().setDate(today.getDate() - 2),
+      new Date().setDate(today.getDate() - 1),
+      String(today),
+    ],
+  };
 
-  const volumes = ['13', '10', '12.5', '11.7', '12', '11.5', '9'];
-  const [chartDate, setChartDate] = useState('All');
-  const chartDateOption = ['1d', '30d', 'All'];
-  const { formatDate } = useIntl();
+  const [chartDuration, setChartDuration] = useState<TEarningPeriod>('All');
+  const [earningsAll, setEarningsAll] = useState(initialEarningsAll);
+  const [earnings14Days, setEarnings14Days] = useState(null);
+  const [earnings24Hours, setEarnings24Hours] = useState(null);
+  const [earnings, setEarnings] = useState(earningsAll);
+
+  useEffect(() => {
+    (async () => {
+      const urlDaily = `${ENDPOINT_EARNINGS}/historic/daily`;
+      const urlHourly = `${ENDPOINT_EARNINGS}/historic/hourly`;
+
+      const results = await Promise.all([
+        fetch<IEarning[]>(urlDaily),
+        fetch<IEarning[]>(urlHourly),
+      ]);
+      const dailyEarnings = results[0].ok && results[0].response;
+      const hourlyEarnings = results[1].ok && results[1].response;
+      const earningsAllData = makeEarningsData(dailyEarnings, 'All');
+      const earnings14DaysData = makeEarningsData(dailyEarnings, '14d');
+      const earnings24HoursData = makeEarningsData(hourlyEarnings, '1d');
+
+      setEarningsAll(earningsAllData);
+      setEarnings14Days(earnings14DaysData);
+      setEarnings24Hours(earnings24HoursData);
+    })();
+  }, []);
+
+  useEffect(() => {
+    if (earningsAll && earnings14Days && earnings24Hours) {
+      if (chartDuration === 'All') {
+        setEarnings(earningsAll);
+      }
+      if (chartDuration === '14d') {
+        setEarnings(earnings14Days);
+      }
+      if (chartDuration === '1d') {
+        setEarnings(earnings24Hours);
+      }
+    }
+  }, [chartDuration, earningsAll, earnings14Days, earnings24Hours]);
+
+  const { formatDate, formatTime } = useIntl();
 
   const data = (canvas) => {
     const ctx = canvas.getContext('2d');
     const gradient = ctx.createLinearGradient(0, 0, 0, 140);
     gradient.addColorStop(0, '#31D5B8');
     gradient.addColorStop(0.8, 'rgba(255,255,255, 0.3)');
-    const today = new Date();
 
     return {
-      labels: [
-        formatDate(new Date().setDate(today.getDate() - 6), {
-          month: 'short',
-          day: 'numeric',
-        }),
-        '',
-        '',
-        formatDate(new Date().setDate(today.getDate() - 3), {
-          month: 'short',
-          day: 'numeric',
-        }),
-        '',
-        '',
-        formatDate(today, {
-          month: 'short',
-          day: 'numeric',
-        }),
-      ],
+      labels: makeTimeLabels(earnings.times as string[], chartDuration, formatDate, formatTime),
       datasets: [
         {
           fill: 'start',
 
           backgroundColor: gradient,
           borderColor: '#31D5B8',
-          data: [
-            volumes[6],
-            volumes[5],
-            volumes[4],
-            volumes[3],
-            volumes[2],
-            volumes[1],
-            volumes[0],
-          ],
+          data: earnings.values,
         },
       ],
     };
@@ -79,7 +103,6 @@ export const EarningsChart = () => {
             display: false,
           },
           ticks: {
-            stepSize: 2,
             fontSize: 10,
             fontColor: '#929D9D',
           },
@@ -91,34 +114,46 @@ export const EarningsChart = () => {
             display: false,
           },
           ticks: {
-            stepSize: 1,
             fontColor: '#929D9D',
             fontSize: 10,
-            padding: 10,
+            padding: 20,
           },
         },
       ],
     },
   };
+
   return (
     <EarningsChartContainer>
       <Box>
         <TitleDiv>
           <Text variant="section-title">Earnings</Text>
           <Column>
-            {chartDateOption.map((date: string, i: number) => {
-              return (
-                <TextDate
-                  variant="label"
-                  onClick={() => setChartDate(date)}
-                  isActive={date === chartDate}
-                  isAll={date === 'All'}
-                  key={i}
-                >
-                  {date}
-                </TextDate>
-              );
-            })}
+            {/* Memo: Somehow occurs exponential number error in '14d' if use `map` */}
+            <TextDate
+              variant="label"
+              onClick={() => setChartDuration('1d')}
+              isActive={'1d' === chartDuration}
+              isAll={false}
+            >
+              1d
+            </TextDate>
+            <TextDate
+              variant="label"
+              onClick={() => setChartDuration('14d')}
+              isActive={'14d' === chartDuration}
+              isAll={false}
+            >
+              14d
+            </TextDate>
+            <TextDate
+              variant="label"
+              onClick={() => setChartDuration('All')}
+              isActive={'All' === chartDuration}
+              isAll={true}
+            >
+              All
+            </TextDate>
           </Column>
         </TitleDiv>
         <LineContainer>

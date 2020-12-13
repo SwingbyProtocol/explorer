@@ -58,11 +58,11 @@ export const TransactionsPool = () => {
       <TransactionsContainer>
         {txsData &&
           txsData.data[page] &&
-          txsData.data[page].map((data: IRecentTx) => {
+          txsData.data[page].map((data: IRecentTx, i: number) => {
             const value = toBTC(data.value);
             const time = convertTxTime(data.timeStamp);
             return (
-              <Row key={data.hash}>
+              <Row key={i}>
                 <Text variant="label">{time}</Text>
 
                 <AddressA
