@@ -23,7 +23,7 @@
     "@binance-chain/javascript-sdk": "git+https://github.com/SwingbyProtocol/javascript-sdk.git",
     "@react-hook/copy": "^2.0.1",
     "@react-hook/window-size": "^3.0.7",
-    "@swingby-protocol/pulsar": "^1.0.0-alpha.75",
+    "@swingby-protocol/pulsar": "^1.0.0-alpha.77",
     "@swingby-protocol/sdk": "^1.0.0-alpha.30",
     "@swingby-protocol/widget": "^1.0.0-alpha.8",
     "bignumber.js": "^9.0.1",
