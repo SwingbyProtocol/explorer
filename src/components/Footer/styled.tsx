@@ -1,4 +1,4 @@
-import { Icon } from '@swingby-protocol/pulsar';
+import { Icon, Text } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
 import styled from 'styled-components';
 
@@ -7,110 +7,108 @@ import { StylingConstants } from '../../modules/styles';
 const { media } = StylingConstants;
 
 export const FooterContainer = styled.div`
-  height: 100%;
+  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
+`;
+export const FooterBox = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   justify-content: center;
   justify-items: center;
   margin-top: ${({ theme }) => rem(theme.pulsar.size.street)};
-  @media (min-width: ${rem(media.md)}) {
-    height: ${rem(190)};
-    padding-top: ${({ theme }) => rem(theme.pulsar.size.box)};
-    padding-bottom: ${({ theme }) => rem(theme.pulsar.size.box / 2)};
-    padding-right: ${({ theme }) => rem(theme.pulsar.size.drawer)};
-    padding-left: ${({ theme }) => rem(theme.pulsar.size.drawer)};
-    justify-content: space-between;
+  @media (min-width: ${rem(media.sm)}) {
+    grid-template-columns: auto;
+    grid-template-columns: repeat(4, 1fr);
     justify-items: start;
+    padding-top: ${({ theme }) => rem(theme.pulsar.size.box)};
   }
-  @media (min-width: ${rem(media.xl + 160)}) {
-    padding-right: ${rem(80)};
-    padding-left: ${rem(80)};
+`;
+
+export const TextTitle = styled(Text)`
+  display: block;
+  text-align: center;
+  color: ${({ theme }) => theme.pulsar.color.text.accent};
+  line-height: ${({ theme }) => rem(theme.pulsar.size.city)};
+  @media (min-width: ${rem(media.sm)}) {
+    text-align: left;
+  }
+`;
+
+export const ColumnLink = styled.div`
+  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.drawer)};
+`;
+
+export const ColumnTerm = styled.div`
+  margin-top: ${({ theme }) => rem(theme.pulsar.size.room)};
+  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.box)};
+  @media (min-width: ${rem(media.sm)}) {
+    margin-bottom: 0;
+    padding-bottom: ${({ theme }) => rem(theme.pulsar.size.drawer)};
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
   }
 `;
 
 export const UlLink = styled.ul`
   display: grid;
-  width: ${rem(334)};
-  grid-template-columns: 1fr 1fr;
-  justify-content: center;
-  padding-left: 0px;
-  margin: 0px;
+  padding-left: 0;
+  margin: 0;
   list-style: none;
-  @media (min-width: ${rem(media.md)}) {
-    padding: 0;
-    display: flex;
-    justify-content: space-between;
-    width: ${rem(550)};
-  }
 `;
+
 export const LiLink = styled.li`
-  justify-items: center;
   justify-self: center;
   line-height: ${({ theme }) => rem(theme.pulsar.size.town)};
+  @media (min-width: ${rem(media.sm)}) {
+    justify-self: start;
+  }
 `;
 
 export const ALink = styled.a`
   color: ${({ theme }) => theme.pulsar.color.text.normal};
   text-decoration: none;
   font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
+  opacity: 0.6;
+  transition: all 0.2s ease-in-out;
+  :hover {
+    opacity: 1;
+    transition: all 0.2s ease-in-out;
+  }
 `;
+
 export const ALinkIcon = styled(ALink)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.street)};
 `;
 
 export const LogoBox = styled.div`
   display: grid;
-  grid-template-columns: 1fr;
-  justify-content: center;
-  @media (min-width: ${rem(media.md)}) {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    align-items: center;
-  }
+  justify-content: end;
+  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
+  margin-top: ${({ theme }) => rem(theme.pulsar.size.house)};
+  padding-right: ${({ theme }) => rem(theme.pulsar.size.closet)};
 `;
+
 export const MediaRow = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, ${rem(32)});
-  align-items: center;
-  grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.town)};
-  margin-top: ${({ theme }) => rem(theme.pulsar.size.house)};
-  grid-template-columns: repeat(4, 1fr);
-  grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.town)};
-  justify-items: center;
-  justify-self: center;
-  @media (min-width: ${rem(media.md)}) {
+  grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.room)};
+  grid-template-columns: repeat(5, 1fr);
+  @media (min-width: ${rem(media.sm)}) {
+    padding-right: 0;
     align-self: center;
   }
 `;
 
 export const SwingbyLogo = styled(Icon.SwingbyWithName)`
   margin-top: ${({ theme }) => rem(theme.pulsar.size.room)};
-  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.room)};
-  height: ${({ theme }) => rem(theme.pulsar.size.town)};
+  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.drawer)};
   text-align: center;
   justify-self: center;
-  font-size: ${({ theme }) => rem(theme.pulsar.size.town)};
-  @media (min-width: ${rem(media.md)}) {
+  font-size: ${({ theme }) => rem(theme.pulsar.size.street)};
+  color: ${({ theme }) => theme.pulsar.color.text.accent};
+  @media (min-width: ${rem(media.sm)}) {
     margin-top: ${({ theme }) => rem(theme.pulsar.size.box)};
     margin-bottom: 0;
+    justify-self: start;
+    font-size: ${rem(28)};
   }
-`;
-
-export const FooterBottomRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-top: ${rem(10)};
-  justify-content: center;
-  flex-direction: column-reverse;
-  @media (min-width: ${rem(media.md)}) {
-    justify-content: flex-start;
-    flex-direction: column;
-  }
-`;
-export const FooterBottom = styled.footer`
-  margin-top: ${({ theme }) => rem(theme.pulsar.size.street)};
-  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.room)};
-  font-weight: 300;
-  font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
 `;

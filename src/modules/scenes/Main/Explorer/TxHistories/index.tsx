@@ -206,7 +206,6 @@ export const TxHistories = (props: Props) => {
             variant="secondary"
             size="state"
             onClick={() => page > 1 && goBackPage()}
-            // Request: Please make `cursor: not-allowed` when disabled = true
             disabled={1 >= page}
           >
             <Icon.CaretLeft />
