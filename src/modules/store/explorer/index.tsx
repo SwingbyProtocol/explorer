@@ -4,6 +4,8 @@ import { IFee, IFetchUsd, INetworkInfos, ITransactions, SwapRawObject } from '..
 
 import * as initial from './initialState';
 
+export { networkInfos } from './initialState';
+
 enum Actions {
   FetchHistory = 'Explorer/FETCH_HISTORY',
   SelectSwapDetails = 'Explorer/SELECT_SWAP_DETAILS',

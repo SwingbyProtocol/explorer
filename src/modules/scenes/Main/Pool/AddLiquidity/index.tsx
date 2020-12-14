@@ -114,8 +114,8 @@ export const AddLiquidity = (props: Props) => {
               value={receivingWalletAddress()}
               size="state"
               placeholder="Input your receiving address"
-              label="And receive my LPT’s to:"
-              left={<Coin symbol={CoinSymbol.BTC_E} />}
+              label="And receive my sbBTC to:"
+              left={<Coin symbol={CoinSymbol.LP} />}
               onChange={(e) => {
                 if (!ETHCoins.includes(fromCurrency)) {
                   setReceivingAddress(e.target.value);

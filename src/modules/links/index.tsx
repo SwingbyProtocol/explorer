@@ -1,28 +1,37 @@
 import { Icon } from '@swingby-protocol/pulsar';
 
 export const URL = {
+  Swingby: 'https://swingby.network/',
+  Earn: 'https://swingby.network/earn',
+  WhatIsSwingby: 'https://swingby.network/about-swingby',
+  WhitePaper: 'https://docs.swingby.network/SwingbySkybridge_WhitePaper_v1.0.0_14112019.pdf',
   SwingbyDocs: 'https://skybridge-docs.swingby.network/',
+  TermsOfUse: 'https://docs.swingby.network/terms.pdf',
+  PrivacyPolicy: 'https://docs.swingby.network/privacy-policy.pdf',
+  Discord: 'https://swingby.network/discord',
+  Twitter: 'https://swingby.network/telegram',
+  Medium: 'https://swingby.medium.com/',
+  Reddit: 'https://swingby.network/reddit',
+  GitHub: 'https://github.com/SwingbyProtocol/',
   Support: 'support@swingby.network',
   HowItWorks: 'https://skybridge-docs.swingby.network/how-it-works',
-  TermsOfUse: 'https://docs.swingby.network/terms.pdf',
-  Swingby: 'https://swingby.network/en',
-  StakingPortal: 'https://stake.swingby.network/',
-  PrivacyPolicy: 'https://docs.swingby.network/privacy-policy.pdf',
-  Discord: 'https://discord.com/invite/WV8H9jc',
-  Twitter: 'https://twitter.com/swingbyprotocol/',
-  Medium: 'https://swingby.medium.com/',
-  GitHub: 'https://github.com/SwingbyProtocol/',
-  MetamaskAddCoin:
-    'https://metamask.zendesk.com/hc/en-us/articles/360015489031-How-to-View-See-Your-Tokens-in-Metamask',
 };
 
 export const Links = [
-  { link: URL.Swingby, description: 'Home' },
-  { link: URL.TermsOfUse, description: 'Terms of Use' },
+  { link: URL.WhatIsSwingby, description: 'What is Swingby?' },
+  { link: URL.Earn, description: 'Earn' },
+];
+export const Developers = [
+  { link: URL.WhitePaper, description: 'White Paper' },
+  { link: URL.SwingbyDocs, description: 'Documentation' },
+];
+
+export const Terms = [
   {
     link: URL.PrivacyPolicy,
     description: 'Privacy Policy',
   },
+  { link: URL.TermsOfUse, description: 'Terms of Use' },
 ];
 
 export const Media = [
@@ -37,6 +46,10 @@ export const Media = [
   {
     link: URL.Medium,
     icon: <Icon.Medium />,
+  },
+  {
+    link: URL.Reddit,
+    icon: <Icon.Reddit />,
   },
   {
     link: URL.GitHub,

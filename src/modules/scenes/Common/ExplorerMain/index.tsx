@@ -7,6 +7,7 @@ import { useTheme } from 'styled-components';
 
 import { AccountId } from '../../../../components/AccountId';
 import { Footer } from '../../../../components/Footer';
+import { LinkToWidgetModal } from '../../../../components/LinkToWidgetModal';
 import { Search } from '../../../../components/Search';
 import { toastWrongAddress } from '../../../../components/Toast';
 import { ETHCoins } from '../../../coins';
@@ -27,9 +28,12 @@ export const ExplorerMain = () => {
   const dispatch = useDispatch();
   const pool = useSelector((state) => state.pool);
   const { onboard } = pool;
+  const explorer = useSelector((state) => state.explorer);
+  const { swapDetails } = explorer;
 
   //Memo: For check walletAddress === tx.addressOut
   const [walletAddress, setWalletAddress] = useState(null);
+  const [isWidgetModalOpen, setIsWidgetModalOpen] = useState(false);
 
   const login = useCallback(async () => {
     await onboard.walletSelect();
@@ -59,7 +63,8 @@ export const ExplorerMain = () => {
           return;
         }
       } else {
-        window.open(getUrl({ widget }), '_blank', 'noopener');
+        // WHEN: Not swap to ERC20 coin
+        setIsWidgetModalOpen(true);
         return;
       }
     },
@@ -128,17 +133,24 @@ export const ExplorerMain = () => {
   };
 
   return (
-    <PulsarThemeProvider theme="accent">
-      <ExplorerMainContainer>
-        <HeadLine>
-          <TitleH1>{titleGenerator(currentPath)}</TitleH1>
-          <PulsarThemeProvider>{switchRightComponent(currentPath)}</PulsarThemeProvider>
-        </HeadLine>
-        <PulsarThemeProvider>
-          {switchBrowser(currentPath)}
-          <Footer />
-        </PulsarThemeProvider>
-      </ExplorerMainContainer>
-    </PulsarThemeProvider>
+    <>
+      <LinkToWidgetModal
+        isWidgetModalOpen={isWidgetModalOpen}
+        setIsWidgetModalOpen={setIsWidgetModalOpen}
+        tx={swapDetails}
+      />
+      <PulsarThemeProvider theme="accent">
+        <ExplorerMainContainer>
+          <HeadLine>
+            <TitleH1>{titleGenerator(currentPath)}</TitleH1>
+            <PulsarThemeProvider>{switchRightComponent(currentPath)}</PulsarThemeProvider>
+          </HeadLine>
+          <PulsarThemeProvider>
+            {switchBrowser(currentPath)}
+            <Footer />
+          </PulsarThemeProvider>
+        </ExplorerMainContainer>
+      </PulsarThemeProvider>
+    </>
   );
 };

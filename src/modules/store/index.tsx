@@ -9,6 +9,7 @@ export {
   fetchTransactionFees,
   selectSwapDetails,
   updateNetworkInfos,
+  networkInfos,
 } from './explorer';
 export {
   setBridge,

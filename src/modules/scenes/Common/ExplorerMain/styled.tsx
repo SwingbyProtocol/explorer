@@ -35,6 +35,7 @@ export const ExplorerMainContainer = styled.div`
   }
   @media (min-width: ${rem(media.xl)}) {
     display: grid;
+    justify-content: center;
   }
 `;
 
@@ -51,10 +52,6 @@ export const HeadLine = styled.div`
   }
   @media (min-width: ${rem(media.lg)}) {
     margin-bottom: ${({ theme }) => rem(theme.pulsar.size.country)};
-  }
-  @media (min-width: ${rem(media.xl)}) {
-    max-width: ${rem(1190)};
-    justify-self: center;
   }
 `;
 

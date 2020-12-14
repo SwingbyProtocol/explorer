@@ -1,4 +1,10 @@
-export { fetchRecentTransaction, orgFloor, calculateDepositFee } from './utils';
+export {
+  fetchRecentTransaction,
+  orgFloor,
+  calculateDepositFee,
+  makeEarningsData,
+  makeTimeLabels,
+} from './utils';
 
 export { ABI_TOKEN, ABI_SWAP } from './contract';
 
@@ -35,3 +41,10 @@ export interface IRecentTx {
   timeStamp: number;
   value: string;
 }
+
+export interface IEarning {
+  timestamp: number;
+  value: string;
+}
+
+export type TEarningPeriod = '1d' | '14d' | 'All';

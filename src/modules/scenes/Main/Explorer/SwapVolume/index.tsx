@@ -3,7 +3,10 @@ import React from 'react';
 import { Line } from 'react-chartjs-2';
 import { useIntl } from 'react-intl';
 
+import { LoaderComingSoon } from '../../../../../components/LoaderComingSoon';
 import { IStats } from '../../../../explorer';
+import { networkInfos } from '../../../../store/explorer';
+import { LineBox } from '../../../Common';
 
 import { AllVolumeSpan, Box, LineContainer, SwapVolumeContainer, TitleDiv } from './styled';
 
@@ -100,6 +103,9 @@ export const SwapVolume = (props: Props) => {
       ],
     },
   };
+
+  const loading = volumes === networkInfos.stats.volumes;
+
   return (
     <SwapVolumeContainer>
       <Box>
@@ -108,7 +114,10 @@ export const SwapVolume = (props: Props) => {
           <AllVolumeSpan variant="accent">See More</AllVolumeSpan>
         </TitleDiv>
         <LineContainer>
-          <Line type="line" data={data} options={options} height={110} />
+          {loading && <LoaderComingSoon />}
+          <LineBox isLoading={loading}>
+            <Line type="line" data={data} options={options} height={110} />
+          </LineBox>
         </LineContainer>
       </Box>
     </SwapVolumeContainer>
