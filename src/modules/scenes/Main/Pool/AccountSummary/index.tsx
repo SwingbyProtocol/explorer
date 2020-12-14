@@ -62,8 +62,7 @@ export const AccountSummary = () => {
 
         const resultBalanceOf = results[0];
         const balanceLP = Number(toBTC(resultBalanceOf.toString()).toString());
-        // dispatch(setBalanceLP(balanceLP));
-        dispatch(setBalanceLP(10));
+        dispatch(setBalanceLP(balanceLP));
 
         // Todo: Check the logic with backend team
         const priceLP = toBTC(results[1]);
