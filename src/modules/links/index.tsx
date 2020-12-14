@@ -49,7 +49,7 @@ export const Media = [
   },
   {
     link: URL.Reddit,
-    icon: <Icon.Search />,
+    icon: <Icon.Reddit />,
   },
   {
     link: URL.GitHub,

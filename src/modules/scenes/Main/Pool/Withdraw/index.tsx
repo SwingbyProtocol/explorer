@@ -50,13 +50,14 @@ export const Withdraw = (props: Props) => {
   }, [receivingAddress, toCurrency]);
 
   useEffect(() => {
-    console.log(withdrawAmount);
     checkIsValidAmount(withdrawAmount, setIsValidAmount);
   }, [withdrawAmount]);
 
   const withdrawMaxAmount = () => {
     const maxAmount = balanceLP * currentPriceLP;
-    setWithdrawAmount(maxAmount);
+    if (maxAmount) {
+      setWithdrawAmount(String(maxAmount));
+    }
   };
 
   const currencyItems = (
@@ -98,7 +99,7 @@ export const Withdraw = (props: Props) => {
               />
             </RowTop>
             <AmountValidation>
-              {!isValidAmount && withdrawAmount && amountValidationResult}
+              {isValidAmount === false && amountValidationResult}
               <AllButtonDiv>
                 <TextAll variant="accent" onClick={() => withdrawMaxAmount()}>
                   Max
