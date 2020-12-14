@@ -28,7 +28,7 @@ export const Links = [
 export const Media = [
   {
     link: URL.Discord,
-    icon: <Icon.InfoCircle />,
+    icon: <Icon.Discord />,
   },
   {
     link: URL.Twitter,
@@ -40,6 +40,6 @@ export const Media = [
   },
   {
     link: URL.GitHub,
-    icon: <Icon.Search />,
+    icon: <Icon.GitHub />,
   },
 ];

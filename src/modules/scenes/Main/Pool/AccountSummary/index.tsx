@@ -52,9 +52,9 @@ export const AccountSummary = () => {
         const contractSwap = new web3.eth.Contract(ABI_SWAP, CONTRACT_SWAP);
 
         const results = await Promise.all([
-          contractLP.methods.balanceOf(userAddress).call(), // result[0]
-          contractSwap.methods.getCurrentPriceLP().call(), //result[1]
-          contractSwap.methods.getFloatBalanceOf(CONTRACT_LP, userAddress).call(), // result[2]
+          contractLP.methods.balanceOf(userAddress).call(),
+          contractSwap.methods.getCurrentPriceLP().call(),
+          contractSwap.methods.getFloatBalanceOf(CONTRACT_LP, userAddress).call(),
         ]);
 
         const resultBalanceOf = results[0];

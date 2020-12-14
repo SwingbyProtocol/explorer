@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ellipseAddress } from '../../modules/common';
 import { LOCAL_STORAGE } from '../../modules/env';
 import { resetPoolState } from '../../modules/store';
-import { toastCopyAddress } from '../Toast';
+import { copyToClipboard, toastCopyAddress } from '../Toast';
 
 import {
   AccountIdContainer,
@@ -23,17 +23,16 @@ export const AccountId = () => {
   const avatarSrc = userAddress && blockies.create({ seed: userAddress }).toDataURL();
 
   const { copy } = useCopy(userAddress);
-  const copyAddress = () => {
-    copy();
-    toastCopyAddress();
-  };
 
   return (
     <AccountIdWrapper>
       {userAddress && (
         <AccountIdContainer>
           <ImageAvatar src={avatarSrc} alt="avatar" />
-          <TextAddress variant="section-title" onClick={copyAddress}>
+          <TextAddress
+            variant="section-title"
+            onClick={() => copyToClipboard(copy, toastCopyAddress)}
+          >
             {ellipseAddress(userAddress)}
           </TextAddress>
           <IconClose

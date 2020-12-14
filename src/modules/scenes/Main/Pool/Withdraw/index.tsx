@@ -118,7 +118,11 @@ export const Withdraw = (props: Props) => {
             {!isValidAddress && receivingAddress && addressValidationResult}
 
             <ButtonRow>
-              <Button variant="primary" size="country">
+              <Button
+                variant="primary"
+                size="country"
+                disabled={0 >= Number(withdrawAmount) || !isValidAddress || !receivingAddress}
+              >
                 Withdraw
               </Button>
             </ButtonRow>
