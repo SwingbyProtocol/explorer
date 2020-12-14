@@ -132,7 +132,11 @@ export const AddLiquidity = (props: Props) => {
               </div>
             </RowBottom>
             <ButtonRow>
-              <Button variant="primary" size="country">
+              <Button
+                variant="primary"
+                size="country"
+                disabled={0 >= Number(poolAmount) || !isValidAddress || !receivingAddress}
+              >
                 Pool
               </Button>
             </ButtonRow>

@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
 
 import { AccountId } from '../../../../components/AccountId';
+import { Footer } from '../../../../components/Footer';
 import { Search } from '../../../../components/Search';
 import { toastWrongAddress } from '../../../../components/Toast';
 import { ETHCoins } from '../../../coins';
@@ -133,7 +134,10 @@ export const ExplorerMain = () => {
           <TitleH1>{titleGenerator(currentPath)}</TitleH1>
           <PulsarThemeProvider>{switchRightComponent(currentPath)}</PulsarThemeProvider>
         </HeadLine>
-        <PulsarThemeProvider>{switchBrowser(currentPath)}</PulsarThemeProvider>
+        <PulsarThemeProvider>
+          {switchBrowser(currentPath)}
+          <Footer />
+        </PulsarThemeProvider>
       </ExplorerMainContainer>
     </PulsarThemeProvider>
   );

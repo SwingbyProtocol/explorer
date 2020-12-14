@@ -69,6 +69,14 @@ export const checkIsValidAddress = (
 };
 
 export const checkIsValidAmount = (amount: string, fn: (result: boolean) => void): void => {
-  const result = Number.isInteger(Number(amount));
-  fn(result);
+  if (amount) {
+    const valueArray = amount.split('');
+    for (const value of valueArray) {
+      if (/^[^.0-9]*$/.test(value)) {
+        fn(false);
+      } else {
+        fn(true);
+      }
+    }
+  }
 };

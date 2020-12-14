@@ -7,7 +7,7 @@ import { CoinSymbol } from '../../../../coins';
 import { CONTRACT_LP, CONTRACT_SWAP } from '../../../../env';
 import { toBTC } from '../../../../explorer';
 import { ABI_TOKEN, orgFloor, ABI_SWAP } from '../../../../pool';
-import { setBalanceLP } from '../../../../store';
+import { getCurrentPriceLP, setBalanceLP } from '../../../../store';
 
 import {
   AccountSummaryContainer,
@@ -52,9 +52,9 @@ export const AccountSummary = () => {
         const contractSwap = new web3.eth.Contract(ABI_SWAP, CONTRACT_SWAP);
 
         const results = await Promise.all([
-          contractLP.methods.balanceOf(userAddress).call(), // result[0]
-          contractSwap.methods.getCurrentPriceLP().call(), //result[1]
-          contractSwap.methods.getFloatBalanceOf(CONTRACT_LP, userAddress).call(), // result[2]
+          contractLP.methods.balanceOf(userAddress).call(),
+          contractSwap.methods.getCurrentPriceLP().call(),
+          contractSwap.methods.getFloatBalanceOf(CONTRACT_LP, userAddress).call(),
         ]);
 
         const resultBalanceOf = results[0];
@@ -69,6 +69,7 @@ export const AccountSummary = () => {
 
         setClaimableAmount(totalClaimableAmount);
         setTotalEarnings(totalEarnings);
+        dispatch(getCurrentPriceLP(priceLP));
       })();
     }
   }, [dispatch, web3, userAddress]);

@@ -158,7 +158,6 @@ export const BrowserFooter = styled.div`
 export const Pagination = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.country)};
 `;
 
 export const BackButton = styled(Button)`

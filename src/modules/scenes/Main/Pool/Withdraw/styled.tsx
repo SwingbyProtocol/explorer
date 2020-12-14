@@ -144,8 +144,23 @@ export const ButtonRow = styled.div`
 
 export const AmountValidation = styled.div`
   margin-top: ${({ theme }) => rem(theme.pulsar.size.box / 2)};
-  margin-left: ${rem(130)};
+  margin-left: ${rem(110)};
+  display: grid;
+  justify-content: end;
   @media (min-width: ${rem(media.sm)}) {
     margin-left: ${rem(168)};
   }
+`;
+
+export const AllButtonDiv = styled.div`
+  padding-right: ${({ theme }) => rem(theme.pulsar.size.street)};
+  @media (min-width: ${rem(media.sm)}) {
+    padding-right: ${({ theme }) => rem(theme.pulsar.size.room)};
+  }
+`;
+
+export const TextAll = styled(Text)`
+  cursor: pointer;
+  color: ${({ theme }) => theme.pulsar.color.primary.active};
+  text-decoration: underline;
 `;
