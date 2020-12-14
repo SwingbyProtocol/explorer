@@ -7,7 +7,7 @@ import { CoinSymbol } from '../../../../coins';
 import { CONTRACT_LP, CONTRACT_SWAP } from '../../../../env';
 import { toBTC } from '../../../../explorer';
 import { ABI_TOKEN, orgFloor, ABI_SWAP } from '../../../../pool';
-import { setBalanceLP } from '../../../../store';
+import { getCurrentPriceLP, setBalanceLP } from '../../../../store';
 
 import {
   AccountSummaryContainer,
@@ -69,6 +69,7 @@ export const AccountSummary = () => {
 
         setClaimableAmount(totalClaimableAmount);
         setTotalEarnings(totalEarnings);
+        dispatch(getCurrentPriceLP(priceLP));
       })();
     }
   }, [dispatch, web3, userAddress]);

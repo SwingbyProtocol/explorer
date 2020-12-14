@@ -1,5 +1,6 @@
 import { Button, Dropdown } from '@swingby-protocol/pulsar';
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
 
 import { CoinSymbol, PoolCurrencies } from '../../../../coins';
@@ -23,6 +24,8 @@ import {
   TextLabel,
   Top,
   WithdrawContainer,
+  TextAll,
+  AllButtonDiv,
 } from './styled';
 
 interface Props {
@@ -33,6 +36,8 @@ interface Props {
 export const Withdraw = (props: Props) => {
   const { addressValidationResult, amountValidationResult } = props;
   const theme = useTheme();
+  const pool = useSelector((state) => state.pool);
+  const { currentPriceLP, balanceLP } = pool;
 
   const [receivingAddress, setReceivingAddress] = useState('');
   const [withdrawAmount, setWithdrawAmount] = useState(null);
@@ -48,6 +53,11 @@ export const Withdraw = (props: Props) => {
     console.log(withdrawAmount);
     checkIsValidAmount(withdrawAmount, setIsValidAmount);
   }, [withdrawAmount]);
+
+  const withdrawMaxAmount = () => {
+    const maxAmount = balanceLP * currentPriceLP;
+    setWithdrawAmount(maxAmount);
+  };
 
   const currencyItems = (
     <>
@@ -89,6 +99,11 @@ export const Withdraw = (props: Props) => {
             </RowTop>
             <AmountValidation>
               {!isValidAmount && withdrawAmount && amountValidationResult}
+              <AllButtonDiv>
+                <TextAll variant="accent" onClick={() => withdrawMaxAmount()}>
+                  Max
+                </TextAll>
+              </AllButtonDiv>
             </AmountValidation>
           </Top>
           <Bottom>
