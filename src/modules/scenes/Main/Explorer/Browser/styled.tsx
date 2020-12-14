@@ -20,6 +20,9 @@ export const BrowserContainer = styled.div`
   @media (min-width: ${rem(media.lg)}) {
     padding-bottom: ${({ theme }) => rem(theme.pulsar.size.state)};
   }
+  @media (min-width: ${rem(media.xl)}) {
+    justify-self: center;
+  }
 `;
 
 export const BrowserDiv = styled(Card)`

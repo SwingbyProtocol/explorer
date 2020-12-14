@@ -1,7 +1,9 @@
 import { Button } from '@swingby-protocol/pulsar';
 import React, { useEffect, useState } from 'react';
+import useCopy from '@react-hook/copy';
 
 import { SwapRawObject, TStatus } from '../../../../explorer';
+import { copyToClipboard, toastCopyURL } from '../../../../../components/Toast';
 
 import {
   ActionButtonsSwapContainer,
@@ -19,6 +21,8 @@ interface Props {
 export const ActionButtons = (props: Props) => {
   const { tx, linkToSwapWidget } = props;
   const [toggleOpenLink, setToggleOpenLink] = useState(1);
+  const currentUrl = typeof window !== 'undefined' && window.location.href;
+  const { copy } = useCopy(currentUrl);
 
   useEffect(() => {
     if (toggleOpenLink > 1) {
@@ -37,7 +41,7 @@ export const ActionButtons = (props: Props) => {
         <Button variant="secondary" size="city">
           Duplicate
         </Button>
-        <Button variant="primary" size="city">
+        <Button variant="primary" size="city" onClick={() => copyToClipboard(copy, toastCopyURL)}>
           Share
         </Button>
         <ButtonClaimSwapTablet

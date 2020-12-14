@@ -20,4 +20,5 @@ export {
   setWeb3,
   getRecentTxs,
   resetPoolState,
+  getCurrentPriceLP,
 } from './pool';

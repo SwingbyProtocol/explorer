@@ -8,7 +8,7 @@ import { CONTRACT_LP, CONTRACT_SWAP, ENDPOINT_EARNINGS } from '../../../../env';
 import { toBTC } from '../../../../explorer';
 import { fetch } from '../../../../fetch';
 import { ABI_TOKEN, orgFloor, ABI_SWAP } from '../../../../pool';
-import { setBalanceLP } from '../../../../store';
+import { getCurrentPriceLP, setBalanceLP } from '../../../../store';
 
 import {
   AccountSummaryContainer,
@@ -68,12 +68,11 @@ export const AccountSummary = () => {
         const priceLP = toBTC(results[1]);
         const userFloatBal = Number(results[2]);
         const totalClaimableAmount = priceLP * userFloatBal;
-
-        setClaimableAmount(totalClaimableAmount);
-
-        // Todo: Check unit. BTC? Satoshi?
         const totalEarnings = results[3].ok && results[3].response.total;
         setTotalEarnings(Number(totalEarnings));
+
+        setClaimableAmount(totalClaimableAmount);
+        dispatch(getCurrentPriceLP(priceLP));
       })();
     }
   }, [dispatch, web3, userAddress]);
