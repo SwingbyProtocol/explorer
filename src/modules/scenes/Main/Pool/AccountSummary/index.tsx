@@ -34,6 +34,9 @@ export const AccountSummary = () => {
 
   const { locale } = useIntl();
   const currency = CoinSymbol.BTC;
+
+  // Todo: Remove `disable-next-line` after 'earnings API' works
+  // eslint-disable-next-line
   const usdTotalEarnings = getFiatAssetFormatter({
     locale: locale,
     currency: 'USD',
@@ -101,12 +104,16 @@ export const AccountSummary = () => {
       <RowEarning>
         <TextRoom variant="label">Total Earnings</TextRoom>
         <TextRoom variant="accent">
-          {totalEarnings} {currency}
+          {/* {totalEarnings} {currency} */}
+          COMING SOON
         </TextRoom>
       </RowEarning>
       <RowEarning>
         <TextRoom variant="label">($USD)</TextRoom>
-        <TextRoom variant="accent">{usdTotalEarnings}</TextRoom>
+        <TextRoom variant="accent">
+          {/* {usdTotalEarnings} */}
+          COMING SOON
+        </TextRoom>
       </RowEarning>
     </AccountSummaryContainer>
   );

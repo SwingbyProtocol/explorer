@@ -17,11 +17,11 @@ export const LoaderComingSoon = (props: Props) => {
         <TextComingSoon variant="accent">
           {props.isPlaceholder ? 'COMING SOON...' : 'LOADING'}{' '}
         </TextComingSoon>
-        <LoaderBox>
-          {!props.isPlaceholder && (
+        {!props.isPlaceholder && (
+          <LoaderBox>
             <PulseLoader margin={3} size={4} color={theme.pulsar.color.text.normal} />
-          )}
-        </LoaderBox>
+          </LoaderBox>
+        )}
       </Row>
     </LoaderComingSoonContainer>
   );
