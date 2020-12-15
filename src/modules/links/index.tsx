@@ -9,7 +9,8 @@ export const URL = {
   TermsOfUse: 'https://docs.swingby.network/terms.pdf',
   PrivacyPolicy: 'https://docs.swingby.network/privacy-policy.pdf',
   Discord: 'https://swingby.network/discord',
-  Twitter: 'https://swingby.network/telegram',
+  Twitter: 'https://twitter.com/SwingbyProtocol',
+  Telegram: 'https://swingby.network/telegram',
   Medium: 'https://swingby.medium.com/',
   Reddit: 'https://swingby.network/reddit',
   GitHub: 'https://github.com/SwingbyProtocol/',
@@ -40,8 +41,8 @@ export const Media = [
     icon: <Icon.Discord />,
   },
   {
-    link: URL.Twitter,
-    icon: <Icon.Twitter />,
+    link: URL.Telegram,
+    icon: <Icon.Telegram />,
   },
   {
     link: URL.Medium,
