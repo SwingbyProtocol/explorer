@@ -11,7 +11,7 @@ export const BrowserMetanodes = () => {
       </Head>
       <BrowserMetanodesContainer>
         <BrowserMetanodesDiv size="bare">
-          <h1>hello</h1>
+          <h1>Coming soon</h1>
         </BrowserMetanodesDiv>
       </BrowserMetanodesContainer>
     </>

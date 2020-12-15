@@ -134,7 +134,8 @@ export const EarningsChart = () => {
     const loading = earnings.values === initialEarningsAll.values;
     if (!loading && userAddress) {
       setTimeout(() => {
-        setIsLoading(false);
+        // Todo: Change to 'false' after 'earnings API' works
+        setIsLoading(true);
       }, 800);
     }
   }, [earnings.values, initialEarningsAll.values, userAddress]);
@@ -173,7 +174,8 @@ export const EarningsChart = () => {
           </Column>
         </TitleDiv>
         <LineContainer>
-          {isLoading && <LoaderComingSoon />}
+          {/* Memo: remove isPlaceholder props after 'earnings API' works */}
+          {isLoading && <LoaderComingSoon isPlaceholder={true} />}
           <LineBox isLoading={isLoading}>
             <Line type="line" data={data} options={options} height={110} />
           </LineBox>
