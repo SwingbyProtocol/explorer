@@ -8,6 +8,8 @@ export const titleGenerator = (path: string): string => {
       return 'Skybridge Explorer';
     case PATH.POOL:
       return 'Pool Liquidity';
+    case PATH.METANODES:
+      return 'Metanodes';
 
     default:
       break;
