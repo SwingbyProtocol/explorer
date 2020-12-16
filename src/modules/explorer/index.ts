@@ -18,6 +18,7 @@ export {
   isBitcoinAddress,
   checkIsValidAddress,
   checkIsValidAmount,
+  convertDateTime,
 } from './utils';
 
 export const BRIDGE = {
