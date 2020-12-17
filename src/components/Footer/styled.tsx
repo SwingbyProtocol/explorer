@@ -7,6 +7,7 @@ import { StylingConstants } from '../../modules/styles';
 const { media } = StylingConstants;
 
 export const FooterContainer = styled.div`
+  height: 100%;
   margin-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
 `;
 export const FooterBox = styled.div`

@@ -1,2 +1,13 @@
 export { ExplorerMain } from './ExplorerMain';
-export { IconInfo, Atag, IconArrowLeft, LineBox } from './Styled';
+export {
+  IconInfo,
+  Atag,
+  IconArrowLeft,
+  LineBox,
+  TextDanger,
+  TextSecondary,
+  TextPrimary,
+  TextBlock,
+  TextEllipsis,
+  SizeS,
+} from './Styled';

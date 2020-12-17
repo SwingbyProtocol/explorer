@@ -21,4 +21,5 @@ export {
   getRecentTxs,
   resetPoolState,
   getCurrentPriceLP,
+  getDepositFeeRate,
 } from './pool';

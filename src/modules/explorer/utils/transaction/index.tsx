@@ -119,6 +119,23 @@ export const convertTxTime = (unixTimestamp: number) => {
   );
 };
 
+export const convertDateTime = (unixTimestamp: number) => {
+  const ts = unixTimestamp * 1000;
+
+  return (
+    <FormattedDate
+      value={ts}
+      format="auto"
+      hour="numeric"
+      minute="numeric"
+      year="numeric"
+      month="short"
+      day="2-digit"
+      hour12={false}
+    />
+  );
+};
+
 export const capitalize = (s: string): string => {
   const word = s.toLowerCase();
   return word.charAt(0).toUpperCase() + word.slice(1);

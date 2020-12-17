@@ -16,7 +16,7 @@ import { mode, PATH } from '../../../env';
 import { SwapRawObject } from '../../../explorer';
 import { initOnboard } from '../../../onboard';
 import { setOnboard } from '../../../store';
-import { Browser, BrowserDetail, BrowserPool } from '../../Main';
+import { Browser, BrowserDetail, BrowserMetanodes, BrowserPool } from '../../Main';
 
 import { ExplorerMainContainer, HeadLine, TitleH1 } from './styled';
 
@@ -106,6 +106,8 @@ export const ExplorerMain = () => {
         );
       case PATH.POOL:
         return <BrowserPool />;
+      case PATH.METANODES:
+        return <BrowserMetanodes />;
 
       default:
         <Browser
@@ -126,6 +128,8 @@ export const ExplorerMain = () => {
         return <Search />;
       case PATH.POOL:
         return <AccountId />;
+      case PATH.METANODES:
+        return <></>;
 
       default:
         return <Search />;

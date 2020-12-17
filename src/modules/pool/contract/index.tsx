@@ -57,4 +57,26 @@ export const ABI_SWAP = [
     constant: false,
     payable: false,
   },
+  {
+    inputs: [
+      {
+        name: '_token',
+        type: 'address',
+      },
+      {
+        name: '_amountOfFloat',
+        type: 'uint256',
+      },
+    ],
+    name: 'getDepositFeeRate',
+    outputs: [
+      {
+        name: 'depositFeeRate',
+        type: 'uint256',
+      },
+    ],
+    type: 'function',
+    constant: false,
+    payable: false,
+  },
 ];

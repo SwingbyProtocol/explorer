@@ -1,4 +1,5 @@
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { setBridge } from '../../../../store';
@@ -13,7 +14,9 @@ export const Bridges = () => {
   return (
     <BridgesContainer>
       <RowTitle>
-        <TextTitle variant="accent">Bridges</TextTitle>
+        <TextTitle variant="accent">
+          <FormattedMessage id="pool.bridges" />
+        </TextTitle>
       </RowTitle>
       {bridges.map((bridge: string, i: number) => {
         return (

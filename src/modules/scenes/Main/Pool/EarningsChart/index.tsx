@@ -1,7 +1,7 @@
 import { Text } from '@swingby-protocol/pulsar';
 import React, { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 
 import { LoaderComingSoon } from '../../../../../components/LoaderComingSoon';
@@ -134,7 +134,8 @@ export const EarningsChart = () => {
     const loading = earnings.values === initialEarningsAll.values;
     if (!loading && userAddress) {
       setTimeout(() => {
-        setIsLoading(false);
+        // Todo: Change to 'false' after 'earnings API' works
+        setIsLoading(true);
       }, 800);
     }
   }, [earnings.values, initialEarningsAll.values, userAddress]);
@@ -143,7 +144,9 @@ export const EarningsChart = () => {
     <EarningsChartContainer>
       <Box>
         <TitleDiv>
-          <Text variant="section-title">Earnings</Text>
+          <Text variant="section-title">
+            <FormattedMessage id="pool.earnings" />
+          </Text>
           <Column>
             {/* Memo: Somehow occurs exponential number error in '14d' if use `map` */}
             <TextDate
@@ -152,7 +155,7 @@ export const EarningsChart = () => {
               isActive={'1d' === chartDuration}
               isAll={false}
             >
-              1d
+              <FormattedMessage id="pool.1d" />
             </TextDate>
             <TextDate
               variant="label"
@@ -160,7 +163,7 @@ export const EarningsChart = () => {
               isActive={'14d' === chartDuration}
               isAll={false}
             >
-              14d
+              <FormattedMessage id="pool.14d" />
             </TextDate>
             <TextDate
               variant="label"
@@ -168,12 +171,13 @@ export const EarningsChart = () => {
               isActive={'All' === chartDuration}
               isAll={true}
             >
-              All
+              <FormattedMessage id="common.all" />
             </TextDate>
           </Column>
         </TitleDiv>
         <LineContainer>
-          {isLoading && <LoaderComingSoon />}
+          {/* Memo: remove isPlaceholder props after 'earnings API' works */}
+          {isLoading && <LoaderComingSoon isPlaceholder={true} />}
           <LineBox isLoading={isLoading}>
             <Line type="line" data={data} options={options} height={110} />
           </LineBox>

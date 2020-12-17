@@ -1,6 +1,6 @@
 import { Dropdown, getCryptoAssetFormatter, Icon, Text } from '@swingby-protocol/pulsar';
 import React, { useEffect, useState } from 'react';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 
 import {
@@ -91,7 +91,9 @@ export const TxHistories = (props: Props) => {
           setToggleOpenLink(toggleOpenLink + 1);
         }}
       >
-        <p>Check the swap progress</p>
+        <p>
+          <FormattedMessage id="home.recentSwaps.checkSwapProgress" />
+        </p>
       </Dropdown.Item>
       {tx.txIdOut && (
         <Dropdown.Item
@@ -99,7 +101,9 @@ export const TxHistories = (props: Props) => {
             window.open(transactionDetailByTxId(tx.currencyOut, tx.txIdOut), '_blank', 'noopener')
           }
         >
-          <p>Get the transaction details</p>
+          <p>
+            <FormattedMessage id="home.recentSwaps.getTxDetails" />
+          </p>
         </Dropdown.Item>
       )}
     </>
@@ -110,10 +114,14 @@ export const TxHistories = (props: Props) => {
       <TxHistoriesContainer>
         <TitleRow>
           <Left>
-            <Text variant="section-title">Recent Swaps</Text>
+            <Text variant="section-title">
+              <FormattedMessage id="home.recentSwaps.recentSwaps" />
+            </Text>
           </Left>
           <Right>
-            <TextFee variant="section-title">Fees</TextFee>
+            <TextFee variant="section-title">
+              <FormattedMessage id="home.recentSwaps.fees" />
+            </TextFee>
             {filter}
           </Right>
         </TitleRow>
@@ -140,10 +148,14 @@ export const TxHistories = (props: Props) => {
                 </Column>
                 <Column>
                   <Top>
-                    <Text variant="label">From</Text>
+                    <Text variant="label">
+                      <FormattedMessage id="common.from" />
+                    </Text>
                   </Top>
                   <Bottom>
-                    <Text variant="label">To</Text>
+                    <Text variant="label">
+                      <FormattedMessage id="common.to" />
+                    </Text>
                   </Bottom>
                 </Column>
                 <Column>
@@ -212,8 +224,8 @@ export const TxHistories = (props: Props) => {
           </BackButton>
           <PageRow page={page}>
             <Text variant="masked">
-              {/* Memo: Disable `maximumPage` because `swapHistory.total` is never gonna fixed due to removing duplicated txs */}
-              Page {page} {/* of {maximumPage} */}
+              <FormattedMessage id="common.page" />
+              {page}
             </Text>
           </PageRow>
           <NextButton

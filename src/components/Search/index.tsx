@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
+import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 
 import { StylingConstants } from '../../modules/styles';
@@ -13,6 +14,8 @@ export const Search = () => {
 
   const explorer = useSelector((state) => state.explorer);
   const { width } = explorer;
+  const { formatMessage } = useIntl();
+
   return (
     <SearchInput
       size={width > media.lg ? 'country' : width > media.md ? 'state' : 'country'}
@@ -24,7 +27,7 @@ export const Search = () => {
           query: { bridge: '', q: evt.target.value, page: 1 },
         });
       }}
-      placeholder="Search by address or Txn Hash"
+      placeholder={formatMessage({ id: 'common.placeholder.search' })}
       right={<SearchIcon size="country" />}
     />
   );

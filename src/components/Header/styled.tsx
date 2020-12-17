@@ -49,13 +49,12 @@ export const Menu = styled.div`
   display: none;
   @media (min-width: ${rem(media.sm)}) {
     margin-left: ${({ theme }) => rem(theme.pulsar.size.town)};
-    width: ${rem(190)};
+    width: ${rem(130)};
     display: flex;
     justify-content: space-between;
   }
   @media (min-width: ${rem(media.md)}) {
     margin-left: ${({ theme }) => rem(theme.pulsar.size.country)};
-    width: ${rem(190)};
   }
 `;
 

@@ -1,5 +1,6 @@
 import { Button } from '@swingby-protocol/pulsar';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { PoolMode } from '../../../../pool';
@@ -17,7 +18,9 @@ export const ActionButtonsPool = () => {
     <ActionButtonsPoolContainer>
       {mode === PoolMode.Summary ? (
         <RowText>
-          <TextTitle variant="accent">APY: </TextTitle>
+          <TextTitle variant="accent">
+            <FormattedMessage id="pool.apy" />
+          </TextTitle>
           <TextAPY variant="accent">{apyRate}%</TextAPY>
         </RowText>
       ) : (
@@ -29,14 +32,14 @@ export const ActionButtonsPool = () => {
           size="city"
           onClick={() => dispatch(togglePoolMode(PoolMode.Withdraw))}
         >
-          Withdraw
+          <FormattedMessage id="pool.withdraw" />
         </Button>
         <Button
           variant="primary"
           size="city"
           onClick={() => dispatch(togglePoolMode(PoolMode.AddLiquidity))}
         >
-          + Add Liquidity
+          <FormattedMessage id="pool.addLiquidity" />
         </Button>
       </Buttons>
     </ActionButtonsPoolContainer>

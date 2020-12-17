@@ -1,5 +1,6 @@
 import { Text } from '@swingby-protocol/pulsar';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 
 import { SeeMore } from '../../../../../components/SeeMore';
 import { TXS_COUNT } from '../../../../env';
@@ -31,7 +32,9 @@ export const FeeDistribution = (props: Props) => {
   return (
     <FeeDistributionContainer>
       <TitleRow>
-        <TitleText variant="accent">Fee Distribution</TitleText>
+        <TitleText variant="accent">
+          <FormattedMessage id="swap.feeDistribution" />
+        </TitleText>
         {tx.rewards[0].txId && (
           <a
             href={transactionDetailByTxId(tx.currencyOut, tx.rewards[0].txId)}

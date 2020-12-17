@@ -1,5 +1,6 @@
 import { Text } from '@swingby-protocol/pulsar';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { useSelector } from 'react-redux';
 
 import { calculateFixedFee, SwapRawObject } from '../../../../explorer';
@@ -17,7 +18,9 @@ export const SwapFees = (props: Props) => {
   const calculatedFees = transactionFees && calculateFixedFee(tx.feeCurrency, transactionFees);
   return (
     <SwapFeesContainer>
-      <TitleText variant="accent">Swap Fees</TitleText>
+      <TitleText variant="accent">
+        <FormattedMessage id="swap.swapFees" />
+      </TitleText>
       <Row>
         <CoinContainer>
           <Coin symbol={tx.feeCurrency} />

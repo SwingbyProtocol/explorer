@@ -1,3 +1,4 @@
+import { FormattedMessage } from 'react-intl';
 import { toast } from 'react-toastify';
 
 export const copyToClipboard = (copy: () => void, toast: () => void) => {
@@ -6,7 +7,7 @@ export const copyToClipboard = (copy: () => void, toast: () => void) => {
 };
 
 export const toastWrongAddress = () => {
-  toast.error('Invalid wallet address, please check the transaction again', {
+  toast.error(<FormattedMessage id="toast.invalidWalletAddress" />, {
     autoClose: 3000,
     draggable: true,
     hideProgressBar: true,
@@ -14,7 +15,7 @@ export const toastWrongAddress = () => {
 };
 
 export const toastCopyAddress = () => {
-  toast.info('Copied your address!', {
+  toast.info(<FormattedMessage id="toast.copiedAddress" />, {
     autoClose: 3000,
     draggable: true,
     hideProgressBar: true,
@@ -22,7 +23,7 @@ export const toastCopyAddress = () => {
 };
 
 export const toastCopyURL = () => {
-  toast.info("Copied this transaction's link!", {
+  toast.info(<FormattedMessage id="toast.copiedLinkURL" />, {
     autoClose: 3000,
     draggable: true,
     hideProgressBar: true,

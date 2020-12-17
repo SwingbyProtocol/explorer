@@ -1,13 +1,17 @@
+import { FormattedMessage } from 'react-intl';
+
 import { PATH } from '../../../env';
 
-export const titleGenerator = (path: string): string => {
+export const titleGenerator = (path: string): JSX.Element => {
   switch (path) {
     case PATH.ROOT:
-      return 'Skybridge Explorer';
+      return <FormattedMessage id="home.explorer" />;
     case PATH.SWAP + '/[hash]':
-      return 'Skybridge Explorer';
+      return <FormattedMessage id="home.explorer" />;
     case PATH.POOL:
-      return 'Pool Liquidity';
+      return <FormattedMessage id="pool.liquidity" />;
+    case PATH.METANODES:
+      return <FormattedMessage id="metanodes.metanodes" />;
 
     default:
       break;

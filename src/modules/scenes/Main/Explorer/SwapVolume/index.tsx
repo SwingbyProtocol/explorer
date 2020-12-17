@@ -1,7 +1,7 @@
 import { Text } from '@swingby-protocol/pulsar';
 import React from 'react';
 import { Line } from 'react-chartjs-2';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import { LoaderComingSoon } from '../../../../../components/LoaderComingSoon';
 import { IStats } from '../../../../explorer';
@@ -110,8 +110,12 @@ export const SwapVolume = (props: Props) => {
     <SwapVolumeContainer>
       <Box>
         <TitleDiv>
-          <Text variant="section-title">Total Swap Vol. 7d</Text>
-          <AllVolumeSpan variant="accent">See More</AllVolumeSpan>
+          <Text variant="section-title">
+            <FormattedMessage id="home.network.totalSwapVol" />
+          </Text>
+          <AllVolumeSpan variant="accent">
+            <FormattedMessage id="common.seeMore" />
+          </AllVolumeSpan>
         </TitleDiv>
         <LineContainer>
           {loading && <LoaderComingSoon />}

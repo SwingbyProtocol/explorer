@@ -1,6 +1,7 @@
 import { Button } from '@swingby-protocol/pulsar';
 import React, { useEffect, useState } from 'react';
 import useCopy from '@react-hook/copy';
+import { FormattedMessage } from 'react-intl';
 
 import { SwapRawObject, TStatus } from '../../../../explorer';
 import { copyToClipboard, toastCopyURL } from '../../../../../components/Toast';
@@ -39,17 +40,17 @@ export const ActionButtons = (props: Props) => {
       />
       <Buttons>
         <Button variant="secondary" size="city">
-          Duplicate
+          <FormattedMessage id="swap.duplicate" />
         </Button>
         <Button variant="primary" size="city" onClick={() => copyToClipboard(copy, toastCopyURL)}>
-          Share
+          <FormattedMessage id="swap.share" />
         </Button>
         <ButtonClaimSwapTablet
           variant="tertiary"
           size="city"
           onClick={() => setToggleOpenLink(toggleOpenLink + 1)}
         >
-          Claim Swap
+          <FormattedMessage id="swap.claimSwap" />
         </ButtonClaimSwapTablet>
       </Buttons>
       <ButtonClaimSwapRow>
@@ -58,7 +59,7 @@ export const ActionButtons = (props: Props) => {
           size="city"
           onClick={() => setToggleOpenLink(toggleOpenLink + 1)}
         >
-          Claim Swap
+          <FormattedMessage id="swap.claimSwap" />
         </Button>
       </ButtonClaimSwapRow>
     </ActionButtonsSwapContainer>

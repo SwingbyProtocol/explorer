@@ -1,6 +1,6 @@
 import { getCryptoAssetFormatter, getFiatAssetFormatter, Text } from '@swingby-protocol/pulsar';
 import React, { useEffect, useState } from 'react';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { CoinSymbol } from '../../../../coins';
@@ -8,7 +8,7 @@ import { CONTRACT_LP, CONTRACT_SWAP, ENDPOINT_EARNINGS } from '../../../../env';
 import { toBTC } from '../../../../explorer';
 import { fetch } from '../../../../fetch';
 import { ABI_TOKEN, orgFloor, ABI_SWAP } from '../../../../pool';
-import { getCurrentPriceLP, setBalanceLP } from '../../../../store';
+import { getCurrentPriceLP, getDepositFeeRate, setBalanceLP } from '../../../../store';
 
 import {
   AccountSummaryContainer,
@@ -34,6 +34,9 @@ export const AccountSummary = () => {
 
   const { locale } = useIntl();
   const currency = CoinSymbol.BTC;
+
+  // Todo: Remove `disable-next-line` after 'earnings API' works
+  // eslint-disable-next-line
   const usdTotalEarnings = getFiatAssetFormatter({
     locale: locale,
     currency: 'USD',
@@ -73,6 +76,12 @@ export const AccountSummary = () => {
 
         setClaimableAmount(totalClaimableAmount);
         dispatch(getCurrentPriceLP(priceLP));
+
+        const depositFeeRate = await contractSwap.methods
+          .getDepositFeeRate(userAddress, userFloatBal)
+          .call();
+        dispatch(getDepositFeeRate(depositFeeRate));
+        console.log('depositFeeRate', depositFeeRate);
       })();
     }
   }, [dispatch, web3, userAddress]);
@@ -80,13 +89,17 @@ export const AccountSummary = () => {
   return (
     <AccountSummaryContainer>
       <RowTitle>
-        <Text variant="section-title">Your Account</Text>
+        <Text variant="section-title">
+          <FormattedMessage id="pool.yourAccount" />
+        </Text>
       </RowTitle>
       <Column>
         <Coin symbol={currency} />
         <div>
           <Top>
-            <TextRoom variant="label">{currency} Claim</TextRoom>
+            <TextRoom variant="label">
+              {currency} <FormattedMessage id="pool.claim" />
+            </TextRoom>
           </Top>
           <Bottom>
             <TextAmount variant="accent">{formattedClaimableAmount}</TextAmount>
@@ -94,19 +107,30 @@ export const AccountSummary = () => {
         </div>
       </Column>
       <RowEarning>
-        <TextRoom variant="label">Balance (LP token)</TextRoom>
+        <TextRoom variant="label">
+          <FormattedMessage id="pool.balance" />
+        </TextRoom>
         {/* Memo: Show number at 3 decimal */}
         <TextRoom variant="accent">{orgFloor(balanceLP, 1000)}</TextRoom>
       </RowEarning>
       <RowEarning>
-        <TextRoom variant="label">Total Earnings</TextRoom>
+        <TextRoom variant="label">
+          {' '}
+          <FormattedMessage id="pool.totalEarnings" />
+        </TextRoom>
         <TextRoom variant="accent">
-          {totalEarnings} {currency}
+          {/* {totalEarnings} {currency} */}
+          <FormattedMessage id="common.comingSoon" />
         </TextRoom>
       </RowEarning>
       <RowEarning>
-        <TextRoom variant="label">($USD)</TextRoom>
-        <TextRoom variant="accent">{usdTotalEarnings}</TextRoom>
+        <TextRoom variant="label">
+          <FormattedMessage id="common.comingSoon" />
+        </TextRoom>
+        <TextRoom variant="accent">
+          {/* {usdTotalEarnings} */}
+          <FormattedMessage id="common.comingSoon" />
+        </TextRoom>
       </RowEarning>
     </AccountSummaryContainer>
   );

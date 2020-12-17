@@ -1,5 +1,6 @@
 import { Dropdown } from '@swingby-protocol/pulsar';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { setBridge } from '../../../../store';
@@ -29,7 +30,9 @@ export const BridgesMobile = () => {
   return (
     <BridgesMobileContainer>
       {!userAddress && <BackDrop />}
-      <TextTitle variant="accent">Bridges</TextTitle>
+      <TextTitle variant="accent">
+        <FormattedMessage id="pool.bridges" />
+      </TextTitle>
       <Dropdown
         target={<DropTargetBridges size="city">{bridge}</DropTargetBridges>}
         data-testid="dropdown"

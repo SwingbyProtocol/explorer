@@ -3,6 +3,7 @@ export {
   currencyNetwork,
   statusColor,
   TxStatus,
+  convertDateTime,
   removeDuplicatedTxs,
   convertTxTime,
   capitalize,
