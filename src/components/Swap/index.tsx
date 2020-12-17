@@ -1,6 +1,7 @@
 import { Button } from '@swingby-protocol/pulsar';
 import { createWidget, getHtml, openPopup } from '@swingby-protocol/widget';
 import { useCallback, useMemo } from 'react';
+import { FormattedMessage } from 'react-intl';
 
 import { mode } from '../../modules/env';
 
@@ -15,7 +16,7 @@ export const Swap = () => {
     <>
       <SwapMobileRow>
         <Button variant="primary" size="state" onClick={show} target="_blank">
-          Swap
+          <FormattedMessage id="common.swap" />
         </Button>
       </SwapMobileRow>
 

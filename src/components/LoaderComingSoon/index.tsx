@@ -1,4 +1,5 @@
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { PulseLoader } from 'react-spinners';
 import { useTheme } from 'styled-components';
 
@@ -15,7 +16,11 @@ export const LoaderComingSoon = (props: Props) => {
       <TextComingSoon variant="accent">{'</>'}</TextComingSoon>
       <Row>
         <TextComingSoon variant="accent">
-          {props.isPlaceholder ? 'COMING SOON...' : 'LOADING'}{' '}
+          {props.isPlaceholder ? (
+            <FormattedMessage id="common.loader.comingSoon" />
+          ) : (
+            <FormattedMessage id="common.loader.loading" />
+          )}
         </TextComingSoon>
         {!props.isPlaceholder && (
           <LoaderBox>

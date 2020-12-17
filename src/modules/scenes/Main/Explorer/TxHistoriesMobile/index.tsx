@@ -1,5 +1,6 @@
 import { Icon, Text } from '@swingby-protocol/pulsar';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { useDispatch } from 'react-redux';
 
 import {
@@ -72,7 +73,9 @@ export const TxHistoriesMobile = (props: Props) => {
       <TxHistoriesMobileContainer>
         <TitleRow>
           <Left>
-            <Text variant="section-title">Recent Swaps</Text>
+            <Text variant="section-title">
+              <FormattedMessage id="home.recentSwaps.recentSwaps" />
+            </Text>
           </Left>
           <Right>{filter}</Right>
         </TitleRow>
@@ -141,7 +144,10 @@ export const TxHistoriesMobile = (props: Props) => {
             <Icon.CaretLeft />
           </BackButton>
           <PageRow page={page}>
-            <Text variant="label">Page {page}</Text>
+            <Text variant="label">
+              <FormattedMessage id="common.page" />
+              {page}
+            </Text>
           </PageRow>
           <NextButton
             variant="secondary"

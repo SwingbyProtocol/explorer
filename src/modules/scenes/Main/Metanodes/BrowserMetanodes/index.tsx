@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import React, { useEffect, useState } from 'react';
+import { FormattedMessage, FormattedNumber } from 'react-intl';
 
 import { Loader } from '../../../../../components/Loader';
 import { convertDateTime } from '../../../../explorer';
@@ -57,19 +58,34 @@ export const BrowserMetanodes = () => {
           {metanodes !== null ? (
             <NodeContainer>
               <Column>
-                <TextBlock>No</TextBlock>
+                <TextBlock>
+                  {' '}
+                  <FormattedMessage id="metanodes.no" />
+                </TextBlock>
                 <div />
-                <TextBlock>Node</TextBlock>
+                <TextBlock>
+                  <FormattedMessage id="metanodes.node" />
+                </TextBlock>
                 <div />
-                <TextBlock>Status</TextBlock>
+                <TextBlock>
+                  <FormattedMessage id="metanodes.status" />
+                </TextBlock>
                 <div />
                 <SizeS>
-                  <TextBlock>Active/Non Active</TextBlock>
+                  <TextBlock>
+                    <FormattedMessage id="metanodes.activeNonActive" />
+                  </TextBlock>
                 </SizeS>
                 <StakeInfos>
-                  <TextBlock>Address</TextBlock>
-                  <TextBlock>Stake TX Hash</TextBlock>
-                  <TextBlock>Stake Time</TextBlock>
+                  <TextBlock>
+                    <FormattedMessage id="metanodes.amount" />
+                  </TextBlock>
+                  <TextBlock>
+                    <FormattedMessage id="metanodes.address" />
+                  </TextBlock>
+                  <TextBlock>
+                    <FormattedMessage id="metanodes.stakeTime" />
+                  </TextBlock>
                 </StakeInfos>
               </Column>
               {metanodes &&
@@ -83,8 +99,10 @@ export const BrowserMetanodes = () => {
                     <div />
                     <SizeS>{activeStatus(node.active)}</SizeS>
                     <StakeInfos>
+                      <TextStake>
+                        <FormattedNumber value={Number(node.stake.amount)} />
+                      </TextStake>
                       <TextStake>{node.stake.address}</TextStake>
-                      <TextStake>{node.stake.stakeTXHash}</TextStake>
                       <TextBlock>{convertDateTime(node.stake.stakeTime)}</TextBlock>
                     </StakeInfos>
                   </Description>

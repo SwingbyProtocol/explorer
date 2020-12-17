@@ -1,5 +1,6 @@
 import { Icon, Text } from '@swingby-protocol/pulsar';
 import React, { useEffect, useState } from 'react';
+import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Loader } from '../../../../../components/Loader';
@@ -87,7 +88,10 @@ export const TransactionsPool = () => {
               <Icon.CaretLeft />
             </BackButton>
             <PageRow page={page}>
-              <Text variant="masked">Page {page}</Text>
+              <Text variant="masked">
+                <FormattedMessage id="common.page" />
+                {page}
+              </Text>
             </PageRow>
             <NextButton
               variant="secondary"

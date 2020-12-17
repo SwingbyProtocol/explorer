@@ -1,5 +1,6 @@
 import { Button, Dropdown } from '@swingby-protocol/pulsar';
 import React, { useEffect, useState } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
 
@@ -38,8 +39,9 @@ interface Props {
 export const AddLiquidity = (props: Props) => {
   const { addressValidationResult, amountValidationResult } = props;
   const theme = useTheme();
+  const { formatMessage } = useIntl();
   const pool = useSelector((state) => state.pool);
-  const { userAddress } = pool;
+  const { userAddress, depositFeeRate } = pool;
 
   const [receivingAddress, setReceivingAddress] = useState(userAddress);
   const [poolAmount, setPoolAmount] = useState(null);
@@ -47,7 +49,7 @@ export const AddLiquidity = (props: Props) => {
   const [isValidAddress, setIsValidAddress] = useState(null);
   const [isValidAmount, setIsValidAmount] = useState(null);
 
-  const depositRate = 0.25;
+  const depositRate = depositFeeRate && depositFeeRate;
 
   const currencyItems = (
     <>
@@ -82,7 +84,9 @@ export const AddLiquidity = (props: Props) => {
           <Top>
             <RowTop>
               <ColumnDropdown>
-                <TextLabel variant="label">I Want to Pool</TextLabel>
+                <TextLabel variant="label">
+                  <FormattedMessage id="pool.pool.iWantToPool" />
+                </TextLabel>
                 <DropdownCurrency
                   target={
                     <DefaultTarget size="city">
@@ -99,7 +103,7 @@ export const AddLiquidity = (props: Props) => {
               <InputAmount
                 value={poolAmount}
                 size="state"
-                placeholder="Input your pool amount"
+                placeholder={formatMessage({ id: 'pool.pool.inputYourAmount' })}
                 onChange={(e) => setPoolAmount(e.target.value)}
               />
             </RowTop>
@@ -114,7 +118,7 @@ export const AddLiquidity = (props: Props) => {
               value={receivingWalletAddress()}
               size="state"
               placeholder="Input your receiving address"
-              label="And receive my sbBTC to:"
+              label={formatMessage({ id: 'pool.pool.receiveSbBTCAddress' })}
               left={<Coin symbol={CoinSymbol.LP} />}
               onChange={(e) => {
                 if (!ETHCoins.includes(fromCurrency)) {
@@ -125,7 +129,9 @@ export const AddLiquidity = (props: Props) => {
             {!isValidAddress && receivingAddress && addressValidationResult}
             <RowBottom>
               <div className="left">
-                <TextDescription variant="masked">Deposit Fee ({depositRate}%):</TextDescription>
+                <TextDescription variant="masked">
+                  <FormattedMessage id="pool.pool.depositFee" />({depositRate}%):
+                </TextDescription>
               </div>
               <div className="right">
                 <TextFee variant="masked">{calculateDepositFee(depositRate, poolAmount)}</TextFee>
@@ -137,7 +143,7 @@ export const AddLiquidity = (props: Props) => {
                 size="country"
                 disabled={0 >= Number(poolAmount) || !isValidAddress || !receivingAddress}
               >
-                Pool
+                <FormattedMessage id="pool.pool.pool" />
               </Button>
             </ButtonRow>
           </Bottom>

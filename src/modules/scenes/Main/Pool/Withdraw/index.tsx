@@ -1,5 +1,6 @@
 import { Button, Dropdown } from '@swingby-protocol/pulsar';
 import React, { useEffect, useState } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
 
@@ -35,6 +36,7 @@ interface Props {
 
 export const Withdraw = (props: Props) => {
   const { addressValidationResult, amountValidationResult } = props;
+  const { formatMessage } = useIntl();
   const theme = useTheme();
   const pool = useSelector((state) => state.pool);
   const { currentPriceLP, balanceLP } = pool;
@@ -102,7 +104,7 @@ export const Withdraw = (props: Props) => {
               {isValidAmount === false && amountValidationResult}
               <AllButtonDiv>
                 <TextAll variant="accent" onClick={() => withdrawMaxAmount()}>
-                  Max
+                  <FormattedMessage id="pool.withdraw.max" />
                 </TextAll>
               </AllButtonDiv>
             </AmountValidation>
@@ -111,8 +113,8 @@ export const Withdraw = (props: Props) => {
             <InputReceivingAddress
               value={receivingAddress}
               size="state"
-              placeholder="Input your receiving address"
-              label="And receive my BTC to:"
+              placeholder={formatMessage({ id: 'pool.pool.inputYourAddress' })}
+              label={formatMessage({ id: 'pool.withdraw.receiveBTCAddress' })}
               left={<Coin symbol={CoinSymbol.BTC} />}
               onChange={(e) => setReceivingAddress(e.target.value)}
             />
@@ -124,7 +126,7 @@ export const Withdraw = (props: Props) => {
                 size="country"
                 disabled={0 >= Number(withdrawAmount) || !isValidAddress || !receivingAddress}
               >
-                Withdraw
+                <FormattedMessage id="pool.withdraw" />
               </Button>
             </ButtonRow>
           </Bottom>

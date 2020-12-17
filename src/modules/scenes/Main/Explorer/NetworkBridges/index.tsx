@@ -1,6 +1,6 @@
 import { Text } from '@swingby-protocol/pulsar';
 import React from 'react';
-import { FormattedNumber } from 'react-intl';
+import { FormattedMessage, FormattedNumber } from 'react-intl';
 
 import { CoinSymbol } from '../../../../coins';
 import { IFloat, IStats } from '../../../../explorer';
@@ -30,7 +30,10 @@ export const NetworkBridges = (props: Props) => {
   ];
   return (
     <NetworkBridgeContainer>
-      <TitleText variant="section-title">Network Bridges</TitleText>
+      <TitleText variant="section-title">
+        {' '}
+        <FormattedMessage id="home.network.networkBridges" />
+      </TitleText>
       <CoinContainer>
         {data.map((coin) => {
           return (
@@ -38,13 +41,17 @@ export const NetworkBridges = (props: Props) => {
               <Coin symbol={coin.coin} />
               <DataDiv>
                 <Row>
-                  <Text variant="label">Float</Text>
+                  <Text variant="label">
+                    <FormattedMessage id="home.network.float" />
+                  </Text>
                   <FloatSpan>
                     <FormattedNumber value={Number(coin.float)} />
                   </FloatSpan>
                 </Row>
                 <Row>
-                  <Text variant="label">Vol</Text>
+                  <Text variant="label">
+                    <FormattedMessage id="home.network.vol" />
+                  </Text>
                   <VolSpan>
                     <FormattedNumber value={coin.vol} />
                   </VolSpan>

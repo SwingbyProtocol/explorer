@@ -19,20 +19,20 @@ export const URL = {
 };
 
 export const Links = [
-  { link: URL.WhatIsSwingby, description: 'What is Swingby?' },
-  { link: URL.Earn, description: 'Earn' },
+  { link: URL.WhatIsSwingby, description: 'footer.whatIsSwingby' },
+  { link: URL.Earn, description: 'footer.earn' },
 ];
 export const Developers = [
-  { link: URL.WhitePaper, description: 'White Paper' },
-  { link: URL.SwingbyDocs, description: 'Documentation' },
+  { link: URL.WhitePaper, description: 'footer.whitePaper' },
+  { link: URL.SwingbyDocs, description: 'footer.documentation' },
 ];
 
 export const Terms = [
   {
     link: URL.PrivacyPolicy,
-    description: 'Privacy Policy',
+    description: 'footer.privacyPolicy',
   },
-  { link: URL.TermsOfUse, description: 'Terms of Use' },
+  { link: URL.TermsOfUse, description: 'footer.termsOfUse' },
 ];
 
 export const Media = [

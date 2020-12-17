@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { useSelector } from 'react-redux';
 
 import { PoolMode } from '../../../../pool';
@@ -29,13 +30,17 @@ export const BrowserPool = () => {
 
   const addressValidationResult = (
     <ValidationResult>
-      <TextValidationResult variant="normal">Invalid wallet address</TextValidationResult>
+      <TextValidationResult variant="normal">
+        <FormattedMessage id="validation.invalidAddress" />
+      </TextValidationResult>
     </ValidationResult>
   );
 
   const amountValidationResult = (
     <ValidationResult>
-      <TextValidationResult variant="normal">Please input number only</TextValidationResult>
+      <TextValidationResult variant="normal">
+        <FormattedMessage id="validation.plsInputNumberOnly" />
+      </TextValidationResult>
     </ValidationResult>
   );
 

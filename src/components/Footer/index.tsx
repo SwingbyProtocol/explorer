@@ -1,4 +1,5 @@
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 
 import { Developers, Links, Media, Terms, URL } from '../../modules/links';
 import { Atag } from '../../modules/scenes/Common';
@@ -27,11 +28,13 @@ export const Footer = () => {
         </Atag>
         <ColumnLink>
           <UlLink>
-            <TextTitle variant="accent">Links</TextTitle>
+            <TextTitle variant="accent">
+              <FormattedMessage id="footer.links" />
+            </TextTitle>
             {Links.map((link) => (
               <LiLink key={link.description}>
                 <ALink href={link.link} rel="noopener noreferrer" target="_blank">
-                  {link.description}
+                  <FormattedMessage id={link.description} />
                 </ALink>
               </LiLink>
             ))}
@@ -39,11 +42,13 @@ export const Footer = () => {
         </ColumnLink>
         <ColumnLink>
           <UlLink>
-            <TextTitle variant="accent">Developers</TextTitle>
+            <TextTitle variant="accent">
+              <FormattedMessage id="footer.developers" />
+            </TextTitle>
             {Developers.map((link) => (
               <LiLink key={link.description}>
                 <ALink href={link.link} rel="noopener noreferrer" target="_blank">
-                  {link.description}
+                  <FormattedMessage id={link.description} />
                 </ALink>
               </LiLink>
             ))}
@@ -55,7 +60,7 @@ export const Footer = () => {
             {Terms.map((link) => (
               <LiLink key={link.description}>
                 <ALink href={link.link} rel="noopener noreferrer" target="_blank">
-                  {link.description}
+                  <FormattedMessage id={link.description} />
                 </ALink>
               </LiLink>
             ))}

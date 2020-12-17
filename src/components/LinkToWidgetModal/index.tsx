@@ -1,6 +1,7 @@
 import { Button, Modal, Text } from '@swingby-protocol/pulsar';
 import { createWidget, getUrl } from '@swingby-protocol/widget';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 
 import { SwapRawObject } from '../../modules/explorer';
 import { mode } from '../../modules/env';
@@ -21,7 +22,9 @@ export const LinkToWidgetModal = (props: Props) => {
     <Modal open={isWidgetModalOpen} onClose={() => setIsWidgetModalOpen(false)}>
       <Modal.Content>
         <ModalContainer>
-          <Text variant="title-xs">Please verify your wallet address</Text>
+          <Text variant="title-xs">
+            <FormattedMessage id="common.modal.verifyAddress" />
+          </Text>
           <TextAddress variant="accent">{address}</TextAddress>
           <Buttons>
             <Button
@@ -29,10 +32,10 @@ export const LinkToWidgetModal = (props: Props) => {
               size="city"
               onClick={() => window.open(getUrl({ widget }), '_blank', 'noopener')}
             >
-              Yes, that's mine
+              <FormattedMessage id="common.modal.yes" />
             </Button>
             <Button variant="secondary" size="city" onClick={() => setIsWidgetModalOpen(false)}>
-              Go back
+              <FormattedMessage id="common.modal.back" />
             </Button>
           </Buttons>
         </ModalContainer>

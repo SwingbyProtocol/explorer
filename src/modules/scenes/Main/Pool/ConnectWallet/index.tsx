@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
+import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
 import Web3 from 'web3';
@@ -66,7 +67,7 @@ export const ConnectWallet = () => {
     <ConnectWalletContainer>
       <BackDrop />
       <ButtonConnect variant="primary" size="state" onClick={async () => await login(null)}>
-        Connect Wallet
+        <FormattedMessage id="pool.connectWallet" />
       </ButtonConnect>
     </ConnectWalletContainer>
   );

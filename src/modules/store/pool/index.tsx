@@ -12,6 +12,7 @@ enum Actions {
   TogglePoolMode = 'Pool/TOGGLE_POOL_MODE',
   GetRecentTxs = 'Pool/GET_RECENT_TXS',
   ResetPoolState = 'Pool/RESET_POOL_STATE',
+  GetDepositFeeRate = 'Pool/GET_DEPOSIT_FEE_RATE',
 }
 
 const initialState = {
@@ -21,6 +22,7 @@ const initialState = {
   recentTxs: null,
   balanceLP: null,
   currentPriceLP: null,
+  depositFeeRate: null,
   onboard: null,
   web3: null,
 };
@@ -58,6 +60,11 @@ export const pool: Reducer<State, Action> = (state = initialState, action) => {
   if (action.type === Actions.GetRecentTxs) {
     return { ...state, recentTxs: action.data };
   }
+
+  if (action.type === Actions.GetDepositFeeRate) {
+    return { ...state, depositFeeRate: action.data };
+  }
+
   if (action.type === Actions.ResetPoolState) {
     return initialState;
   }
@@ -84,6 +91,8 @@ export const togglePoolMode = (data) => ({ type: Actions.TogglePoolMode, data } 
 
 export const getRecentTxs = (data) => ({ type: Actions.GetRecentTxs, data } as const);
 
+export const getDepositFeeRate = (data) => ({ type: Actions.GetDepositFeeRate, data } as const);
+
 type Action =
   | ReturnType<typeof resetPoolState>
   | ReturnType<typeof setBridge>
@@ -93,4 +102,5 @@ type Action =
   | ReturnType<typeof togglePoolMode>
   | ReturnType<typeof setOnboard>
   | ReturnType<typeof setWeb3>
-  | ReturnType<typeof getRecentTxs>;
+  | ReturnType<typeof getRecentTxs>
+  | ReturnType<typeof getDepositFeeRate>;

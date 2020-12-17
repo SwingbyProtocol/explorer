@@ -1,6 +1,7 @@
 import { Dropdown, Text } from '@swingby-protocol/pulsar';
 import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useState } from 'react';
+import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Loader } from '../../../../../components/Loader';
@@ -172,8 +173,12 @@ export const Browser = (props: Props) => {
 
   const noResultFound = (
     <NoResultsFound>
-      <Text variant="title-s">No results found :-(</Text>
-      <Text variant="title-xs">Try a different transaction or address</Text>
+      <Text variant="title-s">
+        <FormattedMessage id="home.noResultsFound" />
+      </Text>
+      <Text variant="title-xs">
+        <FormattedMessage id="home.tryDifferentTx" />
+      </Text>
     </NoResultsFound>
   );
 

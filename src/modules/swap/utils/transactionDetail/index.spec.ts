@@ -5,14 +5,6 @@ import { transactionDetailByTxId, transactionDetailByAddress } from './index';
 it('should return explorer url with the detail of the tx id', () => {
   expect(
     transactionDetailByTxId(
-      CoinSymbol.REN_BTC,
-      '5cf8f15b09935cbf2c17b2abdbd7a814a76b22cca85e8ae958dc3110eefcd497',
-    ),
-  ).toStrictEqual(
-    'https://goerli.etherscan.io/tx/5cf8f15b09935cbf2c17b2abdbd7a814a76b22cca85e8ae958dc3110eefcd497',
-  );
-  expect(
-    transactionDetailByTxId(
       CoinSymbol.WBTC,
       '5cf8f15b09935cbf2c17b2abdbd7a814a76b22cca85e8ae958dc3110eefcd497',
     ),

@@ -1,6 +1,6 @@
 import { getFiatAssetFormatter, Text } from '@swingby-protocol/pulsar';
 import React from 'react';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 
 import { IStats } from '../../../../explorer';
@@ -31,11 +31,13 @@ export const ExplorerInfos = (props: Props) => {
   const { usd } = explorer;
 
   const { locale } = useIntl();
+  const { formatMessage } = useIntl();
+  const formattedMetanodes = formatMessage({ id: 'metanodes.metanodes' });
 
   const data = usd && [
     {
       icon: <Network />,
-      description: 'Volume (24hr)',
+      description: <FormattedMessage id="home.network.volume" />,
       value: getFiatAssetFormatter({
         locale: locale,
         currency: 'USD',
@@ -45,7 +47,7 @@ export const ExplorerInfos = (props: Props) => {
     },
     {
       icon: <NetworkRewards />,
-      description: 'Rewards (24hr)',
+      description: <FormattedMessage id="home.network.rewards" />,
       value: getFiatAssetFormatter({
         locale: locale,
         currency: 'USD',
@@ -53,7 +55,7 @@ export const ExplorerInfos = (props: Props) => {
     },
     {
       icon: <NetworkCapacity />,
-      description: 'Capacity (Float)',
+      description: <FormattedMessage id="home.network.capacity" />,
       value: getFiatAssetFormatter({
         locale: locale,
         currency: 'USD',
@@ -63,7 +65,7 @@ export const ExplorerInfos = (props: Props) => {
     },
     {
       icon: <NetworkMetanodes />,
-      description: 'Metanodes',
+      description: formattedMetanodes,
       value: stats.metanodes,
     },
   ];
@@ -72,15 +74,17 @@ export const ExplorerInfos = (props: Props) => {
     <ExplorerInfosContainer>
       <InfosContainer>
         {usd &&
-          data.map((info) => {
+          data.map((info, i) => {
             return (
-              <InfoContainer key={info.description}>
+              <InfoContainer key={i}>
                 {info.icon}
                 <DataDiv>
-                  {info.description === 'Metanodes' ? (
+                  {info.description === formattedMetanodes ? (
                     <RowValidator>
                       <Text variant="label">{info.description}</Text>
-                      <ValidatorLinkSpan variant="accent">All</ValidatorLinkSpan>
+                      <ValidatorLinkSpan variant="accent">
+                        <FormattedMessage id="common.all" />
+                      </ValidatorLinkSpan>
                     </RowValidator>
                   ) : (
                     <Row>

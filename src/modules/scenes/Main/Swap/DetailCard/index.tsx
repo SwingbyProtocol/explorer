@@ -1,5 +1,6 @@
 import { Text } from '@swingby-protocol/pulsar';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 
 import { currencyNetwork } from '../../../../explorer';
 import { transactionDetailByTxId } from '../../../../swap/';
@@ -28,10 +29,12 @@ interface Props {
 
 export const DetailCard = (props: Props) => {
   const { role, currency, amount, address, txId } = props;
+  const formattedRole = <FormattedMessage id={role === 'From' ? 'common.from' : 'common.to'} />;
+
   return (
     <DetailCardContainer>
       <RowRole>
-        <Text variant="section-title">{role}</Text>
+        <Text variant="section-title">{formattedRole}</Text>
         {txId && (
           <a
             href={transactionDetailByTxId(currency, txId)}
@@ -54,11 +57,13 @@ export const DetailCard = (props: Props) => {
         </div>
       </Column>
       <RowAddress>
-        <TextRoom variant="label">{role}</TextRoom>
+        <TextRoom variant="label">{formattedRole}</TextRoom>
         <AddressP>{address}</AddressP>
       </RowAddress>
       <RowAddress>
-        <TextRoom variant="label">TxId</TextRoom>
+        <TextRoom variant="label">
+          <FormattedMessage id="swap.txId" />
+        </TextRoom>
         <AddressP>{txId}</AddressP>
       </RowAddress>
     </DetailCardContainer>
