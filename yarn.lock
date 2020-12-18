@@ -2291,10 +2291,10 @@
     isomorphic-unfetch "^3.1.0"
     isomorphic-webcrypto "^2.3.6"
 
-"@swingby-protocol/widget@^1.0.0-alpha.8":
-  version "1.0.0-alpha.8"
-  resolved "https://registry.yarnpkg.com/@swingby-protocol/widget/-/widget-1.0.0-alpha.8.tgz#bff96e48015fd500726ae3f659c3fe1b218d6881"
-  integrity sha512-BARWeK5UYEKU2l6eYnSSM6pPlTDmVWes8kwpAiukb57GRUshuwGK8EI1Qar6tnc8WeqgL9RalU/D3F9QhVrCZA==
+"@swingby-protocol/widget@^1.0.0-alpha.10":
+  version "1.0.0-alpha.10"
+  resolved "https://registry.yarnpkg.com/@swingby-protocol/widget/-/widget-1.0.0-alpha.10.tgz#421eeefa55587bf4a89d99ff714c43f9d0e9cd9c"
+  integrity sha512-su7XM3Cw7hXoFZC1zEOVABjH3ZnKAGC9srUtL+LwDirGsp9D+5C9pu2+sAoqGMxylmoRF0xZqSRFoiKWdOn0tw==
   dependencies:
     query-string "^6.13.7"
 

@@ -54,7 +54,7 @@
   "swap.message.expired": "The swap is too old and has been invalidated. No funds were received or sent.",
   "pool.liquidity": "Pool Liquidity",
   "pool.yourAccount": "Your Account",
-  "pool.claim": "Your Account",
+  "pool.claim": "Claim",
   "pool.balance": "Balance (LP token)",
   "pool.totalEarnings": "Total Earnings",
   "pool.earnings": "Earnings",
@@ -81,5 +81,5 @@
   "metanodes.activeNonActive": "Active/Non Active",
   "metanodes.amount": "Amount",
   "metanodes.address": "Address",
-  "metanodes.stakeTime": "Stake Time"
+  "metanodes.stakeTimeLockedUntil": "Stake Time Locked Until"
 }

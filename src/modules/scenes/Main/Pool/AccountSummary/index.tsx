@@ -55,11 +55,12 @@ export const AccountSummary = () => {
         const contractLP = new web3.eth.Contract(ABI_TOKEN, CONTRACT_LP);
         const contractSwap = new web3.eth.Contract(ABI_SWAP, CONTRACT_SWAP);
         const urlEarning = ENDPOINT_EARNINGS;
+        const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
 
         const results = await Promise.all([
           contractLP.methods.balanceOf(userAddress).call(),
           contractSwap.methods.getCurrentPriceLP().call(),
-          contractSwap.methods.getFloatBalanceOf(CONTRACT_LP, userAddress).call(),
+          contractSwap.methods.getFloatBalanceOf(ZERO_ADDRESS, userAddress).call(),
           fetch<{ total: string }>(urlEarning),
         ]);
 
@@ -69,7 +70,12 @@ export const AccountSummary = () => {
 
         // Todo: Check the logic with backend team
         const priceLP = toBTC(results[1]);
-        const userFloatBal = Number(results[2]);
+        const userFloatBalSatoshi = Number(results[2]);
+        const userFloatBal = toBTC(String(userFloatBalSatoshi));
+        console.log('userFloatBalSatoshi', userFloatBalSatoshi);
+        console.log('userFloatBal', userFloatBal);
+
+        // Question: Is this necessary??
         const totalClaimableAmount = priceLP * userFloatBal;
         const totalEarnings = results[3].ok && results[3].response.total;
         setTotalEarnings(Number(totalEarnings));
@@ -77,8 +83,11 @@ export const AccountSummary = () => {
         setClaimableAmount(totalClaimableAmount);
         dispatch(getCurrentPriceLP(priceLP));
 
+        const calculatedUserFloatBalance = Number(userFloatBal) * Math.pow(10, 8);
+        const hexValue = '0x' + calculatedUserFloatBalance.toString(16);
+
         const depositFeeRate = await contractSwap.methods
-          .getDepositFeeRate(userAddress, userFloatBal)
+          .getDepositFeeRate(userAddress, hexValue)
           .call();
         dispatch(getDepositFeeRate(depositFeeRate));
         console.log('depositFeeRate', depositFeeRate);
