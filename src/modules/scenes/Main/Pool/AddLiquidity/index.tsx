@@ -1,5 +1,5 @@
 import { Button, Dropdown } from '@swingby-protocol/pulsar';
-import { createWidget } from '@swingby-protocol/widget';
+import { createWidget, openPopup } from '@swingby-protocol/widget';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
@@ -79,6 +79,16 @@ export const AddLiquidity = (props: Props) => {
     checkIsValidAmount(poolAmount, setIsValidAmount);
   }, [poolAmount]);
 
+  const widget = createWidget({
+    resource: 'pool',
+    mode,
+    size: 'big',
+    defaultCurrencyIn: fromCurrency,
+    defaultCurrencyOut: CoinSymbol.LP,
+    defaultAddressUserIn: receivingAddress,
+    defaultAmountUser: poolAmount,
+  });
+
   return (
     <AddLiquidityContainer>
       <Box>
@@ -92,7 +102,6 @@ export const AddLiquidity = (props: Props) => {
                 <DropdownCurrency
                   target={
                     <DefaultTarget size="city">
-                      {' '}
                       <TargetCoin symbol={fromCurrency} /> {fromCurrency}
                     </DefaultTarget>
                   }
@@ -144,17 +153,7 @@ export const AddLiquidity = (props: Props) => {
                 variant="primary"
                 size="country"
                 disabled={0 >= Number(poolAmount) || !isValidAddress || !receivingAddress}
-                onClick={() => {
-                  createWidget({
-                    resource: 'pool',
-                    mode,
-                    size: 'banner',
-                    defaultCurrencyIn: fromCurrency,
-                    defaultCurrencyOut: CoinSymbol.LP,
-                    defaultAddressUserIn: receivingAddress,
-                    defaultAmountUser: poolAmount,
-                  });
-                }}
+                onClick={() => openPopup({ widget })}
               >
                 <FormattedMessage id="pool.pool.pool" />
               </Button>

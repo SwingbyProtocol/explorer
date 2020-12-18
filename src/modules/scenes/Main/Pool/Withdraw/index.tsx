@@ -1,9 +1,11 @@
 import { Button, Dropdown } from '@swingby-protocol/pulsar';
+import { createWidget, openPopup } from '@swingby-protocol/widget';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
 
+import { mode } from '../.././../../env';
 import { CoinSymbol, PoolCurrencies } from '../../../../coins';
 import { checkIsValidAddress, checkIsValidAmount } from '../../../../explorer';
 
@@ -32,10 +34,11 @@ import {
 interface Props {
   addressValidationResult: JSX.Element;
   amountValidationResult: JSX.Element;
+  maxAmountValidationResult: JSX.Element;
 }
 
 export const Withdraw = (props: Props) => {
-  const { addressValidationResult, amountValidationResult } = props;
+  const { addressValidationResult, amountValidationResult, maxAmountValidationResult } = props;
   const { formatMessage } = useIntl();
   const theme = useTheme();
   const pool = useSelector((state) => state.pool);
@@ -55,8 +58,8 @@ export const Withdraw = (props: Props) => {
     checkIsValidAmount(withdrawAmount, setIsValidAmount);
   }, [withdrawAmount]);
 
+  const maxAmount = balanceLP * currentPriceLP;
   const withdrawMaxAmount = () => {
-    const maxAmount = balanceLP * currentPriceLP;
     if (maxAmount) {
       setWithdrawAmount(String(maxAmount));
     }
@@ -71,6 +74,15 @@ export const Withdraw = (props: Props) => {
       ))}
     </>
   );
+
+  const widget = createWidget({
+    resource: 'withdrawal',
+    mode,
+    size: 'big',
+    defaultCurrencyOut: toCurrency,
+    defaultAddressUserIn: receivingAddress,
+    defaultAmountUser: withdrawAmount,
+  });
 
   return (
     <WithdrawContainer>
@@ -102,6 +114,7 @@ export const Withdraw = (props: Props) => {
             </RowTop>
             <AmountValidation>
               {isValidAmount === false && amountValidationResult}
+              {withdrawAmount && withdrawAmount > maxAmount && maxAmountValidationResult}
               <AllButtonDiv>
                 <TextAll variant="accent" onClick={() => withdrawMaxAmount()}>
                   <FormattedMessage id="pool.withdraw.max" />
@@ -124,7 +137,13 @@ export const Withdraw = (props: Props) => {
               <Button
                 variant="primary"
                 size="country"
-                disabled={0 >= Number(withdrawAmount) || !isValidAddress || !receivingAddress}
+                disabled={
+                  0 >= Number(withdrawAmount) ||
+                  !isValidAddress ||
+                  !receivingAddress ||
+                  withdrawAmount > maxAmount
+                }
+                onClick={() => openPopup({ widget })}
               >
                 <FormattedMessage id="pool.withdraw" />
               </Button>

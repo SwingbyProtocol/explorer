@@ -12,6 +12,7 @@
   "common.page": "Page ",
   "common.from": "From",
   "common.to": "To",
+  "validation.insufficientBalance": "Insufficient funds",
   "validation.invalidAddress":"Invalid wallet address",
   "validation.plsInputNumberOnly":"Please input number only",
   "toast.invalidWalletAddress":"Invalid wallet address, please check the transaction again",
