@@ -8,8 +8,16 @@ import { mode } from '../../modules/env';
 import { StyledSwap, SwapMobileRow } from './styled';
 
 export const Swap = () => {
-  const big = useMemo(() => createWidget({ mode, variant: 'big' }), []);
-  const banner = useMemo(() => createWidget({ mode, variant: 'banner' }), []);
+  const big = useMemo(
+    () =>
+      createWidget({
+        resource: 'swap',
+        mode,
+        size: 'big',
+      }),
+    [],
+  );
+  const banner = useMemo(() => createWidget({ resource: 'swap', mode, size: 'banner' }), []);
   const show = useCallback(() => openPopup({ widget: big }), [big]);
 
   return (
