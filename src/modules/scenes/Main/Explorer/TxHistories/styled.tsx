@@ -11,12 +11,17 @@ interface BgProps {
 interface PageProps {
   page: number;
 }
+interface ContainerProps {
+  txsHeight: number;
+}
 
 const { media } = StylingConstants;
 
-export const TxHistoriesContainer = styled.div`
+// Memo: PX for height of filter row
+const filterRowHeight = 46;
+export const TxHistoriesContainer = styled.div<ContainerProps>`
   /* Memo: Make space for when loading txs data */
-  min-height: ${rem(413)};
+  min-height: ${(props) => rem(filterRowHeight + props.txsHeight)};
 `;
 
 export const TitleRow = styled.div`

@@ -109,9 +109,13 @@ export const TxHistories = (props: Props) => {
     </>
   );
 
+  // Memo: px for row height
+  const rowHeight = 92;
+  const rowHeightWithTxs = currentTxs && currentTxs.length * rowHeight;
+
   return (
     <>
-      <TxHistoriesContainer>
+      <TxHistoriesContainer txsHeight={rowHeightWithTxs}>
         <TitleRow>
           <Left>
             <Text variant="section-title">
