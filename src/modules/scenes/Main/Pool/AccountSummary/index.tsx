@@ -72,11 +72,8 @@ export const AccountSummary = () => {
         const priceLP = toBTC(results[1]);
         const userFloatBalSatoshi = Number(results[2]);
         const userFloatBal = toBTC(String(userFloatBalSatoshi));
-        console.log('userFloatBalSatoshi', userFloatBalSatoshi);
-        console.log('userFloatBal', userFloatBal);
 
-        // Question: Is this necessary??
-        const totalClaimableAmount = priceLP * userFloatBal;
+        const totalClaimableAmount = priceLP * balanceLP;
         const totalEarnings = results[3].ok && results[3].response.total;
         setTotalEarnings(Number(totalEarnings));
 
