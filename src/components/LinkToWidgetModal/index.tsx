@@ -17,7 +17,7 @@ interface Props {
 export const LinkToWidgetModal = (props: Props) => {
   const { isWidgetModalOpen, setIsWidgetModalOpen, tx } = props;
   const address = tx && tx.addressOut;
-  const widget = tx && createWidget({ mode, variant: 'banner', swapHash: tx.hash });
+  const widget = tx && createWidget({ resource: 'swap', mode, size: 'banner', hash: tx.hash });
   return (
     <Modal open={isWidgetModalOpen} onClose={() => setIsWidgetModalOpen(false)}>
       <Modal.Content>
