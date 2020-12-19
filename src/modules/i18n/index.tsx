@@ -16,7 +16,11 @@ export const languagesSelector = [
     code: 'en',
   },
   {
-    text: '中文',
+    text: 'Chinese (Simplified)',
     code: 'zh',
+  },
+  {
+    text: 'Chinese (Traditional)',
+    code: 'zh-TW',
   },
 ];

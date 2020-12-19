@@ -76,6 +76,7 @@ export const LanguageDropDown = styled(Dropdown)`
   display: none;
   @media (min-width: ${rem(media.sm)}) {
     display: block;
+    max-width: ${rem(100)};
   }
 `;
 
