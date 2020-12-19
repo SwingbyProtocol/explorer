@@ -228,8 +228,19 @@ export const TxHistories = (props: Props) => {
           </BackButton>
           <PageRow page={page}>
             <Text variant="masked">
-              <FormattedMessage id="common.page" />
-              {page}
+              {locale === 'en' ? (
+                <>
+                  <FormattedMessage id="common.page.pre" />
+                  <FormattedMessage id="common.page" />
+                  {page}
+                </>
+              ) : (
+                <>
+                  <FormattedMessage id="common.page.pre" />
+                  {page}
+                  <FormattedMessage id="common.page" />
+                </>
+              )}
             </Text>
           </PageRow>
           <NextButton

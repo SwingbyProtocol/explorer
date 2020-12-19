@@ -1,4 +1,4 @@
-{
+{ "Active":"Active",
   "common.comingSoon":"COMING SOON",
   "common.modal.verifyAddress":"Please verify your wallet address",
   "common.modal.yes":"Yes, that's mine",
@@ -9,6 +9,7 @@
   "common.seeMore":"See More",
   "common.all":"All",
   "common.swap":"SWAP",
+  "common.page.pre": "",
   "common.page": "Page ",
   "common.from": "From",
   "common.to": "To",
@@ -48,10 +49,10 @@
   "swap.swapFees": "Swap Fees",
   "swap.message.waiting": "Waiting for your deposit transactions. Once this has been confirmed, your swap will be processed.",
   "swap.message.pending": "Waiting for your deposit transaction to confirm. Soon your swap will be processed.",
-  "swap.message.signing": "The Skyrbidge network has detected your deposit transaction and processing your swap.",
+  "swap.message.signing": "The Skybridge network has detected your deposit transaction and processing your swap.",
   "swap.message.sending": "Your swap has been successfully processed and the Skybridge network has broadcasted the outbound transaction to your destination address.",
   "swap.message.completed": "Your swap has been completed successfully and your funds have been delivered.",
-  "swap.message.refunded": "Uh oh, the Skybridge network has encountered an error. Your funds will be sent back to your original address.",
+    "swap.message.refunded": "Uh oh, the Skybridge network has encountered an error. Your funds will be sent back to your original address.",
   "swap.message.expired": "The swap is too old and has been invalidated. No funds were received or sent.",
   "pool.liquidity": "Pool Liquidity",
   "pool.yourAccount": "Your Account",
@@ -65,6 +66,7 @@
   "pool.addLiquidity": "+ Add Liquidity",
   "pool.bridges": "Bridges",
   "pool.connectWallet": "Connect Wallet",
+  "pool.transactions": "Transactions",
   "pool.1d": "1d",
   "pool.14d": "14d",
   "pool.pool.iWantToPool": "I Want to Pool",
@@ -74,6 +76,7 @@
   "pool.pool.inputYourAddress": "Input your receiving address",
   "pool.pool.receiveSbBTCAddress": "And receive my sbBTC to:",
   "pool.withdraw.receiveBTCAddress": "And receive my BTC to:",
+  "pool.withdraw.iWantToPool": "I Want to Withdraw",
   "pool.withdraw.max": "Max",
   "metanodes.metanodes": "Metanodes",
   "metanodes.no": "No",
@@ -82,5 +85,7 @@
   "metanodes.activeNonActive": "Active/Non Active",
   "metanodes.amount": "Amount",
   "metanodes.address": "Address",
-  "metanodes.stakeTimeLockedUntil": "Stake Time Locked Until"
+  "metanodes.stakeTimeLockedUntil": "Stake Time Locked Until",
+  "metanodes.active":"Active",
+  "metanodes.nonActive":"Non Active"
 }

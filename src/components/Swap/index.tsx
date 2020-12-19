@@ -17,7 +17,9 @@ export const Swap = () => {
       }),
     [],
   );
+
   const banner = useMemo(() => createWidget({ resource: 'swap', mode, size: 'banner' }), []);
+
   const show = useCallback(() => openPopup({ widget: big }), [big]);
 
   return (

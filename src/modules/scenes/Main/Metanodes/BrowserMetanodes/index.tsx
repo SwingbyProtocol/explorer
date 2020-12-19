@@ -41,9 +41,18 @@ export const BrowserMetanodes = () => {
   const activeStatus = (status: boolean): JSX.Element => {
     switch (status) {
       case true:
-        return <TextPrimary>Active</TextPrimary>;
+        return (
+          <TextPrimary>
+            <FormattedMessage id="metanodes.active" />
+          </TextPrimary>
+        );
       case false:
-        return <TextDanger>Non Active</TextDanger>;
+        return (
+          <TextDanger>
+            {' '}
+            <FormattedMessage id="metanodes.nonActive" />
+          </TextDanger>
+        );
       default:
         return <TextSecondary>{status}</TextSecondary>;
     }
@@ -59,7 +68,6 @@ export const BrowserMetanodes = () => {
             <NodeContainer>
               <Column>
                 <TextBlock>
-                  {' '}
                   <FormattedMessage id="metanodes.no" />
                 </TextBlock>
                 <div />

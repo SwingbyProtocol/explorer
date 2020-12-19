@@ -43,7 +43,10 @@ export const Left = styled.div`
   align-items: center;
 `;
 
-export const Right = styled.div``;
+export const Right = styled.div`
+  display: flex;
+  align-items: center;
+`;
 
 export const Menu = styled.div`
   display: none;
@@ -55,6 +58,7 @@ export const Menu = styled.div`
   }
   @media (min-width: ${rem(media.md)}) {
     margin-left: ${({ theme }) => rem(theme.pulsar.size.country)};
+    margin-right: ${({ theme }) => rem(theme.pulsar.size.street)};
   }
 `;
 

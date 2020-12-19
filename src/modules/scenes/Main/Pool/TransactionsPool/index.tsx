@@ -54,7 +54,9 @@ export const TransactionsPool = () => {
 
   return (
     <TransactionsPoolContainer>
-      <TitleText variant="accent">Transactions</TitleText>
+      <TitleText variant="accent">
+        <FormattedMessage id="pool.transactions" />
+      </TitleText>
       {!txsData && <Loader minHeight={73 * TXS_COUNT} />}
       <TransactionsContainer>
         {txsData &&

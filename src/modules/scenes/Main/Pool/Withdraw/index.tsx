@@ -91,7 +91,9 @@ export const Withdraw = (props: Props) => {
           <Top>
             <RowTop>
               <ColumnDropdown>
-                <TextLabel variant="label">I Want to Withdraw</TextLabel>
+                <TextLabel variant="label">
+                  <FormattedMessage id="pool.withdraw.iWantToPool" />
+                </TextLabel>
                 <DropdownCurrency
                   target={
                     <DefaultTarget size="city">
@@ -108,7 +110,7 @@ export const Withdraw = (props: Props) => {
               <InputAmount
                 value={withdrawAmount}
                 size="state"
-                placeholder="Input your withdraw amount"
+                placeholder={formatMessage({ id: 'pool.pool.inputYourAmount' })}
                 onChange={(e) => setWithdrawAmount(e.target.value)}
               />
             </RowTop>
