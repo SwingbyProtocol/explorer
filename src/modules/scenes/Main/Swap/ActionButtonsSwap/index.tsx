@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import useCopy from '@react-hook/copy';
 import { FormattedMessage } from 'react-intl';
 
-import { SwapRawObject, TStatus } from '../../../../explorer';
+import { SwapRawObject, TStatus, TSwapWidget, TxStatus } from '../../../../explorer';
 import { copyToClipboard, toastCopyURL } from '../../../../../components/Toast';
 
 import {
@@ -16,20 +16,27 @@ import {
 
 interface Props {
   tx: SwapRawObject;
-  linkToSwapWidget: (tx: SwapRawObject) => void;
+  linkToSwapWidget: (tx: SwapRawObject, action: TSwapWidget) => void;
 }
 
 export const ActionButtons = (props: Props) => {
   const { tx, linkToSwapWidget } = props;
   const [toggleOpenLink, setToggleOpenLink] = useState(1);
+  const [toggleDuplicateSwap, setToggleDuplicateSwap] = useState(1);
   const currentUrl = typeof window !== 'undefined' && window.location.href;
   const { copy } = useCopy(currentUrl);
 
   useEffect(() => {
     if (toggleOpenLink > 1) {
-      linkToSwapWidget(tx);
+      linkToSwapWidget(tx, 'claim');
     }
   }, [toggleOpenLink, linkToSwapWidget, tx]);
+
+  useEffect(() => {
+    if (toggleDuplicateSwap > 1) {
+      linkToSwapWidget(tx, 'duplicate');
+    }
+  }, [toggleDuplicateSwap, linkToSwapWidget, tx]);
 
   return (
     <ActionButtonsSwapContainer>
@@ -39,7 +46,16 @@ export const ActionButtons = (props: Props) => {
         currencyOut={tx.currencyOut}
       />
       <Buttons>
-        <Button variant="secondary" size="city">
+        <Button
+          variant="secondary"
+          size="city"
+          disabled={
+            tx.status === TxStatus.REFUNDED ||
+            tx.status === TxStatus.REFUNDING ||
+            tx.status === TxStatus.REJECTED
+          }
+          onClick={() => setToggleDuplicateSwap(toggleDuplicateSwap + 1)}
+        >
           <FormattedMessage id="swap.duplicate" />
         </Button>
         <Button variant="primary" size="city" onClick={() => copyToClipboard(copy, toastCopyURL)}>

@@ -1,11 +1,12 @@
 import { PulsarThemeProvider } from '@swingby-protocol/pulsar';
-import { createWidget, getUrl } from '@swingby-protocol/widget';
+import { createWidget, getUrl, openPopup } from '@swingby-protocol/widget';
 import { useRouter } from 'next/router';
 import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
 
 import { AccountId } from '../../../../components/AccountId';
+import { DuplicateSwapWidgetModal } from '../../../../components/DuplicateSwapWidgetModal';
 import { Footer } from '../../../../components/Footer';
 import { LinkToWidgetModal } from '../../../../components/LinkToWidgetModal';
 import { Search } from '../../../../components/Search';
@@ -13,7 +14,7 @@ import { toastWrongAddress } from '../../../../components/Toast';
 import { ETHCoins } from '../../../coins';
 import { titleGenerator } from '../../../common';
 import { mode, PATH } from '../../../env';
-import { SwapRawObject } from '../../../explorer';
+import { SwapRawObject, TSwapWidget } from '../../../explorer';
 import { initOnboard } from '../../../onboard';
 import { setOnboard } from '../../../store';
 import { Browser, BrowserDetail, BrowserMetanodes, BrowserPool } from '../../Main';
@@ -33,7 +34,8 @@ export const ExplorerMain = () => {
 
   //Memo: For check walletAddress === tx.addressOut
   const [walletAddress, setWalletAddress] = useState(null);
-  const [isWidgetModalOpen, setIsWidgetModalOpen] = useState(false);
+  const [isClalimWidgetModalOpen, setIsClaimWidgetModalOpen] = useState(false);
+  const [isDuplicateWidgetModalOpen, setIsDuplicateWidgetModalOpen] = useState(false);
 
   const login = useCallback(async () => {
     await onboard.walletSelect();
@@ -41,11 +43,24 @@ export const ExplorerMain = () => {
   }, [onboard]);
 
   const linkToSwapWidget = useCallback(
-    async (tx: SwapRawObject, userAddress = walletAddress) => {
-      const widget = createWidget({ mode, size: 'banner', resource: 'swap', hash: tx.hash });
+    async (tx: SwapRawObject, action: TSwapWidget, userAddress = walletAddress) => {
+      const widget =
+        action === 'claim'
+          ? createWidget({ mode, size: 'banner', resource: 'swap', hash: tx.hash })
+          : createWidget({
+              mode,
+              size: 'big',
+              resource: 'swap',
+              defaultCurrencyIn: tx.currencyIn,
+              defaultCurrencyOut: tx.currencyOut,
+              defaultAddressUserIn: tx.addressOut,
+              defaultAmountUser: tx.amountIn,
+            });
+
       if (ETHCoins.includes(tx.currencyOut)) {
         if (tx.addressOut.toLowerCase() === userAddress) {
-          window.open(getUrl({ widget }), '_blank', 'noopener');
+          action === 'claim' && window.open(getUrl({ widget }), '_blank', 'noopener');
+          action === 'duplicate' && openPopup({ widget });
           return;
         }
         if (userAddress === null) {
@@ -64,7 +79,8 @@ export const ExplorerMain = () => {
         }
       } else {
         // WHEN: Not swap to ERC20 coin
-        setIsWidgetModalOpen(true);
+        action === 'claim' && setIsClaimWidgetModalOpen(true);
+        action === 'duplicate' && setIsDuplicateWidgetModalOpen(true);
         return;
       }
     },
@@ -139,8 +155,13 @@ export const ExplorerMain = () => {
   return (
     <>
       <LinkToWidgetModal
-        isWidgetModalOpen={isWidgetModalOpen}
-        setIsWidgetModalOpen={setIsWidgetModalOpen}
+        isWidgetModalOpen={isClalimWidgetModalOpen}
+        setIsWidgetModalOpen={setIsClaimWidgetModalOpen}
+        tx={swapDetails}
+      />
+      <DuplicateSwapWidgetModal
+        isWidgetModalOpen={isDuplicateWidgetModalOpen}
+        setIsWidgetModalOpen={setIsDuplicateWidgetModalOpen}
         tx={swapDetails}
       />
       <PulsarThemeProvider theme="accent">

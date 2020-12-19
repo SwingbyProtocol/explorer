@@ -9,6 +9,7 @@ import {
   currencyNetwork,
   statusColor,
   SwapRawObject,
+  TSwapWidget,
 } from '../../../../explorer';
 import { selectSwapDetails } from '../../../../store';
 import { transactionDetailByTxId } from '../../../../swap';
@@ -50,7 +51,7 @@ interface Props {
   goNextPage: () => void;
   goBackPage: () => void;
   goToDetail: (arg: string) => void;
-  linkToSwapWidget: (tx: SwapRawObject) => void;
+  linkToSwapWidget: (tx: SwapRawObject, action: TSwapWidget) => void;
 }
 
 export const TxHistories = (props: Props) => {
@@ -76,7 +77,7 @@ export const TxHistories = (props: Props) => {
   const [toggleOpenLink, setToggleOpenLink] = useState(1);
   useEffect(() => {
     if (chosenTx) {
-      linkToSwapWidget(chosenTx);
+      linkToSwapWidget(chosenTx, 'claim');
     }
   }, [chosenTx, toggleOpenLink, linkToSwapWidget]);
 

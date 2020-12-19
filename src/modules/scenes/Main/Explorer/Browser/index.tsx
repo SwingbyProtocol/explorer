@@ -14,6 +14,7 @@ import {
   loadHistory,
   removeDuplicatedTxs,
   SwapRawObject,
+  TSwapWidget,
 } from '../../../../explorer';
 import { useInterval } from '../../../../hooks';
 import {
@@ -33,7 +34,7 @@ import { Bottom, BrowserContainer, BrowserDiv, Filter, Top, NoResultsFound } fro
 interface Props {
   walletAddress: string;
   setWalletAddress: (address: string) => void;
-  linkToSwapWidget: (tx: SwapRawObject) => void;
+  linkToSwapWidget: (tx: SwapRawObject, action: TSwapWidget) => void;
   runOnboard: (theme: string) => void;
   theme: string;
 }

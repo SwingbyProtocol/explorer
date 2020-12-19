@@ -8,7 +8,7 @@ import { IStats } from '../../../../explorer';
 import { networkInfos } from '../../../../store/explorer';
 import { LineBox } from '../../../Common';
 
-import { AllVolumeSpan, Box, LineContainer, SwapVolumeContainer, TitleDiv } from './styled';
+import { Box, LineContainer, SwapVolumeContainer, TitleDiv } from './styled';
 
 interface Props {
   stats: IStats;
@@ -113,9 +113,6 @@ export const SwapVolume = (props: Props) => {
           <Text variant="section-title">
             <FormattedMessage id="home.network.totalSwapVol" />
           </Text>
-          <AllVolumeSpan variant="accent">
-            <FormattedMessage id="common.seeMore" />
-          </AllVolumeSpan>
         </TitleDiv>
         <LineContainer>
           {loading && <LoaderComingSoon />}

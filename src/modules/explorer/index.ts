@@ -139,3 +139,5 @@ export type TStatus =
   | 'SENDING_REFUND'
   | 'REFUNDED'
   | 'EXPIRED';
+
+export type TSwapWidget = 'claim' | 'duplicate';
