@@ -7,14 +7,17 @@ import { Loader } from '../../../../../components/Loader';
 import { Pagination } from '../../../../../components/Pagination';
 import { TXS_COUNT, URL_ETHERSCAN } from '../../../../env';
 import { convertTxTime, toBTC } from '../../../../explorer';
-import { fetchRecentTransaction, IRecentTx } from '../../../../pool';
-import { getRecentTxs } from '../../../../store';
+import { fetchRecentTransaction, IRecentTx, PoolMode } from '../../../../pool';
+import { getRecentTxs, togglePoolMode } from '../../../../store';
+import { TextBlock } from '../../../Common';
 
 import { initialTxsData } from './initialData';
 import {
   AddressA,
+  NoTransaction,
   PaginationRow,
   Row,
+  TextAddLiquidity,
   TextAmount,
   TitleText,
   TransactionsContainer,
@@ -76,15 +79,38 @@ export const TransactionsPool = () => {
               </Row>
             );
           })}
-        <PaginationRow>
-          <Pagination
-            goNextPage={goNextPage}
-            goBackPage={goBackPage}
-            page={page}
-            maximumPage={maximumPage}
-          />
-        </PaginationRow>
+        {txsData && txsData.data[page].length > 0 && (
+          <PaginationRow>
+            <Pagination
+              goNextPage={goNextPage}
+              goBackPage={goBackPage}
+              page={page}
+              maximumPage={maximumPage}
+            />
+          </PaginationRow>
+        )}
       </TransactionsContainer>
+      {txsData && !txsData.data[page].length && (
+        <NoTransaction>
+          <TextBlock variant="title-xs">
+            <FormattedMessage id="pool.noTransaction" />
+          </TextBlock>
+          <div>
+            <Text variant="title-xs">
+              <FormattedMessage id="pool.noTransaction.startWith" />
+            </Text>
+            <TextAddLiquidity
+              variant="title-xs"
+              onClick={() => dispatch(togglePoolMode(PoolMode.AddLiquidity))}
+            >
+              <FormattedMessage id="pool.noTransaction.addLiquidity" />
+            </TextAddLiquidity>
+            <Text variant="title-xs">
+              <FormattedMessage id="pool.noTransaction.first" />
+            </Text>
+          </div>
+        </NoTransaction>
+      )}
     </TransactionsPoolContainer>
   );
 };

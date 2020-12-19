@@ -3,6 +3,7 @@ import { rem } from 'polished';
 import styled from 'styled-components';
 
 import { StylingConstants } from '../../../../styles';
+import { TextPrimary } from '../../../Common';
 
 const { media } = StylingConstants;
 
@@ -13,6 +14,12 @@ export const TransactionsPoolContainer = styled.div`
 `;
 export const TitleText = styled(Text)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
+`;
+
+export const NoTransaction = styled.div`
+  display: grid;
+  grid-row-gap: ${({ theme }) => rem(theme.pulsar.size.drawer)};
+  text-align: center;
 `;
 
 export const TransactionsContainer = styled.div`
@@ -71,4 +78,8 @@ export const TextAmount = styled(Text)`
 export const PaginationRow = styled.div`
   display: flex;
   justify-content: flex-end;
+`;
+
+export const TextAddLiquidity = styled(TextPrimary)`
+  cursor: pointer;
 `;

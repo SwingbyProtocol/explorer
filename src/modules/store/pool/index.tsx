@@ -87,7 +87,7 @@ export const setOnboard = (data) => ({ type: Actions.SetOnboard, data } as const
 
 export const setWeb3 = (data) => ({ type: Actions.SetWeb3, data } as const);
 
-export const togglePoolMode = (data) => ({ type: Actions.TogglePoolMode, data } as const);
+export const togglePoolMode = (data: PoolMode) => ({ type: Actions.TogglePoolMode, data } as const);
 
 export const getRecentTxs = (data) => ({ type: Actions.GetRecentTxs, data } as const);
 
