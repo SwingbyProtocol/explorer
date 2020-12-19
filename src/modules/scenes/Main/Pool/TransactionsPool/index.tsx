@@ -1,9 +1,10 @@
-import { Icon, Text } from '@swingby-protocol/pulsar';
+import { Text } from '@swingby-protocol/pulsar';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Loader } from '../../../../../components/Loader';
+import { Pagination } from '../../../../../components/Pagination';
 import { TXS_COUNT, URL_ETHERSCAN } from '../../../../env';
 import { convertTxTime, toBTC } from '../../../../explorer';
 import { fetchRecentTransaction, IRecentTx } from '../../../../pool';
@@ -12,10 +13,6 @@ import { getRecentTxs } from '../../../../store';
 import { initialTxsData } from './initialData';
 import {
   AddressA,
-  BackButton,
-  NextButton,
-  PageRow,
-  Pagination,
   PaginationRow,
   Row,
   TextAmount,
@@ -80,30 +77,12 @@ export const TransactionsPool = () => {
             );
           })}
         <PaginationRow>
-          <Pagination>
-            <BackButton
-              variant="secondary"
-              size="state"
-              onClick={() => page > 1 && goBackPage()}
-              disabled={1 >= page}
-            >
-              <Icon.CaretLeft />
-            </BackButton>
-            <PageRow page={page}>
-              <Text variant="masked">
-                <FormattedMessage id="common.page" />
-                {page}
-              </Text>
-            </PageRow>
-            <NextButton
-              variant="secondary"
-              size="state"
-              onClick={() => maximumPage > page && goNextPage()}
-              disabled={page >= maximumPage}
-            >
-              <Icon.CaretRight />
-            </NextButton>
-          </Pagination>
+          <Pagination
+            goNextPage={goNextPage}
+            goBackPage={goBackPage}
+            page={page}
+            maximumPage={maximumPage}
+          />
         </PaginationRow>
       </TransactionsContainer>
     </TransactionsPoolContainer>

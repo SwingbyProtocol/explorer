@@ -1,4 +1,4 @@
-import { Dropdown, getCryptoAssetFormatter, Icon, Text } from '@swingby-protocol/pulsar';
+import { Dropdown, getCryptoAssetFormatter, Text } from '@swingby-protocol/pulsar';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
@@ -12,11 +12,11 @@ import {
 } from '../../../../explorer';
 import { selectSwapDetails } from '../../../../store';
 import { transactionDetailByTxId } from '../../../../swap';
+import { Pagination } from '../../../../../components/Pagination';
 
 import {
   AddressP,
   AmountSpan,
-  BackButton,
   Bottom,
   BrowserFooter,
   Coin,
@@ -26,9 +26,6 @@ import {
   ColumnFee,
   Ellipsis,
   Left,
-  NextButton,
-  PageRow,
-  Pagination,
   Right,
   Status,
   StatusCircle,
@@ -217,41 +214,12 @@ export const TxHistories = (props: Props) => {
           })}
       </TxHistoriesContainer>
       <BrowserFooter>
-        <Pagination>
-          <BackButton
-            variant="secondary"
-            size="state"
-            onClick={() => page > 1 && goBackPage()}
-            disabled={1 >= page}
-          >
-            <Icon.CaretLeft />
-          </BackButton>
-          <PageRow page={page}>
-            <Text variant="masked">
-              {locale === 'en' ? (
-                <>
-                  <FormattedMessage id="common.page.pre" />
-                  <FormattedMessage id="common.page" />
-                  {page}
-                </>
-              ) : (
-                <>
-                  <FormattedMessage id="common.page.pre" />
-                  {page}
-                  <FormattedMessage id="common.page" />
-                </>
-              )}
-            </Text>
-          </PageRow>
-          <NextButton
-            variant="secondary"
-            size="state"
-            onClick={() => maximumPage > page && goNextPage()}
-            disabled={page >= maximumPage}
-          >
-            <Icon.CaretRight />
-          </NextButton>
-        </Pagination>
+        <Pagination
+          goNextPage={goNextPage}
+          goBackPage={goBackPage}
+          page={page}
+          maximumPage={maximumPage}
+        />
       </BrowserFooter>
     </>
   );
