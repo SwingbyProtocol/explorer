@@ -41,6 +41,7 @@
   "home.recentSwaps.getTxDetails": "Get the transaction details",
   "home.recentSwaps.recentSwaps": "Recent Swaps",
   "home.recentSwaps.fees": "Fees",
+  "home.recentSwaps.hideWaiting": "Hide waiting",
   "swap.claimSwap": "Claim Swap",
   "swap.duplicate": "Duplicate",
   "swap.share": "Share",

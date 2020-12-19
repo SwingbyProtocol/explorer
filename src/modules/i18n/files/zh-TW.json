@@ -41,6 +41,7 @@
   "home.recentSwaps.getTxDetails": "查看交易記錄",
   "home.recentSwaps.recentSwaps": "近期的交換",
   "home.recentSwaps.fees": "手續費",
+  "home.recentSwaps.hideWaiting": "隱藏等待狀態",
   "swap.claimSwap": "交換進程",
   "swap.duplicate": "重複交換",
   "swap.share": "分享",

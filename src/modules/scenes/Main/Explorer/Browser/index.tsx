@@ -153,7 +153,7 @@ export const Browser = (props: Props) => {
           dispatch(toggleIsHideWaiting());
         }}
       >
-        Hide waiting
+        <FormattedMessage id="home.recentSwaps.hideWaiting" />
       </Dropdown.Item>
       {Object.values(BRIDGE).map((chain: string) => {
         const bridge = chain === BRIDGE.multipleBridges ? '' : chain.toLowerCase();
