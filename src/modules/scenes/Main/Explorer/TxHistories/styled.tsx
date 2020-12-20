@@ -117,6 +117,11 @@ export const Status = styled.div`
 export const Ellipsis = styled(Icon.Ellipsis)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.street)};
   cursor: pointer;
+  transition: all 0.3s ease 0s;
+  :hover {
+    transition: all 0.3s ease 0s;
+    transform: scale(1.15);
+  }
 `;
 
 export const SwapHorizontal = styled(Icon.SwapHorizontal)`
