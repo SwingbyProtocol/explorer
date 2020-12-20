@@ -30,7 +30,7 @@ export const ExplorerMain = () => {
   const pool = useSelector((state) => state.pool);
   const { onboard } = pool;
   const explorer = useSelector((state) => state.explorer);
-  const { swapDetails } = explorer;
+  const { swapDetails, themeMode } = explorer;
 
   //Memo: For check walletAddress === tx.addressOut
   const [walletAddress, setWalletAddress] = useState(null);
@@ -170,7 +170,7 @@ export const ExplorerMain = () => {
             <TitleH1>{titleGenerator(currentPath)}</TitleH1>
             <PulsarThemeProvider>{switchRightComponent(currentPath)}</PulsarThemeProvider>
           </HeadLine>
-          <PulsarThemeProvider>
+          <PulsarThemeProvider theme={themeMode}>
             {switchBrowser(currentPath)}
             <Footer />
           </PulsarThemeProvider>

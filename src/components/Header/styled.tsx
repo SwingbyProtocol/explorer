@@ -51,15 +51,19 @@ export const Right = styled.div`
 export const Menu = styled.div`
   display: none;
   @media (min-width: ${rem(media.sm)}) {
-    margin-left: ${({ theme }) => rem(theme.pulsar.size.town)};
     width: ${rem(130)};
     display: flex;
     justify-content: space-between;
+    align-items: center;
   }
   @media (min-width: ${rem(media.md)}) {
-    margin-left: ${({ theme }) => rem(theme.pulsar.size.country)};
     margin-right: ${({ theme }) => rem(theme.pulsar.size.street)};
   }
+`;
+
+export const ThemeToggle = styled.div`
+  margin-top: ${({ theme }) => rem(theme.pulsar.size.box)};
+  margin-right: ${({ theme }) => rem(theme.pulsar.size.street)};
 `;
 
 export const MenuSpan = styled(Text)<MenuProps>`
@@ -76,7 +80,7 @@ export const LanguageDropDown = styled(Dropdown)`
   display: none;
   @media (min-width: ${rem(media.sm)}) {
     display: block;
-    max-width: ${rem(100)};
+    max-width: ${rem(120)};
   }
 `;
 

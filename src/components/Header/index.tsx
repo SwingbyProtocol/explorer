@@ -2,10 +2,14 @@ import { Dropdown } from '@swingby-protocol/pulsar';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
+import { useDispatch } from 'react-redux';
+import { DarkModeSwitch } from 'react-toggle-dark-mode';
+import { useTheme } from 'styled-components';
 
-import { PATH } from '../../modules/env';
-import { capitalize } from '../../modules/explorer';
+import { LOCAL_STORAGE, PATH } from '../../modules/env';
+import { capitalize, TTheme } from '../../modules/explorer';
 import { languagesSelector } from '../../modules/i18n';
+import { toggleTheme } from '../../modules/store';
 
 import {
   Atag,
@@ -14,22 +18,44 @@ import {
   Hamburger,
   HeaderContainer,
   IconLive,
+  LanguageDropDown,
+  LanguageDropTarget,
+  LanguageTitle,
   Left,
   Logo,
   Menu,
   MenuSpan,
   MobileMenu,
   Right,
-  LanguageDropDown,
-  LanguageDropTarget,
-  LanguageTitle,
+  ThemeToggle,
 } from './styled';
 
-export const Header = () => {
+interface Props {
+  setThemeMode: (theme: string) => void;
+  themeMode: TTheme;
+}
+
+export const Header = (props: Props) => {
+  const { setThemeMode, themeMode } = props;
   const router = useRouter();
-  const currentPath = router.pathname;
   const { locale } = useIntl();
+  const dispatch = useDispatch();
+  const theme = useTheme();
   const [lang, setLang] = useState(null);
+  const currentPath = router.pathname;
+
+  const toggleDarkMode = (checked: boolean) => {
+    const theme = checked ? 'dark' : 'light';
+    setThemeMode(theme);
+    localStorage.setItem(LOCAL_STORAGE.ThemeMode, theme);
+  };
+
+  useEffect(() => {
+    if (themeMode === null) {
+      setThemeMode(theme.pulsar.id === 'PulsarDark' ? 'dark' : 'light');
+    }
+    dispatch(toggleTheme(themeMode));
+  }, [themeMode, dispatch, setThemeMode, theme.pulsar.id]);
 
   useEffect(() => {
     languagesSelector.forEach((language) => {
@@ -65,6 +91,9 @@ export const Header = () => {
         </Atag>
       </Left>
       <Right>
+        <ThemeToggle>
+          <DarkModeSwitch checked={themeMode === 'dark'} onChange={toggleDarkMode} size={24} />
+        </ThemeToggle>
         <MobileMenu target={<Hamburger />} data-testid="dropdown">
           {routing.map((link) => (
             <DropDownItemMobile

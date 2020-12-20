@@ -39,6 +39,7 @@ export enum PATH {
 export enum LOCAL_STORAGE {
   SelectedWallet = 'selectedWallet',
   UserWalletAddress = 'userWalletAddress',
+  ThemeMode = 'themeMode',
 }
 
 export const CONTRACT_BTCE = '0xeb47a21c1fc00d1e863019906df1771b80dbe182';

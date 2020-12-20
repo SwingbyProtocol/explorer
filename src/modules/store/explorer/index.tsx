@@ -1,18 +1,26 @@
 import { Reducer } from 'redux';
 
-import { IFee, IFetchUsd, INetworkInfos, ITransactions, SwapRawObject } from '../../explorer';
+import {
+  IFee,
+  IFetchUsd,
+  INetworkInfos,
+  ITransactions,
+  SwapRawObject,
+  TTheme,
+} from '../../explorer';
 
 import * as initial from './initialState';
 
 export { networkInfos } from './initialState';
 
 enum Actions {
+  SetWidthSize = 'Explorer/SET_WIDTH_SIZE',
+  ToggleTheme = 'Explorer/TOGGLE_THEME',
   FetchHistory = 'Explorer/FETCH_HISTORY',
   SelectSwapDetails = 'Explorer/SELECT_SWAP_DETAILS',
   ClearHistory = 'Explorer/CLEAR_HISTORY',
   ToggleIsHideWaiting = 'Explorer/TOGGLE_IS_HIDE_WAITING',
   UpdateSwapHistoryTemp = 'Explorer/UPDATE_SWAP_HISTORY_TEMP',
-  SetWidthSize = 'Explorer/SET_WIDTH_SIZE',
   FetchUsdPrice = 'Explorer/FETCH_USD_PRICE',
   FetchTransactionFees = 'Explorer/FETCH_TRANSACTION_FEES',
   UpdateNetworkInfos = 'Explorer/UPDATE_NETWORK_INFOS',
@@ -27,11 +35,20 @@ const initialState = {
   networkInfos: initial.networkInfos,
   transactionFees: null,
   width: null,
+  themeMode: null,
 };
 
 type State = typeof initialState;
 
 export const explorer: Reducer<State, Action> = (state = initialState, action) => {
+  if (action.type === Actions.SetWidthSize) {
+    return { ...state, width: action.data };
+  }
+
+  if (action.type === Actions.ToggleTheme) {
+    return { ...state, themeMode: action.data };
+  }
+
   if (action.type === Actions.FetchHistory) {
     return { ...state, swapHistory: action.data };
   }
@@ -52,10 +69,6 @@ export const explorer: Reducer<State, Action> = (state = initialState, action) =
     return { ...state, swapHistoryTemp: action.data };
   }
 
-  if (action.type === Actions.SetWidthSize) {
-    return { ...state, width: action.data };
-  }
-
   if (action.type === Actions.FetchUsdPrice) {
     return { ...state, usd: action.data };
   }
@@ -71,6 +84,10 @@ export const explorer: Reducer<State, Action> = (state = initialState, action) =
   return state;
 };
 
+export const setWidthSize = (data: number) => ({ type: Actions.SetWidthSize, data } as const);
+
+export const toggleTheme = (data: TTheme) => ({ type: Actions.ToggleTheme, data } as const);
+
 export const getHistory = (data: ITransactions) => ({ type: Actions.FetchHistory, data } as const);
 
 export const selectSwapDetails = (data: SwapRawObject) =>
@@ -83,8 +100,6 @@ export const toggleIsHideWaiting = () => ({ type: Actions.ToggleIsHideWaiting } 
 export const updateSwapHistoryTemp = (data: SwapRawObject[]) =>
   ({ type: Actions.UpdateSwapHistoryTemp, data } as const);
 
-export const setWidthSize = (data: number) => ({ type: Actions.SetWidthSize, data } as const);
-
 export const fetchUsdPrice = (data: IFetchUsd) => ({ type: Actions.FetchUsdPrice, data } as const);
 
 export const fetchTransactionFees = (data: IFee[]) =>
@@ -94,12 +109,13 @@ export const updateNetworkInfos = (data: INetworkInfos) =>
   ({ type: Actions.UpdateNetworkInfos, data } as const);
 
 type Action =
+  | ReturnType<typeof setWidthSize>
+  | ReturnType<typeof toggleTheme>
   | ReturnType<typeof getHistory>
   | ReturnType<typeof selectSwapDetails>
   | ReturnType<typeof clearHistory>
   | ReturnType<typeof toggleIsHideWaiting>
   | ReturnType<typeof updateSwapHistoryTemp>
-  | ReturnType<typeof setWidthSize>
   | ReturnType<typeof fetchUsdPrice>
   | ReturnType<typeof fetchTransactionFees>
   | ReturnType<typeof updateNetworkInfos>;

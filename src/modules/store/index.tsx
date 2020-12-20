@@ -1,4 +1,5 @@
 export { useStore } from './store';
+
 export {
   getHistory,
   clearHistory,
@@ -10,7 +11,9 @@ export {
   selectSwapDetails,
   updateNetworkInfos,
   networkInfos,
+  toggleTheme,
 } from './explorer';
+
 export {
   setBridge,
   setUserAddress,

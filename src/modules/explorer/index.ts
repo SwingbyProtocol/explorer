@@ -141,3 +141,5 @@ export type TStatus =
   | 'EXPIRED';
 
 export type TSwapWidget = 'claim' | 'duplicate';
+
+export type TTheme = 'dark' | 'light' | null;
