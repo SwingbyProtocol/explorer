@@ -129,7 +129,7 @@ export const BrowserMetanodes = () => {
                       <SizeS>{activeStatus(node.active)}</SizeS>
                       <StakeInfos>
                         <TextStake>
-                          <FormattedNumber value={Number(node.stake.amount)} />
+                          <FormattedNumber value={Number(node.stake.amount)} /> SWINGBY
                         </TextStake>
                         <TextStake>{node.stake.address}</TextStake>
                         <TextBlock>{convertDateTime(node.stake.stakeTime)}</TextBlock>
