@@ -64,7 +64,7 @@ export const NodeContainer = styled.div`
 const nodeListGridTemplateColumnsFrameMobile = `10% 10% ${rem(120)} auto ${rem(100)}`;
 const nodeListGridTemplateColumnsFrameSM = `10% 5% ${rem(120)} 10% auto auto ${rem(150)}`;
 const nodeListGridTemplateColumnsFrameMD = `10% 10% ${rem(120)} 15% auto auto ${rem(150)}`;
-const nodeListGridTemplateColumnsFrame = `7% 5% ${rem(120)} 5% 15% 2% ${rem(180)} auto`;
+const nodeListGridTemplateColumnsFrame = `7% 4% ${rem(120)} 5% 14% 2% ${rem(190)} auto`;
 
 export const RowDescription = styled.div<BgProps>`
   display: grid;
@@ -109,7 +109,7 @@ export const TextStake = styled(TextEllipsis)`
   }
   @media (min-width: ${rem(media.xl)}) {
     display: block;
-    max-width: ${rem(400)};
+    max-width: ${rem(410)};
   }
 `;
 
