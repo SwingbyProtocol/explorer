@@ -29,3 +29,8 @@ export const PageRow = styled.div<PageProps>`
   text-align: center;
   white-space: nowrap;
 `;
+
+export const PaginationRow = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;

@@ -1,8 +1,9 @@
-import { Icon, Text } from '@swingby-protocol/pulsar';
+import { Text } from '@swingby-protocol/pulsar';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch } from 'react-redux';
 
+import { Pagination } from '../../../../../components/Pagination';
 import {
   capitalize,
   convertTxTime,
@@ -14,7 +15,6 @@ import { selectSwapDetails } from '../../../../store';
 
 import {
   AmountText,
-  BackButton,
   Bottom,
   BrowserFooter,
   Coin,
@@ -23,9 +23,6 @@ import {
   Detail,
   LabelText,
   Left,
-  NextButton,
-  PageRow,
-  Pagination,
   Right,
   Status,
   StatusCircle,
@@ -134,30 +131,12 @@ export const TxHistoriesMobile = (props: Props) => {
           })}
       </TxHistoriesMobileContainer>
       <BrowserFooter>
-        <Pagination>
-          <BackButton
-            variant="secondary"
-            size="city"
-            onClick={() => page > 1 && goBackPage()}
-            disabled={1 >= page}
-          >
-            <Icon.CaretLeft />
-          </BackButton>
-          <PageRow page={page}>
-            <Text variant="label">
-              <FormattedMessage id="common.page" />
-              {page}
-            </Text>
-          </PageRow>
-          <NextButton
-            variant="secondary"
-            size="city"
-            onClick={() => maximumPage > page && goNextPage()}
-            disabled={page >= maximumPage}
-          >
-            <Icon.CaretRight />
-          </NextButton>
-        </Pagination>
+        <Pagination
+          goNextPage={goNextPage}
+          goBackPage={goBackPage}
+          page={page}
+          maximumPage={maximumPage}
+        />
       </BrowserFooter>
     </>
   );

@@ -75,11 +75,6 @@ export const TextAmount = styled(Text)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
 `;
 
-export const PaginationRow = styled.div`
-  display: flex;
-  justify-content: flex-end;
-`;
-
 export const TextAddLiquidity = styled(TextPrimary)`
   cursor: pointer;
 `;

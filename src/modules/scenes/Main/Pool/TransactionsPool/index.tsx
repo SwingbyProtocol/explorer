@@ -15,7 +15,6 @@ import { initialTxsData } from './initialData';
 import {
   AddressA,
   NoTransaction,
-  PaginationRow,
   Row,
   TextAddLiquidity,
   TextAmount,
@@ -80,14 +79,12 @@ export const TransactionsPool = () => {
             );
           })}
         {txsData && txsData.data[page].length > 0 && (
-          <PaginationRow>
-            <Pagination
-              goNextPage={goNextPage}
-              goBackPage={goBackPage}
-              page={page}
-              maximumPage={maximumPage}
-            />
-          </PaginationRow>
+          <Pagination
+            goNextPage={goNextPage}
+            goBackPage={goBackPage}
+            page={page}
+            maximumPage={maximumPage}
+          />
         )}
       </TransactionsContainer>
       {txsData && !txsData.data[page].length && (

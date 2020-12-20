@@ -9,6 +9,7 @@ export const mode: Mode =
   process.env.NEXT_PUBLIC_MODE === MODE.PRODUCTION ? MODE.PRODUCTION : MODE.TEST;
 export const PAGE_COUNT = 4;
 export const TXS_COUNT = 10;
+export const NODES_PER_PAGE = 10;
 
 export const etherscanApiKey =
   process.env.NEXT_PUBLIC_ETHERSCAN_KEY || 'NYXXH5CD1NQJMYJGZYAFK7G9G6AZGZTT3H';
