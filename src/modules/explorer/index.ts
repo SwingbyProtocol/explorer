@@ -22,7 +22,7 @@ export {
 } from './utils';
 
 export const BRIDGE = {
-  multipleBridges: 'Multiple Bridges',
+  multipleBridges: 'Multiple-Bridges',
   binance: 'Binance',
   ethereum: 'Ethereum',
 };

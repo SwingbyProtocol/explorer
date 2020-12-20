@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Loader } from '../../../../../components/Loader';
-import { PAGE_COUNT } from '../../../../env';
+import { MODE, mode, PAGE_COUNT } from '../../../../env';
 import {
   BRIDGE,
   fetchFloatBalances,
@@ -155,18 +155,19 @@ export const Browser = (props: Props) => {
       >
         <FormattedMessage id="home.recentSwaps.hideWaiting" />
       </Dropdown.Item>
-      {Object.values(BRIDGE).map((chain: string) => {
-        const bridge = chain === BRIDGE.multipleBridges ? '' : chain.toLowerCase();
-        return (
-          <Dropdown.Item
-            selected={chainBridge === bridge}
-            onClick={() => routerPush(bridge, q, 1)}
-            key={chain}
-          >
-            Bitcoin - {chain}
-          </Dropdown.Item>
-        );
-      })}
+      {mode === MODE.TEST &&
+        Object.values(BRIDGE).map((chain: string) => {
+          const bridge = chain === BRIDGE.ethereum ? '' : chain.toLowerCase();
+          return (
+            <Dropdown.Item
+              selected={chainBridge === bridge}
+              onClick={() => routerPush(bridge, q, 1)}
+              key={chain}
+            >
+              Bitcoin - {chain}
+            </Dropdown.Item>
+          );
+        })}
     </Dropdown>
   );
 
