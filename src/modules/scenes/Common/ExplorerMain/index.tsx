@@ -168,7 +168,9 @@ export const ExplorerMain = () => {
         <ExplorerMainContainer>
           <HeadLine>
             <TitleH1>{titleGenerator(currentPath)}</TitleH1>
-            <PulsarThemeProvider>{switchRightComponent(currentPath)}</PulsarThemeProvider>
+            <PulsarThemeProvider theme={themeMode}>
+              {switchRightComponent(currentPath)}
+            </PulsarThemeProvider>
           </HeadLine>
           <PulsarThemeProvider theme={themeMode}>
             {switchBrowser(currentPath)}
