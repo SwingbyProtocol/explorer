@@ -1,4 +1,4 @@
-import { Button, CoinIcon, Icon, StatusIcon, Text } from '@swingby-protocol/pulsar';
+import { CoinIcon, Icon, StatusIcon, Text } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
 import styled from 'styled-components';
 
@@ -8,10 +8,6 @@ const { media } = StylingConstants;
 
 interface BgProps {
   bg: boolean;
-}
-
-interface PageProps {
-  page: number;
 }
 
 export const TxHistoriesMobileContainer = styled.div`
@@ -154,27 +150,4 @@ export const BrowserFooter = styled.div`
   @media (min-width: ${rem(media.md)}) {
     display: none;
   }
-`;
-export const Pagination = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-export const BackButton = styled(Button)`
-  color: ${({ theme }) => theme.pulsar.color.text.masked};
-  margin-right: ${({ theme }) => rem(theme.pulsar.size.closet)};
-  background-color: transparent;
-`;
-export const NextButton = styled(Button)`
-  color: ${({ theme }) => theme.pulsar.color.text.masked};
-  margin-left: ${({ theme }) => rem(theme.pulsar.size.closet)};
-  background-color: transparent;
-`;
-
-export const PageRow = styled.div<PageProps>`
-  /* Memo: Fix the width to avoid moving the back/next arrow in besides */
-  width: ${(props) => (props.page > 99 ? rem(100) : rem(90))};
-  text-align: center;
-  white-space: nowrap;
-  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.box)};
 `;

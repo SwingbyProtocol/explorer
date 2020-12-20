@@ -1,8 +1,9 @@
-import { Button, SwapProgress } from '@swingby-protocol/pulsar';
+import { SwapProgress } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
 import styled from 'styled-components';
 
 import { StylingConstants } from '../../../../styles';
+import { ButtonScale } from '../../../Common';
 
 const { media } = StylingConstants;
 
@@ -49,7 +50,7 @@ export const ButtonClaimSwapRow = styled.div`
   }
 `;
 
-export const ButtonClaimSwapTablet = styled(Button)`
+export const ButtonClaimSwapTablet = styled(ButtonScale)`
   display: none;
   @media (min-width: ${rem(media.md)}) {
     display: block;

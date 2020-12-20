@@ -1,10 +1,10 @@
-import { Button } from '@swingby-protocol/pulsar';
-import React, { useEffect, useState } from 'react';
 import useCopy from '@react-hook/copy';
+import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import { SwapRawObject, TStatus, TSwapWidget, TxStatus } from '../../../../explorer';
 import { copyToClipboard, toastCopyURL } from '../../../../../components/Toast';
+import { SwapRawObject, TStatus, TSwapWidget, TxStatus } from '../../../../explorer';
+import { ButtonScale } from '../../../Common';
 
 import {
   ActionButtonsSwapContainer,
@@ -46,7 +46,7 @@ export const ActionButtons = (props: Props) => {
         currencyOut={tx.currencyOut}
       />
       <Buttons>
-        <Button
+        <ButtonScale
           variant="secondary"
           size="city"
           disabled={
@@ -57,10 +57,14 @@ export const ActionButtons = (props: Props) => {
           onClick={() => setToggleDuplicateSwap(toggleDuplicateSwap + 1)}
         >
           <FormattedMessage id="swap.duplicate" />
-        </Button>
-        <Button variant="primary" size="city" onClick={() => copyToClipboard(copy, toastCopyURL)}>
+        </ButtonScale>
+        <ButtonScale
+          variant="primary"
+          size="city"
+          onClick={() => copyToClipboard(copy, toastCopyURL)}
+        >
           <FormattedMessage id="swap.share" />
-        </Button>
+        </ButtonScale>
         <ButtonClaimSwapTablet
           variant="tertiary"
           size="city"
@@ -70,13 +74,13 @@ export const ActionButtons = (props: Props) => {
         </ButtonClaimSwapTablet>
       </Buttons>
       <ButtonClaimSwapRow>
-        <Button
+        <ButtonScale
           variant="tertiary"
           size="city"
           onClick={() => setToggleOpenLink(toggleOpenLink + 1)}
         >
           <FormattedMessage id="swap.claimSwap" />
-        </Button>
+        </ButtonScale>
       </ButtonClaimSwapRow>
     </ActionButtonsSwapContainer>
   );

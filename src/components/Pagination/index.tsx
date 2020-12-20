@@ -2,7 +2,7 @@ import { Icon, Text } from '@swingby-protocol/pulsar';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
-import { PaginationContainer, BackButton, PageRow, PaginationRow, NextButton } from './styled';
+import { BackButton, NextButton, PageRow, PaginationContainer, PaginationRow } from './styled';
 
 interface Props {
   page: number;

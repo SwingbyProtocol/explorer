@@ -80,6 +80,7 @@
   "pool.pool.inputYourAmount": "输入金额",
   "pool.pool.inputYourAddress": "输入您的收款地址",
   "pool.pool.receiveSbBTCAddress": "在以下地址接受我的sbBTC",
+  "pool.withdraw.inputYourAmount": "输入金额",
   "pool.withdraw.receiveBTCAddress": "在以下地址接受我的BTC",
   "pool.withdraw.iWantToPool": "我要取款",
   "pool.withdraw.max": "Max",

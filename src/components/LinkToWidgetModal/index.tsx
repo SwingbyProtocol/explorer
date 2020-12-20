@@ -1,12 +1,13 @@
-import { Button, Modal, Text } from '@swingby-protocol/pulsar';
+import { Modal, Text } from '@swingby-protocol/pulsar';
 import { createWidget, getUrl } from '@swingby-protocol/widget';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import { SwapRawObject } from '../../modules/explorer';
 import { mode } from '../../modules/env';
+import { SwapRawObject } from '../../modules/explorer';
+import { ButtonScale } from '../../modules/scenes/Common';
 
-import { ModalContainer, Buttons, TextAddress } from './styled';
+import { Buttons, ModalContainer, TextAddress } from './styled';
 
 interface Props {
   isWidgetModalOpen: boolean;
@@ -27,16 +28,20 @@ export const LinkToWidgetModal = (props: Props) => {
           </Text>
           <TextAddress variant="accent">{address}</TextAddress>
           <Buttons>
-            <Button
+            <ButtonScale
               variant="primary"
               size="city"
               onClick={() => window.open(getUrl({ widget }), '_blank', 'noopener')}
             >
               <FormattedMessage id="common.modal.yes" />
-            </Button>
-            <Button variant="secondary" size="city" onClick={() => setIsWidgetModalOpen(false)}>
+            </ButtonScale>
+            <ButtonScale
+              variant="secondary"
+              size="city"
+              onClick={() => setIsWidgetModalOpen(false)}
+            >
               <FormattedMessage id="common.modal.back" />
-            </Button>
+            </ButtonScale>
           </Buttons>
         </ModalContainer>
       </Modal.Content>

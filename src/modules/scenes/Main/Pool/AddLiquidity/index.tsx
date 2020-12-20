@@ -1,14 +1,15 @@
-import { Button, Dropdown } from '@swingby-protocol/pulsar';
+import { Dropdown } from '@swingby-protocol/pulsar';
 import { createWidget, openPopup } from '@swingby-protocol/widget';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
 
-import { mode } from '../.././../../env';
 import { CoinSymbol, ETHCoins, PoolCurrencies } from '../../../../coins';
 import { checkIsValidAddress, checkIsValidAmount } from '../../../../explorer';
 import { calculateDepositFee } from '../../../../pool';
+import { ButtonScale } from '../../../Common';
+import { mode } from '../.././../../env';
 
 import {
   AddLiquidityContainer,
@@ -149,14 +150,14 @@ export const AddLiquidity = (props: Props) => {
               </div>
             </RowBottom>
             <ButtonRow>
-              <Button
+              <ButtonScale
                 variant="primary"
                 size="country"
                 disabled={0 >= Number(poolAmount) || !isValidAddress || !receivingAddress}
                 onClick={() => openPopup({ widget })}
               >
                 <FormattedMessage id="pool.pool.pool" />
-              </Button>
+              </ButtonScale>
             </ButtonRow>
           </Bottom>
         </ColumnForm>

@@ -10,4 +10,5 @@ export {
   TextBlock,
   TextEllipsis,
   SizeS,
+  ButtonScale,
 } from './Styled';

@@ -1,15 +1,18 @@
-import { Button, Dropdown } from '@swingby-protocol/pulsar';
+import { Dropdown } from '@swingby-protocol/pulsar';
 import { createWidget, openPopup } from '@swingby-protocol/widget';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
 
-import { mode } from '../.././../../env';
 import { CoinSymbol, PoolCurrencies } from '../../../../coins';
 import { checkIsValidAddress, checkIsValidAmount } from '../../../../explorer';
+import { ButtonScale } from '../../../Common';
+import { mode } from '../.././../../env';
 
 import {
+  AllButtonDiv,
+  AmountValidation,
   Bottom,
   Box,
   ButtonRow,
@@ -23,12 +26,10 @@ import {
   InputReceivingAddress,
   RowTop,
   TargetCoin,
-  AmountValidation,
+  TextAll,
   TextLabel,
   Top,
   WithdrawContainer,
-  TextAll,
-  AllButtonDiv,
 } from './styled';
 
 interface Props {
@@ -110,7 +111,7 @@ export const Withdraw = (props: Props) => {
               <InputAmount
                 value={withdrawAmount}
                 size="state"
-                placeholder={formatMessage({ id: 'pool.pool.inputYourAmount' })}
+                placeholder={formatMessage({ id: 'pool.withdraw.inputYourAmount' })}
                 onChange={(e) => setWithdrawAmount(e.target.value)}
               />
             </RowTop>
@@ -136,7 +137,7 @@ export const Withdraw = (props: Props) => {
             {!isValidAddress && receivingAddress && addressValidationResult}
 
             <ButtonRow>
-              <Button
+              <ButtonScale
                 variant="primary"
                 size="country"
                 disabled={
@@ -148,7 +149,7 @@ export const Withdraw = (props: Props) => {
                 onClick={() => openPopup({ widget })}
               >
                 <FormattedMessage id="pool.withdraw" />
-              </Button>
+              </ButtonScale>
             </ButtonRow>
           </Bottom>
         </ColumnForm>

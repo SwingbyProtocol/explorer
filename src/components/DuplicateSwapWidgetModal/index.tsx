@@ -1,10 +1,11 @@
-import { Button, Modal, Text } from '@swingby-protocol/pulsar';
+import { Modal, Text } from '@swingby-protocol/pulsar';
 import { createWidget, openPopup } from '@swingby-protocol/widget';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import { mode } from '../../modules/env';
 import { SwapRawObject } from '../../modules/explorer';
+import { ButtonScale } from '../../modules/scenes/Common';
 
 import { Buttons, ModalContainer, TextAddress } from './styled';
 
@@ -38,12 +39,16 @@ export const DuplicateSwapWidgetModal = (props: Props) => {
           </Text>
           <TextAddress variant="accent">{address}</TextAddress>
           <Buttons>
-            <Button variant="primary" size="city" onClick={() => openPopup({ widget })}>
+            <ButtonScale variant="primary" size="city" onClick={() => openPopup({ widget })}>
               <FormattedMessage id="common.modal.yes" />
-            </Button>
-            <Button variant="secondary" size="city" onClick={() => setIsWidgetModalOpen(false)}>
+            </ButtonScale>
+            <ButtonScale
+              variant="secondary"
+              size="city"
+              onClick={() => setIsWidgetModalOpen(false)}
+            >
               <FormattedMessage id="common.modal.back" />
-            </Button>
+            </ButtonScale>
           </Buttons>
         </ModalContainer>
       </Modal.Content>
