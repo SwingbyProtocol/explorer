@@ -7,7 +7,7 @@ import { CoinSymbol } from '../../../../coins';
 import { CONTRACT_LP, CONTRACT_SWAP, ENDPOINT_EARNINGS } from '../../../../env';
 import { toBTC } from '../../../../explorer';
 import { fetch } from '../../../../fetch';
-import { ABI_TOKEN, orgFloor, ABI_SWAP } from '../../../../pool';
+import { ABI_TOKEN, orgFloor, ABI_SWAP, getHexValue } from '../../../../pool';
 import { getCurrentPriceLP, getDepositFeeRate, setBalanceLP } from '../../../../store';
 
 import {
@@ -80,14 +80,13 @@ export const AccountSummary = () => {
         setClaimableAmount(totalClaimableAmount);
         dispatch(getCurrentPriceLP(priceLP));
 
-        const calculatedUserFloatBalance = Number(userFloatBal) * Math.pow(10, 8);
-        const hexValue = '0x' + calculatedUserFloatBalance.toString(16);
+        // Memo: When pass numAsHex to the contract method, it will be treated as uint256.
+        const amountInAsHex = getHexValue(userFloatBal);
 
         const depositFeeRate = await contractSwap.methods
-          .getDepositFeeRate(userAddress, hexValue)
+          .getDepositFeeRate(userAddress, amountInAsHex)
           .call();
         dispatch(getDepositFeeRate(depositFeeRate));
-        console.log('depositFeeRate', depositFeeRate);
       })();
     }
   }, [dispatch, web3, userAddress]);
@@ -121,7 +120,6 @@ export const AccountSummary = () => {
       </RowEarning>
       <RowEarning>
         <TextRoom variant="label">
-          {' '}
           <FormattedMessage id="pool.totalEarnings" />
         </TextRoom>
         <TextRoom variant="accent">
@@ -131,7 +129,7 @@ export const AccountSummary = () => {
       </RowEarning>
       <RowEarning>
         <TextRoom variant="label">
-          <FormattedMessage id="common.comingSoon" />
+          <FormattedMessage id="pool.usd" />
         </TextRoom>
         <TextRoom variant="accent">
           {/* {usdTotalEarnings} */}
