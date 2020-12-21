@@ -43,6 +43,9 @@ export const Browser = (props: Props) => {
   const dispatch = useDispatch();
   const explorer = useSelector((state) => state.explorer);
   const { swapHistory, isHideWaiting, swapHistoryTemp, usd, networkInfos } = explorer;
+  const [total, setTotal] = useState(0);
+  const [adjustIndex, setAdjustIndex] = useState(0);
+  const [previousTxTotal, setPreviousTxTotal] = useState(0);
 
   /**
    * Memo: For Network information
@@ -119,6 +122,7 @@ export const Browser = (props: Props) => {
       const uniqueTempMixedHistories = removeDuplicatedTxs(data.tempMixedHistories);
       dispatch(getHistory(data.txsWithPage));
       dispatch(updateSwapHistoryTemp(uniqueTempMixedHistories));
+      setTotal(data.txsWithPage.total);
     }
 
     /* Memo: Add `swapHistory` and `swapHistoryTemp` in dependencies will occur infinity loop
@@ -142,6 +146,17 @@ export const Browser = (props: Props) => {
   useEffect(() => {
     runOnboard();
   }, [runOnboard]);
+
+  // Memo: To make `drop animation`
+  useEffect(() => {
+    if (previousTxTotal === 0 && total > 0) {
+      setPreviousTxTotal(total);
+      setAdjustIndex(2);
+    }
+    if (previousTxTotal > 0) {
+      setAdjustIndex(total - previousTxTotal);
+    }
+  }, [adjustIndex, previousTxTotal, total]);
 
   const filter = (
     <Dropdown target={<Filter />}>
@@ -205,6 +220,7 @@ export const Browser = (props: Props) => {
             isNoResult={isNoResult}
             isLoadingHistory={isLoadingHistory}
             noResultFound={noResultFound}
+            adjustIndex={adjustIndex}
           />
         </Bottom>
       </BrowserDiv>
@@ -220,6 +236,7 @@ export const Browser = (props: Props) => {
         isNoResult={isNoResult}
         isLoadingHistory={isLoadingHistory}
         noResultFound={noResultFound}
+        adjustIndex={adjustIndex}
       />
     </BrowserContainer>
   );

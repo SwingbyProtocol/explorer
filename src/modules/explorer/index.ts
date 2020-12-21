@@ -21,6 +21,8 @@ export {
   convertDateTime,
 } from './utils';
 
+export { TxRowTransition, TxRowVariants } from './animation';
+
 export const BRIDGE = {
   multipleBridges: 'Multiple-Bridges',
   binance: 'Binance',
