@@ -82,6 +82,7 @@
   "pool.pool.receiveSbBTCAddress": "And receive my sbBTC to:",
   "pool.withdraw.inputYourAmount": "Input your withdraw amount",
   "pool.withdraw.receiveBTCAddress": "And receive my BTC to:",
+  "pool.withdraw.receiveWBTCAddress": "And receive my WBTC to:",
   "pool.withdraw.iWantToPool": "I Want to Withdraw",
   "pool.withdraw.max": "Max",
   "metanodes.metanodes": "Metanodes",

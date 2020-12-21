@@ -82,6 +82,7 @@
   "pool.pool.receiveSbBTCAddress": "在以下地址接受我的sbBTC",
   "pool.withdraw.inputYourAmount": "输入金额",
   "pool.withdraw.receiveBTCAddress": "在以下地址接受我的BTC",
+  "pool.withdraw.receiveWBTCAddress": "在以下地址接受我的WBTC",
   "pool.withdraw.iWantToPool": "我要取款",
   "pool.withdraw.max": "Max",
   "metanodes.metanodes": "Metanodes",

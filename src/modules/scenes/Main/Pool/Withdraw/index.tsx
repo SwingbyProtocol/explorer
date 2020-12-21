@@ -133,8 +133,13 @@ export const Withdraw = (props: Props) => {
               value={receivingAddress}
               size="state"
               placeholder={formatMessage({ id: 'pool.pool.inputYourAddress' })}
-              label={formatMessage({ id: 'pool.withdraw.receiveBTCAddress' })}
-              left={<Coin symbol={CoinSymbol.BTC} />}
+              label={formatMessage({
+                id:
+                  toCurrency === CoinSymbol.BTC
+                    ? 'pool.withdraw.receiveBTCAddress'
+                    : 'pool.withdraw.receiveWBTCAddress',
+              })}
+              left={<Coin symbol={toCurrency} />}
               onChange={(e) => setReceivingAddress(e.target.value)}
             />
             {!isValidAddress && receivingAddress && addressValidationResult}
