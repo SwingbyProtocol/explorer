@@ -5,6 +5,7 @@ export {
   makeEarningsData,
   makeTimeLabels,
   getHexValue,
+  calculateReceivingAmount,
 } from './utils';
 
 export { ABI_TOKEN, ABI_SWAP } from './contract';
@@ -49,3 +50,9 @@ export interface IEarning {
 }
 
 export type TEarningPeriod = '1d' | '14d' | 'All';
+
+export interface IFetchFee {
+  bridgeFeePercent: string;
+  currency: string;
+  minerFee: string;
+}

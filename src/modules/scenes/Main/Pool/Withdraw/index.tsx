@@ -7,6 +7,7 @@ import { useTheme } from 'styled-components';
 
 import { CoinSymbol, PoolCurrencies } from '../../../../coins';
 import { checkIsValidAddress, checkIsValidAmount } from '../../../../explorer';
+import { calculateReceivingAmount } from '../../../../pool';
 import { ButtonScale } from '../../../Common';
 import { mode } from '../.././../../env';
 
@@ -30,6 +31,9 @@ import {
   TextLabel,
   Top,
   WithdrawContainer,
+  RowBottom,
+  TextDescription,
+  TextFee,
 } from './styled';
 
 interface Props {
@@ -45,7 +49,7 @@ export const Withdraw = (props: Props) => {
   const pool = useSelector((state) => state.pool);
   const { currentPriceLP, balanceLP } = pool;
   const explorer = useSelector((state) => state.explorer);
-  const { themeMode } = explorer;
+  const { themeMode, transactionFees } = explorer;
 
   const [receivingAddress, setReceivingAddress] = useState('');
   const [withdrawAmount, setWithdrawAmount] = useState(null);
@@ -67,6 +71,14 @@ export const Withdraw = (props: Props) => {
       setWithdrawAmount(String(maxAmount));
     }
   };
+
+  const fee = withdrawAmount
+    ? Number(
+        (
+          withdrawAmount - calculateReceivingAmount(withdrawAmount, toCurrency, transactionFees)
+        ).toFixed(7),
+      )
+    : 0;
 
   const currencyItems = (
     <>
@@ -143,6 +155,17 @@ export const Withdraw = (props: Props) => {
               onChange={(e) => setReceivingAddress(e.target.value)}
             />
             {!isValidAddress && receivingAddress && addressValidationResult}
+
+            <RowBottom>
+              <div className="left">
+                <TextDescription variant="masked">
+                  <FormattedMessage id="pool.withdraw.transactionFee" />
+                </TextDescription>
+              </div>
+              <div className="right">
+                <TextFee variant="masked">{fee}</TextFee>
+              </div>
+            </RowBottom>
 
             <ButtonRow>
               <ButtonScale
