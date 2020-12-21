@@ -1,4 +1,4 @@
-import { Dropdown, getCryptoAssetFormatter, Icon, Text } from '@swingby-protocol/pulsar';
+import { Dropdown, getCryptoAssetFormatter, Text } from '@swingby-protocol/pulsar';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
@@ -9,14 +9,15 @@ import {
   currencyNetwork,
   statusColor,
   SwapRawObject,
+  TSwapWidget,
 } from '../../../../explorer';
 import { selectSwapDetails } from '../../../../store';
 import { transactionDetailByTxId } from '../../../../swap';
+import { Pagination } from '../../../../../components/Pagination';
 
 import {
   AddressP,
   AmountSpan,
-  BackButton,
   Bottom,
   BrowserFooter,
   Coin,
@@ -26,9 +27,6 @@ import {
   ColumnFee,
   Ellipsis,
   Left,
-  NextButton,
-  PageRow,
-  Pagination,
   Right,
   Status,
   StatusCircle,
@@ -53,7 +51,7 @@ interface Props {
   goNextPage: () => void;
   goBackPage: () => void;
   goToDetail: (arg: string) => void;
-  linkToSwapWidget: (tx: SwapRawObject) => void;
+  linkToSwapWidget: (tx: SwapRawObject, action: TSwapWidget) => void;
 }
 
 export const TxHistories = (props: Props) => {
@@ -79,7 +77,7 @@ export const TxHistories = (props: Props) => {
   const [toggleOpenLink, setToggleOpenLink] = useState(1);
   useEffect(() => {
     if (chosenTx) {
-      linkToSwapWidget(chosenTx);
+      linkToSwapWidget(chosenTx, 'claim');
     }
   }, [chosenTx, toggleOpenLink, linkToSwapWidget]);
 
@@ -109,9 +107,13 @@ export const TxHistories = (props: Props) => {
     </>
   );
 
+  // Memo: px for row height
+  const rowHeight = 92;
+  const rowHeightWithTxs = currentTxs && currentTxs.length * rowHeight;
+
   return (
     <>
-      <TxHistoriesContainer>
+      <TxHistoriesContainer txsHeight={rowHeightWithTxs}>
         <TitleRow>
           <Left>
             <Text variant="section-title">
@@ -213,30 +215,12 @@ export const TxHistories = (props: Props) => {
           })}
       </TxHistoriesContainer>
       <BrowserFooter>
-        <Pagination>
-          <BackButton
-            variant="secondary"
-            size="state"
-            onClick={() => page > 1 && goBackPage()}
-            disabled={1 >= page}
-          >
-            <Icon.CaretLeft />
-          </BackButton>
-          <PageRow page={page}>
-            <Text variant="masked">
-              <FormattedMessage id="common.page" />
-              {page}
-            </Text>
-          </PageRow>
-          <NextButton
-            variant="secondary"
-            size="state"
-            onClick={() => maximumPage > page && goNextPage()}
-            disabled={page >= maximumPage}
-          >
-            <Icon.CaretRight />
-          </NextButton>
-        </Pagination>
+        <Pagination
+          goNextPage={goNextPage}
+          goBackPage={goBackPage}
+          page={page}
+          maximumPage={maximumPage}
+        />
       </BrowserFooter>
     </>
   );

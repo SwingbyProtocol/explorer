@@ -195,7 +195,8 @@ export const loadHistory = async (arg: ILoadHistoryArgs): Promise<ILoadHistory> 
   try {
     // When: Multi bridges
     // Memo: Aggregate 2 bridges' query result into 1 array
-    if (bridge === '') {
+    // Memo: Default bridge is filtered by `Ethereum Bridge` in below `else if`.
+    if (bridge === 'multiple-bridges') {
       const results = await Promise.all([
         fetchHistory(page, query, hash, isHideWaiting, BRIDGE.binance),
         fetchHistory(page + 1, query, hash, isHideWaiting, BRIDGE.binance),
@@ -269,6 +270,16 @@ export const loadHistory = async (arg: ILoadHistoryArgs): Promise<ILoadHistory> 
           total: getTotal(dataBinance, dataETH, totalDuplicatedTxQTY, crossNextPageTxs),
         };
       }
+      // Memo: Default bridge as Ethereum Bridge
+    } else if (bridge === '') {
+      txsWithPage = await loadHistoryFiltered(
+        page,
+        query,
+        hash,
+        isHideWaiting,
+        BRIDGE.ethereum.toLowerCase(),
+        txsWithPage,
+      );
     }
     // When: Filtered chain
     else {

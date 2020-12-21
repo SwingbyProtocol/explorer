@@ -1,13 +1,12 @@
-import { Button } from '@swingby-protocol/pulsar';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { PoolMode } from '../../../../pool';
 import { togglePoolMode } from '../../../../store';
-import { IconArrowLeft } from '../../../Common';
+import { ButtonScale, IconArrowLeft } from '../../../Common';
 
-import { ActionButtonsPoolContainer, Buttons, TextTitle, TextAPY, RowText } from './styled';
+import { ActionButtonsPoolContainer, Buttons, RowText, TextAPY, TextTitle } from './styled';
 
 export const ActionButtonsPool = () => {
   const dispatch = useDispatch();
@@ -27,20 +26,20 @@ export const ActionButtonsPool = () => {
         <IconArrowLeft onClick={() => dispatch(togglePoolMode(PoolMode.Summary))} />
       )}
       <Buttons>
-        <Button
+        <ButtonScale
           variant="secondary"
           size="city"
           onClick={() => dispatch(togglePoolMode(PoolMode.Withdraw))}
         >
           <FormattedMessage id="pool.withdraw" />
-        </Button>
-        <Button
+        </ButtonScale>
+        <ButtonScale
           variant="primary"
           size="city"
           onClick={() => dispatch(togglePoolMode(PoolMode.AddLiquidity))}
         >
           <FormattedMessage id="pool.addLiquidity" />
-        </Button>
+        </ButtonScale>
       </Buttons>
     </ActionButtonsPoolContainer>
   );

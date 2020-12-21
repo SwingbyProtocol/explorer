@@ -4,7 +4,7 @@ import React, { ReactNode, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Slide, ToastContainer } from 'react-toastify';
 
-import { getTransactionFees, getUsdPrice, IFetchUsd } from '../modules/explorer';
+import { getTransactionFees, getUsdPrice, IFetchUsd, TTheme } from '../modules/explorer';
 import { useInterval } from '../modules/hooks';
 import { fetchTransactionFees, fetchUsdPrice, setWidthSize } from '../modules/store';
 
@@ -12,9 +12,11 @@ import { Header } from './Header';
 import { SwapContainer } from './styled';
 import { Swap } from './Swap';
 
-type Props = {
+interface Props {
   children: ReactNode;
-};
+  setThemeMode: (theme: string) => void;
+  themeMode: TTheme;
+}
 
 export const Layout = (props: Props) => {
   const dispatch = useDispatch();
@@ -47,7 +49,7 @@ export const Layout = (props: Props) => {
       </Head>
       <ToastContainer transition={Slide} />
 
-      <Header />
+      <Header setThemeMode={props.setThemeMode} themeMode={props.themeMode} />
       <SwapContainer>
         <Swap />
       </SwapContainer>

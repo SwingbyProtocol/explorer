@@ -1,11 +1,12 @@
 import { PulsarGlobalStyles, PulsarThemeProvider } from '@swingby-protocol/pulsar';
 import { useRouter } from 'next/router';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { IntlProvider } from 'react-intl';
 import { Provider as ReduxProvider } from 'react-redux';
 
 import 'react-toastify/dist/ReactToastify.min.css'; // eslint-disable-line
 import { Layout } from '../components/Layout';
+import { LOCAL_STORAGE } from '../modules/env';
 import { languages } from '../modules/i18n';
 import { useStore } from '../modules/store';
 import './style.css';
@@ -28,12 +29,20 @@ function MyApp({ Component, pageProps }) {
     locale,
   ]);
 
+  const [themeMode, setThemeMode] = useState(null);
+  const storedTheme =
+    typeof window !== 'undefined' && window.localStorage.getItem(LOCAL_STORAGE.ThemeMode);
+
+  useEffect(() => {
+    setThemeMode(storedTheme);
+  }, [storedTheme]);
+
   return (
-    <PulsarThemeProvider>
+    <PulsarThemeProvider theme={themeMode}>
       <IntlProvider messages={messages} locale={locale} defaultLocale={DEFAULT_LOCALE}>
         <PulsarGlobalStyles />
         <ReduxProvider store={store}>
-          <Layout>
+          <Layout setThemeMode={setThemeMode} themeMode={themeMode}>
             <Component {...pageProps} />
           </Layout>
         </ReduxProvider>

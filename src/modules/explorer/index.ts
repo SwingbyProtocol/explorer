@@ -22,7 +22,7 @@ export {
 } from './utils';
 
 export const BRIDGE = {
-  multipleBridges: 'Multiple Bridges',
+  multipleBridges: 'Multiple-Bridges',
   binance: 'Binance',
   ethereum: 'Ethereum',
 };
@@ -139,3 +139,7 @@ export type TStatus =
   | 'SENDING_REFUND'
   | 'REFUNDED'
   | 'EXPIRED';
+
+export type TSwapWidget = 'claim' | 'duplicate';
+
+export type TTheme = 'dark' | 'light' | null;

@@ -1,8 +1,15 @@
+import { Dropdown } from '@swingby-protocol/pulsar';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useIntl } from 'react-intl';
+import { useDispatch } from 'react-redux';
+import { DarkModeSwitch } from 'react-toggle-dark-mode';
+import { useTheme } from 'styled-components';
 
-import { PATH } from '../../modules/env';
-import { capitalize } from '../../modules/explorer';
+import { LOCAL_STORAGE, PATH } from '../../modules/env';
+import { capitalize, TTheme } from '../../modules/explorer';
+import { languagesSelector } from '../../modules/i18n';
+import { toggleTheme } from '../../modules/store';
 
 import {
   Atag,
@@ -11,22 +18,70 @@ import {
   Hamburger,
   HeaderContainer,
   IconLive,
+  LanguageDropDown,
+  LanguageDropTarget,
+  LanguageTitle,
   Left,
   Logo,
   Menu,
   MenuSpan,
   MobileMenu,
   Right,
+  ThemeToggle,
 } from './styled';
 
-export const Header = () => {
+interface Props {
+  setThemeMode: (theme: string) => void;
+  themeMode: TTheme;
+}
+
+export const Header = (props: Props) => {
+  const { setThemeMode, themeMode } = props;
   const router = useRouter();
+  const { locale } = useIntl();
+  const dispatch = useDispatch();
+  const theme = useTheme();
+  const [lang, setLang] = useState(null);
   const currentPath = router.pathname;
+
+  const toggleDarkMode = (checked: boolean) => {
+    const theme = checked ? 'dark' : 'light';
+    setThemeMode(theme);
+    localStorage.setItem(LOCAL_STORAGE.ThemeMode, theme);
+  };
+
+  useEffect(() => {
+    if (themeMode === null) {
+      setThemeMode(theme.pulsar.id === 'PulsarDark' ? 'dark' : 'light');
+    }
+    dispatch(toggleTheme(themeMode));
+  }, [themeMode, dispatch, setThemeMode, theme.pulsar.id]);
+
+  useEffect(() => {
+    languagesSelector.forEach((language) => {
+      language.code === locale && setLang(language.text);
+    });
+  }, [locale]);
 
   const routing = [
     { text: 'pool', route: PATH.POOL },
     { text: 'metanodes', route: PATH.METANODES },
   ];
+
+  const languageItems = (
+    <>
+      {languagesSelector.map((language) => (
+        <Dropdown.Item
+          selected={lang === language.text}
+          // Memo: asPath: To consider dynamic path for swap detail page
+          onClick={() => router.push(router.asPath, router.asPath, { locale: language.code })}
+          key={language.code}
+        >
+          {language.text}
+        </Dropdown.Item>
+      ))}
+    </>
+  );
 
   return (
     <HeaderContainer>
@@ -36,6 +91,9 @@ export const Header = () => {
         </Atag>
       </Left>
       <Right>
+        <ThemeToggle>
+          <DarkModeSwitch checked={themeMode === 'dark'} onChange={toggleDarkMode} size={24} />
+        </ThemeToggle>
         <MobileMenu target={<Hamburger />} data-testid="dropdown">
           {routing.map((link) => (
             <DropDownItemMobile
@@ -46,6 +104,13 @@ export const Header = () => {
               {capitalize(link.text)}
             </DropDownItemMobile>
           ))}
+          <Dropdown.Divider />
+          <Dropdown
+            target={<LanguageTitle size="city">Language</LanguageTitle>}
+            data-testid="dropdown"
+          >
+            {languageItems}
+          </Dropdown>
         </MobileMenu>
 
         {/* Media: screen > sm */}
@@ -68,6 +133,12 @@ export const Header = () => {
             </MenuSpan>
           ))}
         </Menu>
+        <LanguageDropDown
+          target={<LanguageDropTarget size="city">{lang}</LanguageDropTarget>}
+          data-testid="dropdown"
+        >
+          {languageItems}
+        </LanguageDropDown>
       </Right>
     </HeaderContainer>
   );

@@ -1,4 +1,4 @@
-import { Icon, Text } from '@swingby-protocol/pulsar';
+import { Button, Icon, Text } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
 import styled from 'styled-components';
 
@@ -56,5 +56,13 @@ export const SizeS = styled.div`
   display: none;
   @media (min-width: ${rem(media.sm)}) {
     display: block;
+  }
+`;
+
+export const ButtonScale = styled(Button)`
+  transition: all 0.3s ease 0s;
+  :hover {
+    transition: all 0.3s ease 0s;
+    transform: scale(1.05);
   }
 `;

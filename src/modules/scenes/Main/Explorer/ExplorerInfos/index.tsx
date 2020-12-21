@@ -1,8 +1,10 @@
 import { getFiatAssetFormatter, Text } from '@swingby-protocol/pulsar';
+import { useRouter } from 'next/router';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 
+import { PATH } from '../../../../env';
 import { IStats } from '../../../../explorer';
 
 import {
@@ -30,6 +32,7 @@ export const ExplorerInfos = (props: Props) => {
   const explorer = useSelector((state) => state.explorer);
   const { usd } = explorer;
 
+  const router = useRouter();
   const { locale } = useIntl();
   const { formatMessage } = useIntl();
   const formattedMetanodes = formatMessage({ id: 'metanodes.metanodes' });
@@ -82,7 +85,10 @@ export const ExplorerInfos = (props: Props) => {
                   {info.description === formattedMetanodes ? (
                     <RowValidator>
                       <Text variant="label">{info.description}</Text>
-                      <ValidatorLinkSpan variant="accent">
+                      <ValidatorLinkSpan
+                        variant="accent"
+                        onClick={() => router.push(PATH.METANODES)}
+                      >
                         <FormattedMessage id="common.all" />
                       </ValidatorLinkSpan>
                     </RowValidator>

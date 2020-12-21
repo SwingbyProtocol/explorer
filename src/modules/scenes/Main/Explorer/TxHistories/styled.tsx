@@ -1,4 +1,4 @@
-import { Button, CoinIcon, Icon, StatusIcon, Text } from '@swingby-protocol/pulsar';
+import { CoinIcon, Icon, StatusIcon, Text } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
 import styled from 'styled-components';
 
@@ -8,15 +8,17 @@ interface BgProps {
   bg: boolean;
 }
 
-interface PageProps {
-  page: number;
+interface ContainerProps {
+  txsHeight: number;
 }
 
 const { media } = StylingConstants;
 
-export const TxHistoriesContainer = styled.div`
+// Memo: PX for height of filter row
+const filterRowHeight = 46;
+export const TxHistoriesContainer = styled.div<ContainerProps>`
   /* Memo: Make space for when loading txs data */
-  min-height: ${rem(413)};
+  min-height: ${(props) => rem(filterRowHeight + props.txsHeight)};
 `;
 
 export const TitleRow = styled.div`
@@ -115,6 +117,11 @@ export const Status = styled.div`
 export const Ellipsis = styled(Icon.Ellipsis)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.street)};
   cursor: pointer;
+  transition: all 0.3s ease 0s;
+  :hover {
+    transition: all 0.3s ease 0s;
+    transform: scale(1.15);
+  }
 `;
 
 export const SwapHorizontal = styled(Icon.SwapHorizontal)`
@@ -159,33 +166,4 @@ export const StatusCircle = styled(StatusIcon)`
 export const BrowserFooter = styled.div`
   display: flex;
   justify-content: flex-end;
-`;
-
-export const Pagination = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-export const PageText = styled.div`
-  display: flex;
-  justify-content: flex-end;
-`;
-
-export const BackButton = styled(Button)`
-  color: ${({ theme }) => theme.pulsar.color.text.masked};
-  margin-right: ${({ theme }) => rem(theme.pulsar.size.room)};
-  background-color: transparent;
-`;
-
-export const NextButton = styled(Button)`
-  color: ${({ theme }) => theme.pulsar.color.text.masked};
-  margin-left: ${({ theme }) => rem(theme.pulsar.size.room)};
-  background-color: transparent;
-`;
-
-export const PageRow = styled.div<PageProps>`
-  /* Memo: Fix the width to avoid moving the back/next arrow in besides */
-  width: ${(props) => (props.page > 99 ? rem(100) : rem(80))};
-  text-align: center;
-  white-space: nowrap;
 `;

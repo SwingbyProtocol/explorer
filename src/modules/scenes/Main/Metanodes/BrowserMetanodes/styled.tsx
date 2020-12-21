@@ -2,10 +2,15 @@ import { Card } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
 import styled from 'styled-components';
 
+import { NODES_PER_PAGE } from '../../../../env';
 import { StylingConstants } from '../../../../styles';
 import { TextEllipsis } from '../../../Common';
 
 const { media } = StylingConstants;
+
+interface BgProps {
+  bg: boolean;
+}
 
 export const BrowserMetanodesContainer = styled.div`
   display: grid;
@@ -27,22 +32,23 @@ export const BrowserMetanodesContainer = styled.div`
 
 export const BrowserMetanodesDiv = styled(Card)`
   padding-top: ${({ theme }) => rem(theme.pulsar.size.street)};
-  padding-bottom: ${({ theme }) => rem(theme.pulsar.size.city)};
+  padding-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
   padding-right: ${({ theme }) => rem(theme.pulsar.size.drawer)};
   padding-left: ${({ theme }) => rem(theme.pulsar.size.drawer)};
-  min-height: ${rem(1724)};
+  min-height: ${rem(73.4 * NODES_PER_PAGE)};
   @media (min-width: ${rem(media.xs)}) {
     padding: ${({ theme }) => rem(theme.pulsar.size.street)};
-    padding-bottom: ${({ theme }) => rem(theme.pulsar.size.city)};
+    padding-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
   }
   @media (min-width: ${rem(media.md)}) {
-    padding-top: ${({ theme }) => rem(theme.pulsar.size.city)};
-    padding-bottom: ${({ theme }) => rem(theme.pulsar.size.city)};
+    padding-top: ${({ theme }) => rem(theme.pulsar.size.town)};
+    padding-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
     padding-left: ${({ theme }) => rem(theme.pulsar.size.street)};
     padding-right: ${({ theme }) => rem(theme.pulsar.size.street)};
     min-height: ${rem(500)};
   }
   @media (min-width: ${rem(media.lg)}) {
+    padding-top: ${({ theme }) => rem(theme.pulsar.size.street)};
     padding-left: ${({ theme }) => rem(theme.pulsar.size.city)};
     padding-right: ${({ theme }) => rem(theme.pulsar.size.city)};
   }
@@ -58,14 +64,15 @@ export const NodeContainer = styled.div`
 const nodeListGridTemplateColumnsFrameMobile = `10% 10% ${rem(120)} auto ${rem(100)}`;
 const nodeListGridTemplateColumnsFrameSM = `10% 5% ${rem(120)} 10% auto auto ${rem(150)}`;
 const nodeListGridTemplateColumnsFrameMD = `10% 10% ${rem(120)} 15% auto auto ${rem(150)}`;
-const nodeListGridTemplateColumnsFrame = `7% 5% ${rem(120)} 5% 15% 2% ${rem(180)} auto`;
+const nodeListGridTemplateColumnsFrame = `7% 4% ${rem(120)} 5% 14% 2% ${rem(190)} auto`;
 
-export const Description = styled.div`
+export const RowDescription = styled.div<BgProps>`
   display: grid;
   padding: ${rem(22)} ${rem(14)};
   align-items: center;
   border-top: ${rem(1)} solid ${({ theme }) => theme.pulsar.color.border.normal};
   grid-template-columns: ${nodeListGridTemplateColumnsFrameMobile};
+  background: ${(props) => !props.bg && props.theme.pulsar.color.bg.hover};
   @media (min-width: ${rem(media.sm)}) {
     padding: ${rem(22)} ${rem(0)};
     grid-template-columns: ${nodeListGridTemplateColumnsFrameSM};
@@ -102,7 +109,7 @@ export const TextStake = styled(TextEllipsis)`
   }
   @media (min-width: ${rem(media.xl)}) {
     display: block;
-    max-width: ${rem(400)};
+    max-width: ${rem(410)};
   }
 `;
 

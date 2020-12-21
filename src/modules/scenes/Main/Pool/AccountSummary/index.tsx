@@ -7,7 +7,7 @@ import { CoinSymbol } from '../../../../coins';
 import { CONTRACT_LP, CONTRACT_SWAP, ENDPOINT_EARNINGS } from '../../../../env';
 import { toBTC } from '../../../../explorer';
 import { fetch } from '../../../../fetch';
-import { ABI_TOKEN, orgFloor, ABI_SWAP } from '../../../../pool';
+import { ABI_TOKEN, orgFloor, ABI_SWAP, getHexValue } from '../../../../pool';
 import { getCurrentPriceLP, getDepositFeeRate, setBalanceLP } from '../../../../store';
 
 import {
@@ -55,11 +55,12 @@ export const AccountSummary = () => {
         const contractLP = new web3.eth.Contract(ABI_TOKEN, CONTRACT_LP);
         const contractSwap = new web3.eth.Contract(ABI_SWAP, CONTRACT_SWAP);
         const urlEarning = ENDPOINT_EARNINGS;
+        const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
 
         const results = await Promise.all([
           contractLP.methods.balanceOf(userAddress).call(),
           contractSwap.methods.getCurrentPriceLP().call(),
-          contractSwap.methods.getFloatBalanceOf(CONTRACT_LP, userAddress).call(),
+          contractSwap.methods.getFloatBalanceOf(ZERO_ADDRESS, userAddress).call(),
           fetch<{ total: string }>(urlEarning),
         ]);
 
@@ -69,19 +70,23 @@ export const AccountSummary = () => {
 
         // Todo: Check the logic with backend team
         const priceLP = toBTC(results[1]);
-        const userFloatBal = Number(results[2]);
-        const totalClaimableAmount = priceLP * userFloatBal;
+        const userFloatBalSatoshi = Number(results[2]);
+        const userFloatBal = toBTC(String(userFloatBalSatoshi));
+
+        const totalClaimableAmount = priceLP * balanceLP;
         const totalEarnings = results[3].ok && results[3].response.total;
         setTotalEarnings(Number(totalEarnings));
 
         setClaimableAmount(totalClaimableAmount);
         dispatch(getCurrentPriceLP(priceLP));
 
+        // Memo: When pass numAsHex to the contract method, it will be treated as uint256.
+        const amountInAsHex = getHexValue(userFloatBal);
+
         const depositFeeRate = await contractSwap.methods
-          .getDepositFeeRate(userAddress, userFloatBal)
+          .getDepositFeeRate(userAddress, amountInAsHex)
           .call();
         dispatch(getDepositFeeRate(depositFeeRate));
-        console.log('depositFeeRate', depositFeeRate);
       })();
     }
   }, [dispatch, web3, userAddress]);
@@ -115,7 +120,6 @@ export const AccountSummary = () => {
       </RowEarning>
       <RowEarning>
         <TextRoom variant="label">
-          {' '}
           <FormattedMessage id="pool.totalEarnings" />
         </TextRoom>
         <TextRoom variant="accent">
@@ -125,7 +129,7 @@ export const AccountSummary = () => {
       </RowEarning>
       <RowEarning>
         <TextRoom variant="label">
-          <FormattedMessage id="common.comingSoon" />
+          <FormattedMessage id="pool.usd" />
         </TextRoom>
         <TextRoom variant="accent">
           {/* {usdTotalEarnings} */}

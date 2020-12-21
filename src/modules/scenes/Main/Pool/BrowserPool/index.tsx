@@ -43,6 +43,13 @@ export const BrowserPool = () => {
       </TextValidationResult>
     </ValidationResult>
   );
+  const maxAmountValidationResult = (
+    <ValidationResult>
+      <TextValidationResult variant="normal">
+        <FormattedMessage id="validation.insufficientBalance" />
+      </TextValidationResult>
+    </ValidationResult>
+  );
 
   const switchRightComponent = (mode: string) => {
     const summary = (
@@ -71,6 +78,7 @@ export const BrowserPool = () => {
           <Withdraw
             addressValidationResult={addressValidationResult}
             amountValidationResult={amountValidationResult}
+            maxAmountValidationResult={maxAmountValidationResult}
           />
         );
 

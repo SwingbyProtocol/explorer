@@ -1,5 +1,5 @@
 import { Modal, Text } from '@swingby-protocol/pulsar';
-import { createWidget, getUrl } from '@swingby-protocol/widget';
+import { createWidget, openPopup } from '@swingby-protocol/widget';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
@@ -15,10 +15,21 @@ interface Props {
   tx: SwapRawObject;
 }
 
-export const LinkToWidgetModal = (props: Props) => {
+export const DuplicateSwapWidgetModal = (props: Props) => {
   const { isWidgetModalOpen, setIsWidgetModalOpen, tx } = props;
   const address = tx && tx.addressOut;
-  const widget = tx && createWidget({ resource: 'swap', mode, size: 'banner', hash: tx.hash });
+  const widget =
+    tx &&
+    createWidget({
+      mode,
+      size: 'big',
+      resource: 'swap',
+      defaultCurrencyIn: tx.currencyIn,
+      defaultCurrencyOut: tx.currencyOut,
+      defaultAddressUserIn: tx.addressOut,
+      defaultAmountUser: tx.amountIn,
+    });
+
   return (
     <Modal open={isWidgetModalOpen} onClose={() => setIsWidgetModalOpen(false)}>
       <Modal.Content>
@@ -28,11 +39,7 @@ export const LinkToWidgetModal = (props: Props) => {
           </Text>
           <TextAddress variant="accent">{address}</TextAddress>
           <Buttons>
-            <ButtonScale
-              variant="primary"
-              size="city"
-              onClick={() => window.open(getUrl({ widget }), '_blank', 'noopener')}
-            >
+            <ButtonScale variant="primary" size="city" onClick={() => openPopup({ widget })}>
               <FormattedMessage id="common.modal.yes" />
             </ButtonScale>
             <ButtonScale

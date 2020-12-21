@@ -3,7 +3,7 @@ import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Loader } from '../../../../../components/Loader';
-import { ILoadHistory, loadHistory, SwapRawObject } from '../../../../explorer';
+import { ILoadHistory, loadHistory, SwapRawObject, TSwapWidget } from '../../../../explorer';
 import { selectSwapDetails } from '../../../../store';
 import { ActionButtons } from '../ActionButtonsSwap';
 import { DetailCard } from '../DetailCard';
@@ -14,7 +14,7 @@ import { SwapFees } from '../SwapFees';
 import { BrowserDetailContainer, BrowserDetailDiv, IconSwap, Row } from './styled';
 
 interface Props {
-  linkToSwapWidget: (tx: SwapRawObject) => void;
+  linkToSwapWidget: (tx: SwapRawObject, action: TSwapWidget) => void;
   runOnboard: (theme: string) => void;
   theme: string;
 }
