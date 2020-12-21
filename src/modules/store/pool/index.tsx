@@ -22,7 +22,7 @@ const initialState = {
   recentTxs: null,
   balanceLP: null,
   currentPriceLP: null,
-  depositFeeRate: null,
+  depositFeeRate: 0,
   onboard: null,
   web3: null,
 };

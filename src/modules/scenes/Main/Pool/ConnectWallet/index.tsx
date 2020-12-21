@@ -37,7 +37,6 @@ export const ConnectWallet = () => {
     };
 
     const onboardData = initOnboard({
-      isDarkMode: theme.pulsar.id === 'PulsarDark',
       subscriptions: {
         address: updateUserAddress,
         wallet: (wallet) => {

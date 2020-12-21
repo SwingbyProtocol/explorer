@@ -1,14 +1,13 @@
 import Onboard from 'bnc-onboard';
 
-import { infuraAppName, blocknativeApiKey, ETHER_NETWORK, infuraApiKey, RPC_URL } from '../../env';
+import { blocknativeApiKey, ETHER_NETWORK, infuraApiKey, infuraAppName, RPC_URL } from '../../env';
 
 // Ref: https://github.com/blocknative/react-demo/blob/master/src/services.js
-export const initOnboard = ({ isDarkMode, subscriptions }) => {
+export const initOnboard = ({ subscriptions }) => {
   return Onboard({
     dappId: blocknativeApiKey,
     networkId: ETHER_NETWORK.id,
     hideBranding: true,
-    darkMode: isDarkMode,
     subscriptions,
     walletSelect: {
       wallets: [

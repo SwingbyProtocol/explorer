@@ -15,12 +15,11 @@ import { BrowserDetailContainer, BrowserDetailDiv, IconSwap, Row } from './style
 
 interface Props {
   linkToSwapWidget: (tx: SwapRawObject, action: TSwapWidget) => void;
-  runOnboard: (theme: string) => void;
-  theme: string;
+  runOnboard: () => void;
 }
 
 export const BrowserDetail = (props: Props) => {
-  const { runOnboard, theme } = props;
+  const { runOnboard } = props;
   const explorer = useSelector((state) => state.explorer);
   const { swapDetails } = explorer;
   const dispatch = useDispatch();
@@ -55,8 +54,8 @@ export const BrowserDetail = (props: Props) => {
 
   // Memo: Cannot run at `ExplorerMain.tsx` due to avoid conflict with `Pool page`
   useEffect(() => {
-    runOnboard(theme);
-  }, [theme, runOnboard]);
+    runOnboard();
+  }, [runOnboard]);
 
   return (
     <BrowserDetailContainer>

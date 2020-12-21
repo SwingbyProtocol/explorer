@@ -44,6 +44,8 @@ export const Withdraw = (props: Props) => {
   const theme = useTheme();
   const pool = useSelector((state) => state.pool);
   const { currentPriceLP, balanceLP } = pool;
+  const explorer = useSelector((state) => state.explorer);
+  const { themeMode } = explorer;
 
   const [receivingAddress, setReceivingAddress] = useState('');
   const [withdrawAmount, setWithdrawAmount] = useState(null);
@@ -80,6 +82,7 @@ export const Withdraw = (props: Props) => {
     resource: 'withdrawal',
     mode,
     size: 'big',
+    theme: themeMode,
     defaultCurrencyOut: toCurrency,
     defaultAddressUserIn: receivingAddress,
     defaultAmountUser: withdrawAmount,
@@ -130,8 +133,13 @@ export const Withdraw = (props: Props) => {
               value={receivingAddress}
               size="state"
               placeholder={formatMessage({ id: 'pool.pool.inputYourAddress' })}
-              label={formatMessage({ id: 'pool.withdraw.receiveBTCAddress' })}
-              left={<Coin symbol={CoinSymbol.BTC} />}
+              label={formatMessage({
+                id:
+                  toCurrency === CoinSymbol.BTC
+                    ? 'pool.withdraw.receiveBTCAddress'
+                    : 'pool.withdraw.receiveWBTCAddress',
+              })}
+              left={<Coin symbol={toCurrency} />}
               onChange={(e) => setReceivingAddress(e.target.value)}
             />
             {!isValidAddress && receivingAddress && addressValidationResult}

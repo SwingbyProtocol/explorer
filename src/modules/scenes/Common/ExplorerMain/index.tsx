@@ -3,7 +3,6 @@ import { createWidget, getUrl, openPopup } from '@swingby-protocol/widget';
 import { useRouter } from 'next/router';
 import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useTheme } from 'styled-components';
 
 import { AccountId } from '../../../../components/AccountId';
 import { DuplicateSwapWidgetModal } from '../../../../components/DuplicateSwapWidgetModal';
@@ -25,7 +24,6 @@ export const ExplorerMain = () => {
   const router = useRouter();
   const currentPath = router.pathname;
 
-  const theme = useTheme();
   const dispatch = useDispatch();
   const pool = useSelector((state) => state.pool);
   const { onboard } = pool;
@@ -34,7 +32,7 @@ export const ExplorerMain = () => {
 
   //Memo: For check walletAddress === tx.addressOut
   const [walletAddress, setWalletAddress] = useState(null);
-  const [isClalimWidgetModalOpen, setIsClaimWidgetModalOpen] = useState(false);
+  const [isClaimWidgetModalOpen, setIsClaimWidgetModalOpen] = useState(false);
   const [isDuplicateWidgetModalOpen, setIsDuplicateWidgetModalOpen] = useState(false);
 
   const login = useCallback(async () => {
@@ -44,9 +42,16 @@ export const ExplorerMain = () => {
 
   const linkToSwapWidget = useCallback(
     async (tx: SwapRawObject, action: TSwapWidget, userAddress = walletAddress) => {
+      console.log('hello?');
       const widget =
         action === 'claim'
-          ? createWidget({ mode, size: 'banner', resource: 'swap', hash: tx.hash })
+          ? createWidget({
+              mode,
+              size: 'banner',
+              resource: 'swap',
+              hash: tx.hash,
+              theme: themeMode,
+            })
           : createWidget({
               mode,
               size: 'big',
@@ -55,6 +60,7 @@ export const ExplorerMain = () => {
               defaultCurrencyOut: tx.currencyOut,
               defaultAddressUserIn: tx.addressOut,
               defaultAmountUser: tx.amountIn,
+              theme: themeMode,
             });
 
       if (ETHCoins.includes(tx.currencyOut)) {
@@ -84,21 +90,19 @@ export const ExplorerMain = () => {
         return;
       }
     },
+    // Memo: Do not add 'themeMode', so this function won't wake up when 'just' change the theme
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [login, onboard, walletAddress],
   );
 
-  const runOnboard = useCallback(
-    (theme: string) => {
-      const onboardData = initOnboard({
-        isDarkMode: theme === 'PulsarDark',
-        subscriptions: {
-          address: setWalletAddress,
-        },
-      });
-      dispatch(setOnboard(onboardData));
-    },
-    [dispatch],
-  );
+  const runOnboard = useCallback(() => {
+    const onboardData = initOnboard({
+      subscriptions: {
+        address: setWalletAddress,
+      },
+    });
+    dispatch(setOnboard(onboardData));
+  }, [dispatch]);
 
   const switchBrowser = (path: string): JSX.Element => {
     switch (path) {
@@ -109,17 +113,10 @@ export const ExplorerMain = () => {
             walletAddress={walletAddress}
             setWalletAddress={setWalletAddress}
             runOnboard={runOnboard}
-            theme={theme.pulsar.id}
           />
         );
       case PATH.SWAP + '/[hash]':
-        return (
-          <BrowserDetail
-            linkToSwapWidget={linkToSwapWidget}
-            runOnboard={runOnboard}
-            theme={theme.pulsar.id}
-          />
-        );
+        return <BrowserDetail linkToSwapWidget={linkToSwapWidget} runOnboard={runOnboard} />;
       case PATH.POOL:
         return <BrowserPool />;
       case PATH.METANODES:
@@ -131,7 +128,6 @@ export const ExplorerMain = () => {
           walletAddress={walletAddress}
           setWalletAddress={setWalletAddress}
           runOnboard={runOnboard}
-          theme={theme.pulsar.id}
         />;
     }
   };
@@ -155,7 +151,7 @@ export const ExplorerMain = () => {
   return (
     <>
       <LinkToWidgetModal
-        isWidgetModalOpen={isClalimWidgetModalOpen}
+        isWidgetModalOpen={isClaimWidgetModalOpen}
         setIsWidgetModalOpen={setIsClaimWidgetModalOpen}
         tx={swapDetails}
       />
