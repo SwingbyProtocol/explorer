@@ -2354,10 +2354,10 @@
   resolved "https://registry.yarnpkg.com/@swingby-protocol/prettier-config/-/prettier-config-1.0.2.tgz#ff4c03ac7ad3dab1d02a914d31debcf9441fa3e8"
   integrity sha512-ROirdMQDD6PxHTC+4J7pFH4ik8Yf3frLwf6XDBjuFKKfKCqvpqkHWHnYCJG1PS5uODmMCiH+m1JoIYr/vDfnAA==
 
-"@swingby-protocol/pulsar@^1.0.0-alpha.81":
-  version "1.0.0-alpha.81"
-  resolved "https://registry.yarnpkg.com/@swingby-protocol/pulsar/-/pulsar-1.0.0-alpha.81.tgz#8dd53fa7c64b18796d6cd971bf44cdadd1370e15"
-  integrity sha512-70Zox9mCma0ZJi8AeMn0KuEwRBJ1+g7xCYTvehKuTp8jKzW6414ffBn9sr3bB6RAQq9ySpDWGYniP47IKeLlmw==
+"@swingby-protocol/pulsar@^1.0.0-alpha.83":
+  version "1.0.0-alpha.83"
+  resolved "https://registry.yarnpkg.com/@swingby-protocol/pulsar/-/pulsar-1.0.0-alpha.83.tgz#975e0efb5bc5b782b762ae29a1c87cda983d86e8"
+  integrity sha512-PpcmvdsJZxC4vY/faGhvUnPrNRtYaHh0DpLcpOQAJucOSwN8WH+SISuFtX+Dvb+8pUjLTDGJ+csUBT17r9dxrQ==
   dependencies:
     "@tippyjs/react" "^4.2.0"
     nanoid "3.1.18"
@@ -2376,10 +2376,10 @@
     isomorphic-unfetch "^3.1.0"
     isomorphic-webcrypto "^2.3.6"
 
-"@swingby-protocol/widget@^1.0.0-alpha.10":
-  version "1.0.0-alpha.10"
-  resolved "https://registry.yarnpkg.com/@swingby-protocol/widget/-/widget-1.0.0-alpha.10.tgz#421eeefa55587bf4a89d99ff714c43f9d0e9cd9c"
-  integrity sha512-su7XM3Cw7hXoFZC1zEOVABjH3ZnKAGC9srUtL+LwDirGsp9D+5C9pu2+sAoqGMxylmoRF0xZqSRFoiKWdOn0tw==
+"@swingby-protocol/widget@^1.0.0-alpha.12":
+  version "1.0.0-alpha.12"
+  resolved "https://registry.yarnpkg.com/@swingby-protocol/widget/-/widget-1.0.0-alpha.12.tgz#88cb6a5e277acb29350286954cf77cec39c8083d"
+  integrity sha512-Y4HwRIjFJSCS/v3eJu7Kee+MnKx8fZLVin7eAaJkiB/6cnSfHeuZgbrKfrotkbdEVMvlfaMt+qMdNAyVsITfIg==
   dependencies:
     query-string "^6.13.7"
 

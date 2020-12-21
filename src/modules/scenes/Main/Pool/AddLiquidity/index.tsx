@@ -45,6 +45,8 @@ export const AddLiquidity = (props: Props) => {
   const { formatMessage } = useIntl();
   const pool = useSelector((state) => state.pool);
   const { userAddress, depositFeeRate } = pool;
+  const explorer = useSelector((state) => state.explorer);
+  const { themeMode } = explorer;
 
   const [receivingAddress, setReceivingAddress] = useState(userAddress);
   const [poolAmount, setPoolAmount] = useState(null);
@@ -84,6 +86,7 @@ export const AddLiquidity = (props: Props) => {
     resource: 'pool',
     mode,
     size: 'big',
+    theme: themeMode,
     defaultCurrencyIn: fromCurrency,
     defaultCurrencyOut: CoinSymbol.LP,
     defaultAddressUserIn: receivingAddress,

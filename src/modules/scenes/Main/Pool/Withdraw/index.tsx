@@ -44,6 +44,8 @@ export const Withdraw = (props: Props) => {
   const theme = useTheme();
   const pool = useSelector((state) => state.pool);
   const { currentPriceLP, balanceLP } = pool;
+  const explorer = useSelector((state) => state.explorer);
+  const { themeMode } = explorer;
 
   const [receivingAddress, setReceivingAddress] = useState('');
   const [withdrawAmount, setWithdrawAmount] = useState(null);
@@ -80,6 +82,7 @@ export const Withdraw = (props: Props) => {
     resource: 'withdrawal',
     mode,
     size: 'big',
+    theme: themeMode,
     defaultCurrencyOut: toCurrency,
     defaultAddressUserIn: receivingAddress,
     defaultAmountUser: withdrawAmount,
