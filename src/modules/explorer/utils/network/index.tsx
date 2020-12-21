@@ -37,11 +37,10 @@ export const fetchFloatBalances = async (usdBtc: number): Promise<IFloatBalances
 
     const floats: IFloat = {
       btc: Number(getFloatBalance(CoinSymbol.BTC, res)),
-      wbtc: Number(getFloatBalance(CoinSymbol.BTC_E, res)),
+      wbtc: Number(getFloatBalance(CoinSymbol.WBTC, res)),
     };
 
     const capacity: number = usdBtc * Number(floats.btc) + usdBtc * Number(floats.wbtc);
-
     return { floats, capacity };
   } catch (err) {
     console.log(err);

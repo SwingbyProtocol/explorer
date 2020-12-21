@@ -26,7 +26,7 @@ export const NetworkBridges = (props: Props) => {
   const { floatBalances, stats } = props;
   const data = [
     { coin: CoinSymbol.BTC, float: floatBalances.btc, vol: stats.volume24HrBTC },
-    { coin: CoinSymbol.BTC_E, float: floatBalances.wbtc, vol: stats.volume24HrWBTC },
+    { coin: CoinSymbol.WBTC, float: floatBalances.wbtc, vol: stats.volume24HrWBTC },
   ];
   return (
     <NetworkBridgeContainer>
