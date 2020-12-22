@@ -1,15 +1,15 @@
+import { ENDPOINT_BTCB_NODE, ENDPOINT_WBTC_NODE, PAGE_COUNT } from '../../../env';
 import { fetch } from '../../../fetch';
 import {
   BRIDGE,
-  IFetchSwapHistoryResponse,
-  ITransactions,
-  SwapRawObject,
   IFetchHistory,
+  IFetchSwapHistoryResponse,
   ILoadHistory,
   ILoadHistoryArgs,
+  ITransactions,
+  SwapRawObject,
 } from '../../index';
-import { removeDuplicatedTxs, TxStatus } from '../transaction';
-import { ENDPOINT_BTCB_NODE, ENDPOINT_WBTC_NODE, PAGE_COUNT } from '../../../env';
+import { TxStatus } from '../transaction';
 import { isAddress } from '../validator';
 
 const {
@@ -102,15 +102,8 @@ const getLatestTx = (txs: SwapRawObject[], txsETH: SwapRawObject[]): SwapRawObje
   return latestTxsArray[0];
 };
 
-const getTotal = (
-  dataBinance: IFetchHistory,
-  dataETH: IFetchHistory,
-  totalDuplicatedTxQTY: number,
-  crossNextPageTxs: SwapRawObject[],
-): number => {
-  return crossNextPageTxs.length
-    ? dataBinance.total + dataETH.total
-    : dataBinance.total + dataETH.total - totalDuplicatedTxQTY;
+const getTotal = (dataBinance: IFetchHistory, dataETH: IFetchHistory): number => {
+  return dataBinance.total + dataETH.total;
 };
 
 const fetchHistory = async (
@@ -119,7 +112,7 @@ const fetchHistory = async (
   hash: string,
   isHideWaiting: boolean,
   bridge: string,
-): Promise<{ txs: SwapRawObject[]; duplicatedTxQTY: number; total: number }> => {
+): Promise<{ txs: SwapRawObject[]; total: number }> => {
   const baseUrlBinance = ENDPOINT_BTCB_NODE + '/api/v1/swaps/query';
   const baseUrlETH = ENDPOINT_WBTC_NODE + '/api/v1/swaps/query';
   const baseUrl = (bridge: string): string => {
@@ -135,14 +128,11 @@ const fetchHistory = async (
   const result = await fetch<{ items: SwapRawObject[]; total: number }>(url);
 
   const txRes: IFetchSwapHistoryResponse = result.ok && result.response;
-  const txsResItems: SwapRawObject[] = txRes.items;
+  const txs: SwapRawObject[] = txRes.items;
 
-  // Memo: Remove the duplicated txIdIn
-  const txs: SwapRawObject[] = removeDuplicatedTxs(txsResItems, 'txId');
-  const duplicatedTxQTY: number = txsResItems.length - txs.length;
   const total = txRes.total;
 
-  return { txs, duplicatedTxQTY, total };
+  return { txs, total };
 };
 
 const loadHistoryFiltered = async (
@@ -169,7 +159,7 @@ const loadHistoryFiltered = async (
       [page]: txs,
       [page + 1]: nextPageTxs,
     },
-    total: nextPageTxs.length ? data.total : data.total - data.duplicatedTxQTY,
+    total: data.total,
   };
 
   return txsWithPage;
@@ -214,8 +204,6 @@ export const loadHistory = async (arg: ILoadHistoryArgs): Promise<ILoadHistory> 
       const nextPageDataETH = results[3];
       const nextPageTxsETH = nextPageDataETH.txs;
 
-      const totalDuplicatedTxQTY = dataBinance.duplicatedTxQTY + dataETH.duplicatedTxQTY;
-
       let crossPageTxs = [];
       let crossNextPageTxs = [];
       const latestTx = getLatestTx(txsBinance, txsETH);
@@ -230,7 +218,7 @@ export const loadHistory = async (arg: ILoadHistoryArgs): Promise<ILoadHistory> 
             [page]: crossPageTxs,
             [page + 1]: crossNextPageTxs,
           },
-          total: getTotal(dataBinance, dataETH, totalDuplicatedTxQTY, crossNextPageTxs), // Memo: Calculated actual total QTY to make button disable in the last page
+          total: getTotal(dataBinance, dataETH),
         };
         // When: Update latest tx automatically
         // Memo: Check the both of object after convert to string
@@ -249,7 +237,7 @@ export const loadHistory = async (arg: ILoadHistoryArgs): Promise<ILoadHistory> 
             [page]: crossPageTxs,
             [page + 1]: crossNextPageTxs,
           },
-          total: getTotal(dataBinance, dataETH, totalDuplicatedTxQTY, crossNextPageTxs),
+          total: getTotal(dataBinance, dataETH),
         };
         // When: Back to previous page. Won't change anything
       } else if (txsWithPage.data[page] && txsWithPage.data[page + 1]) {
@@ -267,7 +255,7 @@ export const loadHistory = async (arg: ILoadHistoryArgs): Promise<ILoadHistory> 
             ...txsWithPage.data,
             [page + 1]: crossNextPageTxs,
           },
-          total: getTotal(dataBinance, dataETH, totalDuplicatedTxQTY, crossNextPageTxs),
+          total: getTotal(dataBinance, dataETH),
         };
       }
       // Memo: Default bridge as Ethereum Bridge

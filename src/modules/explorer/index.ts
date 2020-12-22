@@ -80,7 +80,6 @@ export interface IStats {
 
 export interface IFetchHistory {
   txs: SwapRawObject[];
-  duplicatedTxQTY: number;
   total: number;
 }
 export interface ILoadHistory {

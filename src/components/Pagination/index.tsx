@@ -31,12 +31,16 @@ export const Pagination = (props: Props) => {
               <>
                 <FormattedMessage id="common.page.pre" />
                 <FormattedMessage id="common.page" />
-                {page}
+                {page} <FormattedMessage id="common.of" /> {maximumPage}
               </>
             ) : (
               <>
                 <FormattedMessage id="common.page.pre" />
                 {page}
+                <FormattedMessage id="common.page" />
+                {','}
+                <FormattedMessage id="common.of" />
+                {maximumPage}
                 <FormattedMessage id="common.page" />
               </>
             )}

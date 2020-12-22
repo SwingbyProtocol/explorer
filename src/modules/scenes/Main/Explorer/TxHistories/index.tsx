@@ -61,8 +61,8 @@ interface Props {
 export const TxHistories = (props: Props) => {
   const {
     filter,
-    page,
     maximumPage,
+    page,
     currentTxs,
     goNextPage,
     goBackPage,
