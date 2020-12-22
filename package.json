@@ -25,7 +25,7 @@
     "@react-hook/window-size": "^3.0.7",
     "@swingby-protocol/pulsar": "^1.0.0-alpha.83",
     "@swingby-protocol/sdk": "^1.0.0-alpha.30",
-    "@swingby-protocol/widget": "^1.0.0-alpha.12",
+    "@swingby-protocol/widget": "^1.0.0-alpha.14",
     "bignumber.js": "^9.0.1",
     "bitcoin-address-validation": "^1.0.0",
     "blockies-ts": "^1.0.0",

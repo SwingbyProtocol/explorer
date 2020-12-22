@@ -1,5 +1,7 @@
 import type { Mode } from '@swingby-protocol/sdk';
 
+export const DEPLOYED_URL = 'https://explorer.swingby.network/';
+
 export enum MODE {
   PRODUCTION = 'production',
   TEST = 'test',
@@ -7,7 +9,7 @@ export enum MODE {
 
 export const mode: Mode =
   process.env.NEXT_PUBLIC_MODE === MODE.PRODUCTION ? MODE.PRODUCTION : MODE.TEST;
-export const PAGE_COUNT = 4;
+export const PAGE_COUNT = 25;
 export const TXS_COUNT = 10;
 export const NODES_PER_PAGE = 10;
 
@@ -42,6 +44,7 @@ export enum LOCAL_STORAGE {
   ThemeMode = 'themeMode',
 }
 
-export const CONTRACT_BTCE = '0xeb47a21c1fc00d1e863019906df1771b80dbe182';
-export const CONTRACT_LP = '0x4Ed568CA11458EC66cDBe809E03d5AE4B2C86A6d ';
-export const CONTRACT_SWAP = '0x355E6Ad090E2236194c6c6212ED84C4ad03a9dF5';
+// Memo: BTCE contract address as WBTC in testnet
+export const CONTRACT_WBTC = '0xeb47a21c1fc00d1e863019906df1771b80dbe182';
+export const CONTRACT_SB_BTC = '0x2DC806271984FBF884244A1CFb546cF1B764Ef0F';
+export const CONTRACT_SWAP = '0xF963E81109186B933F1bA674beC7A74186C20740';

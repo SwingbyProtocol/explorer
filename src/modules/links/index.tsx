@@ -37,6 +37,10 @@ export const Terms = [
 
 export const Media = [
   {
+    link: URL.Twitter,
+    icon: <Icon.Twitter />,
+  },
+  {
     link: URL.Discord,
     icon: <Icon.Discord />,
   },

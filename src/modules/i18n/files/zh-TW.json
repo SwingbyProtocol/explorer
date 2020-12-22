@@ -11,6 +11,7 @@
   "common.swap":"交換",
   "common.page.pre": "第",
   "common.page": "頁",
+  "common.of": " 共 ",
   "common.from": "從",
   "common.to": "到",
   "validation.insufficientBalance": "余額不足",

@@ -56,10 +56,10 @@ export const ExplorerMain = () => {
               mode,
               size: 'big',
               resource: 'swap',
-              defaultCurrencyIn: tx.currencyIn,
-              defaultCurrencyOut: tx.currencyOut,
-              defaultAddressUserIn: tx.addressOut,
-              defaultAmountUser: tx.amountIn,
+              defaultCurrencyDeposit: tx.currencyIn,
+              defaultCurrencyReceiving: tx.currencyOut,
+              defaultAddressReceiving: tx.addressOut,
+              defaultAmountDesired: tx.amountIn,
               theme: themeMode,
             });
 

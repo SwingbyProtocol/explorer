@@ -11,6 +11,7 @@
   "common.swap":"交换",
   "common.page.pre": "第",
   "common.page": "页",
+  "common.of": " 共 ",
   "common.from": "从",
   "common.to": "到",
   "validation.insufficientBalance": "余额不足",

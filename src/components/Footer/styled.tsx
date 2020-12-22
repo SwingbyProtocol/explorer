@@ -8,7 +8,7 @@ const { media } = StylingConstants;
 
 export const FooterContainer = styled.div`
   height: 100%;
-  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
+  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.box * 7)};
 `;
 export const FooterBox = styled.div`
   display: grid;
@@ -29,6 +29,7 @@ export const TextTitle = styled(Text)`
   text-align: center;
   color: ${({ theme }) => theme.pulsar.color.text.accent};
   line-height: ${({ theme }) => rem(theme.pulsar.size.city)};
+  font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
   @media (min-width: ${rem(media.sm)}) {
     text-align: left;
   }
@@ -59,7 +60,7 @@ export const UlLink = styled.ul`
 
 export const LiLink = styled.li`
   justify-self: center;
-  line-height: ${({ theme }) => rem(theme.pulsar.size.town)};
+  line-height: ${({ theme }) => rem(theme.pulsar.size.box * 7)};
   @media (min-width: ${rem(media.sm)}) {
     justify-self: start;
   }
@@ -69,7 +70,7 @@ export const ALink = styled.a`
   color: ${({ theme }) => theme.pulsar.color.text.normal};
   text-decoration: none;
   font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
-  opacity: 0.6;
+  opacity: 0.8;
   transition: all 0.2s ease-in-out;
   :hover {
     opacity: 1;
@@ -77,8 +78,11 @@ export const ALink = styled.a`
   }
 `;
 
-export const ALinkIcon = styled(ALink)`
+export const ALinkIcon = styled.a`
+  color: ${({ theme }) => theme.pulsar.color.text.normal};
+  text-decoration: none;
   font-size: ${({ theme }) => rem(theme.pulsar.size.street)};
+  opacity: 0.5;
 `;
 
 export const LogoBox = styled.div`
@@ -91,8 +95,8 @@ export const LogoBox = styled.div`
 
 export const MediaRow = styled.div`
   display: grid;
-  grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.room)};
-  grid-template-columns: repeat(5, 1fr);
+  grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  grid-template-columns: repeat(6, 1fr);
   @media (min-width: ${rem(media.sm)}) {
     padding-right: 0;
     align-self: center;

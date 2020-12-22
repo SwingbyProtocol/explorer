@@ -1,12 +1,14 @@
 import { NextSeo } from 'next-seo';
 import React from 'react';
 
+import { DEPLOYED_URL } from '../env';
+
 export const SEO = () => {
-  const url = 'https://explorer.swingby.network/';
+  const url = DEPLOYED_URL;
   const content =
     'Swap BTC to and from Binance Chain and other blockchains. It’s non-custodial and decentralized';
   const title = 'Swingby Skybridge';
-  const image = 'https://dl.dropboxusercontent.com/s/m0gyt88p7h0cmte/OG_skybridge_1line%2Bcopy.jpg';
+  const image = 'https://dl.dropboxusercontent.com/s/133s5bap3tbbonv/RebrandOG.jpg';
 
   return (
     <NextSeo

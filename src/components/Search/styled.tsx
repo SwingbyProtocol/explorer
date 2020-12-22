@@ -13,9 +13,6 @@ export const SearchInput = styled(TextInput)`
   padding-left: ${({ theme }) => rem(theme.pulsar.size.closet)};
   padding-right: ${({ theme }) => rem(theme.pulsar.size.closet)};
   font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
-  ::placeholder {
-    opacity: 0.8;
-  }
   @media (min-width: ${rem(media.sm)}) {
     width: ${rem(250)};
     font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
@@ -29,7 +26,6 @@ export const SearchInput = styled(TextInput)`
     font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
   }
   @media (min-width: ${rem(media.lg)}) {
-    /* padding-top: ${({ theme }) => rem(theme.pulsar.size.room)}; */
     width: ${rem(350)};
   }
   @media (min-width: ${rem(media.xl)}) {
