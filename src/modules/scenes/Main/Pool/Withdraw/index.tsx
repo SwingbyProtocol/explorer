@@ -91,9 +91,9 @@ export const Withdraw = (props: Props) => {
     mode,
     size: 'big',
     theme: themeMode,
-    defaultCurrencyOut: toCurrency,
-    defaultAddressUserIn: receivingAddress,
-    defaultAmountUser: withdrawAmount,
+    defaultCurrencyReceiving: toCurrency,
+    defaultAddressReceiving: receivingAddress,
+    defaultAmountDesired: withdrawAmount,
   });
 
   const isDisabled =

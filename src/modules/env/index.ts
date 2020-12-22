@@ -9,7 +9,7 @@ export enum MODE {
 
 export const mode: Mode =
   process.env.NEXT_PUBLIC_MODE === MODE.PRODUCTION ? MODE.PRODUCTION : MODE.TEST;
-export const PAGE_COUNT = 4;
+export const PAGE_COUNT = 25;
 export const TXS_COUNT = 10;
 export const NODES_PER_PAGE = 10;
 
