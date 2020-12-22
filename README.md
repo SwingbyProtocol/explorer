@@ -41,6 +41,8 @@ v1.22.4
   - Delightful JavaScript Testing.
 - [luxon](https://github.com/moment/luxon)
   - A library for working with dates and times in JS
+- [next-seo](https://github.com/garmeeh/next-seo)
+  - Next SEO is a plug in that makes managing your SEO easier in Next.js projects.
 - [styled-components](https://www.styled-components.com/)
   - Visual primitives for the component age. Use the best bits of ES6 and CSS to style your apps
 - [polished](https://github.com/styled-components/polished)
@@ -85,6 +87,11 @@ $ yarn dev
 
 This project is using [react-intl](https://github.com/formatjs/formatjs) to handle
 localization. Please refer to `src/modules/i18n/files/LANGUAGE.json` file to add or edit sentences.
+
+## SEO
+
+This project is using [next-seo](https://github.com/garmeeh/next-seo) to handle
+SEO settings. Please refer to `src/modules/seo/index.tsx` file to add or edit sentences.
 
 ## How To Contribute
 

@@ -1,5 +1,7 @@
 import type { Mode } from '@swingby-protocol/sdk';
 
+export const DEPLOYED_URL = 'https://explorer.swingby.network/';
+
 export enum MODE {
   PRODUCTION = 'production',
   TEST = 'test',
