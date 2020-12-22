@@ -69,6 +69,7 @@ export const ThemeToggle = styled.div`
 export const MenuSpan = styled(Text)<MenuProps>`
   cursor: pointer;
   color: ${(props) => props.isActive && props.theme.pulsar.color.primary.normal};
+  font-weight: 500;
 `;
 
 export const LinkA = styled.a`
