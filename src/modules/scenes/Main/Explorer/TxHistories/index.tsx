@@ -144,10 +144,10 @@ export const TxHistories = (props: Props) => {
                 bg={bgKey % 2 !== 0}
                 onMouseEnter={() => dispatch(selectSwapDetails(tx))}
                 onClick={() => goToDetail(tx.hash)}
-                variants={TxRowVariants}
-                transition={TxRowTransition}
-                initial="initial"
-                animate="in"
+                variants={page === 1 && TxRowVariants}
+                transition={page === 1 && TxRowTransition}
+                initial={page === 1 ? 'initial' : null}
+                animate={page === 1 ? 'in' : null}
               >
                 <Column>
                   <Status>
