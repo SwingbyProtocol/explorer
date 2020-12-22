@@ -93,6 +93,9 @@ export const AddLiquidity = (props: Props) => {
     defaultAmountUser: poolAmount,
   });
 
+  const isDisabled =
+    0 >= Number(poolAmount) || !isValidAddress || !receivingAddress || poolAmount[0] === '-';
+
   return (
     <AddLiquidityContainer>
       <Box>
@@ -149,14 +152,16 @@ export const AddLiquidity = (props: Props) => {
                 </TextDescription>
               </div>
               <div className="right">
-                <TextFee variant="masked">{calculateDepositFee(depositRate, poolAmount)}</TextFee>
+                <TextFee variant="masked">
+                  {poolAmount >= 0 && calculateDepositFee(depositRate, poolAmount)}
+                </TextFee>
               </div>
             </RowBottom>
             <ButtonRow>
               <ButtonScale
                 variant="primary"
                 size="country"
-                disabled={0 >= Number(poolAmount) || !isValidAddress || !receivingAddress}
+                disabled={isDisabled}
                 onClick={() => openPopup({ widget })}
               >
                 <FormattedMessage id="pool.pool.pool" />

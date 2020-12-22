@@ -6,6 +6,8 @@ import { useDispatch } from 'react-redux';
 import { Pagination } from '../../../../../components/Pagination';
 import {
   capitalize,
+  TxRowTransition,
+  TxRowVariants,
   convertTxTime,
   currencyNetwork,
   statusColor,
@@ -38,6 +40,7 @@ import {
 interface Props {
   filter: JSX.Element;
   loader: JSX.Element;
+  adjustIndex: number;
   page: number;
   maximumPage: number;
   isNoResult: boolean;
@@ -59,6 +62,7 @@ export const TxHistoriesMobile = (props: Props) => {
     goBackPage,
     goToDetail,
     loader,
+    adjustIndex,
     isLoadingHistory,
     isNoResult,
     noResultFound,
@@ -81,12 +85,17 @@ export const TxHistoriesMobile = (props: Props) => {
         {page > 1 ? !currentTxs.length && loader : isLoadingHistory && loader}
         {currentTxs &&
           currentTxs.map((tx: SwapRawObject, i: number) => {
+            const bgKey = i - adjustIndex;
             return (
               <TxHistoryRow
-                key={i}
-                bg={i % 2 !== 0}
+                key={bgKey}
+                bg={bgKey % 2 !== 0}
                 onMouseEnter={() => dispatch(selectSwapDetails(tx))}
                 onClick={() => goToDetail(tx.hash)}
+                variants={page === 1 && TxRowVariants}
+                transition={page === 1 && TxRowTransition}
+                initial={page === 1 ? 'initial' : null}
+                animate={page === 1 ? 'in' : null}
               >
                 <Column>
                   <Status>

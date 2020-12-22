@@ -1,4 +1,4 @@
-import { Dropdown } from '@swingby-protocol/pulsar';
+import { Dropdown, Tooltip } from '@swingby-protocol/pulsar';
 import { createWidget, openPopup } from '@swingby-protocol/widget';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -7,6 +7,7 @@ import { useTheme } from 'styled-components';
 
 import { CoinSymbol, PoolCurrencies } from '../../../../coins';
 import { checkIsValidAddress, checkIsValidAmount } from '../../../../explorer';
+import { calculateSwapFee } from '../../../../pool';
 import { ButtonScale } from '../../../Common';
 import { mode } from '../.././../../env';
 
@@ -30,6 +31,10 @@ import {
   TextLabel,
   Top,
   WithdrawContainer,
+  RowBottom,
+  TextDescription,
+  TextFee,
+  TextEstimated,
 } from './styled';
 
 interface Props {
@@ -45,7 +50,7 @@ export const Withdraw = (props: Props) => {
   const pool = useSelector((state) => state.pool);
   const { currentPriceLP, balanceLP } = pool;
   const explorer = useSelector((state) => state.explorer);
-  const { themeMode } = explorer;
+  const { themeMode, transactionFees } = explorer;
 
   const [receivingAddress, setReceivingAddress] = useState('');
   const [withdrawAmount, setWithdrawAmount] = useState(null);
@@ -62,11 +67,14 @@ export const Withdraw = (props: Props) => {
   }, [withdrawAmount]);
 
   const maxAmount = balanceLP * currentPriceLP;
+
   const withdrawMaxAmount = () => {
     if (maxAmount) {
       setWithdrawAmount(String(maxAmount));
     }
   };
+
+  const fee = withdrawAmount ? calculateSwapFee(withdrawAmount, toCurrency, transactionFees) : 0;
 
   const currencyItems = (
     <>
@@ -87,6 +95,12 @@ export const Withdraw = (props: Props) => {
     defaultAddressUserIn: receivingAddress,
     defaultAmountUser: withdrawAmount,
   });
+
+  const isDisabled =
+    0 >= Number(withdrawAmount) ||
+    !isValidAddress ||
+    !receivingAddress ||
+    withdrawAmount > maxAmount;
 
   return (
     <WithdrawContainer>
@@ -144,16 +158,37 @@ export const Withdraw = (props: Props) => {
             />
             {!isValidAddress && receivingAddress && addressValidationResult}
 
+            <RowBottom>
+              <div className="left">
+                <TextDescription variant="masked">
+                  <FormattedMessage id="pool.withdraw.transactionFee" /> &nbsp;
+                  <Tooltip
+                    content={
+                      <Tooltip.Content>
+                        <FormattedMessage id="pool.withdraw.estimatedReason" />
+                      </Tooltip.Content>
+                    }
+                    data-testid="tooltip"
+                  >
+                    {'('}
+                    <TextEstimated>
+                      <FormattedMessage id="pool.withdraw.estimated" />
+                    </TextEstimated>
+                    {')'}
+                  </Tooltip>
+                  <FormattedMessage id="pool.withdraw.estimated2" />
+                </TextDescription>
+              </div>
+              <div className="right">
+                <TextFee variant="masked">{withdrawAmount >= 0 && fee}</TextFee>
+              </div>
+            </RowBottom>
+
             <ButtonRow>
               <ButtonScale
                 variant="primary"
                 size="country"
-                disabled={
-                  0 >= Number(withdrawAmount) ||
-                  !isValidAddress ||
-                  !receivingAddress ||
-                  withdrawAmount > maxAmount
-                }
+                disabled={isDisabled}
                 onClick={() => openPopup({ widget })}
               >
                 <FormattedMessage id="pool.withdraw" />

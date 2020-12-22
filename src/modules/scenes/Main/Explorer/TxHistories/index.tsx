@@ -5,6 +5,8 @@ import { useDispatch } from 'react-redux';
 
 import {
   capitalize,
+  TxRowTransition,
+  TxRowVariants,
   convertTxTime,
   currencyNetwork,
   statusColor,
@@ -42,6 +44,7 @@ import {
 interface Props {
   filter: JSX.Element;
   loader: JSX.Element;
+  adjustIndex: number;
   page: number;
   maximumPage: number;
   isNoResult: boolean;
@@ -68,6 +71,7 @@ export const TxHistories = (props: Props) => {
     isNoResult,
     isLoadingHistory,
     noResultFound,
+    adjustIndex,
   } = props;
 
   const { locale } = useIntl();
@@ -75,6 +79,7 @@ export const TxHistories = (props: Props) => {
   const dispatch = useDispatch();
   const [chosenTx, setChosenTx] = useState(null);
   const [toggleOpenLink, setToggleOpenLink] = useState(1);
+
   useEffect(() => {
     if (chosenTx) {
       linkToSwapWidget(chosenTx, 'claim');
@@ -132,12 +137,17 @@ export const TxHistories = (props: Props) => {
         {page > 1 ? !currentTxs.length && loader : isLoadingHistory && loader}
         {currentTxs &&
           currentTxs.map((tx: SwapRawObject, i: number) => {
+            const bgKey = i - adjustIndex;
             return (
               <TxHistoryRow
-                key={i}
-                bg={i % 2 !== 0}
+                key={bgKey}
+                bg={bgKey % 2 !== 0}
                 onMouseEnter={() => dispatch(selectSwapDetails(tx))}
                 onClick={() => goToDetail(tx.hash)}
+                variants={page === 1 && TxRowVariants}
+                transition={page === 1 && TxRowTransition}
+                initial={page === 1 ? 'initial' : null}
+                animate={page === 1 ? 'in' : null}
               >
                 <Column>
                   <Status>

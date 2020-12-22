@@ -11,13 +11,12 @@ interface DropDownProps {
 }
 
 export const WithdrawContainer = styled.div`
-  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   @media (min-width: ${rem(media.md)}) {
-    height: ${({ theme }) => rem(420)};
+    height: ${({ theme }) => rem(430)};
   }
 `;
 
@@ -39,14 +38,13 @@ export const ColumnForm = styled.div`
   @media (min-width: ${rem(media.sm)}) {
     width: ${rem(460)};
   }
-  margin-right: ${({ theme }) => rem(theme.pulsar.size.street)};
   @media (min-width: ${rem(media.md)}) {
-    margin-left: ${({ theme }) => rem(theme.pulsar.size.street)};
-    margin-right: ${({ theme }) => rem(theme.pulsar.size.street)};
+    margin-left: ${({ theme }) => rem(theme.pulsar.size.house)};
+    margin-right: ${({ theme }) => rem(theme.pulsar.size.house)};
   }
   @media (min-width: ${rem(media.lg)}) {
-    margin-left: ${({ theme }) => rem(theme.pulsar.size.city)};
-    margin-right: ${({ theme }) => rem(theme.pulsar.size.city)};
+    margin-left: ${({ theme }) => rem(theme.pulsar.size.state)};
+    margin-right: ${({ theme }) => rem(theme.pulsar.size.state)};
   }
 `;
 
@@ -163,4 +161,28 @@ export const TextAll = styled(Text)`
   cursor: pointer;
   color: ${({ theme }) => theme.pulsar.color.primary.active};
   text-decoration: underline;
+`;
+
+export const RowBottom = styled(RowTop)`
+  margin-top: ${({ theme }) => rem(theme.pulsar.size.street)};
+  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
+  padding-right: ${({ theme }) => rem(theme.pulsar.size.street)};
+  @media (min-width: ${rem(media.sm)}) {
+    padding-right: 0;
+  }
+`;
+
+export const TextDescription = styled(Text)`
+  display: flex;
+  font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
+  font-weight: 500;
+`;
+
+export const TextFee = styled(TextDescription)`
+  text-align: right;
+`;
+
+export const TextEstimated = styled(Text)`
+  border-bottom: 1px solid ${({ theme }) => theme.pulsar.color.text.placeholder};
+  cursor: pointer;
 `;

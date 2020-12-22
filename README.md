@@ -35,6 +35,8 @@ v1.22.4
   - Simple HTML5 Charts using the 'canvas' tag
 - [react-chartjs-2](https://github.com/reactchartjs/react-chartjs-2)
   - React wrapper for Chart.js
+- [framer-motion](https://github.com/framer/motion)
+  - Open source, production-ready animation and gesture library for React
 - [jest](https://github.com/facebook/jest)
   - Delightful JavaScript Testing.
 - [luxon](https://github.com/moment/luxon)

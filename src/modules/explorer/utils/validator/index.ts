@@ -71,6 +71,10 @@ export const checkIsValidAddress = (
 export const checkIsValidAmount = (amount: string, fn: (result: boolean) => void): void => {
   if (amount) {
     const valueArray = amount.split('');
+    if (valueArray[0] === '-') {
+      fn(false);
+      return;
+    }
     for (const value of valueArray) {
       if (/^[^.0-9]*$/.test(value)) {
         fn(false);

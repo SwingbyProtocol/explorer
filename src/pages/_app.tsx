@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.min.css'; // eslint-disable-line
 import { Layout } from '../components/Layout';
 import { LOCAL_STORAGE } from '../modules/env';
 import { languages } from '../modules/i18n';
+import { SEO } from '../modules/seo';
 import { useStore } from '../modules/store';
 import './style.css';
 
@@ -38,16 +39,19 @@ function MyApp({ Component, pageProps }) {
   }, [storedTheme]);
 
   return (
-    <PulsarThemeProvider theme={themeMode}>
-      <IntlProvider messages={messages} locale={locale} defaultLocale={DEFAULT_LOCALE}>
-        <PulsarGlobalStyles />
-        <ReduxProvider store={store}>
-          <Layout setThemeMode={setThemeMode} themeMode={themeMode}>
-            <Component {...pageProps} />
-          </Layout>
-        </ReduxProvider>
-      </IntlProvider>
-    </PulsarThemeProvider>
+    <>
+      <SEO />
+      <PulsarThemeProvider theme={themeMode}>
+        <IntlProvider messages={messages} locale={locale} defaultLocale={DEFAULT_LOCALE}>
+          <PulsarGlobalStyles />
+          <ReduxProvider store={store}>
+            <Layout setThemeMode={setThemeMode} themeMode={themeMode}>
+              <Component {...pageProps} />
+            </Layout>
+          </ReduxProvider>
+        </IntlProvider>
+      </PulsarThemeProvider>
+    </>
   );
 }
 
