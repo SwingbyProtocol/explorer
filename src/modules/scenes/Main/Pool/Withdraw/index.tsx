@@ -1,4 +1,4 @@
-import { Dropdown } from '@swingby-protocol/pulsar';
+import { Dropdown, Tooltip } from '@swingby-protocol/pulsar';
 import { createWidget, openPopup } from '@swingby-protocol/widget';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -34,6 +34,7 @@ import {
   RowBottom,
   TextDescription,
   TextFee,
+  TextEstimated,
 } from './styled';
 
 interface Props {
@@ -160,7 +161,22 @@ export const Withdraw = (props: Props) => {
             <RowBottom>
               <div className="left">
                 <TextDescription variant="masked">
-                  <FormattedMessage id="pool.withdraw.transactionFee" />
+                  <FormattedMessage id="pool.withdraw.transactionFee" /> &nbsp;
+                  <Tooltip
+                    content={
+                      <Tooltip.Content>
+                        <FormattedMessage id="pool.withdraw.estimatedReason" />
+                      </Tooltip.Content>
+                    }
+                    data-testid="tooltip"
+                  >
+                    {'('}
+                    <TextEstimated>
+                      <FormattedMessage id="pool.withdraw.estimated" />
+                    </TextEstimated>
+                    {')'}
+                  </Tooltip>
+                  <FormattedMessage id="pool.withdraw.estimated2" />
                 </TextDescription>
               </div>
               <div className="right">
