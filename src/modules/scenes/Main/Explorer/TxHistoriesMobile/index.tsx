@@ -1,4 +1,5 @@
 import { Text } from '@swingby-protocol/pulsar';
+import { useRouter } from 'next/router';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch } from 'react-redux';
@@ -68,6 +69,7 @@ export const TxHistoriesMobile = (props: Props) => {
     noResultFound,
   } = props;
   const dispatch = useDispatch();
+  const router = useRouter();
 
   return (
     <>
@@ -80,7 +82,7 @@ export const TxHistoriesMobile = (props: Props) => {
           </Left>
           <Right>{filter}</Right>
         </TitleRow>
-        {isNoResult && noResultFound}
+        {router.query.q && isNoResult && noResultFound}
         {/* Memo: show loader */}
         {page > 1 ? !currentTxs.length && loader : isLoadingHistory && loader}
         {currentTxs &&

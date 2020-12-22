@@ -87,10 +87,10 @@ export const AddLiquidity = (props: Props) => {
     mode,
     size: 'big',
     theme: themeMode,
-    defaultCurrencyIn: fromCurrency,
-    defaultCurrencyOut: CoinSymbol.LP,
-    defaultAddressUserIn: receivingAddress,
-    defaultAmountUser: poolAmount,
+    defaultCurrencyDeposit: fromCurrency,
+    defaultCurrencyReceiving: CoinSymbol.LP,
+    defaultAddressReceiving: receivingAddress,
+    defaultAmountDesired: poolAmount,
   });
 
   const isDisabled =

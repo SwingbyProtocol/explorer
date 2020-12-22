@@ -28,6 +28,7 @@ import {
   MobileMenu,
   Right,
   ThemeToggle,
+  TextLang,
 } from './styled';
 
 interface Props {
@@ -134,7 +135,11 @@ export const Header = (props: Props) => {
           ))}
         </Menu>
         <LanguageDropDown
-          target={<LanguageDropTarget size="city">{lang}</LanguageDropTarget>}
+          target={
+            <LanguageDropTarget size="city">
+              <TextLang>{lang}</TextLang>
+            </LanguageDropTarget>
+          }
           data-testid="dropdown"
         >
           {languageItems}

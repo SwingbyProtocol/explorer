@@ -147,7 +147,7 @@ export const AddressP = styled.p`
 `;
 
 export const AmountSpan = styled(Text)`
-  font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
+  font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
 `;
 
 export const StatusText = styled(Text)`

@@ -67,7 +67,7 @@ export const IconClose = styled(Icon.CrossCircle)`
 export const TextAddress = styled(Text)`
   cursor: pointer;
   @media (min-width: ${rem(media.lg)}) {
-    font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
+    font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
   }
 `;
 
