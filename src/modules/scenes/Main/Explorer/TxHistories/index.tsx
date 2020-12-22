@@ -2,6 +2,7 @@ import { Dropdown, getCryptoAssetFormatter, Text } from '@swingby-protocol/pulsa
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/router';
 
 import {
   capitalize,
@@ -79,6 +80,7 @@ export const TxHistories = (props: Props) => {
   const dispatch = useDispatch();
   const [chosenTx, setChosenTx] = useState(null);
   const [toggleOpenLink, setToggleOpenLink] = useState(1);
+  const router = useRouter();
 
   useEffect(() => {
     if (chosenTx) {
@@ -132,7 +134,7 @@ export const TxHistories = (props: Props) => {
             {filter}
           </Right>
         </TitleRow>
-        {isNoResult && noResultFound}
+        {router.query.q && isNoResult && noResultFound}
         {/* Memo: show loader */}
         {page > 1 ? !currentTxs.length && loader : isLoadingHistory && loader}
         {currentTxs &&

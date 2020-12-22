@@ -4,7 +4,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { CoinSymbol } from '../../../../coins';
-import { CONTRACT_LP, CONTRACT_SWAP, ENDPOINT_EARNINGS } from '../../../../env';
+import { CONTRACT_SB_BTC, CONTRACT_SWAP, ENDPOINT_EARNINGS } from '../../../../env';
 import { toBTC } from '../../../../explorer';
 import { fetch } from '../../../../fetch';
 import { ABI_TOKEN, orgFloor, ABI_SWAP, getHexValue } from '../../../../pool';
@@ -52,7 +52,7 @@ export const AccountSummary = () => {
   useEffect(() => {
     if (web3 && userAddress) {
       (async () => {
-        const contractLP = new web3.eth.Contract(ABI_TOKEN, CONTRACT_LP);
+        const contractLP = new web3.eth.Contract(ABI_TOKEN, CONTRACT_SB_BTC);
         const contractSwap = new web3.eth.Contract(ABI_SWAP, CONTRACT_SWAP);
         const urlEarning = ENDPOINT_EARNINGS;
         const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';

@@ -93,7 +93,7 @@ export const RowValidator = styled.div`
 `;
 
 export const ValueSpan = styled(Text)`
-  font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
+  font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
 `;
 
 export const ValidatorLinkSpan = styled(Text)`
