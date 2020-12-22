@@ -5,7 +5,7 @@ export {
   makeEarningsData,
   makeTimeLabels,
   getHexValue,
-  calculateReceivingAmount,
+  calculateSwapFee,
 } from './utils';
 
 export { ABI_TOKEN, ABI_SWAP } from './contract';

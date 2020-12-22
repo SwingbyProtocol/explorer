@@ -1,6 +1,6 @@
 import { CoinSymbol } from './../../../coins';
 
-import { calculateDepositFee, calculateReceivingAmount } from '.';
+import { calculateDepositFee, calculateSwapFee } from '.';
 
 const fees = [
   {
@@ -36,7 +36,7 @@ it('return number with decimal will not more than 3', () => {
 });
 
 it('should returns estimated receiving amount', () => {
-  expect(calculateReceivingAmount(1, CoinSymbol.BTC, fees)).toStrictEqual(0.9977);
-  expect(calculateReceivingAmount(1, CoinSymbol.BTC_B, fees)).toStrictEqual(0.997995);
-  expect(calculateReceivingAmount(1, CoinSymbol.WBTC, fees)).toStrictEqual(0.99775);
+  expect(calculateSwapFee(1, CoinSymbol.BTC, fees)).toStrictEqual(0.0023);
+  expect(calculateSwapFee(1, CoinSymbol.BTC_B, fees)).toStrictEqual(0.002005);
+  expect(calculateSwapFee(1, CoinSymbol.WBTC, fees)).toStrictEqual(0.00225);
 });

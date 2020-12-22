@@ -7,7 +7,7 @@ import { useTheme } from 'styled-components';
 
 import { CoinSymbol, PoolCurrencies } from '../../../../coins';
 import { checkIsValidAddress, checkIsValidAmount } from '../../../../explorer';
-import { calculateReceivingAmount } from '../../../../pool';
+import { calculateSwapFee } from '../../../../pool';
 import { ButtonScale } from '../../../Common';
 import { mode } from '../.././../../env';
 
@@ -66,19 +66,14 @@ export const Withdraw = (props: Props) => {
   }, [withdrawAmount]);
 
   const maxAmount = balanceLP * currentPriceLP;
+
   const withdrawMaxAmount = () => {
     if (maxAmount) {
       setWithdrawAmount(String(maxAmount));
     }
   };
 
-  const fee = withdrawAmount
-    ? Number(
-        (
-          withdrawAmount - calculateReceivingAmount(withdrawAmount, toCurrency, transactionFees)
-        ).toFixed(7),
-      )
-    : 0;
+  const fee = withdrawAmount ? calculateSwapFee(withdrawAmount, toCurrency, transactionFees) : 0;
 
   const currencyItems = (
     <>
@@ -99,6 +94,12 @@ export const Withdraw = (props: Props) => {
     defaultAddressUserIn: receivingAddress,
     defaultAmountUser: withdrawAmount,
   });
+
+  const isDisabled =
+    0 >= Number(withdrawAmount) ||
+    !isValidAddress ||
+    !receivingAddress ||
+    withdrawAmount > maxAmount;
 
   return (
     <WithdrawContainer>
@@ -163,7 +164,7 @@ export const Withdraw = (props: Props) => {
                 </TextDescription>
               </div>
               <div className="right">
-                <TextFee variant="masked">{fee}</TextFee>
+                <TextFee variant="masked">{withdrawAmount >= 0 && fee}</TextFee>
               </div>
             </RowBottom>
 
@@ -171,12 +172,7 @@ export const Withdraw = (props: Props) => {
               <ButtonScale
                 variant="primary"
                 size="country"
-                disabled={
-                  0 >= Number(withdrawAmount) ||
-                  !isValidAddress ||
-                  !receivingAddress ||
-                  withdrawAmount > maxAmount
-                }
+                disabled={isDisabled}
                 onClick={() => openPopup({ widget })}
               >
                 <FormattedMessage id="pool.withdraw" />

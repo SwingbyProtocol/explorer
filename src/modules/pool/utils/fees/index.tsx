@@ -7,7 +7,7 @@ export const calculateDepositFee = (rate: number, amount: number) => {
   return feeFixed;
 };
 
-export const calculateReceivingAmount = (
+export const calculateSwapFee = (
   amountIn: number,
   receivingCurrency: string,
   feeInfos: IFetchFee[],
@@ -17,5 +17,8 @@ export const calculateReceivingAmount = (
 
   const transactionFee = (amountIn * Number(transactionFeePercent)) / 100;
 
-  return Number((amountIn - fixedFee - transactionFee).toFixed(7));
+  const estimatedReceivingAmount = amountIn - fixedFee - transactionFee;
+  const estimatedFee = Number((amountIn - estimatedReceivingAmount).toFixed(7));
+
+  return estimatedFee;
 };
