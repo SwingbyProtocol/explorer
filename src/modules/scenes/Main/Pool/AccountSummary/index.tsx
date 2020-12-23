@@ -141,7 +141,7 @@ export const AccountSummary = () => {
           <FormattedMessage id="pool.balance" />
         </TextRoom>
         {/* Memo: Show number at 3 decimal */}
-        <TextRoom variant="accent">{orgFloor(balanceSbBTC, 1000)}</TextRoom>
+        <TextRoom variant="accent">{orgFloor(balanceSbBTC, 3)}</TextRoom>
       </RowEarning>
       <RowEarning>
         <TextRoom variant="label">
