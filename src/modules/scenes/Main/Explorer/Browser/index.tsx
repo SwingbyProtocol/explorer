@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Loader } from '../../../../../components/Loader';
-import { MODE, mode, PAGE_COUNT } from '../../../../env';
+import { PAGE_COUNT } from '../../../../env';
 import {
   BRIDGE,
   fetchFloatBalances,
@@ -29,7 +29,7 @@ import { SwapVolume } from '../SwapVolume';
 import { TxHistories } from '../TxHistories';
 import { TxHistoriesMobile } from '../TxHistoriesMobile';
 
-import { Bottom, BrowserContainer, BrowserDiv, Filter, Top, NoResultsFound } from './styled';
+import { Bottom, BrowserContainer, BrowserDiv, Filter, NoResultsFound, Top } from './styled';
 
 interface Props {
   walletAddress: string;
@@ -169,19 +169,19 @@ export const Browser = (props: Props) => {
       >
         <FormattedMessage id="home.recentSwaps.hideWaiting" />
       </Dropdown.Item>
-      {mode === MODE.TEST &&
-        Object.values(BRIDGE).map((chain: string) => {
-          const bridge = chain === BRIDGE.ethereum ? '' : chain.toLowerCase();
-          return (
-            <Dropdown.Item
-              selected={chainBridge === bridge}
-              onClick={() => routerPush(bridge, q, 1)}
-              key={chain}
-            >
-              Bitcoin - {chain}
-            </Dropdown.Item>
-          );
-        })}
+      {Object.values(BRIDGE).map((chain: string) => {
+        const bridge = chain === BRIDGE.ethereum ? '' : chain.toLowerCase();
+        return (
+          <Dropdown.Item
+            selected={chainBridge === bridge}
+            onClick={() => chain === BRIDGE.ethereum && routerPush(bridge, q, 1)}
+            key={chain}
+            disabled={chain !== BRIDGE.ethereum}
+          >
+            Bitcoin - {chain}
+          </Dropdown.Item>
+        );
+      })}
     </Dropdown>
   );
 

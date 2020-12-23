@@ -24,9 +24,9 @@ export {
 export { TxRowTransition, TxRowVariants } from './animation';
 
 export const BRIDGE = {
+  ethereum: 'Ethereum',
   multipleBridges: 'Multiple-Bridges',
   binance: 'Binance',
-  ethereum: 'Ethereum',
 };
 
 // Memo: interface
