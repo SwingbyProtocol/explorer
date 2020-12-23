@@ -2,7 +2,7 @@ import { IFetchFee } from '../..';
 import { calculateFixedFee } from '../../../explorer';
 
 export const calculateDepositFee = (rate: number, amount: number) => {
-  const fee = rate * amount;
+  const fee = (rate / 100) * amount;
   const feeFixed = Number(fee.toFixed(7));
   return feeFixed;
 };

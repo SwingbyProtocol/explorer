@@ -4,11 +4,17 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { CoinSymbol } from '../../../../coins';
-import { CONTRACT_SB_BTC, CONTRACT_SWAP, ENDPOINT_EARNINGS } from '../../../../env';
+import {
+  CONTRACT_SB_BTC,
+  CONTRACT_SWAP,
+  CONTRACT_WBTC,
+  ENDPOINT_EARNINGS,
+  ZERO_ADDRESS,
+} from '../../../../env';
 import { toBTC } from '../../../../explorer';
 import { fetch } from '../../../../fetch';
-import { ABI_TOKEN, orgFloor, ABI_SWAP, getHexValue } from '../../../../pool';
-import { getCurrentPriceLP, getDepositFeeRate, setBalanceLP } from '../../../../store';
+import { ABI_TOKEN, orgFloor, ABI_SWAP, getHexValue, IFeeRate } from '../../../../pool';
+import { getCurrentPriceSbBTC, getDepositFeeRate, setBalanceSbBTC } from '../../../../store';
 
 import {
   AccountSummaryContainer,
@@ -27,7 +33,7 @@ export const AccountSummary = () => {
   const explorer = useSelector((state) => state.explorer);
   const { usd } = explorer;
   const pool = useSelector((state) => state.pool);
-  const { balanceLP, web3, userAddress } = pool;
+  const { balanceSbBTC, web3, userAddress } = pool;
 
   const [claimableAmount, setClaimableAmount] = useState(0);
   const [totalEarnings, setTotalEarnings] = useState(0);
@@ -52,41 +58,59 @@ export const AccountSummary = () => {
   useEffect(() => {
     if (web3 && userAddress) {
       (async () => {
-        const contractLP = new web3.eth.Contract(ABI_TOKEN, CONTRACT_SB_BTC);
+        const contractSbBTC = new web3.eth.Contract(ABI_TOKEN, CONTRACT_SB_BTC);
         const contractSwap = new web3.eth.Contract(ABI_SWAP, CONTRACT_SWAP);
         const urlEarning = ENDPOINT_EARNINGS;
-        const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
+
+        const handleGetDepositFeeRate = async (
+          tokenAddress: string,
+          totalClaimableAmount: number,
+        ): Promise<number> => {
+          const userFloatBal = totalClaimableAmount;
+
+          // Memo: When pass numAsHex to the contract method, it will be treated as uint256.
+          const amountInAsHex = getHexValue(userFloatBal);
+          const feeRate = await contractSwap.methods
+            .getDepositFeeRate(tokenAddress, amountInAsHex)
+            .call();
+          return feeRate / 100;
+        };
 
         const results = await Promise.all([
-          contractLP.methods.balanceOf(userAddress).call(),
+          contractSbBTC.methods.balanceOf(userAddress).call(),
           contractSwap.methods.getCurrentPriceLP().call(),
-          contractSwap.methods.getFloatBalanceOf(ZERO_ADDRESS, userAddress).call(),
           fetch<{ total: string }>(urlEarning),
         ]);
 
         const resultBalanceOf = results[0];
-        const balanceLP = Number(toBTC(resultBalanceOf.toString()).toString());
-        dispatch(setBalanceLP(balanceLP));
+        const balanceSbBTC = Number(toBTC(resultBalanceOf.toString()).toString());
+        dispatch(setBalanceSbBTC(balanceSbBTC));
 
         // Todo: Check the logic with backend team
-        const priceLP = toBTC(results[1]);
-        const userFloatBalSatoshi = Number(results[2]);
-        const userFloatBal = toBTC(String(userFloatBalSatoshi));
+        const priceSbBTC = toBTC(results[1]);
+        dispatch(getCurrentPriceSbBTC(priceSbBTC));
 
-        const totalClaimableAmount = priceLP * balanceLP;
-        const totalEarnings = results[3].ok && results[3].response.total;
-        setTotalEarnings(Number(totalEarnings));
-
+        // Todo: Check the logic with backend team
+        const totalClaimableAmount = priceSbBTC * balanceSbBTC;
         setClaimableAmount(totalClaimableAmount);
-        dispatch(getCurrentPriceLP(priceLP));
 
-        // Memo: When pass numAsHex to the contract method, it will be treated as uint256.
-        const amountInAsHex = getHexValue(userFloatBal);
+        if (totalClaimableAmount > 0) {
+          const rates = await Promise.all([
+            // Memo:  ZERO_ADDRESS: BTC
+            handleGetDepositFeeRate(ZERO_ADDRESS, totalClaimableAmount),
+            handleGetDepositFeeRate(CONTRACT_WBTC, totalClaimableAmount),
+          ]);
 
-        const depositFeeRate = await contractSwap.methods
-          .getDepositFeeRate(userAddress, amountInAsHex)
-          .call();
-        dispatch(getDepositFeeRate(depositFeeRate));
+          const feeRates: IFeeRate = {
+            BTC: rates[0],
+            WBTC: rates[1],
+          };
+          dispatch(getDepositFeeRate(feeRates));
+        }
+
+        // Memo: Earings API has not deployed yet. This is the mocked response.
+        const totalEarnings = results[2].ok && results[2].response.total;
+        setTotalEarnings(Number(totalEarnings));
       })();
     }
   }, [dispatch, web3, userAddress]);
@@ -116,7 +140,7 @@ export const AccountSummary = () => {
           <FormattedMessage id="pool.balance" />
         </TextRoom>
         {/* Memo: Show number at 3 decimal */}
-        <TextRoom variant="accent">{orgFloor(balanceLP, 1000)}</TextRoom>
+        <TextRoom variant="accent">{orgFloor(balanceSbBTC, 1000)}</TextRoom>
       </RowEarning>
       <RowEarning>
         <TextRoom variant="label">
