@@ -50,6 +50,6 @@ export const CONTRACT_WBTC =
 export const CONTRACT_SB_BTC =
   process.env.NEXT_PUBLIC_SB_BTC || '0xBC066f17dbEdBEB956Fb4F860831FA595a346791';
 export const CONTRACT_SWAP =
-  process.env.CONTRACT_SWAP || '0x6fA311C964Bc07c6A29E1A5CfCbB69Bc5520Aaf4';
+  process.env.NEXT_PUBLIC_CONTRACT_SWAP || '0x6fA311C964Bc07c6A29E1A5CfCbB69Bc5520Aaf4';
 // Memo: BTC is not on Ethereum, it doesn’t have an address, so the contract uses this one to represent BTC
 export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
