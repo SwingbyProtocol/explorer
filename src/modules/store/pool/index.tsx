@@ -1,6 +1,6 @@
 import { Reducer } from 'redux';
 
-import { PoolMode } from '../../pool';
+import { IFeeRate, PoolMode } from '../../pool';
 
 enum Actions {
   SetBridge = 'Pool/SET_BRIDGE',
@@ -20,9 +20,9 @@ const initialState = {
   mode: PoolMode.Summary,
   userAddress: null,
   recentTxs: null,
-  balanceLP: null,
+  balanceSbBTC: null,
   currentPriceLP: null,
-  depositFeeRate: 0,
+  depositFeeRate: { BTC: 0, WBTC: 0 },
   onboard: null,
   web3: null,
 };
@@ -39,7 +39,7 @@ export const pool: Reducer<State, Action> = (state = initialState, action) => {
   }
 
   if (action.type === Actions.SetBalanceLP) {
-    return { ...state, balanceLP: action.data };
+    return { ...state, balanceSbBTC: action.data };
   }
 
   if (action.type === Actions.GetCurrentPriceLP) {
@@ -78,9 +78,9 @@ export const setBridge = (data: string) => ({ type: Actions.SetBridge, data } as
 
 export const setUserAddress = (data: string) => ({ type: Actions.SetUserAddress, data } as const);
 
-export const setBalanceLP = (data: number) => ({ type: Actions.SetBalanceLP, data } as const);
+export const setBalanceSbBTC = (data: number) => ({ type: Actions.SetBalanceLP, data } as const);
 
-export const getCurrentPriceLP = (data: number) =>
+export const getCurrentPriceSbBTC = (data: number) =>
   ({ type: Actions.GetCurrentPriceLP, data } as const);
 
 export const setOnboard = (data) => ({ type: Actions.SetOnboard, data } as const);
@@ -91,14 +91,15 @@ export const togglePoolMode = (data: PoolMode) => ({ type: Actions.TogglePoolMod
 
 export const getRecentTxs = (data) => ({ type: Actions.GetRecentTxs, data } as const);
 
-export const getDepositFeeRate = (data) => ({ type: Actions.GetDepositFeeRate, data } as const);
+export const getDepositFeeRate = (data: IFeeRate) =>
+  ({ type: Actions.GetDepositFeeRate, data } as const);
 
 type Action =
   | ReturnType<typeof resetPoolState>
   | ReturnType<typeof setBridge>
   | ReturnType<typeof setUserAddress>
-  | ReturnType<typeof setBalanceLP>
-  | ReturnType<typeof getCurrentPriceLP>
+  | ReturnType<typeof setBalanceSbBTC>
+  | ReturnType<typeof getCurrentPriceSbBTC>
   | ReturnType<typeof togglePoolMode>
   | ReturnType<typeof setOnboard>
   | ReturnType<typeof setWeb3>
