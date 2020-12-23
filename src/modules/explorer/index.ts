@@ -24,12 +24,31 @@ export {
 export { TxRowTransition, TxRowVariants } from './animation';
 
 export const BRIDGE = {
+  ethereum: 'Ethereum',
   multipleBridges: 'Multiple-Bridges',
   binance: 'Binance',
-  ethereum: 'Ethereum',
 };
 
 // Memo: interface
+
+export interface FloatRawObject {
+  addressDeposit: string;
+  addressIn: string;
+  addressOut: string;
+  amountIn: string;
+  amountOut: string;
+  currencyIn: string;
+  currencyOut: string;
+  hash: string;
+  status: string;
+  timestamp: number;
+  txIdIn?: string;
+  fee?: string;
+  txIdOut?: string;
+  rewards?: Reward[];
+  feeCurrency?: string;
+}
+
 export interface SwapRawObject {
   addressIn: string;
   addressOut: string;
@@ -47,14 +66,16 @@ export interface SwapRawObject {
   rewards?: Reward[];
 }
 
+export type TTxRawObject = SwapRawObject | FloatRawObject;
+
 export interface IFetchSwapHistoryResponse {
-  items: SwapRawObject[];
+  items: TTxRawObject[];
   total: number;
 }
 
 export interface ITransactions {
   data: {
-    [page: number]: SwapRawObject[];
+    [page: number]: TTxRawObject[];
   };
   total: number;
 }
@@ -79,12 +100,12 @@ export interface IStats {
 }
 
 export interface IFetchHistory {
-  txs: SwapRawObject[];
+  txs: TTxRawObject[];
   total: number;
 }
 export interface ILoadHistory {
   txsWithPage: ITransactions;
-  tempMixedHistories: SwapRawObject[];
+  tempMixedHistories: TTxRawObject[];
 }
 export interface IFloatBalances {
   floats: IFloat;
@@ -107,7 +128,7 @@ export interface ILoadHistoryArgs {
   isHideWaiting: boolean;
   bridge: string;
   prevTxsWithPage: ITransactions | null;
-  swapHistoryTemp: SwapRawObject[] | null;
+  swapHistoryTemp: TTxRawObject[] | null;
 }
 
 export interface INetworkInfos {
@@ -144,3 +165,12 @@ export type TStatus =
 export type TSwapWidget = 'claim' | 'duplicate';
 
 export type TTheme = 'dark' | 'light' | null;
+
+export interface IloadHistoryArgs {
+  page: number;
+  query: string;
+  hash: string;
+  isHideWaiting: boolean;
+  bridge: string;
+  prevTxsWithPage: ITransactions;
+}

@@ -8,7 +8,7 @@ import {
   capitalize,
   convertTxTime,
   statusColor,
-  SwapRawObject,
+  TTxRawObject,
   TStatus,
 } from '../../../../explorer';
 import { generateMessage } from '../../../../swap';
@@ -25,7 +25,7 @@ import {
 } from './styled';
 
 interface Props {
-  tx: SwapRawObject;
+  tx: TTxRawObject;
 }
 
 export const StatusCard = (props: Props) => {

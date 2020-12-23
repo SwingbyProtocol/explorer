@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Loader } from '../../../../../components/Loader';
-import { MODE, mode, PAGE_COUNT } from '../../../../env';
+import { PAGE_COUNT, TXS_COUNT } from '../../../../env';
 import {
   BRIDGE,
   fetchFloatBalances,
@@ -13,7 +13,7 @@ import {
   ILoadHistory,
   loadHistory,
   removeDuplicatedTxs,
-  SwapRawObject,
+  TTxRawObject,
   TSwapWidget,
 } from '../../../../explorer';
 import { useInterval } from '../../../../hooks';
@@ -29,12 +29,12 @@ import { SwapVolume } from '../SwapVolume';
 import { TxHistories } from '../TxHistories';
 import { TxHistoriesMobile } from '../TxHistoriesMobile';
 
-import { Bottom, BrowserContainer, BrowserDiv, Filter, Top, NoResultsFound } from './styled';
+import { Bottom, BrowserContainer, BrowserDiv, Filter, NoResultsFound, Top } from './styled';
 
 interface Props {
   walletAddress: string;
   setWalletAddress: (address: string) => void;
-  linkToSwapWidget: (tx: SwapRawObject, action: TSwapWidget) => void;
+  linkToSwapWidget: (tx: TTxRawObject, action: TSwapWidget) => void;
   runOnboard: () => void;
 }
 
@@ -169,23 +169,28 @@ export const Browser = (props: Props) => {
       >
         <FormattedMessage id="home.recentSwaps.hideWaiting" />
       </Dropdown.Item>
-      {mode === MODE.TEST &&
-        Object.values(BRIDGE).map((chain: string) => {
-          const bridge = chain === BRIDGE.ethereum ? '' : chain.toLowerCase();
-          return (
-            <Dropdown.Item
-              selected={chainBridge === bridge}
-              onClick={() => routerPush(bridge, q, 1)}
-              key={chain}
-            >
-              Bitcoin - {chain}
-            </Dropdown.Item>
-          );
-        })}
+      <Dropdown.Item selected={chainBridge === 'floats'} onClick={() => routerPush('floats', q, 1)}>
+        Float transactions
+      </Dropdown.Item>
+      {Object.values(BRIDGE).map((chain: string) => {
+        const bridge = chain === BRIDGE.ethereum ? '' : chain.toLowerCase();
+        return (
+          <Dropdown.Item
+            selected={chainBridge === bridge}
+            onClick={() => chain === BRIDGE.ethereum && routerPush(bridge, q, 1)}
+            key={chain}
+            disabled={chain !== BRIDGE.ethereum}
+          >
+            Bitcoin - {chain}
+          </Dropdown.Item>
+        );
+      })}
     </Dropdown>
   );
 
-  const loader = <Loader minHeight={368} testId="main.loading-container" />;
+  const loader = (
+    <Loader marginTop={100} minHeight={92 * TXS_COUNT} testId="main.loading-container" />
+  );
 
   const noResultFound = (
     <NoResultsFound>

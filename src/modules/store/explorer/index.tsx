@@ -5,8 +5,8 @@ import {
   IFetchUsd,
   INetworkInfos,
   ITransactions,
-  SwapRawObject,
   TTheme,
+  TTxRawObject,
 } from '../../explorer';
 
 import * as initial from './initialState';
@@ -90,14 +90,14 @@ export const toggleTheme = (data: TTheme) => ({ type: Actions.ToggleTheme, data 
 
 export const getHistory = (data: ITransactions) => ({ type: Actions.FetchHistory, data } as const);
 
-export const selectSwapDetails = (data: SwapRawObject) =>
+export const selectSwapDetails = (data: TTxRawObject) =>
   ({ type: Actions.SelectSwapDetails, data } as const);
 
 export const clearHistory = () => ({ type: Actions.ClearHistory } as const);
 
 export const toggleIsHideWaiting = () => ({ type: Actions.ToggleIsHideWaiting } as const);
 
-export const updateSwapHistoryTemp = (data: SwapRawObject[]) =>
+export const updateSwapHistoryTemp = (data: TTxRawObject[]) =>
   ({ type: Actions.UpdateSwapHistoryTemp, data } as const);
 
 export const fetchUsdPrice = (data: IFetchUsd) => ({ type: Actions.FetchUsdPrice, data } as const);

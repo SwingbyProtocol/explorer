@@ -1,10 +1,13 @@
+import useCopy from '@react-hook/copy';
 import { Text } from '@swingby-protocol/pulsar';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
+import { copyToClipboard, toastCopyAddress } from '../../../../../components/Toast';
 import { currencyNetwork } from '../../../../explorer';
 import { transactionDetailByTxId } from '../../../../swap/';
 import { IconInfo } from '../../../Common';
+import { TxIdElement } from '../TxIdElement';
 
 import {
   Coin,
@@ -30,6 +33,8 @@ interface Props {
 export const DetailCard = (props: Props) => {
   const { role, currency, amount, address, txId } = props;
   const formattedRole = <FormattedMessage id={role === 'From' ? 'common.from' : 'common.to'} />;
+
+  const { copy } = useCopy(address);
 
   return (
     <DetailCardContainer>
@@ -58,13 +63,13 @@ export const DetailCard = (props: Props) => {
       </Column>
       <RowAddress>
         <TextRoom variant="label">{formattedRole}</TextRoom>
-        <AddressP>{address}</AddressP>
+        <AddressP onClick={() => copyToClipboard(copy, toastCopyAddress, role)}>{address}</AddressP>
       </RowAddress>
       <RowAddress>
         <TextRoom variant="label">
           <FormattedMessage id="swap.txId" />
         </TextRoom>
-        <AddressP>{txId}</AddressP>
+        <TxIdElement txId={txId} />
       </RowAddress>
     </DetailCardContainer>
   );

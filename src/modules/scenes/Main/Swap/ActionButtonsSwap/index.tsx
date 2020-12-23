@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import { copyToClipboard, toastCopyURL } from '../../../../../components/Toast';
-import { SwapRawObject, TStatus, TSwapWidget, TxStatus } from '../../../../explorer';
+import { TTxRawObject, TStatus, TSwapWidget, TxStatus } from '../../../../explorer';
 import { ButtonScale } from '../../../Common';
 
 import {
@@ -15,8 +15,8 @@ import {
 } from './styled';
 
 interface Props {
-  tx: SwapRawObject;
-  linkToSwapWidget: (tx: SwapRawObject, action: TSwapWidget) => void;
+  tx: TTxRawObject;
+  linkToSwapWidget: (tx: TTxRawObject, action: TSwapWidget) => void;
 }
 
 export const ActionButtons = (props: Props) => {
@@ -65,23 +65,27 @@ export const ActionButtons = (props: Props) => {
         >
           <FormattedMessage id="swap.share" />
         </ButtonScale>
-        <ButtonClaimSwapTablet
-          variant="tertiary"
-          size="city"
-          onClick={() => setToggleOpenLink(toggleOpenLink + 1)}
-        >
-          <FormattedMessage id="swap.claimSwap" />
-        </ButtonClaimSwapTablet>
+        {tx.status === TxStatus.WAITING && (
+          <ButtonClaimSwapTablet
+            variant="tertiary"
+            size="city"
+            onClick={() => setToggleOpenLink(toggleOpenLink + 1)}
+          >
+            <FormattedMessage id="swap.claimSwap" />
+          </ButtonClaimSwapTablet>
+        )}
       </Buttons>
-      <ButtonClaimSwapRow>
-        <ButtonScale
-          variant="tertiary"
-          size="city"
-          onClick={() => setToggleOpenLink(toggleOpenLink + 1)}
-        >
-          <FormattedMessage id="swap.claimSwap" />
-        </ButtonScale>
-      </ButtonClaimSwapRow>
+      {tx.status === TxStatus.WAITING && (
+        <ButtonClaimSwapRow>
+          <ButtonScale
+            variant="tertiary"
+            size="city"
+            onClick={() => setToggleOpenLink(toggleOpenLink + 1)}
+          >
+            <FormattedMessage id="swap.claimSwap" />
+          </ButtonScale>
+        </ButtonClaimSwapRow>
+      )}
     </ActionButtonsSwapContainer>
   );
 };

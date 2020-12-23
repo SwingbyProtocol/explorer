@@ -3,12 +3,12 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useSelector } from 'react-redux';
 
-import { calculateFixedFee, SwapRawObject } from '../../../../explorer';
+import { calculateFixedFee, TTxRawObject } from '../../../../explorer';
 
 import { Coin, CoinContainer, Row, SwapFeesContainer, TitleText } from './styled';
 
 interface Props {
-  tx: SwapRawObject;
+  tx: TTxRawObject;
 }
 
 export const SwapFees = (props: Props) => {

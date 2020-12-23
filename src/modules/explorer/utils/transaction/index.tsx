@@ -2,7 +2,7 @@ import { DateTime, Interval } from 'luxon';
 import { FormattedDate, FormattedRelativeTime, FormattedTime } from 'react-intl';
 
 import { BTCBCoins, CoinSymbol, ETHCoins } from '../../../coins';
-import { SwapRawObject } from '../../index';
+import { TTxRawObject } from '../../index';
 
 export const TxStatus = {
   COMPLETED: 'COMPLETED',
@@ -58,10 +58,7 @@ export const currencyNetwork = (currency: string): string => {
   return '';
 };
 
-export const removeDuplicatedTxs = (
-  txArray: SwapRawObject[],
-  filterBy?: string,
-): SwapRawObject[] => {
+export const removeDuplicatedTxs = (txArray: TTxRawObject[], filterBy?: string): TTxRawObject[] => {
   if (filterBy === 'txId') {
     return txArray.filter(
       (tx, idx, self) => !tx.txIdIn || self.findIndex((_tx) => _tx.txIdIn === tx.txIdIn) === idx,
@@ -70,7 +67,7 @@ export const removeDuplicatedTxs = (
     return txArray.filter(
       (tx, index, self) =>
         self.findIndex(
-          (t: SwapRawObject) => t.timestamp === tx.timestamp && t.addressIn === tx.addressIn,
+          (t: TTxRawObject) => t.timestamp === tx.timestamp && t.addressIn === tx.addressIn,
         ) === index,
     );
   }
