@@ -17,7 +17,8 @@ export const etherscanApiKey =
   process.env.NEXT_PUBLIC_ETHERSCAN_KEY || 'NYXXH5CD1NQJMYJGZYAFK7G9G6AZGZTT3H';
 export const blocknativeApiKey =
   process.env.NEXT_PUBLIC_BLOCKNATIVE_KEY || '52950909-d5f6-42eb-8621-acb35a8ee1d3';
-export const ETHER_NETWORK = { id: 5, network: 'goerli' };
+export const ETHER_NETWORK =
+  mode === MODE.PRODUCTION ? { id: 1, network: 'mainnet' } : { id: 5, network: 'goerli' };
 export const infuraApiKey =
   process.env.NEXT_PUBLIC_INFURA_KEY || 'f35c2a4f3d0941a38a3edb62ed10c847';
 export const RPC_URL = `https://${ETHER_NETWORK.network}.infura.io/v3/${infuraApiKey}`;
@@ -35,7 +36,6 @@ export enum PATH {
   SWAP = '/swap',
   POOL = '/pool',
   METANODES = '/metanodes',
-  ANALYTICS = '/analytics',
 }
 
 export enum LOCAL_STORAGE {
@@ -45,8 +45,11 @@ export enum LOCAL_STORAGE {
 }
 
 // Memo: BTCE contract address as WBTC in testnet
-export const CONTRACT_WBTC = '0xeb47a21c1fc00d1e863019906df1771b80dbe182';
-export const CONTRACT_SB_BTC = '0xBC066f17dbEdBEB956Fb4F860831FA595a346791';
-export const CONTRACT_SWAP = '0x6fA311C964Bc07c6A29E1A5CfCbB69Bc5520Aaf4';
+export const CONTRACT_WBTC =
+  process.env.NEXT_PUBLIC_CONTRACT_WBTC || '0xeb47a21c1fc00d1e863019906df1771b80dbe182';
+export const CONTRACT_SB_BTC =
+  process.env.NEXT_PUBLIC_SB_BTC || '0xBC066f17dbEdBEB956Fb4F860831FA595a346791';
+export const CONTRACT_SWAP =
+  process.env.CONTRACT_SWAP || '0x6fA311C964Bc07c6A29E1A5CfCbB69Bc5520Aaf4';
 // Memo: BTC is not on Ethereum, it doesn’t have an address, so the contract uses this one to represent BTC
 export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
