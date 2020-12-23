@@ -43,7 +43,7 @@
   "home.recentSwaps.recentSwaps": "近期的交換",
   "home.recentSwaps.fees": "手續費",
   "home.recentSwaps.hideWaiting": "隱藏等待狀態",
-  "swap.claimSwap": "交換進程",
+  "swap.claimSwap": "認領此交換",
   "swap.duplicate": "重複交換",
   "swap.share": "分享",
   "swap.txId": "交易ID",
