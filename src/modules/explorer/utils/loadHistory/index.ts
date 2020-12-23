@@ -3,11 +3,11 @@ import { fetch } from '../../../fetch';
 import {
   BRIDGE,
   IFetchHistory,
-  IFetchSwapHistoryResponse,
   ILoadHistory,
   ILoadHistoryArgs,
+  IloadHistoryArgs,
   ITransactions,
-  SwapRawObject,
+  TTxRawObject,
 } from '../../index';
 import { TxStatus } from '../transaction';
 import { isAddress } from '../validator';
@@ -51,22 +51,22 @@ const generateEndpoint = (
 };
 
 const divideTxs = (
-  btcbTxs: SwapRawObject[],
-  btceTxs: SwapRawObject[],
-  tempMixedHistories: SwapRawObject[],
+  btcbTxs: TTxRawObject[],
+  btceTxs: TTxRawObject[],
+  tempMixedHistories: TTxRawObject[],
   query: string,
-): SwapRawObject[] => {
+): TTxRawObject[] => {
   const newPageTxs = [];
 
   // Memo: Clear the array
   if (query) {
     tempMixedHistories = [];
   }
-  btcbTxs.forEach((tx: SwapRawObject) => {
+  btcbTxs.forEach((tx: TTxRawObject) => {
     tempMixedHistories.push(tx);
   });
 
-  btceTxs.forEach((tx: SwapRawObject) => {
+  btceTxs.forEach((tx: TTxRawObject) => {
     tempMixedHistories.push(tx);
   });
 
@@ -85,13 +85,13 @@ const divideTxs = (
   return newPageTxs;
 };
 
-const getLatestTx = (txs: SwapRawObject[], txsETH: SwapRawObject[]): SwapRawObject => {
+const getLatestTx = (txs: TTxRawObject[], txsETH: TTxRawObject[]): TTxRawObject => {
   const latestTxsArray = [];
-  txs.forEach((tx: SwapRawObject) => {
+  txs.forEach((tx: TTxRawObject) => {
     latestTxsArray.push(tx);
   });
 
-  txsETH.forEach((tx: SwapRawObject) => {
+  txsETH.forEach((tx: TTxRawObject) => {
     latestTxsArray.push(tx);
   });
 
@@ -112,9 +112,14 @@ const fetchHistory = async (
   hash: string,
   isHideWaiting: boolean,
   bridge: string,
-): Promise<{ txs: SwapRawObject[]; total: number }> => {
-  const baseUrlBinance = ENDPOINT_BINANCE_NODE + '/api/v1/swaps/query';
-  const baseUrlETH = ENDPOINT_ETHEREUM_NODE + '/api/v1/swaps/query';
+): Promise<{ txs: TTxRawObject[]; total: number }> => {
+  const swapEndpoint = '/api/v1/swaps/query';
+  const floatsEndpoint = '/api/v1/floats/query';
+  const endpoint = bridge === 'floats' ? floatsEndpoint : swapEndpoint;
+
+  const baseUrlBinance = ENDPOINT_BINANCE_NODE + endpoint;
+  const baseUrlETH = ENDPOINT_ETHEREUM_NODE + endpoint;
+
   const baseUrl = (bridge: string): string => {
     if (bridge.toLowerCase() === BRIDGE.binance.toLowerCase()) {
       return baseUrlBinance;
@@ -122,31 +127,31 @@ const fetchHistory = async (
     if (bridge.toLowerCase() === BRIDGE.ethereum.toLowerCase()) {
       return baseUrlETH;
     }
+    if (bridge.toLowerCase() === 'floats') {
+      return baseUrlETH;
+    }
   };
+  console.log('baseUrlETH', baseUrlETH);
 
   const url = generateEndpoint(baseUrl(bridge), page, query, isHideWaiting, hash);
-  const result = await fetch<{ items: SwapRawObject[]; total: number }>(url);
+  const result = await fetch<{ items: TTxRawObject[]; total: number }>(url);
 
-  const txRes: IFetchSwapHistoryResponse = result.ok && result.response;
-  const txs: SwapRawObject[] = txRes.items;
+  const txRes = result.ok && result.response;
+  const txs: TTxRawObject[] = txRes.items;
 
   const total = txRes.total;
 
   return { txs, total };
 };
 
-const loadHistoryFiltered = async (
-  page: number,
-  query: string,
-  hash: string,
-  isHideWaiting: boolean,
-  bridge: string,
-  prevTxsWithPage: ITransactions,
-): Promise<ITransactions> => {
+const loadHistoryFiltered = async (args: IloadHistoryArgs): Promise<ITransactions> => {
+  const { page, query, hash, isHideWaiting, bridge, prevTxsWithPage } = args;
+  console.log('bridge2', bridge);
   const results = await Promise.all([
     fetchHistory(page, query, hash, isHideWaiting, bridge),
     fetchHistory(page + 1, query, hash, isHideWaiting, bridge),
   ]);
+  console.log('results', results);
 
   const data = results[0];
   const txs = data.txs;
@@ -167,8 +172,9 @@ const loadHistoryFiltered = async (
 
 export const loadHistory = async (arg: ILoadHistoryArgs): Promise<ILoadHistory> => {
   const { page, query, hash, isHideWaiting, bridge, prevTxsWithPage, swapHistoryTemp } = arg;
+  console.log('bridge', bridge);
 
-  let tempMixedHistories: SwapRawObject[] = [];
+  let tempMixedHistories = [];
   let txsWithPage: ITransactions = {
     data: {},
     total: 0,
@@ -260,25 +266,36 @@ export const loadHistory = async (arg: ILoadHistoryArgs): Promise<ILoadHistory> 
       }
       // Memo: Default bridge as Ethereum Bridge
     } else if (bridge === '') {
-      txsWithPage = await loadHistoryFiltered(
+      console.log('hi');
+      txsWithPage = await loadHistoryFiltered({
         page,
         query,
         hash,
         isHideWaiting,
-        BRIDGE.ethereum.toLowerCase(),
-        txsWithPage,
-      );
+        bridge: BRIDGE.ethereum.toLowerCase(),
+        prevTxsWithPage: txsWithPage,
+      });
+      // When: Filtered 'floats' chain
+    } else if (bridge === 'floats') {
+      txsWithPage = await loadHistoryFiltered({
+        page,
+        query,
+        hash,
+        isHideWaiting,
+        bridge: 'floats',
+        prevTxsWithPage: txsWithPage,
+      });
     }
     // When: Filtered chain
     else {
-      txsWithPage = await loadHistoryFiltered(
+      txsWithPage = await loadHistoryFiltered({
         page,
         query,
         hash,
         isHideWaiting,
         bridge,
-        txsWithPage,
-      );
+        prevTxsWithPage: txsWithPage,
+      });
     }
     return { txsWithPage, tempMixedHistories };
   } catch (error) {

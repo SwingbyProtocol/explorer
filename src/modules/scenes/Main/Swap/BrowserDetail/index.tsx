@@ -3,7 +3,7 @@ import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Loader } from '../../../../../components/Loader';
-import { ILoadHistory, loadHistory, SwapRawObject, TSwapWidget } from '../../../../explorer';
+import { ILoadHistory, loadHistory, TTxRawObject, TSwapWidget } from '../../../../explorer';
 import { selectSwapDetails } from '../../../../store';
 import { ActionButtons } from '../ActionButtonsSwap';
 import { DetailCard } from '../DetailCard';
@@ -14,7 +14,7 @@ import { SwapFees } from '../SwapFees';
 import { BrowserDetailContainer, BrowserDetailDiv, IconSwap, Row } from './styled';
 
 interface Props {
-  linkToSwapWidget: (tx: SwapRawObject, action: TSwapWidget) => void;
+  linkToSwapWidget: (tx: TTxRawObject, action: TSwapWidget) => void;
   runOnboard: () => void;
 }
 
@@ -26,7 +26,7 @@ export const BrowserDetail = (props: Props) => {
   const router = useRouter();
   const params = router.query;
   const hash = String(params.hash);
-  const tx = swapDetails && (swapDetails as SwapRawObject);
+  const tx = swapDetails && (swapDetails as TTxRawObject);
 
   const dispatchSelectSwapDetails = useCallback(
     async (hash: string) => {

@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import { useSelector } from 'react-redux';
 
 import { mode } from '../../modules/env';
-import { SwapRawObject } from '../../modules/explorer';
+import { TTxRawObject } from '../../modules/explorer';
 import { ButtonScale } from '../../modules/scenes/Common';
 
 import { Buttons, ModalContainer, TextAddress } from './styled';
@@ -13,7 +13,7 @@ import { Buttons, ModalContainer, TextAddress } from './styled';
 interface Props {
   isWidgetModalOpen: boolean;
   setIsWidgetModalOpen: (arg: boolean) => void;
-  tx: SwapRawObject;
+  tx: TTxRawObject;
 }
 
 export const LinkToWidgetModal = (props: Props) => {

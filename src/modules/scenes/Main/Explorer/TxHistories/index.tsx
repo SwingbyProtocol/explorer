@@ -1,22 +1,22 @@
 import { Dropdown, getCryptoAssetFormatter, Text } from '@swingby-protocol/pulsar';
+import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
-import { useRouter } from 'next/router';
 
+import { Pagination } from '../../../../../components/Pagination';
 import {
   capitalize,
-  TxRowTransition,
-  TxRowVariants,
   convertTxTime,
   currencyNetwork,
   statusColor,
-  SwapRawObject,
   TSwapWidget,
+  TTxRawObject,
+  TxRowTransition,
+  TxRowVariants,
 } from '../../../../explorer';
 import { selectSwapDetails } from '../../../../store';
 import { transactionDetailByTxId } from '../../../../swap';
-import { Pagination } from '../../../../../components/Pagination';
 
 import {
   AddressP,
@@ -51,11 +51,11 @@ interface Props {
   isNoResult: boolean;
   isLoadingHistory: boolean;
   noResultFound: JSX.Element;
-  currentTxs: SwapRawObject[];
+  currentTxs: TTxRawObject[];
   goNextPage: () => void;
   goBackPage: () => void;
   goToDetail: (arg: string) => void;
-  linkToSwapWidget: (tx: SwapRawObject, action: TSwapWidget) => void;
+  linkToSwapWidget: (tx: TTxRawObject, action: TSwapWidget) => void;
 }
 
 export const TxHistories = (props: Props) => {
@@ -88,7 +88,7 @@ export const TxHistories = (props: Props) => {
     }
   }, [chosenTx, toggleOpenLink, linkToSwapWidget]);
 
-  const externalLinkMenu = (tx: SwapRawObject) => (
+  const externalLinkMenu = (tx: TTxRawObject) => (
     <>
       <Dropdown.Item
         onClick={() => {
@@ -115,7 +115,7 @@ export const TxHistories = (props: Props) => {
   );
 
   // Memo: px for row height
-  const rowHeight = 92;
+  const rowHeight = 90;
   const rowHeightWithTxs = currentTxs && currentTxs.length * rowHeight;
 
   return (
@@ -138,7 +138,7 @@ export const TxHistories = (props: Props) => {
         {/* Memo: show loader */}
         {page > 1 ? !currentTxs.length && loader : isLoadingHistory && loader}
         {currentTxs &&
-          currentTxs.map((tx: SwapRawObject, i: number) => {
+          currentTxs.map((tx: TTxRawObject, i: number) => {
             const bgKey = i - adjustIndex;
             return (
               <TxHistoryRow
@@ -207,10 +207,12 @@ export const TxHistories = (props: Props) => {
                 </ColumnAmount>
                 <ColumnFee>
                   <Text variant="section-title">
-                    {getCryptoAssetFormatter({
-                      locale: locale,
-                      displaySymbol: tx.currencyOut,
-                    }).format(Number(tx.fee))}
+                    {isNaN(Number(tx.fee))
+                      ? ''
+                      : getCryptoAssetFormatter({
+                          locale: locale,
+                          displaySymbol: tx.currencyOut,
+                        }).format(Number(tx.fee))}
                   </Text>
                 </ColumnFee>
                 <ColumnEllipsis

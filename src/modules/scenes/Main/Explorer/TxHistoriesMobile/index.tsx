@@ -12,7 +12,7 @@ import {
   convertTxTime,
   currencyNetwork,
   statusColor,
-  SwapRawObject,
+  TTxRawObject,
 } from '../../../../explorer';
 import { selectSwapDetails } from '../../../../store';
 
@@ -46,7 +46,7 @@ interface Props {
   maximumPage: number;
   isNoResult: boolean;
   isLoadingHistory: boolean;
-  currentTxs: SwapRawObject[];
+  currentTxs: TTxRawObject[];
   noResultFound: JSX.Element;
   goNextPage: () => void;
   goBackPage: () => void;
@@ -86,7 +86,7 @@ export const TxHistoriesMobile = (props: Props) => {
         {/* Memo: show loader */}
         {page > 1 ? !currentTxs.length && loader : isLoadingHistory && loader}
         {currentTxs &&
-          currentTxs.map((tx: SwapRawObject, i: number) => {
+          currentTxs.map((tx: TTxRawObject, i: number) => {
             const bgKey = i - adjustIndex;
             return (
               <TxHistoryRow

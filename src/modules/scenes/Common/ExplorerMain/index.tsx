@@ -13,7 +13,7 @@ import { toastWrongAddress } from '../../../../components/Toast';
 import { ETHCoins } from '../../../coins';
 import { titleGenerator } from '../../../common';
 import { mode, PATH } from '../../../env';
-import { SwapRawObject, TSwapWidget } from '../../../explorer';
+import { TTxRawObject, TSwapWidget } from '../../../explorer';
 import { initOnboard } from '../../../onboard';
 import { setOnboard } from '../../../store';
 import { Browser, BrowserDetail, BrowserMetanodes, BrowserPool } from '../../Main';
@@ -41,8 +41,7 @@ export const ExplorerMain = () => {
   }, [onboard]);
 
   const linkToSwapWidget = useCallback(
-    async (tx: SwapRawObject, action: TSwapWidget, userAddress = walletAddress) => {
-      console.log('hello?');
+    async (tx: TTxRawObject, action: TSwapWidget, userAddress = walletAddress) => {
       const widget =
         action === 'claim'
           ? createWidget({

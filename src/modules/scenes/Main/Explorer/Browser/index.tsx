@@ -13,7 +13,7 @@ import {
   ILoadHistory,
   loadHistory,
   removeDuplicatedTxs,
-  SwapRawObject,
+  TTxRawObject,
   TSwapWidget,
 } from '../../../../explorer';
 import { useInterval } from '../../../../hooks';
@@ -34,7 +34,7 @@ import { Bottom, BrowserContainer, BrowserDiv, Filter, NoResultsFound, Top } fro
 interface Props {
   walletAddress: string;
   setWalletAddress: (address: string) => void;
-  linkToSwapWidget: (tx: SwapRawObject, action: TSwapWidget) => void;
+  linkToSwapWidget: (tx: TTxRawObject, action: TSwapWidget) => void;
   runOnboard: () => void;
 }
 
@@ -168,6 +168,9 @@ export const Browser = (props: Props) => {
         }}
       >
         <FormattedMessage id="home.recentSwaps.hideWaiting" />
+      </Dropdown.Item>
+      <Dropdown.Item selected={chainBridge === 'floats'} onClick={() => routerPush('floats', q, 1)}>
+        Float transactions
       </Dropdown.Item>
       {Object.values(BRIDGE).map((chain: string) => {
         const bridge = chain === BRIDGE.ethereum ? '' : chain.toLowerCase();
