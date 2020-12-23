@@ -56,3 +56,7 @@ export interface IFetchFee {
   currency: string;
   minerFee: string;
 }
+export interface IFeeRate {
+  BTC: number;
+  WBTC: number;
+}

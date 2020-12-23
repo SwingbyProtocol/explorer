@@ -148,12 +148,12 @@ export const AddLiquidity = (props: Props) => {
             <RowBottom>
               <div className="left">
                 <TextDescription variant="masked">
-                  <FormattedMessage id="pool.pool.depositFee" />({depositRate}%):
+                  <FormattedMessage id="pool.pool.depositFee" />({depositRate[fromCurrency]}%):
                 </TextDescription>
               </div>
               <div className="right">
                 <TextFee variant="masked">
-                  {poolAmount >= 0 && calculateDepositFee(depositRate, poolAmount)}
+                  {poolAmount >= 0 && calculateDepositFee(depositRate[fromCurrency], poolAmount)}
                 </TextFee>
               </div>
             </RowBottom>

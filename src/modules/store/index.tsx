@@ -19,10 +19,10 @@ export {
   setUserAddress,
   setOnboard,
   togglePoolMode,
-  setBalanceLP,
+  setBalanceSbBTC,
   setWeb3,
   getRecentTxs,
   resetPoolState,
-  getCurrentPriceLP,
+  getCurrentPriceSbBTC,
   getDepositFeeRate,
 } from './pool';

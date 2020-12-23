@@ -46,5 +46,7 @@ export enum LOCAL_STORAGE {
 
 // Memo: BTCE contract address as WBTC in testnet
 export const CONTRACT_WBTC = '0xeb47a21c1fc00d1e863019906df1771b80dbe182';
-export const CONTRACT_SB_BTC = '0x2DC806271984FBF884244A1CFb546cF1B764Ef0F';
-export const CONTRACT_SWAP = '0xF963E81109186B933F1bA674beC7A74186C20740';
+export const CONTRACT_SB_BTC = '0xBC066f17dbEdBEB956Fb4F860831FA595a346791';
+export const CONTRACT_SWAP = '0x6fA311C964Bc07c6A29E1A5CfCbB69Bc5520Aaf4';
+// Memo: BTC is not on Ethereum, it doesn’t have an address, so the contract uses this one to represent BTC
+export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
