@@ -1,9 +1,13 @@
 import { FormattedMessage } from 'react-intl';
 import { toast } from 'react-toastify';
 
-export const copyToClipboard = (copy: () => void, toast: () => void) => {
+export const copyToClipboard = (copy: () => void, toast: (arg?) => void, role?: string) => {
   copy();
-  toast();
+  if (role) {
+    toast(role);
+  } else {
+    toast();
+  }
 };
 
 export const toastWrongAddress = () => {
@@ -14,16 +18,35 @@ export const toastWrongAddress = () => {
   });
 };
 
-export const toastCopyAddress = () => {
-  toast.info(<FormattedMessage id="toast.copiedAddress" />, {
+export const toastCopyAddress = (role?: string) => {
+  toast.info(
+    role ? (
+      role === 'From' ? (
+        <FormattedMessage id="toast.copiedFromAddress" />
+      ) : (
+        <FormattedMessage id="toast.copiedToAddress" />
+      )
+    ) : (
+      <FormattedMessage id="toast.copiedAddress" />
+    ),
+    {
+      autoClose: 3000,
+      draggable: true,
+      hideProgressBar: true,
+    },
+  );
+};
+
+export const toastCopyURL = () => {
+  toast.info(<FormattedMessage id="toast.copiedLinkURL" />, {
     autoClose: 3000,
     draggable: true,
     hideProgressBar: true,
   });
 };
 
-export const toastCopyURL = () => {
-  toast.info(<FormattedMessage id="toast.copiedLinkURL" />, {
+export const toastCopyTxId = () => {
+  toast.info(<FormattedMessage id="toast.copiedTxId" />, {
     autoClose: 3000,
     draggable: true,
     hideProgressBar: true,

@@ -47,7 +47,7 @@ export const RowRole = styled.div`
 
 export const RowAddress = styled.div`
   display: grid;
-  grid-template-columns: ${({ theme }) => rem(theme.pulsar.size.state)} auto;
+  grid-template-columns: ${({ theme }) => rem(64)} auto;
   align-items: center;
   margin-bottom: ${({ theme }) => rem(theme.pulsar.size.drawer)};
 `;
@@ -61,4 +61,5 @@ export const AddressP = styled.p`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  cursor: pointer;
 `;
