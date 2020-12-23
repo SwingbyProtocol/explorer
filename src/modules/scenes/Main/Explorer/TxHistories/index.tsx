@@ -129,9 +129,13 @@ export const TxHistories = (props: Props) => {
               <FormattedMessage id="home.recentSwaps.recentSwaps" />
             </Text>
           </Left>
-          <Right>
+          <Right isFloats={bridge === 'floats'}>
             <TextFee variant="section-title">
-              <FormattedMessage id="home.recentSwaps.fees" />
+              {bridge === 'floats' ? (
+                <FormattedMessage id="home.recentSwaps.feesMax" />
+              ) : (
+                <FormattedMessage id="home.recentSwaps.fees" />
+              )}
             </TextFee>
             {filter}
           </Right>
