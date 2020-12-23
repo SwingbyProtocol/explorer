@@ -226,6 +226,7 @@ export const Browser = (props: Props) => {
             isLoadingHistory={isLoadingHistory}
             noResultFound={noResultFound}
             adjustIndex={adjustIndex}
+            bridge={chainBridge}
           />
         </Bottom>
       </BrowserDiv>
