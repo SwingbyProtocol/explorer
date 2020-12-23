@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Loader } from '../../../../../components/Loader';
-import { PAGE_COUNT } from '../../../../env';
+import { PAGE_COUNT, TXS_COUNT } from '../../../../env';
 import {
   BRIDGE,
   fetchFloatBalances,
@@ -185,7 +185,9 @@ export const Browser = (props: Props) => {
     </Dropdown>
   );
 
-  const loader = <Loader minHeight={368} testId="main.loading-container" />;
+  const loader = (
+    <Loader marginTop={100} minHeight={92 * TXS_COUNT} testId="main.loading-container" />
+  );
 
   const noResultFound = (
     <NoResultsFound>
