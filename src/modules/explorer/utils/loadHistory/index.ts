@@ -1,4 +1,4 @@
-import { ENDPOINT_BTCB_NODE, ENDPOINT_WBTC_NODE, PAGE_COUNT } from '../../../env';
+import { ENDPOINT_BINANCE_NODE, ENDPOINT_ETHEREUM_NODE, PAGE_COUNT } from '../../../env';
 import { fetch } from '../../../fetch';
 import {
   BRIDGE,
@@ -113,8 +113,8 @@ const fetchHistory = async (
   isHideWaiting: boolean,
   bridge: string,
 ): Promise<{ txs: SwapRawObject[]; total: number }> => {
-  const baseUrlBinance = ENDPOINT_BTCB_NODE + '/api/v1/swaps/query';
-  const baseUrlETH = ENDPOINT_WBTC_NODE + '/api/v1/swaps/query';
+  const baseUrlBinance = ENDPOINT_BINANCE_NODE + '/api/v1/swaps/query';
+  const baseUrlETH = ENDPOINT_ETHEREUM_NODE + '/api/v1/swaps/query';
   const baseUrl = (bridge: string): string => {
     if (bridge.toLowerCase() === BRIDGE.binance.toLowerCase()) {
       return baseUrlBinance;

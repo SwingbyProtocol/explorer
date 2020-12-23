@@ -24,8 +24,8 @@ export const infuraApiKey =
 export const RPC_URL = `https://${ETHER_NETWORK.network}.infura.io/v3/${infuraApiKey}`;
 export const infuraAppName = 'Swingby Explorer';
 
-export const ENDPOINT_WBTC_NODE = 'https://tbtc-goerli-node-1.swingby.network';
-export const ENDPOINT_BTCB_NODE = 'https://testnet-node.swingby.network';
+export const ENDPOINT_ETHEREUM_NODE = 'https://tbtc-goerli-node-1.swingby.network';
+export const ENDPOINT_BINANCE_NODE = 'https://testnet-node.swingby.network';
 export const ENDPOINT_COINGECKO = 'https://api.coingecko.com/api/v3';
 export const ENDPOINT_ETHERSCAN = 'https://api-goerli.etherscan.io';
 export const URL_ETHERSCAN = 'https://goerli.etherscan.io';
