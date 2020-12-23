@@ -1,5 +1,5 @@
 import { CoinSymbol } from '../../../coins';
-import { ENDPOINT_WBTC_NODE, ENDPOINT_COINGECKO } from '../../../env';
+import { ENDPOINT_ETHEREUM_NODE, ENDPOINT_COINGECKO } from '../../../env';
 import { fetch } from '../../../fetch';
 import { IFetchUsd, IFloat, IFloatAmount, IFloatBalances, IStats } from '../../index';
 
@@ -29,7 +29,7 @@ const getFloatBalance = (currency: string, floatInfos: IFloatAmount[]): string =
 };
 
 export const fetchFloatBalances = async (usdBtc: number): Promise<IFloatBalances> => {
-  const url = ENDPOINT_WBTC_NODE + '/api/v1/floats/balances';
+  const url = ENDPOINT_ETHEREUM_NODE + '/api/v1/floats/balances';
 
   try {
     const result = await fetch<IFloatAmount[]>(url);
@@ -48,8 +48,8 @@ export const fetchFloatBalances = async (usdBtc: number): Promise<IFloatBalances
 };
 
 export const fetchStatsInfo = async (): Promise<IStats> => {
-  const ethereumBridge = ENDPOINT_WBTC_NODE + '/api/v1/swaps/stats';
-  const ethereumBridgePeers = ENDPOINT_WBTC_NODE + '/api/v1/peers';
+  const ethereumBridge = ENDPOINT_ETHEREUM_NODE + '/api/v1/swaps/stats';
+  const ethereumBridgePeers = ENDPOINT_ETHEREUM_NODE + '/api/v1/peers';
 
   try {
     const results = await Promise.all([
