@@ -65,8 +65,8 @@ export const Header = (props: Props) => {
   }, [locale]);
 
   const routing = [
-    { text: 'pool', route: PATH.POOL },
-    { text: 'metanodes', route: PATH.METANODES },
+    { text: 'Stake and Earn', route: PATH.POOL },
+    { text: 'Metanodes', route: PATH.METANODES },
   ];
 
   const languageItems = (
@@ -102,7 +102,7 @@ export const Header = (props: Props) => {
               onClick={() => router.push(link.route)}
               isActive={link.route === currentPath}
             >
-              {capitalize(link.text)}
+              {link.text}
             </DropDownItemMobile>
           ))}
           <Dropdown.Divider />
@@ -125,7 +125,7 @@ export const Header = (props: Props) => {
             >
               {link.route === PATH.POOL ? (
                 <ColumnPool>
-                  {capitalize(link.text)}
+                  {link.text}
                   <IconLive variant="success" />
                 </ColumnPool>
               ) : (
