@@ -84,6 +84,7 @@ export const fetchRecentTransaction = async (
   return txsWithPage;
 };
 
-export const orgFloor = (value: number, base: number): number => {
+export const orgFloor = (value: number, decimal: number): number => {
+  const base = Number(1 + '0'.repeat(decimal));
   return Math.floor(value * base) / base;
 };

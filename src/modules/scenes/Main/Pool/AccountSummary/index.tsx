@@ -91,7 +91,8 @@ export const AccountSummary = () => {
         dispatch(getCurrentPriceSbBTC(priceSbBTC));
 
         // Todo: Check the logic with backend team
-        const totalClaimableAmount = priceSbBTC * balanceSbBTC;
+        // Memo: Decimal <= 8
+        const totalClaimableAmount = orgFloor(priceSbBTC * balanceSbBTC, 8);
         setClaimableAmount(totalClaimableAmount);
 
         if (totalClaimableAmount > 0) {
