@@ -36,7 +36,7 @@ export const BrowserDetail = (props: Props) => {
           query: '',
           hash,
           isHideWaiting: false,
-          bridge: '',
+          bridge: router.pathname.includes('swap') ? '' : 'floats', //Todo: Change to 'multiple-bridges' future
           prevTxsWithPage: null,
           swapHistoryTemp: null,
         });
@@ -45,7 +45,7 @@ export const BrowserDetail = (props: Props) => {
         }
       }
     },
-    [dispatch],
+    [dispatch, router.pathname],
   );
 
   useEffect(() => {
@@ -82,7 +82,7 @@ export const BrowserDetail = (props: Props) => {
               />
             </Row>
             <SwapFees tx={tx} />
-            {tx.rewards.length > 0 && <FeeDistribution tx={tx} />}
+            {tx.rewards && tx.rewards.length > 0 && <FeeDistribution tx={tx} />}
           </>
         ) : (
           <Loader minHeight={686} />

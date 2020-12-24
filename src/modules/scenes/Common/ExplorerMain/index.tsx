@@ -116,6 +116,8 @@ export const ExplorerMain = () => {
         );
       case PATH.SWAP + '/[hash]':
         return <BrowserDetail linkToSwapWidget={linkToSwapWidget} runOnboard={runOnboard} />;
+      case PATH.FLOAT + '/[hash]':
+        return <BrowserDetail linkToSwapWidget={linkToSwapWidget} runOnboard={runOnboard} />;
       case PATH.POOL:
         return <BrowserPool />;
       case PATH.METANODES:
@@ -136,6 +138,8 @@ export const ExplorerMain = () => {
       case PATH.ROOT:
         return <Search />;
       case PATH.SWAP + '/[hash]':
+        return <Search />;
+      case PATH.FLOAT + '/[hash]':
         return <Search />;
       case PATH.POOL:
         return <AccountId />;
