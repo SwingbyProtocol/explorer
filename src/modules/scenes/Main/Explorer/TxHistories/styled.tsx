@@ -12,6 +12,9 @@ interface BgProps {
 interface ContainerProps {
   txsHeight: number;
 }
+interface BridgeProps {
+  isFloats: boolean;
+}
 
 const { media } = StylingConstants;
 
@@ -36,12 +39,13 @@ export const Left = styled.div`
   }
 `;
 
-export const Right = styled.div`
+export const Right = styled.div<BridgeProps>`
   padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
   @media (min-width: ${rem(media.lg)}) {
     display: grid;
     grid-template-columns: ${rem(100)} 1fr;
-    grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.street)};
+    grid-column-gap: ${(props) =>
+      props.isFloats ? `${rem(70)}` : `${rem(props.theme.pulsar.size.town)}`};
     align-items: center;
   }
   @media (min-width: ${rem(media.xl)}) {

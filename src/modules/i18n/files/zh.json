@@ -45,6 +45,7 @@
   "home.recentSwaps.getTxDetails": "查看交易记录",
   "home.recentSwaps.recentSwaps": "近期的交换",
   "home.recentSwaps.fees": "交易费用",
+  "home.recentSwaps.feesMax": "交易费用 (最多)",
   "home.recentSwaps.hideWaiting": "隐藏等待状态",
   "swap.claimSwap": "认领此交换",
   "swap.duplicate": "重複交换",

@@ -48,6 +48,7 @@ interface Props {
   adjustIndex: number;
   page: number;
   maximumPage: number;
+  bridge: string;
   isNoResult: boolean;
   isLoadingHistory: boolean;
   noResultFound: JSX.Element;
@@ -65,6 +66,7 @@ export const TxHistories = (props: Props) => {
     page,
     currentTxs,
     goNextPage,
+    bridge,
     goBackPage,
     goToDetail,
     loader,
@@ -127,9 +129,13 @@ export const TxHistories = (props: Props) => {
               <FormattedMessage id="home.recentSwaps.recentSwaps" />
             </Text>
           </Left>
-          <Right>
+          <Right isFloats={bridge === 'floats'}>
             <TextFee variant="section-title">
-              <FormattedMessage id="home.recentSwaps.fees" />
+              {bridge === 'floats' ? (
+                <FormattedMessage id="home.recentSwaps.feesMax" />
+              ) : (
+                <FormattedMessage id="home.recentSwaps.fees" />
+              )}
             </TextFee>
             {filter}
           </Right>
@@ -207,8 +213,11 @@ export const TxHistories = (props: Props) => {
                 </ColumnAmount>
                 <ColumnFee>
                   <Text variant="section-title">
-                    {isNaN(Number(tx.fee))
-                      ? ''
+                    {bridge === 'floats'
+                      ? getCryptoAssetFormatter({
+                          locale: locale,
+                          displaySymbol: tx.feeCurrency,
+                        }).format(Number(tx.fee))
                       : getCryptoAssetFormatter({
                           locale: locale,
                           displaySymbol: tx.currencyOut,
