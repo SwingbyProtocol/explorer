@@ -213,15 +213,10 @@ export const TxHistories = (props: Props) => {
                 </ColumnAmount>
                 <ColumnFee>
                   <Text variant="section-title">
-                    {bridge === 'floats'
-                      ? getCryptoAssetFormatter({
-                          locale: locale,
-                          displaySymbol: tx.feeCurrency,
-                        }).format(Number(tx.fee))
-                      : getCryptoAssetFormatter({
-                          locale: locale,
-                          displaySymbol: tx.currencyOut,
-                        }).format(Number(tx.fee))}
+                    {getCryptoAssetFormatter({
+                      locale: locale,
+                      displaySymbol: tx.feeCurrency,
+                    }).format(Number(tx.fee))}
                   </Text>
                 </ColumnFee>
                 <ColumnEllipsis
