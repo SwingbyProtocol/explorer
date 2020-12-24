@@ -42,6 +42,7 @@ export const SwapVolumeContainer = styled.div`
 `;
 
 export const Box = styled.div`
+  height: ${rem(152)};
   @media (min-width: ${rem(media.xs)}) {
     width: ${rem(342)};
   }
