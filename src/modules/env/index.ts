@@ -48,8 +48,8 @@ export enum LOCAL_STORAGE {
 export const CONTRACT_WBTC =
   process.env.NEXT_PUBLIC_CONTRACT_WBTC || '0xeb47a21c1fc00d1e863019906df1771b80dbe182';
 export const CONTRACT_SB_BTC =
-  process.env.NEXT_PUBLIC_SB_BTC || '0xBC066f17dbEdBEB956Fb4F860831FA595a346791';
+  process.env.NEXT_PUBLIC_SB_BTC || '0x11D119A6F514c197a30846513f3729791B42c073';
 export const CONTRACT_SWAP =
-  process.env.NEXT_PUBLIC_CONTRACT_SWAP || '0x6fA311C964Bc07c6A29E1A5CfCbB69Bc5520Aaf4';
+  process.env.NEXT_PUBLIC_CONTRACT_SWAP || '0x13001cb1C8dbB605Ba7Ba438c7103988D3d16B71';
 // Memo: BTC is not on Ethereum, it doesn’t have an address, so the contract uses this one to represent BTC
 export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
