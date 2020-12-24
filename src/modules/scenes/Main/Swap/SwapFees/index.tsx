@@ -27,8 +27,8 @@ export const SwapFees = (props: Props) => {
           <Text variant="accent"> {tx.fee}</Text>
         </CoinContainer>
         <Text variant="masked">
-          {calculatedFees && calculatedFees.fixedFee}% +{' '}
-          {calculatedFees && calculatedFees.feePercent} {tx.feeCurrency}
+          {calculatedFees && calculatedFees.feePercent}% +{' '}
+          {calculatedFees && calculatedFees.fixedFee} {tx.feeCurrency}
         </Text>
       </Row>
     </SwapFeesContainer>
