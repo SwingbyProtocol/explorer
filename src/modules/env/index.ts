@@ -34,6 +34,7 @@ export const ENDPOINT_EARNINGS = 'https://earnings-api.vercel.app/api/earnings';
 export enum PATH {
   ROOT = '/',
   SWAP = '/swap',
+  FLOAT = '/float',
   POOL = '/pool',
   METANODES = '/metanodes',
 }

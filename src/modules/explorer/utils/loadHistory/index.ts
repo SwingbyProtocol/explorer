@@ -131,11 +131,9 @@ const fetchHistory = async (
       return baseUrlETH;
     }
   };
-  console.log('baseUrlETH', baseUrlETH);
 
   const url = generateEndpoint(baseUrl(bridge), page, query, isHideWaiting, hash);
   const result = await fetch<{ items: TTxRawObject[]; total: number }>(url);
-
   const txRes = result.ok && result.response;
   const txs: TTxRawObject[] = txRes.items;
 
@@ -146,12 +144,10 @@ const fetchHistory = async (
 
 const loadHistoryFiltered = async (args: IloadHistoryArgs): Promise<ITransactions> => {
   const { page, query, hash, isHideWaiting, bridge, prevTxsWithPage } = args;
-  console.log('bridge2', bridge);
   const results = await Promise.all([
     fetchHistory(page, query, hash, isHideWaiting, bridge),
     fetchHistory(page + 1, query, hash, isHideWaiting, bridge),
   ]);
-  console.log('results', results);
 
   const data = results[0];
   const txs = data.txs;
@@ -172,7 +168,6 @@ const loadHistoryFiltered = async (args: IloadHistoryArgs): Promise<ITransaction
 
 export const loadHistory = async (arg: ILoadHistoryArgs): Promise<ILoadHistory> => {
   const { page, query, hash, isHideWaiting, bridge, prevTxsWithPage, swapHistoryTemp } = arg;
-  console.log('bridge', bridge);
 
   let tempMixedHistories = [];
   let txsWithPage: ITransactions = {
@@ -192,6 +187,8 @@ export const loadHistory = async (arg: ILoadHistoryArgs): Promise<ILoadHistory> 
     // When: Multi bridges
     // Memo: Aggregate 2 bridges' query result into 1 array
     // Memo: Default bridge is filtered by `Ethereum Bridge` in below `else if`.
+
+    // Memo: Not working due to Binance bridge has broken.
     if (bridge === 'multiple-bridges') {
       const results = await Promise.all([
         fetchHistory(page, query, hash, isHideWaiting, BRIDGE.binance),
