@@ -7,12 +7,28 @@ export enum MODE {
   TEST = 'test',
 }
 
+export enum PATH {
+  ROOT = '/',
+  SWAP = '/swap',
+  FLOAT = '/float',
+  POOL = '/pool',
+  METANODES = '/metanodes',
+}
+
+export enum LOCAL_STORAGE {
+  SelectedWallet = 'selectedWallet',
+  UserWalletAddress = 'userWalletAddress',
+  ThemeMode = 'themeMode',
+}
+
 export const mode: Mode =
   process.env.NEXT_PUBLIC_MODE === MODE.PRODUCTION ? MODE.PRODUCTION : MODE.TEST;
 export const PAGE_COUNT = 25;
 export const TXS_COUNT = 10;
 export const NODES_PER_PAGE = 10;
 
+export const IPSTACK_API_KEY =
+  process.env.NEXT_PUBLIC_IPSTACK || 'b74a888cf8d2112ef1a0a72367e4c696';
 export const etherscanApiKey =
   process.env.NEXT_PUBLIC_ETHERSCAN_KEY || 'NYXXH5CD1NQJMYJGZYAFK7G9G6AZGZTT3H';
 export const blocknativeApiKey =
@@ -30,20 +46,6 @@ export const ENDPOINT_COINGECKO = 'https://api.coingecko.com/api/v3';
 export const ENDPOINT_ETHERSCAN = 'https://api-goerli.etherscan.io';
 export const URL_ETHERSCAN = 'https://goerli.etherscan.io';
 export const ENDPOINT_EARNINGS = 'https://earnings-api.vercel.app/api/earnings';
-
-export enum PATH {
-  ROOT = '/',
-  SWAP = '/swap',
-  FLOAT = '/float',
-  POOL = '/pool',
-  METANODES = '/metanodes',
-}
-
-export enum LOCAL_STORAGE {
-  SelectedWallet = 'selectedWallet',
-  UserWalletAddress = 'userWalletAddress',
-  ThemeMode = 'themeMode',
-}
 
 // Memo: BTCE contract address as WBTC in testnet
 export const CONTRACT_WBTC =

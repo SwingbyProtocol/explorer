@@ -1,5 +1,6 @@
 { "Active":"Active",
   "common.comingSoon":"COMING SOON",
+  "common.modal.noServiceToUS":"In-line with regulatory requirements, we are unable to provide services to U.S. citizens or residents",
   "common.modal.verifyAddress":"Please verify your wallet address",
   "common.modal.yes":"Yes, that's mine",
   "common.modal.back":"Go back",
