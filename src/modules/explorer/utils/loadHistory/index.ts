@@ -168,7 +168,7 @@ const loadHistoryFiltered = async (args: IloadHistoryArgs): Promise<ITransaction
 
 export const loadHistory = async (arg: ILoadHistoryArgs): Promise<ILoadHistory> => {
   const { page, query, hash, isHideWaiting, bridge, prevTxsWithPage, swapHistoryTemp } = arg;
-
+  console.log('bridge', bridge);
   let tempMixedHistories = [];
   let txsWithPage: ITransactions = {
     data: {},
@@ -263,7 +263,6 @@ export const loadHistory = async (arg: ILoadHistoryArgs): Promise<ILoadHistory> 
       }
       // Memo: Default bridge as Ethereum Bridge
     } else if (bridge === '') {
-      console.log('hi');
       txsWithPage = await loadHistoryFiltered({
         page,
         query,
