@@ -1,6 +1,6 @@
 import type { Mode } from '@swingby-protocol/sdk';
 
-export const DEPLOYED_URL = 'https://explorer.swingby.network/';
+export const DEPLOYED_URL = process.env.NEXT_PUBLIC_DEPLOYED_URL || 'https://skybridge.info/';
 
 export enum MODE {
   PRODUCTION = 'production',
