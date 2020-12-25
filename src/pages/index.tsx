@@ -9,10 +9,10 @@ import { Main } from '../modules/scenes';
 export default function Home() {
   const [isNoServiceToUSModalOpen, setIsNoServiceToUSModalOpen] = useState(null);
   const getIpAddress = async () => {
-    const url = `http://api.ipstack.com/check?access_key=${IPSTACK_API_KEY}`;
+    // Memo: Free plan => only can use 1K requests per month
+    const url = 'https://api.ipify.org/?format=json';
     const result = await fetch<{ ip: string }>(url);
     const ipAddress = result.ok && result.response.ip;
-    console.log('ipAddress', ipAddress);
     return ipAddress;
   };
 
