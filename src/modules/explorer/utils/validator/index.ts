@@ -1,4 +1,4 @@
-import { crypto } from '@binance-chain/javascript-sdk';
+import { isAddressValid } from '@swingby-protocol/sdk';
 import validate from 'bitcoin-address-validation';
 
 import { BTCBCoins, CoinSymbol, ETHCoins } from '../../../coins';
@@ -29,10 +29,8 @@ export const isBitcoinAddress = (address: string): boolean => {
 };
 
 // Ref: https://github.com/binance-chain/javascript-sdk/tree/master/docs#module_crypto.checkAddress
-export const isBinanceAddress = (address: string): boolean => {
-  const hrp = mode === MODE.TEST ? 'tbnb' : 'bnb';
-  return crypto.checkAddress(address, hrp);
-};
+export const isBinanceAddress = (address: string): boolean =>
+  isAddressValid({ address, context: { mode }, chain: 'binance' });
 
 export const isEtherAddress = (address: string): boolean => {
   return /^0x[a-fA-F0-9]{40}$/.test(address);

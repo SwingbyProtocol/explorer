@@ -29,8 +29,8 @@ export const DuplicateSwapWidgetModal = (props: Props) => {
       size: 'big',
       resource: 'swap',
       theme: themeMode,
-      defaultCurrencyDeposit: tx.currencyIn,
-      defaultCurrencyReceiving: tx.currencyOut,
+      defaultCurrencyDeposit: tx.currencyIn as any,
+      defaultCurrencyReceiving: tx.currencyOut as any,
       defaultAddressReceiving: tx.addressOut,
       defaultAmountDesired: tx.amountIn,
     });

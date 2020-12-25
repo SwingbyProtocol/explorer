@@ -91,7 +91,7 @@ export const Withdraw = (props: Props) => {
     mode,
     size: 'big',
     theme: themeMode,
-    defaultCurrencyReceiving: toCurrency,
+    defaultCurrencyReceiving: toCurrency as any,
     defaultAddressReceiving: receivingAddress,
     defaultAmountDesired: withdrawAmount,
   });

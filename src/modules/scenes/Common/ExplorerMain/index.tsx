@@ -13,7 +13,7 @@ import { toastWrongAddress } from '../../../../components/Toast';
 import { ETHCoins } from '../../../coins';
 import { titleGenerator } from '../../../common';
 import { mode, PATH } from '../../../env';
-import { TTxRawObject, TSwapWidget } from '../../../explorer';
+import { TSwapWidget, TTxRawObject } from '../../../explorer';
 import { initOnboard } from '../../../onboard';
 import { setOnboard } from '../../../store';
 import { Browser, BrowserDetail, BrowserMetanodes, BrowserPool } from '../../Main';
@@ -55,8 +55,8 @@ export const ExplorerMain = () => {
               mode,
               size: 'big',
               resource: 'swap',
-              defaultCurrencyDeposit: tx.currencyIn,
-              defaultCurrencyReceiving: tx.currencyOut,
+              defaultCurrencyDeposit: tx.currencyIn as any,
+              defaultCurrencyReceiving: tx.currencyOut as any,
               defaultAddressReceiving: tx.addressOut,
               defaultAmountDesired: tx.amountIn,
               theme: themeMode,
@@ -163,6 +163,7 @@ export const ExplorerMain = () => {
         setIsWidgetModalOpen={setIsDuplicateWidgetModalOpen}
         tx={swapDetails}
       />
+
       <PulsarThemeProvider theme="accent">
         <ExplorerMainContainer>
           <HeadLine>
