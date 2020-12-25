@@ -9,8 +9,8 @@ import { Main } from '../modules/scenes';
 export default function Home() {
   const [isNoServiceToUSModalOpen, setIsNoServiceToUSModalOpen] = useState(null);
   const getIpAddress = async () => {
-    // Memo: Free plan => only can use 1K requests per month
-    const url = 'https://api.ipify.org/?format=json';
+    // Memo: Free plan => Can use 1K requests per day`
+    const url = 'https://ipapi.co/json/';
     const result = await fetch<{ ip: string }>(url);
     const ipAddress = result.ok && result.response.ip;
     return ipAddress;
