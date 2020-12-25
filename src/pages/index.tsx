@@ -18,7 +18,6 @@ type Props = {
 
 export default function Home({ ipInfo }: Props) {
   const [isNoServiceToUSModalOpen, setIsNoServiceToUSModalOpen] = useState(ipInfo?.blockRegion);
-  console.log('ipInfo', ipInfo);
 
   return (
     <>
@@ -60,29 +59,3 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({ req }) => 
 
   return { props: { ipInfo: { ipInfo, clientIp, blockRegion } } };
 };
-
-// Memo: Legacy code. Will remove after test
-
-// const getIpAddress = async () => {
-//   // Memo: Free plan => Can use 1K requests per day
-//   const url = 'https://ipapi.co/json/';
-//   const result = await fetch<{ ip: string }>(url);
-//   const ipAddress = result.ok && result.response.ip;
-//   return ipAddress;
-// };
-
-// useEffect(() => {
-//   (async () => {
-//     const ipInfo = await (async () => {
-//       try {
-//         return await getIpInfo({
-//           ip: await getIpAddress(),
-//           ipstackApiKey: IPSTACK_API_KEY,
-//         });
-//       } catch (e) {
-//         return e.message;
-//       }
-//     })();
-//     setIsNoServiceToUSModalOpen(shouldBlockRegion(ipInfo));
-//   })();
-// }, []);
