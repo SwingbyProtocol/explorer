@@ -87,8 +87,8 @@ export const AddLiquidity = (props: Props) => {
     mode,
     size: 'big',
     theme: themeMode,
-    defaultCurrencyDeposit: fromCurrency,
-    defaultCurrencyReceiving: CoinSymbol.LP,
+    defaultCurrencyDeposit: fromCurrency as any,
+    defaultCurrencyReceiving: CoinSymbol.LP as any,
     defaultAddressReceiving: receivingAddress,
     defaultAmountDesired: poolAmount,
   });

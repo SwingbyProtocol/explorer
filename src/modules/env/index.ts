@@ -1,4 +1,4 @@
-import type { Mode } from '@swingby-protocol/sdk';
+import type { SkybridgeMode } from '@swingby-protocol/sdk';
 
 export const DEPLOYED_URL = process.env.NEXT_PUBLIC_DEPLOYED_URL || 'https://skybridge.info/';
 
@@ -21,7 +21,7 @@ export enum LOCAL_STORAGE {
   ThemeMode = 'themeMode',
 }
 
-export const mode: Mode =
+export const mode: SkybridgeMode =
   process.env.NEXT_PUBLIC_MODE === MODE.PRODUCTION ? MODE.PRODUCTION : MODE.TEST;
 export const PAGE_COUNT = 25;
 export const TXS_COUNT = 10;
