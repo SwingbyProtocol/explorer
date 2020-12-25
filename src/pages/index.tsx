@@ -28,7 +28,7 @@ export async function getServerSideProps({ req }) {
     try {
       return await getIpInfo({
         ip: clientIp,
-        ipstackApiKey: IPSTACK_API_KEY,
+        ipstackApiKey: 'b74a888cf8d2112ef1a0a72367e4c696',
       });
     } catch (e) {
       return e.message;
