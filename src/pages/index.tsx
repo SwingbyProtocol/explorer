@@ -28,7 +28,7 @@ export const getServerSideProps = async ({ req }) => {
 
   const ipInfo = await (async () => {
     try {
-      if (!clientIp || !process.env.IPSTACK_API_KEY) return null;
+      if (!clientIp || !IPSTACK_API_KEY) return null;
       return await getIpInfo({
         ip: clientIp,
         ipstackApiKey: IPSTACK_API_KEY ?? '',
