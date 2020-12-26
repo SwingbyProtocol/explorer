@@ -97,9 +97,11 @@ export const MediaRow = styled.div`
   display: grid;
   grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.closet)};
   grid-template-columns: repeat(6, 1fr);
+  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.room)};
   @media (min-width: ${rem(media.sm)}) {
     padding-right: 0;
     align-self: center;
+    margin-bottom: 0;
   }
 `;
 
