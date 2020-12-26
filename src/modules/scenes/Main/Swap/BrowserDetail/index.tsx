@@ -3,7 +3,7 @@ import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Loader } from '../../../../../components/Loader';
-import { ILoadHistory, loadHistory, TTxRawObject, TSwapWidget } from '../../../../explorer';
+import { ILoadHistory, loadHistory, TSwapWidget, TTxRawObject } from '../../../../explorer';
 import { selectSwapDetails } from '../../../../store';
 import { ActionButtons } from '../ActionButtonsSwap';
 import { DetailCard } from '../DetailCard';

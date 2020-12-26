@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 
 import { calculateFixedFee, TTxRawObject } from '../../../../explorer';
 
-import { Coin, CoinContainer, Row, SwapFeesContainer, TitleText } from './styled';
+import { Coin, CoinContainer, Row, SwapFeesContainer, TitleText, FeeBox } from './styled';
 
 interface Props {
   tx: TTxRawObject;
@@ -26,10 +26,12 @@ export const SwapFees = (props: Props) => {
           <Coin symbol={tx.feeCurrency} />
           <Text variant="accent"> {tx.fee}</Text>
         </CoinContainer>
-        <Text variant="masked">
-          {calculatedFees && calculatedFees.feePercent}% +{' '}
-          {calculatedFees && calculatedFees.fixedFee} {tx.feeCurrency}
-        </Text>
+        <FeeBox>
+          <Text variant="masked">
+            {calculatedFees && calculatedFees.feePercent}% +{' '}
+            {calculatedFees && calculatedFees.fixedFee} {tx.feeCurrency}
+          </Text>
+        </FeeBox>
       </Row>
     </SwapFeesContainer>
   );

@@ -1,1 +1,7 @@
-export { titleGenerator, ellipseAddress } from './utils';
+export {
+  titleGenerator,
+  ellipseAddress,
+  getInitialLanguage,
+  numToK,
+  convert2Currency,
+} from './utils';

@@ -12,7 +12,6 @@ export const ActionButtonsPool = () => {
   const dispatch = useDispatch();
   const pool = useSelector((state) => state.pool);
   const { mode } = pool;
-  const apyRate = 45.23;
   return (
     <ActionButtonsPoolContainer>
       {mode === PoolMode.Summary ? (
@@ -20,7 +19,9 @@ export const ActionButtonsPool = () => {
           <TextTitle variant="accent">
             <FormattedMessage id="pool.apy" />
           </TextTitle>
-          <TextAPY variant="accent">{apyRate}%</TextAPY>
+          <TextAPY variant="accent">
+            <FormattedMessage id="common.comingSoon" />
+          </TextAPY>
         </RowText>
       ) : (
         <IconArrowLeft onClick={() => dispatch(togglePoolMode(PoolMode.Summary))} />

@@ -3,6 +3,7 @@ import { rem } from 'polished';
 import { Text } from '@swingby-protocol/pulsar';
 
 import { StylingConstants } from '../../../../styles';
+import { LineBox } from '../../../Common';
 
 const { media } = StylingConstants;
 
@@ -79,4 +80,10 @@ export const AllVolumeSpan = styled(Text)`
   color: ${({ theme }) => theme.pulsar.color.primary.normal};
   border-bottom: 1px solid ${({ theme }) => theme.pulsar.color.primary.normal};
   cursor: pointer;
+`;
+
+export const LineDiv = styled(LineBox)`
+  @media (min-width: ${rem(media.lg)}) {
+    height: ${rem(126)};
+  }
 `;

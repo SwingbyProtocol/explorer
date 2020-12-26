@@ -37,7 +37,6 @@ export const Swap = () => {
           <FormattedMessage id="common.swap" />
         </Button>
       </SwapMobileRow>
-
       <StyledSwap dangerouslySetInnerHTML={{ __html: getHtml({ widget: banner }) }} />
     </>
   );
