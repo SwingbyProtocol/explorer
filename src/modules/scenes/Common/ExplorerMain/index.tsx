@@ -1,7 +1,7 @@
 import { PulsarThemeProvider } from '@swingby-protocol/pulsar';
 import { createWidget, getUrl, openPopup } from '@swingby-protocol/widget';
 import { useRouter } from 'next/router';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { AccountId } from '../../../../components/AccountId';
@@ -34,6 +34,11 @@ export const ExplorerMain = () => {
   const [walletAddress, setWalletAddress] = useState(null);
   const [isClaimWidgetModalOpen, setIsClaimWidgetModalOpen] = useState(false);
   const [isDuplicateWidgetModalOpen, setIsDuplicateWidgetModalOpen] = useState(false);
+
+  // Memo: Scroll to top when go to another page
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [router.pathname]);
 
   const login = useCallback(async () => {
     await onboard.walletSelect();
