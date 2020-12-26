@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { DarkModeSwitch } from 'react-toggle-dark-mode';
 import { useTheme } from 'styled-components';
 
+import { getInitialLanguage } from '../../modules/common';
 import { LOCAL_STORAGE, PATH } from '../../modules/env';
 import { capitalize, TTheme } from '../../modules/explorer';
 import { languagesSelector } from '../../modules/i18n';
@@ -42,8 +43,8 @@ export const Header = (props: Props) => {
   const { locale } = useIntl();
   const dispatch = useDispatch();
   const theme = useTheme();
-  const [lang, setLang] = useState(null);
   const currentPath = router.pathname;
+  const [lang, setLang] = useState(getInitialLanguage(locale));
 
   const toggleDarkMode = (checked: boolean) => {
     const theme = checked ? 'dark' : 'light';

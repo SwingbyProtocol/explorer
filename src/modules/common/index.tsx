@@ -1,1 +1,1 @@
-export { titleGenerator, ellipseAddress } from './utils';
+export { titleGenerator, ellipseAddress, getInitialLanguage } from './utils';
