@@ -38,3 +38,10 @@ export const CoinContainer = styled.div`
   justify-content: space-between;
   align-items: center;
 `;
+
+export const FeeBox = styled.div`
+  max-width: ${rem(130)};
+  @media (min-width: ${rem(media.sm)}) {
+    max-width: 100%;
+  }
+`;
