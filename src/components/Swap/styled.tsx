@@ -30,3 +30,11 @@ export const SwapMobileRow = styled.div`
     display: none;
   }
 `;
+export const SwapRow = styled.div`
+  display: none;
+  @media (min-width: ${rem(media.sm)}) {
+    display: block;
+    width: 100%;
+    margin-top: ${({ theme }) => rem(-theme.pulsar.size.drawer)};
+  }
+`;
