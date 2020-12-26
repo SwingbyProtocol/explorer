@@ -21,8 +21,8 @@ export const StyledSwap = styled.div`
 
 export const SwapMobileRow = styled.div`
   width: 100%;
-  padding-top: ${({ theme }) => rem(theme.pulsar.size.house)};
-  padding-bottom: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  padding-top: ${({ theme }) => rem(theme.pulsar.size.box)};
+  padding-bottom: ${({ theme }) => rem(theme.pulsar.size.house + 2)};
   padding-left: ${({ theme }) => rem(theme.pulsar.size.closet)};
   padding-right: ${({ theme }) => rem(theme.pulsar.size.closet)};
 
