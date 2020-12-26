@@ -95,7 +95,7 @@ export const convertTxTime = (unixTimestamp: number) => {
   if (diffDays < 2) {
     return (
       <>
-        <FormattedTime value={ts} hour12={false} />
+        <FormattedTime value={ts} hourCycle="h23" />
         &nbsp;
         <FormattedRelativeTime value={-diffDays} unit="day" numeric="auto" />
       </>
@@ -111,7 +111,7 @@ export const convertTxTime = (unixTimestamp: number) => {
       year="numeric"
       month="short"
       day="2-digit"
-      hour12={false}
+      hourCycle="h23"
     />
   );
 };
