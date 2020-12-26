@@ -16,6 +16,7 @@ export const StyledSwap = styled.div`
     display: block;
     width: 100%;
     height: ${rem(76)};
+    margin-top: ${({ theme }) => rem(-theme.pulsar.size.drawer)};
   }
 `;
 
@@ -28,13 +29,5 @@ export const SwapMobileRow = styled.div`
 
   @media (min-width: ${rem(media.sm)}) {
     display: none;
-  }
-`;
-export const SwapRow = styled.div`
-  display: none;
-  @media (min-width: ${rem(media.sm)}) {
-    display: block;
-    width: 100%;
-    margin-top: ${({ theme }) => rem(-theme.pulsar.size.drawer)};
   }
 `;

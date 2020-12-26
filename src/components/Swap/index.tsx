@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 
 import { mode } from '../../modules/env';
 
-import { StyledSwap, SwapMobileRow, SwapRow } from './styled';
+import { StyledSwap, SwapMobileRow } from './styled';
 
 export const Swap = () => {
   const explorer = useSelector((state) => state.explorer);
@@ -37,9 +37,7 @@ export const Swap = () => {
           <FormattedMessage id="common.swap" />
         </Button>
       </SwapMobileRow>
-      <SwapRow>
-        <StyledSwap dangerouslySetInnerHTML={{ __html: getHtml({ widget: banner }) }} />
-      </SwapRow>
+      <StyledSwap dangerouslySetInnerHTML={{ __html: getHtml({ widget: banner }) }} />
     </>
   );
 };
