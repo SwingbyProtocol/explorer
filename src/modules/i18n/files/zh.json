@@ -51,6 +51,8 @@
   "swap.claimSwap": "认领此交换",
   "swap.duplicate": "重複交换",
   "swap.share": "分享",
+  "swap.duplicatePopup": "重複此交换",
+  "swap.claimSwapPopup": "移至swap portal以完成您的存款交易。",
   "swap.txId": "交易哈希",
   "swap.feeDistribution": "Fee Distribution",
   "swap.swapFees": "交易费用",

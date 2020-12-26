@@ -50,6 +50,8 @@
   "home.recentSwaps.hideWaiting": "Hide waiting",
   "swap.claimSwap": "Claim Swap",
   "swap.duplicate": "Duplicate",
+  "swap.duplicatePopup": "Click to repeat this swap",
+  "swap.claimSwapPopup": "Move to the swap portal to complete your deposit transactions.",
   "swap.share": "Share",
   "swap.txId": "TxId",
   "swap.feeDistribution": "Fee Distribution",
