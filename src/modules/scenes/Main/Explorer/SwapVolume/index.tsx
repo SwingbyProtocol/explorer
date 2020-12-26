@@ -6,9 +6,8 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { LoaderComingSoon } from '../../../../../components/LoaderComingSoon';
 import { IStats } from '../../../../explorer';
 import { networkInfos } from '../../../../store/explorer';
-import { LineBox } from '../../../Common';
 
-import { Box, LineContainer, SwapVolumeContainer, TitleDiv } from './styled';
+import { Box, LineContainer, SwapVolumeContainer, TitleDiv, LineDiv } from './styled';
 
 interface Props {
   stats: IStats;
@@ -116,9 +115,9 @@ export const SwapVolume = (props: Props) => {
         </TitleDiv>
         <LineContainer>
           {loading && <LoaderComingSoon />}
-          <LineBox isLoading={loading}>
+          <LineDiv isLoading={loading}>
             <Line type="line" data={data} options={options} height={110} />
-          </LineBox>
+          </LineDiv>
         </LineContainer>
       </Box>
     </SwapVolumeContainer>
