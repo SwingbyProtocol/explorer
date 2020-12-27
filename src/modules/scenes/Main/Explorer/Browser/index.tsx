@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Loader } from '../../../../../components/Loader';
-import { PAGE_COUNT, TXS_COUNT } from '../../../../env';
+import { PAGE_COUNT, PATH, TXS_COUNT } from '../../../../env';
 import {
   BRIDGE,
   fetchFloatBalances,
@@ -81,7 +81,7 @@ export const Browser = (props: Props) => {
   const chainBridge = String(params.bridge || '');
 
   const goToDetail = (hash: string) => {
-    router.push(`/swap/${hash}`);
+    router.push(`${PATH.SWAP}/${hash}`);
     dispatch(toggleIsExistPreviousPage(true));
   };
 

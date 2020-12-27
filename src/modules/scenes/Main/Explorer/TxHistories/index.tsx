@@ -5,6 +5,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 
 import { Pagination } from '../../../../../components/Pagination';
+import { PATH } from '../../../../env';
 import {
   capitalize,
   convertTxTime,
@@ -150,7 +151,10 @@ export const TxHistories = (props: Props) => {
               <TxHistoryRow
                 key={bgKey}
                 bg={bgKey % 2 !== 0}
-                onMouseEnter={() => dispatch(selectSwapDetails(tx))}
+                onMouseEnter={() => {
+                  dispatch(selectSwapDetails(tx));
+                  router.prefetch(`${PATH.SWAP}/${tx.hash}`);
+                }}
                 onClick={() => goToDetail(tx.hash)}
                 variants={page === 1 && TxRowVariants}
                 transition={page === 1 && TxRowTransition}
