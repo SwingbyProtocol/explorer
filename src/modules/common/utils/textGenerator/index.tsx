@@ -12,6 +12,8 @@ export const titleGenerator = (path: string): JSX.Element => {
       return <FormattedMessage id="pool.liquidity" />;
     case PATH.METANODES:
       return <FormattedMessage id="metanodes.metanodes" />;
+    case PATH.FEES:
+      return <FormattedMessage id="fees.fees" />;
 
     default:
       break;

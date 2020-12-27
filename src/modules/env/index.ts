@@ -13,6 +13,7 @@ export enum PATH {
   FLOAT = '/float',
   POOL = '/pool',
   METANODES = '/metanodes',
+  FEES = '/fees',
 }
 
 export enum LOCAL_STORAGE {

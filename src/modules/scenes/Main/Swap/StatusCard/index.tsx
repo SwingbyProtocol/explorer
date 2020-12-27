@@ -12,6 +12,7 @@ import {
   TStatus,
 } from '../../../../explorer';
 import { generateMessage } from '../../../../swap';
+import { IconBack } from '../../../Common';
 
 import {
   Clock,
@@ -21,7 +22,6 @@ import {
   StatusText,
   SwapStatus,
   TextMsg,
-  IconBack,
 } from './styled';
 
 interface Props {

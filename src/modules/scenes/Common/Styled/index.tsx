@@ -66,3 +66,7 @@ export const ButtonScale = styled(Button)`
     transform: scale(1.05);
   }
 `;
+
+export const IconBack = styled(IconArrowLeft)`
+  align-self: flex-start;
+`;
