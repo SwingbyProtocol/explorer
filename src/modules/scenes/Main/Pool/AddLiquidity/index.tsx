@@ -1,5 +1,6 @@
 import { Dropdown } from '@swingby-protocol/pulsar';
 import { createWidget, openPopup } from '@swingby-protocol/widget';
+import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
@@ -47,6 +48,7 @@ export const AddLiquidity = (props: Props) => {
   const { userAddress, depositFeeRate } = pool;
   const explorer = useSelector((state) => state.explorer);
   const { themeMode } = explorer;
+  const { locale } = useRouter();
 
   const [receivingAddress, setReceivingAddress] = useState(userAddress);
   const [poolAmount, setPoolAmount] = useState(null);
@@ -91,6 +93,7 @@ export const AddLiquidity = (props: Props) => {
     defaultCurrencyReceiving: CoinSymbol.LP as any,
     defaultAddressReceiving: receivingAddress,
     defaultAmountDesired: poolAmount,
+    locale,
   });
 
   const isDisabled =

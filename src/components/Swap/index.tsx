@@ -1,5 +1,6 @@
 import { Button } from '@swingby-protocol/pulsar';
 import { createWidget, getHtml, openPopup } from '@swingby-protocol/widget';
+import { useRouter } from 'next/router';
 import { useCallback, useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useSelector } from 'react-redux';
@@ -11,6 +12,7 @@ import { StyledSwap, SwapMobileRow } from './styled';
 export const Swap = () => {
   const explorer = useSelector((state) => state.explorer);
   const { themeMode } = explorer;
+  const { locale } = useRouter();
 
   const big = useMemo(
     () =>
@@ -19,13 +21,14 @@ export const Swap = () => {
         mode,
         size: 'big',
         theme: themeMode,
+        locale,
       }),
-    [themeMode],
+    [themeMode, locale],
   );
 
   const banner = useMemo(
-    () => createWidget({ resource: 'swap', mode, size: 'banner', theme: themeMode }),
-    [themeMode],
+    () => createWidget({ resource: 'swap', mode, size: 'banner', theme: themeMode, locale }),
+    [themeMode, locale],
   );
 
   const show = useCallback(() => openPopup({ widget: big }), [big]);
