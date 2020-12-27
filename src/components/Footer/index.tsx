@@ -1,5 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import Link from 'next/link';
 
 import { Developers, Links, Media, Terms, URL } from '../../modules/links';
 import { Atag } from '../../modules/scenes/Common';
@@ -17,6 +18,7 @@ import {
   ColumnTerm,
   ColumnLink,
   FooterBox,
+  TextLink,
 } from './styled';
 
 export const Footer = () => {
@@ -38,6 +40,13 @@ export const Footer = () => {
                 </ALink>
               </LiLink>
             ))}
+            <LiLink>
+              <Link href="/fees">
+                <TextLink>
+                  <FormattedMessage id="footer.transactionFees" />
+                </TextLink>
+              </Link>
+            </LiLink>
           </UlLink>
         </ColumnLink>
         <ColumnLink>

@@ -78,6 +78,19 @@ export const ALink = styled.a`
   }
 `;
 
+export const TextLink = styled(Text)`
+  cursor: pointer;
+  color: ${({ theme }) => theme.pulsar.color.text.normal};
+  text-decoration: none;
+  font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
+  opacity: 0.8;
+  transition: all 0.2s ease-in-out;
+  :hover {
+    opacity: 1;
+    transition: all 0.2s ease-in-out;
+  }
+`;
+
 export const ALinkIcon = styled.a`
   color: ${({ theme }) => theme.pulsar.color.text.normal};
   text-decoration: none;
