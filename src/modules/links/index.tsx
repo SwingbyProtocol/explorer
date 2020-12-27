@@ -1,5 +1,7 @@
 import { Icon } from '@swingby-protocol/pulsar';
 
+import { PATH } from '../env';
+
 export const URL = {
   Swingby: 'https://swingby.network/',
   Earn: 'https://swingby.network/earn',
@@ -22,6 +24,7 @@ export const URL = {
 export const Links = [
   { link: URL.WhatIsSwingby, description: 'footer.whatIsSwingby' },
   { link: URL.Earn, description: 'footer.earn' },
+  { link: PATH.FEES, description: 'footer.transactionFees' },
 ];
 export const Developers = [
   { link: URL.WhitePaper, description: 'footer.whitePaper' },
