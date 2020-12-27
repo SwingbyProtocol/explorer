@@ -19,6 +19,7 @@ import {
 import { useInterval } from '../../../../hooks';
 import {
   getHistory,
+  toggleIsExistPreviousPage,
   toggleIsHideWaiting,
   updateNetworkInfos,
   updateSwapHistoryTemp,
@@ -81,6 +82,7 @@ export const Browser = (props: Props) => {
 
   const goToDetail = (hash: string) => {
     router.push(`/swap/${hash}`);
+    dispatch(toggleIsExistPreviousPage(true));
   };
 
   const routerPush = (bridge: string, q: string, page: number): void => {

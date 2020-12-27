@@ -1,12 +1,12 @@
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useSelector } from 'react-redux';
 
+import { GoBackArrow } from '../../../../../components/GoBackArrow';
 import { Loader } from '../../../../../components/Loader';
 import { toBTC } from '../../../../explorer';
-import { IconBack, TextBlock } from '../../../Common';
+import { TextBlock } from '../../../Common';
 
 import {
   BackIconBox,
@@ -20,7 +20,6 @@ import {
 export const BrowserFees = () => {
   const explorer = useSelector((state) => state.explorer);
   const { transactionFees } = explorer;
-  const router = useRouter();
 
   return (
     <>
@@ -30,11 +29,7 @@ export const BrowserFees = () => {
       <BrowserFeesContainer>
         <BrowserFeesDiv size="bare">
           <BackIconBox>
-            <IconBack
-              onClick={() => {
-                router.back();
-              }}
-            />
+            <GoBackArrow />
           </BackIconBox>
           {transactionFees !== null ? (
             <FeesContainer>
@@ -44,12 +39,6 @@ export const BrowserFees = () => {
                   <FormattedMessage id="fees.currency" />
                 </TextBlock>
                 <div />
-                {/* <SizeS>
-                  <TextBlock>
-                    <FormattedMessage id="fees.live" />
-                  </TextBlock>
-                </SizeS> */}
-                {/* <div /> */}
                 <TextBlock>
                   <FormattedMessage id="fees.feePercent" />
                 </TextBlock>
@@ -66,10 +55,6 @@ export const BrowserFees = () => {
                       <div />
                       <TextBlock>{fee.currency}</TextBlock>
                       <div />
-                      {/* <SizeS>
-                        <TextPrimary>Live</TextPrimary>
-                      </SizeS> */}
-                      {/* <div /> */}
                       <TextBlock>{fee.bridgeFeePercent}</TextBlock>
                       <div />
                       <TextBlock>
@@ -81,7 +66,7 @@ export const BrowserFees = () => {
                 })}
             </FeesContainer>
           ) : (
-            <Loader minHeight={409} />
+            <Loader minHeight={362} />
           )}
         </BrowserFeesDiv>
       </BrowserFeesContainer>

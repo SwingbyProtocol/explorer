@@ -36,8 +36,8 @@ export const BrowserFeesDiv = styled(Card)`
   padding-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
   padding-right: ${({ theme }) => rem(theme.pulsar.size.drawer)};
   padding-left: ${({ theme }) => rem(theme.pulsar.size.drawer)};
-  min-height: ${rem(409)};
   justify-self: center;
+  min-width: ${rem(290)};
   @media (min-width: ${rem(media.xs)}) {
     padding: ${({ theme }) => rem(theme.pulsar.size.street)};
   }
@@ -52,7 +52,6 @@ export const FeesContainer = styled.div`
 
 const feeListGridTemplateColumnsFrameMobile = `0% 27% 5% 30% 5% 30% 0%`;
 const feeListGridTemplateColumnsFrame = `0% 27% 5% 30% 5% 30% 0%`;
-// const feeListGridTemplateColumnsFrame = `4% 20% 4% 20% 4% 20% 4% 20% 4%`;
 
 export const RowDescription = styled.div<BgProps>`
   display: grid;

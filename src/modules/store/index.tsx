@@ -12,6 +12,7 @@ export {
   updateNetworkInfos,
   networkInfos,
   toggleTheme,
+  toggleIsExistPreviousPage,
 } from './explorer';
 
 export {

@@ -1,18 +1,17 @@
-import { Text, SwapProgress } from '@swingby-protocol/pulsar';
-import { useRouter } from 'next/router';
+import { SwapProgress, Text } from '@swingby-protocol/pulsar';
 import React from 'react';
 import { useIntl } from 'react-intl';
 
+import { GoBackArrow } from '../../../../../components/GoBackArrow';
 import { Loader } from '../../../../../components/Loader';
 import {
   capitalize,
   convertTxTime,
   statusColor,
-  TTxRawObject,
   TStatus,
+  TTxRawObject,
 } from '../../../../explorer';
 import { generateMessage } from '../../../../swap';
-import { IconBack } from '../../../Common';
 
 import {
   Clock,
@@ -30,18 +29,13 @@ interface Props {
 
 export const StatusCard = (props: Props) => {
   const { tx } = props;
-  const router = useRouter();
   const { locale } = useIntl();
 
   return (
     <StatusCardContainer>
       {tx ? (
         <>
-          <IconBack
-            onClick={() => {
-              router.back();
-            }}
-          />
+          <GoBackArrow />
           <Row>
             <StatusCircle variant={statusColor(tx.status)} />
             <StatusText variant="accent">{capitalize(tx.status)}</StatusText>

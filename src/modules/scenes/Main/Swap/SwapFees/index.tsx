@@ -1,11 +1,12 @@
 import { Text, Tooltip } from '@swingby-protocol/pulsar';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Link from 'next/link';
 
 import { calculateFixedFee, TTxRawObject } from '../../../../explorer';
 import { TextPrimary } from '../../../Common';
+import { toggleIsExistPreviousPage } from '../../../../store';
 
 import {
   Coin,
@@ -28,6 +29,7 @@ export const SwapFees = (props: Props) => {
   const explorer = useSelector((state) => state.explorer);
   const { transactionFees } = explorer;
   const calculatedFees = transactionFees && calculateFixedFee(tx.feeCurrency, transactionFees);
+  const dispatch = useDispatch();
   return (
     <SwapFeesContainer>
       <TitleText variant="accent">
@@ -48,7 +50,7 @@ export const SwapFees = (props: Props) => {
             data-testid="tooltip"
           >
             <Link href="/fees">
-              <IconInfo />
+              <IconInfo onClick={() => dispatch(toggleIsExistPreviousPage(true))} />
             </Link>
           </Tooltip>
         </Top>
