@@ -7,16 +7,16 @@ import { Atag } from '../../modules/scenes/Common';
 import {
   ALink,
   ALinkIcon,
+  ColumnLink,
+  ColumnTerm,
+  FooterBox,
   FooterContainer,
   LiLink,
   LogoBox,
   MediaRow,
   SwingbyLogo,
-  UlLink,
   TextTitle,
-  ColumnTerm,
-  ColumnLink,
-  FooterBox,
+  UlLink,
 } from './styled';
 
 export const Footer = () => {

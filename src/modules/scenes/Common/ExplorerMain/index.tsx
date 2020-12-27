@@ -16,7 +16,7 @@ import { mode, PATH } from '../../../env';
 import { TSwapWidget, TTxRawObject } from '../../../explorer';
 import { initOnboard } from '../../../onboard';
 import { setOnboard } from '../../../store';
-import { Browser, BrowserDetail, BrowserMetanodes, BrowserPool } from '../../Main';
+import { Browser, BrowserDetail, BrowserFees, BrowserMetanodes, BrowserPool } from '../../Main';
 
 import { ExplorerMainContainer, HeadLine, TitleH1 } from './styled';
 
@@ -127,6 +127,8 @@ export const ExplorerMain = () => {
         return <BrowserPool />;
       case PATH.METANODES:
         return <BrowserMetanodes />;
+      case PATH.FEES:
+        return <BrowserFees />;
 
       default:
         <Browser
@@ -149,6 +151,8 @@ export const ExplorerMain = () => {
       case PATH.POOL:
         return <AccountId />;
       case PATH.METANODES:
+        return <></>;
+      case PATH.FEES:
         return <></>;
 
       default:

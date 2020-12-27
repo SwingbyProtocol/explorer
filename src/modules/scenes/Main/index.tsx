@@ -6,6 +6,7 @@ export { Browser } from './Explorer';
 export { BrowserDetail } from './Swap';
 export { BrowserPool } from './Pool';
 export { BrowserMetanodes } from './Metanodes';
+export { BrowserFees } from './Fees/';
 
 export const Main = () => {
   return (

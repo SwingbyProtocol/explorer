@@ -11,4 +11,5 @@ export {
   TextEllipsis,
   SizeS,
   ButtonScale,
+  IconBack,
 } from './Styled';

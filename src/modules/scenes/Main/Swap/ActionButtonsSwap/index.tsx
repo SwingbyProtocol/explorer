@@ -1,4 +1,5 @@
 import useCopy from '@react-hook/copy';
+import { Tooltip } from '@swingby-protocol/pulsar';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
@@ -46,18 +47,27 @@ export const ActionButtons = (props: Props) => {
         currencyOut={tx.currencyOut}
       />
       <Buttons>
-        <ButtonScale
-          variant="secondary"
-          size="city"
-          disabled={
-            tx.status === TxStatus.REFUNDED ||
-            tx.status === TxStatus.REFUNDING ||
-            tx.status === TxStatus.REJECTED
+        <Tooltip
+          content={
+            <Tooltip.Content>
+              <FormattedMessage id="swap.duplicatePopup" />
+            </Tooltip.Content>
           }
-          onClick={() => setToggleDuplicateSwap(toggleDuplicateSwap + 1)}
+          data-testid="tooltip"
         >
-          <FormattedMessage id="swap.duplicate" />
-        </ButtonScale>
+          <ButtonScale
+            variant="secondary"
+            size="city"
+            disabled={
+              tx.status === TxStatus.REFUNDED ||
+              tx.status === TxStatus.REFUNDING ||
+              tx.status === TxStatus.REJECTED
+            }
+            onClick={() => setToggleDuplicateSwap(toggleDuplicateSwap + 1)}
+          >
+            <FormattedMessage id="swap.duplicate" />
+          </ButtonScale>
+        </Tooltip>
         <ButtonScale
           variant="primary"
           size="city"
@@ -77,13 +87,22 @@ export const ActionButtons = (props: Props) => {
       </Buttons>
       {tx.status === TxStatus.WAITING && (
         <ButtonClaimSwapRow>
-          <ButtonScale
-            variant="tertiary"
-            size="city"
-            onClick={() => setToggleOpenLink(toggleOpenLink + 1)}
+          <Tooltip
+            content={
+              <Tooltip.Content>
+                <FormattedMessage id="swap.claimSwapPopup" />
+              </Tooltip.Content>
+            }
+            data-testid="tooltip"
           >
-            <FormattedMessage id="swap.claimSwap" />
-          </ButtonScale>
+            <ButtonScale
+              variant="tertiary"
+              size="city"
+              onClick={() => setToggleOpenLink(toggleOpenLink + 1)}
+            >
+              <FormattedMessage id="swap.claimSwap" />
+            </ButtonScale>
+          </Tooltip>
         </ButtonClaimSwapRow>
       )}
     </ActionButtonsSwapContainer>

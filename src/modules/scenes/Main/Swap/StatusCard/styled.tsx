@@ -3,7 +3,6 @@ import { rem } from 'polished';
 import styled from 'styled-components';
 
 import { StylingConstants } from '../../../../styles';
-import { IconArrowLeft } from '../../../Common';
 
 const { media } = StylingConstants;
 
@@ -18,10 +17,6 @@ export const StatusCardContainer = styled.div`
     border-radius: 0.75em;
     background-color: ${({ theme }) => theme.pulsar.color.bg.normal};
   }
-`;
-
-export const IconBack = styled(IconArrowLeft)`
-  align-self: flex-start;
 `;
 
 export const Row = styled.div`

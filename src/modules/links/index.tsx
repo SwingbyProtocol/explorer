@@ -1,5 +1,7 @@
 import { Icon } from '@swingby-protocol/pulsar';
 
+import { PATH } from '../env';
+
 export const URL = {
   Swingby: 'https://swingby.network/',
   Earn: 'https://swingby.network/earn',
@@ -16,11 +18,13 @@ export const URL = {
   GitHub: 'https://github.com/SwingbyProtocol/',
   Support: 'support@swingby.network',
   HowItWorks: 'https://skybridge-docs.swingby.network/how-it-works',
+  SwapFees: 'https://tbtc-goerli-node-1.swingby.network/api/v1/swaps/fees',
 };
 
 export const Links = [
   { link: URL.WhatIsSwingby, description: 'footer.whatIsSwingby' },
   { link: URL.Earn, description: 'footer.earn' },
+  { link: PATH.FEES, description: 'footer.transactionFees' },
 ];
 export const Developers = [
   { link: URL.WhitePaper, description: 'footer.whitePaper' },
