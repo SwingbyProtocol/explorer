@@ -1,5 +1,6 @@
 import { Dropdown, Tooltip } from '@swingby-protocol/pulsar';
 import { createWidget, openPopup } from '@swingby-protocol/widget';
+import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
@@ -51,6 +52,7 @@ export const Withdraw = (props: Props) => {
   const { currentPriceLP, balanceSbBTC } = pool;
   const explorer = useSelector((state) => state.explorer);
   const { themeMode, transactionFees } = explorer;
+  const { locale } = useRouter();
 
   const [receivingAddress, setReceivingAddress] = useState('');
   const [withdrawAmount, setWithdrawAmount] = useState(null);
@@ -94,6 +96,7 @@ export const Withdraw = (props: Props) => {
     defaultCurrencyReceiving: toCurrency as any,
     defaultAddressReceiving: receivingAddress,
     defaultAmountDesired: withdrawAmount,
+    locale,
   });
 
   const isDisabled =

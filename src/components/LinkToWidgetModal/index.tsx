@@ -1,5 +1,6 @@
 import { Modal, Text } from '@swingby-protocol/pulsar';
 import { createWidget, getUrl } from '@swingby-protocol/widget';
+import { useRouter } from 'next/router';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useSelector } from 'react-redux';
@@ -20,10 +21,19 @@ export const LinkToWidgetModal = (props: Props) => {
   const { isWidgetModalOpen, setIsWidgetModalOpen, tx } = props;
   const explorer = useSelector((state) => state.explorer);
   const { themeMode } = explorer;
+  const { locale } = useRouter();
 
   const address = tx && tx.addressOut;
   const widget =
-    tx && createWidget({ resource: 'swap', mode, size: 'banner', hash: tx.hash, theme: themeMode });
+    tx &&
+    createWidget({
+      resource: 'swap',
+      mode,
+      size: 'banner',
+      hash: tx.hash,
+      theme: themeMode,
+      locale,
+    });
   return (
     <Modal open={isWidgetModalOpen} onClose={() => setIsWidgetModalOpen(false)}>
       <Modal.Content>

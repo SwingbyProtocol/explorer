@@ -1,5 +1,6 @@
 import { Modal, Text } from '@swingby-protocol/pulsar';
 import { createWidget, openPopup } from '@swingby-protocol/widget';
+import { useRouter } from 'next/router';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useSelector } from 'react-redux';
@@ -20,6 +21,7 @@ export const DuplicateSwapWidgetModal = (props: Props) => {
   const { isWidgetModalOpen, setIsWidgetModalOpen, tx } = props;
   const explorer = useSelector((state) => state.explorer);
   const { themeMode } = explorer;
+  const { locale } = useRouter();
 
   const address = tx && tx.addressOut;
   const widget =
@@ -28,6 +30,7 @@ export const DuplicateSwapWidgetModal = (props: Props) => {
       mode,
       size: 'big',
       resource: 'swap',
+      locale,
       theme: themeMode,
       defaultCurrencyDeposit: tx.currencyIn as any,
       defaultCurrencyReceiving: tx.currencyOut as any,

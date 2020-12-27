@@ -55,6 +55,7 @@ export const ExplorerMain = () => {
               resource: 'swap',
               hash: tx.hash,
               theme: themeMode,
+              locale: router.locale,
             })
           : createWidget({
               mode,
@@ -65,6 +66,7 @@ export const ExplorerMain = () => {
               defaultAddressReceiving: tx.addressOut,
               defaultAmountDesired: tx.amountIn,
               theme: themeMode,
+              locale: router.locale,
             });
 
       if (ETHCoins.includes(tx.currencyOut)) {
@@ -96,7 +98,7 @@ export const ExplorerMain = () => {
     },
     // Memo: Do not add 'themeMode', so this function won't wake up when 'just' change the theme
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [login, onboard, walletAddress],
+    [login, onboard, walletAddress, router],
   );
 
   const runOnboard = useCallback(() => {
