@@ -1,6 +1,5 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import Link from 'next/link';
 
 import { Developers, Links, Media, Terms, URL } from '../../modules/links';
 import { Atag } from '../../modules/scenes/Common';
@@ -41,11 +40,11 @@ export const Footer = () => {
               </LiLink>
             ))}
             <LiLink>
-              <Link href="/fees">
+              <Atag href="/fees" rel="noopener noreferrer" target="_blank">
                 <TextLink>
                   <FormattedMessage id="footer.transactionFees" />
                 </TextLink>
-              </Link>
+              </Atag>
             </LiLink>
           </UlLink>
         </ColumnLink>
