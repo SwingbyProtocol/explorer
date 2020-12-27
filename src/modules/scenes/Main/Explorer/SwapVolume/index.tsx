@@ -1,5 +1,5 @@
 import { Text } from '@swingby-protocol/pulsar';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
@@ -22,6 +22,7 @@ export const SwapVolume = (props: Props) => {
   const { formatDate } = useIntl();
   const explorer = useSelector((state) => state.explorer);
   const { usd } = explorer;
+  const [loading, setLoading] = useState(true);
 
   const data = (canvas) => {
     const ctx = canvas.getContext('2d');
@@ -130,7 +131,13 @@ export const SwapVolume = (props: Props) => {
     },
   };
 
-  const loading = volumes === networkInfos.stats.volumes;
+  useEffect(() => {
+    if (volumes !== networkInfos.stats.volumes) {
+      setTimeout(() => {
+        setLoading(false);
+      }, 500);
+    }
+  }, [volumes]);
 
   return (
     <SwapVolumeContainer>
