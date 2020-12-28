@@ -52,8 +52,8 @@ export const ENDPOINT_EARNINGS = 'https://earnings-api.vercel.app/api/earnings';
 export const CONTRACT_WBTC =
   process.env.NEXT_PUBLIC_CONTRACT_WBTC || '0xeb47a21c1fc00d1e863019906df1771b80dbe182';
 export const CONTRACT_SB_BTC =
-  process.env.NEXT_PUBLIC_SB_BTC || '0xa88921Dc290F888b5Ee574Cf2CD1599F412F1534';
+  process.env.NEXT_PUBLIC_SB_BTC || '0xC1995ba1040586713e9BC15ddbEd0C9173714027';
 export const CONTRACT_SWAP =
-  process.env.NEXT_PUBLIC_CONTRACT_SWAP || '0xB7dA48101a29697B78a1f5ece4b6975506B88819';
+  process.env.NEXT_PUBLIC_CONTRACT_SWAP || '0x89B16adb7A48a3A7b69f3C741baFCe7D00f98794';
 // Memo: BTC is not on Ethereum, it doesn’t have an address, so the contract uses this one to represent BTC
 export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
