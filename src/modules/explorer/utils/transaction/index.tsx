@@ -2,7 +2,7 @@ import { DateTime, Interval } from 'luxon';
 import { FormattedDate, FormattedRelativeTime, FormattedTime } from 'react-intl';
 
 import { BTCBCoins, CoinSymbol, ETHCoins } from '../../../coins';
-import { TTxRawObject } from '../../index';
+import { TStatus, TTxRawObject } from '../../index';
 
 export const TxStatus = {
   COMPLETED: 'COMPLETED',
@@ -35,13 +35,26 @@ const rejectStatus = [REJECTED, CANCELED, REFUNDED, REFUNDING, SIGNING_REFUND, S
 
 type statusType = 'success' | 'danger' | 'warning';
 
-export const statusColor = (status: string): statusType => {
+export const statusColor = (status: TStatus): statusType => {
   if (status === COMPLETED) {
     return 'success';
   } else if (rejectStatus.includes(status)) {
     return 'danger';
   } else {
     return 'warning';
+  }
+};
+
+export const getBorderColor = (status: TStatus, theme: string): string => {
+  const transparentLevel = theme === 'light' ? '0.75' : '1';
+  const lightWaiting = `2px solid rgba(128, 137, 148, ${transparentLevel})`;
+  const darkWaiting = `2px solid rgba(204, 204, 204, ${transparentLevel})`;
+  if (status === COMPLETED) {
+    return `2px solid rgba(89, 213, 184, ${transparentLevel})`;
+  } else if (rejectStatus.includes(status)) {
+    return `2px solid rgba(209, 76, 63, ${transparentLevel})`;
+  } else {
+    return theme === 'light' ? lightWaiting : darkWaiting;
   }
 };
 
