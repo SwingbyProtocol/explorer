@@ -15,6 +15,8 @@ export const toastWrongAddress = () => {
     autoClose: 3000,
     draggable: true,
     hideProgressBar: true,
+    // Memo: To prevent duplicated toast
+    toastId: 'wrongAddressToastID',
   });
 };
 
