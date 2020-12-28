@@ -125,7 +125,7 @@ export const Bottom = styled.div``;
 export const Status = styled.div`
   align-items: center;
   display: flex;
-  width: ${rem(100)};
+  width: ${rem(120)};
 `;
 
 export const Ellipsis = styled(Icon.Ellipsis)`
@@ -165,6 +165,7 @@ export const AmountSpan = styled(Text)`
 
 export const StatusText = styled(Text)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
+  /* white-space: nowrap; */
 `;
 
 export const Coin = styled(CoinIcon)`

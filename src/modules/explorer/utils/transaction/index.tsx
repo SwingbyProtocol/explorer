@@ -35,10 +35,11 @@ const rejectStatus = [REJECTED, CANCELED, REFUNDED, REFUNDING, SIGNING_REFUND, S
 
 type statusType = 'success' | 'danger' | 'warning';
 
-export const statusColor = (status: TStatus): statusType => {
-  if (status === COMPLETED) {
+export const statusColor = (status: string): statusType => {
+  const statusUpperCase = status.toUpperCase();
+  if (statusUpperCase === COMPLETED) {
     return 'success';
-  } else if (rejectStatus.includes(status)) {
+  } else if (rejectStatus.includes(statusUpperCase)) {
     return 'danger';
   } else {
     return 'warning';
@@ -147,6 +148,12 @@ export const convertDateTime = (unixTimestamp: number) => {
 };
 
 export const capitalize = (s: string): string => {
+  if (s === TxStatus.SIGNING_REFUND) {
+    return 'Signing refund';
+  }
+  if (s === TxStatus.SENDING_REFUND) {
+    return 'Sending refund';
+  }
   const word = s.toLowerCase();
   return word.charAt(0).toUpperCase() + word.slice(1);
 };
