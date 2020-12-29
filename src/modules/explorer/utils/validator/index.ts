@@ -73,8 +73,12 @@ export const checkIsValidAmount = (amount: string, fn: (result: boolean) => void
       fn(false);
       return;
     }
+    if (valueArray[valueArray.length - 1] === '.') {
+      fn(true);
+      return;
+    }
     for (const value of valueArray) {
-      if (!/^[1-9]+[0-9]*$/.test(value)) {
+      if (!/^[0-9]+[0-9]*$/.test(value)) {
         fn(false);
       } else {
         fn(true);

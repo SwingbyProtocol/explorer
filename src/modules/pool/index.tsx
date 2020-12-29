@@ -63,8 +63,8 @@ export interface IFeeRate {
 
 export interface IWithdrawAmountValidation {
   isValidAmount: boolean;
-  withdrawAmount: number;
-  maxAmount: number;
-  minimumWithdrawAmount: number;
-  toCurrency: string;
+  withdrawAmount?: number;
+  maxAmount?: number;
+  minimumWithdrawAmount?: number;
+  toCurrency?: string;
 }
