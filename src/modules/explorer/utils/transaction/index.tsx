@@ -47,7 +47,7 @@ export const statusColor = (status: string): statusType => {
 };
 
 export const getBorderColor = (status: TStatus, theme: string): string => {
-  const transparentLevel = theme === 'light' ? '0.5' : '0.5';
+  const transparentLevel = theme === 'light' ? '0.75' : '0.75';
   const lightWaiting = `2px solid rgba(128, 137, 148, ${transparentLevel})`;
   const darkWaiting = `2px solid rgba(204, 204, 204, ${transparentLevel})`;
   if (status === COMPLETED) {
