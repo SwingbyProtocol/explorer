@@ -47,13 +47,12 @@ export const statusColor = (status: string): statusType => {
 };
 
 export const getBorderColor = (status: TStatus, theme: string): string => {
-  const transparentLevel = theme === 'light' ? '0.5' : '0.5';
-  const lightWaiting = `2px solid rgba(128, 137, 148, ${transparentLevel})`;
-  const darkWaiting = `2px solid rgba(204, 204, 204, ${transparentLevel})`;
+  const lightWaiting = `2px solid rgba(128, 137, 148, 0.35)`;
+  const darkWaiting = `2px solid rgba(204, 204, 204, 0.35)`;
   if (status === COMPLETED) {
-    return `2px solid rgba(89, 213, 184, ${transparentLevel})`;
+    return `2px solid rgba(89, 213, 184, 0.35)`;
   } else if (rejectStatus.includes(status)) {
-    return `2px solid rgba(209, 76, 63, ${transparentLevel})`;
+    return `2px solid rgba(209, 76, 63, 0.35)`;
   } else {
     return theme === 'light' ? lightWaiting : darkWaiting;
   }
