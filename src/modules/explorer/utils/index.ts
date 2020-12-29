@@ -13,6 +13,7 @@ export {
   getTransactionFees,
   exponentialToNumber,
   toBTC,
+  toSatoshi,
 } from './transactionFee';
 
 export { fetchFloatBalances, fetchStatsInfo, getUsdPrice } from './network';

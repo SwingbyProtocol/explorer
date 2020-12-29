@@ -1,7 +1,7 @@
 import { Text } from '@swingby-protocol/pulsar';
 import React, { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
-import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 
 import { LoaderComingSoon } from '../../../../../components/LoaderComingSoon';
@@ -9,7 +9,7 @@ import { convert2Currency, numToK } from '../../../../common';
 import { IStats } from '../../../../explorer';
 import { networkInfos } from '../../../../store/explorer';
 
-import { Box, LineContainer, SwapVolumeContainer, TitleDiv, LineDiv } from './styled';
+import { Box, LineContainer, LineDiv, SwapVolumeContainer, TitleDiv } from './styled';
 
 interface Props {
   stats: IStats;

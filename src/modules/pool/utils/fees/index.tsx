@@ -1,8 +1,9 @@
 import { IFetchFee } from '../..';
+import { convertFromPercent } from '../../../common';
 import { calculateFixedFee } from '../../../explorer';
 
 export const calculateDepositFee = (rate: number, amount: number) => {
-  const fee = (rate / 100) * amount;
+  const fee = convertFromPercent(rate) * amount;
   const feeFixed = Number(fee.toFixed(7));
   return feeFixed;
 };

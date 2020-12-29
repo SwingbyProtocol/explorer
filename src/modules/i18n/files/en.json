@@ -17,6 +17,7 @@
   "validation.insufficientBalance": "Insufficient funds",
   "validation.invalidAddress":"Invalid wallet address",
   "validation.plsInputNumberOnly":"Please input valid number",
+  "validation.lowerThanMinimumAmount":"min. withdrawal: {value}{currency}",
   "toast.invalidWalletAddress":"Invalid wallet address, please check the transaction again",
   "toast.copiedAddress":"Copied your address!",
   "toast.copiedFromAddress":"Copied from address!",

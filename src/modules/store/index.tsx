@@ -26,4 +26,6 @@ export {
   resetPoolState,
   getCurrentPriceSbBTC,
   getDepositFeeRate,
+  getWithdrawRate,
+  getMinimumWithdrawAmount,
 } from './pool';

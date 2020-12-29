@@ -13,6 +13,7 @@ export {
   exponentialToNumber,
   capitalize,
   toBTC,
+  toSatoshi,
   isEtherAddress,
   isBinanceAddress,
   isBitcoinAddress,

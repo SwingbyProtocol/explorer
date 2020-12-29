@@ -17,6 +17,7 @@
   "validation.insufficientBalance": "余額不足",
   "validation.invalidAddress":"地址格式錯誤",
   "validation.plsInputNumberOnly":"格式錯誤",
+  "validation.lowerThanMinimumAmount":"最低提款: {value}{currency}",
   "toast.invalidWalletAddress":"錢包地址有錯誤，請檢查是否您的交易",
   "toast.copiedAddress":"復制了錢包地址!",
   "toast.copiedFromAddress":"復制了發送方地址!",

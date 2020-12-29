@@ -4,6 +4,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { CoinSymbol } from '../../../../coins';
+import { convertFromPercent } from '../../../../common';
 import {
   CONTRACT_SB_BTC,
   CONTRACT_SWAP,
@@ -11,7 +12,7 @@ import {
   ENDPOINT_EARNINGS,
   ZERO_ADDRESS,
 } from '../../../../env';
-import { toBTC } from '../../../../explorer';
+import { toBTC, toSatoshi } from '../../../../explorer';
 import { fetch } from '../../../../fetch';
 import { ABI_SWAP, ABI_TOKEN, getHexValue, IFeeRate, orgFloor } from '../../../../pool';
 import { getCurrentPriceSbBTC, getDepositFeeRate, setBalanceSbBTC } from '../../../../store';
@@ -66,14 +67,14 @@ export const AccountSummary = () => {
           tokenAddress: string,
           totalClaimableAmount: number,
         ): Promise<number> => {
-          const userFloatBal = totalClaimableAmount;
+          const userFloatBal = toSatoshi(String(totalClaimableAmount));
 
           // Memo: When pass numAsHex to the contract method, it will be treated as uint256.
           const amountInAsHex = getHexValue(userFloatBal);
           const feeRate = await contractSwap.methods
             .getDepositFeeRate(tokenAddress, amountInAsHex)
             .call();
-          return feeRate / 100;
+          return convertFromPercent(feeRate);
         };
 
         const results = await Promise.all([

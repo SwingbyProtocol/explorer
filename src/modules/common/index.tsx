@@ -4,4 +4,5 @@ export {
   getInitialLanguage,
   numToK,
   convert2Currency,
+  convertFromPercent,
 } from './utils';

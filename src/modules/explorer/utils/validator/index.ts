@@ -74,7 +74,7 @@ export const checkIsValidAmount = (amount: string, fn: (result: boolean) => void
       return;
     }
     for (const value of valueArray) {
-      if (/^[^.0-9]*$/.test(value)) {
+      if (!/^[1-9]+[0-9]*$/.test(value)) {
         fn(false);
       } else {
         fn(true);

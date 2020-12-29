@@ -1,3 +1,3 @@
 export { titleGenerator, ellipseAddress } from './textGenerator';
-export { numToK, convert2Currency } from './numberGenerator';
+export { numToK, convert2Currency, convertFromPercent } from './numberGenerator';
 export { getInitialLanguage } from './language';
