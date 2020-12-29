@@ -49,7 +49,7 @@ export const Withdraw = (props: Props) => {
   const { formatMessage } = useIntl();
   const theme = useTheme();
   const pool = useSelector((state) => state.pool);
-  const { currentPriceLP, balanceSbBTC } = pool;
+  const { balanceSbBTC } = pool;
   const explorer = useSelector((state) => state.explorer);
   const { themeMode, transactionFees } = explorer;
   const { locale } = useRouter();
@@ -68,7 +68,7 @@ export const Withdraw = (props: Props) => {
     checkIsValidAmount(withdrawAmount, setIsValidAmount);
   }, [withdrawAmount]);
 
-  const maxAmount = balanceSbBTC * currentPriceLP;
+  const maxAmount = balanceSbBTC;
 
   const withdrawMaxAmount = () => {
     if (maxAmount) {
