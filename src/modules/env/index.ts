@@ -41,19 +41,23 @@ export const infuraApiKey =
 export const RPC_URL = `https://${ETHER_NETWORK.network}.infura.io/v3/${infuraApiKey}`;
 export const infuraAppName = 'Swingby Explorer';
 
-export const ENDPOINT_ETHEREUM_NODE = 'https://tbtc-goerli-node-1.swingby.network';
-export const ENDPOINT_BINANCE_NODE = 'https://testnet-node.swingby.network';
+export const ENDPOINT_ETHEREUM_NODE =
+  process.env.NEXT_PUBLIC_ETHEREUM_NODE_ENDPOINT || 'https://tbtc-goerli-node-1.swingby.network';
+export const ENDPOINT_BINANCE_NODE =
+  process.env.NEXT_PUBLIC_BINANCE_NODE_ENDPOINT || 'https://testnet-node.swingby.network';
+export const ENDPOINT_EARNINGS =
+  process.env.NEXT_PUBLIC_EARNINGS_ENDPOINT || 'https://earnings-api.vercel.app/api/earnings';
+
 export const ENDPOINT_COINGECKO = 'https://api.coingecko.com/api/v3';
 export const ENDPOINT_ETHERSCAN = 'https://api-goerli.etherscan.io';
 export const URL_ETHERSCAN = 'https://goerli.etherscan.io';
-export const ENDPOINT_EARNINGS = 'https://earnings-api.vercel.app/api/earnings';
 
 // Memo: BTCE contract address as WBTC in testnet
 export const CONTRACT_WBTC =
   process.env.NEXT_PUBLIC_CONTRACT_WBTC || '0xeb47a21c1fc00d1e863019906df1771b80dbe182';
 export const CONTRACT_SB_BTC =
-  process.env.NEXT_PUBLIC_SB_BTC || '0x1A6e06B08D1a9e17E2F71f446aF2E0a0FD246401';
+  process.env.NEXT_PUBLIC_SB_BTC || '0x8D412ACfCDE66B2c66057E08C8a457c29A9CC8C7';
 export const CONTRACT_SWAP =
-  process.env.NEXT_PUBLIC_CONTRACT_SWAP || '0x016534894915Ef7324762098f1Edf7a3A9004B02';
+  process.env.NEXT_PUBLIC_CONTRACT_SWAP || '0x6c3F42F943022B4746Fb6522760F62ae758b8826';
 // Memo: BTC is not on Ethereum, it doesn’t have an address, so the contract uses this one to represent BTC
 export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
