@@ -19,6 +19,10 @@ export const toBTC = (satoshiValue: string): number => {
   return Number(new BigNumber(satoshiValue).div(100000000, 10));
 };
 
+export const toSatoshi = (btcValue: string): number => {
+  return Number(new BigNumber(btcValue).times(100000000));
+};
+
 // Ref: https://skybridge-docs.swingby.network/fees
 export const calculateFixedFee = (
   currency: string,

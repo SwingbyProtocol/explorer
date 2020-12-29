@@ -66,7 +66,7 @@ export const Header = (props: Props) => {
   }, [locale]);
 
   const routing = [
-    { text: 'Stake and Earn', route: PATH.POOL },
+    { text: 'Stake and Earn BTC', route: PATH.POOL },
     { text: 'Metanodes', route: PATH.METANODES },
   ];
 

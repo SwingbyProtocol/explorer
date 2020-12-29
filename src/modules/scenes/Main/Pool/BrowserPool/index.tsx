@@ -3,7 +3,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useSelector } from 'react-redux';
 
-import { PoolMode } from '../../../../pool';
+import { IWithdrawAmountValidation, PoolMode } from '../../../../pool';
 import { AccountSummary } from '../AccountSummary';
 import { ActionButtonsPool } from '../ActionButtonsPool';
 import { AddLiquidity } from '../AddLiquidity';
@@ -36,20 +36,30 @@ export const BrowserPool = () => {
     </ValidationResult>
   );
 
-  const amountValidationResult = (
-    <ValidationResult>
-      <TextValidationResult variant="normal">
-        <FormattedMessage id="validation.plsInputNumberOnly" />
-      </TextValidationResult>
-    </ValidationResult>
-  );
-  const maxAmountValidationResult = (
-    <ValidationResult>
-      <TextValidationResult variant="normal">
-        <FormattedMessage id="validation.insufficientBalance" />
-      </TextValidationResult>
-    </ValidationResult>
-  );
+  const amountValidationResult = (data: IWithdrawAmountValidation): JSX.Element => {
+    const { isValidAmount, withdrawAmount, maxAmount, minimumWithdrawAmount, toCurrency } = data;
+    const failedFormat = () => {
+      if (!isValidAmount) {
+        return <FormattedMessage id="validation.plsInputNumberOnly" />;
+      }
+      if (withdrawAmount > maxAmount) {
+        return <FormattedMessage id="validation.insufficientBalance" />;
+      }
+      if (minimumWithdrawAmount > withdrawAmount) {
+        return (
+          <FormattedMessage
+            id="validation.lowerThanMinimumAmount"
+            values={{ value: minimumWithdrawAmount, currency: toCurrency }}
+          />
+        );
+      }
+    };
+    return (
+      <ValidationResult>
+        <TextValidationResult variant="normal">{failedFormat()}</TextValidationResult>
+      </ValidationResult>
+    );
+  };
 
   const switchRightComponent = (mode: string) => {
     const summary = (
@@ -78,7 +88,6 @@ export const BrowserPool = () => {
           <Withdraw
             addressValidationResult={addressValidationResult}
             amountValidationResult={amountValidationResult}
-            maxAmountValidationResult={maxAmountValidationResult}
           />
         );
 

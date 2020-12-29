@@ -8,7 +8,7 @@ import { useTheme } from 'styled-components';
 
 import { CoinSymbol, ETHCoins, PoolCurrencies } from '../../../../coins';
 import { checkIsValidAddress, checkIsValidAmount } from '../../../../explorer';
-import { calculateDepositFee } from '../../../../pool';
+import { calculateDepositFee, IWithdrawAmountValidation } from '../../../../pool';
 import { ButtonScale } from '../../../Common';
 import { mode } from '../.././../../env';
 
@@ -37,7 +37,7 @@ import {
 
 interface Props {
   addressValidationResult: JSX.Element;
-  amountValidationResult: JSX.Element;
+  amountValidationResult: (arg: IWithdrawAmountValidation) => JSX.Element;
 }
 
 export const AddLiquidity = (props: Props) => {
@@ -129,7 +129,7 @@ export const AddLiquidity = (props: Props) => {
               />
             </RowTop>
             <AmountValidation>
-              {!isValidAmount && poolAmount && amountValidationResult}
+              {!isValidAmount && poolAmount && amountValidationResult({ isValidAmount })}
             </AmountValidation>
           </Top>
           <Bottom>

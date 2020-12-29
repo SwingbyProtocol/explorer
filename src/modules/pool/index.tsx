@@ -60,3 +60,11 @@ export interface IFeeRate {
   BTC: number;
   WBTC: number;
 }
+
+export interface IWithdrawAmountValidation {
+  isValidAmount: boolean;
+  withdrawAmount?: number;
+  maxAmount?: number;
+  minimumWithdrawAmount?: number;
+  toCurrency?: string;
+}

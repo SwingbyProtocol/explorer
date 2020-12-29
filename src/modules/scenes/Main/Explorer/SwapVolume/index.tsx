@@ -9,7 +9,7 @@ import { convert2Currency, numToK } from '../../../../common';
 import { IStats } from '../../../../explorer';
 import { networkInfos } from '../../../../store/explorer';
 
-import { Box, LineContainer, SwapVolumeContainer, TitleDiv, LineDiv } from './styled';
+import { Box, LineContainer, LineDiv, SwapVolumeContainer, TitleDiv } from './styled';
 
 interface Props {
   stats: IStats;
@@ -23,6 +23,7 @@ export const SwapVolume = (props: Props) => {
   const explorer = useSelector((state) => state.explorer);
   const { usd } = explorer;
   const [loading, setLoading] = useState(true);
+  const intl = useIntl();
 
   const data = (canvas) => {
     const ctx = canvas.getContext('2d');
@@ -50,6 +51,7 @@ export const SwapVolume = (props: Props) => {
       ],
       datasets: [
         {
+          // label: 'USD',
           pointBorderColor: 'rgba(75,192,192,1)',
           pointBackgroundColor: 'white',
           pointBorderWidth: 1,
@@ -83,6 +85,14 @@ export const SwapVolume = (props: Props) => {
     elements: {
       point: {
         radius: 0,
+      },
+    },
+    tooltips: {
+      displayColors: false,
+      callbacks: {
+        label: (data) => {
+          return intl.formatNumber(data.value, { style: 'currency', currency: 'USD' });
+        },
       },
     },
     scales: {

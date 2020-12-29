@@ -51,7 +51,7 @@ export const Right = styled.div`
 export const Menu = styled.div`
   display: none;
   @media (min-width: ${rem(media.sm)}) {
-    width: ${rem(190)};
+    width: ${rem(220)};
     display: flex;
     justify-content: space-between;
     align-items: center;

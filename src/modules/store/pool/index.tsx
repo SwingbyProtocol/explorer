@@ -13,6 +13,8 @@ enum Actions {
   GetRecentTxs = 'Pool/GET_RECENT_TXS',
   ResetPoolState = 'Pool/RESET_POOL_STATE',
   GetDepositFeeRate = 'Pool/GET_DEPOSIT_FEE_RATE',
+  GetMinimumWithdrawAmount = 'GET_MINIMUM_WITHDRAW_AMOUNT',
+  GetWithdrawRate = 'GET_WITHDRAW_RATE',
 }
 
 const initialState = {
@@ -23,6 +25,8 @@ const initialState = {
   balanceSbBTC: null,
   currentPriceLP: null,
   depositFeeRate: { BTC: 0, WBTC: 0 },
+  withdrawRate: null,
+  minimumWithdrawAmount: null,
   onboard: null,
   web3: null,
 };
@@ -65,6 +69,14 @@ export const pool: Reducer<State, Action> = (state = initialState, action) => {
     return { ...state, depositFeeRate: action.data };
   }
 
+  if (action.type === Actions.GetMinimumWithdrawAmount) {
+    return { ...state, minimumWithdrawAmount: action.data };
+  }
+
+  if (action.type === Actions.GetWithdrawRate) {
+    return { ...state, withdrawRate: action.data };
+  }
+
   if (action.type === Actions.ResetPoolState) {
     return initialState;
   }
@@ -91,6 +103,11 @@ export const togglePoolMode = (data: PoolMode) => ({ type: Actions.TogglePoolMod
 
 export const getRecentTxs = (data) => ({ type: Actions.GetRecentTxs, data } as const);
 
+export const getMinimumWithdrawAmount = (data) =>
+  ({ type: Actions.GetMinimumWithdrawAmount, data } as const);
+
+export const getWithdrawRate = (data) => ({ type: Actions.GetWithdrawRate, data } as const);
+
 export const getDepositFeeRate = (data: IFeeRate) =>
   ({ type: Actions.GetDepositFeeRate, data } as const);
 
@@ -104,4 +121,6 @@ type Action =
   | ReturnType<typeof setOnboard>
   | ReturnType<typeof setWeb3>
   | ReturnType<typeof getRecentTxs>
-  | ReturnType<typeof getDepositFeeRate>;
+  | ReturnType<typeof getDepositFeeRate>
+  | ReturnType<typeof getWithdrawRate>
+  | ReturnType<typeof getMinimumWithdrawAmount>;

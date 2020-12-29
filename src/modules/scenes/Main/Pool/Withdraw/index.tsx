@@ -3,14 +3,22 @@ import { createWidget, openPopup } from '@swingby-protocol/widget';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
 
 import { CoinSymbol, PoolCurrencies } from '../../../../coins';
-import { checkIsValidAddress, checkIsValidAmount } from '../../../../explorer';
-import { calculateSwapFee } from '../../../../pool';
+import { convertFromPercent } from '../../../../common';
+import {
+  calculateFixedFee,
+  checkIsValidAddress,
+  checkIsValidAmount,
+  toBTC,
+  toSatoshi,
+} from '../../../../explorer';
+import { ABI_SWAP, IWithdrawAmountValidation, orgFloor } from '../../../../pool';
+import { getMinimumWithdrawAmount, getWithdrawRate } from '../../../../store';
 import { ButtonScale } from '../../../Common';
-import { mode } from '../.././../../env';
+import { CONTRACT_SWAP, mode } from '../.././../../env';
 
 import {
   AllButtonDiv,
@@ -26,33 +34,33 @@ import {
   DropdownCurrency,
   InputAmount,
   InputReceivingAddress,
+  RowBottom,
   RowTop,
   TargetCoin,
   TextAll,
+  TextDescription,
+  TextEstimated,
+  TextFee,
   TextLabel,
   Top,
   WithdrawContainer,
-  RowBottom,
-  TextDescription,
-  TextFee,
-  TextEstimated,
 } from './styled';
 
 interface Props {
   addressValidationResult: JSX.Element;
-  amountValidationResult: JSX.Element;
-  maxAmountValidationResult: JSX.Element;
+  amountValidationResult: (arg: IWithdrawAmountValidation) => JSX.Element;
 }
 
 export const Withdraw = (props: Props) => {
-  const { addressValidationResult, amountValidationResult, maxAmountValidationResult } = props;
+  const { addressValidationResult, amountValidationResult } = props;
   const { formatMessage } = useIntl();
   const theme = useTheme();
   const pool = useSelector((state) => state.pool);
-  const { currentPriceLP, balanceSbBTC } = pool;
+  const { balanceSbBTC, web3, withdrawRate, minimumWithdrawAmount } = pool;
   const explorer = useSelector((state) => state.explorer);
   const { themeMode, transactionFees } = explorer;
   const { locale } = useRouter();
+  const dispatch = useDispatch();
 
   const [receivingAddress, setReceivingAddress] = useState('');
   const [withdrawAmount, setWithdrawAmount] = useState(null);
@@ -68,7 +76,28 @@ export const Withdraw = (props: Props) => {
     checkIsValidAmount(withdrawAmount, setIsValidAmount);
   }, [withdrawAmount]);
 
-  const maxAmount = balanceSbBTC * currentPriceLP;
+  useEffect(() => {
+    if (web3 && transactionFees && toCurrency) {
+      (async () => {
+        const contractSwap = new web3.eth.Contract(ABI_SWAP, CONTRACT_SWAP);
+
+        const fixedFee = calculateFixedFee(toCurrency, transactionFees).fixedFee;
+        const fixedFeeSatoshi = toSatoshi(String(fixedFee));
+
+        const results = await Promise.all([
+          contractSwap.methods.withdrawalFeeBPS().call(),
+          contractSwap.methods.getMinimumAmountOfLPTokens(fixedFeeSatoshi).call(),
+        ]);
+        const withdrawRatePercent = convertFromPercent(Number(results[0]));
+        dispatch(getWithdrawRate(withdrawRatePercent));
+
+        const miniWithdrawAmount = toBTC(results[1][0]);
+        dispatch(getMinimumWithdrawAmount(miniWithdrawAmount));
+      })();
+    }
+  }, [dispatch, web3, toCurrency, transactionFees]);
+
+  const maxAmount = balanceSbBTC;
 
   const withdrawMaxAmount = () => {
     if (maxAmount) {
@@ -76,7 +105,7 @@ export const Withdraw = (props: Props) => {
     }
   };
 
-  const fee = withdrawAmount ? calculateSwapFee(withdrawAmount, toCurrency, transactionFees) : 0;
+  const minerFee = withdrawAmount ? calculateFixedFee(toCurrency, transactionFees).fixedFee : 0;
 
   const currencyItems = (
     <>
@@ -103,7 +132,8 @@ export const Withdraw = (props: Props) => {
     0 >= Number(withdrawAmount) ||
     !isValidAddress ||
     !receivingAddress ||
-    withdrawAmount > maxAmount;
+    withdrawAmount > maxAmount ||
+    minimumWithdrawAmount > withdrawAmount;
 
   return (
     <WithdrawContainer>
@@ -136,8 +166,15 @@ export const Withdraw = (props: Props) => {
               />
             </RowTop>
             <AmountValidation>
-              {isValidAmount === false && amountValidationResult}
-              {withdrawAmount && withdrawAmount > maxAmount && maxAmountValidationResult}
+              {withdrawAmount &&
+                Number(withdrawAmount) !== 0 &&
+                amountValidationResult({
+                  isValidAmount,
+                  withdrawAmount,
+                  maxAmount,
+                  minimumWithdrawAmount,
+                  toCurrency,
+                })}
               <AllButtonDiv>
                 <TextAll variant="accent" onClick={() => withdrawMaxAmount()}>
                   <FormattedMessage id="pool.withdraw.max" />
@@ -164,7 +201,8 @@ export const Withdraw = (props: Props) => {
             <RowBottom>
               <div className="left">
                 <TextDescription variant="masked">
-                  <FormattedMessage id="pool.withdraw.transactionFee" /> &nbsp;
+                  <FormattedMessage id="pool.withdraw.transactionFee" />
+                  &nbsp;
                   <Tooltip
                     content={
                       <Tooltip.Content>
@@ -183,7 +221,10 @@ export const Withdraw = (props: Props) => {
                 </TextDescription>
               </div>
               <div className="right">
-                <TextFee variant="masked">{withdrawAmount >= 0 && fee}</TextFee>
+                <TextFee variant="masked">
+                  {withdrawAmount >= 0 &&
+                    orgFloor(withdrawAmount * convertFromPercent(withdrawRate) + minerFee, 8)}
+                </TextFee>
               </div>
             </RowBottom>
 

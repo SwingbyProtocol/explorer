@@ -8,3 +8,7 @@ export const convert2Currency = (crypto: string, fiat: number): number => {
   const cryptoNum = Number(crypto);
   return Number((fiat * cryptoNum).toFixed(2));
 };
+
+export const convertFromPercent = (num: number): number => {
+  return num / 100;
+};
