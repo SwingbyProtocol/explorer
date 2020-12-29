@@ -2,7 +2,7 @@ import { Dropdown, getCryptoAssetFormatter, Text } from '@swingby-protocol/pulsa
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Pagination } from '../../../../../components/Pagination';
 import { PATH } from '../../../../env';
@@ -10,6 +10,7 @@ import {
   capitalize,
   convertTxTime,
   currencyNetwork,
+  getBorderColor,
   statusColor,
   TSwapWidget,
   TTxRawObject,
@@ -84,6 +85,8 @@ export const TxHistories = (props: Props) => {
   const [chosenTx, setChosenTx] = useState(null);
   const [toggleOpenLink, setToggleOpenLink] = useState(1);
   const router = useRouter();
+  const explorer = useSelector((state) => state.explorer);
+  const { themeMode } = explorer;
 
   useEffect(() => {
     if (chosenTx) {
@@ -147,10 +150,12 @@ export const TxHistories = (props: Props) => {
         {currentTxs &&
           currentTxs.map((tx: TTxRawObject, i: number) => {
             const bgKey = i - adjustIndex;
+            const borderColor = getBorderColor(tx.status, themeMode);
             return (
               <TxHistoryRow
                 key={bgKey}
                 bg={bgKey % 2 !== 0}
+                borderColor={borderColor}
                 onMouseEnter={() => {
                   dispatch(selectSwapDetails(tx));
                   router.prefetch(`${PATH.SWAP}/${tx.hash}`);

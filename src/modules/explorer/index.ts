@@ -19,6 +19,7 @@ export {
   checkIsValidAddress,
   checkIsValidAmount,
   convertDateTime,
+  getBorderColor,
 } from './utils';
 
 export { TxRowTransition, TxRowVariants } from './animation';
@@ -40,7 +41,7 @@ export interface FloatRawObject {
   currencyIn: string;
   currencyOut: string;
   hash: string;
-  status: string;
+  status: TStatus;
   timestamp: number;
   txIdIn?: string;
   fee?: string;
@@ -59,7 +60,7 @@ export interface SwapRawObject {
   fee?: string;
   hash?: string;
   feeCurrency: string;
-  status: string;
+  status: TStatus;
   timestamp?: number;
   txIdIn?: string;
   txIdOut?: string;

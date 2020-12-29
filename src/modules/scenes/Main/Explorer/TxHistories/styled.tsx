@@ -7,6 +7,7 @@ import { StylingConstants } from '../../../../styles';
 
 interface BgProps {
   bg: boolean;
+  borderColor: string;
 }
 
 interface ContainerProps {
@@ -76,6 +77,14 @@ export const TxHistoryRow = styled(motion.div)<BgProps>`
   }
   @media (min-width: ${rem(media.xl)}) {
     grid-template-columns: 13.5% 4% 23.5% 15.5% 4.5% 21% 15.5% 2.5%;
+    /* Memo: Won't show animation for low spec computer   */
+    transition: all 0.3s ease 0s;
+    border: 2px solid transparent;
+    :hover {
+      border: ${(props) => props.borderColor};
+      transition: all 0.3s ease 0s;
+      border-radius: 6px;
+    }
   }
 `;
 
@@ -116,7 +125,7 @@ export const Bottom = styled.div``;
 export const Status = styled.div`
   align-items: center;
   display: flex;
-  width: ${rem(100)};
+  width: ${rem(120)};
 `;
 
 export const Ellipsis = styled(Icon.Ellipsis)`
@@ -156,6 +165,7 @@ export const AmountSpan = styled(Text)`
 
 export const StatusText = styled(Text)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
+  /* white-space: nowrap; */
 `;
 
 export const Coin = styled(CoinIcon)`

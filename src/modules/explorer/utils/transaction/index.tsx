@@ -2,7 +2,7 @@ import { DateTime, Interval } from 'luxon';
 import { FormattedDate, FormattedRelativeTime, FormattedTime } from 'react-intl';
 
 import { BTCBCoins, CoinSymbol, ETHCoins } from '../../../coins';
-import { TTxRawObject } from '../../index';
+import { TStatus, TTxRawObject } from '../../index';
 
 export const TxStatus = {
   COMPLETED: 'COMPLETED',
@@ -36,12 +36,25 @@ const rejectStatus = [REJECTED, CANCELED, REFUNDED, REFUNDING, SIGNING_REFUND, S
 type statusType = 'success' | 'danger' | 'warning';
 
 export const statusColor = (status: string): statusType => {
-  if (status === COMPLETED) {
+  const statusUpperCase = status.toUpperCase();
+  if (statusUpperCase === COMPLETED) {
     return 'success';
-  } else if (rejectStatus.includes(status)) {
+  } else if (rejectStatus.includes(statusUpperCase)) {
     return 'danger';
   } else {
     return 'warning';
+  }
+};
+
+export const getBorderColor = (status: TStatus, theme: string): string => {
+  const lightWaiting = `2px solid rgba(128, 137, 148, 0.35)`;
+  const darkWaiting = `2px solid rgba(204, 204, 204, 0.35)`;
+  if (status === COMPLETED) {
+    return `2px solid rgba(89, 213, 184, 0.35)`;
+  } else if (rejectStatus.includes(status)) {
+    return `2px solid rgba(209, 76, 63, 0.35)`;
+  } else {
+    return theme === 'light' ? lightWaiting : darkWaiting;
   }
 };
 
@@ -134,6 +147,12 @@ export const convertDateTime = (unixTimestamp: number) => {
 };
 
 export const capitalize = (s: string): string => {
+  if (s === TxStatus.SIGNING_REFUND) {
+    return 'Signing refund';
+  }
+  if (s === TxStatus.SENDING_REFUND) {
+    return 'Sending refund';
+  }
   const word = s.toLowerCase();
   return word.charAt(0).toUpperCase() + word.slice(1);
 };
