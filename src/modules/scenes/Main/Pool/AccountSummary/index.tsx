@@ -10,11 +10,13 @@ import {
   CONTRACT_SWAP,
   CONTRACT_WBTC,
   ENDPOINT_EARNINGS,
+  etherscanApiKey,
+  URL_ETHERSCAN,
   ZERO_ADDRESS,
 } from '../../../../env';
 import { toBTC, toSatoshi } from '../../../../explorer';
 import { fetch } from '../../../../fetch';
-import { ABI_SWAP, ABI_TOKEN, getHexValue, IFeeRate, orgFloor } from '../../../../pool';
+import { ABI_SWAP, getHexValue, IFeeRate, orgFloor } from '../../../../pool';
 import { getCurrentPriceSbBTC, getDepositFeeRate, setBalanceSbBTC } from '../../../../store';
 
 import {
@@ -59,7 +61,7 @@ export const AccountSummary = () => {
   useEffect(() => {
     if (web3 && userAddress) {
       (async () => {
-        const contractSbBTC = new web3.eth.Contract(ABI_TOKEN, CONTRACT_SB_BTC);
+        // const contractSbBTC = new web3.eth.Contract(ABI_TOKEN, CONTRACT_SB_BTC);
         const contractSwap = new web3.eth.Contract(ABI_SWAP, CONTRACT_SWAP);
         const urlEarning = ENDPOINT_EARNINGS;
 
@@ -77,13 +79,22 @@ export const AccountSummary = () => {
           return convertFromPercent(feeRate);
         };
 
+        const getBalance = async (userAddress: string) => {
+          const url = `${URL_ETHERSCAN}/api?module=account&action=tokenbalance&contractaddress=${CONTRACT_SB_BTC}&address=${userAddress}&tag=latest&apikey=${etherscanApiKey}`;
+          const res = await fetch<{ result: string }>(url);
+          const balance = res.ok && res.response.result;
+          return Number(balance);
+        };
+
         const results = await Promise.all([
-          contractSbBTC.methods.balanceOf(userAddress).call(),
+          // contractSbBTC.methods.balanceOf(userAddress).call(),
+          getBalance(userAddress),
           contractSwap.methods.getCurrentPriceLP().call(),
           fetch<{ total: string }>(urlEarning),
         ]);
 
         const resultBalanceOf = results[0];
+        console.log('resultBalanceOf', resultBalanceOf);
         const balanceSbBTC = Number(toBTC(resultBalanceOf.toString()).toString());
         dispatch(setBalanceSbBTC(balanceSbBTC));
 
