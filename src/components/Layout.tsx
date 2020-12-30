@@ -4,7 +4,7 @@ import React, { ReactNode, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Slide, ToastContainer } from 'react-toastify';
 
-import { getTransactionFees, getUsdPrice, IFetchUsd, TTheme } from '../modules/explorer';
+import { getTransactionFees, getUsdPrice, TTheme } from '../modules/explorer';
 import { useInterval } from '../modules/hooks';
 import { fetchTransactionFees, fetchUsdPrice, setWidthSize } from '../modules/store';
 
@@ -30,16 +30,17 @@ export const Layout = (props: Props) => {
 
   useEffect(() => {
     (async () => {
-      const results = await Promise.all([getUsdPrice(), getTransactionFees()]);
-      dispatch(fetchUsdPrice(results[0]));
-      dispatch(fetchTransactionFees(results[1]));
+      const transactionFees = await getTransactionFees();
+      dispatch(fetchTransactionFees(transactionFees));
     })();
   }, [dispatch]);
 
   useInterval(() => {
-    getUsdPrice().then((price: IFetchUsd) => {
-      dispatch(fetchUsdPrice(price));
-    });
+    (async () => {
+      const results = await Promise.all([getUsdPrice(), getTransactionFees()]);
+      dispatch(fetchUsdPrice(results[0]));
+      dispatch(fetchTransactionFees(results[1]));
+    })();
   }, [60000]);
 
   return (

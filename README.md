@@ -78,6 +78,17 @@ v1.22.4
 - [yarn](https://yarnpkg.com/)
   - Fast, reliable, and secure dependency management.
 
+## Vercel & Deployed URL
+
+- [Mainnet](https://vercel.com/swingby/new-explorer-mainnet)
+  - https://new-explorer-mainnet.vercel.app/
+
+
+- [Testnet](https://vercel.com/swingby/new-explorer-testnet)
+  - https://testnet.skybridge.info/
+
+
+
 ## How To Use
 
 ```bash

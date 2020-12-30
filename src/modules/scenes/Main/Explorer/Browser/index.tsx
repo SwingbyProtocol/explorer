@@ -53,14 +53,15 @@ export const Browser = (props: Props) => {
    **/
   const { floatBalances, stats, capacity } = networkInfos;
   useEffect(() => {
-    usd &&
+    usd.BTC > 0 &&
       (async () => {
         const results = await Promise.all([fetchFloatBalances(usd.BTC), fetchStatsInfo()]);
 
         const data = results[0];
         const stats = results[1];
 
-        data &&
+        data.floats &&
+          data.capacity &&
           stats &&
           dispatch(
             updateNetworkInfos({ floatBalances: data.floats, capacity: data.capacity, stats }),
@@ -133,12 +134,16 @@ export const Browser = (props: Props) => {
   }, [page, q, isHideWaiting, chainBridge]);
 
   useEffect(() => {
-    if (!isLoadingUrl) {
-      dispatchLoadHistory().then(() => {
-        setIsLoadingHistory(false);
-      });
+    if (q === '' && page === 1 && chainBridge === '') {
+      setIsLoadingHistory(false);
+    } else {
+      if (!isLoadingUrl) {
+        dispatchLoadHistory().then(() => {
+          setIsLoadingHistory(false);
+        });
+      }
     }
-  }, [dispatchLoadHistory, isLoadingUrl]);
+  }, [dispatchLoadHistory, isLoadingUrl, chainBridge, page, q]);
 
   useInterval(() => {
     dispatchLoadHistory();
