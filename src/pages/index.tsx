@@ -5,9 +5,15 @@ import { useDispatch } from 'react-redux';
 
 import { NoServiceToUSModal } from '../components/NoServiceToUSModal';
 import { IPSTACK_API_KEY } from '../modules/env';
-import { ILoadHistory, ITransactions, loadHistory } from '../modules/explorer';
+import {
+  getUsdPrice,
+  IFetchUsd,
+  ILoadHistory,
+  ITransactions,
+  loadHistory,
+} from '../modules/explorer';
 import { Main } from '../modules/scenes';
-import { getHistory } from '../modules/store';
+import { fetchUsdPrice, getHistory } from '../modules/store';
 
 type ThenArg<T> = T extends PromiseLike<infer U> ? U : T;
 
@@ -18,15 +24,20 @@ type Props = {
     ipInfo: ThenArg<ReturnType<typeof getIpInfo>> | null;
   };
   initialSwapHistories: ITransactions;
+  initialPriceUSD: IFetchUsd;
 };
 
-export default function Home({ ipInfo, initialSwapHistories }: Props) {
+export default function Home({ ipInfo, initialSwapHistories, initialPriceUSD }: Props) {
   const [isNoServiceToUSModalOpen, setIsNoServiceToUSModalOpen] = useState(ipInfo?.blockRegion);
-
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getHistory(initialSwapHistories));
   }, [initialSwapHistories, dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchUsdPrice(initialPriceUSD));
+  }, [dispatch, initialPriceUSD]);
 
   return (
     <>
@@ -84,10 +95,19 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({ req }) => 
     }
   })();
 
+  const initialPriceUSD = await (async (): Promise<IFetchUsd> => {
+    try {
+      return await getUsdPrice();
+    } catch (e) {
+      console.log(e);
+    }
+  })();
+
   return {
     props: {
       ipInfo: { ipInfo, clientIp, blockRegion },
-      initialSwapHistories: initialSwapHistories,
+      initialSwapHistories,
+      initialPriceUSD,
     },
   };
 };
