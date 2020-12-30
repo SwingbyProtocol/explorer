@@ -133,12 +133,16 @@ export const Browser = (props: Props) => {
   }, [page, q, isHideWaiting, chainBridge]);
 
   useEffect(() => {
-    if (!isLoadingUrl) {
-      dispatchLoadHistory().then(() => {
-        setIsLoadingHistory(false);
-      });
+    if (q === '' && page === 1 && chainBridge === '') {
+      setIsLoadingHistory(false);
+    } else {
+      if (!isLoadingUrl) {
+        dispatchLoadHistory().then(() => {
+          setIsLoadingHistory(false);
+        });
+      }
     }
-  }, [dispatchLoadHistory, isLoadingUrl]);
+  }, [dispatchLoadHistory, isLoadingUrl, chainBridge, page, q]);
 
   useInterval(() => {
     dispatchLoadHistory();
