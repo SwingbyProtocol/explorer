@@ -53,14 +53,15 @@ export const Browser = (props: Props) => {
    **/
   const { floatBalances, stats, capacity } = networkInfos;
   useEffect(() => {
-    usd &&
+    usd.BTC > 0 &&
       (async () => {
         const results = await Promise.all([fetchFloatBalances(usd.BTC), fetchStatsInfo()]);
 
         const data = results[0];
         const stats = results[1];
 
-        data &&
+        data.floats &&
+          data.capacity &&
           stats &&
           dispatch(
             updateNetworkInfos({ floatBalances: data.floats, capacity: data.capacity, stats }),
