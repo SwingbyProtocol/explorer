@@ -143,7 +143,7 @@ export const Withdraw = (props: Props) => {
             <RowTop>
               <ColumnDropdown>
                 <TextLabel variant="label">
-                  <FormattedMessage id="pool.withdraw.iWantToPool" />
+                  <FormattedMessage id="pool.withdraw.iWantToWithdraw" />
                 </TextLabel>
                 <DropdownCurrency
                   target={

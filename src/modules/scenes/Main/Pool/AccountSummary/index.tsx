@@ -96,19 +96,17 @@ export const AccountSummary = () => {
         const totalClaimableAmount = orgFloor(priceSbBTC * balanceSbBTC, 8);
         setClaimableAmount(totalClaimableAmount);
 
-        if (totalClaimableAmount > 0) {
-          const rates = await Promise.all([
-            // Memo:  ZERO_ADDRESS: BTC
-            handleGetDepositFeeRate(ZERO_ADDRESS, totalClaimableAmount),
-            handleGetDepositFeeRate(CONTRACT_WBTC, totalClaimableAmount),
-          ]);
+        const rates = await Promise.all([
+          // Memo:  ZERO_ADDRESS: BTC
+          handleGetDepositFeeRate(ZERO_ADDRESS, totalClaimableAmount),
+          handleGetDepositFeeRate(CONTRACT_WBTC, totalClaimableAmount),
+        ]);
 
-          const feeRates: IFeeRate = {
-            BTC: rates[0],
-            WBTC: rates[1],
-          };
-          dispatch(getDepositFeeRate(feeRates));
-        }
+        const feeRates: IFeeRate = {
+          BTC: rates[0],
+          WBTC: rates[1],
+        };
+        dispatch(getDepositFeeRate(feeRates));
 
         // Memo: Earings API has not deployed yet. This is the mocked response.
         const totalEarnings = results[2].ok && results[2].response.total;
