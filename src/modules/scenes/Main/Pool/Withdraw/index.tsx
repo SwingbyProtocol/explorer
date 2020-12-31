@@ -1,9 +1,11 @@
 import { Dropdown, Tooltip } from '@swingby-protocol/pulsar';
+import { buildContext, CONTRACTS, estimateAmountReceiving } from '@swingby-protocol/sdk';
 import { createWidget, openPopup } from '@swingby-protocol/widget';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
+import { PulseLoader } from 'react-spinners';
 import { useTheme } from 'styled-components';
 
 import { CoinSymbol, PoolCurrencies } from '../../../../coins';
@@ -12,12 +14,13 @@ import {
   calculateFixedFee,
   checkIsValidAddress,
   checkIsValidAmount,
+  TCurrency,
   toBTC,
   toSatoshi,
 } from '../../../../explorer';
-import { ABI_SWAP, IWithdrawAmountValidation, orgFloor } from '../../../../pool';
+import { IWithdrawAmountValidation } from '../../../../pool';
 import { getMinimumWithdrawAmount, getWithdrawRate } from '../../../../store';
-import { ButtonScale } from '../../../Common';
+import { ButtonScale, TextEstimated } from '../../../Common';
 import { CONTRACT_SWAP, mode } from '../.././../../env';
 
 import {
@@ -39,7 +42,6 @@ import {
   TargetCoin,
   TextAll,
   TextDescription,
-  TextEstimated,
   TextFee,
   TextLabel,
   Top,
@@ -56,7 +58,7 @@ export const Withdraw = (props: Props) => {
   const { formatMessage } = useIntl();
   const theme = useTheme();
   const pool = useSelector((state) => state.pool);
-  const { balanceSbBTC, web3, withdrawRate, minimumWithdrawAmount } = pool;
+  const { balanceSbBTC, web3, minimumWithdrawAmount } = pool;
   const explorer = useSelector((state) => state.explorer);
   const { themeMode, transactionFees } = explorer;
   const { locale } = useRouter();
@@ -79,7 +81,10 @@ export const Withdraw = (props: Props) => {
   useEffect(() => {
     if (web3 && transactionFees && toCurrency) {
       (async () => {
-        const contractSwap = new web3.eth.Contract(ABI_SWAP, CONTRACT_SWAP);
+        const contractSwap = new web3.eth.Contract(
+          CONTRACTS.skybridge.production.abi,
+          CONTRACT_SWAP,
+        );
 
         const fixedFee = calculateFixedFee(toCurrency, transactionFees).fixedFee;
         const fixedFeeSatoshi = toSatoshi(String(fixedFee));
@@ -105,7 +110,38 @@ export const Withdraw = (props: Props) => {
     }
   };
 
-  const minerFee = withdrawAmount ? calculateFixedFee(toCurrency, transactionFees).fixedFee : 0;
+  const [transactionFee, setTransactionFee] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    (async () => {
+      withdrawAmount > 0 && setIsLoading(true);
+      try {
+        if (cancelled) return;
+        const context = await buildContext({ mode: mode });
+        const { feeTotal } = await estimateAmountReceiving({
+          context,
+          currencyDeposit: CoinSymbol.LP as TCurrency,
+          currencyReceiving: toCurrency as TCurrency,
+          amountDesired: withdrawAmount,
+        });
+        if (cancelled) return;
+        setTransactionFee(feeTotal);
+      } catch (e) {
+        if (cancelled) return;
+        console.log(e);
+        setTransactionFee('');
+      }
+      setIsLoading(false);
+    })();
+
+    return () => {
+      cancelled = true;
+      setTransactionFee('');
+    };
+  }, [toCurrency, withdrawAmount]);
 
   const currencyItems = (
     <>
@@ -199,7 +235,7 @@ export const Withdraw = (props: Props) => {
             {!isValidAddress && receivingAddress && addressValidationResult}
 
             <RowBottom>
-              <div className="left">
+              <div>
                 <TextDescription variant="masked">
                   <FormattedMessage id="pool.withdraw.transactionFee" />
                   &nbsp;
@@ -220,10 +256,15 @@ export const Withdraw = (props: Props) => {
                   <FormattedMessage id="pool.withdraw.estimated2" />
                 </TextDescription>
               </div>
-              <div className="right">
+              <div>
                 <TextFee variant="masked">
-                  {withdrawAmount >= 0 &&
-                    orgFloor(withdrawAmount * convertFromPercent(withdrawRate) + minerFee, 8)}
+                  {isLoading ? (
+                    <PulseLoader margin={3} size={4} color={theme.pulsar.color.text.normal} />
+                  ) : withdrawAmount > 0 ? (
+                    transactionFee
+                  ) : (
+                    0
+                  )}
                 </TextFee>
               </div>
             </RowBottom>

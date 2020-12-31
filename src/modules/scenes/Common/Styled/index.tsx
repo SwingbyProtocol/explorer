@@ -70,3 +70,8 @@ export const ButtonScale = styled(Button)`
 export const IconBack = styled(IconArrowLeft)`
   align-self: flex-start;
 `;
+
+export const TextEstimated = styled(Text)`
+  border-bottom: 1px solid ${({ theme }) => theme.pulsar.color.text.placeholder};
+  cursor: pointer;
+`;

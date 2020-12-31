@@ -1,4 +1,3 @@
-export { ABI_SWAP } from './contract';
 export {
   calculateDepositFee,
   calculateSwapFee,

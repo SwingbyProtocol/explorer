@@ -1,4 +1,5 @@
 import { getCryptoAssetFormatter, getFiatAssetFormatter, Text } from '@swingby-protocol/pulsar';
+import { CONTRACTS } from '@swingby-protocol/sdk';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,7 +10,6 @@ import { CONTRACT_SWAP, CONTRACT_WBTC, ENDPOINT_EARNINGS, ZERO_ADDRESS } from '.
 import { toSatoshi } from '../../../../explorer';
 import { fetch } from '../../../../fetch';
 import {
-  ABI_SWAP,
   fetchSbBTCBalance,
   fetchSbBTCRate,
   getHexValue,
@@ -60,7 +60,10 @@ export const AccountSummary = () => {
   useEffect(() => {
     if (web3 && userAddress) {
       (async () => {
-        const contractSwap = new web3.eth.Contract(ABI_SWAP, CONTRACT_SWAP);
+        const contractSwap = new web3.eth.Contract(
+          CONTRACTS.skybridge.production.abi,
+          CONTRACT_SWAP,
+        );
         const urlEarning = ENDPOINT_EARNINGS;
 
         const handleGetDepositFeeRate = async (

@@ -133,7 +133,7 @@ export const TextLabel = styled(Text)`
 `;
 
 export const TextDescription = styled(Text)`
-  display: block;
+  display: flex;
   font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
   font-weight: 500;
 `;

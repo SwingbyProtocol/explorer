@@ -32,15 +32,15 @@ export const BRIDGE = {
 };
 
 // Memo: interface
-
+export type TCurrency = 'BTC' | 'WBTC' | 'sbBTC' | 'BTCB';
 export interface FloatRawObject {
   addressDeposit: string;
   addressIn: string;
   addressOut: string;
   amountIn: string;
   amountOut: string;
-  currencyIn: string;
-  currencyOut: string;
+  currencyIn: TCurrency;
+  currencyOut: TCurrency;
   hash: string;
   status: TStatus;
   timestamp: number;
@@ -48,7 +48,7 @@ export interface FloatRawObject {
   fee?: string;
   txIdOut?: string;
   rewards?: Reward[];
-  feeCurrency?: string;
+  feeCurrency?: TCurrency;
 }
 
 export interface SwapRawObject {
@@ -56,11 +56,11 @@ export interface SwapRawObject {
   addressOut: string;
   amountIn: string;
   amountOut: string;
-  currencyIn: string;
-  currencyOut: string;
+  currencyIn: TCurrency;
+  currencyOut: TCurrency;
   fee?: string;
   hash?: string;
-  feeCurrency: string;
+  feeCurrency: TCurrency;
   status: TStatus;
   timestamp?: number;
   txIdIn?: string;

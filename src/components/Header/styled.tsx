@@ -51,19 +51,27 @@ export const Right = styled.div`
 export const Menu = styled.div`
   display: none;
   @media (min-width: ${rem(media.sm)}) {
-    width: ${rem(220)};
+    width: ${rem(206)};
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-right: ${({ theme }) => rem(theme.pulsar.size.room)};
   }
   @media (min-width: ${rem(media.md)}) {
+    width: ${rem(220)};
     margin-right: ${({ theme }) => rem(theme.pulsar.size.street)};
   }
 `;
 
 export const ThemeToggle = styled.div`
   margin-top: ${({ theme }) => rem(theme.pulsar.size.box)};
-  margin-right: ${({ theme }) => rem(theme.pulsar.size.city)};
+  margin-right: ${({ theme }) => rem(theme.pulsar.size.house)};
+  @media (min-width: ${rem(media.sm)}) {
+    margin-right: ${({ theme }) => rem(theme.pulsar.size.room)};
+  }
+  @media (min-width: ${rem(media.md)}) {
+    margin-right: ${({ theme }) => rem(theme.pulsar.size.city)};
+  }
 `;
 
 export const MenuSpan = styled(Text)<MenuProps>`
@@ -104,6 +112,7 @@ export const LanguageTitle = styled(Dropdown.DefaultTarget)`
 
 export const LanguageDropTarget = styled(Dropdown.DefaultTarget)`
   padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
+  padding-right: ${({ theme }) => rem(theme.pulsar.size.closet)};
 `;
 
 export const Hamburger = styled(Icon.Hamburger)`
@@ -127,4 +136,5 @@ export const IconLive = styled(StatusIcon)`
 
 export const TextLang = styled(Text)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  padding-right: ${({ theme }) => rem(theme.pulsar.size.box)};
 `;
