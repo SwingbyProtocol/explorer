@@ -2,19 +2,6 @@
 
 export const ABI_SWAP = [
   {
-    inputs: [],
-    name: 'getCurrentPriceLP',
-    outputs: [
-      {
-        name: '',
-        type: 'uint256',
-      },
-    ],
-    type: 'function',
-    constant: false,
-    payable: false,
-  },
-  {
     inputs: [
       {
         name: '_token',
