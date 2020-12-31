@@ -1,5 +1,5 @@
 import { Dropdown, Tooltip } from '@swingby-protocol/pulsar';
-import { CONTRACTS } from '@swingby-protocol/sdk';
+import { buildContext, CONTRACTS, estimateAmountReceiving } from '@swingby-protocol/sdk';
 import { createWidget, openPopup } from '@swingby-protocol/widget';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -13,10 +13,11 @@ import {
   calculateFixedFee,
   checkIsValidAddress,
   checkIsValidAmount,
+  TCurrency,
   toBTC,
   toSatoshi,
 } from '../../../../explorer';
-import { IWithdrawAmountValidation, orgFloor } from '../../../../pool';
+import { IWithdrawAmountValidation } from '../../../../pool';
 import { getMinimumWithdrawAmount, getWithdrawRate } from '../../../../store';
 import { ButtonScale } from '../../../Common';
 import { CONTRACT_SWAP, mode } from '../.././../../env';
@@ -57,7 +58,7 @@ export const Withdraw = (props: Props) => {
   const { formatMessage } = useIntl();
   const theme = useTheme();
   const pool = useSelector((state) => state.pool);
-  const { balanceSbBTC, web3, withdrawRate, minimumWithdrawAmount } = pool;
+  const { balanceSbBTC, web3, minimumWithdrawAmount } = pool;
   const explorer = useSelector((state) => state.explorer);
   const { themeMode, transactionFees } = explorer;
   const { locale } = useRouter();
@@ -109,7 +110,28 @@ export const Withdraw = (props: Props) => {
     }
   };
 
-  const minerFee = withdrawAmount ? calculateFixedFee(toCurrency, transactionFees).fixedFee : 0;
+  const [transactionFee, setTransactionFee] = useState(null);
+
+  useEffect(() => {
+    console.log('hello');
+    (async () => {
+      try {
+        const context = await buildContext({ mode: mode });
+        const { feeTotal } = await estimateAmountReceiving({
+          context,
+          currencyDeposit: CoinSymbol.LP as TCurrency,
+          currencyReceiving: toCurrency as TCurrency,
+          amountDesired: withdrawAmount,
+        });
+        console.log('feeTotal', feeTotal);
+        setTransactionFee(feeTotal);
+      } catch (e) {
+        console.log(e);
+      }
+    })();
+  }, [toCurrency, withdrawAmount]);
+
+  // const minerFee = withdrawAmount ? calculateFixedFee(toCurrency, transactionFees).fixedFee : 0;
 
   const currencyItems = (
     <>
@@ -225,10 +247,7 @@ export const Withdraw = (props: Props) => {
                 </TextDescription>
               </div>
               <div className="right">
-                <TextFee variant="masked">
-                  {withdrawAmount >= 0 &&
-                    orgFloor(withdrawAmount * convertFromPercent(withdrawRate) + minerFee, 8)}
-                </TextFee>
+                <TextFee variant="masked">{withdrawAmount >= 0 && transactionFee}</TextFee>
               </div>
             </RowBottom>
 

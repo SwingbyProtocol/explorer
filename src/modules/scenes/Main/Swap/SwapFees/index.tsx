@@ -1,23 +1,25 @@
 import { Text, Tooltip } from '@swingby-protocol/pulsar';
-import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
+import { buildContext, estimateAmountReceiving } from '@swingby-protocol/sdk';
 import Link from 'next/link';
+import React, { useState } from 'react';
+import { FormattedMessage } from 'react-intl';
+import { useDispatch } from 'react-redux';
 
-import { calculateFixedFee, TTxRawObject } from '../../../../explorer';
-import { TextPrimary } from '../../../Common';
+import { mode } from '../../../../env';
+import { TTxRawObject } from '../../../../explorer';
 import { toggleIsExistPreviousPage } from '../../../../store';
+import { TextPrimary } from '../../../Common';
 
 import {
+  Center,
   Coin,
   CoinContainer,
+  FeeBox,
+  IconInfo,
   Row,
   SwapFeesContainer,
   TitleText,
-  FeeBox,
-  IconInfo,
   Top,
-  Center,
 } from './styled';
 
 interface Props {
@@ -26,9 +28,22 @@ interface Props {
 
 export const SwapFees = (props: Props) => {
   const { tx } = props;
-  const explorer = useSelector((state) => state.explorer);
-  const { transactionFees } = explorer;
-  const calculatedFees = transactionFees && calculateFixedFee(tx.feeCurrency, transactionFees);
+  const [bridgeFee, setBridgeFee] = useState(null);
+  (async () => {
+    try {
+      const context = await buildContext({ mode: mode });
+      const { feeBridgeFraction } = await estimateAmountReceiving({
+        context,
+        currencyDeposit: tx.currencyIn,
+        currencyReceiving: tx.currencyOut,
+        amountDesired: tx.amountOut,
+      });
+      setBridgeFee(Number(feeBridgeFraction) * 100);
+    } catch (e) {
+      console.log(e);
+    }
+  })();
+
   const dispatch = useDispatch();
   return (
     <SwapFeesContainer>
@@ -61,7 +76,7 @@ export const SwapFees = (props: Props) => {
           </CoinContainer>
           <FeeBox>
             <Text variant="masked">
-              {calculatedFees && calculatedFees.feePercent}{' '}
+              {bridgeFee}{' '}
               <FormattedMessage id="swap.minerFee" values={{ currency: tx.currencyIn }} />
             </Text>
           </FeeBox>
