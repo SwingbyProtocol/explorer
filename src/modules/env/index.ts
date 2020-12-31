@@ -54,6 +54,8 @@ export const RPC_URL = `https://${ETHER_NETWORK.network}.infura.io/v3/${infuraAp
 
 export const infuraAppName = 'Swingby Explorer';
 
+export const ENDPOINT_SKYBRIDGE_EXCHANGE = 'https://network.skybridge.exchange/api/v1';
+
 export const ENDPOINT_ETHEREUM_NODE =
   process.env.NEXT_PUBLIC_ETHEREUM_NODE_ENDPOINT || 'https://tbtc-goerli-node-1.swingby.network';
 
