@@ -111,11 +111,12 @@ export const Withdraw = (props: Props) => {
   };
 
   const [transactionFee, setTransactionFee] = useState(null);
-
   useEffect(() => {
-    console.log('hello');
+    let cancelled = false;
+
     (async () => {
       try {
+        if (cancelled) return;
         const context = await buildContext({ mode: mode });
         const { feeTotal } = await estimateAmountReceiving({
           context,
@@ -123,15 +124,18 @@ export const Withdraw = (props: Props) => {
           currencyReceiving: toCurrency as TCurrency,
           amountDesired: withdrawAmount,
         });
-        console.log('feeTotal', feeTotal);
+        if (cancelled) return;
         setTransactionFee(feeTotal);
       } catch (e) {
+        if (cancelled) return;
         console.log(e);
       }
     })();
-  }, [toCurrency, withdrawAmount]);
 
-  // const minerFee = withdrawAmount ? calculateFixedFee(toCurrency, transactionFees).fixedFee : 0;
+    return () => {
+      cancelled = true;
+    };
+  }, [toCurrency, withdrawAmount]);
 
   const currencyItems = (
     <>
@@ -247,7 +251,7 @@ export const Withdraw = (props: Props) => {
                 </TextDescription>
               </div>
               <div className="right">
-                <TextFee variant="masked">{withdrawAmount >= 0 && transactionFee}</TextFee>
+                <TextFee variant="masked">{withdrawAmount > 0 ? transactionFee : 0}</TextFee>
               </div>
             </RowBottom>
 
