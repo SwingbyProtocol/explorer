@@ -1,4 +1,5 @@
 import { useWindowWidth } from '@react-hook/window-size';
+import { PULSAR_GLOBAL_FONT_HREF } from '@swingby-protocol/pulsar';
 import Head from 'next/head';
 import React, { ReactNode, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
@@ -50,6 +51,7 @@ export const Layout = (props: Props) => {
         <link rel="icon" href="/favicon.png" />
         <link rel="apple-touch-icon" href="/favicon.png" sizes="180x180" />
         <link rel="icon" type="image/png" href="/favicon.png" sizes="192x192" />
+        <link rel="stylesheet" href={PULSAR_GLOBAL_FONT_HREF} />
       </Head>
       <ToastContainer transition={Slide} />
 
