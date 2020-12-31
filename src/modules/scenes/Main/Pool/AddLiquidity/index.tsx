@@ -1,15 +1,17 @@
-import { Dropdown } from '@swingby-protocol/pulsar';
+import { Dropdown, Tooltip } from '@swingby-protocol/pulsar';
+import { buildContext, estimateAmountReceiving } from '@swingby-protocol/sdk';
 import { createWidget, openPopup } from '@swingby-protocol/widget';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
+import { PulseLoader } from 'react-spinners';
 import { useTheme } from 'styled-components';
 
 import { CoinSymbol, ETHCoins, PoolCurrencies } from '../../../../coins';
-import { checkIsValidAddress, checkIsValidAmount } from '../../../../explorer';
-import { calculateDepositFee, IWithdrawAmountValidation } from '../../../../pool';
-import { ButtonScale } from '../../../Common';
+import { checkIsValidAddress, checkIsValidAmount, TCurrency } from '../../../../explorer';
+import { IWithdrawAmountValidation } from '../../../../pool';
+import { ButtonScale, TextEstimated } from '../../../Common';
 import { mode } from '../.././../../env';
 
 import {
@@ -45,7 +47,7 @@ export const AddLiquidity = (props: Props) => {
   const theme = useTheme();
   const { formatMessage } = useIntl();
   const pool = useSelector((state) => state.pool);
-  const { userAddress, depositFeeRate } = pool;
+  const { userAddress } = pool;
   const explorer = useSelector((state) => state.explorer);
   const { themeMode } = explorer;
   const { locale } = useRouter();
@@ -55,8 +57,6 @@ export const AddLiquidity = (props: Props) => {
   const [fromCurrency, setFromCurrency] = useState(CoinSymbol.BTC);
   const [isValidAddress, setIsValidAddress] = useState(null);
   const [isValidAmount, setIsValidAmount] = useState(null);
-
-  const depositRate = depositFeeRate && depositFeeRate;
 
   const currencyItems = (
     <>
@@ -83,6 +83,39 @@ export const AddLiquidity = (props: Props) => {
   useEffect(() => {
     checkIsValidAmount(poolAmount, setIsValidAmount);
   }, [poolAmount]);
+
+  const [transactionFee, setTransactionFee] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    let cancelled = false;
+
+    (async () => {
+      poolAmount > 0 && setIsLoading(true);
+      try {
+        if (cancelled) return;
+
+        const context = await buildContext({ mode: mode });
+        const { feeTotal } = await estimateAmountReceiving({
+          context,
+          currencyDeposit: fromCurrency as TCurrency,
+          currencyReceiving: CoinSymbol.LP as TCurrency,
+          amountDesired: poolAmount,
+        });
+        if (cancelled) return;
+        setTransactionFee(feeTotal);
+      } catch (e) {
+        if (cancelled) return;
+        console.log(e);
+        setTransactionFee('');
+      }
+      setIsLoading(false);
+    })();
+
+    return () => {
+      cancelled = true;
+      setTransactionFee('');
+    };
+  }, [fromCurrency, poolAmount]);
 
   const widget = createWidget({
     resource: 'pool',
@@ -149,14 +182,36 @@ export const AddLiquidity = (props: Props) => {
             />
             {!isValidAddress && receivingAddress && addressValidationResult}
             <RowBottom>
-              <div className="left">
+              <div>
                 <TextDescription variant="masked">
-                  <FormattedMessage id="pool.pool.depositFee" />({depositRate[fromCurrency]}%):
+                  <FormattedMessage id="pool.withdraw.transactionFee" />
+                  &nbsp;
+                  <Tooltip
+                    content={
+                      <Tooltip.Content>
+                        <FormattedMessage id="pool.withdraw.estimatedReason" />
+                      </Tooltip.Content>
+                    }
+                    data-testid="tooltip"
+                  >
+                    {'('}
+                    <TextEstimated>
+                      <FormattedMessage id="pool.withdraw.estimated" />
+                    </TextEstimated>
+                    {')'}
+                  </Tooltip>
+                  <FormattedMessage id="pool.withdraw.estimated2" />
                 </TextDescription>
               </div>
-              <div className="right">
+              <div>
                 <TextFee variant="masked">
-                  {poolAmount >= 0 && calculateDepositFee(depositRate[fromCurrency], poolAmount)}
+                  {isLoading ? (
+                    <PulseLoader margin={3} size={4} color={theme.pulsar.color.text.normal} />
+                  ) : poolAmount > 0 ? (
+                    transactionFee
+                  ) : (
+                    0
+                  )}
                 </TextFee>
               </div>
             </RowBottom>

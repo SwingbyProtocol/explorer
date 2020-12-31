@@ -181,8 +181,3 @@ export const TextDescription = styled(Text)`
 export const TextFee = styled(TextDescription)`
   text-align: right;
 `;
-
-export const TextEstimated = styled(Text)`
-  border-bottom: 1px solid ${({ theme }) => theme.pulsar.color.text.placeholder};
-  cursor: pointer;
-`;

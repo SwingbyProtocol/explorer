@@ -12,4 +12,5 @@ export {
   SizeS,
   ButtonScale,
   IconBack,
+  TextEstimated,
 } from './Styled';
