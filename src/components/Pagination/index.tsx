@@ -19,6 +19,7 @@ export const Pagination = (props: Props) => {
         <BackButton
           variant="secondary"
           size="state"
+          shape="fit"
           onClick={() => page > 1 && goBackPage()}
           disabled={1 >= page}
         >
@@ -35,6 +36,7 @@ export const Pagination = (props: Props) => {
         <NextButton
           variant="secondary"
           size="state"
+          shape="fit"
           onClick={() => maximumPage > page && goNextPage()}
           disabled={page >= maximumPage}
         >
