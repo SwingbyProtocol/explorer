@@ -1,14 +1,14 @@
+export { ABI_SWAP } from './contract';
 export {
-  fetchRecentTransaction,
-  orgFloor,
   calculateDepositFee,
+  calculateSwapFee,
+  fetchRecentTransaction,
+  fetchSbBTCBalance,
+  getHexValue,
   makeEarningsData,
   makeTimeLabels,
-  getHexValue,
-  calculateSwapFee,
+  orgFloor,
 } from './utils';
-
-export { ABI_TOKEN, ABI_SWAP } from './contract';
 
 export enum PoolMode {
   Summary = 'Summary',
