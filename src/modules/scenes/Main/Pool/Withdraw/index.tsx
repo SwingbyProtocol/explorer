@@ -1,4 +1,5 @@
 import { Dropdown, Tooltip } from '@swingby-protocol/pulsar';
+import { CONTRACTS } from '@swingby-protocol/sdk';
 import { createWidget, openPopup } from '@swingby-protocol/widget';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -15,7 +16,7 @@ import {
   toBTC,
   toSatoshi,
 } from '../../../../explorer';
-import { ABI_SWAP, IWithdrawAmountValidation, orgFloor } from '../../../../pool';
+import { IWithdrawAmountValidation, orgFloor } from '../../../../pool';
 import { getMinimumWithdrawAmount, getWithdrawRate } from '../../../../store';
 import { ButtonScale } from '../../../Common';
 import { CONTRACT_SWAP, mode } from '../.././../../env';
@@ -79,7 +80,10 @@ export const Withdraw = (props: Props) => {
   useEffect(() => {
     if (web3 && transactionFees && toCurrency) {
       (async () => {
-        const contractSwap = new web3.eth.Contract(ABI_SWAP, CONTRACT_SWAP);
+        const contractSwap = new web3.eth.Contract(
+          CONTRACTS.skybridge.production.abi,
+          CONTRACT_SWAP,
+        );
 
         const fixedFee = calculateFixedFee(toCurrency, transactionFees).fixedFee;
         const fixedFeeSatoshi = toSatoshi(String(fixedFee));
