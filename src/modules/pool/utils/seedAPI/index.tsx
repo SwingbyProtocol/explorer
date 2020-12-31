@@ -8,6 +8,7 @@ export const fetchSbBTCBalance = async (userAddress: string) => {
   return Number(balance);
 };
 
+// Memo: To fetch sbBTC-BTC price rate
 export const fetchSbBTCRate = async () => {
   const url = `https://seed-git-fees.swingby.vercel.app/api/v1/${mode}/sbBTC/price`;
   const res = await fetch<{ price: string }>(url);
