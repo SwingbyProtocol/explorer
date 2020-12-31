@@ -10,8 +10,6 @@ import {
   CONTRACT_SWAP,
   CONTRACT_WBTC,
   ENDPOINT_EARNINGS,
-  etherscanApiKey,
-  URL_ETHERSCAN,
   ZERO_ADDRESS,
 } from '../../../../env';
 import { toBTC, toSatoshi } from '../../../../explorer';
@@ -79,17 +77,8 @@ export const AccountSummary = () => {
           return convertFromPercent(feeRate);
         };
 
-        const getBalance = async (userAddress: string) => {
-          const url = `${URL_ETHERSCAN}/api?module=account&action=tokenbalance&contractaddress=${CONTRACT_SB_BTC}&address=${userAddress}&tag=latest&apikey=${etherscanApiKey}`;
-          const res = await fetch<{ result: string }>(url);
-          const balance = res.ok && res.response.result;
-          return Number(balance);
-        };
-        const addressK = '0x4672f76fE968d6A490c0C79E0920e092afa01C73';
-
         const results = await Promise.all([
-          contractSbBTC.methods.balanceOf(addressK).call(),
-          // getBalance(userAddress),
+          contractSbBTC.methods.balanceOf(userAddress).call(),
           contractSwap.methods.getCurrentPriceLP().call(),
           fetch<{ total: string }>(urlEarning),
         ]);

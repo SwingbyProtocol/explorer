@@ -28,7 +28,6 @@ export enum LOCAL_STORAGE {
 
 export const mode: SkybridgeMode =
   process.env.NEXT_PUBLIC_MODE === MODE.PRODUCTION ? MODE.PRODUCTION : MODE.TEST;
-console.log('mode', mode);
 
 export const PAGE_COUNT = 25;
 
@@ -52,7 +51,7 @@ export const infuraApiKey =
   process.env.NEXT_PUBLIC_INFURA_KEY || 'f35c2a4f3d0941a38a3edb62ed10c847';
 
 export const RPC_URL = `https://${ETHER_NETWORK.network}.infura.io/v3/${infuraApiKey}`;
-console.log('RPC_URL', RPC_URL);
+
 export const infuraAppName = 'Swingby Explorer';
 
 export const ENDPOINT_ETHEREUM_NODE =
@@ -84,7 +83,3 @@ export const CONTRACT_SWAP =
 
 // Memo: BTC is not on Ethereum, it doesn’t have an address, so the contract uses this one to represent BTC
 export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
-
-console.log('CONTRACT_WBTC', CONTRACT_WBTC);
-console.log('CONTRACT_SB_BTC', CONTRACT_SB_BTC);
-console.log('CONTRACT_SWAP', CONTRACT_SWAP);
