@@ -6,6 +6,11 @@ interface PageProps {
   page: number;
 }
 
+export const PaginationRow = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
+
 export const PaginationContainer = styled.div`
   display: flex;
   align-items: center;
@@ -28,9 +33,4 @@ export const PageRow = styled.div<PageProps>`
   width: ${(props) => (props.page > 99 ? rem(100) : rem(80))};
   text-align: center;
   white-space: nowrap;
-`;
-
-export const PaginationRow = styled.div`
-  display: flex;
-  justify-content: flex-end;
 `;
