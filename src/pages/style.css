@@ -2,3 +2,8 @@
 .bn-onboard-custom.bn-onboard-modal {
   z-index: 99;
 }
+
+/* Memo: To fix stars background bug */
+body {
+  overflow-x: hidden;
+}

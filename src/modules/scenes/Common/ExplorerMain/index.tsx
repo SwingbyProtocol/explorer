@@ -165,9 +165,10 @@ export const ExplorerMain = () => {
 
   const windowDimension = typeof window !== 'undefined' && window;
   const windowSize = { x: windowDimension.innerWidth, y: windowDimension.innerHeight };
-  const randomize = (pos) => Math.random() * pos;
-  const createElements = (num) => [...Array(num)];
+  const randomize = (pos: number) => Math.random() * pos;
+  const createElements = (num: number) => [...Array(num)];
   const [delay, setDelay] = useState(0);
+
   useEffect(() => {
     setTimeout(() => {
       setDelay(1);
@@ -188,26 +189,16 @@ export const ExplorerMain = () => {
       />
 
       <PulsarThemeProvider theme="accent">
-        {/* {createElements(7).map((el, i) => (
-          <ShootingStar
-            key={i}
-            startX={randomize(windowSize.x)}
-            startY={randomize(windowSize.y)}
-            delay={randomize(10)}
-          />
-        ))} */}
         <ExplorerMainContainer>
-          {createElements(70).map((el, i) => {
-            return (
-              <Star
-                key={i}
-                scale={randomize(1)}
-                delay={randomize(delay)}
-                xPos={randomize(windowSize.x)}
-                yPos={randomize(300)}
-              />
-            );
-          })}
+          {createElements(70).map((el, i) => (
+            <Star
+              key={i}
+              scale={randomize(1)}
+              delay={randomize(delay)}
+              xPos={randomize(windowSize.x)}
+              yPos={randomize(270)}
+            />
+          ))}
           <HeadLine>
             <TitleH1>{titleGenerator(currentPath)}</TitleH1>
             <PulsarThemeProvider theme={themeMode}>
