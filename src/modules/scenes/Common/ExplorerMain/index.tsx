@@ -167,6 +167,12 @@ export const ExplorerMain = () => {
   const windowSize = { x: windowDimension.innerWidth, y: windowDimension.innerHeight };
   const randomize = (pos) => Math.random() * pos;
   const createElements = (num) => [...Array(num)];
+  const [delay, setDelay] = useState(0);
+  useEffect(() => {
+    setTimeout(() => {
+      setDelay(1);
+    }, 1000);
+  }, []);
 
   return (
     <>
@@ -191,15 +197,17 @@ export const ExplorerMain = () => {
           />
         ))} */}
         <ExplorerMainContainer>
-          {createElements(80).map((el, i) => (
-            <Star
-              key={i}
-              scale={randomize(1)}
-              delay={randomize(1)}
-              xPos={randomize(windowSize.x)}
-              yPos={randomize(270)}
-            />
-          ))}
+          {createElements(70).map((el, i) => {
+            return (
+              <Star
+                key={i}
+                scale={randomize(1)}
+                delay={randomize(delay)}
+                xPos={randomize(windowSize.x)}
+                yPos={randomize(300)}
+              />
+            );
+          })}
           <HeadLine>
             <TitleH1>{titleGenerator(currentPath)}</TitleH1>
             <PulsarThemeProvider theme={themeMode}>
