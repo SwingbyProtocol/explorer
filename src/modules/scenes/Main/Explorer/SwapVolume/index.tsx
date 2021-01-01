@@ -51,16 +51,16 @@ export const SwapVolume = (props: Props) => {
       ],
       datasets: [
         {
-          // label: 'USD',
           pointBorderColor: 'rgba(75,192,192,1)',
           pointBackgroundColor: 'white',
-          pointBorderWidth: 1,
+          pointBorderWidth: 2,
           pointHoverRadius: 6,
           pointHoverBackgroundColor: 'rgba(75,192,192,1)',
           pointHoverBorderColor: 'rgba(220,220,220,1)',
           pointHoverBorderWidth: 2,
-          pointRadius: 1,
-          pointHitRadius: 10,
+          pointRadius: 1.5,
+          // Memo: To disable pointHit dot
+          pointHitRadius: 0,
           fill: 'start',
           backgroundColor: gradient,
           borderColor: '#31D5B8',
@@ -87,8 +87,11 @@ export const SwapVolume = (props: Props) => {
         radius: 0,
       },
     },
+
     tooltips: {
       displayColors: false,
+      position: 'nearest',
+      intersect: false,
       callbacks: {
         label: (data) => {
           return intl.formatNumber(data.value, { style: 'currency', currency: 'USD' });
