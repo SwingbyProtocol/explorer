@@ -6,12 +6,14 @@ import { StylingConstants } from '../../../styles';
 
 const { media } = StylingConstants;
 export const ExplorerMainContainer = styled.div`
+  position: relative;
   height: ${rem(250)};
   background: ${({ theme }) => theme.pulsar.color.bg.normal};
-  background-image: url(${logos.StarsBg});
+  z-index: -100;
+  /* background-image: url(${logos.StarsBg});
   background-repeat: no-repeat;
   background-position: center;
-  background-size: cover;
+  background-size: cover; */
 
   @media (min-width: ${rem(media.xs)}) {
     height: ${rem(240)};
