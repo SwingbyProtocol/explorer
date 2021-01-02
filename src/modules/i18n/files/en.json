@@ -33,6 +33,8 @@
   "footer.links": "Links",
   "footer.developers": "Developers",
   "footer.transactionFees": "Transaction Fees",
+  "footer.mainnet": "Skybridge Mainnet",
+  "footer.testnet": "Skybridge Testnet",
   "home.explorer": "Skybridge Explorer",
   "home.noResultsFound": "No results found :-(",
   "home.tryDifferentTx": "Try a different transaction or address",

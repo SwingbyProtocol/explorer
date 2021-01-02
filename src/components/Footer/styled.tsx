@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { StylingConstants } from '../../modules/styles';
 
 const { media } = StylingConstants;
+const mobileScreen = media.sm + 100;
 
 export const FooterContainer = styled.div`
   height: 100%;
@@ -16,7 +17,7 @@ export const FooterBox = styled.div`
   justify-content: center;
   justify-items: center;
   margin-top: ${({ theme }) => rem(theme.pulsar.size.street)};
-  @media (min-width: ${rem(media.sm)}) {
+  @media (min-width: ${rem(mobileScreen)}) {
     grid-template-columns: auto;
     grid-template-columns: repeat(4, 1fr);
     justify-items: start;
@@ -30,7 +31,7 @@ export const TextTitle = styled(Text)`
   color: ${({ theme }) => theme.pulsar.color.text.accent};
   line-height: ${({ theme }) => rem(theme.pulsar.size.city)};
   font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
-  @media (min-width: ${rem(media.sm)}) {
+  @media (min-width: ${rem(mobileScreen)}) {
     text-align: left;
   }
 `;
@@ -42,12 +43,8 @@ export const ColumnLink = styled.div`
 export const ColumnTerm = styled.div`
   margin-top: ${({ theme }) => rem(theme.pulsar.size.room)};
   margin-bottom: ${({ theme }) => rem(theme.pulsar.size.box)};
-  @media (min-width: ${rem(media.sm)}) {
-    margin-bottom: 0;
-    padding-bottom: ${({ theme }) => rem(theme.pulsar.size.drawer)};
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
+  @media (min-width: ${rem(mobileScreen)}) {
+    padding-top: ${rem(26)};
   }
 `;
 
@@ -61,7 +58,7 @@ export const UlLink = styled.ul`
 export const LiLink = styled.li`
   justify-self: center;
   line-height: ${({ theme }) => rem(theme.pulsar.size.box * 7)};
-  @media (min-width: ${rem(media.sm)}) {
+  @media (min-width: ${rem(mobileScreen)}) {
     justify-self: start;
   }
 `;
@@ -111,7 +108,7 @@ export const MediaRow = styled.div`
   grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.closet)};
   grid-template-columns: repeat(6, 1fr);
   margin-bottom: ${({ theme }) => rem(theme.pulsar.size.room)};
-  @media (min-width: ${rem(media.sm)}) {
+  @media (min-width: ${rem(mobileScreen)}) {
     padding-right: 0;
     align-self: center;
     margin-bottom: 0;
@@ -125,7 +122,7 @@ export const SwingbyLogo = styled(Icon.SwingbyWithName)`
   justify-self: center;
   font-size: ${({ theme }) => rem(theme.pulsar.size.street)};
   color: ${({ theme }) => theme.pulsar.color.text.accent};
-  @media (min-width: ${rem(media.sm)}) {
+  @media (min-width: ${rem(mobileScreen)}) {
     margin-top: ${({ theme }) => rem(theme.pulsar.size.box)};
     margin-bottom: 0;
     justify-self: start;

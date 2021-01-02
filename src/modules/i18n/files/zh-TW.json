@@ -33,6 +33,8 @@
   "footer.links": "網址導航",
   "footer.developers": "開發者",
   "footer.transactionFees": "交易手續費",
+  "footer.mainnet": "Skybridge 主網",
+  "footer.testnet": "Skybridge 測試網",
   "home.explorer": "Skybridge Explorer",
   "home.noResultsFound": "未找到查詢信息 :-(",
   "home.tryDifferentTx": "嘗試其他 Transaction 或錢包地址",
