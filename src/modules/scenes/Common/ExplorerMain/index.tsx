@@ -9,6 +9,7 @@ import { DuplicateSwapWidgetModal } from '../../../../components/DuplicateSwapWi
 import { Footer } from '../../../../components/Footer';
 import { LinkToWidgetModal } from '../../../../components/LinkToWidgetModal';
 import { Search } from '../../../../components/Search';
+import { Star } from '../../../../components/Star';
 import { toastWrongAddress } from '../../../../components/Toast';
 import { ETHCoins } from '../../../coins';
 import { titleGenerator } from '../../../common';
@@ -162,6 +163,18 @@ export const ExplorerMain = () => {
     }
   };
 
+  const windowDimension = typeof window !== 'undefined' && window;
+  const windowSize = { x: windowDimension.innerWidth, y: windowDimension.innerHeight };
+  const randomize = (pos: number) => Math.random() * pos;
+  const createElements = (num: number) => [...Array(num)];
+  const [delay, setDelay] = useState(0);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setDelay(1);
+    }, 1000);
+  }, []);
+
   return (
     <>
       <LinkToWidgetModal
@@ -177,6 +190,15 @@ export const ExplorerMain = () => {
 
       <PulsarThemeProvider theme="accent">
         <ExplorerMainContainer>
+          {createElements(70).map((el, i) => (
+            <Star
+              key={i}
+              scale={randomize(1)}
+              delay={randomize(delay)}
+              xPos={randomize(windowSize.x)}
+              yPos={randomize(270)}
+            />
+          ))}
           <HeadLine>
             <TitleH1>{titleGenerator(currentPath)}</TitleH1>
             <PulsarThemeProvider theme={themeMode}>

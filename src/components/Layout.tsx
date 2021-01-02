@@ -53,6 +53,7 @@ export const Layout = (props: Props) => {
         <link rel="icon" type="image/png" href="/favicon.png" sizes="192x192" />
         <link rel="stylesheet" href={PULSAR_GLOBAL_FONT_HREF} />
       </Head>
+
       <ToastContainer transition={Slide} />
 
       <Header setThemeMode={props.setThemeMode} themeMode={props.themeMode} />

@@ -1,4 +1,3 @@
-import { logos } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
 import styled from 'styled-components';
 
@@ -6,13 +5,10 @@ import { StylingConstants } from '../../../styles';
 
 const { media } = StylingConstants;
 export const ExplorerMainContainer = styled.div`
+  position: relative;
   height: ${rem(250)};
   background: ${({ theme }) => theme.pulsar.color.bg.normal};
-  background-image: url(${logos.StarsBg});
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-
+  z-index: -100;
   @media (min-width: ${rem(media.xs)}) {
     height: ${rem(240)};
     display: grid;

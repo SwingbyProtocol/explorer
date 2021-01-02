@@ -33,6 +33,8 @@
   "footer.links": "网址导航",
   "footer.developers": "开发者",
   "footer.transactionFees": "交易手续费",
+  "footer.mainnet": "Skybridge 主网",
+  "footer.testnet": "Skybridge 测试网",
   "home.explorer": "Skybridge Explorer",
   "home.noResultsFound": "未找到查询信息 :-(",
   "home.tryDifferentTx": "尝试其他 Transaction 或钱包地址",
