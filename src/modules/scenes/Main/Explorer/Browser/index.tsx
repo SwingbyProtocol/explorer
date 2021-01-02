@@ -87,10 +87,16 @@ export const Browser = (props: Props) => {
   };
 
   const routerPush = (bridge: string, q: string, page: number): void => {
-    router.push({
-      pathname: '/',
-      query: { bridge, q, page },
-    });
+    // Memo: Shallow routing make URL faster update and page won't get replaced. Only the state of the route is changed.
+    // Ref: https://nextjs.org/docs/routing/shallow-routing
+    router.push(
+      {
+        pathname: '/',
+        query: { bridge, q, page },
+      },
+      undefined,
+      { shallow: true },
+    );
   };
 
   const isNoResult = swapHistory && swapHistory.total === 0;
