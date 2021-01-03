@@ -8,7 +8,7 @@ export const ExplorerMainContainer = styled.div`
   position: relative;
   height: ${rem(250)};
   background: ${({ theme }) => theme.pulsar.color.bg.normal};
-  z-index: -100;
+  z-index: 0;
   @media (min-width: ${rem(media.xs)}) {
     height: ${rem(240)};
     display: grid;
