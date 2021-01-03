@@ -20,7 +20,7 @@ import {
 } from '../../../../explorer';
 import { IWithdrawAmountValidation } from '../../../../pool';
 import { getMinimumWithdrawAmount, getWithdrawRate } from '../../../../store';
-import { ButtonScale, TextEstimated } from '../../../Common';
+import { ButtonScale, TextChosenFilter, TextEstimated } from '../../../Common';
 import { CONTRACT_SWAP, mode } from '../.././../../env';
 
 import {
@@ -185,7 +185,8 @@ export const Withdraw = (props: Props) => {
                   target={
                     <DefaultTarget size="city">
                       {' '}
-                      <TargetCoin symbol={toCurrency} /> {toCurrency}
+                      <TargetCoin symbol={toCurrency} />{' '}
+                      <TextChosenFilter>{toCurrency} </TextChosenFilter>
                     </DefaultTarget>
                   }
                   data-testid="dropdown"

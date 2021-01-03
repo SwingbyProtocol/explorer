@@ -75,3 +75,7 @@ export const TextEstimated = styled(Text)`
   border-bottom: 1px solid ${({ theme }) => theme.pulsar.color.text.placeholder};
   cursor: pointer;
 `;
+
+export const TextChosenFilter = styled(Text)`
+  padding-right: ${({ theme }) => rem(theme.pulsar.size.box)};
+`;
