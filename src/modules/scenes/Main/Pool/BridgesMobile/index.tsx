@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { setBridge } from '../../../../store';
+import { TextChosenFilter } from '../../../Common';
 
 import { BackDrop, BridgesMobileContainer, DropTargetBridges, TextTitle } from './styled';
 
@@ -34,7 +35,11 @@ export const BridgesMobile = () => {
         <FormattedMessage id="pool.bridges" />
       </TextTitle>
       <Dropdown
-        target={<DropTargetBridges size="city">{bridge}</DropTargetBridges>}
+        target={
+          <DropTargetBridges size="city">
+            <TextChosenFilter> {bridge}</TextChosenFilter>{' '}
+          </DropTargetBridges>
+        }
         data-testid="dropdown"
       >
         {bridgesItems}

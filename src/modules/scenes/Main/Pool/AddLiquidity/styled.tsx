@@ -121,7 +121,6 @@ export const DropdownCurrency = styled(Dropdown)<DropDownProps>`
 `;
 
 export const DefaultTarget = styled(Dropdown.DefaultTarget)`
-  padding-left: ${({ theme }) => rem(theme.pulsar.size.room)};
   margin-top: ${({ theme }) => rem(theme.pulsar.size.box / 2)};
   margin-bottom: ${({ theme }) => rem(theme.pulsar.size.box / 2)};
 `;

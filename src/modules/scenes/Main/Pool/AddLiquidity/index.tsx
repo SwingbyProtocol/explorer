@@ -11,7 +11,7 @@ import { useTheme } from 'styled-components';
 import { CoinSymbol, ETHCoins, PoolCurrencies } from '../../../../coins';
 import { checkIsValidAddress, checkIsValidAmount, TCurrency } from '../../../../explorer';
 import { IWithdrawAmountValidation } from '../../../../pool';
-import { ButtonScale, TextEstimated } from '../../../Common';
+import { ButtonScale, TextChosenFilter, TextEstimated } from '../../../Common';
 import { mode } from '../.././../../env';
 
 import {
@@ -145,7 +145,8 @@ export const AddLiquidity = (props: Props) => {
                 <DropdownCurrency
                   target={
                     <DefaultTarget size="city">
-                      <TargetCoin symbol={fromCurrency} /> {fromCurrency}
+                      <TargetCoin symbol={fromCurrency} />
+                      <TextChosenFilter>{fromCurrency} </TextChosenFilter>
                     </DefaultTarget>
                   }
                   data-testid="dropdown"

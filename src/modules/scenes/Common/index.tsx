@@ -13,4 +13,5 @@ export {
   ButtonScale,
   IconBack,
   TextEstimated,
+  TextChosenFilter,
 } from './Styled';
