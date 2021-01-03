@@ -170,12 +170,6 @@ export const ExplorerMain = () => {
   const [delay, setDelay] = useState(0);
   const [isDevToolsOpen, setIsDevToolsOpen] = useState(null);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setDelay(1);
-    }, 1000);
-  }, []);
-
   // Ref: https://stackoverflow.com/questions/7798748/find-out-whether-chrome-console-is-open
   const handleIsDevToolOpen = () => {
     if (typeof window !== 'undefined') {
@@ -193,6 +187,12 @@ export const ExplorerMain = () => {
   useEffect(() => {
     handleIsDevToolOpen();
   }, [width]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setDelay(1);
+    }, 1000);
+  }, []);
 
   return (
     <>
