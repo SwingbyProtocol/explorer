@@ -157,7 +157,7 @@ export const TxHistories = (props: Props) => {
                 bg={bgKey % 2 !== 0}
                 borderColor={borderColor}
                 onMouseEnter={() => {
-                  dispatch(selectSwapDetails(tx));
+                  // dispatch(selectSwapDetails(tx));
                   router.prefetch(`${PATH.SWAP}/${tx.hash}`);
                 }}
                 onClick={() => goToDetail(tx.hash)}
