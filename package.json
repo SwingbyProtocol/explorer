@@ -24,7 +24,7 @@
     "@react-hook/copy": "^2.0.1",
     "@react-hook/window-size": "^3.0.7",
     "@swingby-protocol/ip-check": "^1.0.0",
-    "@swingby-protocol/pulsar": "^2.0.0",
+    "@swingby-protocol/pulsar": "^2.0.0-alpha.3",
     "@swingby-protocol/sdk": "^1.0.0-alpha.57",
     "@swingby-protocol/widget": "^1.0.0-alpha.16",
     "bignumber.js": "^9.0.1",
