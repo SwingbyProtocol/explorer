@@ -38,7 +38,15 @@ export const ExplorerMain = () => {
 
   // Memo: Scroll to top when go to another page
   useEffect(() => {
-    window.scrollTo(0, 0);
+    try {
+      window.scroll({
+        top: 0,
+        left: 0,
+      });
+    } catch (error) {
+      // Memo: just a fallback for older browsers
+      window.scrollTo(0, 0);
+    }
   }, [router.pathname]);
 
   const login = useCallback(async () => {
