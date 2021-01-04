@@ -12,7 +12,7 @@ import { Search } from '../../../../components/Search';
 import { Star } from '../../../../components/Star';
 import { toastWrongAddress } from '../../../../components/Toast';
 import { ETHCoins } from '../../../coins';
-import { titleGenerator } from '../../../common';
+import { scrollToTop, titleGenerator } from '../../../common';
 import { mode, PATH } from '../../../env';
 import { TSwapWidget, TTxRawObject } from '../../../explorer';
 import { initOnboard } from '../../../onboard';
@@ -24,6 +24,9 @@ import { ExplorerMainContainer, HeadLine, TitleH1 } from './styled';
 export const ExplorerMain = () => {
   const router = useRouter();
   const currentPath = router.pathname;
+  useEffect(() => {
+    scrollToTop();
+  }, [currentPath]);
 
   const dispatch = useDispatch();
   const pool = useSelector((state) => state.pool);

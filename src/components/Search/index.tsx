@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 
-import { scrollToTop } from '../../modules/common';
 import { StylingConstants } from '../../modules/styles';
 
 import { SearchIcon, SearchInput } from './styled';
@@ -23,12 +22,10 @@ export const Search = () => {
       value={search || router.query.q}
       onChange={(evt) => {
         setSearch(evt.target.value);
-        router
-          .push({
-            pathname: '/',
-            query: { bridge: '', q: evt.target.value, page: 1 },
-          })
-          .then(() => scrollToTop());
+        router.push({
+          pathname: '/',
+          query: { bridge: '', q: evt.target.value, page: 1 },
+        });
       }}
       placeholder={formatMessage({ id: 'common.placeholder.search' })}
       right={<SearchIcon size="country" />}

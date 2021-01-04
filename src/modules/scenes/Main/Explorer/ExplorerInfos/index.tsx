@@ -4,7 +4,6 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 
-import { scrollToTop } from '../../../../common';
 import { PATH } from '../../../../env';
 import { IStats } from '../../../../explorer';
 
@@ -88,7 +87,7 @@ export const ExplorerInfos = (props: Props) => {
                       <Text variant="label">{info.description}</Text>
                       <ValidatorLinkSpan
                         variant="accent"
-                        onClick={() => router.push(PATH.METANODES).then(() => scrollToTop())}
+                        onClick={() => router.push(PATH.METANODES)}
                       >
                         <FormattedMessage id="common.all" />
                       </ValidatorLinkSpan>

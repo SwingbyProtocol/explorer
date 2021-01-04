@@ -8,8 +8,9 @@ import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import { IntlProvider } from 'react-intl';
 import { Provider as ReduxProvider } from 'react-redux';
-
 import 'react-toastify/dist/ReactToastify.min.css'; // eslint-disable-line
+import { RouterScrollProvider } from '@moxy/next-router-scroll';
+
 import { Layout } from '../components/Layout';
 import { LOCAL_STORAGE } from '../modules/env';
 import { languages } from '../modules/i18n';
@@ -45,20 +46,22 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
-      <SEO />
-      <PulsarThemeProvider theme={themeMode}>
-        <IntlProvider messages={messages} locale={locale} defaultLocale={DEFAULT_LOCALE}>
-          <Head>
-            <link rel="stylesheet" href={PULSAR_GLOBAL_FONT_HREF} />
-          </Head>
-          <PulsarGlobalStyles />
-          <ReduxProvider store={store}>
-            <Layout setThemeMode={setThemeMode} themeMode={themeMode}>
-              <Component {...pageProps} />
-            </Layout>
-          </ReduxProvider>
-        </IntlProvider>
-      </PulsarThemeProvider>
+      <RouterScrollProvider>
+        <SEO />
+        <PulsarThemeProvider theme={themeMode}>
+          <IntlProvider messages={messages} locale={locale} defaultLocale={DEFAULT_LOCALE}>
+            <Head>
+              <link rel="stylesheet" href={PULSAR_GLOBAL_FONT_HREF} />
+            </Head>
+            <PulsarGlobalStyles />
+            <ReduxProvider store={store}>
+              <Layout setThemeMode={setThemeMode} themeMode={themeMode}>
+                <Component {...pageProps} />
+              </Layout>
+            </ReduxProvider>
+          </IntlProvider>
+        </PulsarThemeProvider>
+      </RouterScrollProvider>
     </>
   );
 }
