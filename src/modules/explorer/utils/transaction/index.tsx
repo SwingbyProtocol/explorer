@@ -1,5 +1,7 @@
+import { PulsarThemeType, getStatusColor } from '@swingby-protocol/pulsar';
 import { DateTime, Interval } from 'luxon';
 import { FormattedDate, FormattedRelativeTime, FormattedTime } from 'react-intl';
+import { transparentize } from 'polished';
 
 import { BTCBCoins, CoinSymbol, ETHCoins } from '../../../coins';
 import { TStatus, TTxRawObject } from '../../index';
@@ -21,28 +23,14 @@ export const TxStatus = {
   EXPIRED: 'EXPIRED',
 };
 
-const {
-  COMPLETED,
-  REJECTED,
-  CANCELED,
-  REFUNDING,
-  SIGNING_REFUND,
-  REFUNDED,
-  SENDING_REFUND,
-} = TxStatus;
-
-const rejectStatus = [REJECTED, CANCELED, REFUNDED, REFUNDING, SIGNING_REFUND, SENDING_REFUND];
-
-export const getBorderColor = (status: TStatus, theme: string): string => {
-  const lightWaiting = `2px solid rgba(128, 137, 148, 0.35)`;
-  const darkWaiting = `2px solid rgba(204, 204, 204, 0.35)`;
-  if (status === COMPLETED) {
-    return `2px solid rgba(89, 213, 184, 0.35)`;
-  } else if (rejectStatus.includes(status)) {
-    return `2px solid rgba(209, 76, 63, 0.35)`;
-  } else {
-    return theme === 'light' ? lightWaiting : darkWaiting;
-  }
+export const getBorderColor = ({
+  status,
+  theme,
+}: {
+  status: TStatus;
+  theme: PulsarThemeType;
+}): string => {
+  return `2px solid ${transparentize(0.65)(getStatusColor({ status, theme }))}`;
 };
 
 export const currencyNetwork = (currency: string): string => {

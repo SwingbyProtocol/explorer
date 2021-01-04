@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTheme } from 'styled-components';
 
 import { Pagination } from '../../../../../components/Pagination';
 import {
@@ -84,7 +85,7 @@ export const TxHistories = (props: Props) => {
   const [toggleOpenLink, setToggleOpenLink] = useState(1);
   const router = useRouter();
   const explorer = useSelector((state) => state.explorer);
-  const { themeMode } = explorer;
+  const theme = useTheme();
 
   useEffect(() => {
     if (chosenTx) {
@@ -148,7 +149,7 @@ export const TxHistories = (props: Props) => {
         {currentTxs &&
           currentTxs.map((tx: TTxRawObject, i: number) => {
             const bgKey = i - adjustIndex;
-            const borderColor = getBorderColor(tx.status, themeMode);
+            const borderColor = getBorderColor({ status: tx.status, theme });
             return (
               <TxHistoryRow
                 key={tx.hash}
