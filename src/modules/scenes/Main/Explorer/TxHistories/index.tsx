@@ -157,11 +157,6 @@ export const TxHistories = (props: Props) => {
                 borderColor={borderColor}
                 onMouseEnter={() => {
                   dispatch(selectSwapDetails(tx));
-                  // router.prefetch(`${PATH.SWAP}/${tx.hash}`);
-                  // (async () => {
-                  //   console.log('path', `${PATH.SWAP}/${tx.hash}`);
-                  //   // await router.prefetch(`${PATH.SWAP}/[hash]`, `${PATH.SWAP}/${tx.hash}`, {});
-                  // })();
                 }}
                 onClick={() => goToDetail(tx.hash)}
                 variants={page === 1 && TxRowVariants}
