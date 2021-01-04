@@ -4,13 +4,7 @@ import { useIntl } from 'react-intl';
 
 import { GoBackArrow } from '../../../../../components/GoBackArrow';
 import { Loader } from '../../../../../components/Loader';
-import {
-  capitalize,
-  convertTxTime,
-  statusColor,
-  TStatus,
-  TTxRawObject,
-} from '../../../../explorer';
+import { capitalize, convertTxTime, TStatus, TTxRawObject } from '../../../../explorer';
 import { generateMessage } from '../../../../swap';
 
 import {
@@ -37,7 +31,7 @@ export const StatusCard = (props: Props) => {
         <>
           <GoBackArrow />
           <Row>
-            <StatusCircle variant={statusColor(tx.status)} />
+            <StatusCircle status={tx.status} />
             <StatusText variant="accent">{capitalize(tx.status)}</StatusText>
           </Row>
           <SwapStatus

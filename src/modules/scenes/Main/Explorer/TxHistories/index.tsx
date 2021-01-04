@@ -10,7 +10,6 @@ import {
   convertTxTime,
   currencyNetwork,
   getBorderColor,
-  statusColor,
   TSwapWidget,
   TTxRawObject,
   TxRowTransition,
@@ -166,7 +165,7 @@ export const TxHistories = (props: Props) => {
               >
                 <Column>
                   <Status>
-                    <StatusCircle variant={statusColor(tx.status)} />
+                    <StatusCircle status={tx.status} />
                     <StatusText variant="accent">{capitalize(tx.status)}</StatusText>
                   </Status>
                   <Bottom>

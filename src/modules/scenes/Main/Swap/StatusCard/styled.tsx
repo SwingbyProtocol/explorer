@@ -1,4 +1,4 @@
-import { Icon, StatusIcon, SwapProgress, Text } from '@swingby-protocol/pulsar';
+import { Icon, SwapStatusIcon, SwapProgress, Text } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
 import styled from 'styled-components';
 
@@ -27,7 +27,7 @@ export const Row = styled.div`
   margin-bottom: ${({ theme }) => rem(theme.pulsar.size.town)};
 `;
 
-export const StatusCircle = styled(StatusIcon)`
+export const StatusCircle = styled(SwapStatusIcon)`
   width: ${({ theme }) => rem(theme.pulsar.size.drawer)};
   height: ${({ theme }) => rem(theme.pulsar.size.drawer)};
 `;

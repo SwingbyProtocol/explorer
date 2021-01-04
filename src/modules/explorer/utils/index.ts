@@ -1,7 +1,6 @@
 export { loadHistory } from './loadHistory';
 export {
   currencyNetwork,
-  statusColor,
   TxStatus,
   convertDateTime,
   removeDuplicatedTxs,

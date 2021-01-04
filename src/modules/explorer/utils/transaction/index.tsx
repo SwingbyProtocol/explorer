@@ -33,19 +33,6 @@ const {
 
 const rejectStatus = [REJECTED, CANCELED, REFUNDED, REFUNDING, SIGNING_REFUND, SENDING_REFUND];
 
-type statusType = 'success' | 'danger' | 'warning';
-
-export const statusColor = (status: string): statusType => {
-  const statusUpperCase = status.toUpperCase();
-  if (statusUpperCase === COMPLETED) {
-    return 'success';
-  } else if (rejectStatus.includes(statusUpperCase)) {
-    return 'danger';
-  } else {
-    return 'warning';
-  }
-};
-
 export const getBorderColor = (status: TStatus, theme: string): string => {
   const lightWaiting = `2px solid rgba(128, 137, 148, 0.35)`;
   const darkWaiting = `2px solid rgba(204, 204, 204, 0.35)`;

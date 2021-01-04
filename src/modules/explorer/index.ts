@@ -1,7 +1,6 @@
 export {
   loadHistory,
   currencyNetwork,
-  statusColor,
   TxStatus,
   removeDuplicatedTxs,
   convertTxTime,

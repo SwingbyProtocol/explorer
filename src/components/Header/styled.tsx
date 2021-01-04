@@ -1,4 +1,4 @@
-import { AppLogo, Dropdown, Icon, StatusIcon, Text } from '@swingby-protocol/pulsar';
+import { AppLogo, Dropdown, Icon, Text } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
 import styled from 'styled-components';
 
@@ -129,9 +129,13 @@ export const ColumnPool = styled.div`
   display: flex;
 `;
 
-export const IconLive = styled(StatusIcon)`
+export const IconLive = styled.div`
   font-size: ${({ theme }) => rem(theme.pulsar.size.box)};
+  width: 1em;
+  height: 1em;
   margin-left: ${({ theme }) => rem(theme.pulsar.size.drawer)};
+  border-radius: 50%;
+  background: ${({ theme }) => theme.pulsar.color.primary.normal};
 `;
 
 export const TextLang = styled(Text)`
