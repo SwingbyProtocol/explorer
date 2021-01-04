@@ -5,4 +5,5 @@ export {
   numToK,
   convert2Currency,
   convertFromPercent,
+  scrollToTop,
 } from './utils';

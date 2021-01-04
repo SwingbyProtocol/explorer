@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Loader } from '../../../../../components/Loader';
+import { scrollToTop } from '../../../../common';
 import { PAGE_COUNT, PATH, TXS_COUNT } from '../../../../env';
 import {
   BRIDGE,
@@ -82,21 +83,23 @@ export const Browser = (props: Props) => {
   const chainBridge = String(params.bridge || '');
 
   const goToDetail = (hash: string) => {
-    router.push(`${PATH.SWAP}/${hash}`);
+    router.push(`${PATH.SWAP}/${hash}`).then(() => scrollToTop());
     dispatch(toggleIsExistPreviousPage(true));
   };
 
   const routerPush = (bridge: string, q: string, page: number): void => {
     // Memo: Shallow routing make URL faster update and page won't get replaced. Only the state of the route is changed.
     // Ref: https://nextjs.org/docs/routing/shallow-routing
-    router.push(
-      {
-        pathname: '/',
-        query: { bridge, q, page },
-      },
-      undefined,
-      { shallow: true },
-    );
+    router
+      .push(
+        {
+          pathname: '/',
+          query: { bridge, q, page },
+        },
+        undefined,
+        { shallow: true },
+      )
+      .then(() => scrollToTop());
   };
 
   const isNoResult = swapHistory && swapHistory.total === 0;

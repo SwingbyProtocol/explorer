@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { DarkModeSwitch } from 'react-toggle-dark-mode';
 import { useTheme } from 'styled-components';
 
-import { getInitialLanguage } from '../../modules/common';
+import { getInitialLanguage, scrollToTop } from '../../modules/common';
 import { LOCAL_STORAGE, PATH } from '../../modules/env';
 import { capitalize, TTheme } from '../../modules/explorer';
 import { languagesSelector } from '../../modules/i18n';
@@ -76,7 +76,11 @@ export const Header = (props: Props) => {
         <Dropdown.Item
           selected={lang === language.text}
           // Memo: asPath: To consider dynamic path for swap detail page
-          onClick={() => router.push(router.asPath, router.asPath, { locale: language.code })}
+          onClick={() =>
+            router
+              .push(router.asPath, router.asPath, { locale: language.code })
+              .then(() => scrollToTop())
+          }
           key={language.code}
         >
           {language.text}
@@ -100,7 +104,7 @@ export const Header = (props: Props) => {
           {routing.map((link) => (
             <DropDownItemMobile
               key={link.text}
-              onClick={() => router.push(link.route)}
+              onClick={() => router.push(link.route).then(() => scrollToTop())}
               isActive={link.route === currentPath}
             >
               {link.text}
@@ -121,7 +125,7 @@ export const Header = (props: Props) => {
             <MenuSpan
               variant="menu"
               key={link.text}
-              onClick={() => router.push(link.route)}
+              onClick={() => router.push(link.route).then(() => scrollToTop())}
               isActive={link.route === currentPath}
             >
               {link.route === PATH.POOL ? (

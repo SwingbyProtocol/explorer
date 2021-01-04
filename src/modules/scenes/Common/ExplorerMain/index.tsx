@@ -36,19 +36,6 @@ export const ExplorerMain = () => {
   const [isClaimWidgetModalOpen, setIsClaimWidgetModalOpen] = useState(false);
   const [isDuplicateWidgetModalOpen, setIsDuplicateWidgetModalOpen] = useState(false);
 
-  // Memo: Scroll to top when go to another page
-  useEffect(() => {
-    try {
-      window.scroll({
-        top: 0,
-        left: 0,
-      });
-    } catch (error) {
-      // Memo: just a fallback for older browsers
-      window.scrollTo(0, 0);
-    }
-  }, [router.pathname]);
-
   const login = useCallback(async () => {
     await onboard.walletSelect();
     await onboard.walletCheck();
