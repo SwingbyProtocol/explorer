@@ -1,4 +1,4 @@
-import { CoinIcon, Icon, StatusIcon, Text } from '@swingby-protocol/pulsar';
+import { CoinIcon, Icon, SwapStatusIcon, Text } from '@swingby-protocol/pulsar';
 import { motion } from 'framer-motion';
 import { rem } from 'polished';
 import styled from 'styled-components';
@@ -139,7 +139,7 @@ export const Coin = styled(CoinIcon)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.street)};
 `;
 
-export const StatusCircle = styled(StatusIcon)`
+export const StatusCircle = styled(SwapStatusIcon)`
   width: ${({ theme }) => rem(theme.pulsar.size.box * 1.5)};
   height: ${({ theme }) => rem(theme.pulsar.size.box * 1.5)};
   margin-right: ${({ theme }) => rem(theme.pulsar.size.box)};

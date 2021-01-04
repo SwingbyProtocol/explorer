@@ -127,7 +127,7 @@ export const Header = (props: Props) => {
               {link.route === PATH.POOL ? (
                 <ColumnPool>
                   {link.text}
-                  <IconLive variant="success" />
+                  <IconLive />
                 </ColumnPool>
               ) : (
                 <>{capitalize(link.text)}</>

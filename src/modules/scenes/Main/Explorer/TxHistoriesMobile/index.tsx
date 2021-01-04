@@ -11,7 +11,6 @@ import {
   TxRowVariants,
   convertTxTime,
   currencyNetwork,
-  statusColor,
   TTxRawObject,
 } from '../../../../explorer';
 import { selectSwapDetails } from '../../../../store';
@@ -101,7 +100,7 @@ export const TxHistoriesMobile = (props: Props) => {
               >
                 <Column>
                   <Status>
-                    <StatusCircle variant={statusColor(tx.status)} />
+                    <StatusCircle status={tx.status} />
                     <StatusText variant="accent">{capitalize(tx.status)}</StatusText>
                   </Status>
                   <Time>
