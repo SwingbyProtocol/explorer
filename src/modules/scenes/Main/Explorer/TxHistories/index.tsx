@@ -5,7 +5,6 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Pagination } from '../../../../../components/Pagination';
-import { PATH } from '../../../../env';
 import {
   capitalize,
   convertTxTime,
@@ -153,12 +152,11 @@ export const TxHistories = (props: Props) => {
             const borderColor = getBorderColor(tx.status, themeMode);
             return (
               <TxHistoryRow
-                key={bgKey}
+                key={tx.hash}
                 bg={bgKey % 2 !== 0}
                 borderColor={borderColor}
                 onMouseEnter={() => {
                   dispatch(selectSwapDetails(tx));
-                  router.prefetch(`${PATH.SWAP}/${tx.hash}`);
                 }}
                 onClick={() => goToDetail(tx.hash)}
                 variants={page === 1 && TxRowVariants}

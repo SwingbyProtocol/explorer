@@ -28,8 +28,8 @@ import {
   MenuSpan,
   MobileMenu,
   Right,
-  ThemeToggle,
   TextLang,
+  ThemeToggle,
 } from './styled';
 
 interface Props {

@@ -9,6 +9,7 @@ export const GoBackArrow = () => {
   const router = useRouter();
   const explorer = useSelector((state) => state.explorer);
   const { isExistPreviousPage } = explorer;
+
   return (
     <IconBack
       onClick={() => {
