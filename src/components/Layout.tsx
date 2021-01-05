@@ -52,19 +52,6 @@ export const Layout = (props: Props) => {
         <link rel="apple-touch-icon" href="/favicon.png" sizes="180x180" />
         <link rel="icon" type="image/png" href="/favicon.png" sizes="192x192" />
         <link rel="stylesheet" href={PULSAR_GLOBAL_FONT_HREF} />
-        {/* <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_TAG}`} />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', ${GA_TAG}, {
-                  page_path: window.location.pathname,
-                });
-              `,
-          }}
-        /> */}
       </Head>
 
       <ToastContainer transition={Slide} />
