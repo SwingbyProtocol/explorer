@@ -11,6 +11,7 @@
   "common.all":"All",
   "common.swap":"SWAP",
   "common.page": "Page {currentPage} of {maximumPage}",
+  "common.pageSimple": "Page {currentPage}",
   "common.from": "From",
   "common.to": "To",
   "common.click": "Click",

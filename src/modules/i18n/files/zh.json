@@ -11,6 +11,7 @@
   "common.all":"全部",
   "common.swap":"兑换",
   "common.page": "第{currentPage}页, 共{maximumPage}页",
+  "common.pageSimple": "第{currentPage}页",
   "common.from": "发送方",
   "common.to": "接收方",
   "common.click": "点按",

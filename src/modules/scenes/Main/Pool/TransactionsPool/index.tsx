@@ -88,6 +88,7 @@ export const TransactionsPool = () => {
             goBackPage={goBackPage}
             page={page}
             maximumPage={maximumPage}
+            isSimple={false}
           />
         )}
       </TransactionsContainer>

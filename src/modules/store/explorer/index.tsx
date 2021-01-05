@@ -31,7 +31,7 @@ const initialState = {
   swapHistory: null,
   swapHistoryTemp: null,
   swapDetails: null,
-  isHideWaiting: false,
+  isHideWaiting: true,
   usd: initial.usd,
   networkInfos: initial.networkInfos,
   transactionFees: null,

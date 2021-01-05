@@ -46,12 +46,13 @@ export const ExplorerMain = () => {
 
   const linkToSwapWidget = useCallback(
     async (tx: TTxRawObject, action: TSwapWidget, userAddress = walletAddress) => {
+      const formattedUserAddress = userAddress && userAddress.toLowerCase();
       const widget =
         action === 'claim'
           ? createWidget({
               mode,
               size: 'banner',
-              resource: 'swap',
+              resource: router.asPath.includes('float') ? 'pool' : 'swap',
               hash: tx.hash,
               theme: themeMode,
               locale: router.locale,
@@ -59,7 +60,7 @@ export const ExplorerMain = () => {
           : createWidget({
               mode,
               size: 'big',
-              resource: 'swap',
+              resource: router.asPath.includes('float') ? 'pool' : 'swap',
               defaultCurrencyDeposit: tx.currencyIn as any,
               defaultCurrencyReceiving: tx.currencyOut as any,
               defaultAddressReceiving: tx.addressOut,
@@ -69,7 +70,7 @@ export const ExplorerMain = () => {
             });
 
       if (ETHCoins.includes(tx.currencyOut)) {
-        if (tx.addressOut.toLowerCase() === userAddress) {
+        if (tx.addressOut.toLowerCase() === formattedUserAddress) {
           action === 'claim' && window.open(getUrl({ widget }), '_blank', 'noopener');
           action === 'duplicate' && openPopup({ widget });
           return;
@@ -78,7 +79,7 @@ export const ExplorerMain = () => {
           await login();
           return;
         }
-        if (tx.addressOut.toLowerCase() !== userAddress && walletAddress !== undefined) {
+        if (tx.addressOut.toLowerCase() !== formattedUserAddress && walletAddress !== undefined) {
           toastWrongAddress();
           setWalletAddress(null);
           onboard.walletReset();
@@ -101,9 +102,14 @@ export const ExplorerMain = () => {
   );
 
   const runOnboard = useCallback(() => {
+    const handleSetWalletAddress = (address: string): void => {
+      if (address !== undefined) {
+        setWalletAddress(address);
+      }
+    };
     const onboardData = initOnboard({
       subscriptions: {
-        address: setWalletAddress,
+        address: handleSetWalletAddress,
       },
     });
     dispatch(setOnboard(onboardData));

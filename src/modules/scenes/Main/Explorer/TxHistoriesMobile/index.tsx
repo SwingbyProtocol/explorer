@@ -146,6 +146,7 @@ export const TxHistoriesMobile = (props: Props) => {
           goBackPage={goBackPage}
           page={page}
           maximumPage={maximumPage}
+          isSimple={true}
         />
       </BrowserFooter>
     </>
