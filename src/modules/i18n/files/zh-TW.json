@@ -44,6 +44,7 @@
   "home.network.networkBridges": "Network Bridges",
   "home.network.float": "Float",
   "home.network.vol": "成交量",
+  "home.network.est": "(估計)",
   "home.network.totalSwapVol": "總兌換成交量 （7天）",
   "home.recentSwaps.checkSwapProgress": "查看兌換進程",
   "home.recentSwaps.getTxDetails": "查看交易記錄",
