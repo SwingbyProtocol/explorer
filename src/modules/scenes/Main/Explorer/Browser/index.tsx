@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Loader } from '../../../../../components/Loader';
-import { PAGE_COUNT, PATH, TXS_COUNT } from '../../../../env';
+import { PATH, TXS_COUNT } from '../../../../env';
 import {
   BRIDGE,
   fetchFloatBalances,
@@ -13,8 +13,8 @@ import {
   ILoadHistory,
   loadHistory,
   removeDuplicatedTxs,
-  TTxRawObject,
   TSwapWidget,
+  TTxRawObject,
 } from '../../../../explorer';
 import { useInterval } from '../../../../hooks';
 import {
@@ -99,8 +99,9 @@ export const Browser = (props: Props) => {
     );
   };
 
+  const maximumPage = swapHistory?.data[page]?.length === 0 ? page : page + 1;
+
   const isNoResult = swapHistory && swapHistory.total === 0;
-  const maximumPage = swapHistory && Math.ceil(swapHistory.total / PAGE_COUNT);
   const currentTxs = (swapHistory && swapHistory.data[page - 1]) || [];
 
   const goNextPage = () => routerPush(chainBridge, q, page + 1);

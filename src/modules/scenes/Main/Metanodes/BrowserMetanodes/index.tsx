@@ -143,6 +143,7 @@ export const BrowserMetanodes = () => {
                   goBackPage={goBackPage}
                   page={page}
                   maximumPage={maximumPage}
+                  isSimple={false}
                 />
               )}
             </NodeContainer>

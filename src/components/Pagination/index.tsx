@@ -9,10 +9,11 @@ interface Props {
   maximumPage: number;
   goBackPage: () => void;
   goNextPage: () => void;
+  isSimple?: boolean;
 }
 
 export const Pagination = (props: Props) => {
-  const { page, maximumPage, goBackPage, goNextPage } = props;
+  const { page, maximumPage, goBackPage, goNextPage, isSimple } = props;
   return (
     <PaginationRow>
       <PaginationContainer>
@@ -27,10 +28,14 @@ export const Pagination = (props: Props) => {
         </BackButton>
         <PageRow page={page}>
           <Text variant="masked">
-            <FormattedMessage
-              id="common.page"
-              values={{ currentPage: page, maximumPage: maximumPage }}
-            />
+            {isSimple ? (
+              <FormattedMessage id="common.pageSimple" values={{ currentPage: page }} />
+            ) : (
+              <FormattedMessage
+                id="common.page"
+                values={{ currentPage: page, maximumPage: maximumPage }}
+              />
+            )}
           </Text>
         </PageRow>
         <NextButton
