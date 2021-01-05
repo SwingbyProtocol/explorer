@@ -5,7 +5,6 @@ import React, { ReactNode, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Slide, ToastContainer } from 'react-toastify';
 
-import { GA_TAG } from '../modules/env';
 import { getTransactionFees, getUsdPrice, TTheme } from '../modules/explorer';
 import { useInterval } from '../modules/hooks';
 import { fetchTransactionFees, fetchUsdPrice, setWidthSize } from '../modules/store';
@@ -53,7 +52,7 @@ export const Layout = (props: Props) => {
         <link rel="apple-touch-icon" href="/favicon.png" sizes="180x180" />
         <link rel="icon" type="image/png" href="/favicon.png" sizes="192x192" />
         <link rel="stylesheet" href={PULSAR_GLOBAL_FONT_HREF} />
-        <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_TAG}`} />
+        {/* <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_TAG}`} />
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -65,7 +64,7 @@ export const Layout = (props: Props) => {
                 });
               `,
           }}
-        />
+        /> */}
       </Head>
 
       <ToastContainer transition={Slide} />
