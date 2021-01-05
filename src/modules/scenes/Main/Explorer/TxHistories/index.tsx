@@ -2,7 +2,7 @@ import { Dropdown, getCryptoAssetFormatter, Text } from '@swingby-protocol/pulsa
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useTheme } from 'styled-components';
 
 import { Pagination } from '../../../../../components/Pagination';
@@ -84,7 +84,6 @@ export const TxHistories = (props: Props) => {
   const [chosenTx, setChosenTx] = useState(null);
   const [toggleOpenLink, setToggleOpenLink] = useState(1);
   const router = useRouter();
-  const explorer = useSelector((state) => state.explorer);
   const theme = useTheme();
 
   useEffect(() => {

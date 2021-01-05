@@ -175,6 +175,7 @@ export const Browser = (props: Props) => {
     <Dropdown target={<Filter />}>
       <Dropdown.Item
         selected={isHideWaiting}
+        disabled={true}
         onClick={() => {
           routerPush(chainBridge, q, 1);
           dispatch(toggleIsHideWaiting());

@@ -19,7 +19,8 @@ import {
   Row,
   RowValidator,
   ValidatorLinkSpan,
-  ValueSpan,
+  TextValue,
+  TextEst,
 } from './styled';
 
 interface Props {
@@ -36,6 +37,7 @@ export const ExplorerInfos = (props: Props) => {
   const { locale } = useIntl();
   const { formatMessage } = useIntl();
   const formattedMetanodes = formatMessage({ id: 'metanodes.metanodes' });
+  const formattedRewards = formatMessage({ id: 'home.network.rewards' });
 
   const data = usd && [
     {
@@ -50,7 +52,7 @@ export const ExplorerInfos = (props: Props) => {
     },
     {
       icon: <NetworkRewards />,
-      description: <FormattedMessage id="home.network.rewards" />,
+      description: formattedRewards,
       value: getFiatAssetFormatter({
         locale: locale,
         currency: 'USD',
@@ -97,10 +99,19 @@ export const ExplorerInfos = (props: Props) => {
                       <Text variant="label">{info.description}</Text>
                     </Row>
                   )}
-
-                  <Row>
-                    <ValueSpan variant="accent">{info.value}</ValueSpan>
-                  </Row>
+                  {info.description === formattedRewards ? (
+                    <Row>
+                      <TextValue variant="accent">{info.value}</TextValue>
+                      <TextEst variant="masked">
+                        {' '}
+                        <FormattedMessage id="home.network.est" />
+                      </TextEst>
+                    </Row>
+                  ) : (
+                    <Row>
+                      <TextValue variant="accent">{info.value}</TextValue>
+                    </Row>
+                  )}
                 </DataDiv>
               </InfoContainer>
             );

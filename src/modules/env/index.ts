@@ -35,6 +35,8 @@ export const TXS_COUNT = 10;
 
 export const NODES_PER_PAGE = 10;
 
+export const GA_TAG = process.env.NEXT_PUBLIC_GA_TAG || 'G-8C02VKBZ6P';
+
 export const IPSTACK_API_KEY =
   process.env.NEXT_PUBLIC_IPSTACK || 'b74a888cf8d2112ef1a0a72367e4c696';
 

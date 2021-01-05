@@ -83,7 +83,7 @@ export const DataDiv = styled.div`
 
 export const Row = styled.div`
   display: grid;
-  grid-template-columns: ${({ theme }) => rem(theme.pulsar.size.state)} auto;
+  grid-template-columns: auto auto;
   white-space: nowrap;
 `;
 
@@ -92,8 +92,17 @@ export const RowValidator = styled.div`
   margin-bottom: ${({ theme }) => rem(-theme.pulsar.size.box)};
 `;
 
-export const ValueSpan = styled(Text)`
+export const TextValue = styled(Text)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
+`;
+
+export const TextEst = styled(Text)`
+  font-size: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  align-self: end;
+  padding-left: ${({ theme }) => rem(theme.pulsar.size.box)};
+  @media (min-width: ${rem(media.xs)}) {
+    padding-left: 0;
+  }
 `;
 
 export const ValidatorLinkSpan = styled(Text)`
