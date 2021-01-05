@@ -63,10 +63,12 @@ export const fetchStatsInfo = async (): Promise<IStats> => {
 
     const volume24HrWBTC: number = ethereumRes.network24hrSwapsVolume[0];
     const volume24HrBTC: number = volume24HrWBTC;
-    const rewards24Hr: number = Number(ethereumRes.networkRewards24hrVolume[0]);
     const volumes: string[] = ethereumRes.network24hrSwapsVolume.map((volume, i) =>
       volume.toFixed(3),
     );
+
+    // Memo: Instruction from Luke on 5 Jan'21
+    const rewards24Hr: number = volume24HrBTC * 0.002;
     const metanodes = ethereumPeersRes.length;
     return {
       volume24HrWBTC,
