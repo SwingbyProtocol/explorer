@@ -82,7 +82,7 @@ export const Browser = (props: Props) => {
   const chainBridge = String(params.bridge || '');
 
   const goToDetail = (hash: string) => {
-    router.push(`${PATH.SWAP}/${hash}`);
+    router.push(`${chainBridge === 'floats' ? PATH.FLOAT : PATH.SWAP}/${hash}`);
     dispatch(toggleIsExistPreviousPage(true));
   };
 
