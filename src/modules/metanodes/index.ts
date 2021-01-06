@@ -20,6 +20,19 @@ export interface INodeListResponse {
   thisNode?: boolean;
   version: string;
 }
+export interface INodesResponse {
+  moniker: string;
+  stake: {
+    address: string;
+    amount: string;
+    stakeTXHash: string;
+    stakeTime: number;
+    stakeValid: boolean;
+  };
+  stateName: string;
+  location: string;
+  code?: string;
+}
 
 export enum NodeStatus {
   DISCOVERY = 'Discovery',
@@ -37,9 +50,10 @@ export const fetchNodeCountry = async (ip: string) => {
   try {
     const res = await fetch(url);
     const response = await res.json();
-    const city = response.name;
-    return city;
+    const country = response.name;
+    const code = response.country;
+    return { country, code };
   } catch (e) {
-    return ip;
+    return { country: ip, code: null };
   }
 };

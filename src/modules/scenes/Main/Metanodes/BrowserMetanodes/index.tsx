@@ -1,12 +1,13 @@
 import Head from 'next/head';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, FormattedNumber } from 'react-intl';
+import Flags from 'country-flag-icons/react/3x2'; // eslint-disable-line
 
 import { Loader } from '../../../../../components/Loader';
 import { Pagination } from '../../../../../components/Pagination';
 import { NODES_PER_PAGE } from '../../../../env';
 import { convertDateTime } from '../../../../explorer';
-import { fetchNodeList, INodeListResponse, NodeStatus } from '../../../../metanodes';
+import { fetchNodeList, INodesResponse, NodeStatus } from '../../../../metanodes';
 import { SizeS, TextBlock, TextPrimary, TextSecondary } from '../../../Common';
 
 import {
@@ -17,6 +18,8 @@ import {
   RowDescription,
   StakeInfos,
   TextStake,
+  ImgFlag,
+  Location,
 } from './styled';
 
 export const BrowserMetanodes = () => {
@@ -97,7 +100,8 @@ export const BrowserMetanodes = () => {
                 </StakeInfos>
               </Column>
               {metanodes &&
-                currentNodes.map((node: INodeListResponse, index: number) => {
+                currentNodes.map((node: INodesResponse, index: number) => {
+                  console.log(node.code);
                   const nodeNo = (page - 1) * itemsPerPage + index + 1;
                   return (
                     <RowDescription key={index} bg={index % 2 !== 0}>
@@ -107,7 +111,15 @@ export const BrowserMetanodes = () => {
                       <div />
                       {status(node.stateName)}
                       <div />
-                      <SizeS>{node.country}</SizeS>
+                      <SizeS>
+                        <Location>
+                          {node.location}
+                          <ImgFlag
+                            alt={node.code}
+                            src={`http://purecatamphetamine.github.io/country-flag-icons/3x2/${node.code}.svg`}
+                          />
+                        </Location>
+                      </SizeS>
                       <StakeInfos>
                         <TextStake>
                           <FormattedNumber value={Number(node.stake.amount)} /> SWINGBY

@@ -13,7 +13,8 @@ export const fetchNodeList = async () => {
           const countryIP = node.p2pListener.split(':');
           const country = await fetchNodeCountry(countryIP[0]);
           return {
-            country: country,
+            location: country.country,
+            code: country.code,
             moniker: node.moniker,
             stateName: node.stateName,
             stake: node.stake,
