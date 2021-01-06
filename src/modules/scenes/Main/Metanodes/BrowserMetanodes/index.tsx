@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, FormattedNumber } from 'react-intl';
-import Flags from 'country-flag-icons/react/3x2'; // eslint-disable-line
 
 import { Loader } from '../../../../../components/Loader';
 import { Pagination } from '../../../../../components/Pagination';
