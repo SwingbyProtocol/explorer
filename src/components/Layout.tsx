@@ -1,12 +1,18 @@
 import { useWindowWidth } from '@react-hook/window-size';
 import { PULSAR_GLOBAL_FONT_HREF } from '@swingby-protocol/pulsar';
 import Head from 'next/head';
-import React, { ReactNode, useEffect } from 'react';
+import { rem } from 'polished';
+import React, { ReactNode, useCallback, useEffect, useState } from 'react';
+import CookieConsent, { Cookies } from 'react-cookie-consent';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import { Slide, ToastContainer } from 'react-toastify';
+import { useTheme } from 'styled-components';
 
+import { GA_TAG } from '../modules/env';
 import { getTransactionFees, getUsdPrice, TTheme } from '../modules/explorer';
 import { useInterval } from '../modules/hooks';
+import { URL } from '../modules/links';
 import { fetchTransactionFees, fetchUsdPrice, setWidthSize } from '../modules/store';
 
 import { Header } from './Header';
@@ -20,6 +26,8 @@ interface Props {
 }
 
 export const Layout = (props: Props) => {
+  const theme = useTheme();
+  const { formatMessage } = useIntl();
   const dispatch = useDispatch();
   const width = useWindowWidth({
     wait: 500,
@@ -44,6 +52,18 @@ export const Layout = (props: Props) => {
     })();
   }, [60000]);
 
+  const ANALYTICS_ID = GA_TAG;
+  const ANALYTICS_STORAGE_KEY = 'ANALYTICS_CONSENT';
+  const [cookiePermission, setCookiePermission] = useState(false);
+  const handleCookieAccept = useCallback(() => {
+    setCookiePermission(true);
+  }, []);
+  // Memo: every page load will trigger track event if cookie is set
+  useEffect(() => {
+    const storedPermission = Cookies.get(ANALYTICS_STORAGE_KEY);
+    setCookiePermission(storedPermission === 'true');
+  }, [setCookiePermission]);
+
   return (
     <>
       <Head>
@@ -52,6 +72,21 @@ export const Layout = (props: Props) => {
         <link rel="apple-touch-icon" href="/favicon.png" sizes="180x180" />
         <link rel="icon" type="image/png" href="/favicon.png" sizes="192x192" />
         <link rel="stylesheet" href={PULSAR_GLOBAL_FONT_HREF} />
+        {cookiePermission && (
+          <>
+            <script async src={`https://www.googletagmanager.com/gtag/js?id=${ANALYTICS_ID}`} />
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', '${ANALYTICS_ID}');
+                `,
+              }}
+            />
+          </>
+        )}
       </Head>
 
       <ToastContainer transition={Slide} />
@@ -61,6 +96,43 @@ export const Layout = (props: Props) => {
         <Swap />
       </SwapContainer>
       {props.children}
+      {!cookiePermission && (
+        <CookieConsent
+          location="bottom"
+          cookieName={ANALYTICS_STORAGE_KEY}
+          buttonText={formatMessage({ id: 'common.cookies.continue' })}
+          style={{
+            background: theme.pulsar.color.bg.transparent,
+            color: theme.pulsar.color.text.normal,
+          }}
+          buttonStyle={{
+            color: theme.pulsar.color.text.normal,
+            fontSize: rem(theme.pulsar.size.room),
+            background: theme.pulsar.color.primary.normal,
+            borderRadius: '0.75em',
+            paddingLeft: rem(theme.pulsar.size.closet),
+            paddingRight: rem(theme.pulsar.size.closet),
+            paddingTop: rem(theme.pulsar.size.drawer),
+            paddingBottom: rem(theme.pulsar.size.drawer),
+          }}
+          expires={150}
+          onAccept={handleCookieAccept}
+          debug={true}
+        >
+          <FormattedMessage id="common.cookies" />
+          <a
+            href={URL.PrivacyPolicy}
+            rel="noopener noreferrer"
+            target="_blank"
+            style={{
+              color: theme.pulsar.color.text.normal,
+            }}
+          >
+            <FormattedMessage id="footer.privacyPolicy" />
+          </a>
+          .
+        </CookieConsent>
+      )}
     </>
   );
 };
