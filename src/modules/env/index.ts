@@ -56,6 +56,9 @@ export const RPC_URL = `https://${ETHER_NETWORK.network}.infura.io/v3/${infuraAp
 
 export const infuraAppName = 'Swingby Explorer';
 
+export const ipGeoLocationKey =
+  process.env.NEXT_PUBLIC_IP_GEO_LOCATION_KEY || '975d29603df64937b73d25b9b6e31260';
+
 export const ENDPOINT_SKYBRIDGE_EXCHANGE = 'https://network.skybridge.exchange/api/v1';
 
 export const ENDPOINT_ETHEREUM_NODE =

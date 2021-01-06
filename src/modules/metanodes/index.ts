@@ -1,3 +1,4 @@
+import { ipGeoLocationKey } from './../env';
 export { fetchNodeList } from './utils';
 
 export interface INodeListResponse {
@@ -46,12 +47,12 @@ export enum NodeActiveStatus {
 
 // Memo: Using old js fetch method to avoid CORS issue
 export const fetchNodeCountry = async (ip: string) => {
-  const url = `https://get.geojs.io/v1/ip/country/${ip}.json`;
+  const url = `https://api.ipgeolocation.io/ipgeo?apiKey=${ipGeoLocationKey}&ip=${ip}`;
   try {
     const res = await fetch(url);
     const response = await res.json();
-    const country = response.name;
-    const code = response.country;
+    const country = response.country_name;
+    const code = response.country_code2;
     return { country, code };
   } catch (e) {
     return { country: ip, code: null };
