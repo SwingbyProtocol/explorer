@@ -6,8 +6,8 @@ import { Loader } from '../../../../../components/Loader';
 import { Pagination } from '../../../../../components/Pagination';
 import { NODES_PER_PAGE } from '../../../../env';
 import { convertDateTime } from '../../../../explorer';
-import { fetchNodeList, INodeListResponse, NodeStatus } from '../../../../metanodes';
-import { SizeS, TextBlock, TextDanger, TextPrimary, TextSecondary } from '../../../Common';
+import { fetchNodeList, INodesResponse, NodeStatus } from '../../../../metanodes';
+import { SizeS, TextBlock, TextPrimary, TextSecondary } from '../../../Common';
 
 import {
   BrowserMetanodesContainer,
@@ -17,6 +17,8 @@ import {
   RowDescription,
   StakeInfos,
   TextStake,
+  ImgFlag,
+  Location,
 } from './styled';
 
 export const BrowserMetanodes = () => {
@@ -36,26 +38,6 @@ export const BrowserMetanodes = () => {
         return <TextSecondary>{status}</TextSecondary>;
       case NodeStatus.IDLE:
         return <TextSecondary>{status}</TextSecondary>;
-      default:
-        return <TextSecondary>{status}</TextSecondary>;
-    }
-  };
-
-  const activeStatus = (status: boolean): JSX.Element => {
-    switch (status) {
-      case true:
-        return (
-          <TextPrimary>
-            <FormattedMessage id="metanodes.active" />
-          </TextPrimary>
-        );
-      case false:
-        return (
-          <TextDanger>
-            {' '}
-            <FormattedMessage id="metanodes.nonActive" />
-          </TextDanger>
-        );
       default:
         return <TextSecondary>{status}</TextSecondary>;
     }
@@ -100,7 +82,7 @@ export const BrowserMetanodes = () => {
                 <div />
                 <SizeS>
                   <TextBlock>
-                    <FormattedMessage id="metanodes.activeNonActive" />
+                    <FormattedMessage id="metanodes.location" />
                   </TextBlock>
                 </SizeS>
                 <StakeInfos>
@@ -116,7 +98,7 @@ export const BrowserMetanodes = () => {
                 </StakeInfos>
               </Column>
               {metanodes &&
-                currentNodes.map((node: INodeListResponse, index: number) => {
+                currentNodes.map((node: INodesResponse, index: number) => {
                   const nodeNo = (page - 1) * itemsPerPage + index + 1;
                   return (
                     <RowDescription key={index} bg={index % 2 !== 0}>
@@ -126,7 +108,15 @@ export const BrowserMetanodes = () => {
                       <div />
                       {status(node.stateName)}
                       <div />
-                      <SizeS>{activeStatus(node.active)}</SizeS>
+                      <SizeS>
+                        <Location>
+                          {node.location}
+                          <ImgFlag
+                            alt={node.code}
+                            src={`http://purecatamphetamine.github.io/country-flag-icons/3x2/${node.code}.svg`}
+                          />
+                        </Location>
+                      </SizeS>
                       <StakeInfos>
                         <TextStake>
                           <FormattedNumber value={Number(node.stake.amount)} /> SWINGBY

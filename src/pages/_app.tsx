@@ -1,3 +1,4 @@
+import { RouterScrollProvider } from '@moxy/next-router-scroll';
 import {
   PulsarGlobalStyles,
   PulsarThemeProvider,
@@ -8,9 +9,8 @@ import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import { IntlProvider } from 'react-intl';
 import { Provider as ReduxProvider } from 'react-redux';
-import 'react-toastify/dist/ReactToastify.min.css'; // eslint-disable-line
-import { RouterScrollProvider } from '@moxy/next-router-scroll';
 
+import 'react-toastify/dist/ReactToastify.min.css'; // eslint-disable-line
 import { Layout } from '../components/Layout';
 import { LOCAL_STORAGE } from '../modules/env';
 import { languages } from '../modules/i18n';

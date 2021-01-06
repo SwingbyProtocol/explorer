@@ -130,3 +130,13 @@ export const Column = styled.div`
     grid-template-columns: ${nodeListGridTemplateColumnsFrame};
   }
 `;
+
+export const Location = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+export const ImgFlag = styled.img`
+  width: ${({ theme }) => rem(theme.pulsar.size.town)};
+  margin-left: ${({ theme }) => rem(theme.pulsar.size.closet)};
+`;
