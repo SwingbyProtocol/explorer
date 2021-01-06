@@ -27,7 +27,6 @@ export const BrowserMetanodes = () => {
   useEffect(() => {
     (async () => {
       const nodes = await fetchNodeList();
-      console.log('nodes', nodes);
       setMetanodes(nodes);
     })();
   }, []);
@@ -100,7 +99,6 @@ export const BrowserMetanodes = () => {
               </Column>
               {metanodes &&
                 currentNodes.map((node: INodesResponse, index: number) => {
-                  console.log(node.code);
                   const nodeNo = (page - 1) * itemsPerPage + index + 1;
                   return (
                     <RowDescription key={index} bg={index % 2 !== 0}>
