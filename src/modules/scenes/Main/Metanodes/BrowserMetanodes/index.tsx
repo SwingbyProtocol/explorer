@@ -7,7 +7,7 @@ import { Pagination } from '../../../../../components/Pagination';
 import { NODES_PER_PAGE } from '../../../../env';
 import { convertDateTime } from '../../../../explorer';
 import { fetchNodeList, INodeListResponse, NodeStatus } from '../../../../metanodes';
-import { SizeS, TextBlock, TextDanger, TextPrimary, TextSecondary } from '../../../Common';
+import { SizeS, TextBlock, TextPrimary, TextSecondary } from '../../../Common';
 
 import {
   BrowserMetanodesContainer,
@@ -25,6 +25,7 @@ export const BrowserMetanodes = () => {
   useEffect(() => {
     (async () => {
       const nodes = await fetchNodeList();
+      console.log('nodes', nodes);
       setMetanodes(nodes);
     })();
   }, []);
@@ -36,26 +37,6 @@ export const BrowserMetanodes = () => {
         return <TextSecondary>{status}</TextSecondary>;
       case NodeStatus.IDLE:
         return <TextSecondary>{status}</TextSecondary>;
-      default:
-        return <TextSecondary>{status}</TextSecondary>;
-    }
-  };
-
-  const activeStatus = (status: boolean): JSX.Element => {
-    switch (status) {
-      case true:
-        return (
-          <TextPrimary>
-            <FormattedMessage id="metanodes.active" />
-          </TextPrimary>
-        );
-      case false:
-        return (
-          <TextDanger>
-            {' '}
-            <FormattedMessage id="metanodes.nonActive" />
-          </TextDanger>
-        );
       default:
         return <TextSecondary>{status}</TextSecondary>;
     }
@@ -100,7 +81,7 @@ export const BrowserMetanodes = () => {
                 <div />
                 <SizeS>
                   <TextBlock>
-                    <FormattedMessage id="metanodes.activeNonActive" />
+                    <FormattedMessage id="metanodes.location" />
                   </TextBlock>
                 </SizeS>
                 <StakeInfos>
@@ -126,7 +107,7 @@ export const BrowserMetanodes = () => {
                       <div />
                       {status(node.stateName)}
                       <div />
-                      <SizeS>{activeStatus(node.active)}</SizeS>
+                      <SizeS>{node.country}</SizeS>
                       <StakeInfos>
                         <TextStake>
                           <FormattedNumber value={Number(node.stake.amount)} /> SWINGBY

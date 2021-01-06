@@ -111,7 +111,7 @@
   "metanodes.no": "序數",
   "metanodes.node": "節點",
   "metanodes.status": "狀態",
-  "metanodes.activeNonActive": "活躍/不活躍",
+  "metanodes.location": "地區",
   "metanodes.amount": "總額",
   "metanodes.address": "地址",
   "metanodes.stakeTimeLockedUntil": "質押時間鎖定至",

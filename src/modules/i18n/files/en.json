@@ -111,7 +111,7 @@
   "metanodes.no": "No",
   "metanodes.node": "Node",
   "metanodes.status": "Status",
-  "metanodes.activeNonActive": "Active/Non Active",
+  "metanodes.location": "Location",
   "metanodes.amount": "Amount",
   "metanodes.address": "Address",
   "metanodes.stakeTimeLockedUntil": "Stake Time Locked Until",
