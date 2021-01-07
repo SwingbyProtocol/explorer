@@ -12,13 +12,23 @@ import {
 import { TxStatus } from '../transaction';
 import { isAddress } from '../validator';
 
-const { COMPLETED, SENDING, PENDING, SIGNING } = TxStatus;
+const {
+  COMPLETED,
+  REJECTED,
+  CANCELED,
+  SENDING,
+  PENDING,
+  SIGNING,
+  REFUNDING,
+  SIGNING_REFUND,
+  REFUNDED,
+} = TxStatus;
 
 const generateEndpoint = (
   baseUrl: string,
   page: number,
   query: string,
-  isHideWaiting: boolean,
+  isRejectedTx: boolean,
   hash: string,
 ): string => {
   if (hash !== '') {
@@ -26,11 +36,11 @@ const generateEndpoint = (
   }
 
   if (query === '') {
-    if (!isHideWaiting) {
-      return `${baseUrl}?page=${page}&page_size=${PAGE_COUNT}&sort=0`;
-    } else {
-      // Memo: Hiding kinds of `Rejected` status due to many user swapped with wrong amount.
+    if (!isRejectedTx) {
+      // Memo: Hiding `Waiting` and kind of `Rejected` status due to many user swapped with wrong amount.
       return `${baseUrl}?page=${page}&page_size=${PAGE_COUNT}&status=${COMPLETED},${SENDING},${PENDING},${SIGNING}&sort=0`;
+    } else {
+      return `${baseUrl}?page=${page}&page_size=${PAGE_COUNT}&status=${REJECTED},${CANCELED},${REFUNDING},${SIGNING_REFUND},${REFUNDED}&sort=0`;
     }
     // Memo: Search the query
   } else {
@@ -100,7 +110,7 @@ const fetchHistory = async (
   page: number,
   query: string,
   hash: string,
-  isHideWaiting: boolean,
+  isRejectedTx: boolean,
   bridge: string,
 ): Promise<{ txs: TTxRawObject[]; total: number }> => {
   const swapEndpoint = '/api/v1/swaps/query';
@@ -122,7 +132,7 @@ const fetchHistory = async (
     }
   };
 
-  const url = generateEndpoint(baseUrl(bridge), page, query, isHideWaiting, hash);
+  const url = generateEndpoint(baseUrl(bridge), page, query, isRejectedTx, hash);
   const result = await fetch<{ items: TTxRawObject[]; total: number }>(url);
   const txRes = result.ok && result.response;
   const txs: TTxRawObject[] = txRes.items;
@@ -133,10 +143,10 @@ const fetchHistory = async (
 };
 
 const loadHistoryFiltered = async (args: IloadHistoryArgs): Promise<ITransactions> => {
-  const { page, query, hash, isHideWaiting, bridge, prevTxsWithPage } = args;
+  const { page, query, hash, isRejectedTx, bridge, prevTxsWithPage } = args;
   const results = await Promise.all([
-    fetchHistory(page, query, hash, isHideWaiting, bridge),
-    fetchHistory(page + 1, query, hash, isHideWaiting, bridge),
+    fetchHistory(page, query, hash, isRejectedTx, bridge),
+    fetchHistory(page + 1, query, hash, isRejectedTx, bridge),
   ]);
 
   const data = results[0];
@@ -157,7 +167,7 @@ const loadHistoryFiltered = async (args: IloadHistoryArgs): Promise<ITransaction
 };
 
 export const loadHistory = async (arg: ILoadHistoryArgs): Promise<ILoadHistory> => {
-  const { page, query, hash, isHideWaiting, bridge, prevTxsWithPage, swapHistoryTemp } = arg;
+  const { page, query, hash, isRejectedTx, bridge, prevTxsWithPage, swapHistoryTemp } = arg;
   let tempMixedHistories = [];
   let txsWithPage: ITransactions = {
     data: {},
@@ -180,10 +190,10 @@ export const loadHistory = async (arg: ILoadHistoryArgs): Promise<ILoadHistory> 
     // Memo: Not working due to Binance bridge has broken.
     if (bridge === 'multiple-bridges') {
       const results = await Promise.all([
-        fetchHistory(page, query, hash, isHideWaiting, BRIDGE.binance),
-        fetchHistory(page + 1, query, hash, isHideWaiting, BRIDGE.binance),
-        fetchHistory(page, query, hash, isHideWaiting, BRIDGE.ethereum),
-        fetchHistory(page + 1, query, hash, isHideWaiting, BRIDGE.ethereum),
+        fetchHistory(page, query, hash, isRejectedTx, BRIDGE.binance),
+        fetchHistory(page + 1, query, hash, isRejectedTx, BRIDGE.binance),
+        fetchHistory(page, query, hash, isRejectedTx, BRIDGE.ethereum),
+        fetchHistory(page + 1, query, hash, isRejectedTx, BRIDGE.ethereum),
       ]);
 
       const dataBinance: IFetchHistory = results[0];
@@ -256,7 +266,7 @@ export const loadHistory = async (arg: ILoadHistoryArgs): Promise<ILoadHistory> 
         page,
         query,
         hash,
-        isHideWaiting,
+        isRejectedTx,
         bridge: BRIDGE.ethereum.toLowerCase(),
         prevTxsWithPage: txsWithPage,
       });
@@ -266,7 +276,7 @@ export const loadHistory = async (arg: ILoadHistoryArgs): Promise<ILoadHistory> 
         page,
         query,
         hash,
-        isHideWaiting,
+        isRejectedTx,
         bridge: 'floats',
         prevTxsWithPage: txsWithPage,
       });
@@ -277,7 +287,7 @@ export const loadHistory = async (arg: ILoadHistoryArgs): Promise<ILoadHistory> 
         page,
         query,
         hash,
-        isHideWaiting,
+        isRejectedTx,
         bridge,
         prevTxsWithPage: txsWithPage,
       });

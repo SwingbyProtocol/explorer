@@ -83,7 +83,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({ req }) => 
         page: 0,
         query: '',
         hash: '',
-        isHideWaiting: true,
+        isRejectedTx: false,
         bridge: '',
         prevTxsWithPage: null,
         swapHistoryTemp: null,
