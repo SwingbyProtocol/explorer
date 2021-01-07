@@ -93,8 +93,8 @@ export interface IFloat {
 }
 
 export interface IStats {
-  volume24HrWBTC: number;
-  volume24HrBTC: number;
+  volume1wksWBTC: number;
+  volume1wksBTC: number;
   rewards24Hr: number;
   volumes: string[];
   metanodes: number;
@@ -139,8 +139,8 @@ export interface INetworkInfos {
     wbtc: number;
   };
   stats: {
-    volume24HrWBTC: number;
-    volume24HrBTC: number;
+    volume1wksWBTC: number;
+    volume1wksBTC: number;
     rewards24Hr: number;
     volumes: string[];
     metanodes: number;

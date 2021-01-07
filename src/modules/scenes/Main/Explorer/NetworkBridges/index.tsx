@@ -28,8 +28,8 @@ export const NetworkBridges = (props: Props) => {
   const { floatBalances, stats } = props;
   const theme = useTheme();
   const data = [
-    { coin: CoinSymbol.BTC, float: floatBalances.btc, vol: stats.volume24HrBTC },
-    { coin: CoinSymbol.WBTC, float: floatBalances.wbtc, vol: stats.volume24HrWBTC },
+    { coin: CoinSymbol.BTC, float: floatBalances.btc, vol: stats.volume1wksBTC },
+    { coin: CoinSymbol.WBTC, float: floatBalances.wbtc, vol: stats.volume1wksWBTC },
   ];
   const placeholderLoader = (
     <PulseLoader margin={3} size={4} color={theme.pulsar.color.text.normal} />

@@ -1,4 +1,5 @@
 import { CoinSymbol } from '../../../coins';
+import { sumArray } from '../../../common';
 import { ENDPOINT_ETHEREUM_NODE, ENDPOINT_COINGECKO } from '../../../env';
 import { fetch } from '../../../fetch';
 import { IFetchUsd, IFloat, IFloatAmount, IFloatBalances, IStats } from '../../index';
@@ -61,18 +62,18 @@ export const fetchStatsInfo = async (): Promise<IStats> => {
     const ethereumRes = results[0].ok && results[0].response;
     const ethereumPeersRes = results[1].ok && results[1].response;
 
-    const volume24HrWBTC: number = ethereumRes.network24hrSwapsVolume[0];
-    const volume24HrBTC: number = volume24HrWBTC;
+    const volume1wksWBTC: number = sumArray(ethereumRes.network24hrSwapsVolume.slice(0, 8));
+    const volume1wksBTC: number = volume1wksWBTC;
     const volumes: string[] = ethereumRes.network24hrSwapsVolume.map((volume, i) =>
       volume.toFixed(3),
     );
 
     // Memo: Instruction from Luke on 5 Jan'21
-    const rewards24Hr: number = volume24HrBTC * 0.002;
+    const rewards24Hr: number = volume1wksBTC * 0.002;
     const metanodes = ethereumPeersRes.length;
     return {
-      volume24HrWBTC,
-      volume24HrBTC,
+      volume1wksWBTC,
+      volume1wksBTC,
       rewards24Hr,
       volumes,
       metanodes,

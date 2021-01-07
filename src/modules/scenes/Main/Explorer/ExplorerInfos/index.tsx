@@ -55,7 +55,7 @@ export const ExplorerInfos = (props: Props) => {
         currency: 'USD',
         minimumFractionDigits: 3,
         maximumFractionDigits: 3,
-      }).format(Number(stats.volume24HrBTC) * usd.BTC),
+      }).format(Number(stats.volume1wksBTC) * usd.BTC),
     },
     {
       icon: <NetworkRewards />,
@@ -106,7 +106,7 @@ export const ExplorerInfos = (props: Props) => {
                       <Text variant="label">{info.description}</Text>
                     </Row>
                   )}
-                  {!stats.volume24HrBTC ? (
+                  {!stats.volume1wksBTC ? (
                     placeholderLoader
                   ) : info.description === formattedRewards ? (
                     <Row>

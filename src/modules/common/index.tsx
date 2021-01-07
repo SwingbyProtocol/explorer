@@ -6,4 +6,5 @@ export {
   convert2Currency,
   convertFromPercent,
   scrollToTop,
+  sumArray,
 } from './utils';
