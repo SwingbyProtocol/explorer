@@ -3,6 +3,8 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
+import { PulseLoader } from 'react-spinners';
+import { useTheme } from 'styled-components';
 
 import { PATH } from '../../../../env';
 import { IStats } from '../../../../explorer';
@@ -38,6 +40,11 @@ export const ExplorerInfos = (props: Props) => {
   const { formatMessage } = useIntl();
   const formattedMetanodes = formatMessage({ id: 'metanodes.metanodes' });
   const formattedRewards = formatMessage({ id: 'home.network.rewards' });
+  const theme = useTheme();
+
+  const placeholderLoader = (
+    <PulseLoader margin={3} size={4} color={theme.pulsar.color.text.normal} />
+  );
 
   const data = usd && [
     {
@@ -48,7 +55,7 @@ export const ExplorerInfos = (props: Props) => {
         currency: 'USD',
         minimumFractionDigits: 3,
         maximumFractionDigits: 3,
-      }).format(Number(stats.volume24HrBTC) * usd.BTC),
+      }).format(Number(stats.volume1wksBTC) * usd.BTC),
     },
     {
       icon: <NetworkRewards />,
@@ -99,7 +106,9 @@ export const ExplorerInfos = (props: Props) => {
                       <Text variant="label">{info.description}</Text>
                     </Row>
                   )}
-                  {info.description === formattedRewards ? (
+                  {!stats.volume1wksBTC ? (
+                    placeholderLoader
+                  ) : info.description === formattedRewards ? (
                     <Row>
                       <TextValue variant="accent">{info.value}</TextValue>
                       <TextEst variant="masked">

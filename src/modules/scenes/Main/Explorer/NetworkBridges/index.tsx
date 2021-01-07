@@ -1,6 +1,8 @@
 import { Text } from '@swingby-protocol/pulsar';
 import React from 'react';
 import { FormattedMessage, FormattedNumber } from 'react-intl';
+import { PulseLoader } from 'react-spinners';
+import { useTheme } from 'styled-components';
 
 import { CoinSymbol } from '../../../../coins';
 import { IFloat, IStats } from '../../../../explorer';
@@ -24,10 +26,14 @@ interface Props {
 
 export const NetworkBridges = (props: Props) => {
   const { floatBalances, stats } = props;
+  const theme = useTheme();
   const data = [
-    { coin: CoinSymbol.BTC, float: floatBalances.btc, vol: stats.volume24HrBTC },
-    { coin: CoinSymbol.WBTC, float: floatBalances.wbtc, vol: stats.volume24HrWBTC },
+    { coin: CoinSymbol.BTC, float: floatBalances.btc, vol: stats.volume1wksBTC },
+    { coin: CoinSymbol.WBTC, float: floatBalances.wbtc, vol: stats.volume1wksWBTC },
   ];
+  const placeholderLoader = (
+    <PulseLoader margin={3} size={4} color={theme.pulsar.color.text.normal} />
+  );
   return (
     <NetworkBridgeContainer>
       <TitleText variant="section-title">
@@ -44,17 +50,25 @@ export const NetworkBridges = (props: Props) => {
                   <Text variant="label">
                     <FormattedMessage id="home.network.float" />
                   </Text>
-                  <FloatSpan>
-                    <FormattedNumber value={Number(coin.float)} />
-                  </FloatSpan>
+                  {!coin.float ? (
+                    placeholderLoader
+                  ) : (
+                    <FloatSpan>
+                      <FormattedNumber value={Number(coin.float)} />
+                    </FloatSpan>
+                  )}
                 </Row>
                 <Row>
                   <Text variant="label">
                     <FormattedMessage id="home.network.vol" />
                   </Text>
-                  <VolSpan>
-                    <FormattedNumber value={coin.vol} />
-                  </VolSpan>
+                  {!coin.float ? (
+                    placeholderLoader
+                  ) : (
+                    <VolSpan>
+                      <FormattedNumber value={Number(coin.vol)} />
+                    </VolSpan>
+                  )}
                 </Row>
               </DataDiv>
             </CoinInfo>

@@ -12,3 +12,9 @@ export const convert2Currency = (crypto: string, fiat: number): number => {
 export const convertFromPercent = (num: number): number => {
   return num / 100;
 };
+
+export const sumArray = (arr: number[]) => {
+  return arr.reduce((prev, current) => {
+    return prev + current;
+  });
+};
