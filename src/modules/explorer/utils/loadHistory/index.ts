@@ -37,6 +37,7 @@ const generateEndpoint = (
 
   if (query === '') {
     if (!isRejectedTx) {
+      // Memo: Showing success txs only
       // Memo: Hiding `Waiting` and kind of `Rejected` status due to many user swapped with wrong amount.
       return `${baseUrl}?page=${page}&page_size=${PAGE_COUNT}&status=${COMPLETED},${SENDING},${PENDING},${SIGNING}&sort=0`;
     } else {
