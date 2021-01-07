@@ -5,15 +5,9 @@ import { useDispatch } from 'react-redux';
 
 import { NoServiceToUSModal } from '../components/NoServiceToUSModal';
 import { IPSTACK_API_KEY } from '../modules/env';
-import {
-  getUsdPrice,
-  IFetchUsd,
-  ILoadHistory,
-  ITransactions,
-  loadHistory,
-} from '../modules/explorer';
+import { getUsdPrice, IFetchUsd } from '../modules/explorer';
 import { Main } from '../modules/scenes';
-import { fetchUsdPrice, getHistory } from '../modules/store';
+import { fetchUsdPrice } from '../modules/store';
 
 type ThenArg<T> = T extends PromiseLike<infer U> ? U : T;
 
@@ -23,17 +17,12 @@ type Props = {
     clientIp: string | null;
     ipInfo: ThenArg<ReturnType<typeof getIpInfo>> | null;
   };
-  initialSwapHistories: ITransactions;
   initialPriceUSD: IFetchUsd;
 };
 
-export default function Home({ ipInfo, initialSwapHistories, initialPriceUSD }: Props) {
+export default function Home({ ipInfo, initialPriceUSD }: Props) {
   const [isNoServiceToUSModalOpen, setIsNoServiceToUSModalOpen] = useState(ipInfo?.blockRegion);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getHistory(initialSwapHistories));
-  }, [initialSwapHistories, dispatch]);
 
   useEffect(() => {
     dispatch(fetchUsdPrice(initialPriceUSD));
@@ -77,24 +66,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({ req }) => 
     }
   })();
 
-  const initialSwapHistories = await (async (): Promise<ITransactions> => {
-    try {
-      const data: ILoadHistory = await loadHistory({
-        page: 0,
-        query: '',
-        hash: '',
-        isRejectedTx: false,
-        bridge: '',
-        prevTxsWithPage: null,
-        swapHistoryTemp: null,
-      });
-
-      return data.txsWithPage;
-    } catch (e) {
-      console.log(e);
-    }
-  })();
-
   const initialPriceUSD = await (async (): Promise<IFetchUsd> => {
     try {
       return await getUsdPrice();
@@ -106,7 +77,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({ req }) => 
   return {
     props: {
       ipInfo: { ipInfo, clientIp, blockRegion },
-      initialSwapHistories,
       initialPriceUSD,
     },
   };
