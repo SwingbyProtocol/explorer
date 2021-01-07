@@ -29,6 +29,7 @@ const generateEndpoint = (
     if (!isHideWaiting) {
       return `${baseUrl}?page=${page}&page_size=${PAGE_COUNT}&sort=0`;
     } else {
+      // Memo: Hiding kinds of `Rejected` status due to many user swapped with wrong amount.
       return `${baseUrl}?page=${page}&page_size=${PAGE_COUNT}&status=${COMPLETED},${SENDING},${PENDING},${SIGNING}&sort=0`;
     }
     // Memo: Search the query

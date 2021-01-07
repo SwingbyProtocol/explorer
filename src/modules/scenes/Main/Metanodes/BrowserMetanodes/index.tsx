@@ -113,7 +113,7 @@ export const BrowserMetanodes = () => {
                           {node.location}
                           <ImgFlag
                             alt={node.code}
-                            src={`http://purecatamphetamine.github.io/country-flag-icons/3x2/${node.code}.svg`}
+                            src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${node.code}.svg`}
                           />
                         </Location>
                       </SizeS>
