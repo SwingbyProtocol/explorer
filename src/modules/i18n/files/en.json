@@ -55,6 +55,7 @@
   "home.recentSwaps.fees": "Fees",
   "home.recentSwaps.feesMax": "Fees (Max)",
   "home.recentSwaps.hideWaiting": "Hide waiting",
+  "home.recentSwaps.rejectedTx": "Rejected transactions",
   "swap.claimSwap": "Claim Swap",
   "swap.duplicate": "Duplicate",
   "swap.duplicatePopup": "Click to repeat this swap",
