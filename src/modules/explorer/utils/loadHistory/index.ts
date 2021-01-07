@@ -12,7 +12,6 @@ import {
 import { TxStatus } from '../transaction';
 import { isAddress } from '../validator';
 
-<<<<<<< HEAD
 const {
   COMPLETED,
   REJECTED,
@@ -24,9 +23,6 @@ const {
   SIGNING_REFUND,
   REFUNDED,
 } = TxStatus;
-=======
-const { COMPLETED, SENDING, PENDING, SIGNING } = TxStatus;
->>>>>>> 3a026ea4ecbb0afe77ee96798a31bc7948b4547d
 
 const generateEndpoint = (
   baseUrl: string,
@@ -44,11 +40,7 @@ const generateEndpoint = (
       // Memo: Hiding `Waiting` and kind of `Rejected` status due to many user swapped with wrong amount.
       return `${baseUrl}?page=${page}&page_size=${PAGE_COUNT}&status=${COMPLETED},${SENDING},${PENDING},${SIGNING}&sort=0`;
     } else {
-<<<<<<< HEAD
       return `${baseUrl}?page=${page}&page_size=${PAGE_COUNT}&status=${REJECTED},${CANCELED},${REFUNDING},${SIGNING_REFUND},${REFUNDED}&sort=0`;
-=======
-      return `${baseUrl}?page=${page}&page_size=${PAGE_COUNT}&status=${COMPLETED},${SENDING},${PENDING},${SIGNING}&sort=0`;
->>>>>>> 3a026ea4ecbb0afe77ee96798a31bc7948b4547d
     }
     // Memo: Search the query
   } else {
