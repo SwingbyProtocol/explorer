@@ -20,7 +20,7 @@ enum Actions {
   FetchHistory = 'Explorer/FETCH_HISTORY',
   SelectSwapDetails = 'Explorer/SELECT_SWAP_DETAILS',
   ClearHistory = 'Explorer/CLEAR_HISTORY',
-  ToggleIsRejectedTx = 'Explorer/TOGGLE_IS_REJECTED_TX',
+  ToggleIsHideWaiting = 'Explorer/TOGGLE_IS_HIDE_WAITING',
   UpdateSwapHistoryTemp = 'Explorer/UPDATE_SWAP_HISTORY_TEMP',
   FetchUsdPrice = 'Explorer/FETCH_USD_PRICE',
   FetchTransactionFees = 'Explorer/FETCH_TRANSACTION_FEES',
@@ -31,7 +31,7 @@ const initialState = {
   swapHistory: null,
   swapHistoryTemp: null,
   swapDetails: null,
-  isRejectedTx: false,
+  isHideWaiting: true,
   usd: initial.usd,
   networkInfos: initial.networkInfos,
   transactionFees: null,
@@ -67,8 +67,8 @@ export const explorer: Reducer<State, Action> = (state = initialState, action) =
     return { ...state, swapHistory: null };
   }
 
-  if (action.type === Actions.ToggleIsRejectedTx) {
-    return { ...state, isRejectedTx: !state.isRejectedTx };
+  if (action.type === Actions.ToggleIsHideWaiting) {
+    return { ...state, isHideWaiting: !state.isHideWaiting };
   }
 
   if (action.type === Actions.UpdateSwapHistoryTemp) {
@@ -104,7 +104,7 @@ export const selectSwapDetails = (data: TTxRawObject) =>
 
 export const clearHistory = () => ({ type: Actions.ClearHistory } as const);
 
-export const toggleIsRejectedTx = () => ({ type: Actions.ToggleIsRejectedTx } as const);
+export const toggleIsHideWaiting = () => ({ type: Actions.ToggleIsHideWaiting } as const);
 
 export const updateSwapHistoryTemp = (data: TTxRawObject[]) =>
   ({ type: Actions.UpdateSwapHistoryTemp, data } as const);
@@ -124,7 +124,7 @@ type Action =
   | ReturnType<typeof getHistory>
   | ReturnType<typeof selectSwapDetails>
   | ReturnType<typeof clearHistory>
-  | ReturnType<typeof toggleIsRejectedTx>
+  | ReturnType<typeof toggleIsHideWaiting>
   | ReturnType<typeof updateSwapHistoryTemp>
   | ReturnType<typeof fetchUsdPrice>
   | ReturnType<typeof fetchTransactionFees>

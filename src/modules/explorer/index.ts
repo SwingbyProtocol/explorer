@@ -126,7 +126,7 @@ export interface ILoadHistoryArgs {
   page: number;
   query: string;
   hash: string;
-  isRejectedTx: boolean;
+  isHideWaiting: boolean;
   bridge: string;
   prevTxsWithPage: ITransactions | null;
   swapHistoryTemp: TTxRawObject[] | null;
@@ -171,7 +171,7 @@ export interface IloadHistoryArgs {
   page: number;
   query: string;
   hash: string;
-  isRejectedTx: boolean;
+  isHideWaiting: boolean;
   bridge: string;
   prevTxsWithPage: ITransactions;
 }

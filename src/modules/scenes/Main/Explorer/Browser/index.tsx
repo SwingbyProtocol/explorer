@@ -20,7 +20,7 @@ import { useInterval } from '../../../../hooks';
 import {
   getHistory,
   toggleIsExistPreviousPage,
-  toggleIsRejectedTx,
+  toggleIsHideWaiting,
   updateNetworkInfos,
   updateSwapHistoryTemp,
 } from '../../../../store';
@@ -43,7 +43,7 @@ export const Browser = (props: Props) => {
   const { runOnboard } = props;
   const dispatch = useDispatch();
   const explorer = useSelector((state) => state.explorer);
-  const { swapHistory, isRejectedTx, swapHistoryTemp, usd, networkInfos } = explorer;
+  const { swapHistory, isHideWaiting, swapHistoryTemp, usd, networkInfos } = explorer;
   const [total, setTotal] = useState(0);
   const [adjustIndex, setAdjustIndex] = useState(0);
   const [previousTxTotal, setPreviousTxTotal] = useState(0);
@@ -123,7 +123,7 @@ export const Browser = (props: Props) => {
       page: page - 1,
       query: q,
       hash: '',
-      isRejectedTx,
+      isHideWaiting,
       bridge: chainBridge,
       prevTxsWithPage: swapHistory,
       swapHistoryTemp: swapHistoryTemp,
@@ -138,7 +138,7 @@ export const Browser = (props: Props) => {
     /* Memo: Add `swapHistory` and `swapHistoryTemp` in dependencies will occur infinity loop
     due to this function is going to dispatch the action of update the`swapHistory` and`swapHistoryTemp` state(redux). */
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, q, isRejectedTx, chainBridge]);
+  }, [page, q, isHideWaiting, chainBridge]);
 
   useEffect(() => {
     if (q === '' && page === 1 && chainBridge === '') {
@@ -174,18 +174,15 @@ export const Browser = (props: Props) => {
 
   const filter = (
     <Dropdown target={<Filter />}>
-      {/* Memo: Just shows user the filter is hiding 'waiting' */}
-      <Dropdown.Item selected={true} disabled={true}>
-        <FormattedMessage id="home.recentSwaps.hideWaiting" />
-      </Dropdown.Item>
       <Dropdown.Item
-        selected={isRejectedTx}
+        selected={isHideWaiting}
+        disabled={true}
         onClick={() => {
           routerPush(chainBridge, q, 1);
-          dispatch(toggleIsRejectedTx());
+          dispatch(toggleIsHideWaiting());
         }}
       >
-        <FormattedMessage id="home.recentSwaps.rejectedTx" />
+        <FormattedMessage id="home.recentSwaps.hideWaiting" />
       </Dropdown.Item>
       <Dropdown.Item selected={chainBridge === 'floats'} onClick={() => routerPush('floats', q, 1)}>
         Float transactions

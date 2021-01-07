@@ -55,7 +55,6 @@
   "home.recentSwaps.fees": "交易費用",
   "home.recentSwaps.feesMax": "交易費用 (最多)",
   "home.recentSwaps.hideWaiting": "隱藏等待狀態",
-  "home.recentSwaps.rejectedTx": "失敗交易",
   "swap.claimSwap": "認領此兌換",
   "swap.duplicate": "重複兌換",
   "swap.share": "分享",

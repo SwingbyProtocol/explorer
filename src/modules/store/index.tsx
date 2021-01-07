@@ -3,7 +3,7 @@ export { useStore } from './store';
 export {
   getHistory,
   clearHistory,
-  toggleIsRejectedTx,
+  toggleIsHideWaiting,
   updateSwapHistoryTemp,
   setWidthSize,
   fetchUsdPrice,

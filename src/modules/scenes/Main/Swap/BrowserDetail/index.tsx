@@ -35,7 +35,7 @@ export const BrowserDetail = (props: Props) => {
           page: 0,
           query: '',
           hash,
-          isRejectedTx: false,
+          isHideWaiting: false,
           bridge: router.pathname.includes('swap') ? '' : 'floats', //Todo: Change to 'multiple-bridges' future
           prevTxsWithPage: null,
           swapHistoryTemp: null,
