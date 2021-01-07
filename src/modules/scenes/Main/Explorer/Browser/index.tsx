@@ -141,7 +141,7 @@ export const Browser = (props: Props) => {
   }, [page, q, isRejectedTx, chainBridge]);
 
   useEffect(() => {
-    if (q === '' && page === 1 && chainBridge === '') {
+    if (q === '' && page === 1 && chainBridge === '' && !isRejectedTx) {
       setIsLoadingHistory(false);
     } else {
       if (!isLoadingUrl) {
@@ -150,7 +150,7 @@ export const Browser = (props: Props) => {
         });
       }
     }
-  }, [dispatchLoadHistory, isLoadingUrl, chainBridge, page, q]);
+  }, [dispatchLoadHistory, isLoadingUrl, chainBridge, page, q, isRejectedTx]);
 
   useInterval(() => {
     dispatchLoadHistory();
