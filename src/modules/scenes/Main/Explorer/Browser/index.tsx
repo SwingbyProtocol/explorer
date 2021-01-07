@@ -72,7 +72,6 @@ export const Browser = (props: Props) => {
   /**
    * Memo: For TxHistories
    **/
-  const [isLoadingUrl, setIsLoadingUrl] = useState(true);
   const [isLoadingHistory, setIsLoadingHistory] = useState(true);
 
   const router = useRouter();
@@ -111,13 +110,6 @@ export const Browser = (props: Props) => {
     routerPush(chainBridge, q, page - 1);
   };
 
-  useEffect(() => {
-    setTimeout(() => {
-      // Memo: To run `dispatchLoadHistory` after resolved `url params`
-      setIsLoadingUrl(false);
-    }, 200);
-  }, []);
-
   const dispatchLoadHistory = useCallback(async () => {
     const data: ILoadHistory = await loadHistory({
       page: page - 1,
@@ -141,16 +133,10 @@ export const Browser = (props: Props) => {
   }, [page, q, isRejectedTx, chainBridge]);
 
   useEffect(() => {
-    if (q === '' && page === 1 && chainBridge === '' && !isRejectedTx) {
+    dispatchLoadHistory().then(() => {
       setIsLoadingHistory(false);
-    } else {
-      if (!isLoadingUrl) {
-        dispatchLoadHistory().then(() => {
-          setIsLoadingHistory(false);
-        });
-      }
-    }
-  }, [dispatchLoadHistory, isLoadingUrl, chainBridge, page, q, isRejectedTx]);
+    });
+  }, [dispatchLoadHistory]);
 
   useInterval(() => {
     dispatchLoadHistory();
