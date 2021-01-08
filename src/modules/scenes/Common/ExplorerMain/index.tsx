@@ -9,7 +9,6 @@ import { DuplicateSwapWidgetModal } from '../../../../components/DuplicateSwapWi
 import { Footer } from '../../../../components/Footer';
 import { LinkToWidgetModal } from '../../../../components/LinkToWidgetModal';
 import { Search } from '../../../../components/Search';
-import { Star } from '../../../../components/Star';
 import { toastWrongAddress } from '../../../../components/Toast';
 import { ETHCoins } from '../../../coins';
 import { scrollToTop, titleGenerator } from '../../../common';
@@ -32,7 +31,7 @@ export const ExplorerMain = () => {
   const pool = useSelector((state) => state.pool);
   const { onboard } = pool;
   const explorer = useSelector((state) => state.explorer);
-  const { swapDetails, themeMode, width } = explorer;
+  const { swapDetails, themeMode } = explorer;
 
   //Memo: For check walletAddress === tx.addressOut
   const [walletAddress, setWalletAddress] = useState(null);
@@ -167,37 +166,6 @@ export const ExplorerMain = () => {
     }
   };
 
-  const windowDimension = typeof window !== 'undefined' && window;
-  const windowSize = { x: windowDimension.innerWidth, y: windowDimension.innerHeight };
-  const randomize = (pos: number) => Math.random() * pos;
-  const createElements = (num: number) => [...Array(num)];
-  const [delay, setDelay] = useState(0);
-  const [isDevToolsOpen, setIsDevToolsOpen] = useState(null);
-
-  // Ref: https://stackoverflow.com/questions/7798748/find-out-whether-chrome-console-is-open
-  const handleIsDevToolOpen = () => {
-    if (typeof window !== 'undefined') {
-      window.onresize = function () {
-        // Memo: DevTools was opened (or screen was resized)
-        if (window.outerHeight - window.innerHeight < 100) {
-          setIsDevToolsOpen(true);
-        } else {
-          setIsDevToolsOpen(false);
-        }
-      };
-    }
-  };
-
-  useEffect(() => {
-    handleIsDevToolOpen();
-  }, [width]);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setDelay(1);
-    }, 1000);
-  }, []);
-
   return (
     <>
       <LinkToWidgetModal
@@ -213,17 +181,6 @@ export const ExplorerMain = () => {
 
       <PulsarThemeProvider theme="accent">
         <ExplorerMainContainer>
-          {/* Memo: Star background will crash 'width size' when open the DevTools in Chrome */}
-          {!isDevToolsOpen &&
-            createElements(70).map((el, i) => (
-              <Star
-                key={i}
-                scale={randomize(1)}
-                delay={randomize(delay)}
-                xPos={randomize(windowSize.x)}
-                yPos={randomize(270)}
-              />
-            ))}
           <HeadLine>
             <TitleH1>{titleGenerator(currentPath)}</TitleH1>
             <PulsarThemeProvider theme={themeMode}>
