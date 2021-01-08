@@ -37,8 +37,7 @@ export const NODES_PER_PAGE = 10;
 
 export const GA_TAG = process.env.NEXT_PUBLIC_GA_TAG || 'G-8C02VKBZ6P';
 
-export const IPSTACK_API_KEY =
-  process.env.NEXT_PUBLIC_IPSTACK || 'b74a888cf8d2112ef1a0a72367e4c696';
+export const ipApiKey = process.env.IPAPI_API_KEY || undefined;
 
 export const etherscanApiKey =
   process.env.NEXT_PUBLIC_ETHERSCAN_KEY || 'NYXXH5CD1NQJMYJGZYAFK7G9G6AZGZTT3H';

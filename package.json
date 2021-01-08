@@ -23,7 +23,7 @@
     "@moxy/next-router-scroll": "^2.0.3",
     "@react-hook/copy": "^2.0.1",
     "@react-hook/window-size": "^3.0.7",
-    "@swingby-protocol/ip-check": "^1.0.0",
+    "@swingby-protocol/ip-check": "^2.1.0",
     "@swingby-protocol/pulsar": "^3.0.0",
     "@swingby-protocol/sdk": "^1.0.0-alpha.57",
     "@swingby-protocol/widget": "^1.0.0-alpha.16",
