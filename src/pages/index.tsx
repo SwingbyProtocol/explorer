@@ -1,28 +1,21 @@
-import { getIpInfo, shouldBlockRegion } from '@swingby-protocol/ip-check';
+import { getIpInfoFromRequest, IpInfoFromRequest } from '@swingby-protocol/ip-check';
 import { GetServerSideProps } from 'next';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { NoServiceToUSModal } from '../components/NoServiceToUSModal';
-import { IPSTACK_API_KEY } from '../modules/env';
+import { ipApiKey } from '../modules/env';
 import { getUsdPrice, IFetchUsd } from '../modules/explorer';
 import { Main } from '../modules/scenes';
 import { fetchUsdPrice } from '../modules/store';
 
-type ThenArg<T> = T extends PromiseLike<infer U> ? U : T;
-
-type Props = {
-  ipInfo: {
-    blockRegion: boolean;
-    clientIp: string | null;
-    ipInfo: ThenArg<ReturnType<typeof getIpInfo>> | null;
-  };
-  initialPriceUSD: IFetchUsd;
-};
+type Props = { ipInfo: IpInfoFromRequest; initialPriceUSD: IFetchUsd };
 
 export default function Home({ ipInfo, initialPriceUSD }: Props) {
-  const [isNoServiceToUSModalOpen, setIsNoServiceToUSModalOpen] = useState(ipInfo?.blockRegion);
   const dispatch = useDispatch();
+  const [isNoServiceToUSModalOpen, setIsNoServiceToUSModalOpen] = useState(
+    ipInfo?.shouldBlockRegion,
+  );
 
   useEffect(() => {
     dispatch(fetchUsdPrice(initialPriceUSD));
@@ -40,31 +33,7 @@ export default function Home({ ipInfo, initialPriceUSD }: Props) {
 }
 
 export const getServerSideProps: GetServerSideProps<Props> = async ({ req }) => {
-  const clientIp =
-    (typeof req.headers['x-real-ip'] === 'string' ? req.headers['x-real-ip'] : null) ??
-    req.connection.remoteAddress ??
-    null;
-
-  const ipInfo = await (async () => {
-    try {
-      if (!clientIp || !IPSTACK_API_KEY) return null;
-      return await getIpInfo({
-        ip: clientIp,
-        ipstackApiKey: IPSTACK_API_KEY,
-      });
-    } catch (e) {
-      return null;
-    }
-  })();
-
-  const blockRegion = (() => {
-    try {
-      if (!ipInfo) return false;
-      return shouldBlockRegion(ipInfo);
-    } catch (e) {
-      return false;
-    }
-  })();
+  const ipInfo = await getIpInfoFromRequest({ req, ipApiKey });
 
   const initialPriceUSD = await (async (): Promise<IFetchUsd> => {
     try {
@@ -74,10 +43,5 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({ req }) => 
     }
   })();
 
-  return {
-    props: {
-      ipInfo: { ipInfo, clientIp, blockRegion },
-      initialPriceUSD,
-    },
-  };
+  return { props: { ipInfo, initialPriceUSD } };
 };
