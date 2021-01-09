@@ -12,8 +12,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   const url = `https://api.ipgeolocationapi.com/geolocate/${ip}`;
 
   try {
-    const result = await fetch<{ name: string; alpha2: string }>(url);
-    const country = result.ok && result.response.name;
+    // Memo: the `name` returns official name which too long such a "United Kingdom of Great Britain and Northern Ireland"
+    const result = await fetch<{ unofficial_names: string[]; alpha2: string }>(url);
+    const country = result.ok && result.response.unofficial_names[0];
     const code = result.ok && result.response.alpha2;
     res.status(200).json({ country, code });
   } catch (e) {
