@@ -46,12 +46,12 @@ export enum NodeActiveStatus {
 
 // Memo: Using old js fetch method to avoid CORS issue
 export const fetchNodeCountry = async (ip: string) => {
-  const url = `https://get.geojs.io/v1/ip/country/${ip}.json`;
+  const url = `https://api.ipgeolocationapi.com/geolocate/${ip}`;
   try {
     const res = await fetch(url);
     const response = await res.json();
     const country = response.name;
-    const code = response.country;
+    const code = response.alpha2;
     return { country, code };
   } catch (e) {
     return { country: ip, code: null };
