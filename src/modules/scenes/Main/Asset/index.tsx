@@ -1,0 +1,1 @@
+export { BrowserAsset } from './BrowserAsset';
