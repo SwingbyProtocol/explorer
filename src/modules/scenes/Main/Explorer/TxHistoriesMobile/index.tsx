@@ -76,7 +76,7 @@ export const TxHistoriesMobile = (props: Props) => {
         <TitleRow>
           <Left>
             <Text variant="section-title">
-              <FormattedMessage id="home.recentSwaps.recentSwaps" />
+              <FormattedMessage id="home.recent-swaps.recent-swaps" />
             </Text>
           </Left>
           <Right>{filter}</Right>

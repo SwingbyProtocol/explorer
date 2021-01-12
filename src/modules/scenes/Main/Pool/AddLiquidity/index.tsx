@@ -140,7 +140,7 @@ export const AddLiquidity = (props: Props) => {
             <RowTop>
               <ColumnDropdown>
                 <TextLabel variant="label">
-                  <FormattedMessage id="pool.pool.iWantToPool" />
+                  <FormattedMessage id="pool.pool.i-want-to-pool" />
                 </TextLabel>
                 <DropdownCurrency
                   target={
@@ -158,7 +158,7 @@ export const AddLiquidity = (props: Props) => {
               <InputAmount
                 value={poolAmount}
                 size="state"
-                placeholder={formatMessage({ id: 'pool.pool.inputYourAmount' })}
+                placeholder={formatMessage({ id: 'pool.pool.input-your-amount' })}
                 onChange={(e) => setPoolAmount(e.target.value)}
               />
             </RowTop>
@@ -173,7 +173,7 @@ export const AddLiquidity = (props: Props) => {
               value={receivingWalletAddress()}
               size="state"
               placeholder="Input your receiving address"
-              label={formatMessage({ id: 'pool.pool.receiveSbBTCAddress' })}
+              label={formatMessage({ id: 'pool.pool.receive-sbBTC-address' })}
               left={<Coin symbol={CoinSymbol.LP} />}
               onChange={(e) => {
                 if (!ETHCoins.includes(fromCurrency)) {
@@ -185,12 +185,12 @@ export const AddLiquidity = (props: Props) => {
             <RowBottom>
               <div>
                 <TextDescription variant="masked">
-                  <FormattedMessage id="pool.withdraw.transactionFee" />
+                  <FormattedMessage id="pool.withdraw.transaction-fee" />
                   &nbsp;
                   <Tooltip
                     content={
                       <Tooltip.Content>
-                        <FormattedMessage id="pool.withdraw.estimatedReason" />
+                        <FormattedMessage id="pool.withdraw.estimated-reason" />
                       </Tooltip.Content>
                     }
                     data-testid="tooltip"

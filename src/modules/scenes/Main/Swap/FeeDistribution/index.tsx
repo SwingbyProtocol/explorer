@@ -33,7 +33,7 @@ export const FeeDistribution = (props: Props) => {
     <FeeDistributionContainer>
       <TitleRow>
         <TitleText variant="accent">
-          <FormattedMessage id="swap.feeDistribution" />
+          <FormattedMessage id="swap.fee-distribution" />
         </TitleText>
         {tx.rewards[0].txId && (
           <a

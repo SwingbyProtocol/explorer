@@ -95,20 +95,20 @@ export const TransactionsPool = () => {
       {txsData && !txsData.data[page].length && (
         <NoTransaction>
           <TextBlock variant="title-xs">
-            <FormattedMessage id="pool.noTransaction" />
+            <FormattedMessage id="pool.no-transaction" />
           </TextBlock>
           <div>
             <Text variant="title-xs">
-              <FormattedMessage id="pool.noTransaction.startWith" />
+              <FormattedMessage id="pool.no-transaction.startWith" />
             </Text>
             <TextAddLiquidity
               variant="title-xs"
               onClick={() => dispatch(togglePoolMode(PoolMode.AddLiquidity))}
             >
-              <FormattedMessage id="pool.noTransaction.addLiquidity" />
+              <FormattedMessage id="pool.no-transaction.add-liquidity" />
             </TextAddLiquidity>
             <Text variant="title-xs">
-              <FormattedMessage id="pool.noTransaction.first" />
+              <FormattedMessage id="pool.no-transaction.first" />
             </Text>
           </div>
         </NoTransaction>

@@ -40,11 +40,11 @@ export const BrowserFees = () => {
                 </TextBlock>
                 <div />
                 <TextBlock>
-                  <FormattedMessage id="fees.feePercent" />
+                  <FormattedMessage id="fees.fee-percent" />
                 </TextBlock>
                 <div />
                 <TextBlock>
-                  <FormattedMessage id="fees.minerFee" />
+                  <FormattedMessage id="fees.miner-fee" />
                 </TextBlock>
                 <div />
               </Column>

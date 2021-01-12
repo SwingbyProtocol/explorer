@@ -128,7 +128,7 @@ export const Layout = (props: Props) => {
               color: theme.pulsar.color.text.normal,
             }}
           >
-            <FormattedMessage id="footer.privacyPolicy" />
+            <FormattedMessage id="footer.privacy-policy" />
           </a>
           .
         </CookieConsent>

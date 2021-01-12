@@ -67,7 +67,7 @@ export const DetailCard = (props: Props) => {
       </RowAddress>
       <RowAddress>
         <TextRoom variant="label">
-          <FormattedMessage id="swap.txId" />
+          <FormattedMessage id="swap.tx-id" />
         </TextRoom>
         <TxIdElement txId={txId} />
       </RowAddress>

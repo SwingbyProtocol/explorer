@@ -119,7 +119,7 @@ export const AccountSummary = () => {
     <AccountSummaryContainer>
       <RowTitle>
         <Text variant="section-title">
-          <FormattedMessage id="pool.yourAccount" />
+          <FormattedMessage id="pool.your-account" />
         </Text>
       </RowTitle>
       <Column>
@@ -144,11 +144,11 @@ export const AccountSummary = () => {
       </RowEarning>
       <RowEarning>
         <TextRoom variant="label">
-          <FormattedMessage id="pool.totalEarnings" />
+          <FormattedMessage id="pool.total-earnings" />
         </TextRoom>
         <TextRoom variant="accent">
           {/* {totalEarnings} {currency} */}
-          <FormattedMessage id="common.comingSoon" />
+          <FormattedMessage id="common.coming-soon" />
         </TextRoom>
       </RowEarning>
       <RowEarning>
@@ -157,7 +157,7 @@ export const AccountSummary = () => {
         </TextRoom>
         <TextRoom variant="accent">
           {/* {usdTotalEarnings} */}
-          <FormattedMessage id="common.comingSoon" />
+          <FormattedMessage id="common.coming-soon" />
         </TextRoom>
       </RowEarning>
     </AccountSummaryContainer>

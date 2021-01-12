@@ -179,7 +179,7 @@ export const Withdraw = (props: Props) => {
             <RowTop>
               <ColumnDropdown>
                 <TextLabel variant="label">
-                  <FormattedMessage id="pool.withdraw.iWantToWithdraw" />
+                  <FormattedMessage id="pool.withdraw.i-want-to-withdraw" />
                 </TextLabel>
                 <DropdownCurrency
                   target={
@@ -198,7 +198,7 @@ export const Withdraw = (props: Props) => {
               <InputAmount
                 value={withdrawAmount}
                 size="state"
-                placeholder={formatMessage({ id: 'pool.withdraw.inputYourAmount' })}
+                placeholder={formatMessage({ id: 'pool.withdraw.input-your-amount' })}
                 onChange={(e) => setWithdrawAmount(e.target.value)}
               />
             </RowTop>
@@ -223,12 +223,12 @@ export const Withdraw = (props: Props) => {
             <InputReceivingAddress
               value={receivingAddress}
               size="state"
-              placeholder={formatMessage({ id: 'pool.pool.inputYourAddress' })}
+              placeholder={formatMessage({ id: 'pool.pool.input-your-address' })}
               label={formatMessage({
                 id:
                   toCurrency === CoinSymbol.BTC
-                    ? 'pool.withdraw.receiveBTCAddress'
-                    : 'pool.withdraw.receiveWBTCAddress',
+                    ? 'pool.withdraw.receive-BTC-address'
+                    : 'pool.withdraw.receive-WBTC-address',
               })}
               left={<Coin symbol={toCurrency} />}
               onChange={(e) => setReceivingAddress(e.target.value)}
@@ -238,12 +238,12 @@ export const Withdraw = (props: Props) => {
             <RowBottom>
               <div>
                 <TextDescription variant="masked">
-                  <FormattedMessage id="pool.withdraw.transactionFee" />
+                  <FormattedMessage id="pool.withdraw.transaction-fee" />
                   &nbsp;
                   <Tooltip
                     content={
                       <Tooltip.Content>
-                        <FormattedMessage id="pool.withdraw.estimatedReason" />
+                        <FormattedMessage id="pool.withdraw.estimated-reason" />
                       </Tooltip.Content>
                     }
                     data-testid="tooltip"

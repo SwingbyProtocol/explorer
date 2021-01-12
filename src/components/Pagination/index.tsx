@@ -29,7 +29,7 @@ export const Pagination = (props: Props) => {
         <PageRow page={page}>
           <Text variant="masked">
             {isSimple ? (
-              <FormattedMessage id="common.pageSimple" values={{ currentPage: page }} />
+              <FormattedMessage id="common.page-simple" values={{ currentPage: page }} />
             ) : (
               <FormattedMessage
                 id="common.page"

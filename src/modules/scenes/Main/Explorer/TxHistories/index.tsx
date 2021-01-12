@@ -101,7 +101,7 @@ export const TxHistories = (props: Props) => {
         }}
       >
         <p>
-          <FormattedMessage id="home.recentSwaps.checkSwapProgress" />
+          <FormattedMessage id="home.recent-swaps.check-swap-progress" />
         </p>
       </Dropdown.Item>
       {tx.txIdOut && (
@@ -111,7 +111,7 @@ export const TxHistories = (props: Props) => {
           }
         >
           <p>
-            <FormattedMessage id="home.recentSwaps.getTxDetails" />
+            <FormattedMessage id="home.recent-swaps.get-tx-details" />
           </p>
         </Dropdown.Item>
       )}
@@ -128,15 +128,15 @@ export const TxHistories = (props: Props) => {
         <TitleRow>
           <Left>
             <Text variant="section-title">
-              <FormattedMessage id="home.recentSwaps.recentSwaps" />
+              <FormattedMessage id="home.recent-swaps.recent-swaps" />
             </Text>
           </Left>
           <Right isFloats={bridge === 'floats'}>
             <TextFee variant="section-title">
               {bridge === 'floats' ? (
-                <FormattedMessage id="home.recentSwaps.feesMax" />
+                <FormattedMessage id="home.recent-swaps.fees-max" />
               ) : (
-                <FormattedMessage id="home.recentSwaps.fees" />
+                <FormattedMessage id="home.recent-swaps.fees" />
               )}
             </TextFee>
             {filter}

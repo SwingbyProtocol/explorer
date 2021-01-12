@@ -10,7 +10,7 @@ export const SeeMore = () => {
       <SeeMoreColumn>
         {/* Todo: Add click logic */}
         <Text variant="accent">
-          <FormattedMessage id="common.seeMore" />
+          <FormattedMessage id="common.see-more" />
         </Text>
         <IconLinkArrow />
       </SeeMoreColumn>

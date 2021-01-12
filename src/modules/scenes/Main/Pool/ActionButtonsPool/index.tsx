@@ -20,7 +20,7 @@ export const ActionButtonsPool = () => {
             <FormattedMessage id="pool.apy" />
           </TextTitle>
           <TextAPY variant="accent">
-            <FormattedMessage id="common.comingSoon" />
+            <FormattedMessage id="common.coming-soon" />
           </TextAPY>
         </RowText>
       ) : (
@@ -39,7 +39,7 @@ export const ActionButtonsPool = () => {
           size="city"
           onClick={() => dispatch(togglePoolMode(PoolMode.AddLiquidity))}
         >
-          <FormattedMessage id="pool.addLiquidity" />
+          <FormattedMessage id="pool.add-liquidity" />
         </ButtonScale>
       </Buttons>
     </ActionButtonsPoolContainer>

@@ -17,7 +17,7 @@ export const LoaderComingSoon = (props: Props) => {
       <Row>
         <TextComingSoon variant="accent">
           {props.isPlaceholder ? (
-            <FormattedMessage id="common.loader.comingSoon" />
+            <FormattedMessage id="common.loader.coming-soon" />
           ) : (
             <FormattedMessage id="common.loader.loading" />
           )}

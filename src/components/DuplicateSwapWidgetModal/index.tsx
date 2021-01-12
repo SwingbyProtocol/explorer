@@ -43,7 +43,7 @@ export const DuplicateSwapWidgetModal = (props: Props) => {
       <Modal.Content>
         <ModalContainer>
           <Text variant="title-xs">
-            <FormattedMessage id="common.modal.verifyAddress" />
+            <FormattedMessage id="common.modal.verify-address" />
           </Text>
           <TextAddress variant="accent">{address}</TextAddress>
           <Buttons>

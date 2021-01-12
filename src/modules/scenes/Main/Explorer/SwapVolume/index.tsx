@@ -157,7 +157,7 @@ export const SwapVolume = (props: Props) => {
       <Box>
         <TitleDiv>
           <Text variant="section-title">
-            <FormattedMessage id="home.network.totalSwapVol" />
+            <FormattedMessage id="home.network.total-swap-vol" />
           </Text>
         </TitleDiv>
         <LineContainer>
