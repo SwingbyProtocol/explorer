@@ -93,7 +93,7 @@ export const BrowserMetanodes = () => {
                     <FormattedMessage id="metanodes.address" />
                   </TextBlock>
                   <TextBlock>
-                    <FormattedMessage id="metanodes.stakeTimeLockedUntil" />
+                    <FormattedMessage id="metanodes.stake-time-locked-until" />
                   </TextBlock>
                 </StakeInfos>
               </Column>

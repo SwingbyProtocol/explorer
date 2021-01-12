@@ -24,21 +24,21 @@ export const URL = {
 };
 
 export const Links = [
-  { link: URL.WhatIsSwingby, description: 'footer.whatIsSwingby' },
+  { link: URL.WhatIsSwingby, description: 'footer.what-is-swingby' },
   { link: URL.Earn, description: 'footer.earn' },
-  { link: PATH.FEES, description: 'footer.transactionFees' },
+  { link: PATH.FEES, description: 'footer.transaction-fees' },
 ];
 export const Developers = [
-  { link: URL.WhitePaper, description: 'footer.whitePaper' },
+  { link: URL.WhitePaper, description: 'footer.white-paper' },
   { link: URL.SwingbyDocs, description: 'footer.documentation' },
 ];
 
 export const Terms = [
   {
     link: URL.PrivacyPolicy,
-    description: 'footer.privacyPolicy',
+    description: 'footer.privacy-policy',
   },
-  { link: URL.TermsOfUse, description: 'footer.termsOfUse' },
+  { link: URL.TermsOfUse, description: 'footer.terms-of-use' },
 ];
 
 export const Media = [

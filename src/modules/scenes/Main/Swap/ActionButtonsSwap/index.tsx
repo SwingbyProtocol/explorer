@@ -50,7 +50,7 @@ export const ActionButtons = (props: Props) => {
         <Tooltip
           content={
             <Tooltip.Content>
-              <FormattedMessage id="swap.duplicatePopup" />
+              <FormattedMessage id="swap.duplicate-popup" />
             </Tooltip.Content>
           }
           data-testid="tooltip"
@@ -81,7 +81,7 @@ export const ActionButtons = (props: Props) => {
             size="city"
             onClick={() => setToggleOpenLink(toggleOpenLink + 1)}
           >
-            <FormattedMessage id="swap.claimSwap" />
+            <FormattedMessage id="swap.claim-swap" />
           </ButtonClaimSwapTablet>
         )}
       </Buttons>
@@ -90,7 +90,7 @@ export const ActionButtons = (props: Props) => {
           <Tooltip
             content={
               <Tooltip.Content>
-                <FormattedMessage id="swap.claimSwapPopup" />
+                <FormattedMessage id="swap.claim-swap-popup" />
               </Tooltip.Content>
             }
             data-testid="tooltip"
@@ -100,7 +100,7 @@ export const ActionButtons = (props: Props) => {
               size="city"
               onClick={() => setToggleOpenLink(toggleOpenLink + 1)}
             >
-              <FormattedMessage id="swap.claimSwap" />
+              <FormattedMessage id="swap.claim-swap" />
             </ButtonScale>
           </Tooltip>
         </ButtonClaimSwapRow>

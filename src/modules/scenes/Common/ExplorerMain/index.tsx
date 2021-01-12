@@ -16,7 +16,14 @@ import { mode, PATH } from '../../../env';
 import { TSwapWidget, TTxRawObject } from '../../../explorer';
 import { initOnboard } from '../../../onboard';
 import { setOnboard } from '../../../store';
-import { Browser, BrowserDetail, BrowserFees, BrowserMetanodes, BrowserPool } from '../../Main';
+import {
+  Browser,
+  BrowserAsset,
+  BrowserDetail,
+  BrowserFees,
+  BrowserMetanodes,
+  BrowserPool,
+} from '../../Main';
 
 import { ExplorerMainContainer, HeadLine, TitleH1 } from './styled';
 
@@ -135,6 +142,10 @@ export const ExplorerMain = () => {
         return <BrowserMetanodes />;
       case PATH.FEES:
         return <BrowserFees />;
+      case PATH.ASSET_BTC:
+        return <BrowserAsset />;
+      case PATH.ASSET_WBTC:
+        return <BrowserAsset />;
 
       default:
         <Browser
@@ -159,6 +170,10 @@ export const ExplorerMain = () => {
       case PATH.METANODES:
         return <></>;
       case PATH.FEES:
+        return <></>;
+      case PATH.ASSET_BTC:
+        return <></>;
+      case PATH.ASSET_WBTC:
         return <></>;
 
       default:

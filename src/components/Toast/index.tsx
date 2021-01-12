@@ -11,7 +11,7 @@ export const copyToClipboard = (copy: () => void, toast: (arg?) => void, role?: 
 };
 
 export const toastWrongAddress = () => {
-  toast.error(<FormattedMessage id="toast.invalidWalletAddress" />, {
+  toast.error(<FormattedMessage id="toast.invalid-wallet-address" />, {
     autoClose: 3000,
     draggable: true,
     hideProgressBar: true,
@@ -24,12 +24,12 @@ export const toastCopyAddress = (role?: string) => {
   toast.info(
     role ? (
       role === 'From' ? (
-        <FormattedMessage id="toast.copiedFromAddress" />
+        <FormattedMessage id="toast.copied-from-address" />
       ) : (
-        <FormattedMessage id="toast.copiedToAddress" />
+        <FormattedMessage id="toast.copied-to-address" />
       )
     ) : (
-      <FormattedMessage id="toast.copiedAddress" />
+      <FormattedMessage id="toast.copied-address" />
     ),
     {
       autoClose: 3000,
@@ -40,7 +40,7 @@ export const toastCopyAddress = (role?: string) => {
 };
 
 export const toastCopyURL = () => {
-  toast.info(<FormattedMessage id="toast.copiedLinkURL" />, {
+  toast.info(<FormattedMessage id="toast.copied-link-URL" />, {
     autoClose: 3000,
     draggable: true,
     hideProgressBar: true,
@@ -48,7 +48,7 @@ export const toastCopyURL = () => {
 };
 
 export const toastCopyTxId = () => {
-  toast.info(<FormattedMessage id="toast.copiedTxId" />, {
+  toast.info(<FormattedMessage id="toast.copied-tx-id" />, {
     autoClose: 3000,
     draggable: true,
     hideProgressBar: true,

@@ -31,7 +31,7 @@ export const BrowserPool = () => {
   const addressValidationResult = (
     <ValidationResult>
       <TextValidationResult variant="normal">
-        <FormattedMessage id="validation.invalidAddress" />
+        <FormattedMessage id="validation.invalid-address" />
       </TextValidationResult>
     </ValidationResult>
   );
@@ -40,15 +40,15 @@ export const BrowserPool = () => {
     const { isValidAmount, withdrawAmount, maxAmount, minimumWithdrawAmount, toCurrency } = data;
     const failedFormat = () => {
       if (!isValidAmount) {
-        return <FormattedMessage id="validation.plsInputNumberOnly" />;
+        return <FormattedMessage id="validation.pls-input-number-only" />;
       }
       if (withdrawAmount > maxAmount) {
-        return <FormattedMessage id="validation.insufficientBalance" />;
+        return <FormattedMessage id="validation.insufficient-balance" />;
       }
       if (minimumWithdrawAmount > withdrawAmount) {
         return (
           <FormattedMessage
-            id="validation.lowerThanMinimumAmount"
+            id="validation.lower-than-minimum-amount"
             values={{ value: minimumWithdrawAmount, currency: toCurrency }}
           />
         );

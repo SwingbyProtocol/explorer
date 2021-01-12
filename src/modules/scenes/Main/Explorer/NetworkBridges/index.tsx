@@ -38,7 +38,7 @@ export const NetworkBridges = (props: Props) => {
     <NetworkBridgeContainer>
       <TitleText variant="section-title">
         {' '}
-        <FormattedMessage id="home.network.networkBridges" />
+        <FormattedMessage id="home.network.network-bridges" />
       </TitleText>
       <CoinContainer>
         {data.map((coin) => {

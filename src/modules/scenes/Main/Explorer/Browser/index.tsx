@@ -162,7 +162,7 @@ export const Browser = (props: Props) => {
     <Dropdown target={<Filter />}>
       {/* Memo: Just shows user the filter is hiding 'waiting' */}
       <Dropdown.Item selected={true} disabled={true}>
-        <FormattedMessage id="home.recentSwaps.hideWaiting" />
+        <FormattedMessage id="home.recent-swaps.hide-waiting" />
       </Dropdown.Item>
       <Dropdown.Item
         selected={isRejectedTx}
@@ -171,7 +171,7 @@ export const Browser = (props: Props) => {
           dispatch(toggleIsRejectedTx(!isRejectedTx));
         }}
       >
-        <FormattedMessage id="home.recentSwaps.rejectedTx" />
+        <FormattedMessage id="home.recent-swaps.rejected-tx" />
       </Dropdown.Item>
       <Dropdown.Item selected={chainBridge === 'floats'} onClick={() => routerPush('floats', q, 1)}>
         Float transactions
@@ -199,10 +199,10 @@ export const Browser = (props: Props) => {
   const noResultFound = (
     <NoResultsFound>
       <Text variant="title-s">
-        <FormattedMessage id="home.noResultsFound" />
+        <FormattedMessage id="home.no-results-found" />
       </Text>
       <Text variant="title-xs">
-        <FormattedMessage id="home.tryDifferentTx" />
+        <FormattedMessage id="home.try-different-tx" />
       </Text>
     </NoResultsFound>
   );

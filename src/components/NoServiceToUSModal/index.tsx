@@ -16,7 +16,7 @@ export const NoServiceToUSModal = (props: Props) => {
       <Modal.Content>
         <ModalContainer>
           <Text variant="title-xs">
-            <FormattedMessage id="common.modal.noServiceToUS" />
+            <FormattedMessage id="common.modal.no-service-to-US" />
           </Text>
         </ModalContainer>
       </Modal.Content>

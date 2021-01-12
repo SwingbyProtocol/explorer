@@ -48,18 +48,18 @@ export const SwapFees = (props: Props) => {
   return (
     <SwapFeesContainer>
       <TitleText variant="accent">
-        <FormattedMessage id="swap.swapFees" />
+        <FormattedMessage id="swap.swap-fees" />
       </TitleText>
       <Row>
         <Top>
           <Tooltip
             content={
               <Tooltip.Content>
-                <FormattedMessage id="swap.nodeExplanation1" />
+                <FormattedMessage id="swap.node-explanation1" />
                 <TextPrimary>
                   <FormattedMessage id="common.click" />
                 </TextPrimary>
-                <FormattedMessage id="swap.nodeExplanation2" />
+                <FormattedMessage id="swap.node-explanation2" />
               </Tooltip.Content>
             }
             data-testid="tooltip"
@@ -77,7 +77,7 @@ export const SwapFees = (props: Props) => {
           <FeeBox>
             <Text variant="masked">
               {bridgeFee}{' '}
-              <FormattedMessage id="swap.minerFee" values={{ currency: tx.currencyIn }} />
+              <FormattedMessage id="swap.miner-fee" values={{ currency: tx.currencyIn }} />
             </Text>
           </FeeBox>
         </Center>
