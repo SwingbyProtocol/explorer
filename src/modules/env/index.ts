@@ -18,7 +18,7 @@ export enum PATH {
   POOL = '/pool',
   METANODES = '/metanodes',
   FEES = '/fees',
-  ASSET_BTC = '/asset/bitcoin',
+  ASSET_BTC = '/asset/btc',
   ASSET_WBTC = '/asset/wbtc',
 }
 
