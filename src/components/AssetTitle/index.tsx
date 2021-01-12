@@ -11,7 +11,7 @@ export const AssetTitle = () => {
     const pathStrings = path.split('/');
     const coin = pathStrings[pathStrings.length - 1];
     switch (coin) {
-      case 'bitcoin':
+      case 'btc':
         return { code: 'BTC', text: 'Bitcoin' };
       case 'wbtc':
         return {

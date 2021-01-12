@@ -23,7 +23,7 @@ export const BrowserAsset = () => {
     const pathStrings = path.split('/');
     const coin = pathStrings[pathStrings.length - 1];
     switch (coin) {
-      case 'bitcoin':
+      case 'btc':
         return { code: 'bitcoin', text: 'Bitcoin', coinMarketCapId: '1' };
       case 'wbtc':
         return {
