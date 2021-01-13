@@ -1,39 +1,17 @@
 import { isAddressValid } from '@swingby-protocol/sdk';
-import validate from 'bitcoin-address-validation';
 
 import { BTCBCoins, CoinSymbol, ETHCoins } from '../../../coins';
-import { MODE, mode } from '../../../env';
-
-// Ref: /node_modules/bitcoin-address-validation/lib/types.d.ts
-enum Network {
-  mainnet = 'mainnet',
-  testnet = 'testnet',
-  regtest = 'regtest',
-}
-enum AddressType {
-  p2pkh = 'p2pkh',
-  p2sh = 'p2sh',
-  p2wpkh = 'p2wpkh',
-}
-interface Validation {
-  bech32: boolean;
-  network: Network;
-  address: string;
-  type: AddressType;
-}
+import { mode } from '../../../env';
 
 export const isBitcoinAddress = (address: string): boolean => {
-  const result = validate(address) as Validation;
-  const currentNetwork = mode === MODE.PRODUCTION ? Network.mainnet : Network.testnet;
-  return result.network === currentNetwork;
+  return isAddressValid({ address, context: { mode }, chain: 'bitcoin' });
 };
 
-// Ref: https://github.com/binance-chain/javascript-sdk/tree/master/docs#module_crypto.checkAddress
 export const isBinanceAddress = (address: string): boolean =>
   isAddressValid({ address, context: { mode }, chain: 'binance' });
 
 export const isEtherAddress = (address: string): boolean => {
-  return /^0x[a-fA-F0-9]{40}$/.test(address);
+  return isAddressValid({ address, context: { mode }, chain: 'ethereum' });
 };
 
 export const isAddress = (address: string): boolean => {

@@ -28,7 +28,6 @@
     "@swingby-protocol/sdk": "^1.0.0-alpha.58",
     "@swingby-protocol/widget": "^1.0.0-alpha.16",
     "bignumber.js": "^9.0.1",
-    "bitcoin-address-validation": "^1.0.0",
     "blockies-ts": "^1.0.0",
     "bnc-onboard": "^1.16.1",
     "chart.js": "^2.9.4",
