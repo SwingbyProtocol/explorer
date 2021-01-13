@@ -1,5 +1,5 @@
 import { Dropdown, Tooltip } from '@swingby-protocol/pulsar';
-import { buildContext, CONTRACTS, estimateAmountReceiving } from '@swingby-protocol/sdk';
+import { buildContext, estimateAmountReceiving } from '@swingby-protocol/sdk';
 import { createWidget, openPopup } from '@swingby-protocol/widget';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -21,7 +21,7 @@ import {
 import { IWithdrawAmountValidation } from '../../../../pool';
 import { getMinimumWithdrawAmount, getWithdrawRate } from '../../../../store';
 import { ButtonScale, TextChosenFilter, TextEstimated } from '../../../Common';
-import { CONTRACT_SWAP, mode } from '../.././../../env';
+import { mode } from '../.././../../env';
 
 import {
   AllButtonDiv,
@@ -81,17 +81,12 @@ export const Withdraw = (props: Props) => {
   useEffect(() => {
     if (web3 && transactionFees && toCurrency) {
       (async () => {
-        const contractSwap = new web3.eth.Contract(
-          CONTRACTS.skybridge.production.abi,
-          CONTRACT_SWAP,
-        );
-
         const fixedFee = calculateFixedFee(toCurrency, transactionFees).fixedFee;
         const fixedFeeSatoshi = toSatoshi(String(fixedFee));
 
         const results = await Promise.all([
-          contractSwap.methods.withdrawalFeeBPS().call(),
-          contractSwap.methods.getMinimumAmountOfLPTokens(fixedFeeSatoshi).call(),
+          web3.methods.withdrawalFeeBPS().call(),
+          web3.methods.getMinimumAmountOfLPTokens(fixedFeeSatoshi).call(),
         ]);
         const withdrawRatePercent = convertFromPercent(Number(results[0]));
         dispatch(getWithdrawRate(withdrawRatePercent));
