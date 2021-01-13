@@ -28,7 +28,8 @@ v1.22.4
 - [@swingby-protocol/widget](https://github.com/SwingbyProtocol/widget)
   - Widget for Skybridge Swap service
 - [@swingby-protocol/ip-check](https://github.com/SwingbyProtocol/ip-check)
-  - Small util to check a user's country by IP and whether access to our product should be restricted
+  - Small util to check a user's country by IP and whether access to our product should be
+    restricted
 - [bignumber.js](https://github.com/MikeMcl/bignumber.js)
   - A JavaScript library for arbitrary-precision decimal and non-decimal arithmetic
 - [bnc-onboard](https://github.com/blocknative/onboard)
@@ -59,8 +60,6 @@ v1.22.4
   - Redux DevTools extension.
 - [react-spinners](https://github.com/davidhu2000/react-spinners)
   - A collection of loading spinner components for react
-- [react-toastify](https://github.com/fkhadra/react-toastify)
-  - React notification made easy
 - [web3](https://github.com/ethereum/web3.js)
   - Ethereum JavaScript API
 
@@ -81,13 +80,11 @@ v1.22.4
 ## Vercel & Deployed URL
 
 - [Mainnet](https://vercel.com/swingby/new-explorer-mainnet)
-  - https://new-explorer-mainnet.vercel.app/
 
+  - https://new-explorer-mainnet.vercel.app/
 
 - [Testnet](https://vercel.com/swingby/new-explorer-testnet)
   - https://testnet.skybridge.info/
-
-
 
 ## How To Use
 
@@ -98,18 +95,19 @@ $ yarn dev
 
 ## Translation
 
-This project is using [react-intl](https://github.com/formatjs/formatjs) to handle
-localization. Please refer to `src/modules/i18n/files/LANGUAGE.json` file to add or edit sentences.
+This project is using [react-intl](https://github.com/formatjs/formatjs) to handle localization.
+Please refer to `src/modules/i18n/files/LANGUAGE.json` file to add or edit sentences.
 
 ## SEO
 
-This project is using [next-seo](https://github.com/garmeeh/next-seo) to handle
-SEO settings. Please refer to `src/modules/seo/index.tsx` file to add or edit sentences.
+This project is using [next-seo](https://github.com/garmeeh/next-seo) to handle SEO settings. Please
+refer to `src/modules/seo/index.tsx` file to add or edit sentences.
 
 ## How To Contribute
 
-This project is using [@swingby-protocol/eslint-config](https://github.com/SwingbyProtocol/eslint-config).
-When you push your branch to remote ones, please run `yarn lint` to comply to the code convention.
+This project is using
+[@swingby-protocol/eslint-config](https://github.com/SwingbyProtocol/eslint-config). When you push
+your branch to remote ones, please run `yarn lint` to comply to the code convention.
 
 When you add a new library, please make sure its license is not
 [GPL](https://en.wikipedia.org/wiki/GNU_General_Public_License). And please use `-D` for @types.
@@ -117,4 +115,3 @@ When you add a new library, please make sure its license is not
 ### References
 
 - [Figma](https://www.figma.com/file/FE8YjY4wHOKySVm6g3rnsH/swingby-rebrand)
-

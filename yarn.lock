@@ -2284,19 +2284,20 @@
   resolved "https://registry.yarnpkg.com/@swingby-protocol/prettier-config/-/prettier-config-1.0.2.tgz#ff4c03ac7ad3dab1d02a914d31debcf9441fa3e8"
   integrity sha512-ROirdMQDD6PxHTC+4J7pFH4ik8Yf3frLwf6XDBjuFKKfKCqvpqkHWHnYCJG1PS5uODmMCiH+m1JoIYr/vDfnAA==
 
-"@swingby-protocol/pulsar@^3.2.0":
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/@swingby-protocol/pulsar/-/pulsar-3.2.0.tgz#710f208dddb3db4ac17ac8bf58a92fc3d8603460"
-  integrity sha512-i/b+3O0yquW9fD4Tu9ThCuI0ZZIL96BKY7dnxiq7J/aWHbC06nb6F23h5qHzN9HO1El5bbpYrtS00TiHHT83jQ==
+"@swingby-protocol/pulsar@^3.5.0-alpha.4":
+  version "3.5.0-alpha.4"
+  resolved "https://registry.yarnpkg.com/@swingby-protocol/pulsar/-/pulsar-3.5.0-alpha.4.tgz#f018a413db6022aab2bef940974997b3cc428d85"
+  integrity sha512-9Y4IEIS1pMKJhrUmnlC+r5297dUBsJY5SCpNOMnj5O0TcFp4X3NfB3NR7MwU/GIlOESULat20ixiX1HusqZ5YQ==
   dependencies:
     "@tippyjs/react" "^4.2.0"
     nanoid "3.1.18"
     qrcode.react "^1.0.0"
+    react-toastify "^6.2.0"
 
-"@swingby-protocol/sdk@^1.0.0-alpha.58":
-  version "1.0.0-alpha.58"
-  resolved "https://registry.yarnpkg.com/@swingby-protocol/sdk/-/sdk-1.0.0-alpha.58.tgz#d9c49556ce0603a0cd25250a3213ef6ee3e30a5b"
-  integrity sha512-pFGGk17B2BRaa57AV/VtS/FGfMmbUtw2zPabmbN+o/kVggsUw/ngM0bZn5WEIfBz94YOUEoIZGozigUqrNUVIg==
+"@swingby-protocol/sdk@^1.0.0-alpha.62":
+  version "1.0.0-alpha.62"
+  resolved "https://registry.yarnpkg.com/@swingby-protocol/sdk/-/sdk-1.0.0-alpha.62.tgz#e44eea4dca3c9eaaa4df1be37a39e3c88ec2cbec"
+  integrity sha512-qw4Xe42fisaM9OmVpm3bDyCNLskWhmgTRxDQRF966Dmr5c5H3FI6nNZqvoTVnKkITp2THx/ThoQ6cQpuYo8xPQ==
   dependencies:
     bech32 "^1.1.4"
     big.js "^6.0.2"
@@ -11874,7 +11875,7 @@ react-spring@^9.0.0-rc.3:
     "@react-spring/web" "9.0.0-rc.3"
     "@react-spring/zdog" "9.0.0-rc.3"
 
-react-toastify@^6.1.0:
+react-toastify@^6.2.0:
   version "6.2.0"
   resolved "https://registry.yarnpkg.com/react-toastify/-/react-toastify-6.2.0.tgz#f2d76747c70b9de91f71f253d9feae6b53dc836c"
   integrity sha512-XpjFrcBhQ0/nBOL4syqgP/TywFnOyxmstYLWgSQWcj39qpp+WU4vPt3C/ayIDx7RFyxRWfzWTdR2qOcDGo7G0w==
