@@ -1,9 +1,12 @@
 import Head from 'next/head';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import Web3 from 'web3';
 
+import { CONTRACT_SWAP, CONTRACT_SWAP_ABI, infuraUrl } from '../../../../env';
 import { IWithdrawAmountValidation, PoolMode } from '../../../../pool';
+import { setWeb3 } from '../../../../store';
 import { AccountSummary } from '../AccountSummary';
 import { ActionButtonsPool } from '../ActionButtonsPool';
 import { AddLiquidity } from '../AddLiquidity';
@@ -27,6 +30,17 @@ import {
 export const BrowserPool = () => {
   const pool = useSelector((state) => state.pool);
   const { userAddress, mode } = pool;
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (userAddress) {
+      const web3 = new new Web3(new Web3.providers.HttpProvider(infuraUrl)).eth.Contract(
+        CONTRACT_SWAP_ABI,
+        CONTRACT_SWAP,
+      );
+      dispatch(setWeb3(web3));
+    }
+  }, [userAddress, dispatch]);
 
   const addressValidationResult = (
     <ValidationResult>
