@@ -1,5 +1,5 @@
 import { FormattedMessage } from 'react-intl';
-import { toast } from 'react-toastify';
+import { createToast } from '@swingby-protocol/pulsar';
 
 export const copyToClipboard = (copy: () => void, toast: (arg?) => void, role?: string) => {
   copy();
@@ -11,18 +11,18 @@ export const copyToClipboard = (copy: () => void, toast: (arg?) => void, role?: 
 };
 
 export const toastWrongAddress = () => {
-  toast.error(<FormattedMessage id="toast.invalid-wallet-address" />, {
-    autoClose: 3000,
-    draggable: true,
-    hideProgressBar: true,
-    // Memo: To prevent duplicated toast
+  createToast({
+    type: 'danger',
+    content: <FormattedMessage id="toast.invalid-wallet-address" />,
+    autoClose: true,
     toastId: 'wrongAddressToastID',
   });
 };
 
 export const toastCopyAddress = (role?: string) => {
-  toast.info(
-    role ? (
+  createToast({
+    type: 'info',
+    content: role ? (
       role === 'From' ? (
         <FormattedMessage id="toast.copied-from-address" />
       ) : (
@@ -31,26 +31,22 @@ export const toastCopyAddress = (role?: string) => {
     ) : (
       <FormattedMessage id="toast.copied-address" />
     ),
-    {
-      autoClose: 3000,
-      draggable: true,
-      hideProgressBar: true,
-    },
-  );
+    autoClose: true,
+  });
 };
 
 export const toastCopyURL = () => {
-  toast.info(<FormattedMessage id="toast.copied-link-URL" />, {
-    autoClose: 3000,
-    draggable: true,
-    hideProgressBar: true,
+  createToast({
+    type: 'info',
+    content: <FormattedMessage id="toast.copied-link-URL" />,
+    autoClose: true,
   });
 };
 
 export const toastCopyTxId = () => {
-  toast.info(<FormattedMessage id="toast.copied-tx-id" />, {
-    autoClose: 3000,
-    draggable: true,
-    hideProgressBar: true,
+  createToast({
+    type: 'info',
+    content: <FormattedMessage id="toast.copied-tx-id" />,
+    autoClose: true,
   });
 };
