@@ -10,8 +10,6 @@ import {
 import { fetch } from '../../../modules/fetch';
 import { IEtherscanTransaction } from '../../../modules/pool';
 
-// type Data = { country: string; code: string };
-
 const base = ENDPOINT_ETHERSCAN;
 
 const generateUrl = (page: number, walletAddress: string, limit: number) => {
@@ -27,7 +25,10 @@ const fetchRecentTransaction = async (address: string, page: number) => {
   return fetchedHistories;
 };
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<IEtherscanTransaction[]>,
+) {
   await corsMiddleware({ req, res });
 
   const address = getParam({ req, name: 'address' });
