@@ -11,7 +11,7 @@ import { useTheme } from 'styled-components';
 import { CoinSymbol, PoolCurrencies } from '../../../../coins';
 import { convertFromPercent } from '../../../../common';
 import { checkIsValidAddress, checkIsValidAmount, TCurrency } from '../../../../explorer';
-import { IWithdrawAmountValidation } from '../../../../pool';
+import { IWithdrawAmountValidation, TWithdrawCurrency } from '../../../../pool';
 import { useSdkContext } from '../../../../sdk-context';
 import { getMinimumWithdrawAmount, getWithdrawRate } from '../../../../store';
 import { ButtonScale, TextChosenFilter, TextEstimated } from '../../../Common';
@@ -60,7 +60,7 @@ export const Withdraw = (props: Props) => {
 
   const [receivingAddress, setReceivingAddress] = useState('');
   const [withdrawAmount, setWithdrawAmount] = useState('0');
-  const [toCurrency, setToCurrency] = useState<'BTC' | 'WBTC'>('BTC');
+  const [toCurrency, setToCurrency] = useState<TWithdrawCurrency>('BTC');
   const [isValidAddress, setIsValidAddress] = useState(null);
   const [isValidAmount, setIsValidAmount] = useState(null);
   const context = useSdkContext();
@@ -135,7 +135,7 @@ export const Withdraw = (props: Props) => {
 
   const currencyItems = (
     <>
-      {PoolCurrencies.map((currency) => (
+      {PoolCurrencies.map((currency: TWithdrawCurrency) => (
         <Dropdown.Item onClick={() => setToCurrency(currency)} key={currency}>
           {<CoinDropDown symbol={currency} />} {currency}
         </Dropdown.Item>
