@@ -1,5 +1,5 @@
 import { Dropdown, Tooltip } from '@swingby-protocol/pulsar';
-import { buildContext, estimateAmountReceiving } from '@swingby-protocol/sdk';
+import { estimateAmountReceiving } from '@swingby-protocol/sdk';
 import { createWidget, openPopup } from '@swingby-protocol/widget';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -19,6 +19,7 @@ import {
   toSatoshi,
 } from '../../../../explorer';
 import { IWithdrawAmountValidation } from '../../../../pool';
+import { useSdkContext } from '../../../../sdk-context';
 import { getMinimumWithdrawAmount, getWithdrawRate } from '../../../../store';
 import { ButtonScale, TextChosenFilter, TextEstimated } from '../../../Common';
 import { mode } from '../.././../../env';
@@ -107,6 +108,7 @@ export const Withdraw = (props: Props) => {
 
   const [transactionFee, setTransactionFee] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const context = useSdkContext();
 
   useEffect(() => {
     let cancelled = false;
@@ -115,7 +117,6 @@ export const Withdraw = (props: Props) => {
       withdrawAmount > 0 && setIsLoading(true);
       try {
         if (cancelled) return;
-        const context = await buildContext({ mode: mode });
         const { feeTotal } = await estimateAmountReceiving({
           context,
           currencyDeposit: CoinSymbol.LP as TCurrency,
@@ -136,7 +137,7 @@ export const Withdraw = (props: Props) => {
       cancelled = true;
       setTransactionFee('');
     };
-  }, [toCurrency, withdrawAmount]);
+  }, [toCurrency, withdrawAmount, context]);
 
   const currencyItems = (
     <>

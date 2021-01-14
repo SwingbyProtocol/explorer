@@ -9,10 +9,11 @@ import { useDispatch } from 'react-redux';
 import { Slide, ToastContainer } from 'react-toastify';
 import { useTheme } from 'styled-components';
 
-import { GA_TAG } from '../modules/env';
+import { GA_TAG, mode } from '../modules/env';
 import { getTransactionFees, getUsdPrice, TTheme } from '../modules/explorer';
 import { useInterval } from '../modules/hooks';
 import { URL } from '../modules/links';
+import { SdkContextProvider } from '../modules/sdk-context';
 import { fetchTransactionFees, fetchUsdPrice, setWidthSize } from '../modules/store';
 
 import { Header } from './Header';
@@ -88,14 +89,15 @@ export const Layout = (props: Props) => {
           </>
         )}
       </Head>
+      <SdkContextProvider mode={mode}>
+        <ToastContainer transition={Slide} />
 
-      <ToastContainer transition={Slide} />
-
-      <Header setThemeMode={props.setThemeMode} themeMode={props.themeMode} />
-      <SwapContainer>
-        <Swap />
-      </SwapContainer>
-      {props.children}
+        <Header setThemeMode={props.setThemeMode} themeMode={props.themeMode} />
+        <SwapContainer>
+          <Swap />
+        </SwapContainer>
+        {props.children}
+      </SdkContextProvider>
       {!cookiePermission && (
         <CookieConsent
           location="bottom"

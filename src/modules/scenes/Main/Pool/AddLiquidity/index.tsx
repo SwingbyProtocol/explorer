@@ -1,5 +1,5 @@
 import { Dropdown, Tooltip } from '@swingby-protocol/pulsar';
-import { buildContext, estimateAmountReceiving } from '@swingby-protocol/sdk';
+import { estimateAmountReceiving } from '@swingby-protocol/sdk';
 import { createWidget, openPopup } from '@swingby-protocol/widget';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -11,6 +11,7 @@ import { useTheme } from 'styled-components';
 import { CoinSymbol, ETHCoins, PoolCurrencies } from '../../../../coins';
 import { checkIsValidAddress, checkIsValidAmount, TCurrency } from '../../../../explorer';
 import { IWithdrawAmountValidation } from '../../../../pool';
+import { useSdkContext } from '../../../../sdk-context';
 import { ButtonScale, TextChosenFilter, TextEstimated } from '../../../Common';
 import { mode } from '../.././../../env';
 
@@ -86,6 +87,7 @@ export const AddLiquidity = (props: Props) => {
 
   const [transactionFee, setTransactionFee] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const context = useSdkContext();
   useEffect(() => {
     let cancelled = false;
 
@@ -94,7 +96,6 @@ export const AddLiquidity = (props: Props) => {
       try {
         if (cancelled) return;
 
-        const context = await buildContext({ mode: mode });
         const { feeTotal } = await estimateAmountReceiving({
           context,
           currencyDeposit: fromCurrency as TCurrency,
@@ -115,7 +116,7 @@ export const AddLiquidity = (props: Props) => {
       cancelled = true;
       setTransactionFee('');
     };
-  }, [fromCurrency, poolAmount]);
+  }, [fromCurrency, poolAmount, context]);
 
   const widget = createWidget({
     resource: 'pool',
