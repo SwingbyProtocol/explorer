@@ -49,10 +49,6 @@ export const ETHER_NETWORK =
 export const infuraApiKey =
   process.env.NEXT_PUBLIC_INFURA_KEY || 'f35c2a4f3d0941a38a3edb62ed10c847';
 
-export const infuraUrl = `https://${
-  mode === 'production' ? 'mainnet' : 'goerli'
-}.infura.io/v3/${infuraApiKey}`;
-
 export const RPC_URL = `https://${ETHER_NETWORK.network}.infura.io/v3/${infuraApiKey}`;
 
 export const infuraAppName = 'Swingby Explorer';
