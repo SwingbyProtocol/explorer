@@ -15,7 +15,7 @@ import { IWithdrawAmountValidation, TWithdrawCurrency } from '../../../../pool';
 import { useSdkContext } from '../../../../sdk-context';
 import { getMinimumWithdrawAmount, getWithdrawRate } from '../../../../store';
 import { ButtonScale, TextChosenFilter, TextEstimated } from '../../../Common';
-import { mode } from '../.././../../env';
+import { CONTRACT_SB_BTC, mode } from '../.././../../env';
 
 import {
   AllButtonDiv,
@@ -57,6 +57,9 @@ export const Withdraw = (props: Props) => {
   const { themeMode, transactionFees } = explorer;
   const { locale } = useRouter();
   const dispatch = useDispatch();
+
+  console.log('mode', mode);
+  console.log('CONTRACT_SB_BTC', CONTRACT_SB_BTC);
 
   const [receivingAddress, setReceivingAddress] = useState('');
   const [withdrawAmount, setWithdrawAmount] = useState('0');
