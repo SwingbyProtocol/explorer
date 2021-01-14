@@ -7,7 +7,6 @@ export {
   makeEarningsData,
   makeTimeLabels,
   orgFloor,
-  fetchSbBTCRate,
 } from './utils';
 
 export enum PoolMode {

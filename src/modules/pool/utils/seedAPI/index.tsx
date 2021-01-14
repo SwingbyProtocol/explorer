@@ -7,11 +7,3 @@ export const fetchSbBTCBalance = async (userAddress: string) => {
   const balance = res.ok && res.response.balance;
   return Number(balance);
 };
-
-// Memo: To fetch sbBTC-BTC price rate
-export const fetchSbBTCRate = async () => {
-  const url = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/sbBTC/price`;
-  const res = await fetch<{ price: string }>(url);
-  const price = res.ok && res.response.price;
-  return Number(price);
-};

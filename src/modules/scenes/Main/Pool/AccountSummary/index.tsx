@@ -1,4 +1,5 @@
 import { getCryptoAssetFormatter, getFiatAssetFormatter, Text } from '@swingby-protocol/pulsar';
+import { getSbbtcPrice } from '@swingby-protocol/sdk';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,13 +9,8 @@ import { convertFromPercent } from '../../../../common';
 import { CONTRACT_WBTC, ENDPOINT_EARNINGS, ZERO_ADDRESS } from '../../../../env';
 import { toSatoshi } from '../../../../explorer';
 import { fetch } from '../../../../fetch';
-import {
-  fetchSbBTCBalance,
-  fetchSbBTCRate,
-  getHexValue,
-  IFeeRate,
-  orgFloor,
-} from '../../../../pool';
+import { fetchSbBTCBalance, getHexValue, IFeeRate, orgFloor } from '../../../../pool';
+import { useSdkContext } from '../../../../sdk-context';
 import { getCurrentPriceSbBTC, getDepositFeeRate, setBalanceSbBTC } from '../../../../store';
 
 import {
@@ -41,6 +37,7 @@ export const AccountSummary = () => {
 
   const { locale } = useIntl();
   const currency = CoinSymbol.BTC;
+  const context = useSdkContext();
 
   // Todo: Remove `disable-next-line` after 'earnings API' works
   // eslint-disable-next-line
@@ -75,14 +72,14 @@ export const AccountSummary = () => {
 
         const results = await Promise.all([
           fetchSbBTCBalance(userAddress),
-          fetchSbBTCRate(),
+          getSbbtcPrice({ context }),
           fetch<{ total: string }>(urlEarning),
         ]);
 
         const balanceSbBTC = results[0];
         dispatch(setBalanceSbBTC(balanceSbBTC));
 
-        const priceSbBTC = results[1];
+        const priceSbBTC = Number(results[1]);
         dispatch(getCurrentPriceSbBTC(priceSbBTC));
 
         // Memo: Decimal <= 8
@@ -106,7 +103,7 @@ export const AccountSummary = () => {
         setTotalEarnings(Number(totalEarnings));
       })();
     }
-  }, [dispatch, web3, userAddress]);
+  }, [dispatch, web3, userAddress, context]);
 
   return (
     <AccountSummaryContainer>
