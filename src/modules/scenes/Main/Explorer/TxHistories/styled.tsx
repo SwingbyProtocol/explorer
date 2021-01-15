@@ -76,7 +76,7 @@ export const TxHistoryRow = styled(motion.div)<BgProps>`
     grid-template-columns: 13.5% 4% 23.5% 16.5% 5% 19.5% 16% 2%;
   }
   @media (min-width: ${rem(media.xl)}) {
-    grid-template-columns: 13.5% 4% 23.5% 15.5% 4.5% 21% 15.5% 2.5%;
+    grid-template-columns: 13.5% 4% 24% 15% 5% 20.5% 15.5% 2.5%;
     /* Memo: Won't show animation for low spec computer   */
     transition: all 0.3s ease 0s;
     border: 2px solid transparent;
@@ -138,8 +138,8 @@ export const Ellipsis = styled(Icon.Ellipsis)`
   }
 `;
 
-export const SwapHorizontal = styled(Icon.SwapHorizontal)`
-  font-size: ${({ theme }) => rem(theme.pulsar.size.street)};
+export const IconArrowRight = styled(Icon.ArrowRight)`
+  font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
   color: ${({ theme }) => theme.pulsar.color.text.masked};
 `;
 

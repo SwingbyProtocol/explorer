@@ -110,10 +110,15 @@ export const Detail = styled(Icon.CaretRight)`
   margin-left: ${({ theme }) => rem(theme.pulsar.size.box)};
 `;
 
-export const SwapHorizontal = styled(Icon.SwapHorizontal)`
-  font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
+export const IconArrowRight = styled(Icon.ArrowRight)`
+  font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
   color: ${({ theme }) => theme.pulsar.color.text.masked};
   margin-right: ${({ theme }) => rem(theme.pulsar.size.house)};
+  margin-left: ${({ theme }) => rem(theme.pulsar.size.box)};
+  @media (min-width: ${rem(media.xs)}) {
+    max-width: ${rem(60)};
+    margin-left: 0;
+  }
 `;
 
 export const AmountText = styled(Text)`
