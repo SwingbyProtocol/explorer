@@ -1,12 +1,11 @@
 import { useWindowWidth } from '@react-hook/window-size';
-import { PULSAR_GLOBAL_FONT_HREF } from '@swingby-protocol/pulsar';
+import { PULSAR_GLOBAL_FONT_HREF, PulsarToastContainer } from '@swingby-protocol/pulsar';
 import Head from 'next/head';
 import { rem } from 'polished';
 import React, { ReactNode, useCallback, useEffect, useState } from 'react';
 import CookieConsent, { Cookies } from 'react-cookie-consent';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
-import { Slide, ToastContainer } from 'react-toastify';
 import { useTheme } from 'styled-components';
 
 import { GA_TAG, mode } from '../modules/env';
@@ -90,7 +89,7 @@ export const Layout = (props: Props) => {
         )}
       </Head>
       <SdkContextProvider mode={mode}>
-        <ToastContainer transition={Slide} />
+        <PulsarToastContainer />
 
         <Header setThemeMode={props.setThemeMode} themeMode={props.themeMode} />
         <SwapContainer>
@@ -98,6 +97,7 @@ export const Layout = (props: Props) => {
         </SwapContainer>
         {props.children}
       </SdkContextProvider>
+
       {!cookiePermission && (
         <CookieConsent
           location="bottom"
