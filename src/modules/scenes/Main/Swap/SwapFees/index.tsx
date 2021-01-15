@@ -1,12 +1,12 @@
 import { Text, Tooltip } from '@swingby-protocol/pulsar';
-import { buildContext, estimateAmountReceiving } from '@swingby-protocol/sdk';
+import { estimateAmountReceiving } from '@swingby-protocol/sdk';
 import Link from 'next/link';
 import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch } from 'react-redux';
 
-import { mode } from '../../../../env';
 import { TTxRawObject } from '../../../../explorer';
+import { useSdkContext } from '../../../../sdk-context';
 import { toggleIsExistPreviousPage } from '../../../../store';
 import { TextPrimary } from '../../../Common';
 
@@ -29,9 +29,9 @@ interface Props {
 export const SwapFees = (props: Props) => {
   const { tx } = props;
   const [bridgeFee, setBridgeFee] = useState(null);
+  const context = useSdkContext();
   (async () => {
     try {
-      const context = await buildContext({ mode: mode });
       const { feeBridgeFraction } = await estimateAmountReceiving({
         context,
         currencyDeposit: tx.currencyIn,

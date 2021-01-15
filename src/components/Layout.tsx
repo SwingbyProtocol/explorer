@@ -8,10 +8,11 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import { useTheme } from 'styled-components';
 
-import { GA_TAG } from '../modules/env';
+import { GA_TAG, mode } from '../modules/env';
 import { getTransactionFees, getUsdPrice, TTheme } from '../modules/explorer';
 import { useInterval } from '../modules/hooks';
 import { URL } from '../modules/links';
+import { SdkContextProvider } from '../modules/sdk-context';
 import { fetchTransactionFees, fetchUsdPrice, setWidthSize } from '../modules/store';
 
 import { Header } from './Header';
@@ -87,14 +88,16 @@ export const Layout = (props: Props) => {
           </>
         )}
       </Head>
+      <SdkContextProvider mode={mode}>
+        <PulsarToastContainer />
 
-      <PulsarToastContainer />
+        <Header setThemeMode={props.setThemeMode} themeMode={props.themeMode} />
+        <SwapContainer>
+          <Swap />
+        </SwapContainer>
+        {props.children}
+      </SdkContextProvider>
 
-      <Header setThemeMode={props.setThemeMode} themeMode={props.themeMode} />
-      <SwapContainer>
-        <Swap />
-      </SwapContainer>
-      {props.children}
       {!cookiePermission && (
         <CookieConsent
           location="bottom"

@@ -7,7 +7,6 @@ export {
   makeEarningsData,
   makeTimeLabels,
   orgFloor,
-  fetchSbBTCRate,
 } from './utils';
 
 export enum PoolMode {
@@ -68,3 +67,5 @@ export interface IWithdrawAmountValidation {
   minimumWithdrawAmount?: number;
   toCurrency?: string;
 }
+
+export type TWithdrawCurrency = 'BTC' | 'WBTC';

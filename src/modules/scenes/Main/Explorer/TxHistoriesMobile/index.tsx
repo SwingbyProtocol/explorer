@@ -29,7 +29,7 @@ import {
   Status,
   StatusCircle,
   StatusText,
-  SwapHorizontal,
+  IconArrowRight,
   Time,
   TitleRow,
   Top,
@@ -120,7 +120,7 @@ export const TxHistoriesMobile = (props: Props) => {
                   </div>
                 </ColumnAmount>
                 <Column>
-                  <SwapHorizontal />
+                  <IconArrowRight />
                 </Column>
                 <ColumnAmount>
                   <Coin symbol={tx.currencyOut} />

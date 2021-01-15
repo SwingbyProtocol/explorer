@@ -38,8 +38,7 @@ export const GA_TAG = process.env.NEXT_PUBLIC_GA_TAG || 'G-8C02VKBZ6P';
 
 export const ipApiKey = process.env.IPAPI_API_KEY || undefined;
 
-export const etherscanApiKey =
-  process.env.NEXT_PUBLIC_ETHERSCAN_KEY || 'NYXXH5CD1NQJMYJGZYAFK7G9G6AZGZTT3H';
+export const etherscanApiKey = process.env.ETHERSCAN_KEY || 'NYXXH5CD1NQJMYJGZYAFK7G9G6AZGZTT3H';
 
 export const blocknativeApiKey =
   process.env.NEXT_PUBLIC_BLOCKNATIVE_KEY || '52950909-d5f6-42eb-8621-acb35a8ee1d3';
@@ -49,10 +48,6 @@ export const ETHER_NETWORK =
 
 export const infuraApiKey =
   process.env.NEXT_PUBLIC_INFURA_KEY || 'f35c2a4f3d0941a38a3edb62ed10c847';
-
-export const infuraUrl = `https://${
-  mode === 'production' ? 'mainnet' : 'goerli'
-}.infura.io/v3/${infuraApiKey}`;
 
 export const RPC_URL = `https://${ETHER_NETWORK.network}.infura.io/v3/${infuraApiKey}`;
 

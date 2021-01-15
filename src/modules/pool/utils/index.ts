@@ -5,4 +5,4 @@ export { calculateDepositFee, calculateSwapFee } from './fees/';
 
 export { makeEarningsData, makeTimeLabels } from './earnings';
 
-export { fetchSbBTCBalance, fetchSbBTCRate } from './seedAPI';
+export { fetchSbBTCBalance } from './seedAPI';

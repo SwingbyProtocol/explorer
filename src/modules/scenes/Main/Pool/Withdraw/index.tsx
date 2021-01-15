@@ -1,5 +1,5 @@
 import { Dropdown, Tooltip } from '@swingby-protocol/pulsar';
-import { buildContext, estimateAmountReceiving } from '@swingby-protocol/sdk';
+import { estimateAmountReceiving, getMinimumWithdrawal } from '@swingby-protocol/sdk';
 import { createWidget, openPopup } from '@swingby-protocol/widget';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -10,15 +10,9 @@ import { useTheme } from 'styled-components';
 
 import { CoinSymbol, PoolCurrencies } from '../../../../coins';
 import { convertFromPercent } from '../../../../common';
-import {
-  calculateFixedFee,
-  checkIsValidAddress,
-  checkIsValidAmount,
-  TCurrency,
-  toBTC,
-  toSatoshi,
-} from '../../../../explorer';
-import { IWithdrawAmountValidation } from '../../../../pool';
+import { checkIsValidAddress, checkIsValidAmount, TCurrency } from '../../../../explorer';
+import { IWithdrawAmountValidation, TWithdrawCurrency } from '../../../../pool';
+import { useSdkContext } from '../../../../sdk-context';
 import { getMinimumWithdrawAmount, getWithdrawRate } from '../../../../store';
 import { ButtonScale, TextChosenFilter, TextEstimated } from '../../../Common';
 import { mode } from '../.././../../env';
@@ -65,10 +59,11 @@ export const Withdraw = (props: Props) => {
   const dispatch = useDispatch();
 
   const [receivingAddress, setReceivingAddress] = useState('');
-  const [withdrawAmount, setWithdrawAmount] = useState(null);
-  const [toCurrency, setToCurrency] = useState(CoinSymbol.BTC);
+  const [withdrawAmount, setWithdrawAmount] = useState('0');
+  const [toCurrency, setToCurrency] = useState<TWithdrawCurrency>('BTC');
   const [isValidAddress, setIsValidAddress] = useState(null);
   const [isValidAmount, setIsValidAmount] = useState(null);
+  const context = useSdkContext();
 
   useEffect(() => {
     checkIsValidAddress(receivingAddress, toCurrency, setIsValidAddress);
@@ -81,21 +76,22 @@ export const Withdraw = (props: Props) => {
   useEffect(() => {
     if (web3 && transactionFees && toCurrency) {
       (async () => {
-        const fixedFee = calculateFixedFee(toCurrency, transactionFees).fixedFee;
-        const fixedFeeSatoshi = toSatoshi(String(fixedFee));
-
         const results = await Promise.all([
           web3.methods.withdrawalFeeBPS().call(),
-          web3.methods.getMinimumAmountOfLPTokens(fixedFeeSatoshi).call(),
+          getMinimumWithdrawal({
+            context,
+            currencyReceiving: toCurrency,
+            amountDesired: Number(withdrawAmount) > 0 ? withdrawAmount : '0',
+          }),
         ]);
         const withdrawRatePercent = convertFromPercent(Number(results[0]));
         dispatch(getWithdrawRate(withdrawRatePercent));
 
-        const miniWithdrawAmount = toBTC(results[1][0]);
+        const miniWithdrawAmount = Number(results[1].minimumWithdrawal);
         dispatch(getMinimumWithdrawAmount(miniWithdrawAmount));
       })();
     }
-  }, [dispatch, web3, toCurrency, transactionFees]);
+  }, [dispatch, web3, toCurrency, transactionFees, context, withdrawAmount]);
 
   const maxAmount = balanceSbBTC;
 
@@ -112,10 +108,9 @@ export const Withdraw = (props: Props) => {
     let cancelled = false;
 
     (async () => {
-      withdrawAmount > 0 && setIsLoading(true);
+      Number(withdrawAmount) > 0 && setIsLoading(true);
       try {
         if (cancelled) return;
-        const context = await buildContext({ mode: mode });
         const { feeTotal } = await estimateAmountReceiving({
           context,
           currencyDeposit: CoinSymbol.LP as TCurrency,
@@ -136,11 +131,11 @@ export const Withdraw = (props: Props) => {
       cancelled = true;
       setTransactionFee('');
     };
-  }, [toCurrency, withdrawAmount]);
+  }, [toCurrency, withdrawAmount, context]);
 
   const currencyItems = (
     <>
-      {PoolCurrencies.map((currency) => (
+      {PoolCurrencies.map((currency: TWithdrawCurrency) => (
         <Dropdown.Item onClick={() => setToCurrency(currency)} key={currency}>
           {<CoinDropDown symbol={currency} />} {currency}
         </Dropdown.Item>
@@ -202,7 +197,7 @@ export const Withdraw = (props: Props) => {
                 Number(withdrawAmount) !== 0 &&
                 amountValidationResult({
                   isValidAmount,
-                  withdrawAmount,
+                  withdrawAmount: Number(withdrawAmount),
                   maxAmount,
                   minimumWithdrawAmount,
                   toCurrency,
@@ -256,7 +251,7 @@ export const Withdraw = (props: Props) => {
                 <TextFee variant="masked">
                   {isLoading ? (
                     <PulseLoader margin={3} size={4} color={theme.pulsar.color.text.normal} />
-                  ) : withdrawAmount > 0 ? (
+                  ) : Number(withdrawAmount) > 0 ? (
                     transactionFee
                   ) : (
                     0
