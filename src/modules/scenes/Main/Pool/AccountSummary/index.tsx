@@ -66,7 +66,8 @@ export const AccountSummary = () => {
 
           // Memo: When pass numAsHex to the contract method, it will be treated as uint256.
           const amountInAsHex = getHexValue(userFloatBal);
-          const feeRate = await web3.methods.getDepositFeeRate(tokenAddress, amountInAsHex).call();
+          // const feeRate = await web3.methods.getDepositFeeRate(tokenAddress, amountInAsHex).call();
+          const feeRate = 0;
           return convertFromPercent(feeRate);
         };
 
