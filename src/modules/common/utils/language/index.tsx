@@ -8,4 +8,7 @@ export const getInitialLanguage = (locale: string): string => {
   if (locale === 'zh-TW') {
     return 'Chinese (Traditional)';
   }
+  if (locale === 'ja') {
+    return 'Japanese';
+  }
 };
