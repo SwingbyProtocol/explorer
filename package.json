@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint .",
+    "lint": "prettier --write '**/*.{js,jsx,ts,tsx,css,json,md,mdx,html}' && eslint .",
     "test": "echo 'No tests here so far'",
     "cypress": "TZ=Etc/UTC cypress",
     "format": "prettier --write '**/*.{js,jsx,ts,tsx,css,json,md,mdx,html}'"
