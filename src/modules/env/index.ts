@@ -46,8 +46,7 @@ export const blocknativeApiKey =
 export const ETHER_NETWORK =
   mode === MODE.PRODUCTION ? { id: 1, network: 'mainnet' } : { id: 5, network: 'goerli' };
 
-export const infuraApiKey =
-  process.env.NEXT_PUBLIC_INFURA_KEY || 'f35c2a4f3d0941a38a3edb62ed10c847';
+export const infuraApiKey = process.env.INFURA_KEY || '1dcde8fbc3214edb932c2eca009b117e';
 
 export const RPC_URL = `https://${ETHER_NETWORK.network}.infura.io/v3/${infuraApiKey}`;
 
