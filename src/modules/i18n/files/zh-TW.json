@@ -115,6 +115,7 @@
   "metanodes.location": "地區",
   "metanodes.amount": "總額",
   "metanodes.address": "地址",
+  "metanodes.version": "版本",
   "metanodes.stake-time-locked-until": "質押時間鎖定至",
   "fees.fees": "Transaction Fees",
   "fees.currency": "代幣",

@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "prettier --write '**/*.{js,jsx,ts,tsx,css,json,md,mdx,html}' && eslint .",
+    "lint": "eslint .",
     "test": "echo 'No tests here so far'",
     "cypress": "TZ=Etc/UTC cypress",
     "format": "prettier --write '**/*.{js,jsx,ts,tsx,css,json,md,mdx,html}'"
@@ -24,7 +24,7 @@
     "@react-hook/copy": "^2.0.1",
     "@react-hook/window-size": "^3.0.7",
     "@swingby-protocol/ip-check": "^2.1.0",
-    "@swingby-protocol/pulsar": "^3.5.0-alpha.4",
+    "@swingby-protocol/pulsar": "^3.6.0",
     "@swingby-protocol/sdk": "^1.0.0-alpha.62",
     "@swingby-protocol/widget": "^1.0.0-alpha.16",
     "bignumber.js": "^9.0.1",

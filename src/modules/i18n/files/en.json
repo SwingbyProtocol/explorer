@@ -114,6 +114,7 @@
   "metanodes.node": "Node",
   "metanodes.status": "Status",
   "metanodes.location": "Location",
+  "metanodes.version": "Version",
   "metanodes.amount": "Amount",
   "metanodes.address": "Address",
   "metanodes.stake-time-locked-until": "Stake Time Locked Until",

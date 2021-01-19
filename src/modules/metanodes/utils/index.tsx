@@ -31,6 +31,7 @@ export const fetchNodeList = async () => {
             moniker: node.moniker,
             stateName: node.stateName,
             stake: node.stake,
+            version: node.version,
           };
         } catch (e) {
           console.log(e);

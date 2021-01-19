@@ -64,7 +64,7 @@ export const NodeContainer = styled.div`
 const nodeListGridTemplateColumnsFrameMobile = `10% 10% ${rem(120)} auto ${rem(100)}`;
 const nodeListGridTemplateColumnsFrameSM = `10% 5% ${rem(120)} 10% auto auto ${rem(150)}`;
 const nodeListGridTemplateColumnsFrameMD = `10% 10% ${rem(120)} 15% auto auto ${rem(150)}`;
-const nodeListGridTemplateColumnsFrame = `7% 4% ${rem(120)} 5% 14% 2% ${rem(190)} auto`;
+const nodeListGridTemplateColumnsFrame = `3% 2% ${rem(160)} 3% 8% 5% 12% ${rem(160)} auto`;
 
 export const RowDescription = styled.div<BgProps>`
   display: grid;
@@ -136,6 +136,7 @@ export const Location = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
 export const ImgFlag = styled.img`
   width: ${({ theme }) => rem(theme.pulsar.size.town)};
   margin-left: ${({ theme }) => rem(theme.pulsar.size.closet)};

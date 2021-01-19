@@ -58,6 +58,12 @@ export const SizeS = styled.div`
     display: block;
   }
 `;
+export const SizeL = styled.div`
+  display: none;
+  @media (min-width: ${rem(media.lg)}) {
+    display: block;
+  }
+`;
 
 export const ButtonScale = styled(Button)`
   transition: all 0.3s ease 0s;

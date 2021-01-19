@@ -20,6 +20,7 @@ export interface INodeListResponse {
   thisNode?: boolean;
   version: string;
 }
+
 export interface INodesResponse {
   moniker: string;
   stake: {
@@ -32,6 +33,7 @@ export interface INodesResponse {
   stateName: string;
   location: string;
   code?: string;
+  version: string;
 }
 
 export enum NodeStatus {

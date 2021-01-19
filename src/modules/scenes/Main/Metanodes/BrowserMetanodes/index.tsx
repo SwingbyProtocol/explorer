@@ -7,7 +7,7 @@ import { Pagination } from '../../../../../components/Pagination';
 import { NODES_PER_PAGE } from '../../../../env';
 import { convertDateTime } from '../../../../explorer';
 import { fetchNodeList, INodesResponse, NodeStatus } from '../../../../metanodes';
-import { SizeS, TextBlock, TextPrimary, TextSecondary } from '../../../Common';
+import { SizeL, SizeS, TextBlock, TextPrimary, TextSecondary } from '../../../Common';
 
 import {
   BrowserMetanodesContainer,
@@ -85,6 +85,11 @@ export const BrowserMetanodes = () => {
                     <FormattedMessage id="metanodes.location" />
                   </TextBlock>
                 </SizeS>
+                <SizeL>
+                  <TextBlock>
+                    <FormattedMessage id="metanodes.version" />
+                  </TextBlock>
+                </SizeL>
                 <StakeInfos>
                   <TextBlock>
                     <FormattedMessage id="metanodes.amount" />
@@ -117,6 +122,9 @@ export const BrowserMetanodes = () => {
                           />
                         </Location>
                       </SizeS>
+                      <SizeL>
+                        <TextBlock>{node.version}</TextBlock>
+                      </SizeL>
                       <StakeInfos>
                         <TextStake>
                           <FormattedNumber value={Number(node.stake.amount)} /> SWINGBY
