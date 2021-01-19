@@ -1,4 +1,4 @@
-import { INodeListResponse } from '..';
+import { INodeEarningsResponse, INodeListResponse } from '..';
 import { ENDPOINT_ETHEREUM_NODE } from '../../env';
 import { camelize, fetch } from '../../fetch';
 
@@ -32,6 +32,34 @@ export const fetchNodeList = async () => {
             stateName: node.stateName,
             stake: node.stake,
             version: node.version,
+          };
+        } catch (e) {
+          console.log(e);
+        }
+      }),
+    );
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const fetchNodeEarningsList = async () => {
+  const url = ENDPOINT_ETHEREUM_NODE + '/api/v1/peers';
+  try {
+    const result = await fetch<INodeListResponse[]>(url);
+    const metanodes = result.ok && camelize(result.response);
+    // Todo: Add sort logic
+    const sortedMetanodes = metanodes.slice(0, 5);
+    return Promise.all(
+      sortedMetanodes.map(async (node: INodeListResponse) => {
+        const earnings1W = 11615.5;
+        const earnings1M = earnings1W * 4;
+        try {
+          return {
+            moniker: node.moniker,
+            bond: Number(node.stake.amount),
+            earnings1W,
+            earnings1M: earnings1M,
           };
         } catch (e) {
           console.log(e);
