@@ -115,6 +115,7 @@
   "metanodes.location": "地域",
   "metanodes.amount": "ステーキング",
   "metanodes.address": "アドレス",
+  "metanodes.version": "バージョン",
   "metanodes.stake-time-locked-until": "ステーキングロック解除日",
   "fees.fees": "トランザクション手数料",
   "fees.currency": "通貨",

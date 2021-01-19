@@ -10,6 +10,7 @@ export {
   TextBlock,
   TextEllipsis,
   SizeS,
+  SizeL,
   ButtonScale,
   IconBack,
   TextEstimated,
