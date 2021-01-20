@@ -1,6 +1,7 @@
 import { useWindowWidth } from '@react-hook/window-size';
 import { PULSAR_GLOBAL_FONT_HREF, PulsarToastContainer } from '@swingby-protocol/pulsar';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { rem } from 'polished';
 import React, { ReactNode, useCallback, useEffect, useState } from 'react';
 import CookieConsent, { Cookies } from 'react-cookie-consent';
@@ -8,7 +9,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import { useTheme } from 'styled-components';
 
-import { GA_TAG, mode } from '../modules/env';
+import { GA_TAG, mode, PATH } from '../modules/env';
 import { getTransactionFees, getUsdPrice, TTheme } from '../modules/explorer';
 import { useInterval } from '../modules/hooks';
 import { URL } from '../modules/links';
@@ -27,6 +28,7 @@ interface Props {
 
 export const Layout = (props: Props) => {
   const theme = useTheme();
+  const router = useRouter();
   const { formatMessage } = useIntl();
   const dispatch = useDispatch();
   const width = useWindowWidth({
@@ -64,7 +66,8 @@ export const Layout = (props: Props) => {
     setCookiePermission(storedPermission === 'true');
   }, [setCookiePermission]);
 
-  return (
+  // Memo: Provide to other page by iframe
+  const metanodesEarnersPage = (
     <>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -72,68 +75,87 @@ export const Layout = (props: Props) => {
         <link rel="apple-touch-icon" href="/favicon.png" sizes="180x180" />
         <link rel="icon" type="image/png" href="/favicon.png" sizes="192x192" />
         <link rel="stylesheet" href={PULSAR_GLOBAL_FONT_HREF} />
-        {cookiePermission && (
-          <>
-            <script async src={`https://www.googletagmanager.com/gtag/js?id=${ANALYTICS_ID}`} />
-            <script
-              dangerouslySetInnerHTML={{
-                __html: `
+      </Head>
+      {props.children}
+    </>
+  );
+
+  return (
+    <>
+      {router.pathname === PATH.METANODE_EARNERS ? (
+        metanodesEarnersPage
+      ) : (
+        <>
+          <Head>
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <link rel="icon" href="/favicon.png" />
+            <link rel="apple-touch-icon" href="/favicon.png" sizes="180x180" />
+            <link rel="icon" type="image/png" href="/favicon.png" sizes="192x192" />
+            <link rel="stylesheet" href={PULSAR_GLOBAL_FONT_HREF} />
+            {cookiePermission && (
+              <>
+                <script async src={`https://www.googletagmanager.com/gtag/js?id=${ANALYTICS_ID}`} />
+                <script
+                  dangerouslySetInnerHTML={{
+                    __html: `
                   window.dataLayer = window.dataLayer || [];
                   function gtag(){dataLayer.push(arguments);}
                   gtag('js', new Date());
                   gtag('config', '${ANALYTICS_ID}');
                 `,
+                  }}
+                />
+              </>
+            )}
+          </Head>
+          <SdkContextProvider mode={mode}>
+            <PulsarToastContainer />
+
+            <Header setThemeMode={props.setThemeMode} themeMode={props.themeMode} />
+            <SwapContainer>
+              <Swap />
+            </SwapContainer>
+            {props.children}
+          </SdkContextProvider>
+
+          {!cookiePermission && (
+            <CookieConsent
+              location="bottom"
+              cookieName={ANALYTICS_STORAGE_KEY}
+              buttonText={formatMessage({ id: 'common.cookies.continue' })}
+              style={{
+                background: theme.pulsar.color.bg.transparent,
+                color: theme.pulsar.color.text.normal,
               }}
-            />
-          </>
-        )}
-      </Head>
-      <SdkContextProvider mode={mode}>
-        <PulsarToastContainer />
-
-        <Header setThemeMode={props.setThemeMode} themeMode={props.themeMode} />
-        <SwapContainer>
-          <Swap />
-        </SwapContainer>
-        {props.children}
-      </SdkContextProvider>
-
-      {!cookiePermission && (
-        <CookieConsent
-          location="bottom"
-          cookieName={ANALYTICS_STORAGE_KEY}
-          buttonText={formatMessage({ id: 'common.cookies.continue' })}
-          style={{
-            background: theme.pulsar.color.bg.transparent,
-            color: theme.pulsar.color.text.normal,
-          }}
-          buttonStyle={{
-            color: theme.pulsar.color.text.normal,
-            fontSize: rem(theme.pulsar.size.room),
-            background: theme.pulsar.color.primary.normal,
-            borderRadius: '0.75em',
-            paddingLeft: rem(theme.pulsar.size.closet),
-            paddingRight: rem(theme.pulsar.size.closet),
-            paddingTop: rem(theme.pulsar.size.drawer),
-            paddingBottom: rem(theme.pulsar.size.drawer),
-          }}
-          expires={150}
-          onAccept={handleCookieAccept}
-          debug={true}
-        >
-          <FormattedMessage id="common.cookies" />
-          <a
-            href={URL.PrivacyPolicy}
-            rel="noopener noreferrer"
-            target="_blank"
-            style={{
-              color: theme.pulsar.color.text.normal,
-            }}
-          >
-            <FormattedMessage id="footer.privacy-policy" />
-          </a>
-          .
-        </CookieConsent>
+              buttonStyle={{
+                color: theme.pulsar.color.text.normal,
+                fontSize: rem(theme.pulsar.size.room),
+                background: theme.pulsar.color.primary.normal,
+                borderRadius: '0.75em',
+                paddingLeft: rem(theme.pulsar.size.closet),
+                paddingRight: rem(theme.pulsar.size.closet),
+                paddingTop: rem(theme.pulsar.size.drawer),
+                paddingBottom: rem(theme.pulsar.size.drawer),
+              }}
+              expires={150}
+              onAccept={handleCookieAccept}
+              debug={true}
+            >
+              <FormattedMessage id="common.cookies" />
+              <a
+                href={URL.PrivacyPolicy}
+                rel="noopener noreferrer"
+                target="_blank"
+                style={{
+                  color: theme.pulsar.color.text.normal,
+                }}
+              >
+                <FormattedMessage id="footer.privacy-policy" />
+              </a>
+              .
+            </CookieConsent>
+          )}
+        </>
       )}
     </>
   );

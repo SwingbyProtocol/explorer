@@ -1,4 +1,4 @@
-export { fetchNodeList } from './utils';
+export { fetchNodeList, fetchNodeEarningsList } from './utils';
 
 export interface INodeListResponse {
   active: boolean;
@@ -34,6 +34,12 @@ export interface INodesResponse {
   location: string;
   code?: string;
   version: string;
+}
+export interface INodeEarningsResponse {
+  moniker: string;
+  bond: number;
+  earnings1W: number;
+  earnings1M: number;
 }
 
 export enum NodeStatus {
