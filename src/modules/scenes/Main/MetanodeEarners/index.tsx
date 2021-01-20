@@ -1,30 +1,31 @@
-import { getFiatAssetFormatter } from '@swingby-protocol/pulsar';
+import { getFiatAssetFormatter, useMatchMedia } from '@swingby-protocol/pulsar';
+import { rem } from 'polished';
 import React, { useEffect, useState } from 'react';
-import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import { fetchNodeEarningsList, INodeEarningsResponse } from '../../../metanodes';
+import { StylingConstants } from '../../../styles';
 import { TextPrimary } from '../../Common';
 
 import {
+  Avatar,
+  AvatarContainer,
+  ColumnPlaceholder,
   Container,
   MetanodeEarnersContainer,
-  RankFirst,
-  RankSecond,
-  RankThird,
-  RankCircle,
+  Rank,
   Row,
-  RowUser,
   RowLeft,
   RowRight,
-  Rank,
-  Avatar,
-  ColumnInfo,
+  RowRightLabel,
+  RowUser,
   TextValue,
 } from './styled';
 
 export const MetanodeEarners = () => {
   const [metanodes, setMetanodes] = useState(null);
-  const { locale } = useIntl();
+  const { locale, formatNumber } = useIntl();
+  const big = useMatchMedia({ query: `(min-width: ${rem(StylingConstants.media.md)})` });
 
   useEffect(() => {
     (async () => {
@@ -32,64 +33,82 @@ export const MetanodeEarners = () => {
       setMetanodes(nodes);
     })();
   }, []);
-  console.log('metanodes', metanodes);
 
-  const rankCircle = (rank: number): JSX.Element => {
-    switch (rank) {
-      case 1:
-        return <RankFirst>{rank}</RankFirst>;
-      case 2:
-        return <RankSecond>{rank}</RankSecond>;
-      case 3:
-        return <RankThird>{rank}</RankThird>;
-
-      default:
-        return <RankCircle>{rank}</RankCircle>;
-    }
-  };
   const formatConfig = {
     locale,
     currency: 'USD',
     maximumSignificantDigits: 4,
-    notation: 'compact',
   } as const;
+
   return (
     <Container>
       <MetanodeEarnersContainer>
+        {big && (
+          <RowUser isLastItem={false}>
+            <RowLeft>
+              <ColumnPlaceholder />
+            </RowLeft>
+            <RowRightLabel>
+              <TextValue variant="masked">Moniker</TextValue>
+              <TextValue variant="masked">
+                <FormattedMessage id="metanode-earners.label.bond" />
+              </TextValue>
+
+              <TextValue variant="masked">
+                {' '}
+                <FormattedMessage id="metanode-earners.label.earnings-1W" />
+              </TextValue>
+
+              <TextValue variant="masked">
+                {' '}
+                <FormattedMessage id="metanode-earners.label.earnings-1M" />
+              </TextValue>
+            </RowRightLabel>
+          </RowUser>
+        )}
         {metanodes?.map((it: INodeEarningsResponse, index: number) => {
+          const bond = formatNumber(Number(it.bond), formatConfig);
+          const earnings1M = getFiatAssetFormatter(formatConfig).format(Number(it.earnings1M));
+          const earnings1W = getFiatAssetFormatter(formatConfig).format(Number(it.earnings1W));
           return (
             <Row key={it.moniker}>
               <RowUser isLastItem={index === metanodes?.length - 1}>
                 <RowLeft>
-                  <Rank>
-                    {rankCircle(index + 1)}
-                    <Avatar />
-                  </Rank>
+                  <AvatarContainer>
+                    <Rank rank={index + 1}>{index + 1}</Rank>
+                    <Avatar value={it.moniker} />
+                  </AvatarContainer>
                 </RowLeft>
                 <RowRight>
-                  <ColumnInfo>
-                    <TextValue variant="accent">{it.moniker}</TextValue>
+                  <TextValue variant="accent">{it.moniker}</TextValue>
 
-                    <div>
-                      <TextValue variant="masked">
-                        <FormattedMessage
-                          id="metanode-earners.bond"
-                          values={{
-                            value: <FormattedNumber value={it.bond} />,
-                          }}
-                        />
-                      </TextValue>
-                    </div>
+                  <TextValue variant="masked">
+                    {big ? (
+                      bond
+                    ) : (
+                      <FormattedMessage
+                        id="metanode-earners.bond"
+                        values={{
+                          value: bond,
+                        }}
+                      />
+                    )}
+                  </TextValue>
 
-                    <TextPrimary>
+                  {big && <TextPrimary>{earnings1W}</TextPrimary>}
+
+                  <TextPrimary>
+                    {big ? (
+                      earnings1M
+                    ) : (
                       <FormattedMessage
                         id="metanode-earners.earn-month"
                         values={{
-                          value: getFiatAssetFormatter(formatConfig).format(Number(it.earnings1M)),
+                          value: earnings1M,
                         }}
                       />
-                    </TextPrimary>
-                  </ColumnInfo>
+                    )}
+                  </TextPrimary>
                 </RowRight>
               </RowUser>
             </Row>

@@ -1,4 +1,4 @@
-import { INodeEarningsResponse, INodeListResponse } from '..';
+import { INodeListResponse } from '..';
 import { ENDPOINT_ETHEREUM_NODE } from '../../env';
 import { camelize, fetch } from '../../fetch';
 
