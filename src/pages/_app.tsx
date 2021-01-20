@@ -1,10 +1,5 @@
 import { RouterScrollProvider } from '@moxy/next-router-scroll';
-import {
-  PulsarGlobalStyles,
-  PulsarThemeProvider,
-  PULSAR_GLOBAL_FONT_HREF,
-} from '@swingby-protocol/pulsar';
-import Head from 'next/head';
+import { PulsarGlobalStyles, PulsarThemeProvider } from '@swingby-protocol/pulsar';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import { IntlProvider } from 'react-intl';
@@ -49,9 +44,6 @@ function MyApp({ Component, pageProps }) {
         <SEO />
         <PulsarThemeProvider theme={themeMode}>
           <IntlProvider messages={messages} locale={locale} defaultLocale={DEFAULT_LOCALE}>
-            <Head>
-              <link rel="stylesheet" href={PULSAR_GLOBAL_FONT_HREF} />
-            </Head>
             <PulsarGlobalStyles />
             <ReduxProvider store={store}>
               <Layout setThemeMode={setThemeMode} themeMode={themeMode}>

@@ -1,5 +1,5 @@
 import { useWindowWidth } from '@react-hook/window-size';
-import { PULSAR_GLOBAL_FONT_HREF, PulsarToastContainer } from '@swingby-protocol/pulsar';
+import { PulsarToastContainer, PULSAR_GLOBAL_FONT_HREF } from '@swingby-protocol/pulsar';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { rem } from 'polished';
