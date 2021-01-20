@@ -1,9 +1,5 @@
 import { useWindowWidth } from '@react-hook/window-size';
-import {
-  PULSAR_GLOBAL_FONT_HREF,
-  PulsarToastContainer,
-  PulsarThemeProvider,
-} from '@swingby-protocol/pulsar';
+import { PulsarToastContainer, PULSAR_GLOBAL_FONT_HREF } from '@swingby-protocol/pulsar';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { rem } from 'polished';
@@ -80,7 +76,7 @@ export const Layout = (props: Props) => {
         <link rel="icon" type="image/png" href="/favicon.png" sizes="192x192" />
         <link rel="stylesheet" href={PULSAR_GLOBAL_FONT_HREF} />
       </Head>
-      <PulsarThemeProvider theme="light">{props.children}</PulsarThemeProvider>
+      {props.children}
     </>
   );
 

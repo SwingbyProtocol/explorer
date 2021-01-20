@@ -11,7 +11,7 @@ import { IntlProvider } from 'react-intl';
 import { Provider as ReduxProvider } from 'react-redux';
 
 import { Layout } from '../components/Layout';
-import { LOCAL_STORAGE } from '../modules/env';
+import { LOCAL_STORAGE, PATH } from '../modules/env';
 import { languages } from '../modules/i18n';
 import { SEO } from '../modules/seo';
 import { useStore } from '../modules/store';
@@ -40,8 +40,12 @@ function MyApp({ Component, pageProps }) {
     typeof window !== 'undefined' && window.localStorage.getItem(LOCAL_STORAGE.ThemeMode);
 
   useEffect(() => {
-    setThemeMode(storedTheme);
-  }, [storedTheme]);
+    if (router.pathname === PATH.METANODE_EARNERS) {
+      setThemeMode('light');
+    } else {
+      setThemeMode(storedTheme);
+    }
+  }, [storedTheme, router.pathname]);
 
   return (
     <>
