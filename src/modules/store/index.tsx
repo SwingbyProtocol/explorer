@@ -13,6 +13,7 @@ export {
   networkInfos,
   toggleTheme,
   toggleIsExistPreviousPage,
+  setSearch,
 } from './explorer';
 
 export {

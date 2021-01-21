@@ -10,10 +10,9 @@ import { getInitialLanguage } from '../../modules/common';
 import { LOCAL_STORAGE, PATH } from '../../modules/env';
 import { capitalize, TTheme } from '../../modules/explorer';
 import { languagesSelector } from '../../modules/i18n';
-import { toggleTheme } from '../../modules/store';
+import { setSearch, toggleTheme } from '../../modules/store';
 
 import {
-  Atag,
   ColumnPool,
   DropDownItemMobile,
   Hamburger,
@@ -29,7 +28,6 @@ import {
   MobileMenu,
   Right,
   TextLang,
-  TextLink,
   ThemeToggle,
 } from './styled';
 
@@ -71,30 +69,20 @@ export const Header = (props: Props) => {
     { text: 'Metanodes', route: PATH.METANODES },
   ];
 
-  const search = typeof window !== 'undefined' && window.location.search;
-  const path = search ? search : router.asPath;
-
-  console.log('router.asPath', router.asPath);
-  console.log(
-    'typeof window !== "undefined" && window.location.search',
-    typeof window !== 'undefined' && window.location.search,
-  );
-  console.log('path', path);
-
   const languageItems = (
     <>
       {languagesSelector.map((language) => (
         <Dropdown.Item
           selected={lang === language.text}
-          // Memo: asPath: To consider dynamic path for swap detail page
           onClick={() => {
+            const search = typeof window !== 'undefined' && window.location.search;
+            // Memo: asPath: To consider dynamic path for swap detail page
+            const path = search ? search : router.asPath;
             router.push(path, path, { locale: language.code });
           }}
           key={language.code}
         >
-          {/* <Link href={router.asPath} locale={language.code}> */}
-          <TextLink variant="accent">{language.text}</TextLink>
-          {/* </Link> */}
+          {language.text}
         </Dropdown.Item>
       ))}
     </>
@@ -103,9 +91,13 @@ export const Header = (props: Props) => {
   return (
     <HeaderContainer>
       <Left>
-        <Atag href={PATH.ROOT}>
-          <Logo productName="Explorer" />
-        </Atag>
+        <Logo
+          productName="Explorer"
+          onClick={() => {
+            dispatch(setSearch(null));
+            router.push(PATH.ROOT, PATH.ROOT, { locale: locale });
+          }}
+        />
       </Left>
       <Right>
         <ThemeToggle>

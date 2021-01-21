@@ -29,11 +29,6 @@ export const HeaderContainer = styled.div`
   }
 `;
 
-export const Atag = styled.a`
-  text-decoration: none;
-  color: inherit;
-`;
-
 export const Logo = styled(AppLogo)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.street)};
 `;
@@ -141,9 +136,4 @@ export const IconLive = styled.div`
 export const TextLang = styled(Text)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.closet)};
   padding-right: ${({ theme }) => rem(theme.pulsar.size.box)};
-`;
-
-export const TextLink = styled(Text)`
-  text-decoration: none;
-  color: ${({ theme }) => theme.pulsar.color.text.normal};
 `;

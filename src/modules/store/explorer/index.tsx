@@ -25,6 +25,7 @@ enum Actions {
   FetchUsdPrice = 'Explorer/FETCH_USD_PRICE',
   FetchTransactionFees = 'Explorer/FETCH_TRANSACTION_FEES',
   UpdateNetworkInfos = 'Explorer/UPDATE_NETWORK_INFOS',
+  SetSearch = 'Explorer/SET_SEARCH',
 }
 
 const initialState = {
@@ -38,6 +39,7 @@ const initialState = {
   width: null,
   themeMode: null,
   isExistPreviousPage: false,
+  search: null,
 };
 
 type State = typeof initialState;
@@ -87,6 +89,10 @@ export const explorer: Reducer<State, Action> = (state = initialState, action) =
     return { ...state, networkInfos: action.data };
   }
 
+  if (action.type === Actions.SetSearch) {
+    return { ...state, search: action.data };
+  }
+
   return state;
 };
 
@@ -118,6 +124,8 @@ export const fetchTransactionFees = (data: IFee[]) =>
 export const updateNetworkInfos = (data: INetworkInfos) =>
   ({ type: Actions.UpdateNetworkInfos, data } as const);
 
+export const setSearch = (data: string) => ({ type: Actions.SetSearch, data } as const);
+
 type Action =
   | ReturnType<typeof setWidthSize>
   | ReturnType<typeof toggleTheme>
@@ -129,4 +137,5 @@ type Action =
   | ReturnType<typeof updateSwapHistoryTemp>
   | ReturnType<typeof fetchUsdPrice>
   | ReturnType<typeof fetchTransactionFees>
-  | ReturnType<typeof updateNetworkInfos>;
+  | ReturnType<typeof updateNetworkInfos>
+  | ReturnType<typeof setSearch>;
