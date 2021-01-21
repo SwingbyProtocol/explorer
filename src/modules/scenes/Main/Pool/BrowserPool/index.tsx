@@ -2,7 +2,7 @@ import Head from 'next/head';
 import React, { useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import Web3 from 'web3';
+// import Web3 from 'web3';
 
 import { CONTRACT_SWAP, CONTRACT_SWAP_ABI, RPC_URL } from '../../../../env';
 import { IWithdrawAmountValidation, PoolMode } from '../../../../pool';
