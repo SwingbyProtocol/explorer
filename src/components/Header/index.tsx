@@ -10,9 +10,10 @@ import { getInitialLanguage } from '../../modules/common';
 import { LOCAL_STORAGE, PATH } from '../../modules/env';
 import { capitalize, TTheme } from '../../modules/explorer';
 import { languagesSelector } from '../../modules/i18n';
-import { setSearch, toggleTheme } from '../../modules/store';
+import { toggleTheme } from '../../modules/store';
 
 import {
+  Atag,
   ColumnPool,
   DropDownItemMobile,
   Hamburger,
@@ -91,13 +92,9 @@ export const Header = (props: Props) => {
   return (
     <HeaderContainer>
       <Left>
-        <Logo
-          productName="Explorer"
-          onClick={() => {
-            dispatch(setSearch(null));
-            router.push(PATH.ROOT, PATH.ROOT, { locale: locale });
-          }}
-        />
+        <Atag href={PATH.ROOT}>
+          <Logo productName="Explorer" />
+        </Atag>
       </Left>
       <Right>
         <ThemeToggle>

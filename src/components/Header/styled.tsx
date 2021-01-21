@@ -29,6 +29,11 @@ export const HeaderContainer = styled.div`
   }
 `;
 
+export const Atag = styled.a`
+  text-decoration: none;
+  color: inherit;
+`;
+
 export const Logo = styled(AppLogo)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.street)};
 `;

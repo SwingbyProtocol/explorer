@@ -1,4 +1,3 @@
-import { useWindowWidth } from '@react-hook/window-size';
 import { PulsarToastContainer, PULSAR_GLOBAL_FONT_HREF } from '@swingby-protocol/pulsar';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -14,7 +13,7 @@ import { getTransactionFees, getUsdPrice, TTheme } from '../modules/explorer';
 import { useInterval } from '../modules/hooks';
 import { URL } from '../modules/links';
 import { SdkContextProvider } from '../modules/sdk-context';
-import { fetchTransactionFees, fetchUsdPrice, setWidthSize } from '../modules/store';
+import { fetchTransactionFees, fetchUsdPrice } from '../modules/store';
 
 import { Header } from './Header';
 import { SwapContainer } from './styled';
@@ -31,13 +30,6 @@ export const Layout = (props: Props) => {
   const router = useRouter();
   const { formatMessage } = useIntl();
   const dispatch = useDispatch();
-  const width = useWindowWidth({
-    wait: 500,
-  });
-
-  useEffect(() => {
-    dispatch(setWidthSize(width));
-  }, [width, dispatch]);
 
   useEffect(() => {
     (async () => {
