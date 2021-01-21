@@ -48,7 +48,7 @@ export const AddLiquidity = (props: Props) => {
   const theme = useTheme();
   const { formatMessage } = useIntl();
   const pool = useSelector((state) => state.pool);
-  const { userAddress } = pool;
+  const { userAddress, affiliateCode } = pool;
   const explorer = useSelector((state) => state.explorer);
   const { themeMode } = explorer;
   const { locale } = useRouter();
@@ -128,6 +128,7 @@ export const AddLiquidity = (props: Props) => {
     defaultAddressReceiving: receivingAddress,
     defaultAmountDesired: poolAmount,
     locale,
+    affiliateCode,
   });
 
   const isDisabled =

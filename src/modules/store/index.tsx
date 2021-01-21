@@ -5,7 +5,6 @@ export {
   clearHistory,
   toggleIsRejectedTx,
   updateSwapHistoryTemp,
-  setWidthSize,
   fetchUsdPrice,
   fetchTransactionFees,
   selectSwapDetails,

@@ -52,7 +52,7 @@ export const Withdraw = (props: Props) => {
   const { formatMessage } = useIntl();
   const theme = useTheme();
   const pool = useSelector((state) => state.pool);
-  const { balanceSbBTC, web3, minimumWithdrawAmount } = pool;
+  const { balanceSbBTC, web3, minimumWithdrawAmount, affiliateCode } = pool;
   const explorer = useSelector((state) => state.explorer);
   const { themeMode, transactionFees } = explorer;
   const { locale } = useRouter();
@@ -152,6 +152,7 @@ export const Withdraw = (props: Props) => {
     defaultAddressReceiving: receivingAddress,
     defaultAmountDesired: withdrawAmount,
     locale,
+    affiliateCode,
   });
 
   const isDisabled =

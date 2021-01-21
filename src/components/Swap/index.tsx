@@ -12,6 +12,8 @@ import { StyledSwap, SwapMobileRow } from './styled';
 export const Swap = () => {
   const explorer = useSelector((state) => state.explorer);
   const { themeMode } = explorer;
+  const pool = useSelector((state) => state.pool);
+  const { affiliateCode } = pool;
   const { locale } = useRouter();
 
   const big = useMemo(
@@ -22,8 +24,9 @@ export const Swap = () => {
         size: 'big',
         theme: themeMode,
         locale,
+        affiliateCode,
       }),
-    [themeMode, locale],
+    [themeMode, locale, affiliateCode],
   );
 
   const banner = useMemo(
