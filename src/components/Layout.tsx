@@ -13,7 +13,7 @@ import { getTransactionFees, getUsdPrice, TTheme } from '../modules/explorer';
 import { useInterval } from '../modules/hooks';
 import { URL } from '../modules/links';
 import { SdkContextProvider } from '../modules/sdk-context';
-import { fetchTransactionFees, fetchUsdPrice } from '../modules/store';
+import { fetchTransactionFees, fetchUsdPrice, setAffiliateCode } from '../modules/store';
 
 import { Header } from './Header';
 import { SwapContainer } from './styled';
@@ -35,8 +35,11 @@ export const Layout = (props: Props) => {
     (async () => {
       const transactionFees = await getTransactionFees();
       dispatch(fetchTransactionFees(transactionFees));
+
+      const aff = router.query.aff;
+      aff && dispatch(setAffiliateCode(aff as string));
     })();
-  }, [dispatch]);
+  }, [dispatch, router.query.aff]);
 
   useInterval(() => {
     (async () => {
