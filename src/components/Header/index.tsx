@@ -1,5 +1,4 @@
 import { Dropdown } from '@swingby-protocol/pulsar';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -30,8 +29,8 @@ import {
   MobileMenu,
   Right,
   TextLang,
-  ThemeToggle,
   TextLink,
+  ThemeToggle,
 } from './styled';
 
 interface Props {
@@ -75,10 +74,19 @@ export const Header = (props: Props) => {
   const languageItems = (
     <>
       {languagesSelector.map((language) => (
-        <Dropdown.Item selected={lang === language.text} key={language.code}>
-          <Link href={router.asPath} locale={language.code}>
-            <TextLink variant="accent">{language.text}</TextLink>
-          </Link>
+        <Dropdown.Item
+          selected={lang === language.text}
+          // Memo: asPath: To consider dynamic path for swap detail page
+          onClick={() => {
+            setTimeout(() => {
+              router.push(router.asPath, router.asPath, { locale: language.code });
+            }, 500);
+          }}
+          key={language.code}
+        >
+          {/* <Link href={router.asPath} locale={language.code}> */}
+          <TextLink variant="accent">{language.text}</TextLink>
+          {/* </Link> */}
         </Dropdown.Item>
       ))}
     </>
