@@ -76,10 +76,8 @@ export const Header = (props: Props) => {
         <Dropdown.Item
           selected={lang === language.text}
           onClick={() => {
-            const search = typeof window !== 'undefined' && window.location.search;
             // Memo: asPath: To consider dynamic path for swap detail page
-            const path = search ? search : router.asPath;
-            router.push(path, path, { locale: language.code });
+            router.push(router.asPath, router.asPath, { locale: language.code });
           }}
           key={language.code}
         >
