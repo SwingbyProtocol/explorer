@@ -71,6 +71,16 @@ export const Header = (props: Props) => {
     { text: 'Metanodes', route: PATH.METANODES },
   ];
 
+  const search = typeof window !== 'undefined' && window.location.search;
+  const path = search ? search : router.asPath;
+
+  console.log('router.asPath', router.asPath);
+  console.log(
+    'typeof window !== "undefined" && window.location.search',
+    typeof window !== 'undefined' && window.location.search,
+  );
+  console.log('path', path);
+
   const languageItems = (
     <>
       {languagesSelector.map((language) => (
@@ -78,9 +88,7 @@ export const Header = (props: Props) => {
           selected={lang === language.text}
           // Memo: asPath: To consider dynamic path for swap detail page
           onClick={() => {
-            setTimeout(() => {
-              router.push(router.asPath, router.asPath, { locale: language.code });
-            }, 500);
+            router.push(path, path, { locale: language.code });
           }}
           key={language.code}
         >
