@@ -26,8 +26,8 @@ export enum LOCAL_STORAGE {
   ThemeMode = 'themeMode',
 }
 
-export const mode: SkybridgeMode =
-  process.env.NEXT_PUBLIC_MODE === MODE.PRODUCTION ? MODE.PRODUCTION : MODE.TEST;
+export const mode: SkybridgeMode = MODE.PRODUCTION;
+// process.env.NEXT_PUBLIC_MODE === MODE.PRODUCTION ? MODE.PRODUCTION : MODE.TEST;
 
 export const PAGE_COUNT = 25;
 

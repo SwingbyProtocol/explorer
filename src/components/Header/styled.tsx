@@ -142,3 +142,8 @@ export const TextLang = styled(Text)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.closet)};
   padding-right: ${({ theme }) => rem(theme.pulsar.size.box)};
 `;
+
+export const TextLink = styled(Text)`
+  text-decoration: none;
+  color: ${({ theme }) => theme.pulsar.color.text.normal};
+`;
