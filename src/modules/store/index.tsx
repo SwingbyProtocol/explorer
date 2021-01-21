@@ -5,7 +5,6 @@ export {
   clearHistory,
   toggleIsRejectedTx,
   updateSwapHistoryTemp,
-  setWidthSize,
   fetchUsdPrice,
   fetchTransactionFees,
   selectSwapDetails,
@@ -28,4 +27,5 @@ export {
   getDepositFeeRate,
   getWithdrawRate,
   getMinimumWithdrawAmount,
+  setAffiliateCode,
 } from './pool';

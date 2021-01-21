@@ -75,8 +75,13 @@ export const Header = (props: Props) => {
       {languagesSelector.map((language) => (
         <Dropdown.Item
           selected={lang === language.text}
-          // Memo: asPath: To consider dynamic path for swap detail page
-          onClick={() => router.push(router.asPath, router.asPath, { locale: language.code })}
+          onClick={() => {
+            // Memo: router.asPath is not working well with locale code. the locale code won't overwrite (so it becomes like '/zh/ja?bridge=&q=&page=2')
+            const search = typeof window !== 'undefined' && window.location.search;
+            // Memo: asPath: To consider dynamic path for swap detail page
+            const path = search ? search : router.asPath;
+            router.push(path, path, { locale: language.code });
+          }}
           key={language.code}
         >
           {language.text}

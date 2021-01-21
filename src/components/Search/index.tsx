@@ -1,7 +1,8 @@
+import { useMatchMedia } from '@swingby-protocol/pulsar';
 import { useRouter } from 'next/router';
+import { rem } from 'polished';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useSelector } from 'react-redux';
 
 import { StylingConstants } from '../../modules/styles';
 
@@ -11,14 +12,14 @@ export const Search = () => {
   const router = useRouter();
   const [search, setSearch] = useState('');
   const { media } = StylingConstants;
+  const lg = useMatchMedia({ query: `(min-width: ${rem(media.lg)})` });
+  const md = useMatchMedia({ query: `(min-width: ${rem(media.md)})` });
 
-  const explorer = useSelector((state) => state.explorer);
-  const { width } = explorer;
   const { formatMessage } = useIntl();
 
   return (
     <SearchInput
-      size={width > media.lg ? 'country' : width > media.md ? 'state' : 'country'}
+      size={lg ? 'country' : md ? 'state' : 'country'}
       value={search || router.query.q}
       onChange={(evt) => {
         setSearch(evt.target.value);

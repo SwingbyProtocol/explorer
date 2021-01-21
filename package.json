@@ -22,11 +22,10 @@
   "dependencies": {
     "@moxy/next-router-scroll": "^2.0.3",
     "@react-hook/copy": "^2.0.1",
-    "@react-hook/window-size": "^3.0.7",
     "@swingby-protocol/ip-check": "^2.1.0",
     "@swingby-protocol/pulsar": "^3.7.0",
-    "@swingby-protocol/sdk": "^1.0.0-alpha.62",
-    "@swingby-protocol/widget": "^1.0.0-alpha.16",
+    "@swingby-protocol/sdk": "^1.0.0-alpha.63",
+    "@swingby-protocol/widget": "^1.1.0",
     "bignumber.js": "^9.0.1",
     "blockies-ts": "^1.0.0",
     "bnc-onboard": "^1.16.1",
@@ -51,7 +50,7 @@
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "styled-components": "^5.2.1",
-    "web3": "^1.3.0"
+    "web3": "^1.3.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

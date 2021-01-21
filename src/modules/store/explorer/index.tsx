@@ -14,7 +14,6 @@ import * as initial from './initialState';
 export { networkInfos } from './initialState';
 
 enum Actions {
-  SetWidthSize = 'Explorer/SET_WIDTH_SIZE',
   ToggleTheme = 'Explorer/TOGGLE_THEME',
   ToggleIsExistPreviousPage = 'Explorer/TOGGLE_IS_EXIST_PREVIOUS_PAGE',
   FetchHistory = 'Explorer/FETCH_HISTORY',
@@ -35,7 +34,6 @@ const initialState = {
   usd: initial.usd,
   networkInfos: initial.networkInfos,
   transactionFees: null,
-  width: null,
   themeMode: null,
   isExistPreviousPage: false,
 };
@@ -43,10 +41,6 @@ const initialState = {
 type State = typeof initialState;
 
 export const explorer: Reducer<State, Action> = (state = initialState, action) => {
-  if (action.type === Actions.SetWidthSize) {
-    return { ...state, width: action.data };
-  }
-
   if (action.type === Actions.ToggleTheme) {
     return { ...state, themeMode: action.data };
   }
@@ -90,8 +84,6 @@ export const explorer: Reducer<State, Action> = (state = initialState, action) =
   return state;
 };
 
-export const setWidthSize = (data: number) => ({ type: Actions.SetWidthSize, data } as const);
-
 export const toggleIsExistPreviousPage = (data: boolean) =>
   ({ type: Actions.ToggleIsExistPreviousPage, data } as const);
 
@@ -119,7 +111,6 @@ export const updateNetworkInfos = (data: INetworkInfos) =>
   ({ type: Actions.UpdateNetworkInfos, data } as const);
 
 type Action =
-  | ReturnType<typeof setWidthSize>
   | ReturnType<typeof toggleTheme>
   | ReturnType<typeof toggleIsExistPreviousPage>
   | ReturnType<typeof getHistory>
