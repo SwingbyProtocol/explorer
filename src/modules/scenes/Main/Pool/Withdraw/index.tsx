@@ -76,18 +76,20 @@ export const Withdraw = (props: Props) => {
   useEffect(() => {
     if (web3 && transactionFees && toCurrency) {
       (async () => {
-        const results = await Promise.all([
-          web3.methods.withdrawalFeeBPS().call(),
-          getMinimumWithdrawal({
-            context,
-            currencyReceiving: toCurrency,
-            amountDesired: Number(withdrawAmount) > 0 ? withdrawAmount : '0',
-          }),
-        ]);
-        const withdrawRatePercent = convertFromPercent(Number(results[0]));
+        // const results = await Promise.all([
+        //   // web3.methods.withdrawalFeeBPS().call(),
+        //   getMinimumWithdrawal({
+        //     context,
+        //     currencyReceiving: toCurrency,
+        //     amountDesired: Number(withdrawAmount) > 0 ? withdrawAmount : '0',
+        //   }),
+        // ]);
+        const withdrawRatePercent = 0;
+        // const withdrawRatePercent = convertFromPercent(Number(results[0]));
         dispatch(getWithdrawRate(withdrawRatePercent));
 
-        const miniWithdrawAmount = Number(results[1].minimumWithdrawal);
+        const miniWithdrawAmount = 0;
+        // const miniWithdrawAmount = Number(results[0].minimumWithdrawal);
         dispatch(getMinimumWithdrawAmount(miniWithdrawAmount));
       })();
     }
