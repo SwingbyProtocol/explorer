@@ -2,7 +2,7 @@ import Head from 'next/head';
 import React, { useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-// import Web3 from 'web3';
+import Web3 from 'web3';
 
 import { CONTRACT_SWAP, CONTRACT_SWAP_ABI, RPC_URL } from '../../../../env';
 import { IWithdrawAmountValidation, PoolMode } from '../../../../pool';
@@ -32,15 +32,15 @@ export const BrowserPool = () => {
   const { userAddress, mode } = pool;
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   if (userAddress) {
-  //     const web3 = new new Web3(new Web3.providers.HttpProvider(RPC_URL)).eth.Contract(
-  //       CONTRACT_SWAP_ABI,
-  //       CONTRACT_SWAP,
-  //     );
-  //     dispatch(setWeb3(web3));
-  //   }
-  // }, [userAddress, dispatch]);
+  useEffect(() => {
+    if (userAddress) {
+      const web3 = new new Web3(new Web3.providers.HttpProvider(RPC_URL)).eth.Contract(
+        CONTRACT_SWAP_ABI,
+        CONTRACT_SWAP,
+      );
+      dispatch(setWeb3(web3));
+    }
+  }, [userAddress, dispatch]);
 
   const addressValidationResult = (
     <ValidationResult>
