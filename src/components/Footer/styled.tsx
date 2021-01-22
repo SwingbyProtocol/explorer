@@ -97,10 +97,13 @@ export const ALinkIcon = styled.a`
 
 export const LogoBox = styled.div`
   display: grid;
-  justify-content: end;
+  justify-content: center;
   margin-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
   margin-top: ${({ theme }) => rem(theme.pulsar.size.house)};
-  padding-right: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  @media (min-width: ${rem(mobileScreen)}) {
+    justify-content: end;
+    padding-right: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  }
 `;
 
 export const MediaRow = styled.div`
