@@ -52,7 +52,7 @@ export const infuraApiKey =
 
 export const RPC_URL = `https://${ETHER_NETWORK.network}.infura.io/v3/${infuraApiKey}`;
 
-export const infuraAppName = 'Swingby Explorer';
+export const appName = 'Swingby Explorer';
 
 export const ENDPOINT_SKYBRIDGE_EXCHANGE = 'https://network.skybridge.exchange/api/v1';
 
