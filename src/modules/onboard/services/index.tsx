@@ -1,6 +1,6 @@
 import Onboard from 'bnc-onboard';
 
-import { blocknativeApiKey, ETHER_NETWORK, infuraApiKey, infuraAppName, RPC_URL } from '../../env';
+import { blocknativeApiKey, ETHER_NETWORK, infuraApiKey, appName, RPC_URL } from '../../env';
 
 // Ref: https://github.com/blocknative/react-demo/blob/master/src/services.js
 export const initOnboard = ({ subscriptions }) => {
@@ -22,7 +22,18 @@ export const initOnboard = ({ subscriptions }) => {
           infuraKey: infuraApiKey,
           preferred: true,
         },
-        { walletName: 'walletLink', rpcUrl: RPC_URL, appName: infuraAppName, preferred: true },
+        { walletName: 'walletLink', rpcUrl: RPC_URL, appName: appName, preferred: true },
+        { walletName: 'authereum' },
+        { walletName: 'lattice', rpcUrl: RPC_URL, appName: appName },
+        { walletName: 'torus' },
+        { walletName: 'opera' },
+        {
+          walletName: 'trezor',
+          // Memo: Not sure if it is necessary to set the email
+          // email: CONTACT_EMAIL,
+          appUrl: appName,
+          rpcUrl: RPC_URL,
+        },
       ],
     },
     walletCheck: [

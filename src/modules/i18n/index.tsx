@@ -18,15 +18,15 @@ export const languagesSelector = [
     code: 'en',
   },
   {
-    text: 'Chinese (Simplified)',
+    text: '简体中文',
     code: 'zh',
   },
   {
-    text: 'Chinese (Traditional)',
+    text: '繁體中文',
     code: 'zh-TW',
   },
   {
-    text: 'Japanese',
+    text: '日本語',
     code: 'ja',
   },
 ];
