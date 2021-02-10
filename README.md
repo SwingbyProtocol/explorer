@@ -27,9 +27,6 @@ v1.22.4
   - JavaScript SDK for Skybridge
 - [@swingby-protocol/widget](https://github.com/SwingbyProtocol/widget)
   - Widget for Skybridge Swap service
-- [@swingby-protocol/ip-check](https://github.com/SwingbyProtocol/ip-check)
-  - Small util to check a user's country by IP and whether access to our product should be
-    restricted
 - [bignumber.js](https://github.com/MikeMcl/bignumber.js)
   - A JavaScript library for arbitrary-precision decimal and non-decimal arithmetic
 - [bnc-onboard](https://github.com/blocknative/onboard)
