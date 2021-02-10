@@ -1,21 +1,18 @@
-import { getIpInfoFromRequest, IpInfoFromRequest } from '@swingby-protocol/ip-check';
 import { GetServerSideProps } from 'next';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { NoServiceToUSModal } from '../components/NoServiceToUSModal';
-import { ipApiKey } from '../modules/env';
 import { getUsdPrice, IFetchUsd } from '../modules/explorer';
+import { getIpInfoFromRequest } from '../modules/ip-info';
 import { Main } from '../modules/scenes';
 import { fetchUsdPrice } from '../modules/store';
 
-type Props = { ipInfo: IpInfoFromRequest; initialPriceUSD: IFetchUsd };
+type Props = { shouldBlockIp: boolean; initialPriceUSD: IFetchUsd };
 
-export default function Home({ ipInfo, initialPriceUSD }: Props) {
+export default function Home({ shouldBlockIp, initialPriceUSD }: Props) {
   const dispatch = useDispatch();
-  const [isNoServiceToUSModalOpen, setIsNoServiceToUSModalOpen] = useState(
-    ipInfo?.shouldBlockRegion,
-  );
+  const [isNoServiceToUSModalOpen, setIsNoServiceToUSModalOpen] = useState(shouldBlockIp);
 
   useEffect(() => {
     dispatch(fetchUsdPrice(initialPriceUSD));
@@ -33,8 +30,6 @@ export default function Home({ ipInfo, initialPriceUSD }: Props) {
 }
 
 export const getServerSideProps: GetServerSideProps<Props> = async ({ req }) => {
-  const ipInfo = await getIpInfoFromRequest({ req, ipApiKey });
-
   const initialPriceUSD = await (async (): Promise<IFetchUsd> => {
     try {
       return await getUsdPrice();
@@ -43,5 +38,5 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({ req }) => 
     }
   })();
 
-  return { props: { ipInfo, initialPriceUSD } };
+  return { props: { ...(await getIpInfoFromRequest({ req })), initialPriceUSD } };
 };
