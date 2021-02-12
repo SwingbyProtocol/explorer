@@ -16,10 +16,9 @@ import {
   Avatar,
   AvatarContainer,
   ColumnPlaceholder,
-  Container,
-  MetanodeEarnersContainer,
+  GlobalStyles,
   Rank,
-  Row,
+  Divider,
   RowLeft,
   RowRight,
   RowRightLabel,
@@ -48,81 +47,77 @@ export const MetanodeEarners = () => {
   return (
     <PulsarThemeProvider theme="light">
       <PulsarGlobalStyles />
-      <Container>
-        <MetanodeEarnersContainer>
-          {big && (
-            <RowUser isLastItem={false}>
+      <GlobalStyles />
+      {big && (
+        <RowUser>
+          <RowLeft>
+            <ColumnPlaceholder />
+          </RowLeft>
+          <RowRightLabel>
+            <TextValue variant="masked">Moniker</TextValue>
+            <TextValue variant="masked">
+              <FormattedMessage id="metanode-earners.label.bond" />
+            </TextValue>
+
+            <TextValue variant="masked">
+              <FormattedMessage id="metanode-earners.label.earnings-1W" />
+            </TextValue>
+
+            <TextValue variant="masked">
+              <FormattedMessage id="metanode-earners.label.earnings-1M" />
+            </TextValue>
+          </RowRightLabel>
+        </RowUser>
+      )}
+      {metanodes?.map((it: INodeEarningsResponse, index: number) => {
+        const bond = formatNumber(Number(it.bond), formatConfig);
+        const earnings1M = getFiatAssetFormatter(formatConfig).format(Number(it.earnings1M));
+        const earnings1W = getFiatAssetFormatter(formatConfig).format(Number(it.earnings1W));
+        return (
+          <>
+            <Divider />
+            <RowUser key={it.moniker}>
               <RowLeft>
-                <ColumnPlaceholder />
+                <AvatarContainer>
+                  <Rank rank={index + 1}>{index + 1}</Rank>
+                  <Avatar value={it.moniker} />
+                </AvatarContainer>
               </RowLeft>
-              <RowRightLabel>
-                <TextValue variant="masked">Moniker</TextValue>
-                <TextValue variant="masked">
-                  <FormattedMessage id="metanode-earners.label.bond" />
-                </TextValue>
+              <RowRight>
+                <TextValue variant="accent">{it.moniker}</TextValue>
 
                 <TextValue variant="masked">
-                  {' '}
-                  <FormattedMessage id="metanode-earners.label.earnings-1W" />
+                  {big ? (
+                    bond
+                  ) : (
+                    <FormattedMessage
+                      id="metanode-earners.bond"
+                      values={{
+                        value: bond,
+                      }}
+                    />
+                  )}
                 </TextValue>
 
-                <TextValue variant="masked">
-                  {' '}
-                  <FormattedMessage id="metanode-earners.label.earnings-1M" />
-                </TextValue>
-              </RowRightLabel>
+                {big && <TextPrimary>{earnings1W}</TextPrimary>}
+
+                <TextPrimary>
+                  {big ? (
+                    earnings1M
+                  ) : (
+                    <FormattedMessage
+                      id="metanode-earners.earn-month"
+                      values={{
+                        value: earnings1M,
+                      }}
+                    />
+                  )}
+                </TextPrimary>
+              </RowRight>
             </RowUser>
-          )}
-          {metanodes?.map((it: INodeEarningsResponse, index: number) => {
-            const bond = formatNumber(Number(it.bond), formatConfig);
-            const earnings1M = getFiatAssetFormatter(formatConfig).format(Number(it.earnings1M));
-            const earnings1W = getFiatAssetFormatter(formatConfig).format(Number(it.earnings1W));
-            return (
-              <Row key={it.moniker}>
-                <RowUser isLastItem={index === metanodes?.length - 1}>
-                  <RowLeft>
-                    <AvatarContainer>
-                      <Rank rank={index + 1}>{index + 1}</Rank>
-                      <Avatar value={it.moniker} />
-                    </AvatarContainer>
-                  </RowLeft>
-                  <RowRight>
-                    <TextValue variant="accent">{it.moniker}</TextValue>
-
-                    <TextValue variant="masked">
-                      {big ? (
-                        bond
-                      ) : (
-                        <FormattedMessage
-                          id="metanode-earners.bond"
-                          values={{
-                            value: bond,
-                          }}
-                        />
-                      )}
-                    </TextValue>
-
-                    {big && <TextPrimary>{earnings1W}</TextPrimary>}
-
-                    <TextPrimary>
-                      {big ? (
-                        earnings1M
-                      ) : (
-                        <FormattedMessage
-                          id="metanode-earners.earn-month"
-                          values={{
-                            value: earnings1M,
-                          }}
-                        />
-                      )}
-                    </TextPrimary>
-                  </RowRight>
-                </RowUser>
-              </Row>
-            );
-          })}
-        </MetanodeEarnersContainer>
-      </Container>
+          </>
+        );
+      })}
     </PulsarThemeProvider>
   );
 };
