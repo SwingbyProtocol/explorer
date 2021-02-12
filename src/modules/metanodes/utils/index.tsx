@@ -44,29 +44,14 @@ export const fetchNodeList = async () => {
 };
 
 export const fetchNodeEarningsList = async () => {
-  const url = ENDPOINT_ETHEREUM_NODE + '/api/v1/peers';
-  try {
-    const result = await fetch<INodeListResponse[]>(url);
-    const metanodes = result.ok && camelize(result.response);
-    // Todo: Add sort logic
-    const sortedMetanodes = metanodes.slice(0, 5);
-    return Promise.all(
-      sortedMetanodes.map(async (node: INodeListResponse) => {
-        const earnings1W = 11615.5;
-        const earnings1M = earnings1W * 4;
-        try {
-          return {
-            moniker: node.moniker,
-            bond: Number(node.stake.amount),
-            earnings1W,
-            earnings1M: earnings1M,
-          };
-        } catch (e) {
-          console.log(e);
-        }
-      }),
-    );
-  } catch (e) {
-    console.log(e);
+  const url = 'https://metanode-earnings.vercel.app/api/production/rewards/ranking';
+  const result = await fetch<
+    Array<{ address: string; reward1m: string; reward1w: string; amountStaked: string }>
+  >(url);
+
+  if (!result.ok) {
+    throw new Error(`${result.status}: ${result.response}`);
   }
+
+  return result.response;
 };

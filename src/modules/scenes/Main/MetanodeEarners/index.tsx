@@ -7,8 +7,9 @@ import {
 import { rem } from 'polished';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { PromiseValue } from 'type-fest';
 
-import { fetchNodeEarningsList, INodeEarningsResponse } from '../../../metanodes';
+import { fetchNodeEarningsList } from '../../../metanodes';
 import { StylingConstants } from '../../../styles';
 import { TextPrimary } from '../../Common';
 
@@ -24,15 +25,17 @@ import {
   Space,
 } from './styled';
 
+type Metanodes = PromiseValue<ReturnType<typeof fetchNodeEarningsList>>;
+
 export const MetanodeEarners = () => {
-  const [metanodes, setMetanodes] = useState<INodeEarningsResponse[]>([]);
+  const [metanodes, setMetanodes] = useState<Metanodes>([]);
   const { locale, formatNumber } = useIntl();
   const big = useMatchMedia({ query: `(min-width: ${rem(StylingConstants.media.md)})` });
 
   useEffect(() => {
     (async () => {
       const nodes = await fetchNodeEarningsList();
-      setMetanodes(nodes as any);
+      setMetanodes(nodes);
     })();
   }, []);
 
@@ -75,18 +78,18 @@ export const MetanodeEarners = () => {
         {!big && <Space />}
 
         {metanodes.map((it, index) => {
-          const bond = formatNumber(Number(it.bond), formatConfig);
-          const earnings1M = getFiatAssetFormatter(formatConfig).format(Number(it.earnings1M));
-          const earnings1W = getFiatAssetFormatter(formatConfig).format(Number(it.earnings1W));
+          const bond = formatNumber(Number(it.amountStaked), formatConfig);
+          const earnings1M = getFiatAssetFormatter(formatConfig).format(Number(it.reward1w));
+          const earnings1W = getFiatAssetFormatter(formatConfig).format(Number(it.reward1m));
           return (
-            <React.Fragment key={it.moniker}>
+            <React.Fragment key={it.address}>
               <AvatarContainer>
                 <Rank rank={index + 1}>{index + 1}</Rank>
-                <Avatar value={it.moniker} />
+                <Avatar value={it.address} />
               </AvatarContainer>
 
               <Cell>
-                <TextValue variant="accent">{it.moniker}</TextValue>
+                <TextValue variant="accent">{it.address}</TextValue>
               </Cell>
 
               <Cell>
