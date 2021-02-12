@@ -15,7 +15,6 @@ enum Actions {
   GetDepositFeeRate = 'Pool/GET_DEPOSIT_FEE_RATE',
   GetMinimumWithdrawAmount = 'Pool/GET_MINIMUM_WITHDRAW_AMOUNT',
   GetWithdrawRate = 'Pool/GET_WITHDRAW_RATE',
-  SetAffiliateCode = 'Pool/SET_AFFILIATE_CODE',
 }
 
 const initialState = {
@@ -30,7 +29,6 @@ const initialState = {
   minimumWithdrawAmount: null,
   onboard: null,
   web3: null,
-  affiliateCode: null,
 };
 
 type State = typeof initialState;
@@ -79,10 +77,6 @@ export const pool: Reducer<State, Action> = (state = initialState, action) => {
     return { ...state, withdrawRate: action.data };
   }
 
-  if (action.type === Actions.SetAffiliateCode) {
-    return { ...state, affiliateCode: action.data };
-  }
-
   if (action.type === Actions.ResetPoolState) {
     return initialState;
   }
@@ -117,9 +111,6 @@ export const getWithdrawRate = (data) => ({ type: Actions.GetWithdrawRate, data 
 export const getDepositFeeRate = (data: IFeeRate) =>
   ({ type: Actions.GetDepositFeeRate, data } as const);
 
-export const setAffiliateCode = (data: string) =>
-  ({ type: Actions.SetAffiliateCode, data } as const);
-
 type Action =
   | ReturnType<typeof resetPoolState>
   | ReturnType<typeof setBridge>
@@ -132,5 +123,4 @@ type Action =
   | ReturnType<typeof getRecentTxs>
   | ReturnType<typeof getDepositFeeRate>
   | ReturnType<typeof getWithdrawRate>
-  | ReturnType<typeof getMinimumWithdrawAmount>
-  | ReturnType<typeof setAffiliateCode>;
+  | ReturnType<typeof getMinimumWithdrawAmount>;

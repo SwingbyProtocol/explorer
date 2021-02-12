@@ -27,5 +27,4 @@ export {
   getDepositFeeRate,
   getWithdrawRate,
   getMinimumWithdrawAmount,
-  setAffiliateCode,
 } from './pool';
