@@ -15,26 +15,24 @@ import { TextPrimary } from '../../Common';
 import {
   Avatar,
   AvatarContainer,
-  ColumnPlaceholder,
   GlobalStyles,
   Rank,
   Divider,
-  RowLeft,
-  RowRight,
-  RowRightLabel,
-  RowUser,
   TextValue,
+  Table,
+  Cell,
+  Space,
 } from './styled';
 
 export const MetanodeEarners = () => {
-  const [metanodes, setMetanodes] = useState(null);
+  const [metanodes, setMetanodes] = useState<INodeEarningsResponse[]>([]);
   const { locale, formatNumber } = useIntl();
   const big = useMatchMedia({ query: `(min-width: ${rem(StylingConstants.media.md)})` });
 
   useEffect(() => {
     (async () => {
       const nodes = await fetchNodeEarningsList();
-      setMetanodes(nodes);
+      setMetanodes(nodes as any);
     })();
   }, []);
 
@@ -48,44 +46,50 @@ export const MetanodeEarners = () => {
     <PulsarThemeProvider theme="light">
       <PulsarGlobalStyles />
       <GlobalStyles />
-      {big && (
-        <RowUser>
-          <RowLeft>
-            <ColumnPlaceholder />
-          </RowLeft>
-          <RowRightLabel>
-            <TextValue variant="masked">Moniker</TextValue>
-            <TextValue variant="masked">
-              <FormattedMessage id="metanode-earners.label.bond" />
-            </TextValue>
-
-            <TextValue variant="masked">
-              <FormattedMessage id="metanode-earners.label.earnings-1W" />
-            </TextValue>
-
-            <TextValue variant="masked">
-              <FormattedMessage id="metanode-earners.label.earnings-1M" />
-            </TextValue>
-          </RowRightLabel>
-        </RowUser>
-      )}
-      {metanodes?.map((it: INodeEarningsResponse, index: number) => {
-        const bond = formatNumber(Number(it.bond), formatConfig);
-        const earnings1M = getFiatAssetFormatter(formatConfig).format(Number(it.earnings1M));
-        const earnings1W = getFiatAssetFormatter(formatConfig).format(Number(it.earnings1W));
-        return (
+      <Table>
+        {big && (
           <>
+            <Cell />
+            <Cell>
+              <TextValue variant="masked">Moniker</TextValue>
+            </Cell>
+            <Cell>
+              <TextValue variant="masked">
+                <FormattedMessage id="metanode-earners.label.bond" />
+              </TextValue>
+            </Cell>
+            <Cell>
+              <TextValue variant="masked">
+                <FormattedMessage id="metanode-earners.label.earnings-1W" />
+              </TextValue>
+            </Cell>
+            <Cell>
+              <TextValue variant="masked">
+                <FormattedMessage id="metanode-earners.label.earnings-1M" />
+              </TextValue>
+            </Cell>
             <Divider />
-            <RowUser key={it.moniker}>
-              <RowLeft>
-                <AvatarContainer>
-                  <Rank rank={index + 1}>{index + 1}</Rank>
-                  <Avatar value={it.moniker} />
-                </AvatarContainer>
-              </RowLeft>
-              <RowRight>
-                <TextValue variant="accent">{it.moniker}</TextValue>
+          </>
+        )}
 
+        {!big && <Space />}
+
+        {metanodes.map((it, index) => {
+          const bond = formatNumber(Number(it.bond), formatConfig);
+          const earnings1M = getFiatAssetFormatter(formatConfig).format(Number(it.earnings1M));
+          const earnings1W = getFiatAssetFormatter(formatConfig).format(Number(it.earnings1W));
+          return (
+            <React.Fragment key={it.moniker}>
+              <AvatarContainer>
+                <Rank rank={index + 1}>{index + 1}</Rank>
+                <Avatar value={it.moniker} />
+              </AvatarContainer>
+
+              <Cell>
+                <TextValue variant="accent">{it.moniker}</TextValue>
+              </Cell>
+
+              <Cell>
                 <TextValue variant="masked">
                   {big ? (
                     bond
@@ -98,9 +102,15 @@ export const MetanodeEarners = () => {
                     />
                   )}
                 </TextValue>
+              </Cell>
 
-                {big && <TextPrimary>{earnings1W}</TextPrimary>}
+              {big && (
+                <Cell>
+                  <TextPrimary>{earnings1W}</TextPrimary>
+                </Cell>
+              )}
 
+              <Cell>
                 <TextPrimary>
                   {big ? (
                     earnings1M
@@ -113,11 +123,15 @@ export const MetanodeEarners = () => {
                     />
                   )}
                 </TextPrimary>
-              </RowRight>
-            </RowUser>
-          </>
-        );
-      })}
+              </Cell>
+
+              {index < metanodes.length - 1 && <Divider />}
+            </React.Fragment>
+          );
+        })}
+
+        {!big && <Space />}
+      </Table>
     </PulsarThemeProvider>
   );
 };
