@@ -5,6 +5,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useSelector } from 'react-redux';
 
+import { useAffiliateCode } from '../../modules/affiliate-code';
 import { mode } from '../../modules/env';
 import { TTxRawObject } from '../../modules/explorer';
 import { ButtonScale } from '../../modules/scenes/Common';
@@ -21,6 +22,7 @@ export const DuplicateSwapWidgetModal = (props: Props) => {
   const { isWidgetModalOpen, setIsWidgetModalOpen, tx } = props;
   const explorer = useSelector((state) => state.explorer);
   const { themeMode } = explorer;
+  const affiliateCode = useAffiliateCode();
   const { locale } = useRouter();
 
   const address = tx && tx.addressOut;
@@ -32,6 +34,7 @@ export const DuplicateSwapWidgetModal = (props: Props) => {
       resource: 'swap',
       locale,
       theme: themeMode,
+      affiliateCode,
       defaultCurrencyDeposit: tx.currencyIn as any,
       defaultCurrencyReceiving: tx.currencyOut as any,
       defaultAddressReceiving: tx.addressOut,

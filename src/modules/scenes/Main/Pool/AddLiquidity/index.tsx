@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import { PulseLoader } from 'react-spinners';
 import { useTheme } from 'styled-components';
 
+import { useAffiliateCode } from '../../../../affiliate-code';
 import { CoinSymbol, ETHCoins, PoolCurrencies } from '../../../../coins';
 import { checkIsValidAddress, checkIsValidAmount, TCurrency } from '../../../../explorer';
 import { IWithdrawAmountValidation } from '../../../../pool';
@@ -48,10 +49,11 @@ export const AddLiquidity = (props: Props) => {
   const theme = useTheme();
   const { formatMessage } = useIntl();
   const pool = useSelector((state) => state.pool);
-  const { userAddress, affiliateCode } = pool;
+  const { userAddress } = pool;
   const explorer = useSelector((state) => state.explorer);
   const { themeMode } = explorer;
   const { locale } = useRouter();
+  const affiliateCode = useAffiliateCode();
 
   const [receivingAddress, setReceivingAddress] = useState(userAddress);
   const [poolAmount, setPoolAmount] = useState(null);

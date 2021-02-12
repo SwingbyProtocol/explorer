@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { PulseLoader } from 'react-spinners';
 import { useTheme } from 'styled-components';
 
+import { useAffiliateCode } from '../../../../affiliate-code';
 import { CoinSymbol, PoolCurrencies } from '../../../../coins';
 import { convertFromPercent } from '../../../../common';
 import { checkIsValidAddress, checkIsValidAmount, TCurrency } from '../../../../explorer';
@@ -52,11 +53,12 @@ export const Withdraw = (props: Props) => {
   const { formatMessage } = useIntl();
   const theme = useTheme();
   const pool = useSelector((state) => state.pool);
-  const { balanceSbBTC, web3, minimumWithdrawAmount, affiliateCode } = pool;
+  const { balanceSbBTC, web3, minimumWithdrawAmount } = pool;
   const explorer = useSelector((state) => state.explorer);
   const { themeMode, transactionFees } = explorer;
   const { locale } = useRouter();
   const dispatch = useDispatch();
+  const affiliateCode = useAffiliateCode();
 
   const [receivingAddress, setReceivingAddress] = useState('');
   const [withdrawAmount, setWithdrawAmount] = useState('0');

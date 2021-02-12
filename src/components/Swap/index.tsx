@@ -5,6 +5,7 @@ import { useCallback, useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useSelector } from 'react-redux';
 
+import { useAffiliateCode } from '../../modules/affiliate-code';
 import { mode } from '../../modules/env';
 
 import { StyledSwap, SwapMobileRow } from './styled';
@@ -12,9 +13,8 @@ import { StyledSwap, SwapMobileRow } from './styled';
 export const Swap = () => {
   const explorer = useSelector((state) => state.explorer);
   const { themeMode } = explorer;
-  const pool = useSelector((state) => state.pool);
-  const { affiliateCode } = pool;
   const { locale } = useRouter();
+  const affiliateCode = useAffiliateCode();
 
   const big = useMemo(
     () =>
@@ -30,8 +30,16 @@ export const Swap = () => {
   );
 
   const banner = useMemo(
-    () => createWidget({ resource: 'swap', mode, size: 'banner', theme: themeMode, locale }),
-    [themeMode, locale],
+    () =>
+      createWidget({
+        resource: 'swap',
+        mode,
+        size: 'banner',
+        theme: themeMode,
+        locale,
+        affiliateCode,
+      }),
+    [themeMode, locale, affiliateCode],
   );
 
   const show = useCallback(() => openPopup({ widget: big }), [big]);

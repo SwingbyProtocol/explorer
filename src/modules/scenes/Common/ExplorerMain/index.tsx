@@ -10,6 +10,7 @@ import { Footer } from '../../../../components/Footer';
 import { LinkToWidgetModal } from '../../../../components/LinkToWidgetModal';
 import { Search } from '../../../../components/Search';
 import { toastWrongAddress } from '../../../../components/Toast';
+import { useAffiliateCode } from '../../../affiliate-code';
 import { ETHCoins } from '../../../coins';
 import { scrollToTop, titleGenerator } from '../../../common';
 import { mode, PATH } from '../../../env';
@@ -39,6 +40,7 @@ export const ExplorerMain = () => {
   const { onboard } = pool;
   const explorer = useSelector((state) => state.explorer);
   const { swapDetails, themeMode } = explorer;
+  const affiliateCode = useAffiliateCode();
 
   //Memo: For check walletAddress === tx.addressOut
   const [walletAddress, setWalletAddress] = useState(null);
@@ -62,6 +64,7 @@ export const ExplorerMain = () => {
               hash: tx.hash,
               theme: themeMode,
               locale: router.locale,
+              affiliateCode,
             })
           : createWidget({
               mode,
@@ -73,6 +76,7 @@ export const ExplorerMain = () => {
               defaultAmountDesired: tx.amountIn,
               theme: themeMode,
               locale: router.locale,
+              affiliateCode,
             });
 
       if (ETHCoins.includes(tx.currencyOut)) {

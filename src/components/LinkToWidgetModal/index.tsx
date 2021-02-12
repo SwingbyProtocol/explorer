@@ -5,6 +5,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useSelector } from 'react-redux';
 
+import { useAffiliateCode } from '../../modules/affiliate-code';
 import { mode } from '../../modules/env';
 import { TTxRawObject } from '../../modules/explorer';
 import { ButtonScale } from '../../modules/scenes/Common';
@@ -22,6 +23,7 @@ export const LinkToWidgetModal = (props: Props) => {
   const explorer = useSelector((state) => state.explorer);
   const { themeMode } = explorer;
   const { locale } = useRouter();
+  const affiliateCode = useAffiliateCode();
 
   const address = tx && tx.addressOut;
   const widget =
@@ -33,6 +35,7 @@ export const LinkToWidgetModal = (props: Props) => {
       hash: tx.hash,
       theme: themeMode,
       locale,
+      affiliateCode,
     });
   return (
     <Modal open={isWidgetModalOpen} onClose={() => setIsWidgetModalOpen(false)}>
