@@ -7,28 +7,28 @@ import {
 import { rem } from 'polished';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { PromiseValue } from 'type-fest';
 
-import { fetchNodeEarningsList, INodeEarningsResponse } from '../../../metanodes';
+import { fetchNodeEarningsList } from '../../../metanodes';
 import { StylingConstants } from '../../../styles';
 import { TextPrimary } from '../../Common';
 
 import {
   Avatar,
   AvatarContainer,
-  ColumnPlaceholder,
-  Container,
-  MetanodeEarnersContainer,
+  GlobalStyles,
   Rank,
-  Row,
-  RowLeft,
-  RowRight,
-  RowRightLabel,
-  RowUser,
+  Divider,
   TextValue,
+  Table,
+  Cell,
+  Space,
 } from './styled';
 
+type Metanodes = PromiseValue<ReturnType<typeof fetchNodeEarningsList>>;
+
 export const MetanodeEarners = () => {
-  const [metanodes, setMetanodes] = useState(null);
+  const [metanodes, setMetanodes] = useState<Metanodes>([]);
   const { locale, formatNumber } = useIntl();
   const big = useMatchMedia({ query: `(min-width: ${rem(StylingConstants.media.md)})` });
 
@@ -48,81 +48,93 @@ export const MetanodeEarners = () => {
   return (
     <PulsarThemeProvider theme="light">
       <PulsarGlobalStyles />
-      <Container>
-        <MetanodeEarnersContainer>
-          {big && (
-            <RowUser isLastItem={false}>
-              <RowLeft>
-                <ColumnPlaceholder />
-              </RowLeft>
-              <RowRightLabel>
-                <TextValue variant="masked">Moniker</TextValue>
+      <GlobalStyles />
+      <Table>
+        {big && (
+          <>
+            <Cell />
+            <Cell>
+              <TextValue variant="masked">Moniker</TextValue>
+            </Cell>
+            <Cell>
+              <TextValue variant="masked">
+                <FormattedMessage id="metanode-earners.label.bond" />
+              </TextValue>
+            </Cell>
+            <Cell>
+              <TextValue variant="masked">
+                <FormattedMessage id="metanode-earners.label.earnings-1W" />
+              </TextValue>
+            </Cell>
+            <Cell>
+              <TextValue variant="masked">
+                <FormattedMessage id="metanode-earners.label.earnings-1M" />
+              </TextValue>
+            </Cell>
+            <Divider />
+          </>
+        )}
+
+        {!big && <Space />}
+
+        {metanodes.map((it, index) => {
+          const bond = formatNumber(Number(it.amountStaked), formatConfig);
+          const earnings1M = getFiatAssetFormatter(formatConfig).format(Number(it.reward1w));
+          const earnings1W = getFiatAssetFormatter(formatConfig).format(Number(it.reward1m));
+          return (
+            <React.Fragment key={it.address}>
+              <AvatarContainer>
+                <Rank rank={index + 1}>{index + 1}</Rank>
+                <Avatar value={it.address} />
+              </AvatarContainer>
+
+              <Cell>
+                <TextValue variant="accent">{it.address}</TextValue>
+              </Cell>
+
+              <Cell>
                 <TextValue variant="masked">
-                  <FormattedMessage id="metanode-earners.label.bond" />
+                  {big ? (
+                    bond
+                  ) : (
+                    <FormattedMessage
+                      id="metanode-earners.bond"
+                      values={{
+                        value: bond,
+                      }}
+                    />
+                  )}
                 </TextValue>
+              </Cell>
 
-                <TextValue variant="masked">
-                  {' '}
-                  <FormattedMessage id="metanode-earners.label.earnings-1W" />
-                </TextValue>
+              {big && (
+                <Cell>
+                  <TextPrimary>{earnings1W}</TextPrimary>
+                </Cell>
+              )}
 
-                <TextValue variant="masked">
-                  {' '}
-                  <FormattedMessage id="metanode-earners.label.earnings-1M" />
-                </TextValue>
-              </RowRightLabel>
-            </RowUser>
-          )}
-          {metanodes?.map((it: INodeEarningsResponse, index: number) => {
-            const bond = formatNumber(Number(it.bond), formatConfig);
-            const earnings1M = getFiatAssetFormatter(formatConfig).format(Number(it.earnings1M));
-            const earnings1W = getFiatAssetFormatter(formatConfig).format(Number(it.earnings1W));
-            return (
-              <Row key={it.moniker}>
-                <RowUser isLastItem={index === metanodes?.length - 1}>
-                  <RowLeft>
-                    <AvatarContainer>
-                      <Rank rank={index + 1}>{index + 1}</Rank>
-                      <Avatar value={it.moniker} />
-                    </AvatarContainer>
-                  </RowLeft>
-                  <RowRight>
-                    <TextValue variant="accent">{it.moniker}</TextValue>
+              <Cell>
+                <TextPrimary>
+                  {big ? (
+                    earnings1M
+                  ) : (
+                    <FormattedMessage
+                      id="metanode-earners.earn-month"
+                      values={{
+                        value: earnings1M,
+                      }}
+                    />
+                  )}
+                </TextPrimary>
+              </Cell>
 
-                    <TextValue variant="masked">
-                      {big ? (
-                        bond
-                      ) : (
-                        <FormattedMessage
-                          id="metanode-earners.bond"
-                          values={{
-                            value: bond,
-                          }}
-                        />
-                      )}
-                    </TextValue>
+              {index < metanodes.length - 1 && <Divider />}
+            </React.Fragment>
+          );
+        })}
 
-                    {big && <TextPrimary>{earnings1W}</TextPrimary>}
-
-                    <TextPrimary>
-                      {big ? (
-                        earnings1M
-                      ) : (
-                        <FormattedMessage
-                          id="metanode-earners.earn-month"
-                          values={{
-                            value: earnings1M,
-                          }}
-                        />
-                      )}
-                    </TextPrimary>
-                  </RowRight>
-                </RowUser>
-              </Row>
-            );
-          })}
-        </MetanodeEarnersContainer>
-      </Container>
+        {!big && <Space />}
+      </Table>
     </PulsarThemeProvider>
   );
 };

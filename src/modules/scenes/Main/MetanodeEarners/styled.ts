@@ -1,41 +1,43 @@
 import { Text, AbstractAvatar } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
-import styled from 'styled-components';
+import styled, { createGlobalStyle as css } from 'styled-components';
 
 import { StylingConstants } from './../../../styles';
 
 const { media } = StylingConstants;
 
-interface RowProps {
-  isLastItem: boolean;
-}
-
-export const Container = styled.div`
-  width: 100%;
-  height: 100%;
-  max-width: ${rem(730)};
-  padding: ${({ theme }) => rem(theme.pulsar.size.house)};
+export const GlobalStyles = css`
+  body {
+    width: 100vw;
+    min-height: 100vh;
+  }
 `;
 
-export const MetanodeEarnersContainer = styled.div`
-  min-width: ${rem(328)};
-  width: 100%;
-  height: 100%;
-  @media (min-width: ${rem(media.sm)}) {
-    min-width: ${rem(350)};
+export const Table = styled.div`
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: min-content auto;
+  grid-template-rows: 1fr repeat(5, min-content min-content min-content 1fr);
+  padding: ${({ theme }) => rem(theme.pulsar.size.drawer)};
+  align-items: center;
+  justify-items: left;
+
+  @media (min-width: ${rem(media.md)}) {
+    grid-template-columns: min-content auto auto auto auto;
+    grid-template-rows: repeat(6, 1fr 1px);
+    justify-items: center;
+    grid-gap: ${({ theme }) => rem(theme.pulsar.size.drawer)};
   }
 `;
 
 export const AvatarContainer = styled.div`
-  height: ${({ theme }) => rem(theme.pulsar.size.town)};
   display: flex;
   justify-content: center;
   align-items: center;
   grid-row: span 3;
-  margin-right: ${({ theme }) => rem(theme.pulsar.size.house)};
+  margin-right: ${({ theme }) => rem(theme.pulsar.size.drawer)};
 
   @media (min-width: ${rem(media.md)}) {
-    font-size: ${({ theme }) => rem(theme.pulsar.size.state)};
     grid-row: auto;
     margin-right: 0;
   }
@@ -70,52 +72,24 @@ export const Avatar = styled(AbstractAvatar)`
   }
 `;
 
-export const Row = styled.div`
-  padding-left: ${({ theme }) => rem(theme.pulsar.size.drawer)};
-  padding-right: ${({ theme }) => rem(theme.pulsar.size.drawer)};
+export const Space = styled.div`
+  grid-column: 1 / -1;
 `;
 
-export const RowUser = styled.div<RowProps>`
-  display: grid;
-  grid-template-columns: 30% auto;
-  border-bottom: ${(props) =>
-    props.isLastItem
-      ? '0px solid transparent'
-      : `1px solid ${props.theme.pulsar.color.border.normal}`};
+export const Divider = styled.div`
+  grid-column: 1 / -1;
+  width: calc(100% + ${({ theme }) => rem(theme.pulsar.size.drawer * 2)});
+  border-bottom: 1px solid ${(props) => props.theme.pulsar.color.border.normal};
+  margin: ${({ theme }) => rem(theme.pulsar.size.drawer)}
+    ${({ theme }) => rem(-theme.pulsar.size.drawer)};
 
-  align-items: center;
-  padding-top: ${({ theme }) => rem(theme.pulsar.size.house)};
-  padding-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
   @media (min-width: ${rem(media.md)}) {
-    grid-template-columns: min-content auto;
+    margin-top: 0;
+    margin-bottom: 0;
   }
 `;
 
-export const RowLeft = styled.div`
-  @media (min-width: ${rem(media.md)}) {
-    margin-right: ${({ theme }) => rem(theme.pulsar.size.town)};
-  }
-`;
-
-export const ColumnPlaceholder = styled.div`
-  @media (min-width: ${rem(media.md)}) {
-    width: ${rem(72)};
-  }
-`;
-
-export const RowRight = styled.div`
-  display: grid;
-  grid-template-rows: 1fr 1fr 1fr;
-  grid-row-gap: ${({ theme }) => rem(theme.pulsar.size.drawer)};
-  @media (min-width: ${rem(media.md)}) {
-    grid-template-rows: 1fr;
-    grid-template-columns: 40% 20% 20% auto;
-  }
-`;
-export const RowRightLabel = styled.div`
-  display: grid;
-  grid-template-columns: 40.5% 16% 20% auto;
-`;
+export const Cell = styled.div``;
 
 export const TextValue = styled(Text)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
