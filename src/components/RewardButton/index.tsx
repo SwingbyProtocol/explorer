@@ -1,4 +1,4 @@
-import { Button, useMatchMedia } from '@swingby-protocol/pulsar';
+import { Button, createToast, useMatchMedia } from '@swingby-protocol/pulsar';
 import { CONTRACTS } from '@swingby-protocol/sdk';
 import { rem } from 'polished';
 import React, { useEffect, useState } from 'react';
@@ -43,38 +43,44 @@ export const RewardButton = () => {
     if (!wallet || !address) return;
 
     (async () => {
-      const web3 = new Web3(wallet.provider);
-      const contract = new web3.eth.Contract(
-        CONTRACTS.skybridge[mode].abi,
-        CONTRACTS.skybridge[mode].address,
-        wallet.provider,
-      );
-
-      const gasPrice = await web3.eth.getGasPrice();
-      const rawTx: TransactionConfig = {
-        chain: mode === 'production' ? 'mainnet' : 'goerli',
-        nonce: await web3.eth.getTransactionCount(address),
-        gasPrice: web3.utils.toHex(gasPrice),
-        from: address,
-        to: CONTRACTS.skybridge[mode].address,
-        value: '0x0',
-        data: contract.methods.distributeNodeRewards().encodeABI(),
-      };
-
-      const estimatedGas = await web3.eth.estimateGas(rawTx);
-      if (!estimatedGas) {
-        console.warn(`Did not get any value from estimateGas(): ${estimatedGas}`, rawTx);
-      } else {
-        console.debug(
-          `Estimated gas that will be spent ${estimatedGas} (price: ${web3.utils.fromWei(
-            gasPrice,
-            'ether',
-          )} ETH)`,
-          rawTx,
+      try {
+        const web3 = new Web3(wallet.provider);
+        const contract = new web3.eth.Contract(
+          CONTRACTS.skybridge[mode].abi,
+          CONTRACTS.skybridge[mode].address,
+          wallet.provider,
         );
-      }
 
-      return await web3.eth.sendTransaction({ ...rawTx, gas: estimatedGas });
+        const gasPrice = await web3.eth.getGasPrice();
+        const rawTx: TransactionConfig = {
+          chain: mode === 'production' ? 'mainnet' : 'goerli',
+          nonce: await web3.eth.getTransactionCount(address),
+          gasPrice: web3.utils.toHex(gasPrice),
+          from: address,
+          to: CONTRACTS.skybridge[mode].address,
+          value: '0x0',
+          data: contract.methods.distributeNodeRewards().encodeABI(),
+        };
+
+        console.debug('Will call estimateGas()', rawTx);
+        const estimatedGas = await web3.eth.estimateGas(rawTx);
+        if (!estimatedGas) {
+          console.warn(`Did not get any value from estimateGas(): ${estimatedGas}`, rawTx);
+        } else {
+          console.debug(
+            `Estimated gas that will be spent ${estimatedGas} (price: ${web3.utils.fromWei(
+              gasPrice,
+              'ether',
+            )} ETH)`,
+            rawTx,
+          );
+        }
+
+        return await web3.eth.sendTransaction({ ...rawTx, gas: estimatedGas });
+      } catch (e) {
+        console.error('Error trying to distribute rewards', e);
+        createToast({ content: e?.message || 'Failed to send transaction', type: 'danger' });
+      }
     })();
   }, [wallet, address]);
 
