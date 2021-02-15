@@ -9,6 +9,7 @@ import { DuplicateSwapWidgetModal } from '../../../../components/DuplicateSwapWi
 import { Footer } from '../../../../components/Footer';
 import { LinkToWidgetModal } from '../../../../components/LinkToWidgetModal';
 import { Search } from '../../../../components/Search';
+import { RewardButton } from '../../../../components/RewardButton';
 import { toastWrongAddress } from '../../../../components/Toast';
 import { useAffiliateCode } from '../../../affiliate-code';
 import { ETHCoins } from '../../../coins';
@@ -172,7 +173,7 @@ export const ExplorerMain = () => {
       case PATH.POOL:
         return <AccountId />;
       case PATH.METANODES:
-        return <></>;
+        return <RewardButton />;
       case PATH.FEES:
         return <></>;
       case PATH.ASSET_BTC:

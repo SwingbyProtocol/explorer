@@ -117,6 +117,7 @@
   "metanodes.address": "地址",
   "metanodes.version": "版本",
   "metanodes.stake-time-locked-until": "质押时间锁定至",
+  "metanodes.distribute-rewards": "Distribute Rewards",
   "fees.fees": "Transaction Fees",
   "fees.currency": "代币",
   "fees.live": "状态",

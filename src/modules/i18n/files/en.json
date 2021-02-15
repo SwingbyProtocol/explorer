@@ -117,6 +117,7 @@
   "metanodes.amount": "Amount",
   "metanodes.address": "Address",
   "metanodes.stake-time-locked-until": "Stake Time Locked Until",
+  "metanodes.distribute-rewards": "Distribute Rewards",
   "fees.fees": "Transaction Fees",
   "fees.currency": "Currency",
   "fees.live": "Status",
