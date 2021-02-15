@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl';
 import Web3 from 'web3';
 import { TransactionConfig } from 'web3-eth';
 
-import { mode } from '../../modules/env';
+import { mode, ETHER_NETWORK } from '../../modules/env';
 import { initOnboard } from '../../modules/onboard';
 import { StylingConstants } from '../../modules/styles';
 
@@ -21,6 +21,7 @@ export const RewardButton = () => {
   const [address, setAddress] = useState(null);
   const [wallet, setWallet] = useState(null);
   const [onboard, setOnboard] = useState(null);
+  const [fireDistributeCounter, setFireDistributeCounter] = useState(0);
 
   const login = async () => {
     await onboard.walletSelect();
@@ -38,6 +39,11 @@ export const RewardButton = () => {
       }),
     );
   }, []);
+
+  // Memo: To reset wallet status when re-flesh the browser
+  useEffect(() => {
+    onboard && onboard.walletReset();
+  }, [onboard]);
 
   useEffect(() => {
     if (!wallet || !address) return;
@@ -76,13 +82,18 @@ export const RewardButton = () => {
           );
         }
 
-        return await web3.eth.sendTransaction({ ...rawTx, gas: estimatedGas });
+        const netId = await web3.eth.net.getId();
+
+        return (
+          netId === ETHER_NETWORK.id &&
+          (await web3.eth.sendTransaction({ ...rawTx, gas: estimatedGas }))
+        );
       } catch (e) {
         console.error('Error trying to distribute rewards', e);
         createToast({ content: e?.message || 'Failed to send transaction', type: 'danger' });
       }
     })();
-  }, [wallet, address]);
+  }, [wallet, address, fireDistributeCounter]);
 
   return (
     <RewardButtonContainer>
@@ -90,7 +101,14 @@ export const RewardButton = () => {
         size={lg ? 'country' : md ? 'state' : 'country'}
         shape={sm ? 'fit' : 'fill'}
         variant="tertiary"
-        onClick={login}
+        onClick={async () => {
+          if (address) {
+            // Memo: To run the useEffect
+            setFireDistributeCounter(fireDistributeCounter + 1);
+          } else {
+            await login();
+          }
+        }}
       >
         <FormattedMessage id="metanodes.distribute-rewards" />
       </Button>
