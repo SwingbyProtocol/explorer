@@ -1,7 +1,7 @@
 import { GetServerSideProps } from 'next';
 
 import { server__ipCheckSecret } from '../env';
-import { fetch } from '../fetch';
+import { AbortController, fetch } from '../fetch';
 
 export const getIpInfoFromRequest = async ({
   req,

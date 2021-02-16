@@ -25,6 +25,7 @@
     "@swingby-protocol/pulsar": "^3.8.2",
     "@swingby-protocol/sdk": "^1.0.0-alpha.77",
     "@swingby-protocol/widget": "^1.1.0",
+    "abortcontroller-polyfill": "^1.7.1",
     "bignumber.js": "^9.0.1",
     "blockies-ts": "^1.0.0",
     "bnc-onboard": "^1.16.1",
