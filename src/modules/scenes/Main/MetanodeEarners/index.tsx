@@ -89,7 +89,7 @@ export const MetanodeEarners = () => {
               </AvatarContainer>
 
               <Cell>
-                <TextValue variant="accent">{it.address}</TextValue>
+                <TextValue variant="accent">{it.monikers[0] ?? it.address}</TextValue>
               </Cell>
 
               <Cell>
