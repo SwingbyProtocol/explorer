@@ -79,8 +79,8 @@ export const MetanodeEarners = () => {
 
         {metanodes.map((it, index) => {
           const bond = formatNumber(Number(it.amountStaked), formatConfig);
-          const earnings1M = getFiatAssetFormatter(formatConfig).format(Number(it.reward1w));
-          const earnings1W = getFiatAssetFormatter(formatConfig).format(Number(it.reward1m));
+          const earnings1M = getFiatAssetFormatter(formatConfig).format(Number(it.reward1mUsdt));
+          const earnings1W = getFiatAssetFormatter(formatConfig).format(Number(it.reward1wUsdt));
           return (
             <React.Fragment key={it.address}>
               <AvatarContainer>

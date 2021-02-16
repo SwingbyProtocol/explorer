@@ -48,8 +48,10 @@ export const fetchNodeEarningsList = async () => {
   const result = await fetch<
     Array<{
       address: string;
-      reward1m: string;
-      reward1w: string;
+      reward1mBtc: string;
+      reward1wBtc: string;
+      reward1mUsdt: string;
+      reward1wUsdt: string;
       amountStaked: string;
       monikers: string[];
     }>
