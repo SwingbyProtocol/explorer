@@ -22,7 +22,9 @@ export const RewardButton = () => {
 
   const distributeRewards = async () => {
     await onboard.walletSelect();
-    await onboard.walletCheck();
+    if (!(await onboard.walletCheck())) {
+      return;
+    }
 
     const wallet = onboard.getState().wallet;
     const address = onboard.getState().address;
