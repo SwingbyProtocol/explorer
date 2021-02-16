@@ -32,10 +32,7 @@ export const getIpInfoFromRequest = async ({
         const controller = new AbortController();
         const signal = controller.signal;
 
-        setTimeout(() => {
-          controller.abort();
-        }, 1000);
-
+        setTimeout(() => controller.abort(), 3000);
         const result = await fetch<{ shouldBlock: boolean }>(
           `https://ip-check.swingby.network/api/v1/ip/${ip}/check?secret=${server__ipCheckSecret}`,
           { signal },
