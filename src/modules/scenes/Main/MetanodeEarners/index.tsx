@@ -27,17 +27,9 @@ import {
 
 type Metanodes = PromiseValue<ReturnType<typeof fetchNodeEarningsList>>;
 
-export const MetanodeEarners = () => {
-  const [metanodes, setMetanodes] = useState<Metanodes>([]);
+export const MetanodeEarners = ({ metanodes }: { metanodes: Metanodes }) => {
   const { locale, formatNumber } = useIntl();
   const big = useMatchMedia({ query: `(min-width: ${rem(StylingConstants.media.md)})` });
-
-  useEffect(() => {
-    (async () => {
-      const nodes = await fetchNodeEarningsList();
-      setMetanodes(nodes);
-    })();
-  }, []);
 
   const formatConfig = {
     locale,
