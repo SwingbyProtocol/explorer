@@ -90,7 +90,10 @@ export const RewardButton = () => {
         );
       } catch (e) {
         console.error('Error trying to distribute rewards', e);
-        createToast({ content: e?.message || 'Failed to send transaction', type: 'danger' });
+        createToast({
+          content: e?.message?.message || 'Failed to send transaction',
+          type: 'danger',
+        });
       }
     })();
   }, [wallet, address, fireDistributeCounter]);
