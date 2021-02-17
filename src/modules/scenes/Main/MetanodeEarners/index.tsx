@@ -2,6 +2,7 @@ import {
   getFiatAssetFormatter,
   PulsarGlobalStyles,
   PulsarThemeProvider,
+  Tooltip,
   useMatchMedia,
 } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
@@ -27,10 +28,11 @@ import {
 
 type Metanodes = PromiseValue<ReturnType<typeof fetchNodeEarningsList>>;
 
-export const MetanodeEarners = ({ metanodes }: { metanodes: Metanodes }) => {
+export const MetanodeEarners = ({ metanodes: metanodesParam }: { metanodes: Metanodes }) => {
   const { locale, formatNumber } = useIntl();
   const big = useMatchMedia({ query: `(min-width: ${rem(StylingConstants.media.md)})` });
 
+  const metanodes = metanodesParam.slice(0, 5);
   const fiatFormatter = getFiatAssetFormatter({
     locale,
     currency: 'USD',
@@ -69,7 +71,7 @@ export const MetanodeEarners = ({ metanodes }: { metanodes: Metanodes }) => {
 
         {!big && <Space />}
 
-        {metanodes.slice(0, 5).map((it, index) => {
+        {metanodes.map((it, index) => {
           const bond = formatNumber(Number(it.amountStaked), { maximumFractionDigits: 0 });
           const earnings1M = fiatFormatter.format(Number(it.reward1mUsdt));
           const earnings1W = fiatFormatter.format(Number(it.reward1wUsdt));
@@ -82,6 +84,18 @@ export const MetanodeEarners = ({ metanodes }: { metanodes: Metanodes }) => {
 
               <Cell>
                 <TextValue variant="accent">{it.monikers[0] ?? it.address}</TextValue>
+                {it.monikers.length > 1 && (
+                  <Tooltip
+                    content={
+                      <Tooltip.Content>
+                        <TextValue variant="normal">{it.monikers.join(', ')}</TextValue>
+                      </Tooltip.Content>
+                    }
+                    targetHtmlTag="span"
+                  >
+                    <TextValue variant="masked">…</TextValue>
+                  </Tooltip>
+                )}
               </Cell>
 
               <Cell>
