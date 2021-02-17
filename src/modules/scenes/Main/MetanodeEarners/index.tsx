@@ -5,7 +5,7 @@ import {
   useMatchMedia,
 } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { PromiseValue } from 'type-fest';
 
@@ -31,11 +31,11 @@ export const MetanodeEarners = ({ metanodes }: { metanodes: Metanodes }) => {
   const { locale, formatNumber } = useIntl();
   const big = useMatchMedia({ query: `(min-width: ${rem(StylingConstants.media.md)})` });
 
-  const formatConfig = {
+  const fiatFormatter = getFiatAssetFormatter({
     locale,
     currency: 'USD',
     maximumSignificantDigits: 4,
-  } as const;
+  });
 
   return (
     <PulsarThemeProvider theme="light">
@@ -69,10 +69,10 @@ export const MetanodeEarners = ({ metanodes }: { metanodes: Metanodes }) => {
 
         {!big && <Space />}
 
-        {metanodes.map((it, index) => {
-          const bond = formatNumber(Number(it.amountStaked), formatConfig);
-          const earnings1M = getFiatAssetFormatter(formatConfig).format(Number(it.reward1mUsdt));
-          const earnings1W = getFiatAssetFormatter(formatConfig).format(Number(it.reward1wUsdt));
+        {metanodes.slice(0, 5).map((it, index) => {
+          const bond = formatNumber(Number(it.amountStaked), { maximumFractionDigits: 0 });
+          const earnings1M = fiatFormatter.format(Number(it.reward1mUsdt));
+          const earnings1W = fiatFormatter.format(Number(it.reward1wUsdt));
           return (
             <React.Fragment key={it.address}>
               <AvatarContainer>
