@@ -186,10 +186,10 @@ export const TxHistories = (props: Props) => {
                 </Column>
                 <Column>
                   <Top>
-                    <AddressP>{tx.addressIn.toLowerCase()}</AddressP>
+                    <AddressP>{tx.addressIn?.toLowerCase()}</AddressP>
                   </Top>
                   <Bottom>
-                    <AddressP>{tx.addressOut.toLowerCase()}</AddressP>
+                    <AddressP>{tx.addressOut?.toLowerCase()}</AddressP>
                   </Bottom>
                 </Column>
                 <ColumnAmount>
