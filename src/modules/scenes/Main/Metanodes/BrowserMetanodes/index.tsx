@@ -1,10 +1,11 @@
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, FormattedNumber } from 'react-intl';
 
 import { Loader } from '../../../../../components/Loader';
 import { Pagination } from '../../../../../components/Pagination';
-import { NODES_PER_PAGE } from '../../../../env';
+import { NODES_PER_PAGE, PATH } from '../../../../env';
 import { convertDateTime } from '../../../../explorer';
 import { fetchNodeList, INodesResponse, NodeStatus } from '../../../../metanodes';
 import { SizeL, SizeS, TextBlock, TextPrimary, TextSecondary } from '../../../Common';
@@ -23,6 +24,9 @@ import {
 
 export const BrowserMetanodes = () => {
   const [metanodes, setMetanodes] = useState(null);
+  const router = useRouter();
+  const params = router.query;
+  const page = Number(params.page || 1);
 
   useEffect(() => {
     (async () => {
@@ -30,6 +34,7 @@ export const BrowserMetanodes = () => {
       setMetanodes(nodes);
     })();
   }, []);
+
   const status = (status: string): JSX.Element => {
     switch (status) {
       case NodeStatus.DISCOVERY:
@@ -45,18 +50,33 @@ export const BrowserMetanodes = () => {
 
   // Memo: pagination
   const itemsPerPage = NODES_PER_PAGE;
-  const [page, setPage] = useState(1);
   const indexOfLastNode = page * itemsPerPage;
   const indexOfFirstNode = indexOfLastNode - itemsPerPage;
   const currentNodes = metanodes && metanodes.slice(indexOfFirstNode, indexOfLastNode);
 
   const goBackPage = () => {
-    setPage(page - 1);
+    const newPage = page - 1;
+    router.push({
+      pathname: PATH.METANODES,
+      query: { page: newPage },
+    });
   };
   const goNextPage = async () => {
-    setPage(page + 1);
+    const newPage = page + 1;
+    router.push({
+      pathname: PATH.METANODES,
+      query: { page: newPage },
+    });
   };
   const maximumPage = metanodes && Math.ceil(metanodes.length / itemsPerPage);
+
+  useEffect(() => {
+    currentNodes?.length === 0 &&
+      router.push({
+        pathname: PATH.METANODES,
+        query: { page: 1 },
+      });
+  }, [currentNodes, router]);
 
   return (
     <>
