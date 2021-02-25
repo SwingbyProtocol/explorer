@@ -16,16 +16,17 @@ export const StyledSwap = styled.div`
     display: block;
     width: 100%;
     height: ${rem(76)};
-    margin-top: ${({ theme }) => rem(-theme.pulsar.size.drawer)};
   }
 `;
 
 export const SwapMobileRow = styled.div`
   width: 100%;
-  padding-top: ${({ theme }) => rem(theme.pulsar.size.box)};
-  padding-bottom: ${({ theme }) => rem(theme.pulsar.size.house + 2)};
   padding-left: ${({ theme }) => rem(theme.pulsar.size.closet)};
   padding-right: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  height: ${rem(76)};
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   @media (min-width: ${rem(media.sm)}) {
     display: none;

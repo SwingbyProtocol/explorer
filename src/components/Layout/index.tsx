@@ -86,6 +86,7 @@ export const Layout = ({ children }: Props) => {
             <PulsarToastContainer />
 
             <Header />
+
             <SwapContainer>
               <Swap />
             </SwapContainer>
