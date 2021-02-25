@@ -40,9 +40,19 @@ export const Layout = (props: Props) => {
 
   useInterval(() => {
     (async () => {
-      const results = await Promise.all([getUsdPrice(), getTransactionFees()]);
-      dispatch(fetchUsdPrice(results[0]));
-      dispatch(fetchTransactionFees(results[1]));
+      const results = await Promise.all([
+        getUsdPrice('bitcoin'),
+        getUsdPrice('swingby'),
+        getTransactionFees(),
+      ]);
+
+      const priceUSD = {
+        BTC: results[0],
+        SWINGBY: results[1],
+      };
+
+      dispatch(fetchUsdPrice(priceUSD));
+      dispatch(fetchTransactionFees(results[2]));
     })();
   }, [60000]);
 

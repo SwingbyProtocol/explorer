@@ -4,10 +4,11 @@ export const networkInfos = {
   stats: {
     volume1wksWBTC: 0,
     volume1wksBTC: 0,
-    rewards24Hr: 0,
+    rewards1wksSbBTC: 0,
+    rewards1wksSWINGBY: 0,
     volumes: ['1', '1', '1', '1', '1', '1', '1'],
     metanodes: 0,
   },
 };
 
-export const usd = { BTC: 0 };
+export const usd = { BTC: 0, SWINGBY: 0 };

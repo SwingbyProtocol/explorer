@@ -3,8 +3,6 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
-import { PulseLoader } from 'react-spinners';
-import { useTheme } from 'styled-components';
 
 import { PATH } from '../../../../env';
 import { IStats } from '../../../../explorer';
@@ -16,13 +14,12 @@ import {
   InfosContainer,
   Network,
   NetworkCapacity,
-  NetworkRewards,
   NetworkMetanodes,
+  NetworkRewards,
   Row,
   RowValidator,
-  ValidatorLinkSpan,
   TextValue,
-  TextEst,
+  ValidatorLinkSpan,
 } from './styled';
 
 interface Props {
@@ -40,11 +37,11 @@ export const ExplorerInfos = (props: Props) => {
   const { formatMessage } = useIntl();
   const formattedMetanodes = formatMessage({ id: 'metanodes.metanodes' });
   const formattedRewards = formatMessage({ id: 'home.network.rewards' });
-  const theme = useTheme();
 
-  const placeholderLoader = (
-    <PulseLoader margin={3} size={4} color={theme.pulsar.color.text.normal} />
-  );
+  const rewardsSbBTC = stats.rewards1wksSbBTC * usd.BTC;
+  const rewardsSWINGBY = stats.rewards1wksSWINGBY * usd.SWINGBY;
+
+  const rewards1wks = rewardsSbBTC + rewardsSWINGBY;
 
   const data = usd && [
     {
@@ -53,8 +50,8 @@ export const ExplorerInfos = (props: Props) => {
       value: getFiatAssetFormatter({
         locale: locale,
         currency: 'USD',
-        minimumFractionDigits: 3,
-        maximumFractionDigits: 3,
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
       }).format(Number(stats.volume1wksBTC) * usd.BTC),
     },
     {
@@ -63,7 +60,9 @@ export const ExplorerInfos = (props: Props) => {
       value: getFiatAssetFormatter({
         locale: locale,
         currency: 'USD',
-      }).format(stats.rewards24Hr * usd.BTC),
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      }).format(rewards1wks),
     },
     {
       icon: <NetworkCapacity />,
@@ -106,21 +105,9 @@ export const ExplorerInfos = (props: Props) => {
                       <Text variant="label">{info.description}</Text>
                     </Row>
                   )}
-                  {!stats.volume1wksBTC ? (
-                    placeholderLoader
-                  ) : info.description === formattedRewards ? (
-                    <Row>
-                      <TextValue variant="accent">{info.value}</TextValue>
-                      <TextEst variant="masked">
-                        {' '}
-                        <FormattedMessage id="home.network.est" />
-                      </TextEst>
-                    </Row>
-                  ) : (
-                    <Row>
-                      <TextValue variant="accent">{info.value}</TextValue>
-                    </Row>
-                  )}
+                  <Row>
+                    <TextValue variant="accent">{info.value}</TextValue>
+                  </Row>
                 </DataDiv>
               </InfoContainer>
             );
