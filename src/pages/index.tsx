@@ -32,7 +32,14 @@ export default function Home({ shouldBlockIp, initialPriceUSD }: Props) {
 export const getServerSideProps: GetServerSideProps<Props> = async ({ req }) => {
   const initialPriceUSD = await (async (): Promise<IFetchUsd> => {
     try {
-      return await getUsdPrice();
+      const results = await Promise.all([getUsdPrice('bitcoin'), getUsdPrice('swingby')]);
+
+      const priceUSD = {
+        BTC: results[0],
+        SWINGBY: results[1],
+      };
+
+      return priceUSD;
     } catch (e) {
       console.log(e);
     }

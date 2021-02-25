@@ -2,17 +2,16 @@ import { CoinSymbol } from '../../../coins';
 import { sumArray } from '../../../common';
 import { ENDPOINT_ETHEREUM_NODE, ENDPOINT_COINGECKO } from '../../../env';
 import { fetch } from '../../../fetch';
-import { IFetchUsd, IFloat, IFloatAmount, IFloatBalances, IStats } from '../../index';
+import { fetchNodeList } from '../../../metanodes';
+import { IFloat, IFloatAmount, IFloatBalances, IMetanode, IStats } from '../../index';
 
-export const getUsdPrice = async (): Promise<IFetchUsd> => {
-  const priceBtcUrl = ENDPOINT_COINGECKO + '/simple/price?ids=bitcoin&vs_currencies=usd';
+export const getUsdPrice = async (currency: string): Promise<number> => {
+  const url = ENDPOINT_COINGECKO + `/simple/price?ids=${currency}&vs_currencies=usd`;
 
-  const result = await fetch<{ bitcoin: { usd } }>(priceBtcUrl);
-  const BTC = result.ok && result.response.bitcoin.usd;
+  const result = await fetch<{ currency: { usd } }>(url);
+  const price = result.ok && result.response[currency].usd;
 
-  return {
-    BTC,
-  };
+  return Number(price);
 };
 
 const getFloatBalance = (currency: string, floatInfos: IFloatAmount[]): string => {
@@ -48,19 +47,32 @@ export const fetchFloatBalances = async (usdBtc: number): Promise<IFloatBalances
   }
 };
 
+export const calTvl = (metanodes: IMetanode[]) => {
+  let tvl = 0;
+  metanodes.forEach((metanode) => {
+    tvl += Number(metanode.stake.amount);
+  });
+  return tvl;
+};
+
 export const fetchStatsInfo = async (): Promise<IStats> => {
   const ethereumBridge = ENDPOINT_ETHEREUM_NODE + '/api/v1/swaps/stats';
   const ethereumBridgePeers = ENDPOINT_ETHEREUM_NODE + '/api/v1/peers';
 
   try {
     const results = await Promise.all([
-      fetch<{ network24hrSwapsVolume: number[]; networkRewards24hrVolume: bigint[] }>(
+      fetch<{ network24hrSwapsVolume: number[]; networkrewards1wksSbBTCVolume: bigint[] }>(
         ethereumBridge,
       ),
       fetch<[]>(ethereumBridgePeers),
+      fetchNodeList(),
     ]);
     const ethereumRes = results[0].ok && results[0].response;
     const ethereumPeersRes = results[1].ok && results[1].response;
+    const nodeList = results[2] as IMetanode[];
+
+    const tvl = calTvl(nodeList);
+    const rewards1wksSWINGBY = Number((tvl * 0.01).toFixed(0));
 
     const volume1wksWBTC: number = sumArray(ethereumRes.network24hrSwapsVolume.slice(0, 8));
     const volume1wksBTC: number = volume1wksWBTC;
@@ -69,12 +81,14 @@ export const fetchStatsInfo = async (): Promise<IStats> => {
     );
 
     // Memo: Instruction from Luke on 5 Jan'21
-    const rewards24Hr: number = volume1wksBTC * 0.002;
+    const rewards1wksSbBTC: number = volume1wksBTC * 0.002;
     const metanodes = ethereumPeersRes.length;
+
     return {
       volume1wksWBTC,
       volume1wksBTC,
-      rewards24Hr,
+      rewards1wksSbBTC,
+      rewards1wksSWINGBY,
       volumes,
       metanodes,
     };

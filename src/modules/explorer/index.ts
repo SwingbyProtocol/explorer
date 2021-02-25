@@ -95,7 +95,8 @@ export interface IFloat {
 export interface IStats {
   volume1wksWBTC: number;
   volume1wksBTC: number;
-  rewards24Hr: number;
+  rewards1wksSbBTC: number;
+  rewards1wksSWINGBY: number;
   volumes: string[];
   metanodes: number;
 }
@@ -114,6 +115,7 @@ export interface IFloatBalances {
 }
 export interface IFetchUsd {
   BTC: number;
+  SWINGBY: number;
 }
 
 export interface IFee {
@@ -141,7 +143,8 @@ export interface INetworkInfos {
   stats: {
     volume1wksWBTC: number;
     volume1wksBTC: number;
-    rewards24Hr: number;
+    rewards1wksSbBTC: number;
+    rewards1wksSWINGBY: number;
     volumes: string[];
     metanodes: number;
   };
@@ -174,4 +177,20 @@ export interface IloadHistoryArgs {
   isRejectedTx: boolean;
   bridge: string;
   prevTxsWithPage: ITransactions;
+}
+
+interface IStake {
+  address: string;
+  amount: string;
+  stakeTime: number;
+  stakeValid: boolean;
+}
+
+export interface IMetanode {
+  location: string;
+  code: string;
+  moniker: string;
+  stateName: string;
+  stake: IStake;
+  version: string;
 }

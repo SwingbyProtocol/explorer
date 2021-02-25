@@ -47,7 +47,6 @@
   "home.network.network-bridges": "Network Bridges",
   "home.network.float": "Float",
   "home.network.vol": "Vol.",
-  "home.network.est": "(est.)",
   "home.network.total-swap-vol": "Total Swap Vol. 7d",
   "home.recent-swaps.check-swap-progress": "Check the swap progress",
   "home.recent-swaps.get-tx-details": "Get the transaction details",
