@@ -26,7 +26,6 @@ const initialState = {
   usd: initial.usd,
   networkInfos: initial.networkInfos,
   transactionFees: null,
-  themeMode: null,
   isExistPreviousPage: false,
 };
 

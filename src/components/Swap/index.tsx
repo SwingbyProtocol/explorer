@@ -3,18 +3,17 @@ import { createWidget, getHtml, openPopup } from '@swingby-protocol/widget';
 import { useRouter } from 'next/router';
 import { useCallback, useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { useSelector } from 'react-redux';
 
 import { useAffiliateCode } from '../../modules/affiliate-code';
 import { mode } from '../../modules/env';
+import { useThemeSettings } from '../../modules/store/settings';
 
 import { StyledSwap, SwapMobileRow } from './styled';
 
 export const Swap = () => {
-  const explorer = useSelector((state) => state.explorer);
-  const { themeMode } = explorer;
   const { locale } = useRouter();
   const affiliateCode = useAffiliateCode();
+  const [theme] = useThemeSettings();
 
   const big = useMemo(
     () =>
@@ -22,11 +21,11 @@ export const Swap = () => {
         resource: 'swap',
         mode,
         size: 'big',
-        theme: themeMode,
+        theme,
         locale,
         affiliateCode,
       }),
-    [themeMode, locale, affiliateCode],
+    [theme, locale, affiliateCode],
   );
 
   const banner = useMemo(
@@ -35,11 +34,11 @@ export const Swap = () => {
         resource: 'swap',
         mode,
         size: 'banner',
-        theme: themeMode,
+        theme,
         locale,
         affiliateCode,
       }),
-    [themeMode, locale, affiliateCode],
+    [theme, locale, affiliateCode],
   );
 
   const show = useCallback(() => openPopup({ widget: big }), [big]);

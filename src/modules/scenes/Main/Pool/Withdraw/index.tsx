@@ -15,6 +15,7 @@ import { checkIsValidAddress, checkIsValidAmount, TCurrency } from '../../../../
 import { IWithdrawAmountValidation, TWithdrawCurrency } from '../../../../pool';
 import { useSdkContext } from '../../../../sdk-context';
 import { getMinimumWithdrawAmount, getWithdrawRate } from '../../../../store';
+import { useThemeSettings } from '../../../../store/settings';
 import { ButtonScale, TextChosenFilter, TextEstimated } from '../../../Common';
 import { mode } from '../.././../../env';
 
@@ -54,11 +55,11 @@ export const Withdraw = (props: Props) => {
   const theme = useTheme();
   const pool = useSelector((state) => state.pool);
   const { balanceSbBTC, web3, minimumWithdrawAmount } = pool;
-  const explorer = useSelector((state) => state.explorer);
-  const { themeMode, transactionFees } = explorer;
+  const transactionFees = useSelector((state) => state.explorer.transactionFees);
   const { locale } = useRouter();
   const dispatch = useDispatch();
   const affiliateCode = useAffiliateCode();
+  const [themeMode] = useThemeSettings();
 
   const [receivingAddress, setReceivingAddress] = useState('');
   const [withdrawAmount, setWithdrawAmount] = useState('0');
