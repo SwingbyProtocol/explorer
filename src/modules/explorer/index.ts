@@ -168,8 +168,6 @@ export type TStatus =
 
 export type TSwapWidget = 'claim' | 'duplicate';
 
-export type TTheme = 'dark' | 'light' | null;
-
 export interface IloadHistoryArgs {
   page: number;
   query: string;

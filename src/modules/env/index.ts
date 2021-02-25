@@ -23,7 +23,7 @@ export enum PATH {
 export enum LOCAL_STORAGE {
   SelectedWallet = 'selectedWallet',
   UserWalletAddress = 'userWalletAddress',
-  ThemeMode = 'themeMode',
+  Theme = 'themeMode',
 }
 
 export const mode: SkybridgeMode =

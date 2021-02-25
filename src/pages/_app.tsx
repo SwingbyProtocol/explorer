@@ -1,12 +1,10 @@
 import { RouterScrollProvider } from '@moxy/next-router-scroll';
-import { PulsarGlobalStyles, PulsarThemeProvider } from '@swingby-protocol/pulsar';
 import { useRouter } from 'next/router';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { IntlProvider } from 'react-intl';
 import { Provider as ReduxProvider } from 'react-redux';
 
 import { Layout } from '../components/Layout';
-import { LOCAL_STORAGE } from '../modules/env';
 import { languages } from '../modules/i18n';
 import { SEO } from '../modules/seo';
 import { useStore } from '../modules/store';
@@ -30,28 +28,17 @@ function MyApp({ Component, pageProps }) {
     locale,
   ]);
 
-  const [themeMode, setThemeMode] = useState(null);
-  const storedTheme =
-    typeof window !== 'undefined' && window.localStorage.getItem(LOCAL_STORAGE.ThemeMode);
-
-  useEffect(() => {
-    setThemeMode(storedTheme);
-  }, [storedTheme]);
-
   return (
     <>
       <RouterScrollProvider>
         <SEO />
-        <PulsarThemeProvider theme={themeMode}>
-          <IntlProvider messages={messages} locale={locale} defaultLocale={DEFAULT_LOCALE}>
-            <PulsarGlobalStyles />
-            <ReduxProvider store={store}>
-              <Layout setThemeMode={setThemeMode} themeMode={themeMode}>
-                <Component {...pageProps} />
-              </Layout>
-            </ReduxProvider>
-          </IntlProvider>
-        </PulsarThemeProvider>
+        <IntlProvider messages={messages} locale={locale} defaultLocale={DEFAULT_LOCALE}>
+          <ReduxProvider store={store}>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </ReduxProvider>
+        </IntlProvider>
       </RouterScrollProvider>
     </>
   );

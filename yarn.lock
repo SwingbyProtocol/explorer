@@ -1657,6 +1657,11 @@
     eslint-plugin-react "^7.21.5"
     eslint-plugin-react-hooks "^4.2.0"
 
+"@swingby-protocol/header@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@swingby-protocol/header/-/header-1.1.0.tgz#6ceaf8af1219c39caf61b44823aef7631f508c4c"
+  integrity sha512-iFczNGNqWOTG5z9Ii2+huC82nFKxKO/JaOX76AIC78EU4isltWw3DZIsVkrDlKNEL5nCNDwYeebVWsTXtMavUw==
+
 "@swingby-protocol/prettier-config@^1.0.0":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@swingby-protocol/prettier-config/-/prettier-config-1.0.2.tgz#ff4c03ac7ad3dab1d02a914d31debcf9441fa3e8"
