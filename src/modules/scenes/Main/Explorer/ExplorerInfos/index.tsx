@@ -3,6 +3,8 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
+import { PulseLoader } from 'react-spinners';
+import { useTheme } from 'styled-components';
 
 import { PATH } from '../../../../env';
 import { IStats } from '../../../../explorer';
@@ -31,6 +33,11 @@ export const ExplorerInfos = (props: Props) => {
   const { capacity, stats } = props;
   const explorer = useSelector((state) => state.explorer);
   const { usd } = explorer;
+  const theme = useTheme();
+
+  const placeholderLoader = (
+    <PulseLoader margin={3} size={4} color={theme.pulsar.color.text.normal} />
+  );
 
   const router = useRouter();
   const { locale } = useIntl();
@@ -105,9 +112,13 @@ export const ExplorerInfos = (props: Props) => {
                       <Text variant="label">{info.description}</Text>
                     </Row>
                   )}
-                  <Row>
-                    <TextValue variant="accent">{info.value}</TextValue>
-                  </Row>
+                  {!stats.volume1wksBTC ? (
+                    placeholderLoader
+                  ) : (
+                    <Row>
+                      <TextValue variant="accent">{info.value}</TextValue>
+                    </Row>
+                  )}
                 </DataDiv>
               </InfoContainer>
             );
