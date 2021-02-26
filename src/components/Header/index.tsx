@@ -22,6 +22,7 @@ export const Header = () => {
     <HeaderContainer>
       <SwingbyHeader
         productName="Explorer"
+        logoHref={`/${locale}`}
         barItems={
           <>
             <ThemeSwitcher theme={theme} onChange={setTheme} />
