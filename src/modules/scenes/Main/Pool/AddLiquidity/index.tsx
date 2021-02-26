@@ -13,6 +13,7 @@ import { CoinSymbol, ETHCoins, PoolCurrencies } from '../../../../coins';
 import { checkIsValidAddress, checkIsValidAmount, TCurrency } from '../../../../explorer';
 import { IWithdrawAmountValidation } from '../../../../pool';
 import { useSdkContext } from '../../../../sdk-context';
+import { useThemeSettings } from '../../../../store/settings';
 import { ButtonScale, TextChosenFilter, TextEstimated } from '../../../Common';
 import { mode } from '../.././../../env';
 
@@ -46,14 +47,13 @@ interface Props {
 
 export const AddLiquidity = (props: Props) => {
   const { addressValidationResult, amountValidationResult } = props;
-  const theme = useTheme();
   const { formatMessage } = useIntl();
   const pool = useSelector((state) => state.pool);
   const { userAddress } = pool;
-  const explorer = useSelector((state) => state.explorer);
-  const { themeMode } = explorer;
   const { locale } = useRouter();
   const affiliateCode = useAffiliateCode();
+  const [themeMode] = useThemeSettings();
+  const theme = useTheme();
 
   const [receivingAddress, setReceivingAddress] = useState(userAddress);
   const [poolAmount, setPoolAmount] = useState(null);
@@ -154,7 +154,7 @@ export const AddLiquidity = (props: Props) => {
                     </DefaultTarget>
                   }
                   data-testid="dropdown"
-                  isDarkMode={theme.pulsar.id === 'PulsarDark'}
+                  isDarkMode={themeMode === 'dark'}
                 >
                   {currencyItems}
                 </DropdownCurrency>

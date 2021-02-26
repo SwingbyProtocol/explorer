@@ -22,6 +22,7 @@
   "dependencies": {
     "@moxy/next-router-scroll": "^2.0.3",
     "@react-hook/copy": "^2.0.1",
+    "@swingby-protocol/header": "^1.2.0",
     "@swingby-protocol/pulsar": "^3.8.2",
     "@swingby-protocol/sdk": "^1.0.0-alpha.77",
     "@swingby-protocol/widget": "^1.1.0",

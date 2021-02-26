@@ -1,20 +1,12 @@
 import { Reducer } from 'redux';
 
-import {
-  IFee,
-  IFetchUsd,
-  INetworkInfos,
-  ITransactions,
-  TTheme,
-  TTxRawObject,
-} from '../../explorer';
+import { IFee, IFetchUsd, INetworkInfos, ITransactions, TTxRawObject } from '../../explorer';
 
 import * as initial from './initialState';
 
 export { networkInfos } from './initialState';
 
 enum Actions {
-  ToggleTheme = 'Explorer/TOGGLE_THEME',
   ToggleIsExistPreviousPage = 'Explorer/TOGGLE_IS_EXIST_PREVIOUS_PAGE',
   FetchHistory = 'Explorer/FETCH_HISTORY',
   SelectSwapDetails = 'Explorer/SELECT_SWAP_DETAILS',
@@ -34,17 +26,12 @@ const initialState = {
   usd: initial.usd,
   networkInfos: initial.networkInfos,
   transactionFees: null,
-  themeMode: null,
   isExistPreviousPage: false,
 };
 
 type State = typeof initialState;
 
 export const explorer: Reducer<State, Action> = (state = initialState, action) => {
-  if (action.type === Actions.ToggleTheme) {
-    return { ...state, themeMode: action.data };
-  }
-
   if (action.type === Actions.ToggleIsExistPreviousPage) {
     return { ...state, isExistPreviousPage: action.data };
   }
@@ -87,8 +74,6 @@ export const explorer: Reducer<State, Action> = (state = initialState, action) =
 export const toggleIsExistPreviousPage = (data: boolean) =>
   ({ type: Actions.ToggleIsExistPreviousPage, data } as const);
 
-export const toggleTheme = (data: TTheme) => ({ type: Actions.ToggleTheme, data } as const);
-
 export const getHistory = (data: ITransactions) => ({ type: Actions.FetchHistory, data } as const);
 
 export const selectSwapDetails = (data: TTxRawObject) =>
@@ -111,7 +96,6 @@ export const updateNetworkInfos = (data: INetworkInfos) =>
   ({ type: Actions.UpdateNetworkInfos, data } as const);
 
 type Action =
-  | ReturnType<typeof toggleTheme>
   | ReturnType<typeof toggleIsExistPreviousPage>
   | ReturnType<typeof getHistory>
   | ReturnType<typeof selectSwapDetails>

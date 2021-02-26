@@ -26,6 +26,7 @@ import {
   BrowserMetanodes,
   BrowserPool,
 } from '../../Main';
+import { useThemeSettings } from '../../../store/settings';
 
 import { ExplorerMainContainer, HeadLine, TitleH1 } from './styled';
 
@@ -39,9 +40,9 @@ export const ExplorerMain = () => {
   const dispatch = useDispatch();
   const pool = useSelector((state) => state.pool);
   const { onboard } = pool;
-  const explorer = useSelector((state) => state.explorer);
-  const { swapDetails, themeMode } = explorer;
+  const swapDetails = useSelector((state) => state.explorer.swapDetails);
   const affiliateCode = useAffiliateCode();
+  const [theme] = useThemeSettings();
 
   //Memo: For check walletAddress === tx.addressOut
   const [walletAddress, setWalletAddress] = useState(null);
@@ -63,7 +64,7 @@ export const ExplorerMain = () => {
               size: 'banner',
               resource: router.asPath.includes('float') ? 'pool' : 'swap',
               hash: tx.hash,
-              theme: themeMode,
+              theme,
               locale: router.locale,
               affiliateCode,
             })
@@ -75,7 +76,7 @@ export const ExplorerMain = () => {
               defaultCurrencyReceiving: tx.currencyOut as any,
               defaultAddressReceiving: tx.addressOut,
               defaultAmountDesired: tx.amountIn,
-              theme: themeMode,
+              theme,
               locale: router.locale,
               affiliateCode,
             });
@@ -203,11 +204,11 @@ export const ExplorerMain = () => {
         <ExplorerMainContainer>
           <HeadLine>
             <TitleH1>{titleGenerator(currentPath)}</TitleH1>
-            <PulsarThemeProvider theme={themeMode}>
+            <PulsarThemeProvider theme={theme}>
               {switchRightComponent(currentPath)}
             </PulsarThemeProvider>
           </HeadLine>
-          <PulsarThemeProvider theme={themeMode}>
+          <PulsarThemeProvider theme={theme}>
             {switchBrowser(currentPath)}
             <Footer />
           </PulsarThemeProvider>

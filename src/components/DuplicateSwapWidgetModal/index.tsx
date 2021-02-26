@@ -3,12 +3,12 @@ import { createWidget, openPopup } from '@swingby-protocol/widget';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { useSelector } from 'react-redux';
 
 import { useAffiliateCode } from '../../modules/affiliate-code';
 import { mode } from '../../modules/env';
 import { TTxRawObject } from '../../modules/explorer';
 import { ButtonScale } from '../../modules/scenes/Common';
+import { useThemeSettings } from '../../modules/store/settings';
 
 import { Buttons, ModalContainer, TextAddress } from './styled';
 
@@ -20,10 +20,9 @@ interface Props {
 
 export const DuplicateSwapWidgetModal = (props: Props) => {
   const { isWidgetModalOpen, setIsWidgetModalOpen, tx } = props;
-  const explorer = useSelector((state) => state.explorer);
-  const { themeMode } = explorer;
   const affiliateCode = useAffiliateCode();
   const { locale } = useRouter();
+  const [theme] = useThemeSettings();
 
   const address = tx && tx.addressOut;
   const widget =
@@ -33,7 +32,7 @@ export const DuplicateSwapWidgetModal = (props: Props) => {
       size: 'big',
       resource: 'swap',
       locale,
-      theme: themeMode,
+      theme,
       affiliateCode,
       defaultCurrencyDeposit: tx.currencyIn as any,
       defaultCurrencyReceiving: tx.currencyOut as any,

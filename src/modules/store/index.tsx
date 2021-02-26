@@ -10,7 +10,6 @@ export {
   selectSwapDetails,
   updateNetworkInfos,
   networkInfos,
-  toggleTheme,
   toggleIsExistPreviousPage,
 } from './explorer';
 
