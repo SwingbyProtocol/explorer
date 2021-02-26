@@ -1,8 +1,7 @@
 import { CoinSymbol } from '../../../coins';
 import { sumArray } from '../../../common';
-import { ENDPOINT_ETHEREUM_NODE, ENDPOINT_COINGECKO } from '../../../env';
+import { ENDPOINT_COINGECKO, ENDPOINT_ETHEREUM_NODE } from '../../../env';
 import { fetch } from '../../../fetch';
-import { fetchNodeList } from '../../../metanodes';
 import { IFloat, IFloatAmount, IFloatBalances, IMetanode, IStats } from '../../index';
 
 export const getUsdPrice = async (currency: string): Promise<number> => {
@@ -65,13 +64,16 @@ export const fetchStatsInfo = async (): Promise<IStats> => {
         ethereumBridge,
       ),
       fetch<[]>(ethereumBridgePeers),
-      fetchNodeList(),
+      // Memo: Enable after endpoint has be applied cache
+      // fetchNodeList(),
     ]);
     const ethereumRes = results[0].ok && results[0].response;
     const ethereumPeersRes = results[1].ok && results[1].response;
-    const nodeList = results[2] as IMetanode[];
+    // Memo: Enable after endpoint has be applied cache
+    // const nodeList = results[2] as IMetanode[];
+    // const tvl = calTvl(nodeList);
 
-    const tvl = calTvl(nodeList);
+    const tvl = 47729160;
     const rewards1wksSWINGBY = Number((tvl * 0.01).toFixed(0));
 
     const volume1wksWBTC: number = sumArray(ethereumRes.network24hrSwapsVolume.slice(0, 8));
