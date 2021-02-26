@@ -1,6 +1,6 @@
 import { SwingbyHeader, LocaleSwitcher, ThemeSwitcher } from '@swingby-protocol/header';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useIntl } from 'react-intl';
 
 import { PATH } from '../../modules/env';
@@ -8,15 +8,23 @@ import { useThemeSettings } from '../../modules/store/settings';
 
 import { HeaderContainer } from './styled';
 
-const items: React.ComponentPropsWithRef<typeof SwingbyHeader>['items'] = [
-  { key: 'stake', render: 'Stake and Earn BTC', href: PATH.POOL },
-  { key: 'metanodes', render: 'Metanodes', href: PATH.METANODES },
-];
-
 export const Header = () => {
-  const router = useRouter();
+  const { push, asPath, locales } = useRouter();
   const { locale } = useIntl();
   const [theme, setTheme] = useThemeSettings();
+
+  const items = useMemo(
+    () => [
+      { key: 'stake', render: 'Stake and Earn BTC', href: `/${locale}${PATH.POOL}` },
+      { key: 'metanodes', render: 'Metanodes', href: `/${locale}${PATH.METANODES}` },
+    ],
+    [locale],
+  );
+
+  const changeLocale = useCallback((locale: string) => push(asPath, null, { locale }), [
+    push,
+    asPath,
+  ]);
 
   return (
     <HeaderContainer>
@@ -26,15 +34,7 @@ export const Header = () => {
         barItems={
           <>
             <ThemeSwitcher theme={theme} onChange={setTheme} />
-            <LocaleSwitcher
-              locale={locale}
-              locales={router.locales}
-              onChange={(locale) => {
-                const search = typeof window !== 'undefined' && window.location.search;
-                const path = search ? search : router.asPath;
-                router.push(path, path, { locale });
-              }}
-            />
+            <LocaleSwitcher locale={locale} locales={locales} onChange={changeLocale} />
           </>
         }
         items={items}
