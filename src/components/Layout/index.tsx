@@ -17,6 +17,7 @@ import { fetchTransactionFees, fetchUsdPrice } from '../../modules/store';
 import { useThemeSettings } from '../../modules/store/settings';
 import { Header } from '../Header';
 import { Swap } from '../Swap';
+import { Favicon } from '../Favicon';
 
 import { SwapContainer } from './styled';
 import { CookieConsentHandler } from './CookieConsentHandler';
@@ -53,35 +54,19 @@ export const Layout = ({ children }: Props) => {
     })();
   }, [60000]);
 
-  const metanodesEarnersPage = (
-    <>
-      <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.png" />
-        <link rel="apple-touch-icon" href="/favicon.png" sizes="180x180" />
-        <link rel="icon" type="image/png" href="/favicon.png" sizes="192x192" />
-        <link rel="stylesheet" href={PULSAR_GLOBAL_FONT_HREF} />
-      </Head>
-      {children}
-    </>
-  );
-
   return (
     <PulsarThemeProvider theme={theme}>
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href={PULSAR_GLOBAL_FONT_HREF} />
+      </Head>
       <PulsarGlobalStyles />
+      <Favicon />
 
       {router.pathname === PATH.METANODE_EARNERS ? (
-        metanodesEarnersPage
+        children
       ) : (
         <>
-          <Head>
-            <meta name="viewport" content="width=device-width, initial-scale=1" />
-            <link rel="icon" href="/favicon.png" />
-            <link rel="apple-touch-icon" href="/favicon.png" sizes="180x180" />
-            <link rel="icon" type="image/png" href="/favicon.png" sizes="192x192" />
-            <link rel="stylesheet" href={PULSAR_GLOBAL_FONT_HREF} />
-          </Head>
-
           <SdkContextProvider mode={mode}>
             <PulsarToastContainer />
 
