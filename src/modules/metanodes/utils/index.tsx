@@ -44,7 +44,7 @@ export const fetchNodeList = async () => {
 };
 
 export const fetchNodeEarningsList = async () => {
-  const url = 'https://metanode-earnings.vercel.app/api/production/rewards/ranking';
+  const url = 'https://metanode-earnings.vercel.app/api/v1/production/rewards/ranking';
   const result = await fetch<
     Array<{
       address: string;
