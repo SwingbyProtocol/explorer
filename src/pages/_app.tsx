@@ -4,10 +4,11 @@ import { useMemo } from 'react';
 import { IntlProvider } from 'react-intl';
 import { Provider as ReduxProvider } from 'react-redux';
 
-import { Layout } from '../components/Layout';
+import { Globals } from '../components/Globals';
 import { languages } from '../modules/i18n';
 import { SEO } from '../modules/seo';
 import { useStore } from '../modules/store';
+
 import './style.css';
 
 const DEFAULT_LOCALE = 'en';
@@ -34,9 +35,9 @@ function MyApp({ Component, pageProps }) {
         <SEO />
         <IntlProvider messages={messages} locale={locale} defaultLocale={DEFAULT_LOCALE}>
           <ReduxProvider store={store}>
-            <Layout>
+            <Globals>
               <Component {...pageProps} />
-            </Layout>
+            </Globals>
           </ReduxProvider>
         </IntlProvider>
       </RouterScrollProvider>
