@@ -4,6 +4,7 @@ import { rem } from 'polished';
 import styled from 'styled-components';
 
 import { StylingConstants } from '../../../../styles';
+import { AddressLinkP } from '../../../Common';
 
 interface BgProps {
   bg: boolean;
@@ -143,14 +144,8 @@ export const IconArrowRight = styled(Icon.ArrowRight)`
   color: ${({ theme }) => theme.pulsar.color.text.masked};
 `;
 
-export const AddressP = styled.p`
-  color: #3799da;
-  font-weight: bold;
+export const AddressP = styled(AddressLinkP)`
   max-width: ${rem(92)};
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
   @media (min-width: ${rem(media.lg)}) {
     max-width: ${rem(190)};
   }

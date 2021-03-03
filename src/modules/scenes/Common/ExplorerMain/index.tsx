@@ -174,7 +174,7 @@ export const ExplorerMain = () => {
       case PATH.POOL:
         return <AccountId />;
       case PATH.METANODES:
-        return <RewardButton />;
+        return <></>;
       case PATH.FEES:
         return <></>;
       case PATH.ASSET_BTC:

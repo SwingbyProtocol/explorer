@@ -3,6 +3,7 @@ import { rem } from 'polished';
 import styled from 'styled-components';
 
 import { StylingConstants } from '../../../../styles';
+import { AddressLinkP } from '../../../Common';
 
 const { media } = StylingConstants;
 
@@ -35,10 +36,6 @@ export const TextAmount = styled(Text)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
 `;
 
-export const TextRoom = styled(Text)`
-  font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
-`;
-
 export const RowRole = styled.div`
   display: flex;
   justify-content: space-between;
@@ -52,14 +49,4 @@ export const RowAddress = styled.div`
   margin-bottom: ${({ theme }) => rem(theme.pulsar.size.drawer)};
 `;
 
-export const AddressP = styled.p`
-  color: #3799da;
-  font-weight: bold;
-  font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
-  margin: 0;
-  max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  cursor: pointer;
-`;
+export const AddressP = styled(AddressLinkP)``;
