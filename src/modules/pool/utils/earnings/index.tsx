@@ -60,7 +60,11 @@ export const makeTimeLabels = (
         month: 'short',
         day: 'numeric',
       }),
-      blankRepeat(blankRepeatNum),
+      formatDate(times[1], {
+        month: 'short',
+        day: 'numeric',
+      }),
+      // blankRepeat(blankRepeatNum),
       '',
       formatDate(times[Math.floor(dateLength / 2)], {
         month: 'short',

@@ -3,6 +3,7 @@ import { rem } from 'polished';
 import { Text } from '@swingby-protocol/pulsar';
 
 import { StylingConstants } from '../../../../styles';
+import { LineBox } from '../../../Common';
 
 const { media } = StylingConstants;
 
@@ -11,7 +12,7 @@ interface DateProps {
   isAll: boolean;
 }
 
-export const EarningsChartContainer = styled.div`
+export const TotalSwingbyBondContainer = styled.div`
   grid-area: volume;
   display: flex;
   justify-content: center;
@@ -20,33 +21,20 @@ export const EarningsChartContainer = styled.div`
   padding-top: ${({ theme }) => rem(theme.pulsar.size.town)};
   padding-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
   background-color: ${({ theme }) => theme.pulsar.color.bg.hover};
+  width: 100%;
   @media (min-width: ${rem(media.sm)}) {
     padding-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
   }
-  @media (min-width: ${rem((media.sm + media.md) / 2)}) {
-    width: 100%;
-  }
 
-  @media (min-width: ${rem(media.md)}) {
-    width: ${rem(480)};
-  }
-  /* Memo: Manually adjust the width size because 'responsible' for chart.js is not good */
-  @media (min-width: ${rem((media.md + media.lg) / 2)}) {
-    width: ${rem(480 * 1.3)};
-  }
   @media (min-width: ${rem(media.lg)}) {
     margin-top: 0;
-    width: ${rem(375)};
-    height: ${rem(190)};
     grid-area: auto;
     padding-top: ${({ theme }) => rem(theme.pulsar.size.house)};
     padding-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
     padding-left: ${({ theme }) => rem(theme.pulsar.size.street)};
     padding-right: ${({ theme }) => rem(theme.pulsar.size.street)};
     justify-self: center;
-  }
-  @media (min-width: ${rem(media.xl)}) {
-    width: ${rem(430)};
+    padding-bottom: ${({ theme }) => rem(theme.pulsar.size.box)};
   }
 `;
 
@@ -74,10 +62,18 @@ export const Box = styled.div`
     width: ${rem(420 * 1.3)};
   }
   @media (min-width: ${rem(media.lg)}) {
-    width: 100%;
     margin-top: ${({ theme }) => rem(theme.pulsar.size.room)};
+    width: ${rem(300)};
+  }
+  @media (min-width: ${rem((media.lg + media.xl) / 2)}) {
+    width: ${rem(340)};
+  }
+  @media (min-width: ${rem(media.xl)}) {
+    width: ${rem(380)};
+    padding-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
   }
 `;
+
 export const LineContainer = styled.div`
   text-align: center;
   position: relative;
@@ -113,4 +109,10 @@ export const TextDate = styled(Text)<DateProps>`
         ? `1px solid ${props.theme.pulsar.color.primary.normal}`
         : `1px solid ${props.theme.pulsar.color.text.masked}`
       : `1px solid transparent`};
+`;
+
+export const LineDiv = styled(LineBox)`
+  @media (min-width: ${rem(media.lg)}) {
+    height: ${rem(126)};
+  }
 `;

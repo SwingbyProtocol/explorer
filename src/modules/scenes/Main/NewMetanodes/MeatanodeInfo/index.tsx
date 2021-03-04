@@ -1,10 +1,14 @@
 import React from 'react';
 
 import { ActionButtonMetanodes } from '../ActionButtonMetanodes';
+import { BondToLiquidity } from '../BondToLiquidity';
+import { Churning } from '../Churning';
+import { Earnings } from '../Earnings';
 import { GeneralInfo } from '../GeneralInfo';
 import { TotalNodes } from '../TotalNodes';
+import { TotalSwingbyBond } from '../TotalSwingbyBond';
 
-import { MetanodeInfoContainer, Top, Bottom, Left, Right } from './styled';
+import { MetanodeInfoContainer, Top, Bottom, Left, Right, Row } from './styled';
 
 interface Props {
   bridge: string;
@@ -13,6 +17,7 @@ interface Props {
 export const MetanodeInfo = (props: Props) => {
   // Todo: Use the props to toggle the bridge
   const { bridge } = props;
+  console.log('bridge', bridge);
 
   return (
     <MetanodeInfoContainer>
@@ -23,10 +28,12 @@ export const MetanodeInfo = (props: Props) => {
           <TotalNodes />
         </Left>
         <Right>
-          <h1>Total Swingby Bond</h1>
-          <h1>Bond to Liquidity</h1>
-          <h1>Churning</h1>
-          <h1>Earnings</h1>
+          <TotalSwingbyBond />
+          <BondToLiquidity />
+          <Row>
+            <Churning />
+            <Earnings />
+          </Row>
         </Right>
       </Top>
       <Bottom>Metanodes</Bottom>

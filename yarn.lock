@@ -1507,6 +1507,11 @@
     penpal "3.0.7"
     pocket-js-core "0.0.3"
 
+"@ramonak/react-progress-bar@^2.1.3":
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/@ramonak/react-progress-bar/-/react-progress-bar-2.1.3.tgz#642e267f0356b96f0fa971b8ee5003eb9121847e"
+  integrity sha512-oKE9zHcwIPlzxhHXFZNoxxqgkPKmbvP1EiwPW12FjxSFJKhVTdr8gWKd4KRmi8zetJY7ZGNPWKG7MMJvHEMgvw==
+
 "@react-hook/copy@^2.0.1":
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@react-hook/copy/-/copy-2.0.1.tgz#4f6eb2e0b0e84fe01ccdc0f3d37675a7f59a03c1"

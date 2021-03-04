@@ -6,7 +6,7 @@ import { AddressLinkP } from '../../../Common';
 
 const { media } = StylingConstants;
 
-export const GeneralInfoContainer = styled.div`
+export const ChurningContainer = styled.div`
   background-color: ${({ theme }) => theme.pulsar.color.bg.hover};
   padding: ${({ theme }) => rem(theme.pulsar.size.house)};
   margin-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
@@ -28,9 +28,12 @@ export const GeneralInfoContainer = styled.div`
 
 export const Row = styled.div`
   margin-bottom: ${({ theme }) => rem(theme.pulsar.size.drawer)};
-  @media (min-width: ${rem(media.md)}) {
+  @media (min-width: ${rem(media.lg)}) {
     display: grid;
-    grid-template-columns: ${rem(140)} auto;
+    grid-template-columns: ${rem(40)} auto;
+  }
+  @media (min-width: ${rem(media.xl)}) {
+    grid-template-columns: ${rem(110)} auto;
   }
 `;
 export const Left = styled.div``;
