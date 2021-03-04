@@ -24,7 +24,7 @@ type ApiData = {
   overbondedBondFraction: string;
 };
 
-export const BondToLiquidity = ({ bridge }: { bridge: SkybridgeBridge }) => {
+export const BondToLiquidity2 = ({ bridge }: { bridge: SkybridgeBridge }) => {
   const { formatMessage } = useIntl();
   const { data } = useSWR<ApiData>(
     `https://metanode-earnings.vercel.app/api/v1/production/${bridge}/bond-to-liquidity`,

@@ -46,10 +46,10 @@ export const LegendLiquidity = styled(LegendBond)`
 `;
 
 export const Bar = styled.div`
-  height: ${({ theme }) => rem(theme.pulsar.size.box)};
-  border-radius: ${({ theme }) => rem(theme.pulsar.size.box)};
+  height: ${({ theme }) => rem(theme.pulsar.size.drawer)};
+  border-radius: ${({ theme }) => rem(theme.pulsar.size.drawer)};
   position: relative;
-  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.closet + 12)};
+  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.closet + theme.pulsar.size.house)};
 `;
 
 export const BarBond = styled.div<{ widthPercentage: number }>`
@@ -76,11 +76,11 @@ export const BarLiquitidity = styled.div<{ widthPercentage: number }>`
 
 export const OptimalPoint = styled.div<{ optiomalBondPercentage: number; label: string }>`
   position: absolute;
-  height: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  height: ${({ theme }) => rem(theme.pulsar.size.house)};
   width: 3px;
   border-radius: 3px;
   left: calc(${({ optiomalBondPercentage }) => optiomalBondPercentage}% - 1.5px);
-  top: ${({ theme }) => rem(-theme.pulsar.size.closet / 2 + theme.pulsar.size.box / 2)};
+  top: ${({ theme }) => rem(-theme.pulsar.size.house / 2 + theme.pulsar.size.drawer / 2)};
   background: ${({ theme }) => theme.pulsar.color.text.masked};
 
   ::after {
@@ -89,7 +89,7 @@ export const OptimalPoint = styled.div<{ optiomalBondPercentage: number; label: 
     width: 100px;
     text-align: center;
     left: -50px;
-    top: 12px;
+    top: ${({ theme }) => rem(theme.pulsar.size.house)};
     font-size: ${({ theme }) => rem(theme.pulsar.size.closet)};
   }
 `;

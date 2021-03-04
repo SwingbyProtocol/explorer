@@ -1,6 +1,7 @@
 import { Card } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
 import styled from 'styled-components';
+
 import { StylingConstants } from '../../../../styles';
 
 const { media } = StylingConstants;
@@ -61,11 +62,11 @@ export const Right = styled.div`
     padding-right: ${({ theme }) => rem(theme.pulsar.size.street)};
   }
   @media (min-width: ${rem(media.lg)}) {
-    padding-left: ${({ theme }) => rem(theme.pulsar.size.city)};
-    padding-right: ${({ theme }) => rem(theme.pulsar.size.city)};
+    padding-left: ${({ theme }) => rem(theme.pulsar.size.street)};
+    padding-right: ${({ theme }) => rem(theme.pulsar.size.street)};
   }
   @media (min-width: ${rem(media.xl)}) {
-    padding-left: ${rem(74)};
-    padding-right: ${rem(74)};
+    padding-left: ${rem(42)};
+    padding-right: ${rem(42)};
   }
 `;
