@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@moxy/next-router-scroll": "^2.0.3",
+    "@ramonak/react-progress-bar": "^2.1.3",
     "@react-hook/copy": "^2.0.1",
     "@swingby-protocol/header": "^1.2.1",
     "@swingby-protocol/pulsar": "^3.8.2",
