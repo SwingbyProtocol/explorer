@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { ActionButtonMetanodes } from '../ActionButtonMetanodes';
+import { BondToLiquidity } from '../BondToLiquidity';
 import { GeneralInfo } from '../GeneralInfo';
 import { TotalNodes } from '../TotalNodes';
 
@@ -25,6 +26,7 @@ export const MetanodeInfo = (props: Props) => {
         <Right>
           <h1>Total Swingby Bond</h1>
           <h1>Bond to Liquidity</h1>
+          <BondToLiquidity bridge="btc_erc" />
           <h1>Churning</h1>
           <h1>Earnings</h1>
         </Right>
