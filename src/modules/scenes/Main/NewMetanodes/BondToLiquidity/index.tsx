@@ -1,7 +1,5 @@
 import { Text } from '@swingby-protocol/pulsar';
 import { FormattedMessage, useIntl } from 'react-intl';
-import ProgressBar from '@ramonak/react-progress-bar';
-import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 import { Big } from 'big.js';
 import { SkybridgeBridge } from '@swingby-protocol/sdk';
@@ -12,13 +10,11 @@ import { fetcher } from '../../../../fetch';
 import {
   BondToLiquidityContainer,
   RowTitle,
-  BarContainer,
   ColumnStatus,
   ContainerStatus,
   TextStatus,
   Bar,
   BarBond,
-  BarLiquidity,
   OptimalPoint,
   StatusIcon,
 } from './styled';
@@ -93,17 +89,23 @@ export const BondToLiquidity = ({ bridge }: { bridge: SkybridgeBridge }) => {
 
       {(() => {
         if (!data) {
-          return <Bar />;
+          return (
+            <Bar>
+              <BarBond widthPercentage={60} />
+              <OptimalPoint
+                optimalBondPercentage={50}
+                label={formatMessage({ id: 'metanodes.bond-to-liquidity.optimal' })}
+              />
+            </Bar>
+          );
         }
 
         const total = new Big(data.liquidity).add(data.bond);
-        const liquidityFraction = +new Big(data.liquidity).div(total).toFixed();
         const bondFraction = +new Big(data.bond).div(total).toFixed();
 
         return (
           <Bar>
             <BarBond widthPercentage={bondFraction * 100} />
-            <BarLiquidity widthPercentage={liquidityFraction * 100} />
             <OptimalPoint
               optimalBondPercentage={+data.optimalBondFraction * 100}
               label={formatMessage({ id: 'metanodes.bond-to-liquidity.optimal' })}
@@ -114,7 +116,7 @@ export const BondToLiquidity = ({ bridge }: { bridge: SkybridgeBridge }) => {
       <div>
         <TextRoom variant="label">
           <FormattedMessage id="metanodes.status" />
-        </TextRoom>{' '}
+        </TextRoom>
         <TextStatus variant="label">{status}</TextStatus>
       </div>
     </BondToLiquidityContainer>
