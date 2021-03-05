@@ -63,7 +63,7 @@ export const BarBond = styled.div<{ widthPercentage: number }>`
   border-bottom-left-radius: ${({ theme }) => rem(theme.pulsar.size.box)};
 `;
 
-export const BarLiquitidity = styled.div<{ widthPercentage: number }>`
+export const BarLiquidity = styled.div<{ widthPercentage: number }>`
   position: absolute;
   height: 100%;
   width: ${({ widthPercentage }) => widthPercentage}%;
@@ -74,12 +74,12 @@ export const BarLiquitidity = styled.div<{ widthPercentage: number }>`
   border-bottom-right-radius: ${({ theme }) => rem(theme.pulsar.size.box)};
 `;
 
-export const OptimalPoint = styled.div<{ optiomalBondPercentage: number; label: string }>`
+export const OptimalPoint = styled.div<{ optimalBondPercentage: number; label: string }>`
   position: absolute;
   height: ${({ theme }) => rem(theme.pulsar.size.house)};
   width: 3px;
   border-radius: 3px;
-  left: calc(${({ optiomalBondPercentage }) => optiomalBondPercentage}% - 1.5px);
+  left: calc(${({ optimalBondPercentage }) => optimalBondPercentage}% - 1.5px);
   top: ${({ theme }) => rem(-theme.pulsar.size.house / 2 + theme.pulsar.size.drawer / 2)};
   background: ${({ theme }) => theme.pulsar.color.text.masked};
 

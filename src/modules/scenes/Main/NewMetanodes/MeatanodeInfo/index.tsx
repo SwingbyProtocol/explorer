@@ -30,8 +30,8 @@ export const MetanodeInfo = (props: Props) => {
         </Left>
         <Right>
           <TotalSwingbyBond />
-          <BondToLiquidity />
-          <BondToLiquidity2 bridge="btc_erc" />
+          <BondToLiquidity bridge="btc_erc" />
+          {/* <BondToLiquidity2 bridge="btc_erc" /> */}
           <Row>
             <Churning />
             <Earnings />

@@ -8,7 +8,7 @@ import { fetcher } from '../../../../fetch';
 import {
   Bar,
   BarBond,
-  BarLiquitidity,
+  BarLiquidity,
   Container,
   OptimalPoint,
   LegendBond,
@@ -54,9 +54,9 @@ export const BondToLiquidity2 = ({ bridge }: { bridge: SkybridgeBridge }) => {
         return (
           <Bar>
             <BarBond widthPercentage={bondFraction * 100} />
-            <BarLiquitidity widthPercentage={liquidityFraction * 100} />
+            <BarLiquidity widthPercentage={liquidityFraction * 100} />
             <OptimalPoint
-              optiomalBondPercentage={+data.optimalBondFraction * 100}
+              optimalBondPercentage={+data.optimalBondFraction * 100}
               label={formatMessage({ id: 'metanodes.bond-to-liquidity.optimal' })}
             />
           </Bar>

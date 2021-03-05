@@ -52,4 +52,4 @@ export enum NodeActiveStatus {
   NON_ACTIVE = 'nonActive',
 }
 
-export const MetanodeBridges = ['Bitcoin to Ethereum', 'Bitcoin to BSC', 'Ethereum to BSC'];
+export const MetanodeBridges = ['Bitcoin to Ethereum', 'Bitcoin to BSC'];
