@@ -1,18 +1,40 @@
 import { SwapStatusIcon, Text } from '@swingby-protocol/pulsar';
 import { rem, transitions } from 'polished';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { StylingConstants } from '../../../../styles';
 
 const { media } = StylingConstants;
 
-export const BondToLiquidityContainer = styled.div`
+const loading = css`
+  @keyframes pulse {
+    0% {
+      filter: saturate(0);
+    }
+
+    25% {
+      filter: saturate(0.25);
+    }
+
+    100% {
+      filter: saturate(0);
+    }
+  }
+
+  animation-name: pulse;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+`;
+
+export const BondToLiquidityContainer = styled.div<{ isLoading: boolean }>`
   background-color: ${({ theme }) => theme.pulsar.color.bg.hover};
   padding: ${({ theme }) => rem(theme.pulsar.size.house)};
   width: 100%;
+
   @media (min-width: ${rem(media.xs)}) {
     padding: ${({ theme }) => rem(theme.pulsar.size.street)};
   }
+
   @media (min-width: ${rem(media.lg)}) {
     margin-bottom: ${rem(5)};
     padding-top: ${({ theme }) => rem(theme.pulsar.size.house)};
@@ -20,6 +42,8 @@ export const BondToLiquidityContainer = styled.div`
     padding-left: ${({ theme }) => rem(theme.pulsar.size.street)};
     padding-right: ${({ theme }) => rem(theme.pulsar.size.street)};
   }
+
+  ${({ isLoading }) => isLoading && loading};
 `;
 
 export const RowTitle = styled.div`

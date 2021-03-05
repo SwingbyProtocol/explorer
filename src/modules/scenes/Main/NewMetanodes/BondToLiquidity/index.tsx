@@ -63,7 +63,7 @@ export const BondToLiquidity = ({ bridge }: { bridge: SkybridgeBridge }) => {
   // }, [data, total, bondFraction, liquidityFraction]);
 
   return (
-    <BondToLiquidityContainer>
+    <BondToLiquidityContainer isLoading={!data}>
       <RowTitle>
         <div>
           <Text variant="section-title">
