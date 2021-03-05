@@ -2,6 +2,7 @@ import { GetServerSideProps } from 'next';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
+import { Layout } from '../components/Layout';
 import { NoServiceToUSModal } from '../components/NoServiceToUSModal';
 import { getUsdPrice, IFetchUsd } from '../modules/explorer';
 import { getIpInfoFromRequest } from '../modules/ip-info';
@@ -19,13 +20,13 @@ export default function Metanodes({ shouldBlockIp, initialPriceUSD }: Props) {
   }, [dispatch, initialPriceUSD]);
 
   return (
-    <>
+    <Layout>
       <NoServiceToUSModal
         isWidgetModalOpen={isNoServiceToUSModalOpen}
         setIsWidgetModalOpen={setIsNoServiceToUSModalOpen}
       />
       <Main />
-    </>
+    </Layout>
   );
 }
 

@@ -29,6 +29,10 @@ export const getIpInfoFromRequest = async ({
     ip,
     shouldBlockIp: await (async () => {
       try {
+        if (!ip) {
+          return false;
+        }
+
         const controller = new AbortController();
         const signal = controller.signal;
 
