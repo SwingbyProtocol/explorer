@@ -37,8 +37,6 @@ export const NODES_PER_PAGE = 10;
 
 export const GA_TAG = process.env.NEXT_PUBLIC_GA_TAG || 'G-8C02VKBZ6P';
 
-export const server__ipCheckSecret = process.env.IP_CHECK_SECRET || undefined;
-
 export const etherscanApiKey = process.env.ETHERSCAN_KEY || 'NYXXH5CD1NQJMYJGZYAFK7G9G6AZGZTT3H';
 
 export const blocknativeApiKey =
