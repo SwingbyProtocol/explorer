@@ -1,54 +1,21 @@
 import { GetServerSideProps } from 'next';
-
-import { server__ipCheckSecret } from '../env';
-import { AbortController, fetch } from '../fetch';
+import { shouldBlockRegion } from '@swingby-protocol/ip-check';
 
 export const getIpInfoFromRequest = async ({
   req,
 }: {
   req: Parameters<GetServerSideProps>[0]['req'];
 }) => {
-  const ip = (() => {
-    try {
-      const value =
-        (typeof req.headers['x-real-ip'] === 'string' ? req.headers['x-real-ip'] : null) ??
-        req.connection.remoteAddress;
-
-      if (!value) {
-        return null;
-      }
-
-      return value;
-    } catch (e) {
-      console.error('Error getting IP', e);
-      return null;
-    }
-  })();
-
   return {
-    ip,
-    shouldBlockIp: await (async () => {
+    ip: typeof req.headers['x-real-ip'] === 'string' ? req.headers['x-real-ip'] : null,
+    shouldBlockIp: (() => {
       try {
-        if (!ip) {
-          return false;
-        }
-
-        const controller = new AbortController();
-        const signal = controller.signal;
-
-        setTimeout(() => controller.abort(), 3000);
-        const result = await fetch<{ shouldBlock: boolean }>(
-          `https://ip-check.swingby.network/api/v1/ip/${ip}/check?secret=${server__ipCheckSecret}`,
-          { signal },
-        );
-
-        if (!result.ok) {
-          return false;
-        }
-
-        return result.response.shouldBlock;
+        return shouldBlockRegion({
+          regionCode: `${req.headers['x-vercel-ip-country']}`,
+          innerRegionCode: `${req.headers['x-vercel-ip-country-region']}`,
+        });
       } catch (e) {
-        console.error('Error locating IP', e);
+        console.error('Error checking whether region should be blocked', e);
         return false;
       }
     })(),
