@@ -1,5 +1,8 @@
-import { FormattedMessage } from 'react-intl';
+import { getCryptoAssetFormatter } from '@swingby-protocol/pulsar';
+import { useEffect, useState } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 
+import { fetchNodeList, INodesResponse } from '../../../../metanodes';
 import { AddressLinkP, SizeL, TextBlock, TextRoom } from '../../../Common';
 
 import {
@@ -23,8 +26,16 @@ import {
 } from './styled';
 
 export const MetanodeList = () => {
-  const bnbAddress = 'bnb139kcljy2z6rmx20hkxg5smvzpqnjgqytbqwn90';
-  const ethAddress = '0x139kcljy2z6rmx20hkxg5smvzpqnjgqytbqwn90';
+  const { locale } = useIntl();
+  const [metanodes, setMetanodes] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      const nodes = await fetchNodeList();
+      setMetanodes(nodes);
+    })();
+  }, []);
+
   return (
     <MetanodeListContainer>
       <NodeContainer>
@@ -53,62 +64,73 @@ export const MetanodeList = () => {
             </TextRoom>
           </SizeL>
         </Row>
-        <Row>
-          <ColumnLeft>
-            <Location>
-              <ImgFlag
-                alt="test"
-                src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/US.svg`}
-                // alt={node.code}
-                // src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${node.code}.svg`}
-              />
-              <NodeStatus>
-                <ColumnNodeName>
-                  <TextNodeName variant="accent">Stakebooorg</TextNodeName>
-                </ColumnNodeName>
-                <ChurnStatus>
-                  <StatusIcon status="COMPLETED" />
-                  <TextRoom variant="label">
-                    <FormattedMessage id="metanodes.churned-in" />
-                  </TextRoom>
-                </ChurnStatus>
-              </NodeStatus>
-            </Location>
-          </ColumnLeft>
-          <SizeL>
-            <TextRoom>0.1.1</TextRoom>
-          </SizeL>
-          <div>
-            <TextRoom>1,232,122</TextRoom>
-            <TextRoom variant="label">(12.23%)</TextRoom>
-          </div>
-          <ColumnExpiry>
-            <Column>
-              <TextNowrap>Aug 05, 2021, 14:13</TextNowrap>
-              <TextNowrap variant="label">(232 days)</TextNowrap>
-            </Column>
-          </ColumnExpiry>
-          <SizeL>
-            <BoxAddress>
-              <RowAddress>
+        {metanodes &&
+          metanodes.map((node: INodesResponse, i: number) => {
+            const bnbAddress = node.rewardsAddress1;
+            const ethAddress = node.rewardsAddress2;
+            const bondAmount = getCryptoAssetFormatter({
+              locale: locale,
+              displaySymbol: '',
+              minimumFractionDigits: 0,
+              maximumFractionDigits: 0,
+            }).format(Number(node.stake.amount));
+
+            return (
+              <Row key={i}>
+                <ColumnLeft>
+                  <Location>
+                    <ImgFlag
+                      alt={node.code}
+                      src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${node.code}.svg`}
+                    />
+                    <NodeStatus>
+                      <ColumnNodeName>
+                        <TextNodeName variant="accent">{node.moniker}</TextNodeName>
+                      </ColumnNodeName>
+                      <ChurnStatus>
+                        <StatusIcon status="COMPLETED" />
+                        <TextRoom variant="label">
+                          <FormattedMessage id="metanodes.churned-in" />
+                        </TextRoom>
+                      </ChurnStatus>
+                    </NodeStatus>
+                  </Location>
+                </ColumnLeft>
+                <SizeL>
+                  <TextRoom>{node.version}</TextRoom>
+                </SizeL>
                 <div>
-                  <TextRoom variant="label">BNB:</TextRoom>
+                  <TextRoom>{bondAmount}</TextRoom> <TextRoom variant="label">(12.23%)</TextRoom>
                 </div>
-                <ColumnAddress>
-                  <AddressLinkP>{bnbAddress}</AddressLinkP>
-                </ColumnAddress>
-              </RowAddress>
-              <RowAddress>
-                <div>
-                  <TextRoom variant="label">ETH:</TextRoom>
-                </div>
-                <ColumnAddress>
-                  <AddressLinkP>{ethAddress}</AddressLinkP>
-                </ColumnAddress>
-              </RowAddress>
-            </BoxAddress>
-          </SizeL>
-        </Row>
+                <ColumnExpiry>
+                  <Column>
+                    <TextNowrap>Aug 05, 2021, 14:13</TextNowrap>
+                    <TextNowrap variant="label">(232 days)</TextNowrap>
+                  </Column>
+                </ColumnExpiry>
+                <SizeL>
+                  <BoxAddress>
+                    <RowAddress>
+                      <div>
+                        <TextRoom variant="label">BNB:</TextRoom>
+                      </div>
+                      <ColumnAddress>
+                        <AddressLinkP>{bnbAddress}</AddressLinkP>
+                      </ColumnAddress>
+                    </RowAddress>
+                    <RowAddress>
+                      <div>
+                        <TextRoom variant="label">ETH:</TextRoom>
+                      </div>
+                      <ColumnAddress>
+                        <AddressLinkP>{ethAddress}</AddressLinkP>
+                      </ColumnAddress>
+                    </RowAddress>
+                  </BoxAddress>
+                </SizeL>
+              </Row>
+            );
+          })}
       </NodeContainer>
     </MetanodeListContainer>
   );

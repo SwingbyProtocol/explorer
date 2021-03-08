@@ -1,3 +1,4 @@
+import { SkybridgeBridge } from '@swingby-protocol/sdk';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
@@ -13,7 +14,7 @@ import {
 } from './styled';
 
 interface Props {
-  bridge: string;
+  bridge: SkybridgeBridge;
   setBridge: (bridge: string) => void;
 }
 

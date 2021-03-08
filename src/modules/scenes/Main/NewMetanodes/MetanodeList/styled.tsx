@@ -166,7 +166,13 @@ export const ColumnNodeName = styled.div`
     max-width: ${rem(140)};
   }
   @media (min-width: ${rem(media.md)}) {
-    max-width: ${rem(300)};
+    max-width: ${rem(150)};
+  }
+  @media (min-width: ${rem(media.lg)}) {
+    max-width: ${rem(100)};
+  }
+  @media (min-width: ${rem(media.xl)}) {
+    max-width: ${rem(150)};
   }
 `;
 

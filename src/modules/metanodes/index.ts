@@ -3,39 +3,37 @@ import { SKYBRIDGE_BRIDGES } from '@swingby-protocol/sdk';
 export { fetchNodeList, fetchNodeEarningsList } from './utils';
 
 export interface INodeListResponse {
-  active: boolean;
   id: string;
+  ip: {
+    address: string;
+    regionCode: string;
+    regionName: string;
+  };
+  status: string;
+  version: string;
   moniker: string;
-  rank: number;
-  rewardsAddress1: string;
-  rewardsAddress2: string;
-  shareValid: boolean;
+  restUri: string;
+  p2pUri: string;
+  addresses: string[];
   stake: {
     address: string;
     amount: string;
-    stakeTXHash: string;
-    stakeTime: number;
-    stakeValid: boolean;
+    expiresAt: string;
   };
-  state: number;
-  stateName: string;
-  thisNode?: boolean;
-  version: string;
 }
 
 export interface INodesResponse {
-  moniker: string;
   stake: {
     address: string;
     amount: string;
-    stakeTXHash: string;
-    stakeTime: number;
-    stakeValid: boolean;
+    expiresAt: string;
   };
-  stateName: string;
   location: string;
-  code?: string;
+  code: string;
   version: string;
+  moniker: string;
+  rewardsAddress1: string;
+  rewardsAddress2: string;
 }
 export interface INodeEarningsResponse {
   moniker: string;

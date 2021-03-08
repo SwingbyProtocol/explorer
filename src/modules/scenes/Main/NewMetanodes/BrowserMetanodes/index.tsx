@@ -11,10 +11,11 @@ import { MetanodeInfo } from '../MeatanodeInfo';
 import { BrowserMetanodesContainer, BrowserMetanodesDiv, Left, Right } from './styled';
 
 export const BrowserMetanodes = () => {
-  const btcErc = SKYBRIDGE_BRIDGES.find((bridge) => bridge === 'btc_erc');
-
   const router = useRouter();
   const params = router.query;
+  const bridge: SkybridgeBridge = params.bridge as SkybridgeBridge;
+
+  const btcErc = SKYBRIDGE_BRIDGES.find((bridge) => bridge === 'btc_erc');
 
   const setBridge = (bridge: SkybridgeBridge): void => {
     router.push({
@@ -23,8 +24,7 @@ export const BrowserMetanodes = () => {
     });
   };
 
-  const bridge: SkybridgeBridge = params.bridge as SkybridgeBridge;
-
+  // Memo: Redirect to btc_erc bridge
   useEffect(() => {
     if (params.bridge === '' || !SKYBRIDGE_BRIDGES.includes(params.bridge as SkybridgeBridge)) {
       router.push({
@@ -46,7 +46,7 @@ export const BrowserMetanodes = () => {
             <BridgeMetanodes bridge={bridge} setBridge={setBridge} />
           </Left>
           <Right>
-            <MetanodeInfo bridge={bridge as SkybridgeBridge} />
+            <MetanodeInfo bridge={bridge} />
           </Right>
         </BrowserMetanodesDiv>
       </BrowserMetanodesContainer>

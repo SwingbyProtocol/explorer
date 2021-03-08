@@ -1,4 +1,5 @@
 import { Dropdown } from '@swingby-protocol/pulsar';
+import { SkybridgeBridge } from '@swingby-protocol/sdk';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
@@ -8,7 +9,7 @@ import { TextChosenFilter } from '../../../Common';
 import { BridgeMobileMetanodesContainer, DropTargetBridges, TextTitle } from './styled';
 
 interface Props {
-  bridge: string;
+  bridge: SkybridgeBridge;
   setBridge: (bridge: string) => void;
 }
 
