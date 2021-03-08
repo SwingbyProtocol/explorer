@@ -2,7 +2,7 @@ import { Dropdown } from '@swingby-protocol/pulsar';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import { MetanodeBridges } from '../../../../metanodes';
+import { IBridge, MetanodeBridges } from '../../../../metanodes';
 import { TextChosenFilter } from '../../../Common';
 
 import { BridgeMobileMetanodesContainer, DropTargetBridges, TextTitle } from './styled';
@@ -16,9 +16,9 @@ export const BridgeMobileMetanodes = (props: Props) => {
   const { bridge, setBridge } = props;
   const bridgesItems = (
     <>
-      {MetanodeBridges.map((b) => (
-        <Dropdown.Item selected={bridge === b} onClick={() => setBridge(b)} key={b}>
-          {b}
+      {MetanodeBridges.map((b: IBridge) => (
+        <Dropdown.Item selected={bridge === b.path} onClick={() => setBridge(b.path)} key={b.path}>
+          {b.tabMenu}
         </Dropdown.Item>
       ))}
     </>

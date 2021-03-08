@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import { MetanodeBridges } from '../../../../metanodes';
+import { IBridge, MetanodeBridges } from '../../../../metanodes';
 
 import {
   BridgeMetanodesContainer,
@@ -27,13 +27,13 @@ export const BridgeMetanodes = (props: Props) => {
           <FormattedMessage id="pool.bridges" />
         </TextTitle>
       </RowTitle>
-      {MetanodeBridges.map((b: string, i: number) => {
+      {MetanodeBridges.map((b: IBridge, i: number) => {
         return (
-          <RowBridge key={b} bg={i % 2 === 0} onClick={() => setBridge(b)}>
-            <TextBridge variant="accent" isActive={bridge === b}>
-              {b}
+          <RowBridge key={b.tabMenu} bg={i % 2 === 0} onClick={() => setBridge(b.path)}>
+            <TextBridge variant="accent" isActive={bridge === b.path}>
+              {b.tabMenu}
             </TextBridge>
-            <IconRight isActive={bridge === b} />
+            <IconRight isActive={bridge === b.path} />
           </RowBridge>
         );
       })}

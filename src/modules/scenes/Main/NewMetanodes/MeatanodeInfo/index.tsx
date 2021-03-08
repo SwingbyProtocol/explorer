@@ -1,3 +1,4 @@
+import { SkybridgeBridge } from '@swingby-protocol/sdk';
 import React from 'react';
 
 import { ActionButtonMetanodes } from '../ActionButtonMetanodes';
@@ -12,13 +13,11 @@ import { TotalSwingbyBond } from '../TotalSwingbyBond';
 import { Bottom, Left, MetanodeInfoContainer, Right, Row, Top } from './styled';
 
 interface Props {
-  bridge: string;
+  bridge: SkybridgeBridge;
 }
 
 export const MetanodeInfo = (props: Props) => {
-  // Todo: Use the props to toggle the bridge
   const { bridge } = props;
-  console.log('bridge', bridge);
 
   return (
     <MetanodeInfoContainer>
@@ -30,7 +29,7 @@ export const MetanodeInfo = (props: Props) => {
         </Left>
         <Right>
           <TotalSwingbyBond />
-          <BondToLiquidity bridge="btc_erc" />
+          <BondToLiquidity bridge={bridge} />
           <Row>
             <Churning />
             <Earnings />

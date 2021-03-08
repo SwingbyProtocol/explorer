@@ -1,3 +1,5 @@
+import { SKYBRIDGE_BRIDGES } from '@swingby-protocol/sdk';
+
 export { fetchNodeList, fetchNodeEarningsList } from './utils';
 
 export interface INodeListResponse {
@@ -52,4 +54,21 @@ export enum NodeActiveStatus {
   NON_ACTIVE = 'nonActive',
 }
 
-export const MetanodeBridges = ['Bitcoin to Ethereum', 'Bitcoin to BSC'];
+export interface IBridge {
+  path: string;
+  tabMenu: string;
+}
+
+const btcErc = SKYBRIDGE_BRIDGES.find((bridge) => bridge === 'btc_erc');
+const btcBep = SKYBRIDGE_BRIDGES.find((bridge) => bridge === 'btc_bep');
+
+export const MetanodeBridges = [
+  {
+    path: btcErc,
+    tabMenu: 'Bitcoin to Ethereum',
+  },
+  {
+    path: btcBep,
+    tabMenu: 'Bitcoin to BSC',
+  },
+];
