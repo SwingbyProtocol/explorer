@@ -3,7 +3,7 @@ import { rem } from 'polished';
 import styled from 'styled-components';
 
 import { StylingConstants } from '../../../../styles';
-import { TextRoom } from '../../../Common';
+import { TextBlock, TextRoom } from '../../../Common';
 
 const { media } = StylingConstants;
 
@@ -35,10 +35,9 @@ export const ColumnCenter = styled.div`
   text-align: center;
 `;
 
-const nodeListGridTemplateColumnsFrameMobile = `10% 10% ${rem(120)} auto ${rem(100)}`;
-const nodeListGridTemplateColumnsFrameSM = `10% 5% ${rem(120)} 10% auto auto ${rem(150)}`;
-const nodeListGridTemplateColumnsFrameMD = `10% 10% ${rem(120)} 15% auto auto ${rem(150)}`;
-const nodeListGridTemplateColumnsFrame = `25% 15% 20% 20% 20%`;
+const nodeListGridTemplateColumnsFrameMobile = `1fr 1fr`;
+const nodeListGridTemplateColumnsFrameSM = `33% 33% auto`;
+const nodeListGridTemplateColumnsFrame = `25% 10% 20% 20% 25%`;
 
 export const StakeInfos = styled.div`
   display: none;
@@ -59,12 +58,19 @@ export const Row = styled.div`
   grid-template-columns: ${nodeListGridTemplateColumnsFrameMobile};
   padding: ${rem(0)} ${rem(14)};
   @media (min-width: ${rem(media.sm)}) {
+    display: grid;
+    align-items: center;
     padding: 0;
     grid-template-columns: ${nodeListGridTemplateColumnsFrameSM};
   }
+
   @media (min-width: ${rem(media.md)}) {
-    grid-template-columns: ${nodeListGridTemplateColumnsFrameMD};
+    grid-template-columns: ${nodeListGridTemplateColumnsFrameMobile};
   }
+  @media (min-width: ${rem((media.md + media.lg) / 2)}) {
+    grid-template-columns: ${nodeListGridTemplateColumnsFrameSM};
+  }
+
   @media (min-width: ${rem(media.lg)}) {
     grid-template-columns: ${nodeListGridTemplateColumnsFrame};
   }
@@ -72,13 +78,21 @@ export const Row = styled.div`
 
 export const Location = styled.div`
   display: grid;
-  grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.street)};
+  grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.closet)};
   align-items: center;
   grid-template-columns: ${({ theme }) => rem(theme.pulsar.size.town)} auto;
+  padding-left: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  @media (min-width: ${rem(media.sm)}) {
+    grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.street)};
+    grid-template-columns: ${({ theme }) => rem(theme.pulsar.size.town)} auto;
+  }
 `;
 
 export const ImgFlag = styled.img`
-  width: ${({ theme }) => rem(theme.pulsar.size.city)};
+  width: ${({ theme }) => rem(theme.pulsar.size.town)};
+  @media (min-width: ${rem(media.sm)}) {
+    width: ${({ theme }) => rem(theme.pulsar.size.city)};
+  }
 `;
 
 export const StatusIcon = styled(SwapStatusIcon)`
@@ -110,4 +124,55 @@ export const Column = styled.div``;
 export const TextNowrap = styled(TextRoom)`
   white-space: nowrap;
   display: block;
+`;
+
+export const BoxAddress = styled.div``;
+export const RowAddress = styled.div`
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.box)};
+  align-items: center;
+`;
+
+export const ColumnAddress = styled.div`
+  width: ${rem(100)};
+  @media (min-width: ${rem(media.xl)}) {
+    width: ${rem(146)};
+  }
+`;
+
+export const ColumnExpiry = styled.div`
+  display: none;
+  @media (min-width: ${rem(media.sm)}) {
+    display: block;
+  }
+  @media (min-width: ${rem(media.md)}) {
+    display: none;
+  }
+  @media (min-width: ${rem((media.md + media.lg) / 2)}) {
+    display: block;
+  }
+`;
+
+export const ColumnNodeName = styled.div`
+  max-width: ${rem(100)};
+  @media (min-width: ${rem(media.xs)}) {
+    max-width: ${rem(140)};
+  }
+  @media (min-width: ${rem(media.sm)}) {
+    max-width: ${rem(90)};
+  }
+  @media (min-width: ${rem((media.sm + media.md) / 2)}) {
+    max-width: ${rem(140)};
+  }
+  @media (min-width: ${rem(media.md)}) {
+    max-width: ${rem(300)};
+  }
+`;
+
+export const TextNodeName = styled(TextBlock)`
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;

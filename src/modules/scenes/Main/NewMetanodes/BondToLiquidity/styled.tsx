@@ -6,26 +6,6 @@ import { StylingConstants } from '../../../../styles';
 
 const { media } = StylingConstants;
 
-const loading = css`
-  @keyframes pulse {
-    0% {
-      filter: saturate(0);
-    }
-
-    25% {
-      filter: saturate(0.25);
-    }
-
-    100% {
-      filter: saturate(0);
-    }
-  }
-
-  animation-name: pulse;
-  animation-duration: 2s;
-  animation-iteration-count: infinite;
-`;
-
 export const BondToLiquidityContainer = styled.div<{ isLoading: boolean }>`
   background-color: ${({ theme }) => theme.pulsar.color.bg.hover};
   padding: ${({ theme }) => rem(theme.pulsar.size.house)};
@@ -48,9 +28,19 @@ export const BondToLiquidityContainer = styled.div<{ isLoading: boolean }>`
 
 export const RowTitle = styled.div`
   margin-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-row-gap: ${({ theme }) => rem(theme.pulsar.size.drawer)};
   white-space: nowrap;
+  @media (min-width: ${rem(media.sm)}) {
+    display: flex;
+    justify-content: space-between;
+  }
+  @media (min-width: ${rem(media.md)}) {
+    display: grid;
+  }
+  @media (min-width: ${rem((media.md + media.lg) / 2)}) {
+    display: flex;
+  }
 `;
 
 export const BarContainer = styled.div`
@@ -63,20 +53,23 @@ export const StatusIcon = styled(SwapStatusIcon)`
 `;
 
 export const ContainerStatus = styled.div`
-  /* display: flex; */
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-row-gap: ${({ theme }) => rem(theme.pulsar.size.box)};
+  justify-self: center;
+  @media (min-width: ${rem(media.xs)}) {
+    grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.room)};
+  }
+  @media (min-width: ${rem(media.md)}) {
+    grid-column-gap: 0;
+  }
 `;
 
 export const ColumnStatus = styled.div`
   display: grid;
-  grid-template-columns: ${({ theme }) => rem(theme.pulsar.size.room)} auto;
+  grid-template-columns: ${({ theme }) => rem(theme.pulsar.size.closet)} auto;
   align-items: center;
-  @media (min-width: ${rem(media.lg)}) {
-    grid-template-columns: ${({ theme }) => rem(theme.pulsar.size.room)} auto;
-  }
-  @media (min-width: ${rem(media.xl)}) {
+  @media (min-width: ${rem(media.sm)}) {
     grid-template-columns: ${({ theme }) => rem(theme.pulsar.size.room)} auto;
   }
 `;
@@ -125,4 +118,24 @@ export const OptimalPoint = styled.div<{ optimalBondPercentage: number; label: s
     top: ${({ theme }) => rem(theme.pulsar.size.house)};
     font-size: ${({ theme }) => rem(theme.pulsar.size.closet)};
   }
+`;
+
+const loading = css`
+  @keyframes pulse {
+    0% {
+      filter: saturate(0);
+    }
+
+    25% {
+      filter: saturate(0.25);
+    }
+
+    100% {
+      filter: saturate(0);
+    }
+  }
+
+  animation-name: pulse;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
 `;

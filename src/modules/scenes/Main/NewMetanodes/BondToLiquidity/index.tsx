@@ -36,32 +36,6 @@ export const BondToLiquidity = ({ bridge }: { bridge: SkybridgeBridge }) => {
     fetcher,
   );
 
-  // Memo: Will delete later
-
-  // const [bond, setBond] = useState(0);
-  // const total = new Big(data.liquidity).add(data.bond);
-  // const liquidityFraction = +new Big(data.liquidity).div(total).toFixed();
-  // const bondFraction = +new Big(data.bond).div(total).toFixed();
-
-  // const [total, setTotal] = useState(1);
-  // const [liquidityFraction, setLiquidityFraction] = useState(1);
-  // const [bondFraction, setBondFraction] = useState(1);
-
-  // Memo: animation 0% => 80%
-  // useEffect(() => {
-  //   // setTimeout(() => {
-  //   // setBond(80);
-  //   data &&
-  //     (async () => {
-  //       setTotal(Number(new Big(data?.liquidity).add(data.bond)));
-  //       setLiquidityFraction(
-  //         await Number(liquidityFraction + new Big(data?.liquidity).div(total).toFixed()),
-  //       );
-  //       setBondFraction(await Number(bondFraction + new Big(data?.bond).div(total).toFixed()));
-  //     })();
-  //   // }, 2000);
-  // }, [data, total, bondFraction, liquidityFraction]);
-
   return (
     <BondToLiquidityContainer isLoading={!data}>
       <RowTitle>

@@ -62,6 +62,7 @@ export const SizeS = styled.div`
     display: block;
   }
 `;
+
 export const SizeL = styled.div`
   display: none;
   @media (min-width: ${rem(media.lg)}) {

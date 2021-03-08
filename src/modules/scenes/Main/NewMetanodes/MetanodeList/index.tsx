@@ -1,22 +1,30 @@
 import { FormattedMessage } from 'react-intl';
 
-import { SizeL, SizeS, TextBlock, TextRoom } from '../../../Common';
+import { AddressLinkP, SizeL, TextBlock, TextRoom } from '../../../Common';
 
 import {
-  ColumnLeft,
+  BoxAddress,
+  ChurnStatus,
   Column,
+  ColumnAddress,
+  ColumnExpiry,
+  ColumnLeft,
+  ColumnNodeName,
   ImgFlag,
+  Location,
   MetanodeListContainer,
   NodeContainer,
-  Row,
-  Location,
   NodeStatus,
-  ChurnStatus,
+  Row,
+  RowAddress,
   StatusIcon,
+  TextNodeName,
   TextNowrap,
 } from './styled';
 
 export const MetanodeList = () => {
+  const bnbAddress = 'bnb139kcljy2z6rmx20hkxg5smvzpqnjgqytbqwn90';
+  const ethAddress = '0x139kcljy2z6rmx20hkxg5smvzpqnjgqytbqwn90';
   return (
     <MetanodeListContainer>
       <NodeContainer>
@@ -34,11 +42,11 @@ export const MetanodeList = () => {
           <TextRoom variant="label">
             <FormattedMessage id="metanodes.bond" />
           </TextRoom>
-          <SizeS>
+          <ColumnExpiry>
             <TextRoom variant="label">
               <FormattedMessage id="metanodes.bond-expiry" />
             </TextRoom>
-          </SizeS>
+          </ColumnExpiry>
           <SizeL>
             <TextRoom variant="label">
               <FormattedMessage id="metanodes.address" />
@@ -55,7 +63,9 @@ export const MetanodeList = () => {
                 // src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${node.code}.svg`}
               />
               <NodeStatus>
-                <TextBlock variant="accent">Stakebooorg</TextBlock>
+                <ColumnNodeName>
+                  <TextNodeName variant="accent">Stakebooorg</TextNodeName>
+                </ColumnNodeName>
                 <ChurnStatus>
                   <StatusIcon status="COMPLETED" />
                   <TextRoom variant="label">
@@ -72,16 +82,31 @@ export const MetanodeList = () => {
             <TextRoom>1,232,122</TextRoom>
             <TextRoom variant="label">(12.23%)</TextRoom>
           </div>
-          <SizeS>
+          <ColumnExpiry>
             <Column>
               <TextNowrap>Aug 05, 2021, 14:13</TextNowrap>
               <TextNowrap variant="label">(232 days)</TextNowrap>
             </Column>
-          </SizeS>
+          </ColumnExpiry>
           <SizeL>
-            <TextRoom variant="label">
-              <FormattedMessage id="metanodes.address" />
-            </TextRoom>
+            <BoxAddress>
+              <RowAddress>
+                <div>
+                  <TextRoom variant="label">BNB:</TextRoom>
+                </div>
+                <ColumnAddress>
+                  <AddressLinkP>{bnbAddress}</AddressLinkP>
+                </ColumnAddress>
+              </RowAddress>
+              <RowAddress>
+                <div>
+                  <TextRoom variant="label">ETH:</TextRoom>
+                </div>
+                <ColumnAddress>
+                  <AddressLinkP>{ethAddress}</AddressLinkP>
+                </ColumnAddress>
+              </RowAddress>
+            </BoxAddress>
           </SizeL>
         </Row>
       </NodeContainer>
