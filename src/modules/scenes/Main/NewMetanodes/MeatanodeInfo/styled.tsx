@@ -24,11 +24,10 @@ export const Left = styled.div``;
 
 export const Right = styled.div`
   display: grid;
-  grid-row-gap: ${rem(36)};
-  @media (min-width: ${rem(media.lg)}) {
-  }
+  grid-row-gap: ${rem(31)};
+
   @media (min-width: ${rem(media.xl)}) {
-    grid-row-gap: ${({ theme }) => rem(theme.pulsar.size.street)};
+    grid-row-gap: ${({ theme }) => rem(19)};
   }
 `;
 

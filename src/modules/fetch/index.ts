@@ -3,17 +3,13 @@ import { AbortController as AbortControllerPonyfill } from 'abortcontroller-poly
 
 import { logger } from '../logger';
 
-export const AbortController = AbortControllerPonyfill as typeof window.AbortController;
-
-export const fetch = async <
-  SuccessResponse extends unknown,
-  ErrorResponse extends unknown = string
->(
+export const fetch = async <SuccessResponse extends unknown>(
   url: Parameters<typeof originalFetch>[0],
   optionsParam?: Parameters<typeof originalFetch>[1],
 ): Promise<
   | { ok: true; status: number; response: SuccessResponse }
-  | { ok: false; status: number; response: ErrorResponse }
+  // | { ok: false; status: number; response: ErrorResponse }
+  | { ok: false; status: number; response: any }
 > => {
   const options: typeof optionsParam = {
     ...optionsParam,

@@ -2,14 +2,14 @@ import React from 'react';
 
 import { ActionButtonMetanodes } from '../ActionButtonMetanodes';
 import { BondToLiquidity } from '../BondToLiquidity';
-import { BondToLiquidity2 } from '../BondToLiquidity2';
 import { Churning } from '../Churning';
 import { Earnings } from '../Earnings';
 import { GeneralInfo } from '../GeneralInfo';
+import { MetanodeList } from '../MetanodeList';
 import { TotalNodes } from '../TotalNodes';
 import { TotalSwingbyBond } from '../TotalSwingbyBond';
 
-import { MetanodeInfoContainer, Top, Bottom, Left, Right, Row } from './styled';
+import { Bottom, Left, MetanodeInfoContainer, Right, Row, Top } from './styled';
 
 interface Props {
   bridge: string;
@@ -31,14 +31,15 @@ export const MetanodeInfo = (props: Props) => {
         <Right>
           <TotalSwingbyBond />
           <BondToLiquidity bridge="btc_erc" />
-          {/* <BondToLiquidity2 bridge="btc_erc" /> */}
           <Row>
             <Churning />
             <Earnings />
           </Row>
         </Right>
       </Top>
-      <Bottom>Metanodes</Bottom>
+      <Bottom>
+        <MetanodeList />
+      </Bottom>
     </MetanodeInfoContainer>
   );
 };

@@ -1,26 +1,23 @@
 import { Text } from '@swingby-protocol/pulsar';
-import { FormattedMessage, useIntl } from 'react-intl';
-import ProgressBar from '@ramonak/react-progress-bar';
-import { useEffect, useState } from 'react';
-import useSWR from 'swr';
-import { Big } from 'big.js';
 import { SkybridgeBridge } from '@swingby-protocol/sdk';
+import { Big } from 'big.js';
+import { FormattedMessage, useIntl } from 'react-intl';
+import useSWR from 'swr';
 
-import { TextRoom } from '../../../Common';
 import { fetcher } from '../../../../fetch';
+import { TextRoom } from '../../../Common';
 
 import {
-  BondToLiquidityContainer,
-  RowTitle,
-  BarContainer,
-  ColumnStatus,
-  ContainerStatus,
-  TextStatus,
   Bar,
   BarBond,
   BarLiquidity,
+  BondToLiquidityContainer,
+  ColumnStatus,
+  ContainerStatus,
   OptimalPoint,
+  RowTitle,
   StatusIcon,
+  TextStatus,
 } from './styled';
 
 type ApiData = {
