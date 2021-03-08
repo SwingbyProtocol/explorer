@@ -10,7 +10,6 @@ import { TextRoom } from '../../../Common';
 import {
   Bar,
   BarBond,
-  BarLiquidity,
   BondToLiquidityContainer,
   ColumnStatus,
   ContainerStatus,
@@ -64,7 +63,7 @@ export const BondToLiquidity = ({ bridge }: { bridge: SkybridgeBridge }) => {
   // }, [data, total, bondFraction, liquidityFraction]);
 
   return (
-    <BondToLiquidityContainer>
+    <BondToLiquidityContainer isLoading={!data}>
       <RowTitle>
         <div>
           <Text variant="section-title">
@@ -90,17 +89,23 @@ export const BondToLiquidity = ({ bridge }: { bridge: SkybridgeBridge }) => {
 
       {(() => {
         if (!data) {
-          return <Bar />;
+          return (
+            <Bar>
+              <BarBond widthPercentage={60} />
+              <OptimalPoint
+                optimalBondPercentage={50}
+                label={formatMessage({ id: 'metanodes.bond-to-liquidity.optimal' })}
+              />
+            </Bar>
+          );
         }
 
         const total = new Big(data.liquidity).add(data.bond);
-        const liquidityFraction = +new Big(data.liquidity).div(total).toFixed();
         const bondFraction = +new Big(data.bond).div(total).toFixed();
 
         return (
           <Bar>
             <BarBond widthPercentage={bondFraction * 100} />
-            <BarLiquidity widthPercentage={liquidityFraction * 100} />
             <OptimalPoint
               optimalBondPercentage={+data.optimalBondFraction * 100}
               label={formatMessage({ id: 'metanodes.bond-to-liquidity.optimal' })}
@@ -111,7 +116,7 @@ export const BondToLiquidity = ({ bridge }: { bridge: SkybridgeBridge }) => {
       <div>
         <TextRoom variant="label">
           <FormattedMessage id="metanodes.status" />
-        </TextRoom>{' '}
+        </TextRoom>
         <TextStatus variant="label">{status}</TextStatus>
       </div>
     </BondToLiquidityContainer>

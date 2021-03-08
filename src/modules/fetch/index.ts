@@ -1,15 +1,16 @@
 import originalFetch from 'isomorphic-unfetch';
-import { AbortController as AbortControllerPonyfill } from 'abortcontroller-polyfill/dist/cjs-ponyfill'; // eslint-disable-line import/no-internal-modules
 
 import { logger } from '../logger';
 
-export const fetch = async <SuccessResponse extends unknown>(
+export const fetch = async <
+  SuccessResponse extends unknown,
+  ErrorResponse extends unknown = string
+>(
   url: Parameters<typeof originalFetch>[0],
   optionsParam?: Parameters<typeof originalFetch>[1],
 ): Promise<
   | { ok: true; status: number; response: SuccessResponse }
-  // | { ok: false; status: number; response: ErrorResponse }
-  | { ok: false; status: number; response: any }
+  | { ok: false; status: number; response: ErrorResponse }
 > => {
   const options: typeof optionsParam = {
     ...optionsParam,
