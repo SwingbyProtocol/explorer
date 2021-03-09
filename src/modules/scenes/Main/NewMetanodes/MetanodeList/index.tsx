@@ -1,14 +1,7 @@
 import { getCryptoAssetFormatter } from '@swingby-protocol/pulsar';
-import { SkybridgeBridge } from '@swingby-protocol/sdk';
-import { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
-import {
-  fetchNodeList,
-  INodeListResponse,
-  toggleStatusBg,
-  toggleStatusIconColor,
-} from '../../../../metanodes';
+import { INodeListResponse, toggleStatusBg, toggleStatusIconColor } from '../../../../metanodes';
 import { AddressLinkP, SizeL, TextBlock, TextRoom } from '../../../Common';
 
 import {
@@ -33,19 +26,12 @@ import {
 } from './styled';
 
 interface Props {
-  bridge: SkybridgeBridge;
+  metanodes: INodeListResponse[] | null;
 }
 
 export const MetanodeList = (props: Props) => {
   const { locale } = useIntl();
-  const [metanodes, setMetanodes] = useState<INodeListResponse[] | null>(null);
-
-  useEffect(() => {
-    (async () => {
-      const nodes = await fetchNodeList(props.bridge);
-      setMetanodes(nodes);
-    })();
-  }, [props.bridge]);
+  const { metanodes } = props;
 
   return (
     <MetanodeListContainer>
@@ -87,7 +73,7 @@ export const MetanodeList = (props: Props) => {
             }).format(Number(node.stake.amount));
 
             return (
-              <Row key={i} bg={toggleStatusBg(node.status, i)}>
+              <Row key={node.id} bg={toggleStatusBg(node.status, i)}>
                 <ColumnLeft>
                   <Location>
                     <ImgFlag

@@ -4,6 +4,7 @@ import { Big } from 'big.js';
 import { FormattedMessage, useIntl } from 'react-intl';
 import useSWR from 'swr';
 
+import { CACHED_ENDPOINT, mode } from '../../../../env';
 import { fetcher } from '../../../../fetch';
 import { TextRoom } from '../../../Common';
 
@@ -32,7 +33,7 @@ export const BondToLiquidity = ({ bridge }: { bridge: SkybridgeBridge }) => {
   const status = 'Optimal';
 
   const { data } = useSWR<ApiData>(
-    `https://metanode-earnings.vercel.app/api/v1/production/${bridge}/bond-to-liquidity`,
+    `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/bond-to-liquidity`,
     fetcher,
   );
 
@@ -89,7 +90,7 @@ export const BondToLiquidity = ({ bridge }: { bridge: SkybridgeBridge }) => {
       })()}
       <div>
         <TextRoom variant="label">
-          <FormattedMessage id="metanodes.status" />
+          <FormattedMessage id="metanodes.status" />{' '}
         </TextRoom>
         <TextStatus variant="label">{status}</TextStatus>
       </div>

@@ -1,6 +1,7 @@
 import { SkybridgeBridge } from '@swingby-protocol/sdk';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
+import { fetchNodeList, INodeListResponse } from '../../../../metanodes';
 import { ActionButtonMetanodes } from '../ActionButtonMetanodes';
 import { BondToLiquidity } from '../BondToLiquidity';
 import { Churning } from '../Churning';
@@ -19,13 +20,22 @@ interface Props {
 export const MetanodeInfo = (props: Props) => {
   const { bridge } = props;
 
+  const [metanodes, setMetanodes] = useState<INodeListResponse[] | null>(null);
+
+  useEffect(() => {
+    (async () => {
+      const nodes = await fetchNodeList(bridge);
+      setMetanodes(nodes);
+    })();
+  }, [bridge]);
+
   return (
     <MetanodeInfoContainer>
       <ActionButtonMetanodes />
       <Top>
         <Left>
           <GeneralInfo />
-          <TotalNodes />
+          <TotalNodes metanodes={metanodes} />
         </Left>
         <Right>
           <TotalSwingbyBond />
@@ -37,7 +47,7 @@ export const MetanodeInfo = (props: Props) => {
         </Right>
       </Top>
       <Bottom>
-        <MetanodeList bridge={bridge} />
+        <MetanodeList metanodes={metanodes} />
       </Bottom>
     </MetanodeInfoContainer>
   );
