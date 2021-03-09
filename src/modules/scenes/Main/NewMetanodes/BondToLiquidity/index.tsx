@@ -66,11 +66,17 @@ export const BondToLiquidity = (props: Props) => {
         }
 
         const total = new Big(liquidity.liquidity).add(liquidity.bond);
-        const bondFraction = +new Big(liquidity.bond).div(total).toFixed();
+
+        const bondFraction = () => {
+          if (total.eq(0)) {
+            return 0;
+          }
+          return +new Big(liquidity.bond).div(total).toFixed();
+        };
 
         return (
           <Bar>
-            <BarBond widthPercentage={bondFraction * 100} />
+            <BarBond widthPercentage={Number(bondFraction()) * 100} />
             <OptimalPoint
               optimalBondPercentage={+liquidity.optimalBondFraction * 100}
               label={formatMessage({ id: 'metanodes.bond-to-liquidity.optimal' })}
@@ -78,6 +84,7 @@ export const BondToLiquidity = (props: Props) => {
           </Bar>
         );
       })()}
+
       <div>
         <TextRoom variant="label">
           <FormattedMessage id="metanodes.status" />{' '}
