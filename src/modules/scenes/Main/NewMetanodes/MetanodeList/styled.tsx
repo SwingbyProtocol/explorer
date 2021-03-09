@@ -2,13 +2,17 @@ import { SwapStatusIcon, Text } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
 import styled from 'styled-components';
 
+import { bondExpiring, bondTooLow, mayChurnIn } from '../../../../metanodes';
 import { StylingConstants } from '../../../../styles';
 import { TextBlock, TextRoom } from '../../../Common';
 
 const { media } = StylingConstants;
 
+interface BgProps {
+  bg: boolean | string;
+}
+
 export const MetanodeListContainer = styled.div`
-  /* background-color: ${({ theme }) => theme.pulsar.color.bg.hover}; */
   margin-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
   width: 100%;
   @media (min-width: ${rem(media.md)}) {
@@ -36,8 +40,8 @@ export const ColumnCenter = styled.div`
 `;
 
 const nodeListGridTemplateColumnsFrameMobile = `1fr 1fr`;
-const nodeListGridTemplateColumnsFrameSM = `33% 33% auto`;
-const nodeListGridTemplateColumnsFrame = `25% 10% 20% 20% 25%`;
+const nodeListGridTemplateColumnsFrameSM = `35% 25% auto`;
+const nodeListGridTemplateColumnsFrame = `25% 10% 20% 20% auto`;
 
 export const StakeInfos = styled.div`
   display: none;
@@ -51,16 +55,24 @@ export const StakeInfos = styled.div`
   }
 `;
 
-export const Row = styled.div`
+export const Row = styled.div<BgProps>`
+  background: ${(props) =>
+    props.bg === bondTooLow
+      ? 'rgba(235, 65, 65, 0.2)'
+      : props.bg === bondExpiring
+      ? 'rgba(235, 65, 65, 0.2)'
+      : props.bg === mayChurnIn
+      ? 'rgba(143, 231, 217, 0.2)'
+      : !props.bg && props.theme.pulsar.color.bg.hover};
   display: grid;
   align-items: center;
-  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
   grid-template-columns: ${nodeListGridTemplateColumnsFrameMobile};
-  padding: ${rem(0)} ${rem(14)};
+  padding: 0 ${({ theme }) => rem(theme.pulsar.size.room)};
+  height: ${rem(80)};
   @media (min-width: ${rem(media.sm)}) {
     display: grid;
     align-items: center;
-    padding: 0;
+    padding: ${({ theme }) => rem(theme.pulsar.size.drawer)} 0;
     grid-template-columns: ${nodeListGridTemplateColumnsFrameSM};
   }
 
@@ -98,6 +110,8 @@ export const ImgFlag = styled.img`
 export const StatusIcon = styled(SwapStatusIcon)`
   width: ${({ theme }) => rem(theme.pulsar.size.drawer)};
   height: ${({ theme }) => rem(theme.pulsar.size.drawer)};
+  align-self: start;
+  margin-top: ${rem(8)};
 `;
 
 export const NodeStatus = styled.div``;
@@ -137,7 +151,7 @@ export const RowAddress = styled.div`
 export const ColumnAddress = styled.div`
   width: ${rem(100)};
   @media (min-width: ${rem(media.xl)}) {
-    width: ${rem(146)};
+    width: ${rem(140)};
   }
 `;
 
@@ -157,7 +171,7 @@ export const ColumnExpiry = styled.div`
 export const ColumnNodeName = styled.div`
   max-width: ${rem(100)};
   @media (min-width: ${rem(media.xs)}) {
-    max-width: ${rem(140)};
+    max-width: ${rem(120)};
   }
   @media (min-width: ${rem(media.sm)}) {
     max-width: ${rem(90)};
@@ -165,14 +179,11 @@ export const ColumnNodeName = styled.div`
   @media (min-width: ${rem((media.sm + media.md) / 2)}) {
     max-width: ${rem(140)};
   }
-  @media (min-width: ${rem(media.md)}) {
-    max-width: ${rem(150)};
-  }
   @media (min-width: ${rem(media.lg)}) {
     max-width: ${rem(100)};
   }
   @media (min-width: ${rem(media.xl)}) {
-    max-width: ${rem(150)};
+    max-width: ${rem(140)};
   }
 `;
 
@@ -181,4 +192,12 @@ export const TextNodeName = styled(TextBlock)`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+`;
+
+export const TextNodeStatus = styled(TextNodeName)`
+  font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
+  @media (min-width: ${rem(media.xl)}) {
+    overflow: initial;
+    white-space: initial;
+  }
 `;

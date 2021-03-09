@@ -1,36 +1,23 @@
+import { SkybridgeBridge } from '@swingby-protocol/sdk';
+
 import { INodeListResponse } from '..';
+import { CACHED_ENDPOINT, mode } from '../../env';
 import { camelize, fetch } from '../../fetch';
 
-export const fetchNodeList = async () => {
-  const url = `https://metanode-earnings.vercel.app/api/v1/production/btc_erc/nodes`;
+export const fetchNodeList = async (bridge: SkybridgeBridge) => {
+  const url = `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/nodes`;
 
   try {
     const result = await fetch<INodeListResponse[]>(url);
     const metanodes = result.ok && camelize(result.response);
-    return Promise.all(
-      metanodes.map(async (node: INodeListResponse) => {
-        try {
-          return {
-            location: node.ip.regionName,
-            code: node.ip.regionCode,
-            version: node.version,
-            moniker: node.moniker,
-            stake: node.stake,
-            rewardsAddress1: node.addresses[0],
-            rewardsAddress2: node.addresses[1],
-          };
-        } catch (e) {
-          console.log(e);
-        }
-      }),
-    );
+    return metanodes;
   } catch (e) {
     console.log(e);
   }
 };
 
 export const fetchNodeEarningsList = async () => {
-  const url = 'https://metanode-earnings.vercel.app/api/v1/production/rewards/ranking';
+  const url = `${CACHED_ENDPOINT}/v1/${mode}/rewards/ranking`;
   const result = await fetch<
     Array<{
       address: string;

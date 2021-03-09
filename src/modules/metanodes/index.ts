@@ -1,5 +1,7 @@
 import { SKYBRIDGE_BRIDGES } from '@swingby-protocol/sdk';
 
+import { TStatus } from '../explorer';
+
 export { fetchNodeList, fetchNodeEarningsList } from './utils';
 
 export interface INodeListResponse {
@@ -22,19 +24,6 @@ export interface INodeListResponse {
   };
 }
 
-export interface INodesResponse {
-  stake: {
-    address: string;
-    amount: string;
-    expiresAt: string;
-  };
-  location: string;
-  code: string;
-  version: string;
-  moniker: string;
-  rewardsAddress1: string;
-  rewardsAddress2: string;
-}
 export interface INodeEarningsResponse {
   moniker: string;
   bond: number;
@@ -70,3 +59,36 @@ export const MetanodeBridges = [
     tabMenu: 'Bitcoin to BSC',
   },
 ];
+
+export const churnedIn = 'churned-in';
+export const bondTooLow = 'may-churn-out--bond-too-low';
+export const bondExpiring = 'may-churn-out--bond-expiring';
+export const mayChurnIn = 'may-churn-in';
+
+export const toggleStatusBg = (status: string, i: number): string | boolean => {
+  switch (status) {
+    case churnedIn:
+      return i % 2 !== 0;
+    case bondTooLow:
+      return bondTooLow;
+    case bondExpiring:
+      return bondExpiring;
+
+    default:
+      return mayChurnIn;
+  }
+};
+
+export const toggleStatusIconColor = (status: string): TStatus => {
+  switch (status) {
+    case churnedIn:
+      return 'COMPLETED';
+    case bondTooLow:
+      return 'REFUNDED';
+    case bondExpiring:
+      return 'PENDING';
+
+    default:
+      return 'WAITING';
+  }
+};

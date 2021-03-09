@@ -76,6 +76,8 @@ export const ENDPOINT_ETHERSCAN =
 export const URL_ETHERSCAN =
   mode === MODE.PRODUCTION ? 'https://etherscan.io' : 'https://goerli.etherscan.io';
 
+export const CACHED_ENDPOINT = 'https://metanode-earnings.vercel.app/api';
+
 // Memo: BTCE contract address as WBTC in testnet
 export const CONTRACT_WBTC =
   process.env.NEXT_PUBLIC_CONTRACT_WBTC || mode === MODE.PRODUCTION

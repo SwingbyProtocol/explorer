@@ -37,7 +37,7 @@ export const MetanodeInfo = (props: Props) => {
         </Right>
       </Top>
       <Bottom>
-        <MetanodeList />
+        <MetanodeList bridge={bridge} />
       </Bottom>
     </MetanodeInfoContainer>
   );
