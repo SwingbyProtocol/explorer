@@ -42,9 +42,14 @@ export enum NodeActiveStatus {
 }
 
 export interface IReward {
-  currency: string;
-  rewardsTotal: string;
+  rewards: string;
   rewardsAvgPerNode: string;
+}
+
+export interface IRewards {
+  currency: string;
+  total: IReward;
+  lastWeek: IReward;
 }
 
 export interface IBridge {
