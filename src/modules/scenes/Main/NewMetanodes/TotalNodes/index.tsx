@@ -61,7 +61,7 @@ export const TotalNodes = (props: Props) => {
           <FormattedMessage id="metanodes.total-nodes" />
         </Text>
       </RowTitle>
-      {metanodes ? (
+      {metanodes?.length > 0 ? (
         <>
           <DoughnutWrapper>
             <TextNodeNum variant="title-s">{totalNodes}</TextNodeNum>

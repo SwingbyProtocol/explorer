@@ -2,7 +2,7 @@ import { SKYBRIDGE_BRIDGES } from '@swingby-protocol/sdk';
 
 import { TStatus } from '../explorer';
 
-export { fetchNodeList, fetchNodeEarningsList } from './utils';
+export { fetchNodeEarningsList, fetchNodeList } from './utils';
 
 export interface INodeListResponse {
   id: string;
@@ -41,9 +41,23 @@ export enum NodeActiveStatus {
   NON_ACTIVE = 'nonActive',
 }
 
+export interface IReward {
+  currency: string;
+  rewardsTotal: string;
+  rewardsAvgPerNode: string;
+}
+
 export interface IBridge {
   path: string;
   tabMenu: string;
+}
+
+export interface ILiquidity {
+  status: 'overbonded' | 'underbonded' | 'optimal';
+  bond: string;
+  liquidity: string;
+  optimalBondFraction: string;
+  overbondedBondFraction: string;
 }
 
 const btcErc = SKYBRIDGE_BRIDGES.find((bridge) => bridge === 'btc_erc');

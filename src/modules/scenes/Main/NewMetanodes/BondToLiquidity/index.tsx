@@ -1,11 +1,8 @@
 import { Text } from '@swingby-protocol/pulsar';
-import { SkybridgeBridge } from '@swingby-protocol/sdk';
 import { Big } from 'big.js';
 import { FormattedMessage, useIntl } from 'react-intl';
-import useSWR from 'swr';
 
-import { CACHED_ENDPOINT, mode } from '../../../../env';
-import { fetcher } from '../../../../fetch';
+import { ILiquidity } from '../../../../metanodes';
 import { TextRoom } from '../../../Common';
 
 import {
@@ -20,25 +17,18 @@ import {
   TextStatus,
 } from './styled';
 
-type ApiData = {
-  status: 'overbonded' | 'underbonded' | 'optimal';
-  bond: string;
-  liquidity: string;
-  optimalBondFraction: string;
-  overbondedBondFraction: string;
-};
+interface Props {
+  liquidity: ILiquidity | null;
+}
 
-export const BondToLiquidity = ({ bridge }: { bridge: SkybridgeBridge }) => {
+export const BondToLiquidity = (props: Props) => {
+  const { liquidity } = props;
   const { formatMessage } = useIntl();
-  const status = 'Optimal';
 
-  const { data } = useSWR<ApiData>(
-    `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/bond-to-liquidity`,
-    fetcher,
-  );
+  const status = liquidity && liquidity.status;
 
   return (
-    <BondToLiquidityContainer isLoading={!data}>
+    <BondToLiquidityContainer isLoading={!liquidity}>
       <RowTitle>
         <div>
           <Text variant="section-title">
@@ -63,7 +53,7 @@ export const BondToLiquidity = ({ bridge }: { bridge: SkybridgeBridge }) => {
       </RowTitle>
 
       {(() => {
-        if (!data) {
+        if (!liquidity) {
           return (
             <Bar>
               <BarBond widthPercentage={60} />
@@ -75,14 +65,14 @@ export const BondToLiquidity = ({ bridge }: { bridge: SkybridgeBridge }) => {
           );
         }
 
-        const total = new Big(data.liquidity).add(data.bond);
-        const bondFraction = +new Big(data.bond).div(total).toFixed();
+        const total = new Big(liquidity.liquidity).add(liquidity.bond);
+        const bondFraction = +new Big(liquidity.bond).div(total).toFixed();
 
         return (
           <Bar>
             <BarBond widthPercentage={bondFraction * 100} />
             <OptimalPoint
-              optimalBondPercentage={+data.optimalBondFraction * 100}
+              optimalBondPercentage={+liquidity.optimalBondFraction * 100}
               label={formatMessage({ id: 'metanodes.bond-to-liquidity.optimal' })}
             />
           </Bar>

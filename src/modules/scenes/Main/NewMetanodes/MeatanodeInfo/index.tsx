@@ -1,7 +1,9 @@
 import { SkybridgeBridge } from '@swingby-protocol/sdk';
 import React, { useEffect, useState } from 'react';
 
-import { fetchNodeList, INodeListResponse } from '../../../../metanodes';
+import { CACHED_ENDPOINT, mode } from '../../../../env';
+import { fetcher } from '../../../../fetch';
+import { fetchNodeList, ILiquidity, INodeListResponse, IReward } from '../../../../metanodes';
 import { ActionButtonMetanodes } from '../ActionButtonMetanodes';
 import { BondToLiquidity } from '../BondToLiquidity';
 import { Churning } from '../Churning';
@@ -21,11 +23,27 @@ export const MetanodeInfo = (props: Props) => {
   const { bridge } = props;
 
   const [metanodes, setMetanodes] = useState<INodeListResponse[] | null>(null);
+  const [reward, setReward] = useState<IReward | null>(null);
+  const [liquidity, setLiquidity] = useState<ILiquidity | null>(null);
 
   useEffect(() => {
     (async () => {
-      const nodes = await fetchNodeList(bridge);
+      const rewardsUrl = `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/rewards-total`;
+      const liquidityUrl = `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/bond-to-liquidity`;
+
+      const results = await Promise.all([
+        fetchNodeList(bridge),
+        fetcher<IReward>(rewardsUrl),
+        fetcher<ILiquidity>(liquidityUrl),
+      ]);
+
+      const nodes = results[0];
+      const rewardData = results[1];
+      const liquidityData = results[2];
+
       setMetanodes(nodes);
+      setReward(rewardData);
+      setLiquidity(liquidityData);
     })();
   }, [bridge]);
 
@@ -39,10 +57,10 @@ export const MetanodeInfo = (props: Props) => {
         </Left>
         <Right>
           <TotalSwingbyBond />
-          <BondToLiquidity bridge={bridge} />
+          <BondToLiquidity liquidity={liquidity} />
           <Row>
             <Churning />
-            <Earnings />
+            <Earnings reward={reward} />
           </Row>
         </Right>
       </Top>
