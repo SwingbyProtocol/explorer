@@ -47,7 +47,7 @@
   "home.network.network-bridges": "Network Bridges",
   "home.network.float": "Float",
   "home.network.vol": "Vol.",
-  "home.network.total-swap-vol": "Total Swap Vol. 7d",
+  "home.network.total-vol": "Total Volume (7 Days)",
   "home.recent-swaps.check-swap-progress": "Check the swap progress",
   "home.recent-swaps.get-tx-details": "Get the transaction details",
   "home.recent-swaps.recent-swaps": "Recent Swaps",
