@@ -27,25 +27,26 @@ export const MetanodeInfo = (props: Props) => {
   const [liquidity, setLiquidity] = useState<ILiquidity | null>(null);
 
   useEffect(() => {
-    (async () => {
-      const rewardsUrl = `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/rewards-last-week`;
+    bridge &&
+      (async () => {
+        const rewardsUrl = `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/rewards-last-week`;
 
-      const liquidityUrl = `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/bond-to-liquidity`;
+        const liquidityUrl = `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/bond-to-liquidity`;
 
-      const results = await Promise.all([
-        fetchNodeList(bridge),
-        fetcher<IReward>(rewardsUrl),
-        fetcher<ILiquidity>(liquidityUrl),
-      ]);
+        const results = await Promise.all([
+          fetchNodeList(bridge),
+          fetcher<IReward>(rewardsUrl),
+          fetcher<ILiquidity>(liquidityUrl),
+        ]);
 
-      const nodes = results[0];
-      const rewardData = results[1];
-      const liquidityData = results[2];
+        const nodes = results[0];
+        const rewardData = results[1];
+        const liquidityData = results[2];
 
-      setMetanodes(nodes);
-      setReward(rewardData);
-      setLiquidity(liquidityData);
-    })();
+        setMetanodes(nodes);
+        setReward(rewardData);
+        setLiquidity(liquidityData);
+      })();
   }, [bridge]);
 
   return (

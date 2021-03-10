@@ -24,6 +24,7 @@ export const BridgeMobileMetanodes = (props: Props) => {
       ))}
     </>
   );
+  const selectedBridge = MetanodeBridges.find((b) => bridge === b.path);
 
   return (
     <BridgeMobileMetanodesContainer>
@@ -33,7 +34,7 @@ export const BridgeMobileMetanodes = (props: Props) => {
       <Dropdown
         target={
           <DropTargetBridges size="city">
-            <TextChosenFilter> {bridge}</TextChosenFilter>{' '}
+            <TextChosenFilter> {selectedBridge.tabMenu}</TextChosenFilter>{' '}
           </DropTargetBridges>
         }
         data-testid="dropdown"
