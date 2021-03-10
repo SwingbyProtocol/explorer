@@ -6,8 +6,10 @@ export {
   removeDuplicatedTxs,
   convertTxTime,
   capitalize,
+  getDiffDays,
   getBorderColor,
 } from './transaction';
+
 export {
   calculateFixedFee,
   getTransactionFees,

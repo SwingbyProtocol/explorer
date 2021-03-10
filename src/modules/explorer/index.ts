@@ -20,6 +20,7 @@ export {
   checkIsValidAmount,
   convertDateTime,
   getBorderColor,
+  getDiffDays,
 } from './utils';
 
 export { TxRowTransition, TxRowVariants } from './animation';

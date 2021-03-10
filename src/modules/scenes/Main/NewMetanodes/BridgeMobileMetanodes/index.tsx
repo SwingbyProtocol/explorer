@@ -24,7 +24,10 @@ export const BridgeMobileMetanodes = (props: Props) => {
       ))}
     </>
   );
-  const selectedBridge = MetanodeBridges.find((b) => bridge === b.path);
+
+  const selectedBridge = bridge
+    ? MetanodeBridges.find((b) => bridge === b.path)
+    : MetanodeBridges[0];
 
   return (
     <BridgeMobileMetanodesContainer>

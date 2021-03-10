@@ -1,6 +1,8 @@
 import { getCryptoAssetFormatter } from '@swingby-protocol/pulsar';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { DateTime } from 'luxon';
 
+import { convertDateTime, getDiffDays } from '../../../../explorer';
 import { INodeListResponse, toggleStatusBg, toggleStatusIconColor } from '../../../../metanodes';
 import { AddressLinkP, SizeL, TextBlock, TextRoom } from '../../../Common';
 
@@ -72,6 +74,10 @@ export const MetanodeList = (props: Props) => {
               maximumFractionDigits: 0,
             }).format(Number(node.stake.amount));
 
+            const dt = DateTime.fromISO(node.stake.expiresAt);
+            const expireTimestamp = dt.toSeconds();
+            const expireTime = convertDateTime(expireTimestamp);
+
             return (
               <Row key={node.id} bg={toggleStatusBg(node.status, i)}>
                 <ColumnLeft>
@@ -99,8 +105,8 @@ export const MetanodeList = (props: Props) => {
                 </div>
                 <ColumnExpiry>
                   <Column>
-                    <TextNowrap>Aug 05, 2021, 14:13</TextNowrap>
-                    <TextNowrap variant="label">(232 days)</TextNowrap>
+                    <TextNowrap>{expireTime}</TextNowrap>
+                    <TextNowrap variant="label">({getDiffDays(expireTimestamp)})</TextNowrap>
                   </Column>
                 </ColumnExpiry>
                 <SizeL>
