@@ -13,8 +13,8 @@ interface Props {
 export const Earnings = (props: Props) => {
   const { locale } = useIntl();
   const { reward } = props;
-  const rewardsTotal = reward ? reward.rewards : 0;
-  const rewardsAvgPerNode = reward ? reward.rewardsAvgPerNode : 0;
+  const rewardsTotal = reward ? reward.total : 0;
+  const rewardsAvgPerNode = reward ? reward.avgPerNode : 0;
 
   const earningTotal = getFiatAssetFormatter({
     locale: locale,

@@ -3,13 +3,7 @@ import React, { useEffect, useState } from 'react';
 
 import { CACHED_ENDPOINT, mode } from '../../../../env';
 import { fetcher } from '../../../../fetch';
-import {
-  fetchNodeList,
-  ILiquidity,
-  INodeListResponse,
-  IReward,
-  IRewards,
-} from '../../../../metanodes';
+import { fetchNodeList, ILiquidity, INodeListResponse, IReward } from '../../../../metanodes';
 import { ActionButtonMetanodes } from '../ActionButtonMetanodes';
 import { BondToLiquidity } from '../BondToLiquidity';
 import { Churning } from '../Churning';
@@ -34,18 +28,18 @@ export const MetanodeInfo = (props: Props) => {
 
   useEffect(() => {
     (async () => {
-      const rewardsUrl = `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/rewards-total`;
+      const rewardsUrl = `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/rewards-last-week`;
 
       const liquidityUrl = `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/bond-to-liquidity`;
 
       const results = await Promise.all([
         fetchNodeList(bridge),
-        fetcher<IRewards>(rewardsUrl),
+        fetcher<IReward>(rewardsUrl),
         fetcher<ILiquidity>(liquidityUrl),
       ]);
 
       const nodes = results[0];
-      const rewardData = results[1].total;
+      const rewardData = results[1];
       const liquidityData = results[2];
 
       setMetanodes(nodes);
