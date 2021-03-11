@@ -1,16 +1,37 @@
 import { Text } from '@swingby-protocol/pulsar';
+import { DateTime } from 'luxon';
 import { FormattedMessage } from 'react-intl';
 
-import { CONTRACT_SB_BTC, URL_ETHERSCAN } from '../../../../env';
+import { URL_ETHERSCAN } from '../../../../env';
+import { useRunCountDown } from '../../../../hooks';
+import { IChurn } from '../../../../metanodes';
 import { Atag, TextRoom } from '../../../Common';
 
 import { AddressP, ChurningContainer, Left, Right, Row, RowTitle } from './styled';
 
-export const Churning = () => {
-  const nextTime = '2d 3hr 20m';
+interface Props {
+  churnTime: IChurn | null;
+}
 
-  const lastAddress = CONTRACT_SB_BTC;
-  const lastAddressUrl = `${URL_ETHERSCAN}/address/${lastAddress}`;
+export const Churning = (props: Props) => {
+  const { churnTime } = props;
+  const dt = churnTime && DateTime.fromISO(churnTime.nextAt);
+  const nextTimestamp = churnTime && Number(dt.toSeconds().toFixed(0));
+  const cd = useRunCountDown(nextTimestamp);
+
+  const nextTime = cd?.days >= 0 && (
+    <FormattedMessage
+      id="metanodes.churned-next-time"
+      values={{
+        days: cd.days,
+        hours: cd.hours,
+        minutes: cd.minutes,
+      }}
+    />
+  );
+
+  const lastAddress = churnTime && churnTime.lastTxHash;
+  const lastAddressUrl = `${URL_ETHERSCAN}/tx/${lastAddress}`;
   return (
     <ChurningContainer>
       <RowTitle>

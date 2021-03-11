@@ -140,6 +140,7 @@
   "metanodes.bond": "Bond",
   "metanodes.bond-expiry": "Bond Expiry",
   "metanodes.churned-in": "Churned in",
+  "metanodes.churned-next-time": "{days}d {hours}hr {minutes}m",
   "fees.fees": "Transaction Fees",
   "fees.currency": "Currency",
   "fees.live": "Status",

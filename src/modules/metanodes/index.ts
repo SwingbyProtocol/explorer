@@ -60,6 +60,12 @@ export interface ILiquidity {
   overbondedBondFraction: string;
 }
 
+export interface IChurn {
+  nextAt: string;
+  lastTxHash: string;
+  lastAt: string;
+}
+
 const btcErc = SKYBRIDGE_BRIDGES.find((bridge) => bridge === 'btc_erc');
 const btcBep = SKYBRIDGE_BRIDGES.find((bridge) => bridge === 'btc_bep');
 
