@@ -3,6 +3,7 @@ import React from 'react';
 import { Line } from 'react-chartjs-2';
 import { FormattedMessage, useIntl } from 'react-intl';
 
+import { Loader } from '../../../../../components/Loader';
 import { formatNum } from '../../../../common';
 import { TBondHistory } from '../../../../metanodes';
 
@@ -129,6 +130,8 @@ export const TotalSwingbyBond = (props: Props) => {
     },
   };
 
+  const loader = <Loader marginTop={0} minHeight={128} />;
+
   return (
     <div>
       <TotalSwingbyBondContainer>
@@ -138,11 +141,15 @@ export const TotalSwingbyBond = (props: Props) => {
               <FormattedMessage id="metanodes.total-swingby-bond" />
             </Text>
           </TitleDiv>
-          <LineContainer>
-            <LineDiv isLoading={false}>
-              <Line type="line" data={data} options={options} height={110} />
-            </LineDiv>
-          </LineContainer>
+          {bondHistories ? (
+            <LineContainer>
+              <LineDiv isLoading={false}>
+                <Line type="line" data={data} options={options} height={110} />
+              </LineDiv>
+            </LineContainer>
+          ) : (
+            loader
+          )}
         </Box>
       </TotalSwingbyBondContainer>
     </div>
