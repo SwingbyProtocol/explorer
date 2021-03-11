@@ -18,6 +18,8 @@ export const useRunCountDown = (endingTime: number): ICountdown => {
 
     const endTime = DateTime.fromSeconds(Number(endingTime));
     const now = DateTime.fromSeconds(timestamp);
+
+    //Ref: https://moment.github.io/luxon/docs/class/src/datetime.js~DateTime.html
     const duration = endTime.diff(now, ['days', 'hours', 'minutes', 'seconds']).toObject();
 
     const days = duration.days;

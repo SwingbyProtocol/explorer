@@ -66,6 +66,15 @@ export interface IChurn {
   lastAt: string;
 }
 
+export type TBondHistory = {
+  since: Date;
+  bond: string;
+};
+export interface IBondHistories {
+  currency: string;
+  data: TBondHistory[];
+}
+
 const btcErc = SKYBRIDGE_BRIDGES.find((bridge) => bridge === 'btc_erc');
 const btcBep = SKYBRIDGE_BRIDGES.find((bridge) => bridge === 'btc_bep');
 

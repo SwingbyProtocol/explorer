@@ -10,6 +10,8 @@ import {
   ILiquidity,
   INodeListResponse,
   IReward,
+  IBondHistories,
+  TBondHistory,
 } from '../../../../metanodes';
 import { ActionButtonMetanodes } from '../ActionButtonMetanodes';
 import { BondToLiquidity } from '../BondToLiquidity';
@@ -33,6 +35,7 @@ export const MetanodeInfo = (props: Props) => {
   const [reward, setReward] = useState<IReward | null>(null);
   const [liquidity, setLiquidity] = useState<ILiquidity | null>(null);
   const [churnTime, setChurnTime] = useState<IChurn | null>(null);
+  const [bondHistories, setBondHistories] = useState<TBondHistory[] | null>(null);
 
   const getChurnTime = useCallback(async () => {
     const churnUrl = bridge && `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/churn`;
@@ -44,24 +47,30 @@ export const MetanodeInfo = (props: Props) => {
     bridge &&
       (async () => {
         const rewardsUrl = `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/rewards-last-week`;
-
         const liquidityUrl = `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/bond-to-liquidity`;
+        const bondHistoryUrl = `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/liquidity-historic`;
+
         const results = await Promise.all([
           fetchNodeList(bridge),
           fetcher<IReward>(rewardsUrl),
           fetcher<ILiquidity>(liquidityUrl),
+          fetcher<IBondHistories>(bondHistoryUrl),
           getChurnTime(),
         ]);
 
         const nodes = results[0];
         const rewardData = results[1];
         const liquidityData = results[2];
+        const bondHistoriesData = results[3].data;
 
         setMetanodes(nodes);
         setReward(rewardData);
         setLiquidity(liquidityData);
+        setBondHistories(bondHistoriesData);
       })();
   }, [bridge, getChurnTime]);
+
+  console.log('bondHistories', bondHistories);
 
   useInterval(() => {
     getChurnTime();
@@ -76,7 +85,7 @@ export const MetanodeInfo = (props: Props) => {
           <TotalNodes metanodes={metanodes} />
         </Left>
         <Right>
-          <TotalSwingbyBond />
+          <TotalSwingbyBond bondHistories={bondHistories} />
           <BondToLiquidity liquidity={liquidity} />
           <Row>
             <Churning churnTime={churnTime} />

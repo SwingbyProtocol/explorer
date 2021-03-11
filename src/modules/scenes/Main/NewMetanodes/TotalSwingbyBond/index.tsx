@@ -2,19 +2,31 @@ import { Text } from '@swingby-protocol/pulsar';
 import React from 'react';
 import { Line } from 'react-chartjs-2';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useSelector } from 'react-redux';
 
-import { convert2Currency, numToK } from '../../../../common';
+import { formatNum } from '../../../../common';
+import { TBondHistory } from '../../../../metanodes';
 
 import { Box, LineContainer, LineDiv, TitleDiv, TotalSwingbyBondContainer } from './styled';
 
-export const TotalSwingbyBond = () => {
+interface Props {
+  bondHistories: TBondHistory[] | null;
+}
+
+export const TotalSwingbyBond = (props: Props) => {
+  const { bondHistories } = props;
   // Ref: https://github.com/jerairrest/react-chartjs-2/issues/306
   const { formatDate } = useIntl();
-  const explorer = useSelector((state) => state.explorer);
-  const { usd } = explorer;
   const intl = useIntl();
-  const volumes = ['900000', '800000', '700000', '600000', '300000', '200000', '100000'];
+
+  const bondVolumes =
+    bondHistories && bondHistories.map((it: TBondHistory) => Number(it.bond).toFixed(0));
+
+  const bondDate =
+    bondHistories &&
+    bondHistories.map((it: TBondHistory) => formatDate(it.since), {
+      month: 'short',
+      day: 'numeric',
+    });
 
   const data = (canvas) => {
     const ctx = canvas.getContext('2d');
@@ -22,24 +34,8 @@ export const TotalSwingbyBond = () => {
     gradient.addColorStop(0, '#31D5B8');
     gradient.addColorStop(0.8, 'rgba(255,255,255, 0.3)');
 
-    const handleFormatData = (dateAgo: number) => {
-      const today = new Date();
-      return formatDate(today.setDate(today.getDate() - dateAgo), {
-        month: 'short',
-        day: 'numeric',
-      });
-    };
-
     return {
-      labels: [
-        handleFormatData(6),
-        handleFormatData(5),
-        handleFormatData(4),
-        handleFormatData(3),
-        handleFormatData(2),
-        handleFormatData(1),
-        handleFormatData(0),
-      ],
+      labels: bondDate && bondDate.reverse(),
       datasets: [
         {
           pointBorderColor: 'rgba(75,192,192,1)',
@@ -55,19 +51,13 @@ export const TotalSwingbyBond = () => {
           fill: 'start',
           backgroundColor: gradient,
           borderColor: '#31D5B8',
-          data: [
-            convert2Currency(volumes[6], usd.SWINGBY),
-            convert2Currency(volumes[5], usd.SWINGBY),
-            convert2Currency(volumes[4], usd.SWINGBY),
-            convert2Currency(volumes[3], usd.SWINGBY),
-            convert2Currency(volumes[2], usd.SWINGBY),
-            convert2Currency(volumes[1], usd.SWINGBY),
-            convert2Currency(volumes[0], usd.SWINGBY),
-          ],
+          data: bondVolumes && bondVolumes.reverse(),
         },
       ],
     };
   };
+
+  const isLabelShows = (i: number) => i % 3 === 0;
 
   const options = {
     responsive: true,
@@ -103,7 +93,11 @@ export const TotalSwingbyBond = () => {
             fontSize: 10,
             fontColor: '#929D9D',
             callback: function (date: string, i: number) {
-              if (i % 3 === 0) {
+              if (i === 0) {
+                return date;
+              } else if (i === bondDate.length - 1 && isLabelShows(bondDate.length)) {
+                return date;
+              } else if (isLabelShows(i)) {
                 return date;
               } else {
                 return '';
@@ -124,7 +118,7 @@ export const TotalSwingbyBond = () => {
             padding: 10,
             callback: function (value: number, i: number) {
               if (i % 2 === 0) {
-                return '$' + numToK(value);
+                return '$' + formatNum(value);
               } else {
                 return '';
               }
