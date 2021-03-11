@@ -1,4 +1,4 @@
-import { Button, createToast, useMatchMedia } from '@swingby-protocol/pulsar';
+import { createToast, useMatchMedia } from '@swingby-protocol/pulsar';
 import { CONTRACTS } from '@swingby-protocol/sdk';
 import type { API as OnboardApi } from 'bnc-onboard/dist/src/interfaces'; // eslint-disable-line import/no-internal-modules
 import { rem } from 'polished';
@@ -9,6 +9,7 @@ import { TransactionConfig } from 'web3-eth';
 
 import { mode } from '../../modules/env';
 import { initOnboard } from '../../modules/onboard';
+import { ButtonScale } from '../../modules/scenes/Common';
 import { StylingConstants } from '../../modules/styles';
 
 import { RewardButtonContainer } from './styled';
@@ -79,14 +80,14 @@ export const RewardButton = () => {
 
   return (
     <RewardButtonContainer>
-      <Button
+      <ButtonScale
         size={lg ? 'country' : md ? 'state' : 'country'}
         shape={sm ? 'fit' : 'fill'}
-        variant="tertiary"
+        variant="primary"
         onClick={distributeRewards}
       >
         <FormattedMessage id="metanodes.distribute-rewards" />
-      </Button>
+      </ButtonScale>
     </RewardButtonContainer>
   );
 };

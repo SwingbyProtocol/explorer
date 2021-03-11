@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import { ButtonScale } from '../../../Common';
+import { RewardButton } from '../../../../../components/RewardButton';
 
 import {
   ActionButtonMetanodesContainer,
@@ -22,9 +22,7 @@ export const ActionButtonMetanodes = () => {
         <TextAPY variant="accent">{apy}%</TextAPY>
       </RowText>
       <ButtonContainer>
-        <ButtonScale variant="primary" size="city" onClick={() => console.log('hello')}>
-          <FormattedMessage id="metanodes.distribute-rewards" />
-        </ButtonScale>
+        <RewardButton />
       </ButtonContainer>
     </ActionButtonMetanodesContainer>
   );
