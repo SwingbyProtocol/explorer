@@ -84,13 +84,21 @@ export const LineContainer = styled.div`
 
 export const TitleDiv = styled.div`
   align-self: flex-start;
-  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  padding-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
+  margin-left: ${({ theme }) => rem(theme.pulsar.size.street)};
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   @media (min-width: ${rem(media.sm)}) {
     padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
+  }
+  @media (min-width: ${rem(media.md)}) {
+    margin-bottom: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  }
+  @media (min-width: ${rem(media.lg)}) {
+    padding-bottom: 0;
+    margin-left: 0;
   }
 `;
 
