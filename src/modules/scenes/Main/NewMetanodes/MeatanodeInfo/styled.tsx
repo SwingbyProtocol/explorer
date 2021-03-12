@@ -20,14 +20,21 @@ export const Top = styled.div`
 
 export const Bottom = styled.div``;
 
-export const Left = styled.div``;
+export const Left = styled.div`
+  display: grid;
+  grid-row-gap: ${rem(31)};
+
+  @media (min-width: ${rem(media.xl)}) {
+    grid-row-gap: ${rem(14)};
+  }
+`;
 
 export const Right = styled.div`
   display: grid;
   grid-row-gap: ${rem(31)};
 
   @media (min-width: ${rem(media.xl)}) {
-    grid-row-gap: ${rem(28)};
+    grid-row-gap: ${rem(20)};
   }
 `;
 

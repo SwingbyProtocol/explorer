@@ -142,6 +142,7 @@
   "metanodes.churned-in": "Churned in",
   "metanodes.churned-next-time": "{days}d {hours}hr {minutes}m",
   "metanodes.liquidity-ration": "Liquidity Ratio",
+  "metanodes.metanode-status":"Metanode Status",
   "fees.fees": "Transaction Fees",
   "fees.currency": "Currency",
   "fees.live": "Status",

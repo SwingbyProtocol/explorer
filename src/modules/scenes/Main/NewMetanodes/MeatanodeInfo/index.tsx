@@ -22,6 +22,7 @@ import { Earnings } from '../Earnings';
 import { GeneralInfo } from '../GeneralInfo';
 import { LiquidityRatio } from '../LiquidityRatio';
 import { MetanodeList } from '../MetanodeList';
+import { NodeStatus } from '../NodeStatus';
 import { TotalNodes } from '../TotalNodes';
 import { TotalSwingbyBond } from '../TotalSwingbyBond';
 
@@ -90,6 +91,7 @@ export const MetanodeInfo = (props: Props) => {
         <Left>
           <GeneralInfo />
           <TotalNodes metanodes={metanodes} />
+          <NodeStatus metanodes={metanodes} />
         </Left>
         <Right>
           <TotalSwingbyBond bondHistories={bondHistories} />

@@ -9,16 +9,11 @@ const { media } = StylingConstants;
 export const GeneralInfoContainer = styled.div`
   background-color: ${({ theme }) => theme.pulsar.color.bg.hover};
   padding: ${({ theme }) => rem(theme.pulsar.size.house)};
-  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
   width: 100%;
   @media (min-width: ${rem(media.xs)}) {
     padding: ${({ theme }) => rem(theme.pulsar.size.street)};
   }
-  @media (min-width: ${rem(media.md)}) {
-    margin-bottom: ${({ theme }) => rem(theme.pulsar.size.town)};
-  }
   @media (min-width: ${rem(media.lg)}) {
-    margin-bottom: ${({ theme }) => rem(theme.pulsar.size.town)};
     padding-top: ${({ theme }) => rem(theme.pulsar.size.house)};
     padding-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
     padding-left: ${({ theme }) => rem(theme.pulsar.size.street)};

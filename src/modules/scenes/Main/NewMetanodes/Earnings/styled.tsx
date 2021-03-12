@@ -19,12 +19,12 @@ export const EarningsContainer = styled.div`
   @media (min-width: ${rem(media.lg)}) {
     margin-bottom: ${({ theme }) => rem(theme.pulsar.size.town)};
     padding-top: ${({ theme }) => rem(theme.pulsar.size.house)};
-    padding-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
+    padding-bottom: 0;
     padding-left: ${({ theme }) => rem(theme.pulsar.size.street)};
     padding-right: ${({ theme }) => rem(theme.pulsar.size.street)};
   }
 `;
 
 export const Row = styled.div`
-  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.box)};
+  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.room)};
 `;

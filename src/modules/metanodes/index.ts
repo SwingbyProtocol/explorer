@@ -2,7 +2,7 @@ import { SKYBRIDGE_BRIDGES, SkybridgeBridge } from '@swingby-protocol/sdk';
 
 import { TStatus } from '../explorer';
 
-export { fetchNodeEarningsList, fetchNodeList } from './utils';
+export { fetchNodeEarningsList, fetchNodeList, listNodeStatus } from './utils';
 
 export interface INodeListResponse {
   id: string;
@@ -84,6 +84,12 @@ export interface ILiquidityRatio {
   currency: string;
   liquidity: string;
   fraction: string;
+}
+
+export interface INodeStatusTable {
+  status: string;
+  nodes: string[];
+  nodeQty: number;
 }
 
 const btcErc = SKYBRIDGE_BRIDGES.find((bridge) => bridge === 'btc_erc');
