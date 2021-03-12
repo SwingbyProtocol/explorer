@@ -1,11 +1,16 @@
 import originalFetch from 'isomorphic-unfetch';
 
-export const fetch = async <SuccessResponse extends unknown>(
+import { logger } from '../logger';
+
+export const fetch = async <
+  SuccessResponse extends unknown,
+  ErrorResponse extends unknown = string
+>(
   url: Parameters<typeof originalFetch>[0],
   optionsParam?: Parameters<typeof originalFetch>[1],
 ): Promise<
   | { ok: true; status: number; response: SuccessResponse }
-  | { ok: false; status: number; response: string }
+  | { ok: false; status: number; response: ErrorResponse }
 > => {
   const options: typeof optionsParam = {
     ...optionsParam,
@@ -15,6 +20,7 @@ export const fetch = async <SuccessResponse extends unknown>(
     },
   };
 
+  logger.trace(`Will call "%s" with: %j`, url, options);
   const result = await originalFetch(url, options);
 
   const response = await (async () => {
@@ -31,6 +37,17 @@ export const fetch = async <SuccessResponse extends unknown>(
   }
 
   return { ok: true, status: result.status, response };
+};
+
+export const fetcher = async <Data extends unknown = unknown>(
+  ...args: Parameters<typeof fetch>
+) => {
+  const result = await fetch<Data>(...args);
+  if (!result.ok) {
+    throw new Error(`${result.status}: ${result.response}`);
+  }
+
+  return result.response;
 };
 
 /**

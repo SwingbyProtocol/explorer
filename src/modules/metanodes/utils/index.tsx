@@ -1,50 +1,23 @@
-import { INodeListResponse } from '..';
-import { ENDPOINT_ETHEREUM_NODE } from '../../env';
+import { SkybridgeBridge } from '@swingby-protocol/sdk';
+
+import { INodeListResponse, INodeStatusTable } from '..';
+import { CACHED_ENDPOINT, mode } from '../../env';
 import { camelize, fetch } from '../../fetch';
 
-// Memo: get data from Next.js API function to bypass CORS error
-const fetchNodeCountry = async (ip: string) => {
-  const url = `/api/get-country?ip=${ip}`;
-  try {
-    const result = await fetch<{ country: string; code: string }>(url);
-    const country = result.ok && result.response.country;
-    const code = result.ok && result.response.code;
-    return { country, code };
-  } catch (e) {
-    return { country: ip, code: null };
-  }
-};
+export const fetchNodeList = async (bridge: SkybridgeBridge) => {
+  const url = `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/nodes`;
 
-export const fetchNodeList = async () => {
-  const url = ENDPOINT_ETHEREUM_NODE + '/api/v1/peers';
   try {
     const result = await fetch<INodeListResponse[]>(url);
     const metanodes = result.ok && camelize(result.response);
-    return Promise.all(
-      metanodes.map(async (node) => {
-        try {
-          const countryIP = node.p2pListener.split(':');
-          const country = await fetchNodeCountry(countryIP[0]);
-          return {
-            location: country.country,
-            code: country.code,
-            moniker: node.moniker,
-            stateName: node.stateName,
-            stake: node.stake,
-            version: node.version,
-          };
-        } catch (e) {
-          console.log(e);
-        }
-      }),
-    );
+    return metanodes;
   } catch (e) {
     console.log(e);
   }
 };
 
 export const fetchNodeEarningsList = async () => {
-  const url = 'https://metanode-earnings.vercel.app/api/v1/production/rewards/ranking';
+  const url = `${CACHED_ENDPOINT}/v1/${mode}/rewards/ranking`;
   const result = await fetch<
     Array<{
       address: string;
@@ -62,4 +35,41 @@ export const fetchNodeEarningsList = async () => {
   }
 
   return result.response;
+};
+
+export const listNodeStatus = (nodes: INodeListResponse[]): INodeStatusTable[] => {
+  let statusLookUpTable: string[] = [];
+  let statusTable: INodeStatusTable[] = [];
+  nodes.forEach((node: INodeListResponse) => {
+    if (statusLookUpTable.includes(node.status)) {
+      statusTable = statusTable.map((item) => {
+        if (item.status === node.status) {
+          return {
+            status: node.status,
+            nodes: [...item.nodes, node.moniker],
+            nodeQty: item.nodeQty + 1,
+          };
+        } else {
+          return item;
+        }
+      });
+    } else {
+      const item: INodeStatusTable = {
+        nodes: [node.moniker],
+        nodeQty: 1,
+        status: node.status,
+      };
+      statusLookUpTable.push(node.status);
+      statusTable.push(item);
+    }
+  });
+
+  statusTable.sort((a: INodeStatusTable, b: INodeStatusTable) => {
+    if (a.nodeQty > b.nodeQty) {
+      return -1;
+    } else {
+      return 1;
+    }
+  });
+  return statusTable;
 };

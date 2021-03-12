@@ -15,4 +15,6 @@ export {
   IconBack,
   TextEstimated,
   TextChosenFilter,
+  AddressLinkP,
+  TextRoom,
 } from './Styled';

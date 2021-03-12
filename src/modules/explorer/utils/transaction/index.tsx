@@ -61,6 +61,14 @@ export const removeDuplicatedTxs = (txArray: TTxRawObject[], filterBy?: string):
   }
 };
 
+export const getDiffDays = (unixTimestamp: number) => {
+  const ts = unixTimestamp * 1000;
+  const txTime = DateTime.fromMillis(ts).toLocal();
+  const now = DateTime.local();
+  const diffDays = Math.floor(Math.abs(now.endOf('day').diff(txTime).as('days')));
+  return <FormattedRelativeTime value={diffDays} unit="day" numeric="auto" />;
+};
+
 export const convertTxTime = (unixTimestamp: number) => {
   const ts = unixTimestamp * 1000;
   const txTime = DateTime.fromMillis(ts).toLocal();

@@ -6,8 +6,10 @@ export {
   removeDuplicatedTxs,
   convertTxTime,
   capitalize,
+  getDiffDays,
   getBorderColor,
 } from './transaction';
+
 export {
   calculateFixedFee,
   getTransactionFees,
@@ -16,7 +18,7 @@ export {
   toSatoshi,
 } from './transactionFee';
 
-export { fetchFloatBalances, fetchStatsInfo, getUsdPrice } from './network';
+export { fetchFloatBalances, fetchStatsInfo, getUsdPrice, calTvl } from './network';
 
 export {
   isEtherAddress,

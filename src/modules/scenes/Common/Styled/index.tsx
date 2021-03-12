@@ -46,6 +46,10 @@ export const TextBlock = styled(Text)`
   display: block;
 `;
 
+export const TextRoom = styled(Text)`
+  font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
+`;
+
 export const TextEllipsis = styled(TextBlock)`
   overflow: hidden;
   text-overflow: ellipsis;
@@ -58,6 +62,7 @@ export const SizeS = styled.div`
     display: block;
   }
 `;
+
 export const SizeL = styled.div`
   display: none;
   @media (min-width: ${rem(media.lg)}) {
@@ -84,4 +89,16 @@ export const TextEstimated = styled(Text)`
 
 export const TextChosenFilter = styled(Text)`
   padding-right: ${({ theme }) => rem(theme.pulsar.size.box)};
+`;
+
+export const AddressLinkP = styled.p`
+  color: #3799da;
+  font-weight: bold;
+  font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
+  margin: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
 `;

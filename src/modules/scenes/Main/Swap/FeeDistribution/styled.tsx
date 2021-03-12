@@ -3,6 +3,7 @@ import { rem } from 'polished';
 import styled from 'styled-components';
 
 import { StylingConstants } from '../../../../styles';
+import { AddressLinkP } from '../../../Common';
 
 const { media } = StylingConstants;
 
@@ -69,14 +70,8 @@ export const IconRightArrow = styled(Icon.CaretRight)`
   }
 `;
 
-export const AddressP = styled.p`
-  color: #3799da;
-  font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
-  margin: 0;
+export const AddressP = styled(AddressLinkP)`
   max-width: ${rem(142)};
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   @media (min-width: ${rem(media.lg)}) {
     max-width: 100%;
   }

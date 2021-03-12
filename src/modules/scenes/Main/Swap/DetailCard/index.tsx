@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl';
 import { copyToClipboard, toastCopyAddress } from '../../../../../components/Toast';
 import { currencyNetwork } from '../../../../explorer';
 import { transactionDetailByTxId } from '../../../../swap/';
-import { IconInfo } from '../../../Common';
+import { IconInfo, TextRoom } from '../../../Common';
 import { TxIdElement } from '../TxIdElement';
 
 import {
@@ -19,7 +19,6 @@ import {
   RowRole,
   Top,
   Bottom,
-  TextRoom,
 } from './styled';
 
 interface Props {

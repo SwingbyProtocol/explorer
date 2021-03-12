@@ -9,7 +9,6 @@ import { DuplicateSwapWidgetModal } from '../../../../components/DuplicateSwapWi
 import { Footer } from '../../../../components/Footer';
 import { LinkToWidgetModal } from '../../../../components/LinkToWidgetModal';
 import { Search } from '../../../../components/Search';
-import { RewardButton } from '../../../../components/RewardButton';
 import { toastWrongAddress } from '../../../../components/Toast';
 import { useAffiliateCode } from '../../../affiliate-code';
 import { ETHCoins } from '../../../coins';
@@ -18,6 +17,7 @@ import { mode, PATH } from '../../../env';
 import { TSwapWidget, TTxRawObject } from '../../../explorer';
 import { initOnboard } from '../../../onboard';
 import { setOnboard } from '../../../store';
+import { useThemeSettings } from '../../../store/settings';
 import {
   Browser,
   BrowserAsset,
@@ -26,7 +26,6 @@ import {
   BrowserMetanodes,
   BrowserPool,
 } from '../../Main';
-import { useThemeSettings } from '../../../store/settings';
 
 import { ExplorerMainContainer, HeadLine, TitleH1 } from './styled';
 
@@ -174,7 +173,7 @@ export const ExplorerMain = () => {
       case PATH.POOL:
         return <AccountId />;
       case PATH.METANODES:
-        return <RewardButton />;
+        return <></>;
       case PATH.FEES:
         return <></>;
       case PATH.ASSET_BTC:
