@@ -1,4 +1,5 @@
 import { Dropdown, getCryptoAssetFormatter, Text } from '@swingby-protocol/pulsar';
+import { DateTime } from 'luxon';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -6,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { useTheme } from 'styled-components';
 
 import { Pagination } from '../../../../../components/Pagination';
-import { useTransactionsHistoryQuery } from '../../../../../generated/graphql';
+import { Transaction, useTransactionsHistoryQuery } from '../../../../../generated/graphql';
 import {
   capitalize,
   convertTxTime,
@@ -17,7 +18,6 @@ import {
   TxRowTransition,
   TxRowVariants,
 } from '../../../../explorer';
-import { selectSwapDetails } from '../../../../store';
 import { transactionDetailByTxId } from '../../../../swap';
 
 import {
@@ -96,7 +96,7 @@ export const TxHistories = (props: Props) => {
     }
   }, [chosenTx, toggleOpenLink, linkToSwapWidget]);
 
-  const externalLinkMenu = (tx: TTxRawObject) => (
+  const externalLinkMenu = (tx: Pick<Transaction, 'receivingTxHash' | 'receivingCurrency'>) => (
     <>
       <Dropdown.Item
         onClick={() => {
@@ -108,10 +108,14 @@ export const TxHistories = (props: Props) => {
           <FormattedMessage id="home.recent-swaps.check-swap-progress" />
         </p>
       </Dropdown.Item>
-      {tx.txIdOut && (
+      {tx.receivingTxHash && (
         <Dropdown.Item
           onClick={() =>
-            window.open(transactionDetailByTxId(tx.currencyOut, tx.txIdOut), '_blank', 'noopener')
+            window.open(
+              transactionDetailByTxId(tx.receivingCurrency, tx.receivingTxHash),
+              '_blank',
+              'noopener',
+            )
           }
         >
           <p>
@@ -149,98 +153,94 @@ export const TxHistories = (props: Props) => {
         {router.query.q && isNoResult && noResultFound}
         {/* Memo: show loader */}
         {page > 1 ? !currentTxs.length && loader : isLoadingHistory && loader}
-        {currentTxs &&
-          currentTxs.map((tx: TTxRawObject, i: number) => {
-            const bgKey = i - adjustIndex;
-            const borderColor = getBorderColor({ status: tx.status, theme });
-            return (
-              <TxHistoryRow
-                key={tx.hash}
-                bg={bgKey % 2 !== 0}
-                borderColor={borderColor}
-                onMouseEnter={() => {
-                  dispatch(selectSwapDetails(tx));
-                }}
-                onClick={() => goToDetail(tx.hash)}
-                variants={page === 1 && TxRowVariants}
-                transition={page === 1 && TxRowTransition}
-                initial={page === 1 ? 'initial' : null}
-                animate={page === 1 ? 'in' : null}
-              >
-                <Column>
-                  <Status>
-                    <StatusCircle status={tx.status} />
-                    <StatusText variant="accent">{capitalize(tx.status)}</StatusText>
-                  </Status>
-                  <Bottom>
-                    <Text variant="label">{convertTxTime(tx.timestamp)}</Text>
-                  </Bottom>
-                </Column>
-                <Column>
-                  <Top>
-                    <Text variant="label">
-                      <FormattedMessage id="common.from" />
-                    </Text>
-                  </Top>
-                  <Bottom>
-                    <Text variant="label">
-                      <FormattedMessage id="common.to" />
-                    </Text>
-                  </Bottom>
-                </Column>
-                <Column>
-                  <Top>
-                    <AddressP>{tx.addressIn?.toLowerCase()}</AddressP>
-                  </Top>
-                  <Bottom>
-                    <AddressP>{tx.addressOut?.toLowerCase()}</AddressP>
-                  </Bottom>
-                </Column>
-                <ColumnAmount>
-                  <Coin symbol={tx.currencyIn} />
-                  <div>
-                    <Top>
-                      <Text variant="label">{currencyNetwork(tx.currencyIn)}</Text>
-                    </Top>
-                    <Bottom>
-                      <AmountSpan variant="accent">{tx.amountIn}</AmountSpan>
-                    </Bottom>
-                  </div>
-                </ColumnAmount>
-                <Column>
-                  <IconArrowRight />
-                </Column>
-                <ColumnAmount>
-                  <Coin symbol={tx.currencyOut} />
-                  <div>
-                    <Top>
-                      <Text variant="label">{currencyNetwork(tx.currencyOut)}</Text>
-                    </Top>
-                    <Bottom>
-                      <AmountSpan variant="accent">{tx.amountOut}</AmountSpan>
-                    </Bottom>
-                  </div>
-                </ColumnAmount>
-                <ColumnFee>
-                  <Text variant="section-title">
-                    {getCryptoAssetFormatter({
-                      locale,
-                      displaySymbol: tx.feeCurrency,
-                    }).format(Number(tx.fee))}
+        {data?.transactions.edges.map(({ node: tx }, i) => {
+          const bgKey = i - adjustIndex;
+          const borderColor = getBorderColor({ status: tx.status, theme });
+          return (
+            <TxHistoryRow
+              key={tx.id}
+              bg={bgKey % 2 !== 0}
+              borderColor={borderColor}
+              onClick={() => goToDetail(tx.id)}
+              variants={page === 1 && TxRowVariants}
+              transition={page === 1 && TxRowTransition}
+              initial={page === 1 ? 'initial' : null}
+              animate={page === 1 ? 'in' : null}
+            >
+              <Column>
+                <Status>
+                  <StatusCircle status={tx.status} />
+                  <StatusText variant="accent">{capitalize(tx.status)}</StatusText>
+                </Status>
+                <Bottom>
+                  <Text variant="label">{convertTxTime(DateTime.fromISO(tx.at))}</Text>
+                </Bottom>
+              </Column>
+              <Column>
+                <Top>
+                  <Text variant="label">
+                    <FormattedMessage id="common.from" />
                   </Text>
-                </ColumnFee>
-                <ColumnEllipsis
-                  onClick={(event) => {
-                    event.stopPropagation();
-                  }}
-                >
-                  <Dropdown target={<Ellipsis />} data-testid="dropdown">
-                    {externalLinkMenu(tx)}
-                  </Dropdown>
-                </ColumnEllipsis>
-              </TxHistoryRow>
-            );
-          })}
+                </Top>
+                <Bottom>
+                  <Text variant="label">
+                    <FormattedMessage id="common.to" />
+                  </Text>
+                </Bottom>
+              </Column>
+              <Column>
+                <Top>
+                  <AddressP>{tx.depositAddress.toLowerCase()}</AddressP>
+                </Top>
+                <Bottom>
+                  <AddressP>{tx.receivingAddress.toLowerCase()}</AddressP>
+                </Bottom>
+              </Column>
+              <ColumnAmount>
+                <Coin symbol={tx.depositCurrency} />
+                <div>
+                  <Top>
+                    <Text variant="label">{currencyNetwork(tx.depositCurrency)}</Text>
+                  </Top>
+                  <Bottom>
+                    <AmountSpan variant="accent">{tx.depositAmount}</AmountSpan>
+                  </Bottom>
+                </div>
+              </ColumnAmount>
+              <Column>
+                <IconArrowRight />
+              </Column>
+              <ColumnAmount>
+                <Coin symbol={tx.receivingCurrency} />
+                <div>
+                  <Top>
+                    <Text variant="label">{currencyNetwork(tx.receivingCurrency)}</Text>
+                  </Top>
+                  <Bottom>
+                    <AmountSpan variant="accent">{tx.receivingAmount}</AmountSpan>
+                  </Bottom>
+                </div>
+              </ColumnAmount>
+              <ColumnFee>
+                <Text variant="section-title">
+                  {getCryptoAssetFormatter({
+                    locale,
+                    displaySymbol: tx.feeCurrency,
+                  }).format(Number(tx.feeTotal))}
+                </Text>
+              </ColumnFee>
+              <ColumnEllipsis
+                onClick={(event) => {
+                  event.stopPropagation();
+                }}
+              >
+                <Dropdown target={<Ellipsis />} data-testid="dropdown">
+                  {externalLinkMenu(tx)}
+                </Dropdown>
+              </ColumnEllipsis>
+            </TxHistoryRow>
+          );
+        })}
       </TxHistoriesContainer>
       <BrowserFooter>
         <Pagination

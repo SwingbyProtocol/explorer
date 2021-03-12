@@ -13,9 +13,9 @@ export type Scalars = {
   Int: number;
   Float: number;
   /** A number without precision limits. */
-  Decimal: any;
+  Decimal: string;
   /** A timestamp. */
-  DateTime: any;
+  DateTime: string;
 };
 
 
@@ -35,6 +35,8 @@ export type Transaction = {
   receivingAmount: Scalars['Decimal'];
   receivingTxHash?: Maybe<Scalars['String']>;
   receivingCurrency: TransactionCurrency;
+  feeCurrency: TransactionCurrency;
+  feeTotal: Scalars['Decimal'];
 };
 
 export enum TransactionType {
@@ -162,7 +164,7 @@ export type TransactionsHistoryQuery = (
       & Pick<TransactionsConnectionEdges, 'cursor'>
       & { node: (
         { __typename?: 'Transaction' }
-        & Pick<Transaction, 'id'>
+        & Pick<Transaction, 'id' | 'status' | 'at' | 'depositAddress' | 'depositCurrency' | 'depositAmount' | 'receivingAddress' | 'receivingCurrency' | 'receivingAmount' | 'receivingTxHash' | 'feeTotal' | 'feeCurrency'>
       ) }
     )>, pageInfo: (
       { __typename?: 'ForwardPaginationPageInfo' }
@@ -178,6 +180,17 @@ export const TransactionsHistoryDocument = gql`
     edges {
       node {
         id
+        status
+        at
+        depositAddress
+        depositCurrency
+        depositAmount
+        receivingAddress
+        receivingCurrency
+        receivingAmount
+        receivingTxHash
+        feeTotal
+        feeCurrency
       }
       cursor
     }

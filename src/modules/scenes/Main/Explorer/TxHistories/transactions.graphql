@@ -3,6 +3,17 @@ query TransactionsHistory($first: Int, $after: String, $where: TransactionsQuery
     edges {
       node {
         id
+        status
+        at
+        depositAddress
+        depositCurrency
+        depositAmount
+        receivingAddress
+        receivingCurrency
+        receivingAmount
+        receivingTxHash
+        feeTotal
+        feeCurrency
       }
       cursor
     }

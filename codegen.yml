@@ -1,12 +1,16 @@
 overwrite: true
-schema: "https://graph.swingby.network/api/graphql"
-documents: "src/**/*.graphql"
+schema: 'https://graph.swingby.network/api/graphql'
+documents: 'src/**/*.graphql'
 generates:
   src/generated/graphql.tsx:
     plugins:
-      - "typescript"
-      - "typescript-operations"
-      - "typescript-react-apollo"
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-react-apollo'
+    config:
+      scalars:
+        DateTime: 'string'
+        Decimal: 'string'
   ./graphql.schema.json:
     plugins:
-      - "introspection"
+      - 'introspection'
