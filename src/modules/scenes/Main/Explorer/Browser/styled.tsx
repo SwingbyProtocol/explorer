@@ -63,11 +63,10 @@ export const Top = styled.div`
 `;
 
 export const Bottom = styled.div`
-  display: none;
   @media (min-width: ${rem(media.md)}) {
-    display: block;
     margin-top: ${({ theme }) => rem(-theme.pulsar.size.street)};
   }
+
   @media (min-width: ${rem(media.lg)}) {
     margin-top: ${({ theme }) => rem(theme.pulsar.size.country)};
   }

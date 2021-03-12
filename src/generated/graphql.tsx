@@ -111,8 +111,10 @@ export type TransactionsConnectionEdges = {
 
 export type ForwardPaginationPageInfo = {
   __typename?: 'ForwardPaginationPageInfo';
+  startCursor: Scalars['String'];
   endCursor: Scalars['String'];
   hasNextPage: Scalars['Boolean'];
+  hasPreviousPage: Scalars['Boolean'];
 };
 
 export enum NodeStatus {
@@ -159,6 +161,7 @@ export type TransactionsHistoryQuery = (
   { __typename?: 'Query' }
   & { transactions: (
     { __typename?: 'TransactionsConnection' }
+    & Pick<TransactionsConnection, 'totalCount'>
     & { edges: Array<(
       { __typename?: 'TransactionsConnectionEdges' }
       & Pick<TransactionsConnectionEdges, 'cursor'>
@@ -168,7 +171,7 @@ export type TransactionsHistoryQuery = (
       ) }
     )>, pageInfo: (
       { __typename?: 'ForwardPaginationPageInfo' }
-      & Pick<ForwardPaginationPageInfo, 'hasNextPage'>
+      & Pick<ForwardPaginationPageInfo, 'startCursor' | 'endCursor' | 'hasNextPage' | 'hasPreviousPage'>
     ) }
   ) }
 );
@@ -177,6 +180,7 @@ export type TransactionsHistoryQuery = (
 export const TransactionsHistoryDocument = gql`
     query TransactionsHistory($first: Int, $after: String, $where: TransactionsQueryWhere) {
   transactions(first: $first, after: $after, where: $where) {
+    totalCount
     edges {
       node {
         id
@@ -195,7 +199,10 @@ export const TransactionsHistoryDocument = gql`
       cursor
     }
     pageInfo {
+      startCursor
+      endCursor
       hasNextPage
+      hasPreviousPage
     }
   }
 }

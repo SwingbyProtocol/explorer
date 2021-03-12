@@ -1,12 +1,11 @@
 import { Dropdown, getCryptoAssetFormatter, Text } from '@swingby-protocol/pulsar';
 import { DateTime } from 'luxon';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useDispatch } from 'react-redux';
 import { useTheme } from 'styled-components';
 
-import { Pagination } from '../../../../../components/Pagination';
+import { CursorPagination } from '../../../../../components/CursorPagination';
 import { Transaction, useTransactionsHistoryQuery } from '../../../../../generated/graphql';
 import {
   capitalize,
@@ -61,52 +60,52 @@ interface Props {
   linkToSwapWidget: (tx: TTxRawObject, action: TSwapWidget) => void;
 }
 
-export const TxHistories = (props: Props) => {
+export const TxHistories = ({
+  filter,
+  page,
+  currentTxs,
+  bridge,
+  goToDetail,
+  loader,
+  linkToSwapWidget,
+  noResultFound,
+  adjustIndex,
+}: Props) => {
   const {
-    filter,
-    maximumPage,
-    page,
-    currentTxs,
-    goNextPage,
-    bridge,
-    goBackPage,
-    goToDetail,
-    loader,
-    linkToSwapWidget,
-    isNoResult,
-    isLoadingHistory,
-    noResultFound,
-    adjustIndex,
-  } = props;
+    push,
+    query: { after: afterParam },
+  } = useRouter();
+  const after = typeof afterParam === 'string' ? afterParam : undefined;
 
   const { locale } = useIntl();
-
-  const dispatch = useDispatch();
-  const [chosenTx, setChosenTx] = useState(null);
   const [toggleOpenLink, setToggleOpenLink] = useState(1);
-  const router = useRouter();
+
   const theme = useTheme();
-  const { data, fetchMore } = useTransactionsHistoryQuery({
-    variables: { first: 25 },
+  const { data, loading, fetchMore } = useTransactionsHistoryQuery({
+    variables: { first: 25, after },
   });
 
-  useEffect(() => {
-    if (chosenTx) {
-      linkToSwapWidget(chosenTx, 'claim');
-    }
-  }, [chosenTx, toggleOpenLink, linkToSwapWidget]);
+  const goToNextPage = useCallback(() => {
+    const after = data?.transactions.pageInfo.endCursor;
+    fetchMore({ variables: { after } });
+    push({ query: { after } }, null, { scroll: false, shallow: true });
+  }, [data?.transactions.pageInfo.endCursor, fetchMore, push]);
+
+  const goToPreviousPage = useCallback(() => {
+    const after = data?.transactions.pageInfo.startCursor;
+    fetchMore({ variables: { after } });
+    push({ query: { after } }, null, { scroll: false, shallow: true });
+  }, [data?.transactions.pageInfo.startCursor, fetchMore, push]);
 
   const externalLinkMenu = (tx: Pick<Transaction, 'receivingTxHash' | 'receivingCurrency'>) => (
     <>
       <Dropdown.Item
         onClick={() => {
-          setChosenTx(tx);
+          linkToSwapWidget(tx, 'claim');
           setToggleOpenLink(toggleOpenLink + 1);
         }}
       >
-        <p>
-          <FormattedMessage id="home.recent-swaps.check-swap-progress" />
-        </p>
+        <FormattedMessage id="home.recent-swaps.check-swap-progress" />
       </Dropdown.Item>
       {tx.receivingTxHash && (
         <Dropdown.Item
@@ -150,9 +149,8 @@ export const TxHistories = (props: Props) => {
             {filter}
           </Right>
         </TitleRow>
-        {router.query.q && isNoResult && noResultFound}
-        {/* Memo: show loader */}
-        {page > 1 ? !currentTxs.length && loader : isLoadingHistory && loader}
+        {!!data && data.transactions.totalCount < 1 && noResultFound}
+        {loading && loader}
         {data?.transactions.edges.map(({ node: tx }, i) => {
           const bgKey = i - adjustIndex;
           const borderColor = getBorderColor({ status: tx.status, theme });
@@ -243,12 +241,11 @@ export const TxHistories = (props: Props) => {
         })}
       </TxHistoriesContainer>
       <BrowserFooter>
-        <Pagination
-          goNextPage={goNextPage}
-          goBackPage={goBackPage}
-          page={page}
-          maximumPage={maximumPage}
-          isSimple={true}
+        <CursorPagination
+          goToNextPage={goToNextPage}
+          goToPreviousPage={goToPreviousPage}
+          hasNextPage={data?.transactions.pageInfo.hasNextPage}
+          hasPreviousPage={data?.transactions.pageInfo.hasPreviousPage}
         />
       </BrowserFooter>
     </>

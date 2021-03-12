@@ -54,7 +54,11 @@ export const ExplorerMain = () => {
   }, [onboard]);
 
   const linkToSwapWidget = useCallback(
-    async (tx: TTxRawObject, action: TSwapWidget, userAddress = walletAddress) => {
+    async (
+      tx: Pick<TTxRawObject, 'hash' | 'currencyIn' | 'currencyOut' | 'addressOut' | 'amountIn'>,
+      action: TSwapWidget,
+      userAddress = walletAddress,
+    ) => {
       const formattedUserAddress = userAddress && userAddress.toLowerCase();
       const widget =
         action === 'claim'

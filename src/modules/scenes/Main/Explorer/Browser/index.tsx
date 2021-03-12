@@ -28,7 +28,6 @@ import { ExplorerInfos } from '../ExplorerInfos';
 import { NetworkBridges } from '../NetworkBridges';
 import { SwapVolume } from '../SwapVolume';
 import { TxHistories } from '../TxHistories';
-import { TxHistoriesMobile } from '../TxHistoriesMobile';
 
 import { Bottom, BrowserContainer, BrowserDiv, Filter, NoResultsFound, Top } from './styled';
 
@@ -234,20 +233,6 @@ export const Browser = (props: Props) => {
           />
         </Bottom>
       </BrowserDiv>
-      <TxHistoriesMobile
-        filter={filter}
-        page={page}
-        maximumPage={maximumPage}
-        currentTxs={currentTxs}
-        goNextPage={goNextPage}
-        goBackPage={goBackPage}
-        loader={loader}
-        goToDetail={goToDetail}
-        isNoResult={isNoResult}
-        isLoadingHistory={isLoadingHistory}
-        noResultFound={noResultFound}
-        adjustIndex={adjustIndex}
-      />
     </BrowserContainer>
   );
 };
