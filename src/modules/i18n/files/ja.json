@@ -47,7 +47,7 @@
   "home.network.network-bridges": "Network Bridges",
   "home.network.float": "Float",
   "home.network.vol": "Vol.",
-  "home.network.total-swap-vol": "スワップ取引量 （7日)",
+  "home.network.total-vol": "取引量 （7日)",
   "home.recent-swaps.check-swap-progress": "スワップの進捗を確認する",
   "home.recent-swaps.get-tx-details": "取引明細を確認する",
   "home.recent-swaps.recent-swaps": "最新のスワップ",
