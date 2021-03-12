@@ -27,7 +27,7 @@ export const Right = styled.div`
   grid-row-gap: ${rem(31)};
 
   @media (min-width: ${rem(media.xl)}) {
-    grid-row-gap: ${({ theme }) => rem(19)};
+    grid-row-gap: ${rem(28)};
   }
 `;
 

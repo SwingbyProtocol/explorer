@@ -6,11 +6,13 @@ import { fetcher } from '../../../../fetch';
 import { useInterval } from '../../../../hooks';
 import {
   fetchNodeList,
+  IBondHistories,
   IChurn,
   ILiquidity,
+  ILiquidityRatio,
+  ILiquidityRatios,
   INodeListResponse,
   IReward,
-  IBondHistories,
   TBondHistory,
 } from '../../../../metanodes';
 import { ActionButtonMetanodes } from '../ActionButtonMetanodes';
@@ -18,6 +20,7 @@ import { BondToLiquidity } from '../BondToLiquidity';
 import { Churning } from '../Churning';
 import { Earnings } from '../Earnings';
 import { GeneralInfo } from '../GeneralInfo';
+import { LiquidityRatio } from '../LiquidityRatio';
 import { MetanodeList } from '../MetanodeList';
 import { TotalNodes } from '../TotalNodes';
 import { TotalSwingbyBond } from '../TotalSwingbyBond';
@@ -37,6 +40,8 @@ export const MetanodeInfo = (props: Props) => {
   const [churnTime, setChurnTime] = useState<IChurn | null>(null);
   const [bondHistories, setBondHistories] = useState<TBondHistory[] | null>(null);
 
+  const [liquidityRatio, setLiquidityRatio] = useState<ILiquidityRatio[] | null>(null);
+
   const getChurnTime = useCallback(async () => {
     const churnUrl = bridge && `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/churn`;
     const result = await fetcher<IChurn>(churnUrl);
@@ -49,12 +54,14 @@ export const MetanodeInfo = (props: Props) => {
         const rewardsUrl = `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/rewards-last-week`;
         const liquidityUrl = `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/bond-to-liquidity`;
         const bondHistoryUrl = `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/liquidity-historic`;
+        const liquidityRatioUrl = `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/liquidity-ratio`;
 
         const results = await Promise.all([
           fetchNodeList(bridge),
           fetcher<IReward>(rewardsUrl),
           fetcher<ILiquidity>(liquidityUrl),
           fetcher<IBondHistories>(bondHistoryUrl),
+          fetcher<ILiquidityRatios>(liquidityRatioUrl),
           getChurnTime(),
         ]);
 
@@ -62,11 +69,13 @@ export const MetanodeInfo = (props: Props) => {
         const rewardData = results[1];
         const liquidityData = results[2];
         const bondHistoriesData = results[3].data;
+        const liquidityRationData = results[4].data;
 
         setMetanodes(nodes);
         setReward(rewardData);
         setLiquidity(liquidityData);
         setBondHistories(bondHistoriesData);
+        setLiquidityRatio(liquidityRationData);
       })();
   }, [bridge, getChurnTime]);
 
@@ -85,6 +94,7 @@ export const MetanodeInfo = (props: Props) => {
         <Right>
           <TotalSwingbyBond bondHistories={bondHistories} />
           <BondToLiquidity liquidity={liquidity} />
+          <LiquidityRatio liquidityRatio={liquidityRatio} />
           <Row>
             <Churning churnTime={churnTime} />
             <Earnings reward={reward} />

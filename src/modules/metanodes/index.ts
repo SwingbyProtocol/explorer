@@ -75,6 +75,17 @@ export interface IBondHistories {
   data: TBondHistory[];
 }
 
+export interface ILiquidityRatios {
+  currency: string;
+  data: ILiquidityRatio[];
+}
+
+export interface ILiquidityRatio {
+  currency: string;
+  liquidity: string;
+  fraction: string;
+}
+
 const btcErc = SKYBRIDGE_BRIDGES.find((bridge) => bridge === 'btc_erc');
 const btcBep = SKYBRIDGE_BRIDGES.find((bridge) => bridge === 'btc_bep');
 
