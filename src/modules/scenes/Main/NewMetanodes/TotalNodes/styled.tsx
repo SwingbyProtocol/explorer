@@ -51,6 +51,25 @@ export const StatusIcon = styled(SwapStatusIcon)`
   height: ${({ theme }) => rem(theme.pulsar.size.closet)};
 `;
 
+export const StatusIconWithWarningHalf = styled(StatusIcon)`
+  position: relative;
+
+  ::after {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 1;
+    border-left: ${({ theme }) => rem(theme.pulsar.size.closet / 2)} solid transparent;
+    border-bottom: ${({ theme }) => rem(theme.pulsar.size.closet / 2)} solid
+      ${({ theme }) => theme.pulsar.color.warning.normal};
+    border-right: ${({ theme }) => rem(theme.pulsar.size.closet / 2)} solid
+      ${({ theme }) => theme.pulsar.color.warning.normal};
+    border-top: ${({ theme }) => rem(theme.pulsar.size.closet / 2)} solid transparent;
+    border-radius: 50%;
+  }
+`;
+
 export const StatusContainer = styled.div`
   display: grid;
   grid-row-gap: ${({ theme }) => rem(theme.pulsar.size.closet)};

@@ -15,6 +15,7 @@ import {
   StatusIcon,
   TextNodeNum,
   TotalNodesContainer,
+  StatusIconWithWarningHalf,
 } from './styled';
 
 interface Props {
@@ -83,7 +84,7 @@ export const TotalNodes = ({ metanodes: metanodesParam }: Props) => {
           </DoughnutWrapper>
           <StatusContainer>
             <Row>
-              <StatusIcon status="COMPLETED" />
+              <StatusIconWithWarningHalf status="COMPLETED" />
               <TextRoom variant="label">
                 <FormattedMessage
                   id="metanodes.churned-metanodes"
