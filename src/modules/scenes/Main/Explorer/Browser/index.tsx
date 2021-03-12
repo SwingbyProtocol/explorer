@@ -118,7 +118,7 @@ export const Browser = (props: Props) => {
       isRejectedTx,
       bridge: chainBridge,
       prevTxsWithPage: swapHistory,
-      swapHistoryTemp: swapHistoryTemp,
+      swapHistoryTemp,
     });
     if (data) {
       const uniqueTempMixedHistories = removeDuplicatedTxs(data.tempMixedHistories);

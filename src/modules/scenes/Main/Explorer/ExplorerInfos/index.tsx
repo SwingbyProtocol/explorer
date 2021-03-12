@@ -55,7 +55,7 @@ export const ExplorerInfos = (props: Props) => {
       icon: <Network />,
       description: <FormattedMessage id="home.network.volume" />,
       value: getFiatAssetFormatter({
-        locale: locale,
+        locale,
         currency: 'USD',
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
@@ -65,7 +65,7 @@ export const ExplorerInfos = (props: Props) => {
       icon: <NetworkRewards />,
       description: formattedRewards,
       value: getFiatAssetFormatter({
-        locale: locale,
+        locale,
         currency: 'USD',
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
@@ -75,7 +75,7 @@ export const ExplorerInfos = (props: Props) => {
       icon: <NetworkCapacity />,
       description: <FormattedMessage id="home.network.capacity" />,
       value: getFiatAssetFormatter({
-        locale: locale,
+        locale,
         currency: 'USD',
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,

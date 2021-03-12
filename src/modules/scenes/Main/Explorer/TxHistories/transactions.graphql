@@ -1,0 +1,13 @@
+query TransactionsHistory($first: Int, $after: String, $where: TransactionsQueryWhere) {
+  transactions(first: $first, after: $after, where: $where) {
+    edges {
+      node {
+        id
+      }
+      cursor
+    }
+    pageInfo {
+      hasNextPage
+    }
+  }
+}

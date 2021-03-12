@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { useTheme } from 'styled-components';
 
 import { Pagination } from '../../../../../components/Pagination';
+import { useTransactionsHistoryQuery } from '../../../../../generated/graphql';
 import {
   capitalize,
   convertTxTime,
@@ -85,6 +86,9 @@ export const TxHistories = (props: Props) => {
   const [toggleOpenLink, setToggleOpenLink] = useState(1);
   const router = useRouter();
   const theme = useTheme();
+  const { data, fetchMore } = useTransactionsHistoryQuery({
+    variables: { first: 25 },
+  });
 
   useEffect(() => {
     if (chosenTx) {
@@ -220,7 +224,7 @@ export const TxHistories = (props: Props) => {
                 <ColumnFee>
                   <Text variant="section-title">
                     {getCryptoAssetFormatter({
-                      locale: locale,
+                      locale,
                       displaySymbol: tx.feeCurrency,
                     }).format(Number(tx.fee))}
                   </Text>

@@ -27,8 +27,8 @@ export const useRunCountDown = (endingTime: number): ICountdown => {
     const mins = Math.floor(duration.minutes);
     const secs = Math.floor(duration.seconds);
     setCountdown({
-      days: days,
-      hours: hours,
+      days,
+      hours,
       minutes: mins,
       seconds: secs,
     });

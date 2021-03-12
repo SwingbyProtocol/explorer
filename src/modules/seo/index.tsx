@@ -15,8 +15,8 @@ export const SEO = () => {
       title={title}
       description={content}
       openGraph={{
-        url: url,
-        title: title,
+        url,
+        title,
         description: title,
         images: [
           {

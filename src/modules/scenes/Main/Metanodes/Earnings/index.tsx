@@ -17,14 +17,14 @@ export const Earnings = (props: Props) => {
   const rewardsAvgPerNode = reward ? reward.avgPerNode : 0;
 
   const earningTotal = getFiatAssetFormatter({
-    locale: locale,
+    locale,
     currency: 'USD',
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(Number(rewardsTotal));
 
   const earningAvr = getFiatAssetFormatter({
-    locale: locale,
+    locale,
     currency: 'USD',
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
