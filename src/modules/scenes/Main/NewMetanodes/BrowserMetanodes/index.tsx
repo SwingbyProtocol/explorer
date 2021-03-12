@@ -46,7 +46,7 @@ export const BrowserMetanodes = () => {
             <BridgeMetanodes bridge={bridge} setBridge={setBridge} />
           </Left>
           <Right>
-            <MetanodeInfo bridge={bridge} />
+            {bridge === btcErc ? <MetanodeInfo bridge={bridge} /> : <h1>COMING SOON</h1>}
           </Right>
         </BrowserMetanodesDiv>
       </BrowserMetanodesContainer>
