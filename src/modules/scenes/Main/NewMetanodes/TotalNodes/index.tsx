@@ -1,6 +1,7 @@
 import { Text } from '@swingby-protocol/pulsar';
 import { Doughnut } from 'react-chartjs-2';
 import { FormattedMessage } from 'react-intl';
+import { useTheme } from 'styled-components';
 
 import { Loader } from '../../../../../components/Loader';
 import { INodeListResponse } from '../../../../metanodes';
@@ -20,36 +21,49 @@ interface Props {
   metanodes: INodeListResponse[] | null;
 }
 
-export const TotalNodes = (props: Props) => {
-  const { metanodes } = props;
-  const nodeLimits = 50;
+const MAX_CHURNED_IN = 50;
 
-  const totalNodes = metanodes ? metanodes.length : 0;
-  const activeNodes = totalNodes > nodeLimits ? nodeLimits : totalNodes;
-  const notActiveNode = totalNodes > nodeLimits && totalNodes - nodeLimits;
+const CHURNED_IN_STATUSES = ['churned-in'];
+const MAY_CHURNED_OUT_STATUSES = ['may-churn-out--bond-too-low', 'may-churn-out--bond-expiring'];
+
+const DOUGHNUT_OPTIONS = {
+  legend: {
+    display: false,
+  },
+  elements: {
+    display: true,
+    arc: {
+      borderWidth: 0,
+    },
+  },
+  cutoutPercentage: 80,
+};
+
+export const TotalNodes = ({ metanodes: metanodesParam }: Props) => {
+  const theme = useTheme();
+  const metanodes = metanodesParam ?? [];
+
+  const totalNodeCount = metanodes.length;
+  const activeNodeCount = metanodes.filter((it) => CHURNED_IN_STATUSES.includes(it.status)).length;
+  const mayChurnOutNodeCount = metanodes.filter((it) =>
+    MAY_CHURNED_OUT_STATUSES.includes(it.status),
+  ).length;
+  const notActiveNodeCount = metanodes.filter(
+    (it) => ![...CHURNED_IN_STATUSES, ...MAY_CHURNED_OUT_STATUSES].includes(it.status),
+  ).length;
 
   const data = {
-    labels: ['Bond Too Low', 'Churned In'],
+    labels: ['Not Churned In', 'May Churn Out', 'Churned In'],
     datasets: [
       {
-        data: [notActiveNode, activeNodes],
-        backgroundColor: ['#A8B3C3', '#31D5B8'],
-        hoverBackgroundColor: ['#A8B3C3', '#31D5B8'],
+        data: [notActiveNodeCount, mayChurnOutNodeCount, activeNodeCount],
+        backgroundColor: [
+          theme.pulsar.color.text.masked,
+          theme.pulsar.color.warning.normal,
+          theme.pulsar.color.primary.normal,
+        ],
       },
     ],
-  };
-
-  const options = {
-    legend: {
-      display: false,
-    },
-    elements: {
-      display: true,
-      arc: {
-        borderWidth: 0,
-      },
-    },
-    cutoutPercentage: 80,
   };
 
   const loader = <Loader marginTop={0} minHeight={288} />;
@@ -64,8 +78,8 @@ export const TotalNodes = (props: Props) => {
       {metanodes?.length > 0 ? (
         <>
           <DoughnutWrapper>
-            <TextNodeNum variant="title-s">{totalNodes}</TextNodeNum>
-            <Doughnut data={data} options={options} width={70} height={70} />
+            <TextNodeNum variant="title-s">{totalNodeCount}</TextNodeNum>
+            <Doughnut data={data} options={DOUGHNUT_OPTIONS} width={70} height={70} />
           </DoughnutWrapper>
           <StatusContainer>
             <Row>
@@ -74,21 +88,19 @@ export const TotalNodes = (props: Props) => {
                 <FormattedMessage
                   id="metanodes.churned-metanodes"
                   values={{
-                    activeNodes,
-                    nodeLimits,
+                    activeNodes: activeNodeCount + mayChurnOutNodeCount,
+                    nodeLimits: MAX_CHURNED_IN,
                   }}
                 />
               </TextRoom>
             </Row>
-            {notActiveNode && (
+            {notActiveNodeCount && (
               <Row>
                 <StatusIcon status="WAITING" />
                 <TextRoom variant="label">
                   <FormattedMessage
                     id="metanodes.not-active-metanodes"
-                    values={{
-                      notActiveNode,
-                    }}
+                    values={{ notActiveNodes: notActiveNodeCount }}
                   />
                 </TextRoom>
               </Row>
