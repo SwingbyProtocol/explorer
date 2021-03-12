@@ -24,10 +24,12 @@ export const TotalSwingbyBond = (props: Props) => {
 
   const bondDate =
     bondHistories &&
-    bondHistories.map((it: TBondHistory) => formatDate(it.since), {
-      month: 'short',
-      day: 'numeric',
-    });
+    bondHistories.map((it: TBondHistory) =>
+      formatDate(it.since, {
+        month: 'short',
+        day: 'numeric',
+      }),
+    );
 
   const data = (canvas) => {
     const ctx = canvas.getContext('2d');

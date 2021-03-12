@@ -2,7 +2,8 @@ import { CoinSymbol } from '../../../coins';
 import { sumArray } from '../../../common';
 import { ENDPOINT_COINGECKO, ENDPOINT_ETHEREUM_NODE } from '../../../env';
 import { fetch } from '../../../fetch';
-import { IFloat, IFloatAmount, IFloatBalances, IMetanode, IStats } from '../../index';
+import { INodeListResponse } from '../../../metanodes';
+import { IFloat, IFloatAmount, IFloatBalances, IStats } from '../../index';
 
 export const getUsdPrice = async (currency: string): Promise<number> => {
   const url = ENDPOINT_COINGECKO + `/simple/price?ids=${currency}&vs_currencies=usd`;
@@ -46,7 +47,7 @@ export const fetchFloatBalances = async (usdBtc: number): Promise<IFloatBalances
   }
 };
 
-export const calTvl = (metanodes: IMetanode[]) => {
+export const calTvl = (metanodes: INodeListResponse[]) => {
   let tvl = 0;
   metanodes.forEach((metanode) => {
     tvl += Number(metanode.stake.amount);

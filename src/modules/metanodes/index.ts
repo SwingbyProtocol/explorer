@@ -1,4 +1,4 @@
-import { SKYBRIDGE_BRIDGES } from '@swingby-protocol/sdk';
+import { SKYBRIDGE_BRIDGES, SkybridgeBridge } from '@swingby-protocol/sdk';
 
 import { TStatus } from '../explorer';
 
@@ -119,5 +119,18 @@ export const toggleStatusIconColor = (status: string): TStatus => {
 
     default:
       return 'WAITING';
+  }
+};
+
+export const getSbBtcRewardCurrency = (bridge: SkybridgeBridge) => {
+  switch (bridge) {
+    case btcErc:
+      return 'ETH';
+
+    case btcBep:
+      return 'BNB';
+
+    default:
+      return 'ETH';
   }
 };

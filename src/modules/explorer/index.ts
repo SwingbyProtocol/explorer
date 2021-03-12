@@ -21,6 +21,7 @@ export {
   convertDateTime,
   getBorderColor,
   getDiffDays,
+  calTvl,
 } from './utils';
 
 export { TxRowTransition, TxRowVariants } from './animation';

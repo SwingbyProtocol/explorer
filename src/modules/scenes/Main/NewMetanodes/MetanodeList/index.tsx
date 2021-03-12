@@ -1,9 +1,15 @@
 import { getCryptoAssetFormatter } from '@swingby-protocol/pulsar';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { DateTime } from 'luxon';
+import { SkybridgeBridge } from '@swingby-protocol/sdk';
 
-import { convertDateTime, getDiffDays } from '../../../../explorer';
-import { INodeListResponse, toggleStatusBg, toggleStatusIconColor } from '../../../../metanodes';
+import { convertDateTime, getDiffDays, calTvl } from '../../../../explorer';
+import {
+  getSbBtcRewardCurrency,
+  INodeListResponse,
+  toggleStatusBg,
+  toggleStatusIconColor,
+} from '../../../../metanodes';
 import { AddressLinkP, SizeL, TextBlock, TextRoom } from '../../../Common';
 
 import {
@@ -29,11 +35,13 @@ import {
 
 interface Props {
   metanodes: INodeListResponse[] | null;
+  bridge: SkybridgeBridge;
 }
 
 export const MetanodeList = (props: Props) => {
   const { locale } = useIntl();
-  const { metanodes } = props;
+  const { metanodes, bridge } = props;
+  const tvl = metanodes && calTvl(metanodes);
 
   return (
     <MetanodeListContainer>
@@ -77,6 +85,10 @@ export const MetanodeList = (props: Props) => {
             const dt = DateTime.fromISO(node.stake.expiresAt);
             const expireTimestamp = dt.toSeconds();
             const expireTime = convertDateTime(expireTimestamp);
+            const lockedPortion = Number((Number(node.stake.amount) / tvl) * 100).toFixed(2);
+
+            const swingbyRewardCurrency = 'BNB';
+            const sbBTCRewardCurrency = bridge && getSbBtcRewardCurrency(bridge);
 
             return (
               <Row key={node.id} bg={toggleStatusBg(node.status, i)}>
@@ -101,7 +113,8 @@ export const MetanodeList = (props: Props) => {
                   <TextRoom>{node.version}</TextRoom>
                 </SizeL>
                 <div>
-                  <TextRoom>{bondAmount}</TextRoom> <TextRoom variant="label">(12.23%)</TextRoom>
+                  <TextRoom>{bondAmount}</TextRoom>{' '}
+                  <TextRoom variant="label">({lockedPortion}%)</TextRoom>
                 </div>
                 <ColumnExpiry>
                   <Column>
@@ -113,7 +126,7 @@ export const MetanodeList = (props: Props) => {
                   <BoxAddress>
                     <RowAddress>
                       <div>
-                        <TextRoom variant="label">BNB:</TextRoom>
+                        <TextRoom variant="label">{swingbyRewardCurrency}:</TextRoom>
                       </div>
                       <ColumnAddress>
                         <AddressLinkP>{bnbAddress}</AddressLinkP>
@@ -121,7 +134,7 @@ export const MetanodeList = (props: Props) => {
                     </RowAddress>
                     <RowAddress>
                       <div>
-                        <TextRoom variant="label">ETH:</TextRoom>
+                        <TextRoom variant="label">{sbBTCRewardCurrency}:</TextRoom>
                       </div>
                       <ColumnAddress>
                         <AddressLinkP>{ethAddress}</AddressLinkP>

@@ -70,8 +70,6 @@ export const MetanodeInfo = (props: Props) => {
       })();
   }, [bridge, getChurnTime]);
 
-  console.log('bondHistories', bondHistories);
-
   useInterval(() => {
     getChurnTime();
   }, [1000 * 60]);
@@ -94,7 +92,7 @@ export const MetanodeInfo = (props: Props) => {
         </Right>
       </Top>
       <Bottom>
-        <MetanodeList metanodes={metanodes} />
+        <MetanodeList metanodes={metanodes} bridge={bridge} />
       </Bottom>
     </MetanodeInfoContainer>
   );
