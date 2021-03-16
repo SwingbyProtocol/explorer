@@ -13,13 +13,13 @@ import { useThemeSettings } from '../../modules/store/settings';
 import { Buttons, ModalContainer, TextAddress } from './styled';
 
 interface Props {
+  tx: TTxRawObject;
   isWidgetModalOpen: boolean;
   setIsWidgetModalOpen: (arg: boolean) => void;
-  tx: TTxRawObject;
 }
 
 export const DuplicateSwapWidgetModal = (props: Props) => {
-  const { isWidgetModalOpen, setIsWidgetModalOpen, tx } = props;
+  const { tx, isWidgetModalOpen, setIsWidgetModalOpen } = props;
   const affiliateCode = useAffiliateCode();
   const { locale } = useRouter();
   const [theme] = useThemeSettings();

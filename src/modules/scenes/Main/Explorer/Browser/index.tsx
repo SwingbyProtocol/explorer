@@ -13,8 +13,6 @@ import {
   ILoadHistory,
   loadHistory,
   removeDuplicatedTxs,
-  TSwapWidget,
-  TTxRawObject,
 } from '../../../../explorer';
 import { useInterval } from '../../../../hooks';
 import {
@@ -32,15 +30,7 @@ import { TxHistoriesMobile } from '../TxHistoriesMobile';
 
 import { Bottom, BrowserContainer, BrowserDiv, Filter, NoResultsFound, Top } from './styled';
 
-interface Props {
-  walletAddress: string;
-  setWalletAddress: (address: string) => void;
-  linkToSwapWidget: (tx: TTxRawObject, action: TSwapWidget) => void;
-  runOnboard: () => void;
-}
-
-export const Browser = (props: Props) => {
-  const { runOnboard } = props;
+export const Browser = () => {
   const dispatch = useDispatch();
   const explorer = useSelector((state) => state.explorer);
   const { swapHistory, isRejectedTx, swapHistoryTemp, usd, networkInfos } = explorer;
@@ -142,11 +132,6 @@ export const Browser = (props: Props) => {
     dispatchLoadHistory();
   }, [10000]);
 
-  // Memo: Cannot run at `ExplorerMain.tsx` due to avoid conflict with `Pool page`
-  useEffect(() => {
-    runOnboard();
-  }, [runOnboard]);
-
   // Memo: To make `drop animation`
   useEffect(() => {
     if (previousTxTotal === 0 && total > 0) {
@@ -225,7 +210,6 @@ export const Browser = (props: Props) => {
             goBackPage={goBackPage}
             loader={loader}
             goToDetail={goToDetail}
-            linkToSwapWidget={props.linkToSwapWidget}
             isNoResult={isNoResult}
             isLoadingHistory={isLoadingHistory}
             noResultFound={noResultFound}
