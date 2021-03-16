@@ -18,7 +18,7 @@ interface IData {
   tx: TTxRawObject;
 }
 
-export const useLinkToWidget = (data?: IData) => {
+export const useLinkToWidget = (data: IData) => {
   const { toggleOpenLink, tx, action } = data;
   const router = useRouter();
   const [theme] = useThemeSettings();
