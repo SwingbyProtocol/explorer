@@ -3,7 +3,7 @@ import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Loader } from '../../../../../components/Loader';
-import { ILoadHistory, loadHistory, TSwapWidget, TTxRawObject } from '../../../../explorer';
+import { ILoadHistory, loadHistory, TTxRawObject } from '../../../../explorer';
 import { selectSwapDetails } from '../../../../store';
 import { ActionButtons } from '../ActionButtonsSwap';
 import { DetailCard } from '../DetailCard';
@@ -13,13 +13,7 @@ import { SwapFees } from '../SwapFees';
 
 import { BrowserDetailContainer, BrowserDetailDiv, IconSwap, Row } from './styled';
 
-interface Props {
-  linkToSwapWidget: (tx: TTxRawObject, action: TSwapWidget) => void;
-  runOnboard: () => void;
-}
-
-export const BrowserDetail = (props: Props) => {
-  const { runOnboard } = props;
+export const BrowserDetail = () => {
   const explorer = useSelector((state) => state.explorer);
   const { swapDetails } = explorer;
   const dispatch = useDispatch();
@@ -52,18 +46,13 @@ export const BrowserDetail = (props: Props) => {
     !swapDetails && hash && dispatchSelectSwapDetails(hash);
   }, [dispatchSelectSwapDetails, hash, swapDetails]);
 
-  // Memo: Cannot run at `ExplorerMain.tsx` due to avoid conflict with `Pool page`
-  useEffect(() => {
-    runOnboard();
-  }, [runOnboard]);
-
   return (
     <BrowserDetailContainer>
       <StatusCard tx={tx} />
       <BrowserDetailDiv size="bare">
         {tx && router.pathname !== undefined ? (
           <>
-            <ActionButtons tx={tx} linkToSwapWidget={props.linkToSwapWidget} />
+            <ActionButtons tx={tx} />
             <Row isTxId={tx.txIdIn !== undefined}>
               <DetailCard
                 role="From"

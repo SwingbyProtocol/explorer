@@ -1,47 +1,14 @@
-import { Dropdown, getCryptoAssetFormatter, Text } from '@swingby-protocol/pulsar';
-import { DateTime } from 'luxon';
+import { Text } from '@swingby-protocol/pulsar';
 import { useRouter } from 'next/router';
-import React, { useCallback, useState } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { useTheme } from 'styled-components';
+import React, { useCallback } from 'react';
+import { FormattedMessage } from 'react-intl';
 
 import { CursorPagination } from '../../../../../components/CursorPagination';
-import { Transaction, useTransactionsHistoryQuery } from '../../../../../generated/graphql';
-import {
-  capitalize,
-  convertTxTime,
-  currencyNetwork,
-  getBorderColor,
-  TSwapWidget,
-  TTxRawObject,
-  TxRowTransition,
-  TxRowVariants,
-} from '../../../../explorer';
-import { transactionDetailByTxId } from '../../../../swap';
+import { useTransactionsHistoryQuery } from '../../../../../generated/graphql';
+import { TTxRawObject } from '../../../../explorer';
 
-import {
-  AddressP,
-  AmountSpan,
-  Bottom,
-  BrowserFooter,
-  Coin,
-  Column,
-  ColumnAmount,
-  ColumnEllipsis,
-  ColumnFee,
-  Ellipsis,
-  Left,
-  Right,
-  Status,
-  StatusCircle,
-  StatusText,
-  IconArrowRight,
-  TextFee,
-  TitleRow,
-  Top,
-  TxHistoriesContainer,
-  TxHistoryRow,
-} from './styled';
+import { BrowserFooter, Left, Right, TextFee, TitleRow, TxHistoriesContainer } from './styled';
+import { TxHistoriesItem } from './Item';
 
 interface Props {
   filter: JSX.Element;
@@ -57,7 +24,6 @@ interface Props {
   goNextPage: () => void;
   goBackPage: () => void;
   goToDetail: (arg: string) => void;
-  linkToSwapWidget: (tx: TTxRawObject, action: TSwapWidget) => void;
 }
 
 export const TxHistories = ({
@@ -67,7 +33,6 @@ export const TxHistories = ({
   bridge,
   goToDetail,
   loader,
-  linkToSwapWidget,
   noResultFound,
   adjustIndex,
 }: Props) => {
@@ -77,10 +42,6 @@ export const TxHistories = ({
   } = useRouter();
   const after = typeof afterParam === 'string' ? afterParam : undefined;
 
-  const { locale } = useIntl();
-  const [toggleOpenLink, setToggleOpenLink] = useState(1);
-
-  const theme = useTheme();
   const { data, loading, fetchMore } = useTransactionsHistoryQuery({
     variables: { first: 25, after },
   });
@@ -97,35 +58,6 @@ export const TxHistories = ({
     push({ query: { after } }, null, { scroll: false, shallow: true });
   }, [data?.transactions.pageInfo.startCursor, fetchMore, push]);
 
-  const externalLinkMenu = (tx: Pick<Transaction, 'receivingTxHash' | 'receivingCurrency'>) => (
-    <>
-      <Dropdown.Item
-        onClick={() => {
-          linkToSwapWidget(tx, 'claim');
-          setToggleOpenLink(toggleOpenLink + 1);
-        }}
-      >
-        <FormattedMessage id="home.recent-swaps.check-swap-progress" />
-      </Dropdown.Item>
-      {tx.receivingTxHash && (
-        <Dropdown.Item
-          onClick={() =>
-            window.open(
-              transactionDetailByTxId(tx.receivingCurrency, tx.receivingTxHash),
-              '_blank',
-              'noopener',
-            )
-          }
-        >
-          <p>
-            <FormattedMessage id="home.recent-swaps.get-tx-details" />
-          </p>
-        </Dropdown.Item>
-      )}
-    </>
-  );
-
-  // Memo: px for row height
   const rowHeight = 90;
   const rowHeightWithTxs = currentTxs && currentTxs.length * rowHeight;
 
@@ -151,94 +83,9 @@ export const TxHistories = ({
         </TitleRow>
         {!!data && data.transactions.totalCount < 1 && noResultFound}
         {loading && loader}
-        {data?.transactions.edges.map(({ node: tx }, i) => {
-          const bgKey = i - adjustIndex;
-          const borderColor = getBorderColor({ status: tx.status, theme });
-          return (
-            <TxHistoryRow
-              key={tx.id}
-              bg={bgKey % 2 !== 0}
-              borderColor={borderColor}
-              onClick={() => goToDetail(tx.id)}
-              variants={page === 1 && TxRowVariants}
-              transition={page === 1 && TxRowTransition}
-              initial={page === 1 ? 'initial' : null}
-              animate={page === 1 ? 'in' : null}
-            >
-              <Column>
-                <Status>
-                  <StatusCircle status={tx.status} />
-                  <StatusText variant="accent">{capitalize(tx.status)}</StatusText>
-                </Status>
-                <Bottom>
-                  <Text variant="label">{convertTxTime(DateTime.fromISO(tx.at))}</Text>
-                </Bottom>
-              </Column>
-              <Column>
-                <Top>
-                  <Text variant="label">
-                    <FormattedMessage id="common.from" />
-                  </Text>
-                </Top>
-                <Bottom>
-                  <Text variant="label">
-                    <FormattedMessage id="common.to" />
-                  </Text>
-                </Bottom>
-              </Column>
-              <Column>
-                <Top>
-                  <AddressP>{tx.depositAddress.toLowerCase()}</AddressP>
-                </Top>
-                <Bottom>
-                  <AddressP>{tx.receivingAddress.toLowerCase()}</AddressP>
-                </Bottom>
-              </Column>
-              <ColumnAmount>
-                <Coin symbol={tx.depositCurrency} />
-                <div>
-                  <Top>
-                    <Text variant="label">{currencyNetwork(tx.depositCurrency)}</Text>
-                  </Top>
-                  <Bottom>
-                    <AmountSpan variant="accent">{tx.depositAmount}</AmountSpan>
-                  </Bottom>
-                </div>
-              </ColumnAmount>
-              <Column>
-                <IconArrowRight />
-              </Column>
-              <ColumnAmount>
-                <Coin symbol={tx.receivingCurrency} />
-                <div>
-                  <Top>
-                    <Text variant="label">{currencyNetwork(tx.receivingCurrency)}</Text>
-                  </Top>
-                  <Bottom>
-                    <AmountSpan variant="accent">{tx.receivingAmount}</AmountSpan>
-                  </Bottom>
-                </div>
-              </ColumnAmount>
-              <ColumnFee>
-                <Text variant="section-title">
-                  {getCryptoAssetFormatter({
-                    locale,
-                    displaySymbol: tx.feeCurrency,
-                  }).format(Number(tx.feeTotal))}
-                </Text>
-              </ColumnFee>
-              <ColumnEllipsis
-                onClick={(event) => {
-                  event.stopPropagation();
-                }}
-              >
-                <Dropdown target={<Ellipsis />} data-testid="dropdown">
-                  {externalLinkMenu(tx)}
-                </Dropdown>
-              </ColumnEllipsis>
-            </TxHistoryRow>
-          );
-        })}
+        {data?.transactions.edges.map(({ node: tx }, i) => (
+          <TxHistoriesItem key={tx.id} bgKey={i - adjustIndex} goToDetail={goToDetail} tx={tx} />
+        ))}
       </TxHistoriesContainer>
       <BrowserFooter>
         <CursorPagination

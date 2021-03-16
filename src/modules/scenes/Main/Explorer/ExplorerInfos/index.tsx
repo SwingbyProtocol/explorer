@@ -45,10 +45,7 @@ export const ExplorerInfos = (props: Props) => {
   const formattedMetanodes = formatMessage({ id: 'metanodes.metanodes' });
   const formattedRewards = formatMessage({ id: 'home.network.rewards' });
 
-  const rewardsSbBTC = stats.rewards1wksSbBTC * usd.BTC;
-  const rewardsSWINGBY = stats.rewards1wksSWINGBY * usd.SWINGBY;
-
-  const rewards1wks = rewardsSbBTC + rewardsSWINGBY;
+  const rewards1wks = stats.rewards1wksUSD;
 
   const data = usd && [
     {

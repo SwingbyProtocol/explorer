@@ -4,7 +4,6 @@ import { useMemo } from 'react';
 import { IntlProvider } from 'react-intl';
 import { Provider as ReduxProvider } from 'react-redux';
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
-import { GraphQLScalarType } from 'graphql';
 
 import { Globals } from '../components/Globals';
 import { languages } from '../modules/i18n';
@@ -18,30 +17,6 @@ const DEFAULT_LOCALE = 'en';
 const apolloClient = new ApolloClient({
   uri: 'https://graph.swingby.network/api/graphql',
   cache: new InMemoryCache(),
-  resolvers: {
-    DateTime: new GraphQLScalarType({
-      name: 'DateTime',
-      description: 'A timestamp.',
-      serialize(value) {
-        let result;
-        // Implement your own behavior here by setting the 'result' variable
-        return result;
-      },
-      parseValue(value) {
-        let result;
-        // Implement your own behavior here by setting the 'result' variable
-        return result;
-      },
-      parseLiteral(ast) {
-        switch (
-          ast.kind
-          // Implement your own behavior here by returning what suits your needs
-          // depending on ast.kind
-        ) {
-        }
-      },
-    }),
-  },
 });
 
 function MyApp({ Component, pageProps }) {
