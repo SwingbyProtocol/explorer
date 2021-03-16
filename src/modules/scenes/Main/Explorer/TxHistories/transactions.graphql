@@ -1,5 +1,11 @@
-query TransactionsHistory($first: Int, $after: String, $where: TransactionsQueryWhere) {
-  transactions(first: $first, after: $after, where: $where) {
+query TransactionsHistory(
+  $first: Int
+  $after: String
+  $last: Int
+  $before: String
+  $where: TransactionsQueryWhere
+) {
+  transactions(first: $first, after: $after, last: $last, before: $before, where: $where) {
     totalCount
     edges {
       node {

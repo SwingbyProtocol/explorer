@@ -143,6 +143,8 @@ export type QueryTransactionsArgs = {
   where?: Maybe<TransactionsQueryWhere>;
   first?: Maybe<Scalars['Int']>;
   after?: Maybe<Scalars['String']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
 };
 
 
@@ -153,6 +155,8 @@ export type QueryNodesArgs = {
 export type TransactionsHistoryQueryVariables = Exact<{
   first?: Maybe<Scalars['Int']>;
   after?: Maybe<Scalars['String']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
   where?: Maybe<TransactionsQueryWhere>;
 }>;
 
@@ -178,8 +182,14 @@ export type TransactionsHistoryQuery = (
 
 
 export const TransactionsHistoryDocument = gql`
-    query TransactionsHistory($first: Int, $after: String, $where: TransactionsQueryWhere) {
-  transactions(first: $first, after: $after, where: $where) {
+    query TransactionsHistory($first: Int, $after: String, $last: Int, $before: String, $where: TransactionsQueryWhere) {
+  transactions(
+    first: $first
+    after: $after
+    last: $last
+    before: $before
+    where: $where
+  ) {
     totalCount
     edges {
       node {
@@ -222,6 +232,8 @@ export const TransactionsHistoryDocument = gql`
  *   variables: {
  *      first: // value for 'first'
  *      after: // value for 'after'
+ *      last: // value for 'last'
+ *      before: // value for 'before'
  *      where: // value for 'where'
  *   },
  * });

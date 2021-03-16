@@ -1065,7 +1065,7 @@
               },
               {
                 "name": "first",
-                "description": "Limits the number of items that are retuned.",
+                "description": "Limits the number of items that are retuned. Can be combined with \"after\".",
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
@@ -1077,7 +1077,31 @@
               },
               {
                 "name": "after",
-                "description": "Only items coming immediately after this will be returned.",
+                "description": "Only items coming immediately after this will be returned. Can be combined with \"first\".",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "last",
+                "description": "Limits the number of items that are retuned. Can be combined with \"before\".",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "before",
+                "description": "Only items coming immediately after this will be returned. Can be combined with \"last\".",
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",

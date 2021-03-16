@@ -38,24 +38,32 @@ export const TxHistories = ({
 }: Props) => {
   const {
     push,
-    query: { after: afterParam },
+    query: { after: afterParam, before: beforeParam },
   } = useRouter();
   const after = typeof afterParam === 'string' ? afterParam : undefined;
+  const before = typeof beforeParam === 'string' ? beforeParam : undefined;
+
+  console.log('render TxHistories');
 
   const { data, loading, fetchMore } = useTransactionsHistoryQuery({
-    variables: { first: 25, after },
+    variables: {
+      after,
+      before,
+      first: after ? 25 : !before ? 25 : undefined,
+      last: before ? 25 : undefined,
+    },
   });
 
   const goToNextPage = useCallback(() => {
     const after = data?.transactions.pageInfo.endCursor;
-    fetchMore({ variables: { after } });
+    // fetchMore({ variables: { after, before: null } });
     push({ query: { after } }, null, { scroll: false, shallow: true });
   }, [data?.transactions.pageInfo.endCursor, fetchMore, push]);
 
   const goToPreviousPage = useCallback(() => {
-    const after = data?.transactions.pageInfo.startCursor;
-    fetchMore({ variables: { after } });
-    push({ query: { after } }, null, { scroll: false, shallow: true });
+    const before = data?.transactions.pageInfo.startCursor;
+    // fetchMore({ variables: { before, after: null } });
+    push({ query: { before } }, null, { scroll: false, shallow: true });
   }, [data?.transactions.pageInfo.startCursor, fetchMore, push]);
 
   const rowHeight = 90;
