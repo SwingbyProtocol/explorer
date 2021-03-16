@@ -52,7 +52,7 @@ export const useLinkToWidget = (data: IData) => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (tx) {
+    if (tx && toggleOpenLink > 1) {
       // Memo: Widget config for ETH bridge
       const widget =
         action === 'claim'
