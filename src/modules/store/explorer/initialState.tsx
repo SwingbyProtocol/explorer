@@ -4,8 +4,7 @@ export const networkInfos = {
   stats: {
     volume1wksWBTC: 0,
     volume1wksBTC: 0,
-    rewards1wksSbBTC: 0,
-    rewards1wksSWINGBY: 0,
+    rewards1wksUSD: 0,
     volumes: ['1', '1', '1', '1', '1', '1', '1'],
     metanodes: 0,
   },

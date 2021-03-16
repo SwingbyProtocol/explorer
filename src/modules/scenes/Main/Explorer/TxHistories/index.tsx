@@ -1,21 +1,22 @@
 import { Dropdown, getCryptoAssetFormatter, Text } from '@swingby-protocol/pulsar';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import { useTheme } from 'styled-components';
 
+import { LinkToWidgetModal } from '../../../../../components/LinkToWidgetModal';
 import { Pagination } from '../../../../../components/Pagination';
 import {
   capitalize,
   convertTxTime,
   currencyNetwork,
   getBorderColor,
-  TSwapWidget,
   TTxRawObject,
   TxRowTransition,
   TxRowVariants,
 } from '../../../../explorer';
+import { useLinkToWidget } from '../../../../hooks';
 import { selectSwapDetails } from '../../../../store';
 import { transactionDetailByTxId } from '../../../../swap';
 
@@ -30,12 +31,12 @@ import {
   ColumnEllipsis,
   ColumnFee,
   Ellipsis,
+  IconArrowRight,
   Left,
   Right,
   Status,
   StatusCircle,
   StatusText,
-  IconArrowRight,
   TextFee,
   TitleRow,
   Top,
@@ -57,7 +58,6 @@ interface Props {
   goNextPage: () => void;
   goBackPage: () => void;
   goToDetail: (arg: string) => void;
-  linkToSwapWidget: (tx: TTxRawObject, action: TSwapWidget) => void;
 }
 
 export const TxHistories = (props: Props) => {
@@ -71,7 +71,6 @@ export const TxHistories = (props: Props) => {
     goBackPage,
     goToDetail,
     loader,
-    linkToSwapWidget,
     isNoResult,
     isLoadingHistory,
     noResultFound,
@@ -86,11 +85,11 @@ export const TxHistories = (props: Props) => {
   const router = useRouter();
   const theme = useTheme();
 
-  useEffect(() => {
-    if (chosenTx) {
-      linkToSwapWidget(chosenTx, 'claim');
-    }
-  }, [chosenTx, toggleOpenLink, linkToSwapWidget]);
+  const { isClaimWidgetModalOpen, setIsClaimWidgetModalOpen } = useLinkToWidget({
+    toggleOpenLink,
+    tx: chosenTx,
+    action: 'claim',
+  });
 
   const externalLinkMenu = (tx: TTxRawObject) => (
     <>
@@ -124,6 +123,11 @@ export const TxHistories = (props: Props) => {
 
   return (
     <>
+      <LinkToWidgetModal
+        isWidgetModalOpen={isClaimWidgetModalOpen}
+        setIsWidgetModalOpen={setIsClaimWidgetModalOpen}
+        tx={chosenTx}
+      />
       <TxHistoriesContainer txsHeight={rowHeightWithTxs}>
         <TitleRow>
           <Left>
