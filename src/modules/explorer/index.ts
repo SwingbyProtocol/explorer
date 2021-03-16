@@ -97,8 +97,7 @@ export interface IFloat {
 export interface IStats {
   volume1wksWBTC: number;
   volume1wksBTC: number;
-  rewards1wksSbBTC: number;
-  rewards1wksSWINGBY: number;
+  rewards1wksUSD: number;
   volumes: string[];
   metanodes: number;
 }
@@ -145,8 +144,7 @@ export interface INetworkInfos {
   stats: {
     volume1wksWBTC: number;
     volume1wksBTC: number;
-    rewards1wksSbBTC: number;
-    rewards1wksSWINGBY: number;
+    rewards1wksUSD: number;
     volumes: string[];
     metanodes: number;
   };
