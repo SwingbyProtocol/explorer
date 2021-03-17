@@ -75,7 +75,9 @@ export const NodeStatus = (props: Props) => {
             <Left>
               <ColumnStatus>
                 <StatusIcon status="COMPLETED" />
-                <TextRoom variant="label">Churned in</TextRoom>
+                <TextRoom variant="label">
+                  <FormattedMessage id="metanodes.metanode-status.churned-in" />
+                </TextRoom>
               </ColumnStatus>
             </Left>
             <Right>{showNodeStatus(churnedInStatus)}</Right>
@@ -84,7 +86,9 @@ export const NodeStatus = (props: Props) => {
             <Left>
               <ColumnStatus>
                 <StatusIcon status="WAITING" />
-                <TextRoom variant="label">May churn in</TextRoom>
+                <TextRoom variant="label">
+                  <FormattedMessage id="metanodes.may-churn-in" />
+                </TextRoom>
               </ColumnStatus>
             </Left>
             <Right>{showNodeStatus(mayChurnInStatus)}</Right>
@@ -93,7 +97,9 @@ export const NodeStatus = (props: Props) => {
             <Left>
               <ColumnStatus>
                 <StatusIcon status="PENDING" />
-                <TextRoom variant="label">Bond expiring</TextRoom>
+                <TextRoom variant="label">
+                  <FormattedMessage id="metanodes.bond-expiring" />
+                </TextRoom>
               </ColumnStatus>
             </Left>
             <Right>{showNodeStatus(bondExpiringStatus)}</Right>
@@ -102,7 +108,9 @@ export const NodeStatus = (props: Props) => {
             <Left>
               <ColumnStatus>
                 <StatusIcon status="REFUNDED" />
-                <TextRoom variant="label">Bond too low</TextRoom>
+                <TextRoom variant="label">
+                  <FormattedMessage id="metanodes.bond-too-low" />
+                </TextRoom>
               </ColumnStatus>
             </Left>
             <Right>{showNodeStatus(bondTooLowStatus)}</Right>
