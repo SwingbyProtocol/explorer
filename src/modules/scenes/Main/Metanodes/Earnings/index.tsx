@@ -1,8 +1,9 @@
-import { getFiatAssetFormatter, Text } from '@swingby-protocol/pulsar';
+import { getFiatAssetFormatter, Text, Tooltip } from '@swingby-protocol/pulsar';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import { Loader } from '../../../../../components/Loader';
 import { IReward } from '../../../../metanodes';
+import { IconInfo } from '../../../Common';
 
 import { EarningsContainer, Row } from './styled';
 
@@ -14,6 +15,8 @@ export const Earnings = (props: Props) => {
   const { locale } = useIntl();
   const { reward } = props;
   const rewardsTotal = reward ? reward.total : 0;
+  const rewardsSwingby = reward ? reward.stakingRewards : 0;
+  const rewardsSbBtcUsd = reward ? reward.networkRewards : 0;
   const rewardsAvgPerNode = reward ? reward.avgPerNode : 0;
 
   const earningTotal = getFiatAssetFormatter({
@@ -22,6 +25,20 @@ export const Earnings = (props: Props) => {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(Number(rewardsTotal));
+
+  const earningSwingbyUsd = getFiatAssetFormatter({
+    locale: locale,
+    currency: 'USD',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(Number(rewardsSwingby));
+
+  const earningSbBtcUsd = getFiatAssetFormatter({
+    locale: locale,
+    currency: 'USD',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(Number(rewardsSbBtcUsd));
 
   const earningAvr = getFiatAssetFormatter({
     locale: locale,
@@ -38,6 +55,22 @@ export const Earnings = (props: Props) => {
         <Text variant="section-title">
           <FormattedMessage id="metanodes.earnings" />
         </Text>
+        <Tooltip
+          content={
+            <Tooltip.Content>
+              <Text variant="accent">
+                <FormattedMessage id="metanodes.swingby" values={{ value: earningSwingbyUsd }} />
+              </Text>
+              <br />
+              <Text variant="accent">
+                <FormattedMessage id="metanodes.sbBTC" values={{ value: earningSbBtcUsd }} />
+              </Text>
+            </Tooltip.Content>
+          }
+          data-testid="tooltip"
+        >
+          <IconInfo />
+        </Tooltip>
       </Row>
       {reward ? (
         <>

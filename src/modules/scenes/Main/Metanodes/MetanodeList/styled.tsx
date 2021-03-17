@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { bondExpiring, bondTooLow, mayChurnIn } from '../../../../metanodes';
 import { StylingConstants } from '../../../../styles';
-import { TextBlock, TextRoom } from '../../../Common';
+import { AddressLinkP, TextBlock, TextRoom } from '../../../Common';
 
 const { media } = StylingConstants;
 
@@ -200,4 +200,8 @@ export const TextNodeStatus = styled(TextNodeName)`
     overflow: initial;
     white-space: initial;
   }
+`;
+
+export const AddressP = styled(AddressLinkP)`
+  cursor: text;
 `;

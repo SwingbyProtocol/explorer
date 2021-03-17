@@ -17,7 +17,6 @@ import { RewardButtonContainer } from './styled';
 export const RewardButton = () => {
   const { media } = StylingConstants;
   const lg = useMatchMedia({ query: `(min-width: ${rem(media.lg)})` });
-  const md = useMatchMedia({ query: `(min-width: ${rem(media.md)})` });
   const sm = useMatchMedia({ query: `(min-width: ${rem(media.sm)})` });
   const [onboard, setOnboard] = useState<OnboardApi>(null);
 
@@ -81,7 +80,7 @@ export const RewardButton = () => {
   return (
     <RewardButtonContainer>
       <ButtonScale
-        size={lg ? 'country' : md ? 'state' : 'country'}
+        size={lg ? 'country' : 'state'}
         shape={sm ? 'fit' : 'fill'}
         variant="primary"
         onClick={distributeRewards}
