@@ -80,7 +80,7 @@
   "pool.total-earnings": "Total Earnings",
   "pool.earnings": "Earnings",
   "pool.usd": "($USD)",
-  "pool.apy": "APY: ",
+  "pool.apr": "APR: ",
   "pool.withdraw": "Withdraw",
   "pool.add-liquidity": "+ Add Liquidity",
   "pool.bridges": "Bridges",

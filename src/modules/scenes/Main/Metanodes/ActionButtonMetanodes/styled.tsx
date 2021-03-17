@@ -33,7 +33,7 @@ export const TextTitle = styled(Text)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
 `;
 
-export const TextAPY = styled(Text)`
+export const TextAPR = styled(Text)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
   color: ${({ theme }) => theme.pulsar.color.primary.normal};
 `;
