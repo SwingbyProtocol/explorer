@@ -1,32 +1,35 @@
 import { Dropdown } from '@swingby-protocol/pulsar';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import { setBridge } from '../../../../store';
+import { PATH } from '../../../../env';
+import { useToggleBridge } from '../../../../hooks';
+import { BRIDGES, IBridge } from '../../../../metanodes';
 import { TextChosenFilter } from '../../../Common';
 
 import { BackDrop, BridgesMobileContainer, DropTargetBridges, TextTitle } from './styled';
 
 export const BridgesMobile = () => {
-  const bridges = ['Apollo1'];
-  const dispatch = useDispatch();
+  const { bridge, setBridge } = useToggleBridge(PATH.POOL);
   const pool = useSelector((state) => state.pool);
-  const { bridge, userAddress } = pool;
+  const { userAddress } = pool;
 
   const bridgesItems = (
     <>
-      {bridges.map((bridge) => (
+      {BRIDGES.map((b: IBridge) => (
         <Dropdown.Item
-          selected={bridge === pool.bridge}
-          onClick={() => dispatch(setBridge(bridge))}
-          key={bridge}
+          selected={b.bridge === bridge}
+          onClick={() => setBridge(b.bridge)}
+          key={b.bridge}
         >
-          {bridge}
+          {b.tabMenu}
         </Dropdown.Item>
       ))}
     </>
   );
+
+  const selectedBridge = bridge ? BRIDGES.find((b) => bridge === b.bridge) : BRIDGES[0];
 
   return (
     <BridgesMobileContainer>
@@ -37,7 +40,7 @@ export const BridgesMobile = () => {
       <Dropdown
         target={
           <DropTargetBridges size="city">
-            <TextChosenFilter> {bridge}</TextChosenFilter>{' '}
+            <TextChosenFilter> {selectedBridge.tabMenu}</TextChosenFilter>{' '}
           </DropTargetBridges>
         }
         data-testid="dropdown"

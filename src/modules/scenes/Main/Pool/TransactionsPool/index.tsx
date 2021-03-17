@@ -67,6 +67,7 @@ export const TransactionsPool = () => {
           txsData.data[page].map((data: IRecentTx, i: number) => {
             const value = toBTC(data.value);
             const time = convertTxTime(data.timeStamp);
+
             return (
               <Row key={i}>
                 <Text variant="label">{time}</Text>

@@ -38,7 +38,7 @@ export const BrowserPoolDiv = styled(Card)`
     padding-right: 0;
     padding-left: 0;
     display: grid;
-    grid-template-columns: ${rem(190)} auto;
+    grid-template-columns: ${rem(260)} auto;
     min-height: ${rem(500)};
   }
   @media (min-width: ${rem(media.lg)}) {

@@ -50,7 +50,7 @@ export interface IReward {
 }
 
 export interface IBridge {
-  path: string;
+  bridge: SkybridgeBridge;
   tabMenu: string;
 }
 
@@ -97,13 +97,13 @@ export interface INodeStatusTable {
 const btcErc = SKYBRIDGE_BRIDGES.find((bridge) => bridge === 'btc_erc');
 const btcBep = SKYBRIDGE_BRIDGES.find((bridge) => bridge === 'btc_bep');
 
-export const MetanodeBridges = [
+export const BRIDGES = [
   {
-    path: btcErc,
+    bridge: btcErc,
     tabMenu: 'Bitcoin to Ethereum',
   },
   {
-    path: btcBep,
+    bridge: btcBep,
     tabMenu: 'Bitcoin to BSC',
   },
 ];

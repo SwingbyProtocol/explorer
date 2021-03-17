@@ -37,20 +37,12 @@ export const Row = styled.div`
   @media (min-width: ${rem(media.xs)}) {
     padding: ${({ theme }) => rem(theme.pulsar.size.street)};
     justify-content: flex-start;
-    grid-template-columns: ${rem(140)} auto ${rem(80)};
-  }
-  @media (min-width: ${rem(620)}) {
-    justify-content: flex-start;
-    grid-template-columns: ${rem(140)} auto ${rem(80)};
+    grid-template-columns: ${rem(140)} auto ${rem(100)};
   }
   @media (min-width: ${rem(media.md)}) {
-    justify-content: flex-start;
-    grid-template-columns: ${rem(170)} auto ${rem(80)};
+    grid-template-columns: ${rem(170)} auto ${rem(100)};
   }
   @media (min-width: ${rem(media.lg)}) {
-    grid-template-columns: ${rem(170)} auto ${rem(110)};
-  }
-  @media (min-width: ${rem(media.xl)}) {
     grid-template-columns: ${rem(170)} auto ${rem(110)};
   }
 `;
