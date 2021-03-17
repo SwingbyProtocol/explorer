@@ -9,6 +9,7 @@ import {
   INodeListResponse,
   toggleStatusBg,
   toggleStatusIconColor,
+  toggleStatusWord,
 } from '../../../../metanodes';
 import { AddressLinkP, SizeL, TextBlock, TextRoom } from '../../../Common';
 
@@ -104,7 +105,9 @@ export const MetanodeList = (props: Props) => {
                       </ColumnNodeName>
                       <ChurnStatus>
                         <StatusIcon status={toggleStatusIconColor(node.status)} />
-                        <TextNodeStatus variant="label">{node.status}</TextNodeStatus>
+                        <TextNodeStatus variant="label">
+                          <FormattedMessage id={toggleStatusWord(node.status) as string} />
+                        </TextNodeStatus>
                       </ChurnStatus>
                     </NodeStatus>
                   </Location>
