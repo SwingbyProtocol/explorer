@@ -6,7 +6,7 @@ import { PoolMode } from '../../../../pool';
 import { togglePoolMode } from '../../../../store';
 import { ButtonScale, IconArrowLeft } from '../../../Common';
 
-import { ActionButtonsPoolContainer, Buttons, RowText, TextAPY, TextTitle } from './styled';
+import { ActionButtonsPoolContainer, Buttons, RowText, TextAPR, TextTitle } from './styled';
 
 export const ActionButtonsPool = () => {
   const dispatch = useDispatch();
@@ -17,11 +17,11 @@ export const ActionButtonsPool = () => {
       {mode === PoolMode.Summary ? (
         <RowText>
           <TextTitle variant="accent">
-            <FormattedMessage id="pool.apy" />
+            <FormattedMessage id="pool.apr" />
           </TextTitle>
-          <TextAPY variant="accent">
+          <TextAPR variant="accent">
             <FormattedMessage id="common.coming-soon" />
-          </TextAPY>
+          </TextAPR>
         </RowText>
       ) : (
         <IconArrowLeft onClick={() => dispatch(togglePoolMode(PoolMode.Summary))} />
