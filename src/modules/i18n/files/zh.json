@@ -80,7 +80,7 @@
   "pool.total-earnings": "总收益",
   "pool.earnings": "收益",
   "pool.usd": "(美金)",
-  "pool.apy": "年收益率: ",
+  "pool.apr": "年收益率: ",
   "pool.withdraw": "取款",
   "pool.add-liquidity": "提供流动性",
   "pool.bridges": "网桥",

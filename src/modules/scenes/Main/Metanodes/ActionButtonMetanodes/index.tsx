@@ -7,19 +7,19 @@ import {
   ActionButtonMetanodesContainer,
   ButtonContainer,
   RowText,
-  TextAPY,
+  TextAPR,
   TextTitle,
 } from './styled';
 
 export const ActionButtonMetanodes = () => {
-  const apy = 52;
+  const apr = 52;
   return (
     <ActionButtonMetanodesContainer>
       <RowText>
         <TextTitle variant="accent">
-          <FormattedMessage id="pool.apy" />
+          <FormattedMessage id="pool.apr" />
         </TextTitle>
-        <TextAPY variant="accent">{apy}%</TextAPY>
+        <TextAPR variant="accent">{apr}%</TextAPR>
       </RowText>
       <ButtonContainer>
         <RewardButton />
