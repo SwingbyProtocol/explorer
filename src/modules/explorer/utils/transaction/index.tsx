@@ -1,9 +1,9 @@
-import { PulsarThemeType, getStatusColor } from '@swingby-protocol/pulsar';
+import { getStatusColor, PulsarThemeType } from '@swingby-protocol/pulsar';
 import { DateTime, Interval } from 'luxon';
-import { FormattedDate, FormattedRelativeTime, FormattedTime } from 'react-intl';
 import { transparentize } from 'polished';
+import { FormattedDate, FormattedRelativeTime, FormattedTime } from 'react-intl';
 
-import { BTCBCoins, CoinSymbol, ETHCoins } from '../../../coins';
+import { CoinSymbol } from '../../../coins';
 import { TStatus, TTxRawObject } from '../../index';
 
 export const TxStatus = {
@@ -34,16 +34,22 @@ export const getBorderColor = ({
 };
 
 export const currencyNetwork = (currency: string): string => {
-  if (currency === CoinSymbol.BTC) {
-    return CoinSymbol.BTC;
+  switch (currency) {
+    case CoinSymbol.BTC:
+      return CoinSymbol.BTC;
+
+    case CoinSymbol.BTC_B:
+      return 'BTCB on BSC';
+
+    case CoinSymbol.WBTC:
+      return 'WBTC on Ethereum';
+
+    case CoinSymbol.ETH_SB_BTC:
+      return 'sbBTC on Ethereum';
+
+    default:
+      return currency;
   }
-  if (BTCBCoins.includes(currency)) {
-    return 'BTC on Bnbchain';
-  }
-  if (ETHCoins.includes(currency)) {
-    return 'BTC on Ethereum';
-  }
-  return '';
 };
 
 export const removeDuplicatedTxs = (txArray: TTxRawObject[], filterBy?: string): TTxRawObject[] => {

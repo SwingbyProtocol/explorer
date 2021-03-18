@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { toastWrongAddress } from '../../../components/Toast';
 import { useAffiliateCode } from '../../affiliate-code';
-import { ETHCoins } from '../../coins';
+import { EthereumWalletAddressCoins } from '../../coins';
 import { mode } from '../../env';
 import { TSwapWidget, TTxRawObject } from '../../explorer';
 import { initOnboard } from '../../onboard';
@@ -79,7 +79,7 @@ export const useLinkToWidget = (data: IData) => {
             });
 
       // Memo: Open the ^widget for ETH coins
-      if (ETHCoins.includes(tx?.currencyOut)) {
+      if (EthereumWalletAddressCoins.includes(tx?.currencyOut)) {
         if (tx.addressOut.toLowerCase() === formattedUserAddress) {
           action === 'claim' && window.open(getUrl({ widget }), '_blank', 'noopener');
           action === 'duplicate' && openPopup({ widget });

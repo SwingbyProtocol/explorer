@@ -1,24 +1,36 @@
+import { SkybridgeBridge } from '@swingby-protocol/sdk';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { corsMiddleware, getParam } from '../../../modules/api';
-import { CONTRACT_SB_BTC, ENDPOINT_ETHERSCAN, etherscanApiKey } from '../../../modules/env';
 import { fetch } from '../../../modules/fetch';
-import { IEtherscanTransaction } from '../../../modules/pool';
+import {
+  getSbBtcContract,
+  getScanApiKey,
+  getScanBaseEndpoint,
+  IEtherscanTransaction,
+} from '../../../modules/pool';
 
-const base = ENDPOINT_ETHERSCAN;
+const generateUrl = (
+  page: number,
+  walletAddress: string,
+  limit: number,
+  bridge: SkybridgeBridge,
+) => {
+  const base = getScanBaseEndpoint(bridge);
+  const apiKey = getScanApiKey(bridge);
+  const sbBtcContractAddress = getSbBtcContract(bridge);
 
-const generateUrl = (page: number, walletAddress: string, limit: number) => {
-  return `${base}/api?module=account&action=tokentx&contractaddress=${CONTRACT_SB_BTC}&address=${walletAddress}&page=${page}&offset=${limit}&sort=desc&apikey=${etherscanApiKey}`;
+  return `${base}/api?module=account&action=tokentx&contractaddress=${sbBtcContractAddress}&address=${walletAddress}&page=${page}&offset=${limit}&sort=desc&apikey=${apiKey}`;
 };
 
-const getTotal = async (walletAddress: string) => {
+const getTotal = async (walletAddress: string, bridge: SkybridgeBridge) => {
   let total = 0;
   let page = 1;
   let isFinishFetching = false;
   const limit = 1000;
   do {
     const result = await fetch<{ result: IEtherscanTransaction[] }>(
-      generateUrl(page, walletAddress, limit),
+      generateUrl(page, walletAddress, limit, bridge),
     );
     const fetchedHistories = result.ok && result.response.result;
     const historiesLength = fetchedHistories.length;
@@ -37,9 +49,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   await corsMiddleware({ req, res });
 
   const address = getParam({ req, name: 'address' });
+  const bridge = getParam({ req, name: 'bridge' }) as SkybridgeBridge;
 
   try {
-    const total = await getTotal(address);
+    const total = await getTotal(address, bridge);
     res.status(200).json(total);
   } catch (e) {
     console.log(e);

@@ -14,7 +14,6 @@ export {
 } from './explorer';
 
 export {
-  setBridge,
   setUserAddress,
   setOnboard,
   togglePoolMode,
@@ -22,8 +21,5 @@ export {
   setWeb3,
   getRecentTxs,
   resetPoolState,
-  getCurrentPriceSbBTC,
-  getDepositFeeRate,
-  getWithdrawRate,
   getMinimumWithdrawAmount,
 } from './pool';

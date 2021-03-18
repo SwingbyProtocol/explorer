@@ -1,3 +1,5 @@
+import { SkybridgeBridge } from '@swingby-protocol/sdk';
+
 export const CoinSymbol = {
   BTC: 'BTC',
   BTC_S: 'BTC.S',
@@ -8,10 +10,18 @@ export const CoinSymbol = {
   BTC_E: 'BTCE',
   BNB: 'BNB',
   WBTC: 'WBTC',
-  LP: 'sbBTC',
+  ETH_SB_BTC: 'sbBTC',
 };
 
-export const ETHCoins = [CoinSymbol.LP, CoinSymbol.WBTC, CoinSymbol.BTC_E];
+// Memo: Ethereumwallet address
+export const EthereumWalletAddressCoins = [
+  CoinSymbol.ETH_SB_BTC,
+  CoinSymbol.WBTC,
+  CoinSymbol.BTC_E,
+  CoinSymbol.BTC_B,
+];
+
+export const ETHCoins = [CoinSymbol.ETH_SB_BTC, CoinSymbol.WBTC, CoinSymbol.BTC_E];
 
 export const BTCBCoins = [
   CoinSymbol.BTC_B,
@@ -20,4 +30,15 @@ export const BTCBCoins = [
   CoinSymbol.BTC_S,
 ];
 
-export const PoolCurrencies = [CoinSymbol.BTC, CoinSymbol.WBTC];
+export const getBridgeBtc = (bridge: SkybridgeBridge) => {
+  switch (bridge) {
+    case 'btc_erc':
+      return CoinSymbol.WBTC;
+
+    case 'btc_bep':
+      return CoinSymbol.BTC_B;
+
+    default:
+      return CoinSymbol.WBTC;
+  }
+};

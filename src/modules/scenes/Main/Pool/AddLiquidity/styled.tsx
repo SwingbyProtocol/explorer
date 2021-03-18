@@ -10,7 +10,7 @@ interface DropDownProps {
   isDarkMode: boolean;
 }
 interface ReceivingAddressProps {
-  isERC20: boolean;
+  isEthAddress: boolean;
 }
 
 export const AddLiquidityContainer = styled.div`
@@ -100,7 +100,7 @@ export const InputReceivingAddress = styled(TextInput)<ReceivingAddressProps>`
     color: ${({ theme }) => theme.pulsar.color.text.masked};
   }
   input {
-    cursor: ${(props) => (props.isERC20 ? 'not-allowed' : 'text')};
+    cursor: ${(props) => (props.isEthAddress ? 'not-allowed' : 'text')};
   }
   @media (min-width: ${rem(media.sm)}) {
     padding-right: 0;
