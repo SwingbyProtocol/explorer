@@ -53,6 +53,7 @@ export const AccountSummary = () => {
     displaySymbol: CoinSymbol.BTC,
   }).format(Number(claimableAmount));
 
+  // Todo: Add toggle bridge logic from SDK
   useEffect(() => {
     if (web3 && userAddress) {
       (async () => {
