@@ -5,13 +5,11 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { CoinSymbol } from '../../../../coins';
-import { convertFromPercent } from '../../../../common';
-import { CONTRACT_WBTC, ENDPOINT_EARNINGS, ZERO_ADDRESS } from '../../../../env';
-import { toSatoshi } from '../../../../explorer';
-import { fetch } from '../../../../fetch';
-import { fetchSbBTCBalance, getHexValue, IFeeRate, orgFloor } from '../../../../pool';
+import { ENDPOINT_EARNINGS } from '../../../../env';
+import { fetcher } from '../../../../fetch';
+import { fetchSbBTCBalance, orgFloor } from '../../../../pool';
 import { useSdkContext } from '../../../../sdk-context';
-import { getCurrentPriceSbBTC, getDepositFeeRate, setBalanceSbBTC } from '../../../../store';
+import { setBalanceSbBTC } from '../../../../store';
 import { TextRoom } from '../../../Common';
 
 import {
@@ -58,48 +56,23 @@ export const AccountSummary = () => {
       (async () => {
         const urlEarning = ENDPOINT_EARNINGS;
 
-        const handleGetDepositFeeRate = async (
-          tokenAddress: string,
-          totalClaimableAmount: number,
-        ): Promise<number> => {
-          const userFloatBal = toSatoshi(String(totalClaimableAmount));
-
-          // Memo: When pass numAsHex to the contract method, it will be treated as uint256.
-          const amountInAsHex = getHexValue(userFloatBal);
-          const feeRate = await web3.methods.getDepositFeeRate(tokenAddress, amountInAsHex).call();
-          return convertFromPercent(feeRate);
-        };
-
         const results = await Promise.all([
           fetchSbBTCBalance(userAddress),
           getSbbtcPrice({ context }),
-          fetch<{ total: string }>(urlEarning),
+          fetcher<{ total: string }>(urlEarning),
         ]);
 
         const balanceSbBTC = results[0];
         dispatch(setBalanceSbBTC(balanceSbBTC));
 
         const priceSbBTC = Number(results[1]);
-        dispatch(getCurrentPriceSbBTC(priceSbBTC));
 
         // Memo: Decimal <= 8
         const totalClaimableAmount = orgFloor(priceSbBTC * balanceSbBTC, 8);
         setClaimableAmount(totalClaimableAmount);
 
-        const rates = await Promise.all([
-          // Memo:  ZERO_ADDRESS: BTC
-          handleGetDepositFeeRate(ZERO_ADDRESS, totalClaimableAmount),
-          handleGetDepositFeeRate(CONTRACT_WBTC, totalClaimableAmount),
-        ]);
-
-        const feeRates: IFeeRate = {
-          BTC: rates[0],
-          WBTC: rates[1],
-        };
-        dispatch(getDepositFeeRate(feeRates));
-
         // Memo: Earings API has not deployed yet. This is the mocked response.
-        const totalEarnings = results[2].ok && results[2].response.total;
+        const totalEarnings = results[2].total;
         setTotalEarnings(Number(totalEarnings));
       })();
     }
