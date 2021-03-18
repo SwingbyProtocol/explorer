@@ -112,7 +112,7 @@ export const Withdraw = (props: Props) => {
         if (cancelled) return;
         const { feeTotal } = await estimateAmountReceiving({
           context,
-          currencyDeposit: CoinSymbol.ETH_SB_BTC,
+          currencyDeposit: 'sbBTC',
           currencyReceiving: toCurrency,
           amountDesired: amount,
         });
