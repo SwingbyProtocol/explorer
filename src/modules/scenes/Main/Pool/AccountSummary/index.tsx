@@ -5,8 +5,9 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { CoinSymbol } from '../../../../coins';
-import { ENDPOINT_EARNINGS } from '../../../../env';
+import { ENDPOINT_EARNINGS, PATH } from '../../../../env';
 import { fetcher } from '../../../../fetch';
+import { useToggleBridge } from '../../../../hooks';
 import { fetchSbBTCBalance, orgFloor } from '../../../../pool';
 import { useSdkContext } from '../../../../sdk-context';
 import { setBalanceSbBTC } from '../../../../store';
@@ -24,6 +25,7 @@ import {
 } from './styled';
 
 export const AccountSummary = () => {
+  const { bridge } = useToggleBridge(PATH.POOL);
   const dispatch = useDispatch();
   const explorer = useSelector((state) => state.explorer);
   const { usd } = explorer;
@@ -76,7 +78,7 @@ export const AccountSummary = () => {
         setTotalEarnings(Number(totalEarnings));
       })();
     }
-  }, [dispatch, web3, userAddress, context]);
+  }, [dispatch, web3, userAddress, context, bridge]);
 
   return (
     <AccountSummaryContainer>

@@ -1,3 +1,5 @@
+import { SkybridgeBridge } from '@swingby-protocol/sdk';
+
 import { IEtherscanTransaction } from '../..';
 import { fetch } from '../../../fetch';
 
@@ -17,6 +19,7 @@ export const fetchRecentTransaction = async (
   address: string,
   page: number,
   previousTxsWithPage,
+  bridge: SkybridgeBridge,
 ) => {
   let txsWithPage = { data: {}, total: 0 };
   if (previousTxsWithPage !== null) {
@@ -25,10 +28,10 @@ export const fetchRecentTransaction = async (
 
   const results = await Promise.all([
     fetch<IEtherscanTransaction[]>(
-      `/api/etherscan/get-sbbtc-transaction?address=${address}&page=${page}`,
+      `/api/etherscan/get-sbbtc-transaction?address=${address}&bridge=${bridge}&page=${page}`,
     ),
     fetch<IEtherscanTransaction[]>(
-      `/api/etherscan/get-sbbtc-transaction?address=${address}&page=${page + 1}`,
+      `/api/etherscan/get-sbbtc-transaction?address=${address}&bridge=${bridge}&page=${page + 1}`,
     ),
   ]);
 

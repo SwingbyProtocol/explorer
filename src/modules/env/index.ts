@@ -42,6 +42,8 @@ export const GA_TAG = process.env.NEXT_PUBLIC_GA_TAG || 'G-8C02VKBZ6P';
 
 export const etherscanApiKey = process.env.ETHERSCAN_KEY || 'NYXXH5CD1NQJMYJGZYAFK7G9G6AZGZTT3H';
 
+export const bscscanApiKey = 'Y57NEYW477ZGHRNY8ADUF24I8S4UX8BK8S';
+
 export const blocknativeApiKey =
   process.env.NEXT_PUBLIC_BLOCKNATIVE_KEY || '52950909-d5f6-42eb-8621-acb35a8ee1d3';
 
@@ -72,6 +74,9 @@ export const ENDPOINT_COINGECKO = 'https://api.coingecko.com/api/v3';
 
 export const ENDPOINT_ETHERSCAN =
   mode === MODE.PRODUCTION ? 'https://api.etherscan.io' : 'https://api-goerli.etherscan.io';
+
+export const ENDPOINT_BSCSCAN =
+  mode === MODE.PRODUCTION ? 'https://api.bscscan.com' : 'https://api-testnet.bscscan.com';
 
 export const URL_ETHERSCAN =
   mode === MODE.PRODUCTION ? 'https://etherscan.io' : 'https://goerli.etherscan.io';
