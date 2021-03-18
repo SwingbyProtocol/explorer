@@ -210,7 +210,7 @@ export const AddLiquidity = (props: Props) => {
                 <TextFee variant="masked">
                   {isLoading ? (
                     <PulseLoader margin={3} size={4} color={theme.pulsar.color.text.normal} />
-                  ) : amount > 0 ? (
+                  ) : Number(amount) > 0 ? (
                     transactionFee
                   ) : (
                     0
