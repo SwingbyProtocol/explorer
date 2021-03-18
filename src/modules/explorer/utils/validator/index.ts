@@ -1,6 +1,6 @@
 import { isAddressValid } from '@swingby-protocol/sdk';
 
-import { BTCBCoins, CoinSymbol, ETHCoins } from '../../../coins';
+import { CoinSymbol, EthereumWalletAddressCoins } from '../../../coins';
 import { mode } from '../../../env';
 
 export const isBitcoinAddress = (address: string): boolean => {
@@ -34,12 +34,8 @@ export const checkIsValidAddress = (
     const result = isBitcoinAddress(address);
     fn(result);
   }
-  if (ETHCoins.includes(toCurrency)) {
+  if (EthereumWalletAddressCoins.includes(toCurrency)) {
     const result = isEtherAddress(address);
-    fn(result);
-  }
-  if (BTCBCoins.includes(toCurrency)) {
-    const result = isBinanceAddress(address);
     fn(result);
   }
 };

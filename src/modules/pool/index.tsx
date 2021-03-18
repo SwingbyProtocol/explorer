@@ -68,4 +68,5 @@ export interface IWithdrawAmountValidation {
   toCurrency?: string;
 }
 
+// Todo: Add BTCB
 export type TWithdrawCurrency = 'BTC' | 'WBTC';

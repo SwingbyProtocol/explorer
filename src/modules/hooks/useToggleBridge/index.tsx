@@ -2,6 +2,7 @@ import { SkybridgeBridge, SKYBRIDGE_BRIDGES } from '@swingby-protocol/sdk';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
+import { CoinSymbol, getBridgeBtc } from '../../coins';
 import { PATH } from '../../env';
 
 export const useToggleBridge = (path: PATH) => {
@@ -10,6 +11,7 @@ export const useToggleBridge = (path: PATH) => {
   const bridge: SkybridgeBridge = params.bridge as SkybridgeBridge;
 
   const btcErc = SKYBRIDGE_BRIDGES.find((bridge) => bridge === 'btc_erc');
+  const poolCurrencies = [CoinSymbol.BTC, getBridgeBtc(bridge)];
 
   const setBridge = (bridge: SkybridgeBridge): void => {
     router.push({
@@ -28,5 +30,5 @@ export const useToggleBridge = (path: PATH) => {
     }
   }, [path, bridge, btcErc, router, params.bridge]);
 
-  return { setBridge, bridge };
+  return { setBridge, bridge, poolCurrencies };
 };

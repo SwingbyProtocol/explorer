@@ -9,15 +9,14 @@ import { PulseLoader } from 'react-spinners';
 import { useTheme } from 'styled-components';
 
 import { useAffiliateCode } from '../../../../affiliate-code';
-import { CoinSymbol, PoolCurrencies } from '../../../../coins';
-import { convertFromPercent } from '../../../../common';
-import { checkIsValidAddress, checkIsValidAmount, TCurrency } from '../../../../explorer';
+import { CoinSymbol } from '../../../../coins';
+import { usePoolWithdrawCoin, useToggleBridge } from '../../../../hooks';
 import { IWithdrawAmountValidation, TWithdrawCurrency } from '../../../../pool';
 import { useSdkContext } from '../../../../sdk-context';
-import { getMinimumWithdrawAmount, getWithdrawRate } from '../../../../store';
+import { getMinimumWithdrawAmount } from '../../../../store';
 import { useThemeSettings } from '../../../../store/settings';
 import { ButtonScale, TextChosenFilter, TextEstimated } from '../../../Common';
-import { mode } from '../.././../../env';
+import { mode, PATH } from '../.././../../env';
 
 import {
   AllButtonDiv,
@@ -53,54 +52,51 @@ export const Withdraw = (props: Props) => {
   const { addressValidationResult, amountValidationResult } = props;
   const { formatMessage } = useIntl();
   const theme = useTheme();
+  const [themeMode] = useThemeSettings();
+
   const pool = useSelector((state) => state.pool);
-  const { balanceSbBTC, web3, minimumWithdrawAmount } = pool;
+  const { balanceSbBTC, minimumWithdrawAmount } = pool;
   const transactionFees = useSelector((state) => state.explorer.transactionFees);
   const { locale } = useRouter();
   const dispatch = useDispatch();
   const affiliateCode = useAffiliateCode();
-  const [themeMode] = useThemeSettings();
 
-  const [receivingAddress, setReceivingAddress] = useState('');
-  const [withdrawAmount, setWithdrawAmount] = useState('0');
-  const [toCurrency, setToCurrency] = useState<TWithdrawCurrency>('BTC');
-  const [isValidAddress, setIsValidAddress] = useState(null);
-  const [isValidAmount, setIsValidAmount] = useState(null);
+  const { poolCurrencies } = useToggleBridge(PATH.POOL);
   const context = useSdkContext();
 
-  useEffect(() => {
-    checkIsValidAddress(receivingAddress, toCurrency, setIsValidAddress);
-  }, [receivingAddress, toCurrency]);
+  const {
+    receivingAddress,
+    setReceivingAddress,
+    amount,
+    setAmount,
+    currency,
+    setCurrency,
+    isValidAddress,
+    isValidAmount,
+  } = usePoolWithdrawCoin('', 'withdrawal');
+
+  const toCurrency = currency as TWithdrawCurrency;
 
   useEffect(() => {
-    checkIsValidAmount(withdrawAmount, setIsValidAmount);
-  }, [withdrawAmount]);
-
-  useEffect(() => {
-    if (web3 && transactionFees && toCurrency) {
+    if (transactionFees && currency) {
       (async () => {
-        const results = await Promise.all([
-          web3.methods.withdrawalFeeBPS().call(),
-          getMinimumWithdrawal({
-            context,
-            currencyReceiving: toCurrency,
-            amountDesired: Number(withdrawAmount) > 0 ? withdrawAmount : '0',
-          }),
-        ]);
-        const withdrawRatePercent = convertFromPercent(Number(results[0]));
-        dispatch(getWithdrawRate(withdrawRatePercent));
+        const minimumWithdrawData = await getMinimumWithdrawal({
+          context,
+          currencyReceiving: toCurrency as TWithdrawCurrency,
+          amountDesired: Number(amount) > 0 ? amount : '0',
+        });
 
-        const miniWithdrawAmount = Number(results[1].minimumWithdrawal);
+        const miniWithdrawAmount = Number(minimumWithdrawData.minimumWithdrawal);
         dispatch(getMinimumWithdrawAmount(miniWithdrawAmount));
       })();
     }
-  }, [dispatch, web3, toCurrency, transactionFees, context, withdrawAmount]);
+  }, [dispatch, toCurrency, transactionFees, context, amount, currency]);
 
   const maxAmount = balanceSbBTC;
 
   const withdrawMaxAmount = () => {
     if (maxAmount) {
-      setWithdrawAmount(String(maxAmount));
+      setAmount(String(maxAmount));
     }
   };
 
@@ -111,14 +107,14 @@ export const Withdraw = (props: Props) => {
     let cancelled = false;
 
     (async () => {
-      Number(withdrawAmount) > 0 && setIsLoading(true);
+      Number(amount) > 0 && setIsLoading(true);
       try {
         if (cancelled) return;
         const { feeTotal } = await estimateAmountReceiving({
           context,
-          currencyDeposit: CoinSymbol.LP as TCurrency,
-          currencyReceiving: toCurrency as TCurrency,
-          amountDesired: withdrawAmount,
+          currencyDeposit: CoinSymbol.ETH_SB_BTC,
+          currencyReceiving: toCurrency,
+          amountDesired: amount,
         });
         if (cancelled) return;
         setTransactionFee(feeTotal);
@@ -134,12 +130,12 @@ export const Withdraw = (props: Props) => {
       cancelled = true;
       setTransactionFee('');
     };
-  }, [toCurrency, withdrawAmount, context]);
+  }, [toCurrency, amount, context]);
 
   const currencyItems = (
     <>
-      {PoolCurrencies.map((currency: TWithdrawCurrency) => (
-        <Dropdown.Item onClick={() => setToCurrency(currency)} key={currency}>
+      {poolCurrencies.map((currency: TWithdrawCurrency) => (
+        <Dropdown.Item onClick={() => setCurrency(currency)} key={currency}>
           {<CoinDropDown symbol={currency} />} {currency}
         </Dropdown.Item>
       ))}
@@ -151,19 +147,19 @@ export const Withdraw = (props: Props) => {
     mode,
     size: 'big',
     theme: themeMode,
-    defaultCurrencyReceiving: toCurrency as any,
+    defaultCurrencyReceiving: currency as any,
     defaultAddressReceiving: receivingAddress,
-    defaultAmountDesired: withdrawAmount,
+    defaultAmountDesired: amount,
     locale,
     affiliateCode,
   });
 
   const isDisabled =
-    0 >= Number(withdrawAmount) ||
+    0 >= Number(amount) ||
     !isValidAddress ||
     !receivingAddress ||
-    withdrawAmount > maxAmount ||
-    minimumWithdrawAmount > withdrawAmount;
+    amount > maxAmount ||
+    minimumWithdrawAmount > amount;
 
   return (
     <WithdrawContainer>
@@ -179,8 +175,8 @@ export const Withdraw = (props: Props) => {
                   target={
                     <DefaultTarget size="city">
                       {' '}
-                      <TargetCoin symbol={toCurrency} />{' '}
-                      <TextChosenFilter>{toCurrency} </TextChosenFilter>
+                      <TargetCoin symbol={currency} />{' '}
+                      <TextChosenFilter>{currency} </TextChosenFilter>
                     </DefaultTarget>
                   }
                   data-testid="dropdown"
@@ -190,18 +186,18 @@ export const Withdraw = (props: Props) => {
                 </DropdownCurrency>
               </ColumnDropdown>
               <InputAmount
-                value={withdrawAmount}
+                value={amount}
                 size="state"
                 placeholder={formatMessage({ id: 'pool.withdraw.input-your-amount' })}
-                onChange={(e) => setWithdrawAmount(e.target.value)}
+                onChange={(e) => setAmount(e.target.value)}
               />
             </RowTop>
             <AmountValidation>
-              {withdrawAmount &&
-                Number(withdrawAmount) !== 0 &&
+              {amount &&
+                Number(amount) !== 0 &&
                 amountValidationResult({
                   isValidAmount,
-                  withdrawAmount: Number(withdrawAmount),
+                  withdrawAmount: Number(amount),
                   maxAmount,
                   minimumWithdrawAmount,
                   toCurrency,
@@ -255,7 +251,7 @@ export const Withdraw = (props: Props) => {
                 <TextFee variant="masked">
                   {isLoading ? (
                     <PulseLoader margin={3} size={4} color={theme.pulsar.color.text.normal} />
-                  ) : Number(withdrawAmount) > 0 ? (
+                  ) : Number(amount) > 0 ? (
                     transactionFee
                   ) : (
                     0
