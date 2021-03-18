@@ -127,6 +127,9 @@ export const BrowserPool = () => {
             {!userAddress && <ConnectWallet />}
             <ActionButtonsPool />
             {bridge && bridge !== 'btc_erc' ? <h1>COMING SOON</h1> : switchRightComponent(mode)}
+
+            {/* Memo: For dev. Will delete once ^ "COMING SOON" is removed */}
+            {/* {switchRightComponent(mode)} */}
           </Right>
         </BrowserPoolDiv>
       </BrowserPoolContainer>

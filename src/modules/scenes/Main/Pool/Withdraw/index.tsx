@@ -9,7 +9,6 @@ import { PulseLoader } from 'react-spinners';
 import { useTheme } from 'styled-components';
 
 import { useAffiliateCode } from '../../../../affiliate-code';
-import { CoinSymbol } from '../../../../coins';
 import { usePoolWithdrawCoin, useToggleBridge } from '../../../../hooks';
 import { IWithdrawAmountValidation, TWithdrawCurrency } from '../../../../pool';
 import { useSdkContext } from '../../../../sdk-context';
@@ -214,12 +213,12 @@ export const Withdraw = (props: Props) => {
               value={receivingAddress}
               size="state"
               placeholder={formatMessage({ id: 'pool.pool.input-your-address' })}
-              label={formatMessage({
-                id:
-                  toCurrency === CoinSymbol.BTC
-                    ? 'pool.withdraw.receive-BTC-address'
-                    : 'pool.withdraw.receive-WBTC-address',
-              })}
+              label={formatMessage(
+                {
+                  id: 'pool.receive-address',
+                },
+                { value: currency },
+              )}
               left={<Coin symbol={toCurrency} />}
               onChange={(e) => setReceivingAddress(e.target.value)}
             />

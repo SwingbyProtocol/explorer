@@ -29,7 +29,6 @@ export const usePoolWithdrawCoin = (userAddress, role: 'pool' | 'withdrawal') =>
   useEffect(() => {
     setAmount('');
     setCurrency(CoinSymbol.BTC);
-    setIsValidAddress(null);
     setIsValidAmount(null);
     setReceivingAddress(userAddress);
   }, [bridge, userAddress]);

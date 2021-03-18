@@ -175,7 +175,12 @@ export const AddLiquidity = (props: Props) => {
               value={receivingWalletAddress()}
               size="state"
               placeholder="Input your receiving address"
-              label={formatMessage({ id: 'pool.pool.receive-sbBTC-address' })}
+              label={formatMessage(
+                {
+                  id: 'pool.receive-address',
+                },
+                { value: CoinSymbol.ETH_SB_BTC },
+              )}
               left={<Coin symbol={CoinSymbol.ETH_SB_BTC} />}
               onChange={(e) => {
                 if (!EthereumWalletAddressCoins.includes(currency)) {
