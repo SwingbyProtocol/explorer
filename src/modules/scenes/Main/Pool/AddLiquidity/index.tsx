@@ -9,13 +9,14 @@ import { PulseLoader } from 'react-spinners';
 import { useTheme } from 'styled-components';
 
 import { useAffiliateCode } from '../../../../affiliate-code';
-import { CoinSymbol, ETHCoins, PoolCurrencies } from '../../../../coins';
-import { checkIsValidAddress, checkIsValidAmount, TCurrency } from '../../../../explorer';
+import { CoinSymbol, EthereumWalletAddressCoins } from '../../../../coins';
+import { TCurrency } from '../../../../explorer';
+import { usePoolWithdrawCoin, useToggleBridge } from '../../../../hooks';
 import { IWithdrawAmountValidation } from '../../../../pool';
 import { useSdkContext } from '../../../../sdk-context';
 import { useThemeSettings } from '../../../../store/settings';
 import { ButtonScale, TextChosenFilter, TextEstimated } from '../../../Common';
-import { mode } from '../.././../../env';
+import { mode, PATH } from '../.././../../env';
 
 import {
   AddLiquidityContainer,
@@ -50,21 +51,27 @@ export const AddLiquidity = (props: Props) => {
   const { formatMessage } = useIntl();
   const pool = useSelector((state) => state.pool);
   const { userAddress } = pool;
+  const { poolCurrencies } = useToggleBridge(PATH.POOL);
   const { locale } = useRouter();
   const affiliateCode = useAffiliateCode();
   const [themeMode] = useThemeSettings();
   const theme = useTheme();
 
-  const [receivingAddress, setReceivingAddress] = useState(userAddress);
-  const [poolAmount, setPoolAmount] = useState(null);
-  const [fromCurrency, setFromCurrency] = useState(CoinSymbol.BTC);
-  const [isValidAddress, setIsValidAddress] = useState(null);
-  const [isValidAmount, setIsValidAmount] = useState(null);
+  const {
+    receivingAddress,
+    setReceivingAddress,
+    amount,
+    setAmount,
+    currency,
+    setCurrency,
+    isValidAddress,
+    isValidAmount,
+  } = usePoolWithdrawCoin(userAddress, 'pool');
 
   const currencyItems = (
     <>
-      {PoolCurrencies.map((currency) => (
-        <Dropdown.Item onClick={() => setFromCurrency(currency)} key={currency}>
+      {poolCurrencies.map((currency) => (
+        <Dropdown.Item onClick={() => setCurrency(currency)} key={currency}>
           {<CoinDropDown symbol={currency} />} {currency}
         </Dropdown.Item>
       ))}
@@ -72,20 +79,12 @@ export const AddLiquidity = (props: Props) => {
   );
 
   const receivingWalletAddress = (): string => {
-    if (ETHCoins.includes(fromCurrency)) {
+    if (EthereumWalletAddressCoins.includes(currency)) {
       return userAddress;
     } else {
       return receivingAddress;
     }
   };
-
-  useEffect(() => {
-    checkIsValidAddress(receivingAddress, CoinSymbol.LP, setIsValidAddress);
-  }, [receivingAddress, fromCurrency]);
-
-  useEffect(() => {
-    checkIsValidAmount(poolAmount, setIsValidAmount);
-  }, [poolAmount]);
 
   const [transactionFee, setTransactionFee] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -94,15 +93,15 @@ export const AddLiquidity = (props: Props) => {
     let cancelled = false;
 
     (async () => {
-      poolAmount > 0 && setIsLoading(true);
+      Number(amount) > 0 && setIsLoading(true);
       try {
         if (cancelled) return;
 
         const { feeTotal } = await estimateAmountReceiving({
           context,
-          currencyDeposit: fromCurrency as TCurrency,
-          currencyReceiving: CoinSymbol.LP as TCurrency,
-          amountDesired: poolAmount,
+          currencyDeposit: currency as TCurrency,
+          currencyReceiving: CoinSymbol.ETH_SB_BTC as TCurrency,
+          amountDesired: amount,
         });
         if (cancelled) return;
         setTransactionFee(feeTotal);
@@ -118,23 +117,23 @@ export const AddLiquidity = (props: Props) => {
       cancelled = true;
       setTransactionFee('');
     };
-  }, [fromCurrency, poolAmount, context]);
+  }, [currency, amount, context]);
 
   const widget = createWidget({
     resource: 'pool',
     mode,
     size: 'big',
     theme: themeMode,
-    defaultCurrencyDeposit: fromCurrency as any,
-    defaultCurrencyReceiving: CoinSymbol.LP as any,
+    defaultCurrencyDeposit: currency as any,
+    defaultCurrencyReceiving: CoinSymbol.ETH_SB_BTC as any,
     defaultAddressReceiving: receivingAddress,
-    defaultAmountDesired: poolAmount,
+    defaultAmountDesired: amount,
     locale,
     affiliateCode,
   });
 
   const isDisabled =
-    0 >= Number(poolAmount) || !isValidAddress || !receivingAddress || poolAmount[0] === '-';
+    0 >= Number(amount) || !isValidAddress || !receivingAddress || amount[0] === '-';
 
   return (
     <AddLiquidityContainer>
@@ -149,8 +148,8 @@ export const AddLiquidity = (props: Props) => {
                 <DropdownCurrency
                   target={
                     <DefaultTarget size="city">
-                      <TargetCoin symbol={fromCurrency} />
-                      <TextChosenFilter>{fromCurrency} </TextChosenFilter>
+                      <TargetCoin symbol={currency} />
+                      <TextChosenFilter>{currency} </TextChosenFilter>
                     </DefaultTarget>
                   }
                   data-testid="dropdown"
@@ -160,27 +159,31 @@ export const AddLiquidity = (props: Props) => {
                 </DropdownCurrency>
               </ColumnDropdown>
               <InputAmount
-                value={poolAmount}
+                value={amount}
                 size="state"
                 placeholder={formatMessage({ id: 'pool.pool.input-your-amount' })}
-                onChange={(e) => setPoolAmount(e.target.value)}
+                onChange={(e) => setAmount(e.target.value)}
               />
             </RowTop>
             <AmountValidation>
-              {!isValidAmount && poolAmount && amountValidationResult({ isValidAmount })}
+              {!isValidAmount && amount && amountValidationResult({ isValidAmount })}
             </AmountValidation>
           </Top>
           <Bottom>
-            {/* Request: Please add `readOnly` props into TextInput component */}
             <InputReceivingAddress
-              isERC20={ETHCoins.includes(fromCurrency)}
+              isEthAddress={EthereumWalletAddressCoins.includes(currency)}
               value={receivingWalletAddress()}
               size="state"
               placeholder="Input your receiving address"
-              label={formatMessage({ id: 'pool.pool.receive-sbBTC-address' })}
-              left={<Coin symbol={CoinSymbol.LP} />}
+              label={formatMessage(
+                {
+                  id: 'pool.receive-address',
+                },
+                { value: CoinSymbol.ETH_SB_BTC },
+              )}
+              left={<Coin symbol={CoinSymbol.ETH_SB_BTC} />}
               onChange={(e) => {
-                if (!ETHCoins.includes(fromCurrency)) {
+                if (!EthereumWalletAddressCoins.includes(currency)) {
                   setReceivingAddress(e.target.value);
                 }
               }}
@@ -212,7 +215,7 @@ export const AddLiquidity = (props: Props) => {
                 <TextFee variant="masked">
                   {isLoading ? (
                     <PulseLoader margin={3} size={4} color={theme.pulsar.color.text.normal} />
-                  ) : poolAmount > 0 ? (
+                  ) : Number(amount) > 0 ? (
                     transactionFee
                   ) : (
                     0

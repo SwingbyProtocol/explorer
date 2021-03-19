@@ -4,7 +4,8 @@ import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import Web3 from 'web3';
 
-import { CONTRACT_SWAP, CONTRACT_SWAP_ABI, RPC_URL } from '../../../../env';
+import { CONTRACT_SWAP, CONTRACT_SWAP_ABI, PATH, RPC_URL } from '../../../../env';
+import { useToggleBridge } from '../../../../hooks';
 import { IWithdrawAmountValidation, PoolMode } from '../../../../pool';
 import { setWeb3 } from '../../../../store';
 import { AccountSummary } from '../AccountSummary';
@@ -31,6 +32,7 @@ export const BrowserPool = () => {
   const pool = useSelector((state) => state.pool);
   const { userAddress, mode } = pool;
   const dispatch = useDispatch();
+  const { bridge } = useToggleBridge(PATH.POOL);
 
   useEffect(() => {
     if (userAddress) {
@@ -124,7 +126,10 @@ export const BrowserPool = () => {
           <Right>
             {!userAddress && <ConnectWallet />}
             <ActionButtonsPool />
-            {switchRightComponent(mode)}
+            {bridge && bridge !== 'btc_erc' ? <h1>COMING SOON</h1> : switchRightComponent(mode)}
+
+            {/* Memo: For dev. Will delete once ^ "COMING SOON" is removed */}
+            {/* {switchRightComponent(mode)} */}
           </Right>
         </BrowserPoolDiv>
       </BrowserPoolContainer>

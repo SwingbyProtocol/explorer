@@ -5,8 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Loader } from '../../../../../components/Loader';
 import { Pagination } from '../../../../../components/Pagination';
-import { TXS_COUNT, URL_ETHERSCAN } from '../../../../env';
+import { PATH, TXS_COUNT, URL_ETHERSCAN } from '../../../../env';
 import { convertTxTime, toBTC } from '../../../../explorer';
+import { useToggleBridge } from '../../../../hooks';
 import { fetchRecentTransaction, IRecentTx, PoolMode } from '../../../../pool';
 import { getRecentTxs, togglePoolMode } from '../../../../store';
 import { TextBlock } from '../../../Common';
@@ -27,17 +28,19 @@ export const TransactionsPool = () => {
   const dispatch = useDispatch();
   const pool = useSelector((state) => state.pool);
   const { recentTxs, userAddress } = pool;
+  const { bridge } = useToggleBridge(PATH.POOL);
 
   const txsData = userAddress ? recentTxs : initialTxsData;
   const [page, setPage] = useState(1);
   const goBackPage = async () => {
     setPage(page - 1);
-    const histories = await fetchRecentTransaction(userAddress, page - 1, recentTxs);
+    const histories = await fetchRecentTransaction(userAddress, page - 1, recentTxs, bridge);
     dispatch(getRecentTxs(histories));
   };
+
   const goNextPage = async () => {
     setPage(page + 1);
-    const histories = await fetchRecentTransaction(userAddress, page + 1, recentTxs);
+    const histories = await fetchRecentTransaction(userAddress, page + 1, recentTxs, bridge);
     dispatch(getRecentTxs(histories));
   };
   const maximumPage = recentTxs && Math.ceil(recentTxs.total / TXS_COUNT);
@@ -45,11 +48,11 @@ export const TransactionsPool = () => {
   useEffect(() => {
     (async () => {
       if (userAddress) {
-        const histories = await fetchRecentTransaction(userAddress, 1, null);
+        const histories = await fetchRecentTransaction(userAddress, 1, null, bridge);
         dispatch(getRecentTxs(histories));
       }
     })();
-  }, [userAddress, dispatch]);
+  }, [userAddress, dispatch, bridge]);
 
   return (
     <TransactionsPoolContainer>
@@ -67,6 +70,7 @@ export const TransactionsPool = () => {
           txsData.data[page].map((data: IRecentTx, i: number) => {
             const value = toBTC(data.value);
             const time = convertTxTime(data.timeStamp);
+
             return (
               <Row key={i}>
                 <Text variant="label">{time}</Text>

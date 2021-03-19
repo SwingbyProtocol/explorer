@@ -1,25 +1,32 @@
+import { SkybridgeBridge } from '@swingby-protocol/sdk';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { corsMiddleware, getParam } from '../../../modules/api';
-import {
-  CONTRACT_SB_BTC,
-  ENDPOINT_ETHERSCAN,
-  etherscanApiKey,
-  TXS_COUNT,
-} from '../../../modules/env';
+import { TXS_COUNT } from '../../../modules/env';
 import { fetch } from '../../../modules/fetch';
-import { IEtherscanTransaction } from '../../../modules/pool';
+import {
+  getSbBtcContract,
+  getScanApiKey,
+  getScanBaseEndpoint,
+  IEtherscanTransaction,
+} from '../../../modules/pool';
 
-const base = ENDPOINT_ETHERSCAN;
+const generateUrl = (
+  page: number,
+  walletAddress: string,
+  limit: number,
+  bridge: SkybridgeBridge,
+) => {
+  const base = getScanBaseEndpoint(bridge);
+  const apiKey = getScanApiKey(bridge);
+  const sbBtcContractAddress = getSbBtcContract(bridge);
 
-const generateUrl = (page: number, walletAddress: string, limit: number) => {
-  return `${base}/api?module=account&action=tokentx&contractaddress=${CONTRACT_SB_BTC}&address=${walletAddress}&page=${page}&offset=${limit}&sort=desc&apikey=${etherscanApiKey}`;
+  return `${base}/api?module=account&action=tokentx&contractaddress=${sbBtcContractAddress}&address=${walletAddress}&page=${page}&offset=${limit}&sort=desc&apikey=${apiKey}`;
 };
 
-const fetchRecentTransaction = async (address: string, page: number) => {
-  const result = await fetch<{ result: IEtherscanTransaction[] }>(
-    generateUrl(page, address, TXS_COUNT),
-  );
+const fetchRecentTransaction = async (address: string, page: number, bridge: SkybridgeBridge) => {
+  const url = generateUrl(page, address, TXS_COUNT, bridge);
+  const result = await fetch<{ result: IEtherscanTransaction[] }>(url);
 
   const fetchedHistories = result.ok && result.response.result;
   return fetchedHistories;
@@ -33,9 +40,10 @@ export default async function handler(
 
   const address = getParam({ req, name: 'address' });
   const page = getParam({ req, name: 'page' });
+  const bridge = getParam({ req, name: 'bridge' }) as SkybridgeBridge;
 
   try {
-    const txsWithPage = await fetchRecentTransaction(address, Number(page));
+    const txsWithPage = await fetchRecentTransaction(address, Number(page), bridge);
     res.status(200).json(txsWithPage);
   } catch (e) {
     console.log(e);

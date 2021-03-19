@@ -11,7 +11,7 @@ export interface INodeListResponse {
     regionCode: string;
     regionName: string;
   };
-  status: string;
+  status: TChurnStatus;
   version: string;
   moniker: string;
   restUri: string;
@@ -45,10 +45,12 @@ export interface IReward {
   currency: string;
   total: string;
   avgPerNode: string;
+  networkRewards: string;
+  stakingRewards: string;
 }
 
 export interface IBridge {
-  path: string;
+  bridge: SkybridgeBridge;
   tabMenu: string;
 }
 
@@ -95,23 +97,29 @@ export interface INodeStatusTable {
 const btcErc = SKYBRIDGE_BRIDGES.find((bridge) => bridge === 'btc_erc');
 const btcBep = SKYBRIDGE_BRIDGES.find((bridge) => bridge === 'btc_bep');
 
-export const MetanodeBridges = [
+export const BRIDGES = [
   {
-    path: btcErc,
+    bridge: btcErc,
     tabMenu: 'Bitcoin to Ethereum',
   },
   {
-    path: btcBep,
+    bridge: btcBep,
     tabMenu: 'Bitcoin to BSC',
   },
 ];
+
+type TChurnStatus =
+  | 'churned-in'
+  | 'may-churn-out--bond-too-low'
+  | 'may-churn-out--bond-expiring'
+  | 'may-churn-in';
 
 export const churnedIn = 'churned-in';
 export const bondTooLow = 'may-churn-out--bond-too-low';
 export const bondExpiring = 'may-churn-out--bond-expiring';
 export const mayChurnIn = 'may-churn-in';
 
-export const toggleStatusBg = (status: string, i: number): string | boolean => {
+export const toggleStatusBg = (status: TChurnStatus, i: number): string | boolean => {
   switch (status) {
     case churnedIn:
       return i % 2 !== 0;
@@ -125,7 +133,23 @@ export const toggleStatusBg = (status: string, i: number): string | boolean => {
   }
 };
 
-export const toggleStatusIconColor = (status: string): TStatus => {
+export const toggleStatusWord = (status: TChurnStatus): string | boolean => {
+  switch (status) {
+    case churnedIn:
+      return 'metanodes.metanode-status.churned-in';
+    case bondTooLow:
+      return 'metanodes.metanode-status.may-churn-out-bond-too-low';
+    case bondExpiring:
+      return 'metanodes.metanode-status.may-churn-out-bond-expiring';
+    case mayChurnIn:
+      return 'metanodes.metanode-status.may-churn-in';
+
+    default:
+      return status;
+  }
+};
+
+export const toggleStatusIconColor = (status: TChurnStatus): TStatus => {
   switch (status) {
     case churnedIn:
       return 'COMPLETED';

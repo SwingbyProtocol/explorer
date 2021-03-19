@@ -1,25 +1,21 @@
-import { SkybridgeBridge } from '@swingby-protocol/sdk';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import { IBridge, MetanodeBridges } from '../../../../metanodes';
+import { PATH } from '../../../../env';
+import { useToggleBridge } from '../../../../hooks';
+import { IBridge, BRIDGES } from '../../../../metanodes';
 
 import {
   BridgeMetanodesContainer,
-  TextTitle,
-  TextBridge,
+  IconRight,
   RowBridge,
   RowTitle,
-  IconRight,
+  TextBridge,
+  TextTitle,
 } from './styled';
 
-interface Props {
-  bridge: SkybridgeBridge;
-  setBridge: (bridge: string) => void;
-}
-
-export const BridgeMetanodes = (props: Props) => {
-  const { bridge, setBridge } = props;
+export const BridgeMetanodes = () => {
+  const { bridge, setBridge } = useToggleBridge(PATH.METANODES);
 
   return (
     <BridgeMetanodesContainer>
@@ -28,13 +24,13 @@ export const BridgeMetanodes = (props: Props) => {
           <FormattedMessage id="pool.bridges" />
         </TextTitle>
       </RowTitle>
-      {MetanodeBridges.map((b: IBridge, i: number) => {
+      {BRIDGES.map((b: IBridge, i: number) => {
         return (
-          <RowBridge key={b.tabMenu} bg={i % 2 === 0} onClick={() => setBridge(b.path)}>
-            <TextBridge variant="accent" isActive={bridge === b.path}>
+          <RowBridge key={b.tabMenu} bg={i % 2 === 0} onClick={() => setBridge(b.bridge)}>
+            <TextBridge variant="accent" isActive={bridge === b.bridge}>
               {b.tabMenu}
             </TextBridge>
-            <IconRight isActive={bridge === b.path} />
+            <IconRight isActive={bridge === b.bridge} />
           </RowBridge>
         );
       })}

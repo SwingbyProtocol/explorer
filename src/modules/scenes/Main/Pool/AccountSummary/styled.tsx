@@ -14,10 +14,10 @@ export const AccountSummaryContainer = styled.div`
     padding: ${({ theme }) => rem(theme.pulsar.size.street)};
   }
   @media (min-width: ${rem(media.md)}) {
-    width: ${rem(480)};
+    width: ${rem(400)};
   }
   @media (min-width: ${rem((media.md + media.lg) / 2)}) {
-    width: ${rem(480 * 1.3)};
+    width: ${rem(400 * 1.3)};
   }
   @media (min-width: ${rem(media.lg)}) {
     margin-bottom: 0;

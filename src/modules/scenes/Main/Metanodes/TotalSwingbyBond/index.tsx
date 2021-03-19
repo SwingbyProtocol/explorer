@@ -143,11 +143,6 @@ export const TotalSwingbyBond = (props: Props) => {
           </Text>
         </TitleDiv>
         <Box>
-          {/* <TitleDiv>
-            <Text variant="section-title">
-              <FormattedMessage id="metanodes.total-swingby-bond" />
-            </Text>
-          </TitleDiv> */}
           {bondHistories ? (
             <LineContainer>
               <LineDiv isLoading={false}>

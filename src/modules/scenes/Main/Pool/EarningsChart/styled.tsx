@@ -28,11 +28,11 @@ export const EarningsChartContainer = styled.div`
   }
 
   @media (min-width: ${rem(media.md)}) {
-    width: ${rem(480)};
+    width: ${rem(400)};
   }
   /* Memo: Manually adjust the width size because 'responsible' for chart.js is not good */
   @media (min-width: ${rem((media.md + media.lg) / 2)}) {
-    width: ${rem(480 * 1.3)};
+    width: ${rem(400 * 1.3)};
   }
   @media (min-width: ${rem(media.lg)}) {
     margin-top: 0;
@@ -66,12 +66,12 @@ export const Box = styled.div`
     padding-right: ${({ theme }) => rem(theme.pulsar.size.street)};
   }
   @media (min-width: ${rem(media.md)}) {
-    width: ${rem(420)};
+    width: ${rem(350)};
     padding-left: 0;
     padding-right: 0;
   }
   @media (min-width: ${rem((media.md + media.lg) / 2)}) {
-    width: ${rem(420 * 1.3)};
+    width: ${rem(350 * 1.3)};
   }
   @media (min-width: ${rem(media.lg)}) {
     width: 100%;

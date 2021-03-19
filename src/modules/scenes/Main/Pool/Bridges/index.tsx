@@ -1,15 +1,14 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
 
-import { setBridge } from '../../../../store';
+import { PATH } from '../../../../env';
+import { useToggleBridge } from '../../../../hooks';
+import { BRIDGES, IBridge } from '../../../../metanodes';
 
 import { BridgesContainer, TextTitle, TextBridge, RowBridge, RowTitle, IconRight } from './styled';
 
 export const Bridges = () => {
-  const bridges = ['Apollo1'];
-  const dispatch = useDispatch();
-  const pool = useSelector((state) => state.pool);
+  const { bridge, setBridge } = useToggleBridge(PATH.POOL);
 
   return (
     <BridgesContainer>
@@ -18,13 +17,13 @@ export const Bridges = () => {
           <FormattedMessage id="pool.bridges" />
         </TextTitle>
       </RowTitle>
-      {bridges.map((bridge: string, i: number) => {
+      {BRIDGES.map((b: IBridge, i: number) => {
         return (
-          <RowBridge key={bridge} bg={i % 2 === 0} onClick={() => dispatch(setBridge(bridge))}>
-            <TextBridge variant="accent" isActive={bridge === pool.bridge}>
-              {bridge}
+          <RowBridge key={b.bridge} bg={i % 2 === 0} onClick={() => setBridge(b.bridge)}>
+            <TextBridge variant="accent" isActive={bridge === b.bridge}>
+              {b.tabMenu}
             </TextBridge>
-            <IconRight isActive={bridge === pool.bridge} />
+            <IconRight isActive={bridge === b.bridge} />
           </RowBridge>
         );
       })}

@@ -6,3 +6,5 @@ export { calculateDepositFee, calculateSwapFee } from './fees/';
 export { makeEarningsData, makeTimeLabels } from './earnings';
 
 export { fetchSbBTCBalance } from './seedAPI';
+
+export { getScanBaseEndpoint, getScanApiKey, getSbBtcContract } from './sbBtcTransactions';

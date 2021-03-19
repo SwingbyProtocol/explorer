@@ -1,33 +1,31 @@
 import { Dropdown } from '@swingby-protocol/pulsar';
-import { SkybridgeBridge } from '@swingby-protocol/sdk';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import { IBridge, MetanodeBridges } from '../../../../metanodes';
+import { PATH } from '../../../../env';
+import { useToggleBridge } from '../../../../hooks';
+import { IBridge, BRIDGES } from '../../../../metanodes';
 import { TextChosenFilter } from '../../../Common';
 
 import { BridgeMobileMetanodesContainer, DropTargetBridges, TextTitle } from './styled';
 
-interface Props {
-  bridge: SkybridgeBridge;
-  setBridge: (bridge: string) => void;
-}
-
-export const BridgeMobileMetanodes = (props: Props) => {
-  const { bridge, setBridge } = props;
+export const BridgeMobileMetanodes = () => {
+  const { bridge, setBridge } = useToggleBridge(PATH.METANODES);
   const bridgesItems = (
     <>
-      {MetanodeBridges.map((b: IBridge) => (
-        <Dropdown.Item selected={bridge === b.path} onClick={() => setBridge(b.path)} key={b.path}>
+      {BRIDGES.map((b: IBridge) => (
+        <Dropdown.Item
+          selected={bridge === b.bridge}
+          onClick={() => setBridge(b.bridge)}
+          key={b.bridge}
+        >
           {b.tabMenu}
         </Dropdown.Item>
       ))}
     </>
   );
 
-  const selectedBridge = bridge
-    ? MetanodeBridges.find((b) => bridge === b.path)
-    : MetanodeBridges[0];
+  const selectedBridge = bridge ? BRIDGES.find((b) => bridge === b.bridge) : BRIDGES[0];
 
   return (
     <BridgeMobileMetanodesContainer>

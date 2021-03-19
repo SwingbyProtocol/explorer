@@ -1,9 +1,8 @@
-import { SkybridgeBridge } from '@swingby-protocol/sdk';
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { CACHED_ENDPOINT, mode } from '../../../../env';
+import { CACHED_ENDPOINT, mode, PATH } from '../../../../env';
 import { fetcher } from '../../../../fetch';
-import { useInterval } from '../../../../hooks';
+import { useInterval, useToggleBridge } from '../../../../hooks';
 import {
   fetchNodeList,
   IBondHistories,
@@ -28,12 +27,8 @@ import { TotalSwingbyBond } from '../TotalSwingbyBond';
 
 import { Bottom, Left, MetanodeInfoContainer, Right, Row, Top } from './styled';
 
-interface Props {
-  bridge: SkybridgeBridge;
-}
-
-export const MetanodeInfo = (props: Props) => {
-  const { bridge } = props;
+export const MetanodeInfo = () => {
+  const { bridge } = useToggleBridge(PATH.METANODES);
 
   const [metanodes, setMetanodes] = useState<INodeListResponse[] | null>(null);
   const [reward, setReward] = useState<IReward | null>(null);

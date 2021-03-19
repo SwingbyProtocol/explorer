@@ -9,8 +9,9 @@ import {
   INodeListResponse,
   toggleStatusBg,
   toggleStatusIconColor,
+  toggleStatusWord,
 } from '../../../../metanodes';
-import { AddressLinkP, SizeL, TextBlock, TextRoom } from '../../../Common';
+import { SizeL, TextBlock, TextRoom } from '../../../Common';
 
 import {
   BoxAddress,
@@ -31,6 +32,7 @@ import {
   TextNodeName,
   TextNodeStatus,
   TextNowrap,
+  AddressP,
 } from './styled';
 
 interface Props {
@@ -104,7 +106,9 @@ export const MetanodeList = (props: Props) => {
                       </ColumnNodeName>
                       <ChurnStatus>
                         <StatusIcon status={toggleStatusIconColor(node.status)} />
-                        <TextNodeStatus variant="label">{node.status}</TextNodeStatus>
+                        <TextNodeStatus variant="label">
+                          <FormattedMessage id={toggleStatusWord(node.status) as string} />
+                        </TextNodeStatus>
                       </ChurnStatus>
                     </NodeStatus>
                   </Location>
@@ -129,7 +133,7 @@ export const MetanodeList = (props: Props) => {
                         <TextRoom variant="label">{swingbyRewardCurrency}:</TextRoom>
                       </div>
                       <ColumnAddress>
-                        <AddressLinkP>{bnbAddress}</AddressLinkP>
+                        <AddressP>{bnbAddress}</AddressP>
                       </ColumnAddress>
                     </RowAddress>
                     <RowAddress>
@@ -137,7 +141,7 @@ export const MetanodeList = (props: Props) => {
                         <TextRoom variant="label">{sbBTCRewardCurrency}:</TextRoom>
                       </div>
                       <ColumnAddress>
-                        <AddressLinkP>{ethAddress}</AddressLinkP>
+                        <AddressP>{ethAddress}</AddressP>
                       </ColumnAddress>
                     </RowAddress>
                   </BoxAddress>
