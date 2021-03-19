@@ -9,13 +9,14 @@ import { Globals } from '../components/Globals';
 import { languages } from '../modules/i18n';
 import { SEO } from '../modules/seo';
 import { useStore } from '../modules/store';
+import { graphEndpoint } from '../modules/env';
 
 import './style.css';
 
 const DEFAULT_LOCALE = 'en';
 
 const apolloClient = new ApolloClient({
-  uri: 'https://graph.swingby.network/api/graphql',
+  uri: graphEndpoint,
   cache: new InMemoryCache(),
 });
 
