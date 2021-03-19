@@ -27,14 +27,14 @@ export const Earnings = (props: Props) => {
   }).format(Number(rewardsTotal));
 
   const earningSwingbyUsd = getFiatAssetFormatter({
-    locale: locale,
+    locale,
     currency: 'USD',
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(Number(rewardsSwingby));
 
   const earningSbBtcUsd = getFiatAssetFormatter({
-    locale: locale,
+    locale,
     currency: 'USD',
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,

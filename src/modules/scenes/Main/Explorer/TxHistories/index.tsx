@@ -10,6 +10,9 @@ import { TTxRawObject } from '../../../../explorer';
 import { BrowserFooter, Left, Right, TextFee, TitleRow, TxHistoriesContainer } from './styled';
 import { TxHistoriesItem } from './Item';
 
+const PAGE_SIZE = 25;
+const ROW_HEIGHT = 90;
+
 interface Props {
   filter: JSX.Element;
   loader: JSX.Element;
@@ -43,35 +46,28 @@ export const TxHistories = ({
   const after = typeof afterParam === 'string' ? afterParam : undefined;
   const before = typeof beforeParam === 'string' ? beforeParam : undefined;
 
-  console.log('render TxHistories');
-
-  const { data, loading, fetchMore } = useTransactionsHistoryQuery({
+  const { data, loading } = useTransactionsHistoryQuery({
     variables: {
       after,
       before,
-      first: after ? 25 : !before ? 25 : undefined,
-      last: before ? 25 : undefined,
+      first: after ? PAGE_SIZE : !before ? PAGE_SIZE : undefined,
+      last: before ? PAGE_SIZE : undefined,
     },
   });
 
   const goToNextPage = useCallback(() => {
     const after = data?.transactions.pageInfo.endCursor;
-    // fetchMore({ variables: { after, before: null } });
     push({ query: { after } }, null, { scroll: false, shallow: true });
-  }, [data?.transactions.pageInfo.endCursor, fetchMore, push]);
+  }, [data?.transactions.pageInfo.endCursor, push]);
 
   const goToPreviousPage = useCallback(() => {
     const before = data?.transactions.pageInfo.startCursor;
-    // fetchMore({ variables: { before, after: null } });
     push({ query: { before } }, null, { scroll: false, shallow: true });
-  }, [data?.transactions.pageInfo.startCursor, fetchMore, push]);
-
-  const rowHeight = 90;
-  const rowHeightWithTxs = currentTxs && currentTxs.length * rowHeight;
+  }, [data?.transactions.pageInfo.startCursor, push]);
 
   return (
     <>
-      <TxHistoriesContainer txsHeight={rowHeightWithTxs}>
+      <TxHistoriesContainer txsHeight={currentTxs && currentTxs.length * ROW_HEIGHT}>
         <TitleRow>
           <Left>
             <Text variant="section-title">
