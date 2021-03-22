@@ -1,82 +1,128 @@
-import { Text } from '@swingby-protocol/pulsar';
+import { Dropdown, Text } from '@swingby-protocol/pulsar';
 import { useRouter } from 'next/router';
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { CursorPagination } from '../../../../../components/CursorPagination';
-import { useTransactionsHistoryQuery } from '../../../../../generated/graphql';
-import { TTxRawObject } from '../../../../explorer';
+import { TransactionType } from '../../../../../generated/graphql';
+import { PAGE_COUNT, PATH } from '../../../../env';
+import { BRIDGE } from '../../../../explorer';
+import { useLoadHistories } from '../../../../hooks';
+import { toggleIsExistPreviousPage, toggleIsRejectedTx } from '../../../../store';
 
-import { BrowserFooter, Left, Right, TextFee, TitleRow, TxHistoriesContainer } from './styled';
 import { TxHistoriesItem } from './Item';
+import {
+  BrowserFooter,
+  Left,
+  Right,
+  TextFee,
+  TitleRow,
+  TxHistoriesContainer,
+  Filter,
+} from './styled';
 
-const PAGE_SIZE = 25;
 const ROW_HEIGHT = 90;
 
 interface Props {
-  filter: JSX.Element;
   loader: JSX.Element;
   adjustIndex: number;
-  page: number;
-  maximumPage: number;
-  bridge: string;
-  isNoResult: boolean;
-  isLoadingHistory: boolean;
+
   noResultFound: JSX.Element;
-  currentTxs: TTxRawObject[];
-  goNextPage: () => void;
-  goBackPage: () => void;
-  goToDetail: (arg: string) => void;
 }
 
-export const TxHistories = ({
-  filter,
-  page,
-  currentTxs,
-  bridge,
-  goToDetail,
-  loader,
-  noResultFound,
-  adjustIndex,
-}: Props) => {
-  const {
-    push,
-    query: { after: afterParam, before: beforeParam },
-  } = useRouter();
-  const after = typeof afterParam === 'string' ? afterParam : undefined;
-  const before = typeof beforeParam === 'string' ? beforeParam : undefined;
+export const TxHistories = ({ loader, noResultFound, adjustIndex }: Props) => {
+  const { push, query } = useRouter();
 
-  const { data, loading } = useTransactionsHistoryQuery({
-    variables: {
-      after,
-      before,
-      first: after ? PAGE_SIZE : !before ? PAGE_SIZE : undefined,
-      last: before ? PAGE_SIZE : undefined,
+  const params = query;
+
+  const q = String(params.q || '');
+  const chainBridge = String(params.bridge || '');
+
+  const goToDetail = (hash: string) => {
+    push(`${chainBridge === 'floats' ? PATH.FLOAT : PATH.SWAP}/${hash}`);
+    dispatch(toggleIsExistPreviousPage(true));
+  };
+
+  const routerPush = useCallback(
+    (bridge: string, q: string): void => {
+      // Memo: Shallow routing make URL faster update and page won't get replaced. Only the state of the route is changed.
+      // Ref: https://nextjs.org/docs/routing/shallow-routing
+      push(
+        {
+          pathname: '/',
+          query: { bridge, q },
+        },
+        undefined,
+        { shallow: true },
+      );
     },
-  });
+    [push],
+  );
 
-  const goToNextPage = useCallback(() => {
-    const after = data?.transactions.pageInfo.endCursor;
-    push({ query: { after } }, null, { scroll: false, shallow: true });
-  }, [data?.transactions.pageInfo.endCursor, push]);
+  const dispatch = useDispatch();
+  const explorer = useSelector((state) => state.explorer);
+  const { isRejectedTx } = explorer;
 
-  const goToPreviousPage = useCallback(() => {
-    const before = data?.transactions.pageInfo.startCursor;
-    push({ query: { before } }, null, { scroll: false, shallow: true });
-  }, [data?.transactions.pageInfo.startCursor, push]);
+  const [filterTransaction, setFilterTransaction] = useState<TransactionType>(TransactionType.Swap);
+
+  const { data, loading, goToNextPage, goToPreviousPage } = useLoadHistories(filterTransaction);
+
+  const filter = (
+    <Dropdown target={<Filter />}>
+      {/* Memo: Just shows user the filter is hiding 'waiting' */}
+      <Dropdown.Item selected={true} disabled={true}>
+        <FormattedMessage id="home.recent-swaps.hide-waiting" />
+      </Dropdown.Item>
+      <Dropdown.Item
+        selected={isRejectedTx}
+        onClick={() => {
+          routerPush(chainBridge, q);
+          dispatch(toggleIsRejectedTx(!isRejectedTx));
+        }}
+      >
+        <FormattedMessage id="home.recent-swaps.rejected-tx" />
+      </Dropdown.Item>
+      <Dropdown.Item
+        selected={filterTransaction === TransactionType.Deposit}
+        onClick={() => {
+          if (filterTransaction === TransactionType.Deposit) {
+            setFilterTransaction(TransactionType.Swap);
+          } else {
+            setFilterTransaction(TransactionType.Deposit);
+          }
+        }}
+      >
+        Float transactions
+      </Dropdown.Item>
+      {Object.values(BRIDGE).map((chain: string) => {
+        const bridge = chain === BRIDGE.ethereum ? '' : chain.toLowerCase();
+        return (
+          <Dropdown.Item
+            selected={chainBridge === bridge}
+            onClick={() => chain === BRIDGE.ethereum && routerPush(bridge, q)}
+            key={chain}
+            disabled={chain !== BRIDGE.ethereum}
+          >
+            Bitcoin - {chain}
+          </Dropdown.Item>
+        );
+      })}
+    </Dropdown>
+  );
 
   return (
     <>
-      <TxHistoriesContainer txsHeight={currentTxs && currentTxs.length * ROW_HEIGHT}>
+      <TxHistoriesContainer txsHeight={PAGE_COUNT * ROW_HEIGHT}>
         <TitleRow>
           <Left>
             <Text variant="section-title">
               <FormattedMessage id="home.recent-swaps.recent-swaps" />
             </Text>
           </Left>
-          <Right isFloats={bridge === 'floats'}>
+          <Right isFloats={chainBridge === 'floats'}>
             <TextFee variant="section-title">
-              {bridge === 'floats' ? (
+              {chainBridge === 'floats' ? (
                 <FormattedMessage id="home.recent-swaps.fees-max" />
               ) : (
                 <FormattedMessage id="home.recent-swaps.fees" />

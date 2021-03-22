@@ -1,4 +1,4 @@
-import { Text } from '@swingby-protocol/pulsar';
+import { Icon, Text } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
 import styled from 'styled-components';
 
@@ -58,4 +58,9 @@ export const TextFee = styled(Text)`
 export const BrowserFooter = styled.div`
   display: flex;
   justify-content: flex-end;
+`;
+
+export const Filter = styled(Icon.Filter)`
+  color: ${({ theme }) => theme.pulsar.color.text.masked};
+  font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
 `;
