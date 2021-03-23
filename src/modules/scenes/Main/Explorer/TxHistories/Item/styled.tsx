@@ -18,17 +18,25 @@ export const TxHistoryRow = styled(motion.div)<BgProps>`
   background: ${(props) => !props.bg && props.theme.pulsar.color.bg.hover};
   padding-top: ${({ theme }) => rem(theme.pulsar.size.street)};
   padding-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
-  padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
-  padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
-  display: grid;
-  grid-template-columns: 19% 5% 20.5% 20.5% 10% 22% 2%;
+  padding-right: ${({ theme }) => rem(theme.pulsar.size.box)};
+  padding-left: ${({ theme }) => rem(theme.pulsar.size.drawer)};
+  display: flex;
+  justify-content: space-between;
+  /* grid-template-columns: 25% ${rem(70)} auto ${rem(70)}; */
   cursor: pointer;
 
   @media (min-width: ${rem(media.lg)}) {
-    grid-template-columns: 13.5% 4% 23.5% 16.5% 5% 19.5% 16% 2%;
+    /* grid-template-columns: 13.5% 4% 23.5% 16.5% 5% 19.5% 16% 2%; */
+    /* grid-template-columns: 13.5% 4% 23.5% 16.5% 5% 19.5% 5%; */
+  }
+  @media (min-width: ${rem(media.md)}) {
+    /* display: grid;
+    grid-template-columns: 13.5% 4.5% 20% 15% 5% 15% 5%; */
+    padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
+    padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
   }
   @media (min-width: ${rem(media.xl)}) {
-    grid-template-columns: 13.5% 4% 24% 15% 5% 20.5% 15.5% 2.5%;
+    /* grid-template-columns: 13.5% 4% 24% 15% 5% 20.5% 5%; */
     /* Memo: Won't show animation for low spec computer   */
     transition: all 0.3s ease 0s;
     border: 2px solid transparent;
@@ -48,12 +56,28 @@ export const Column = styled.div`
   justify-content: center;
 `;
 
+export const ColumnMobile = styled(Column)`
+  @media (min-width: ${rem(media.md)}) {
+    display: none;
+  }
+`;
+
+export const ColumnM = styled(Column)`
+  display: none;
+  @media (min-width: ${rem(media.md)}) {
+    display: flex;
+  }
+`;
+
 export const ColumnEllipsis = styled(Column)``;
 
 export const ColumnAmount = styled(Column)`
   display: grid;
-  grid-template-columns: ${({ theme }) => rem(theme.pulsar.size.state)} ${rem(150)};
+  grid-template-columns: ${({ theme }) => rem(theme.pulsar.size.town)} ${rem(60)};
   align-items: center;
+  @media (min-width: ${rem(media.md)}) {
+    grid-template-columns: ${({ theme }) => rem(theme.pulsar.size.state)} ${rem(100)};
+  }
 `;
 
 export const ColumnFee = styled.div`
@@ -68,16 +92,25 @@ export const ColumnFee = styled.div`
 `;
 
 export const Top = styled.div`
-  margin-bottom: ${({ theme }) => theme.pulsar.size.box};
+  width: ${({ theme }) => rem(theme.pulsar.size.state)};
   height: ${({ theme }) => rem(theme.pulsar.size.street)};
+  display: flex;
+  align-items: flex-end;
 `;
 
-export const Bottom = styled.div``;
+export const Row = styled.div``;
+export const RowAddress = styled.div`
+  display: grid;
+  grid-template-columns: ${({ theme }) => rem(theme.pulsar.size.city)} auto;
+`;
 
 export const Status = styled.div`
   align-items: center;
   display: flex;
-  width: ${rem(120)};
+  width: ${rem(90)};
+  @media (min-width: ${rem(media.md)}) {
+    width: ${rem(120)};
+  }
 `;
 
 export const Ellipsis = styled(Icon.Ellipsis)`
@@ -91,8 +124,12 @@ export const Ellipsis = styled(Icon.Ellipsis)`
 `;
 
 export const IconArrowRight = styled(Icon.ArrowRight)`
+  margin-right: ${({ theme }) => rem(theme.pulsar.size.house)};
   font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
   color: ${({ theme }) => theme.pulsar.color.text.masked};
+  @media (min-width: ${rem(media.md)}) {
+    margin-right: 0;
+  }
 `;
 
 export const AddressP = styled(AddressLinkP)`
@@ -105,21 +142,61 @@ export const AddressP = styled(AddressLinkP)`
   }
 `;
 
+export const RowAmount = styled.div`
+  width: ${rem(50)};
+  @media (min-width: ${rem(media.xs)}) {
+    width: ${rem(70)};
+  }
+  @media (min-width: ${rem(media.sm)}) {
+    width: ${rem(90)};
+  }
+  @media (min-width: ${rem(media.md)}) {
+    width: 100%;
+  }
+`;
+
 export const AmountSpan = styled(Text)`
-  font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
+  font-size: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  @media (min-width: ${rem(media.md)}) {
+    font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
+  }
+`;
+
+export const NetworkText = styled(Text)`
+  font-size: ${({ theme }) => rem(theme.pulsar.size.drawer)};
+  @media (min-width: ${rem(media.md)}) {
+    font-size: ${({ theme }) => rem(theme.pulsar.size.closet)};
+    white-space: nowrap;
+  }
 `;
 
 export const StatusText = styled(Text)`
-  font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
-  /* white-space: nowrap; */
+  font-size: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  @media (min-width: ${rem(media.md)}) {
+    font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
+  }
 `;
 
 export const Coin = styled(CoinIcon)`
-  font-size: ${({ theme }) => rem(theme.pulsar.size.town)};
+  font-size: ${({ theme }) => rem(theme.pulsar.size.street)};
+  @media (min-width: ${rem(media.md)}) {
+    font-size: ${({ theme }) => rem(theme.pulsar.size.town)};
+  }
 `;
 
 export const StatusCircle = styled(SwapStatusIcon)`
   width: ${({ theme }) => rem(theme.pulsar.size.drawer)};
   height: ${({ theme }) => rem(theme.pulsar.size.drawer)};
   margin-right: ${({ theme }) => rem(theme.pulsar.size.box)};
+`;
+
+export const IconDetail = styled(Icon.CaretRight)`
+  font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
+  color: ${({ theme }) => theme.pulsar.color.text.masked};
+  margin-left: ${({ theme }) => rem(theme.pulsar.size.box)};
 `;

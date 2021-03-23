@@ -17,11 +17,12 @@ import {
 import { useLinkToWidget } from '../../../../../hooks';
 import { selectSwapDetails } from '../../../../../store';
 import { transactionDetailByTxId } from '../../../../../swap';
+import { SizeM } from '../../../../Common';
 
 import {
   AddressP,
   AmountSpan,
-  Bottom,
+  Row,
   Coin,
   Column,
   ColumnAmount,
@@ -34,6 +35,12 @@ import {
   StatusText,
   Top,
   TxHistoryRow,
+  RowAmount,
+  NetworkText,
+  ColumnM,
+  ColumnMobile,
+  RowAddress,
+  IconDetail,
 } from './styled';
 
 type QueriedTransaction = TransactionsHistoryQueryHookResult['data']['transactions']['edges'][number]['node'];
@@ -105,39 +112,43 @@ export const TxHistoriesItem = ({
             <StatusCircle status={tx.status} />
             <StatusText variant="accent">{capitalize(tx.status)}</StatusText>
           </Status>
-          <Bottom>
-            <Text variant="label">{convertTxTime(DateTime.fromISO(tx.at))}</Text>
-          </Bottom>
+          <Row>{/* <Text variant="label">{convertTxTime(DateTime.fromISO(tx.at))}</Text> */}</Row>
         </Column>
-        <Column>
-          <Top>
+        {/* <ColumnM>
+          <Row>
             <Text variant="label">
               <FormattedMessage id="common.from" />
             </Text>
-          </Top>
-          <Bottom>
+          </Row>
+          <Row>
             <Text variant="label">
               <FormattedMessage id="common.to" />
             </Text>
-          </Bottom>
-        </Column>
-        <Column>
-          <Top>
+          </Row>
+        </ColumnM> */}
+        <ColumnM>
+          <RowAddress>
+            <Text variant="label">
+              <FormattedMessage id="common.from" />
+            </Text>
             <AddressP>{tx.depositAddress.toLowerCase()}</AddressP>
-          </Top>
-          <Bottom>
+          </RowAddress>
+          <RowAddress>
+            <Text variant="label">
+              <FormattedMessage id="common.to" />
+            </Text>
             <AddressP>{tx.receivingAddress.toLowerCase()}</AddressP>
-          </Bottom>
-        </Column>
+          </RowAddress>
+        </ColumnM>
         <ColumnAmount>
           <Coin symbol={tx.depositCurrency} />
           <div>
             <Top>
-              <Text variant="label">{currencyNetwork(tx.depositCurrency)}</Text>
+              <NetworkText variant="label">{currencyNetwork(tx.depositCurrency)}</NetworkText>
             </Top>
-            <Bottom>
+            <RowAmount>
               <AmountSpan variant="accent">{tx.depositAmount}</AmountSpan>
-            </Bottom>
+            </RowAmount>
           </div>
         </ColumnAmount>
         <Column>
@@ -147,11 +158,11 @@ export const TxHistoriesItem = ({
           <Coin symbol={tx.receivingCurrency} />
           <div>
             <Top>
-              <Text variant="label">{currencyNetwork(tx.receivingCurrency)}</Text>
+              <NetworkText variant="label">{currencyNetwork(tx.receivingCurrency)}</NetworkText>
             </Top>
-            <Bottom>
+            <RowAmount>
               <AmountSpan variant="accent">{tx.receivingAmount}</AmountSpan>
-            </Bottom>
+            </RowAmount>
           </div>
         </ColumnAmount>
         <ColumnFee>
@@ -162,32 +173,37 @@ export const TxHistoriesItem = ({
             }).format(Number(tx.feeTotal))}
           </Text>
         </ColumnFee>
-        <ColumnEllipsis
-          onClick={(event) => {
-            event.stopPropagation();
-          }}
-        >
-          <Dropdown target={<Ellipsis />} data-testid="dropdown">
-            <Dropdown.Item onClick={() => setToggleOpenLink(toggleOpenLink + 1)}>
-              <FormattedMessage id="home.recent-swaps.check-swap-progress" />
-            </Dropdown.Item>
-            {tx.receivingTxHash && (
-              <Dropdown.Item
-                onClick={() =>
-                  window.open(
-                    transactionDetailByTxId(tx.receivingCurrency, tx.receivingTxHash),
-                    '_blank',
-                    'noopener',
-                  )
-                }
-              >
-                <p>
-                  <FormattedMessage id="home.recent-swaps.get-tx-details" />
-                </p>
+        <ColumnMobile>
+          <IconDetail />
+        </ColumnMobile>
+        <ColumnM>
+          <ColumnEllipsis
+            onClick={(event) => {
+              event.stopPropagation();
+            }}
+          >
+            <Dropdown target={<Ellipsis />} data-testid="dropdown">
+              <Dropdown.Item onClick={() => setToggleOpenLink(toggleOpenLink + 1)}>
+                <FormattedMessage id="home.recent-swaps.check-swap-progress" />
               </Dropdown.Item>
-            )}
-          </Dropdown>
-        </ColumnEllipsis>
+              {tx.receivingTxHash && (
+                <Dropdown.Item
+                  onClick={() =>
+                    window.open(
+                      transactionDetailByTxId(tx.receivingCurrency, tx.receivingTxHash),
+                      '_blank',
+                      'noopener',
+                    )
+                  }
+                >
+                  <p>
+                    <FormattedMessage id="home.recent-swaps.get-tx-details" />
+                  </p>
+                </Dropdown.Item>
+              )}
+            </Dropdown>
+          </ColumnEllipsis>
+        </ColumnM>
       </TxHistoryRow>
     </>
   );
