@@ -34,12 +34,22 @@ export const useLoadHistories = (filterTransactionType: TransactionType) => {
     ? [Refunded, SigningRefund, SendingRefund]
     : [Completed, Sending, Pending, Signing];
 
-  const type = Object.values(TransactionType).filter(
-    (it: TransactionType) => it === filterTransactionType,
-  );
+  const getType = (filterTransactionType: TransactionType) => {
+    const type = Object.values(TransactionType).filter(
+      (it: TransactionType) => it === filterTransactionType,
+    );
+
+    switch (filterTransactionType) {
+      case TransactionType.Deposit:
+        return [TransactionType.Deposit, TransactionType.Withdrawal];
+
+      default:
+        return type;
+    }
+  };
 
   const filter = {
-    type,
+    type: getType(filterTransactionType),
     status,
   };
 

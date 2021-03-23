@@ -30,8 +30,8 @@ export const TxHistoryRow = styled(motion.div)<BgProps>`
     /* grid-template-columns: 13.5% 4% 23.5% 16.5% 5% 19.5% 5%; */
   }
   @media (min-width: ${rem(media.md)}) {
-    /* display: grid;
-    grid-template-columns: 13.5% 4.5% 20% 15% 5% 15% 5%; */
+    display: grid;
+    grid-template-columns: 13% 25% 20% 5% 15% 5%;
     padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
     padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
   }
