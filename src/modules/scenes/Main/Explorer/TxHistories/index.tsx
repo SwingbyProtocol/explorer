@@ -224,7 +224,7 @@ export const TxHistories = (props: Props) => {
                 <ColumnFee>
                   <Text variant="section-title">
                     {getCryptoAssetFormatter({
-                      locale: locale,
+                      locale,
                       displaySymbol: tx.feeCurrency,
                     }).format(Number(tx.fee))}
                   </Text>

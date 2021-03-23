@@ -2,6 +2,7 @@ import { Text, Tooltip } from '@swingby-protocol/pulsar';
 import { FormattedMessage } from 'react-intl';
 
 import { Loader } from '../../../../../components/Loader';
+import { TStatus } from '../../../../explorer';
 import {
   churnedIn,
   INodeListResponse,
@@ -62,6 +63,29 @@ export const NodeStatus = (props: Props) => {
   );
 
   const loader = <Loader marginTop={0} minHeight={0} />;
+
+  const metanodeStatusTable = [
+    {
+      status: churnedInStatus,
+      iconStatus: 'COMPLETED',
+      text: 'metanodes.metanode-status.churned-in',
+    },
+    {
+      status: mayChurnInStatus,
+      iconStatus: 'WAITING',
+      text: 'metanodes.may-churn-in',
+    },
+    {
+      status: bondExpiringStatus,
+      iconStatus: 'PENDING',
+      text: 'metanodes.bond-expiring',
+    },
+    {
+      status: bondTooLowStatus,
+      iconStatus: 'REFUNDED',
+      text: 'metanodes.bond-too-low',
+    },
+  ];
   return (
     <NodeStatusContainer>
       <RowTitle>
@@ -71,50 +95,22 @@ export const NodeStatus = (props: Props) => {
       </RowTitle>
       {metanodes ? (
         <>
-          <Row>
-            <Left>
-              <ColumnStatus>
-                <StatusIcon status="COMPLETED" />
-                <TextRoom variant="label">
-                  <FormattedMessage id="metanodes.metanode-status.churned-in" />
-                </TextRoom>
-              </ColumnStatus>
-            </Left>
-            <Right>{showNodeStatus(churnedInStatus)}</Right>
-          </Row>
-          <Row>
-            <Left>
-              <ColumnStatus>
-                <StatusIcon status="WAITING" />
-                <TextRoom variant="label">
-                  <FormattedMessage id="metanodes.may-churn-in" />
-                </TextRoom>
-              </ColumnStatus>
-            </Left>
-            <Right>{showNodeStatus(mayChurnInStatus)}</Right>
-          </Row>
-          <Row>
-            <Left>
-              <ColumnStatus>
-                <StatusIcon status="PENDING" />
-                <TextRoom variant="label">
-                  <FormattedMessage id="metanodes.bond-expiring" />
-                </TextRoom>
-              </ColumnStatus>
-            </Left>
-            <Right>{showNodeStatus(bondExpiringStatus)}</Right>
-          </Row>
-          <Row>
-            <Left>
-              <ColumnStatus>
-                <StatusIcon status="REFUNDED" />
-                <TextRoom variant="label">
-                  <FormattedMessage id="metanodes.bond-too-low" />
-                </TextRoom>
-              </ColumnStatus>
-            </Left>
-            <Right>{showNodeStatus(bondTooLowStatus)}</Right>
-          </Row>
+          {metanodeStatusTable.map(
+            (it) =>
+              it.status && (
+                <Row>
+                  <Left>
+                    <ColumnStatus>
+                      <StatusIcon status={it.iconStatus as TStatus} />
+                      <TextRoom variant="label">
+                        <FormattedMessage id={it.text} />
+                      </TextRoom>
+                    </ColumnStatus>
+                  </Left>
+                  <Right>{showNodeStatus(it.status)}</Right>
+                </Row>
+              ),
+          )}
         </>
       ) : (
         loader

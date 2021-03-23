@@ -22,9 +22,9 @@ export const initOnboard = ({ subscriptions }) => {
           infuraKey: infuraApiKey,
           preferred: true,
         },
-        { walletName: 'walletLink', rpcUrl: RPC_URL, appName: appName, preferred: true },
+        { walletName: 'walletLink', rpcUrl: RPC_URL, appName, preferred: true },
         { walletName: 'authereum' },
-        { walletName: 'lattice', rpcUrl: RPC_URL, appName: appName },
+        { walletName: 'lattice', rpcUrl: RPC_URL, appName },
         { walletName: 'torus' },
         { walletName: 'opera' },
         {

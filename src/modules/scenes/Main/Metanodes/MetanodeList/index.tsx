@@ -78,7 +78,7 @@ export const MetanodeList = (props: Props) => {
             const bnbAddress = node.addresses[0];
             const ethAddress = node.addresses[1];
             const bondAmount = getCryptoAssetFormatter({
-              locale: locale,
+              locale,
               displaySymbol: '',
               minimumFractionDigits: 0,
               maximumFractionDigits: 0,
