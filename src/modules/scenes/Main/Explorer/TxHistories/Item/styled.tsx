@@ -4,7 +4,6 @@ import { rem } from 'polished';
 import styled from 'styled-components';
 
 import { StylingConstants } from '../../../../../styles';
-import { AddressLinkP } from '../../../../Common';
 
 interface BgProps {
   bg: boolean;
@@ -22,21 +21,18 @@ export const TxHistoryRow = styled(motion.div)<BgProps>`
   padding-left: ${({ theme }) => rem(theme.pulsar.size.drawer)};
   display: flex;
   justify-content: space-between;
-  /* grid-template-columns: 25% ${rem(70)} auto ${rem(70)}; */
   cursor: pointer;
 
-  @media (min-width: ${rem(media.lg)}) {
-    /* grid-template-columns: 13.5% 4% 23.5% 16.5% 5% 19.5% 16% 2%; */
-    /* grid-template-columns: 13.5% 4% 23.5% 16.5% 5% 19.5% 5%; */
-  }
   @media (min-width: ${rem(media.md)}) {
     display: grid;
-    grid-template-columns: 13% 25% 20% 5% 15% 5%;
+    grid-template-columns: 13% 20% 22% 5% 22% auto;
     padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
     padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
   }
+  @media (min-width: ${rem(media.lg)}) {
+    grid-template-columns: 13% 22% 21% 4% 23% 15% auto;
+  }
   @media (min-width: ${rem(media.xl)}) {
-    /* grid-template-columns: 13.5% 4% 24% 15% 5% 20.5% 5%; */
     /* Memo: Won't show animation for low spec computer   */
     transition: all 0.3s ease 0s;
     border: 2px solid transparent;
@@ -99,6 +95,7 @@ export const Top = styled.div`
 `;
 
 export const Row = styled.div``;
+
 export const RowAddress = styled.div`
   display: grid;
   grid-template-columns: ${({ theme }) => rem(theme.pulsar.size.city)} auto;
@@ -132,16 +129,6 @@ export const IconArrowRight = styled(Icon.ArrowRight)`
   }
 `;
 
-export const AddressP = styled(AddressLinkP)`
-  max-width: ${rem(92)};
-  @media (min-width: ${rem(media.lg)}) {
-    max-width: ${rem(190)};
-  }
-  @media (min-width: ${rem(media.xl)}) {
-    max-width: ${rem(230)};
-  }
-`;
-
 export const RowAmount = styled.div`
   width: ${rem(50)};
   @media (min-width: ${rem(media.xs)}) {
@@ -172,6 +159,13 @@ export const NetworkText = styled(Text)`
   @media (min-width: ${rem(media.md)}) {
     font-size: ${({ theme }) => rem(theme.pulsar.size.closet)};
     white-space: nowrap;
+  }
+`;
+
+export const TextTime = styled(Text)`
+  font-size: ${({ theme }) => rem(theme.pulsar.size.drawer)};
+  @media (min-width: ${rem(media.md)}) {
+    font-size: ${({ theme }) => rem(theme.pulsar.size.closet)};
   }
 `;
 

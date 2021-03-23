@@ -17,30 +17,30 @@ import {
 import { useLinkToWidget } from '../../../../../hooks';
 import { selectSwapDetails } from '../../../../../store';
 import { transactionDetailByTxId } from '../../../../../swap';
-import { SizeM } from '../../../../Common';
+import { AddressLinkP } from '../../../../Common';
 
 import {
-  AddressP,
   AmountSpan,
-  Row,
   Coin,
   Column,
   ColumnAmount,
   ColumnEllipsis,
   ColumnFee,
+  ColumnM,
+  ColumnMobile,
   Ellipsis,
   IconArrowRight,
+  IconDetail,
+  NetworkText,
+  Row,
+  RowAddress,
+  RowAmount,
   Status,
   StatusCircle,
   StatusText,
   Top,
   TxHistoryRow,
-  RowAmount,
-  NetworkText,
-  ColumnM,
-  ColumnMobile,
-  RowAddress,
-  IconDetail,
+  TextTime,
 } from './styled';
 
 type QueriedTransaction = TransactionsHistoryQueryHookResult['data']['transactions']['edges'][number]['node'];
@@ -112,32 +112,22 @@ export const TxHistoriesItem = ({
             <StatusCircle status={tx.status} />
             <StatusText variant="accent">{capitalize(tx.status)}</StatusText>
           </Status>
-          <Row>{/* <Text variant="label">{convertTxTime(DateTime.fromISO(tx.at))}</Text> */}</Row>
+          <Row>
+            <TextTime variant="label">{convertTxTime(DateTime.fromISO(tx.at))}</TextTime>
+          </Row>
         </Column>
-        {/* <ColumnM>
-          <Row>
-            <Text variant="label">
-              <FormattedMessage id="common.from" />
-            </Text>
-          </Row>
-          <Row>
-            <Text variant="label">
-              <FormattedMessage id="common.to" />
-            </Text>
-          </Row>
-        </ColumnM> */}
         <ColumnM>
           <RowAddress>
             <Text variant="label">
               <FormattedMessage id="common.from" />
             </Text>
-            <AddressP>{tx.depositAddress.toLowerCase()}</AddressP>
+            <AddressLinkP>{tx.depositAddress.toLowerCase()}</AddressLinkP>
           </RowAddress>
           <RowAddress>
             <Text variant="label">
               <FormattedMessage id="common.to" />
             </Text>
-            <AddressP>{tx.receivingAddress.toLowerCase()}</AddressP>
+            <AddressLinkP>{tx.receivingAddress.toLowerCase()}</AddressLinkP>
           </RowAddress>
         </ColumnM>
         <ColumnAmount>
