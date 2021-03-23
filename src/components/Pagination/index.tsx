@@ -31,10 +31,7 @@ export const Pagination = (props: Props) => {
             {isSimple ? (
               <FormattedMessage id="common.page-simple" values={{ currentPage: page }} />
             ) : (
-              <FormattedMessage
-                id="common.page"
-                values={{ currentPage: page, maximumPage: maximumPage }}
-              />
+              <FormattedMessage id="common.page" values={{ currentPage: page, maximumPage }} />
             )}
           </Text>
         </PageRow>

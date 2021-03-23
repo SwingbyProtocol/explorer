@@ -42,14 +42,14 @@ export const AccountSummary = () => {
   // Todo: Remove `disable-next-line` after 'earnings API' works
   // eslint-disable-next-line
   const usdTotalEarnings = getFiatAssetFormatter({
-    locale: locale,
+    locale,
     currency: 'USD',
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(totalEarnings * usd[currency]);
 
   const formattedClaimableAmount = getCryptoAssetFormatter({
-    locale: locale,
+    locale,
     displaySymbol: CoinSymbol.BTC,
   }).format(Number(claimableAmount));
 

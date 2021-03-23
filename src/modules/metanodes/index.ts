@@ -112,12 +112,16 @@ type TChurnStatus =
   | 'churned-in'
   | 'may-churn-out--bond-too-low'
   | 'may-churn-out--bond-expiring'
-  | 'may-churn-in';
+  | 'may-churn-in'
+  | 'inactive--bond-expired'
+  | 'inactive--bond-too-low';
 
 export const churnedIn = 'churned-in';
 export const bondTooLow = 'may-churn-out--bond-too-low';
 export const bondExpiring = 'may-churn-out--bond-expiring';
 export const mayChurnIn = 'may-churn-in';
+export const inactiveBondExpired = 'inactive--bond-expired';
+export const inactiveBondTooLow = 'inactive--bond-too-low';
 
 export const toggleStatusBg = (status: TChurnStatus, i: number): string | boolean => {
   switch (status) {
@@ -127,6 +131,10 @@ export const toggleStatusBg = (status: TChurnStatus, i: number): string | boolea
       return bondTooLow;
     case bondExpiring:
       return bondExpiring;
+    case inactiveBondExpired:
+      return inactiveBondExpired;
+    case inactiveBondTooLow:
+      return inactiveBondTooLow;
 
     default:
       return mayChurnIn;
@@ -143,6 +151,10 @@ export const toggleStatusWord = (status: TChurnStatus): string | boolean => {
       return 'metanodes.metanode-status.may-churn-out-bond-expiring';
     case mayChurnIn:
       return 'metanodes.metanode-status.may-churn-in';
+    case inactiveBondExpired:
+      return 'metanodes.metanode-status.inactive-bond-expired';
+    case inactiveBondTooLow:
+      return 'metanodes.metanode-status.inactive-bond-too-low';
 
     default:
       return status;
@@ -156,6 +168,10 @@ export const toggleStatusIconColor = (status: TChurnStatus): TStatus => {
     case bondTooLow:
       return 'REFUNDED';
     case bondExpiring:
+      return 'PENDING';
+    case inactiveBondTooLow:
+      return 'PENDING';
+    case inactiveBondExpired:
       return 'PENDING';
 
     default:

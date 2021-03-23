@@ -146,6 +146,8 @@
   "metanodes.metanode-status.may-churn-out-bond-too-low": "May churn out: Bond too low",
   "metanodes.metanode-status.may-churn-out-bond-expiring": "May churn out: Bond expiring",
   "metanodes.metanode-status.may-churn-in": "May churn in",
+  "metanodes.metanode-status.inactive-bond-expired": "Inactive: Bond expired",
+  "metanodes.metanode-status.inactive-bond-too-low": "Inactive: Bond too low",
   "metanodes.metanode-status": "Metanode Status",
   "metanodes.swingby": "SWINGBY: {value}",
   "metanodes.sbBTC": "sbBTC: {value}",

@@ -20,28 +20,28 @@ export const Earnings = (props: Props) => {
   const rewardsAvgPerNode = reward ? reward.avgPerNode : 0;
 
   const earningTotal = getFiatAssetFormatter({
-    locale: locale,
+    locale,
     currency: 'USD',
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(Number(rewardsTotal));
 
   const earningSwingbyUsd = getFiatAssetFormatter({
-    locale: locale,
+    locale,
     currency: 'USD',
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(Number(rewardsSwingby));
 
   const earningSbBtcUsd = getFiatAssetFormatter({
-    locale: locale,
+    locale,
     currency: 'USD',
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(Number(rewardsSbBtcUsd));
 
   const earningAvr = getFiatAssetFormatter({
-    locale: locale,
+    locale,
     currency: 'USD',
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,

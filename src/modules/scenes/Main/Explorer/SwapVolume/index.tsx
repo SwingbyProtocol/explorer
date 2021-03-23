@@ -111,7 +111,7 @@ export const SwapVolume = (props: Props) => {
             stepSize: 2,
             fontSize: 10,
             fontColor: '#929D9D',
-            callback: function (date: string, i: number) {
+            callback(date: string, i: number) {
               if (i % 3 === 0) {
                 return date;
               } else {
@@ -131,7 +131,7 @@ export const SwapVolume = (props: Props) => {
             fontColor: '#929D9D',
             fontSize: 10,
             padding: 10,
-            callback: function (value: number, i: number) {
+            callback(value: number, i: number) {
               if (i % 2 === 0) {
                 return '$' + numToK(value);
               } else {
