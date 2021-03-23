@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
 
 import { Loader } from '../../../../../components/Loader';
 import { useLoadTransaction } from '../../../../hooks';
@@ -13,13 +14,16 @@ export const BrowserDetail = () => {
   const router = useRouter();
   const params = router.query;
   const hash = String(params.hash);
-  const { tx, loading } = useLoadTransaction(hash);
+  const { tx: txNode } = useLoadTransaction(hash);
+  const explorer = useSelector((state) => state.explorer);
+  const { swapDetails } = explorer;
+  const tx = swapDetails && swapDetails.hash === hash ? swapDetails : txNode;
 
   return (
     <BrowserDetailContainer>
       <StatusCard tx={tx} />
       <BrowserDetailDiv size="bare">
-        {!loading ? (
+        {tx && router.pathname !== undefined ? (
           <>
             <ActionButtons tx={tx} />
             <Row isTxId={tx.txIdIn !== undefined}>

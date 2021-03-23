@@ -1,30 +1,33 @@
+import { DateTime } from 'luxon';
+
+import { ITransactionHistory, TransactionStatus } from '../../generated/graphql';
+
+export { TxRowTransition, TxRowVariants } from './animation';
 export {
-  loadHistory,
-  currencyNetwork,
-  TxStatus,
-  removeDuplicatedTxs,
-  convertTxTime,
-  fetchFloatBalances,
-  fetchStatsInfo,
-  getUsdPrice,
   calculateFixedFee,
-  getTransactionFees,
-  exponentialToNumber,
+  calTvl,
   capitalize,
-  toBTC,
-  toSatoshi,
-  isEtherAddress,
-  isBinanceAddress,
-  isBitcoinAddress,
   checkIsValidAddress,
   checkIsValidAmount,
   convertDateTime,
+  convertTxTime,
+  currencyNetwork,
+  exponentialToNumber,
+  fetchFloatBalances,
+  fetchStatsInfo,
   getBorderColor,
   getDiffDays,
-  calTvl,
+  getTransactionFees,
+  getUsdPrice,
+  isBinanceAddress,
+  isBitcoinAddress,
+  isEtherAddress,
+  loadHistory,
+  removeDuplicatedTxs,
+  toBTC,
+  toSatoshi,
+  TxStatus,
 } from './utils';
-
-export { TxRowTransition, TxRowVariants } from './animation';
 
 export const BRIDGE = {
   ethereum: 'Ethereum',
@@ -43,7 +46,7 @@ export interface FloatRawObject {
   currencyIn: TCurrency;
   currencyOut: TCurrency;
   hash: string;
-  status: TStatus;
+  status: TransactionStatus;
   timestamp: number;
   txIdIn?: string;
   fee?: string;
@@ -62,7 +65,7 @@ export interface SwapRawObject {
   fee?: string;
   hash?: string;
   feeCurrency: TCurrency;
-  status: TStatus;
+  status: TransactionStatus;
   timestamp?: number;
   txIdIn?: string;
   txIdOut?: string;
@@ -192,3 +195,21 @@ export interface IMetanode {
   stake: IStake;
   version: string;
 }
+
+export const castGraphQlType = (tx: ITransactionHistory) => {
+  return {
+    addressIn: tx.depositAddress,
+    addressOut: tx.receivingAddress,
+    amountIn: tx.depositAmount,
+    amountOut: tx.receivingAmount,
+    currencyIn: tx.depositCurrency as TCurrency,
+    currencyOut: tx.receivingCurrency as TCurrency,
+    fee: tx.feeTotal,
+    hash: tx.id,
+    feeCurrency: tx.feeCurrency as TCurrency,
+    status: tx.status,
+    timestamp: DateTime.fromISO(tx.at).toSeconds(),
+    txIdIn: tx.depositTxHash,
+    txIdOut: tx.receivingTxHash,
+  };
+};

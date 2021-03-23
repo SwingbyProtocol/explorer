@@ -1,19 +1,22 @@
-import { useTheme } from 'styled-components';
-import { DateTime } from 'luxon';
-import { FormattedMessage, useIntl } from 'react-intl';
 import { Dropdown, getCryptoAssetFormatter, Text } from '@swingby-protocol/pulsar';
+import { DateTime } from 'luxon';
 import { useMemo, useState } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { useDispatch } from 'react-redux';
+import { useTheme } from 'styled-components';
 
+import { LinkToWidgetModal } from '../../../../../../components/LinkToWidgetModal';
+import type { TransactionsHistoryQueryHookResult } from '../../../../../../generated/graphql';
 import {
   capitalize,
+  castGraphQlType,
   convertTxTime,
   currencyNetwork,
   getBorderColor,
 } from '../../../../../explorer';
-import type { TransactionsHistoryQueryHookResult } from '../../../../../../generated/graphql';
 import { useLinkToWidget } from '../../../../../hooks';
+import { selectSwapDetails } from '../../../../../store';
 import { transactionDetailByTxId } from '../../../../../swap';
-import { LinkToWidgetModal } from '../../../../../../components/LinkToWidgetModal';
 
 import {
   AddressP,
@@ -45,8 +48,11 @@ export const TxHistoriesItem = ({
   bgKey: number;
 }) => {
   const { locale } = useIntl();
+  const dispatch = useDispatch();
   const theme = useTheme();
+
   const [toggleOpenLink, setToggleOpenLink] = useState(1);
+
   const borderColor = getBorderColor({ status: tx.status, theme });
 
   const oldTxType = useMemo(
@@ -85,6 +91,10 @@ export const TxHistoriesItem = ({
         bg={bgKey % 2 !== 0}
         borderColor={borderColor}
         onClick={() => goToDetail(tx.id)}
+        onMouseEnter={() => {
+          const txData = castGraphQlType(tx);
+          dispatch(selectSwapDetails(txData));
+        }}
         // variants={page === 1 && TxRowVariants}
         // transition={page === 1 && TxRowTransition}
         // initial={page === 1 ? 'initial' : null}

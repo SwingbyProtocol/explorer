@@ -181,6 +181,22 @@ export type TransactionsHistoryQuery = (
   ) }
 );
 
+export interface ITransactionHistory {
+  depositAddress: string;
+  depositAmount: string;
+  depositTxHash?: string;
+  depositCurrency: string;
+  receivingAddress: string;
+  receivingAmount: string;
+  receivingTxHash?: string;
+  receivingCurrency: string;
+  feeCurrency: string;
+  feeTotal: string;
+  id: string;
+  at: string;
+  status: TransactionStatus;
+}
+
 
 export const TransactionsHistoryDocument = gql`
     query TransactionsHistory($first: Int, $after: String, $last: Int, $before: String, $where: TransactionsQueryWhere) {
