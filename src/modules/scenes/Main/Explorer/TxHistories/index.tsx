@@ -27,7 +27,6 @@ const ROW_HEIGHT = 90;
 interface Props {
   loader: JSX.Element;
   adjustIndex: number;
-
   noResultFound: JSX.Element;
 }
 

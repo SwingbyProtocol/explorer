@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import { Card } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
-import { Card, Icon } from '@swingby-protocol/pulsar';
+import styled from 'styled-components';
 
 import { StylingConstants } from '../../../../styles';
 

@@ -25,7 +25,7 @@ export const Search = () => {
         setSearch(evt.target.value);
         router.push({
           pathname: '/',
-          query: { bridge: '', q: evt.target.value, page: 1 },
+          query: { bridge: '', q: evt.target.value },
         });
       }}
       placeholder={formatMessage({ id: 'common.placeholder.search' })}

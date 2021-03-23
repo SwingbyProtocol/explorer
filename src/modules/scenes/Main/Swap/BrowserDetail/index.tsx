@@ -1,56 +1,25 @@
 import { useRouter } from 'next/router';
-import { useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
 import { Loader } from '../../../../../components/Loader';
-import { ILoadHistory, loadHistory, TTxRawObject } from '../../../../explorer';
-import { selectSwapDetails } from '../../../../store';
+import { useLoadTransaction } from '../../../../hooks';
 import { ActionButtons } from '../ActionButtonsSwap';
 import { DetailCard } from '../DetailCard';
-import { FeeDistribution } from '../FeeDistribution';
 import { StatusCard } from '../StatusCard';
 import { SwapFees } from '../SwapFees';
 
 import { BrowserDetailContainer, BrowserDetailDiv, IconSwap, Row } from './styled';
 
 export const BrowserDetail = () => {
-  const explorer = useSelector((state) => state.explorer);
-  const { swapDetails } = explorer;
-  const dispatch = useDispatch();
   const router = useRouter();
   const params = router.query;
   const hash = String(params.hash);
-  const tx = swapDetails && (swapDetails as TTxRawObject);
-
-  const dispatchSelectSwapDetails = useCallback(
-    async (hash: string) => {
-      if (hash !== 'undefined') {
-        const data: ILoadHistory = await loadHistory({
-          page: 0,
-          query: '',
-          hash,
-          isRejectedTx: false,
-          bridge: router.pathname.includes('swap') ? '' : 'floats', //Todo: Change to 'multiple-bridges' future
-          prevTxsWithPage: null,
-          swapHistoryTemp: null,
-        });
-        if (data) {
-          dispatch(selectSwapDetails(data.txsWithPage.data[0][0]));
-        }
-      }
-    },
-    [dispatch, router.pathname],
-  );
-
-  useEffect(() => {
-    !swapDetails && hash && dispatchSelectSwapDetails(hash);
-  }, [dispatchSelectSwapDetails, hash, swapDetails]);
+  const { tx, loading } = useLoadTransaction(hash);
 
   return (
     <BrowserDetailContainer>
       <StatusCard tx={tx} />
       <BrowserDetailDiv size="bare">
-        {tx && router.pathname !== undefined ? (
+        {!loading ? (
           <>
             <ActionButtons tx={tx} />
             <Row isTxId={tx.txIdIn !== undefined}>
@@ -71,7 +40,6 @@ export const BrowserDetail = () => {
               />
             </Row>
             <SwapFees tx={tx} />
-            {tx.rewards && tx.rewards.length > 0 && <FeeDistribution tx={tx} />}
           </>
         ) : (
           <Loader minHeight={686} />
