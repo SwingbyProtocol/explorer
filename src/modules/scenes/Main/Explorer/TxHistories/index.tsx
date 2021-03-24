@@ -1,12 +1,13 @@
 import { Dropdown, Text } from '@swingby-protocol/pulsar';
 import { useRouter } from 'next/router';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { CursorPagination } from '../../../../../components/CursorPagination';
+import { Loader } from '../../../../../components/Loader';
 import { TransactionType } from '../../../../../generated/graphql';
-import { PAGE_COUNT, PATH } from '../../../../env';
+import { PAGE_COUNT, PATH, TXS_COUNT } from '../../../../env';
 import { BRIDGE } from '../../../../explorer';
 import { useLoadHistories } from '../../../../hooks';
 import { toggleIsExistPreviousPage, toggleIsRejectedTx } from '../../../../store';
@@ -20,17 +21,12 @@ import {
   TitleRow,
   TxHistoriesContainer,
   Filter,
+  NoResultsFound,
 } from './styled';
 
 const ROW_HEIGHT = 90;
 
-interface Props {
-  loader: JSX.Element;
-  adjustIndex: number;
-  noResultFound: JSX.Element;
-}
-
-export const TxHistories = ({ loader, noResultFound, adjustIndex }: Props) => {
+export const TxHistories = () => {
   const { push, query } = useRouter();
 
   const params = query;
@@ -65,7 +61,9 @@ export const TxHistories = ({ loader, noResultFound, adjustIndex }: Props) => {
 
   const [filterTransaction, setFilterTransaction] = useState<TransactionType>(TransactionType.Swap);
 
-  const { data, loading, goToNextPage, goToPreviousPage } = useLoadHistories(filterTransaction);
+  const { data, loading, goToNextPage, goToPreviousPage, totalCount } = useLoadHistories(
+    filterTransaction,
+  );
 
   const filter = (
     <Dropdown target={<Filter />}>
@@ -108,6 +106,34 @@ export const TxHistories = ({ loader, noResultFound, adjustIndex }: Props) => {
         );
       })}
     </Dropdown>
+  );
+
+  const loader = (
+    <Loader marginTop={100} minHeight={92 * TXS_COUNT} testId="main.loading-container" />
+  );
+
+  // Memo: To make `drop animation`. Migrate it later.
+  const [adjustIndex, setAdjustIndex] = useState(0);
+  const [previousTxTotal, setPreviousTxTotal] = useState(0);
+  useEffect(() => {
+    if (previousTxTotal === 0 && totalCount > 0) {
+      setPreviousTxTotal(totalCount);
+      setAdjustIndex(2);
+    }
+    if (previousTxTotal > 0) {
+      setAdjustIndex(totalCount - previousTxTotal);
+    }
+  }, [adjustIndex, previousTxTotal, totalCount]);
+
+  const noResultFound = (
+    <NoResultsFound>
+      <Text variant="title-s">
+        <FormattedMessage id="home.no-results-found" />
+      </Text>
+      <Text variant="title-xs">
+        <FormattedMessage id="home.try-different-tx" />
+      </Text>
+    </NoResultsFound>
   );
 
   return (

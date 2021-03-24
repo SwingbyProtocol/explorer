@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import {
   TransactionStatus,
   TransactionType,
+  useGetTransactionTotalCountQuery,
   useTransactionsHistoryQuery,
 } from '../../../generated/graphql';
 import { PAGE_COUNT } from '../../env/';
@@ -64,6 +65,14 @@ export const useLoadHistories = (filterTransactionType: TransactionType) => {
     },
   });
 
+  const { data: dataCount } = useGetTransactionTotalCountQuery({
+    variables: {
+      where: filter,
+    },
+  });
+
+  const totalCount = dataCount && dataCount.transactions.totalCount;
+
   const goToNextPage = useCallback(() => {
     const after = data?.transactions.pageInfo.endCursor;
     push({ query: { after } }, null, { scroll: false, shallow: true });
@@ -74,5 +83,5 @@ export const useLoadHistories = (filterTransactionType: TransactionType) => {
     push({ query: { before } }, null, { scroll: false, shallow: true });
   }, [data?.transactions.pageInfo.startCursor, push]);
 
-  return { data, loading, goToNextPage, goToPreviousPage };
+  return { data, loading, goToNextPage, goToPreviousPage, totalCount };
 };

@@ -20,8 +20,6 @@ export type Scalars = {
   DateTime: string;
 };
 
-
-
 export type Transaction = {
   __typename?: 'Transaction';
   id: Scalars['ID'];
@@ -162,6 +160,10 @@ export type TransactionsHistoryQueryVariables = Exact<{
   where?: Maybe<TransactionsQueryWhere>;
 }>;
 
+export type TransactionsTotalCountQueryVariables = Exact<{
+  where?: Maybe<TransactionsQueryWhere>;
+}>;
+
 
 export type TransactionsHistoryQuery = (
   { __typename?: 'Query' }
@@ -179,6 +181,13 @@ export type TransactionsHistoryQuery = (
       { __typename?: 'ForwardPaginationPageInfo' }
       & Pick<ForwardPaginationPageInfo, 'startCursor' | 'endCursor' | 'hasNextPage' | 'hasPreviousPage'>
     ) }
+  ) }
+);
+export type TransactionsTotalQtyQuery = (
+  { __typename?: 'Query' }
+  & { transactions: (
+    { __typename?: 'TransactionsConnection' }
+    & Pick<TransactionsConnection, 'totalCount'>
   ) }
 );
 
@@ -236,6 +245,15 @@ export const TransactionsHistoryDocument = gql`
   }
 }
     `;
+export const TransactionsTotalCountDocument = gql`
+    query TransactionsHistory($where: TransactionsQueryWhere) {
+  transactions(
+    where: $where
+  ) {
+    totalCount
+  }
+}
+    `;
 
 /**
  * __useTransactionsHistoryQuery__
@@ -260,6 +278,11 @@ export const TransactionsHistoryDocument = gql`
 export function useTransactionsHistoryQuery(baseOptions?: Apollo.QueryHookOptions<TransactionsHistoryQuery, TransactionsHistoryQueryVariables>) {
   const options = {...defaultOptions, ...baseOptions}
   return Apollo.useQuery<TransactionsHistoryQuery, TransactionsHistoryQueryVariables>(TransactionsHistoryDocument, options);
+}
+
+export function useGetTransactionTotalCountQuery(baseOptions?: Apollo.QueryHookOptions<TransactionsTotalQtyQuery, TransactionsHistoryQueryVariables>) {
+  const options = {...defaultOptions, ...baseOptions}
+  return Apollo.useQuery<TransactionsTotalQtyQuery, TransactionsTotalCountQueryVariables>(TransactionsTotalCountDocument, options);
 }
 
 export function useTransactionsHistoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TransactionsHistoryQuery, TransactionsHistoryQueryVariables>) {
