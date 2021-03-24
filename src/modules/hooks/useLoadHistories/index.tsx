@@ -27,12 +27,13 @@ export const useLoadHistories = (filterTransactionType: TransactionType) => {
     Completed,
     SigningRefund,
     SendingRefund,
+    Waiting,
     Refunded,
   } = TransactionStatus;
 
   const status = isRejectedTx
     ? [Refunded, SigningRefund, SendingRefund]
-    : [Completed, Sending, Pending, Signing];
+    : [Completed, Sending, Pending, Signing, Waiting];
 
   const getType = (filterTransactionType: TransactionType) => {
     const type = Object.values(TransactionType).filter(

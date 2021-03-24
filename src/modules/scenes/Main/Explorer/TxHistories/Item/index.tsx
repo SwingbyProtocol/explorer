@@ -13,6 +13,8 @@ import {
   convertTxTime,
   currencyNetwork,
   getBorderColor,
+  TxRowTransition,
+  TxRowVariants,
 } from '../../../../../explorer';
 import { useLinkToWidget } from '../../../../../hooks';
 import { selectSwapDetails } from '../../../../../store';
@@ -102,10 +104,10 @@ export const TxHistoriesItem = ({
           const txData = castGraphQlType(tx);
           dispatch(selectSwapDetails(txData));
         }}
-        // variants={page === 1 && TxRowVariants}
-        // transition={page === 1 && TxRowTransition}
-        // initial={page === 1 ? 'initial' : null}
-        // animate={page === 1 ? 'in' : null}
+        variants={TxRowVariants}
+        transition={TxRowTransition}
+        initial={'initial'}
+        animate={'in'}
       >
         <Column>
           <Status>
