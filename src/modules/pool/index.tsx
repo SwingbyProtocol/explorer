@@ -7,9 +7,10 @@ export {
   makeEarningsData,
   makeTimeLabels,
   orgFloor,
-  getScanBaseEndpoint,
+  getScanApiBaseEndpoint,
   getScanApiKey,
   getSbBtcContract,
+  getScanDetailBaseEndpoint,
 } from './utils';
 
 export enum PoolMode {

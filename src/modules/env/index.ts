@@ -81,13 +81,10 @@ export const ENDPOINT_BSCSCAN =
 export const URL_ETHERSCAN =
   mode === MODE.PRODUCTION ? 'https://etherscan.io' : 'https://goerli.etherscan.io';
 
-export const CACHED_ENDPOINT = 'https://metanode-earnings.vercel.app/api';
+export const URL_BSCSCAN =
+  mode === MODE.PRODUCTION ? 'https://bscscan.com' : 'https://testnet.bscscan.com';
 
-// Memo: BTCE contract address as WBTC in testnet
-export const CONTRACT_WBTC =
-  process.env.NEXT_PUBLIC_CONTRACT_WBTC || mode === MODE.PRODUCTION
-    ? CONTRACTS.coins.WBTC.production.address
-    : CONTRACTS.coins.WBTC.test.address;
+export const CACHED_ENDPOINT = 'https://metanode-earnings.vercel.app/api';
 
 export const CONTRACT_SB_BTC =
   process.env.NEXT_PUBLIC_SB_BTC || mode === MODE.PRODUCTION

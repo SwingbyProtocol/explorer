@@ -2,20 +2,22 @@ import { Text } from '@swingby-protocol/pulsar';
 import { CONTRACTS } from '@swingby-protocol/sdk';
 import { FormattedMessage } from 'react-intl';
 
-import { CONTRACT_SB_BTC, mode, PATH, URL_ETHERSCAN } from '../../../../env';
+import { mode, PATH } from '../../../../env';
 import { useToggleBridge } from '../../../../hooks';
+import { getSbBtcContract, getScanDetailBaseEndpoint } from '../../../../pool';
 import { Atag, TextRoom } from '../../../Common';
 
-import { GeneralInfoContainer, Left, Right, Row, RowTitle, AddressP } from './styled';
+import { AddressP, GeneralInfoContainer, Left, Right, Row, RowTitle } from './styled';
 
 export const GeneralInfo = () => {
   const { bridge } = useToggleBridge(PATH.METANODES);
 
+  const baseUrl = getScanDetailBaseEndpoint(bridge);
   const bridgeContract = bridge && CONTRACTS.bridges[bridge][mode].address;
-  const contractUrl = `${URL_ETHERSCAN}/address/${bridgeContract}`;
+  const contractUrl = `${baseUrl}/address/${bridgeContract}`;
 
-  const lpContract = CONTRACT_SB_BTC;
-  const lpContractUrl = `${URL_ETHERSCAN}/address/${lpContract}`;
+  const lpContract = getSbBtcContract(bridge);
+  const lpContractUrl = `${baseUrl}/address/${lpContract}`;
   return (
     <GeneralInfoContainer>
       <RowTitle>
