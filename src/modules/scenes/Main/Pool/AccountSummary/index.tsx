@@ -60,8 +60,8 @@ export const AccountSummary = () => {
         const urlEarning = ENDPOINT_EARNINGS;
 
         const results = await Promise.all([
-          fetchSbBTCBalance(userAddress),
-          getSbbtcPrice({ context }),
+          fetchSbBTCBalance(userAddress, bridge),
+          getSbbtcPrice({ context, bridge }),
           fetcher<{ total: string }>(urlEarning),
         ]);
 

@@ -9,8 +9,9 @@ import { PulseLoader } from 'react-spinners';
 import { useTheme } from 'styled-components';
 
 import { useAffiliateCode } from '../../../../affiliate-code';
+import { getBridgeSbBtc, TBtcCurrency } from '../../../../coins';
 import { usePoolWithdrawCoin, useToggleBridge } from '../../../../hooks';
-import { IWithdrawAmountValidation, TWithdrawCurrency } from '../../../../pool';
+import { IWithdrawAmountValidation } from '../../../../pool';
 import { useSdkContext } from '../../../../sdk-context';
 import { getMinimumWithdrawAmount } from '../../../../store';
 import { useThemeSettings } from '../../../../store/settings';
@@ -60,7 +61,7 @@ export const Withdraw = (props: Props) => {
   const dispatch = useDispatch();
   const affiliateCode = useAffiliateCode();
 
-  const { poolCurrencies } = useToggleBridge(PATH.POOL);
+  const { poolCurrencies, bridge } = useToggleBridge(PATH.POOL);
   const context = useSdkContext();
 
   const {
@@ -74,22 +75,38 @@ export const Withdraw = (props: Props) => {
     isValidAmount,
   } = usePoolWithdrawCoin('', 'withdrawal');
 
-  const toCurrency = currency as TWithdrawCurrency;
+  const toCurrency = currency as TBtcCurrency;
 
   useEffect(() => {
     if (transactionFees && currency) {
       (async () => {
-        const minimumWithdrawData = await getMinimumWithdrawal({
-          context,
-          currencyReceiving: toCurrency as TWithdrawCurrency,
-          amountDesired: Number(amount) > 0 ? amount : '0',
-        });
+        // Memo: use `if` to avoid type error in 'currencyReceiving'
+        if (bridge === 'btc_erc' && toCurrency !== 'BTCB.BEP20') {
+          const minimumWithdrawData = await getMinimumWithdrawal({
+            context,
+            currencyReceiving: toCurrency as TBtcCurrency,
+            amountDesired: Number(amount) > 0 ? amount : '0',
+            bridge,
+          });
 
-        const miniWithdrawAmount = Number(minimumWithdrawData.minimumWithdrawal);
-        dispatch(getMinimumWithdrawAmount(miniWithdrawAmount));
+          const miniWithdrawAmount = Number(minimumWithdrawData.minimumWithdrawal);
+          dispatch(getMinimumWithdrawAmount(miniWithdrawAmount));
+        }
+
+        if (bridge === 'btc_bep20' && toCurrency !== 'WBTC') {
+          const minimumWithdrawData = await getMinimumWithdrawal({
+            context,
+            currencyReceiving: toCurrency as TBtcCurrency,
+            amountDesired: Number(amount) > 0 ? amount : '0',
+            bridge,
+          });
+
+          const miniWithdrawAmount = Number(minimumWithdrawData.minimumWithdrawal);
+          dispatch(getMinimumWithdrawAmount(miniWithdrawAmount));
+        }
       })();
     }
-  }, [dispatch, toCurrency, transactionFees, context, amount, currency]);
+  }, [dispatch, toCurrency, transactionFees, context, amount, currency, bridge]);
 
   const maxAmount = balanceSbBTC;
 
@@ -111,7 +128,7 @@ export const Withdraw = (props: Props) => {
         if (cancelled) return;
         const { feeTotal } = await estimateAmountReceiving({
           context,
-          currencyDeposit: 'sbBTC',
+          currencyDeposit: getBridgeSbBtc(bridge),
           currencyReceiving: toCurrency,
           amountDesired: amount,
         });
@@ -129,11 +146,11 @@ export const Withdraw = (props: Props) => {
       cancelled = true;
       setTransactionFee('');
     };
-  }, [toCurrency, amount, context]);
+  }, [toCurrency, amount, context, bridge]);
 
   const currencyItems = (
     <>
-      {poolCurrencies.map((currency: TWithdrawCurrency) => (
+      {poolCurrencies.map((currency) => (
         <Dropdown.Item onClick={() => setCurrency(currency)} key={currency}>
           {<CoinDropDown symbol={currency} />} {currency}
         </Dropdown.Item>
@@ -146,7 +163,7 @@ export const Withdraw = (props: Props) => {
     mode,
     size: 'big',
     theme: themeMode,
-    defaultCurrencyReceiving: currency as any,
+    defaultCurrencyReceiving: currency as TBtcCurrency,
     defaultAddressReceiving: receivingAddress,
     defaultAmountDesired: amount,
     locale,
@@ -173,9 +190,8 @@ export const Withdraw = (props: Props) => {
                 <DropdownCurrency
                   target={
                     <DefaultTarget size="city">
-                      {' '}
-                      <TargetCoin symbol={currency} />{' '}
-                      <TextChosenFilter>{currency} </TextChosenFilter>
+                      <TargetCoin symbol={currency} />
+                      <TextChosenFilter>{currency}</TextChosenFilter>
                     </DefaultTarget>
                   }
                   data-testid="dropdown"

@@ -13,6 +13,8 @@ import { ConnectWallet } from '../ConnectWallet';
 import { EarningsChart } from '../EarningsChart';
 import { TransactionsPool } from '../TransactionsPool';
 import { Withdraw } from '../Withdraw';
+import { mode as networkMode, PATH } from '../../../../env';
+import { useToggleBridge } from '../../../../hooks';
 
 import {
   BrowserPoolContainer,
@@ -27,6 +29,7 @@ import {
 export const BrowserPool = () => {
   const pool = useSelector((state) => state.pool);
   const { userAddress, mode } = pool;
+  const { bridge } = useToggleBridge(PATH.POOL);
 
   const addressValidationResult = (
     <ValidationResult>
@@ -110,10 +113,15 @@ export const BrowserPool = () => {
           <Right>
             {!userAddress && <ConnectWallet />}
             <ActionButtonsPool />
-            {/* {bridge && bridge !== 'btc_erc' ? <h1>COMING SOON</h1> : switchRightComponent(mode)} */}
-
-            {/* Memo: For dev. Will delete once ^ "COMING SOON" is removed */}
-            {switchRightComponent(mode)}
+            {bridge && bridge !== 'btc_erc' ? (
+              networkMode === 'production' ? (
+                <h1>COMING SOON</h1>
+              ) : (
+                switchRightComponent(mode)
+              )
+            ) : (
+              switchRightComponent(mode)
+            )}
           </Right>
         </BrowserPoolDiv>
       </BrowserPoolContainer>

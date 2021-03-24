@@ -30,7 +30,6 @@ export const RewardButton = () => {
 
     const wallet = onboard.getState().wallet;
     const address = onboard.getState().address;
-    console.log('CONTRACTS.bridges[bridge][mode].address', CONTRACTS.bridges[bridge][mode].address);
 
     try {
       const web3 = new Web3(wallet.provider);

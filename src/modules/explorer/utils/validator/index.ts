@@ -27,7 +27,7 @@ export const isAddress = (address: string): boolean => {
 
 export const checkIsValidAddress = (
   address: string,
-  toCurrency: string,
+  toCurrency: CoinSymbol,
   fn: (result: boolean) => void, // useEffect's set function
 ): void => {
   if (toCurrency === CoinSymbol.BTC) {

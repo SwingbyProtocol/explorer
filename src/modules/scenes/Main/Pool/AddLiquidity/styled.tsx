@@ -144,7 +144,7 @@ export const TextFee = styled(TextDescription)`
 export const ColumnDropdown = styled.div`
   display: grid;
   grid-template-rows: ${({ theme }) => rem(theme.pulsar.size.town)} auto;
-  width: ${rem(146)};
+  width: ${rem(170)};
 `;
 
 export const Coin = styled(CoinIcon)`
