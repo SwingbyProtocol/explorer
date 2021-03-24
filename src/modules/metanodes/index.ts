@@ -95,7 +95,7 @@ export interface INodeStatusTable {
 }
 
 const btcErc = SKYBRIDGE_BRIDGES.find((bridge) => bridge === 'btc_erc');
-const btcBep = SKYBRIDGE_BRIDGES.find((bridge) => bridge === 'btc_bep');
+const btcBep = SKYBRIDGE_BRIDGES.find((bridge) => bridge === 'btc_bep20');
 
 export const BRIDGES = [
   {

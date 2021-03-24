@@ -1,3 +1,5 @@
+import { CoinSymbol } from '../coins';
+
 export {
   loadHistory,
   currencyNetwork,
@@ -33,15 +35,14 @@ export const BRIDGE = {
 };
 
 // Memo: interface
-export type TCurrency = 'BTC' | 'WBTC' | 'sbBTC' | 'BTCB';
 export interface FloatRawObject {
   addressDeposit: string;
   addressIn: string;
   addressOut: string;
   amountIn: string;
   amountOut: string;
-  currencyIn: TCurrency;
-  currencyOut: TCurrency;
+  currencyIn: CoinSymbol;
+  currencyOut: CoinSymbol;
   hash: string;
   status: TStatus;
   timestamp: number;
@@ -49,7 +50,7 @@ export interface FloatRawObject {
   fee?: string;
   txIdOut?: string;
   rewards?: Reward[];
-  feeCurrency?: TCurrency;
+  feeCurrency?: CoinSymbol;
 }
 
 export interface SwapRawObject {
@@ -57,11 +58,11 @@ export interface SwapRawObject {
   addressOut: string;
   amountIn: string;
   amountOut: string;
-  currencyIn: TCurrency;
-  currencyOut: TCurrency;
+  currencyIn: CoinSymbol;
+  currencyOut: CoinSymbol;
   fee?: string;
   hash?: string;
-  feeCurrency: TCurrency;
+  feeCurrency: CoinSymbol;
   status: TStatus;
   timestamp?: number;
   txIdIn?: string;

@@ -7,4 +7,9 @@ export { makeEarningsData, makeTimeLabels } from './earnings';
 
 export { fetchSbBTCBalance } from './seedAPI';
 
-export { getScanBaseEndpoint, getScanApiKey, getSbBtcContract } from './sbBtcTransactions';
+export {
+  getScanApiBaseEndpoint,
+  getScanApiKey,
+  getSbBtcContract,
+  getScanDetailBaseEndpoint,
+} from './sbBtcTransactions';

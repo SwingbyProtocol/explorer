@@ -1,9 +1,8 @@
 import { BigNumber } from 'bignumber.js';
 
-import { CoinSymbol } from '../../../coins';
-import { IFee } from '../../index';
-import { fetch } from '../../../fetch';
 import { ENDPOINT_ETHEREUM_NODE } from '../../../env';
+import { fetch } from '../../../fetch';
+import { IFee } from '../../index';
 
 export const getTransactionFees = async (): Promise<IFee[]> => {
   const url = ENDPOINT_ETHEREUM_NODE + '/api/v1/swaps/fees';
@@ -30,13 +29,6 @@ export const calculateFixedFee = (
 ): { fixedFee: number; feePercent: string } => {
   let fixedFee: number;
   let feePercent: string;
-  if (currency === CoinSymbol.BTCB_1DE) {
-    currency = CoinSymbol.BTC_B;
-  } else if (currency === CoinSymbol.BTC_B_888) {
-    currency = CoinSymbol.BTC_B;
-  } else if (currency === CoinSymbol.BTC_B) {
-    currency = CoinSymbol.BTC_B;
-  }
 
   try {
     feeInfos.forEach((feeInfo) => {

@@ -7,7 +7,8 @@ import { FormattedMessage } from 'react-intl';
 import Web3 from 'web3';
 import { TransactionConfig } from 'web3-eth';
 
-import { mode } from '../../modules/env';
+import { mode, PATH } from '../../modules/env';
+import { useToggleBridge } from '../../modules/hooks';
 import { initOnboard } from '../../modules/onboard';
 import { ButtonScale } from '../../modules/scenes/Common';
 import { StylingConstants } from '../../modules/styles';
@@ -19,6 +20,7 @@ export const RewardButton = () => {
   const lg = useMatchMedia({ query: `(min-width: ${rem(media.lg)})` });
   const sm = useMatchMedia({ query: `(min-width: ${rem(media.sm)})` });
   const [onboard, setOnboard] = useState<OnboardApi>(null);
+  const { bridge } = useToggleBridge(PATH.METANODES);
 
   const distributeRewards = async () => {
     await onboard.walletSelect();
@@ -32,8 +34,8 @@ export const RewardButton = () => {
     try {
       const web3 = new Web3(wallet.provider);
       const contract = new web3.eth.Contract(
-        CONTRACTS.skybridge[mode].abi,
-        CONTRACTS.skybridge[mode].address,
+        CONTRACTS.bridges[bridge][mode].abi,
+        CONTRACTS.bridges[bridge][mode].address,
         wallet.provider,
       );
 
@@ -43,7 +45,7 @@ export const RewardButton = () => {
         nonce: await web3.eth.getTransactionCount(address),
         gasPrice: web3.utils.toHex(gasPrice),
         from: address,
-        to: CONTRACTS.skybridge[mode].address,
+        to: CONTRACTS.bridges[bridge][mode].address,
         value: '0x0',
         data: contract.methods.distributeNodeRewards().encodeABI(),
       };

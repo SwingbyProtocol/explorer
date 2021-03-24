@@ -17,7 +17,7 @@ export const usePoolWithdrawCoin = (userAddress, role: 'pool' | 'withdrawal') =>
   const [isValidAmount, setIsValidAmount] = useState(null);
 
   useEffect(() => {
-    const coin = role === 'pool' ? CoinSymbol.ETH_SB_BTC : currency;
+    const coin = role === 'pool' ? CoinSymbol.ERC20_SB_BTC : currency;
     checkIsValidAddress(receivingAddress, coin, setIsValidAddress);
   }, [receivingAddress, currency, role]);
 

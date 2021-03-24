@@ -7,9 +7,10 @@ export {
   makeEarningsData,
   makeTimeLabels,
   orgFloor,
-  getScanBaseEndpoint,
+  getScanApiBaseEndpoint,
   getScanApiKey,
   getSbBtcContract,
+  getScanDetailBaseEndpoint,
 } from './utils';
 
 export enum PoolMode {
@@ -70,6 +71,3 @@ export interface IWithdrawAmountValidation {
   minimumWithdrawAmount?: number;
   toCurrency?: string;
 }
-
-// Todo: Add BTCB
-export type TWithdrawCurrency = 'BTC' | 'WBTC';

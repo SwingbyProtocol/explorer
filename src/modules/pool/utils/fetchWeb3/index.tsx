@@ -39,13 +39,13 @@ export const fetchRecentTransaction = async (
   const nextPageFetchedHistories = results[1].ok && results[1].response;
 
   if (page === 1) {
-    const res = await fetch<number>(`/api/etherscan/get-total?address=${address}`);
+    const res = await fetch<number>(`/api/etherscan/get-total?address=${address}&bridge=${bridge}`);
     const totalTxs = res.ok && res.response;
     txsWithPage = {
       data: {
         ...txsWithPage.data,
-        [page]: organizeTxs(fetchedHistories, address),
-        [page + 1]: organizeTxs(nextPageFetchedHistories, address),
+        [page]: fetchedHistories && organizeTxs(fetchedHistories, address),
+        [page + 1]: fetchedHistories && organizeTxs(nextPageFetchedHistories, address),
       },
       total: totalTxs,
     };
@@ -54,8 +54,8 @@ export const fetchRecentTransaction = async (
     txsWithPage = {
       data: {
         ...txsWithPage.data,
-        [page]: organizeTxs(fetchedHistories, address),
-        [page + 1]: organizeTxs(nextPageFetchedHistories, address),
+        [page]: fetchedHistories && organizeTxs(fetchedHistories, address),
+        [page + 1]: fetchedHistories && organizeTxs(nextPageFetchedHistories, address),
       },
       total: txsWithPage.total,
     };

@@ -14,7 +14,7 @@ const bnbExplorerBaseUrl =
 const etherExplorerBaseUrl =
   mode === MODE.PRODUCTION ? 'https://etherscan.io' : 'https://goerli.etherscan.io';
 
-export const transactionDetailByTxId = (currency: string, hash: string): string => {
+export const transactionDetailByTxId = (currency: CoinSymbol, hash: string): string => {
   const btcBaseUrl = btcExplorerBaseUrl + '/tx';
 
   const bnbBaseUrl = bnbExplorerBaseUrl + '/tx';
@@ -33,7 +33,7 @@ export const transactionDetailByTxId = (currency: string, hash: string): string 
   return 'invalid format';
 };
 
-export const transactionDetailByAddress = (currency: string, address: string): string => {
+export const transactionDetailByAddress = (currency: CoinSymbol, address: string): string => {
   const btcBaseUrl = btcExplorerBaseUrl + '/address';
 
   const bnbBaseUrl = bnbExplorerBaseUrl + '/address';

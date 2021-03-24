@@ -5,10 +5,15 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Loader } from '../../../../../components/Loader';
 import { Pagination } from '../../../../../components/Pagination';
-import { PATH, TXS_COUNT, URL_ETHERSCAN } from '../../../../env';
+import { PATH, TXS_COUNT } from '../../../../env';
 import { convertTxTime, toBTC } from '../../../../explorer';
 import { useToggleBridge } from '../../../../hooks';
-import { fetchRecentTransaction, IRecentTx, PoolMode } from '../../../../pool';
+import {
+  fetchRecentTransaction,
+  getScanDetailBaseEndpoint,
+  IRecentTx,
+  PoolMode,
+} from '../../../../pool';
 import { getRecentTxs, togglePoolMode } from '../../../../store';
 import { TextBlock } from '../../../Common';
 
@@ -29,6 +34,8 @@ export const TransactionsPool = () => {
   const pool = useSelector((state) => state.pool);
   const { recentTxs, userAddress } = pool;
   const { bridge } = useToggleBridge(PATH.POOL);
+
+  const baseUrl = getScanDetailBaseEndpoint(bridge);
 
   const txsData = userAddress ? recentTxs : initialTxsData;
   const [page, setPage] = useState(1);
@@ -76,7 +83,7 @@ export const TransactionsPool = () => {
                 <Text variant="label">{time}</Text>
 
                 <AddressA
-                  href={`${URL_ETHERSCAN}/tx/${data.hash}`}
+                  href={`${baseUrl}/tx/${data.hash}`}
                   rel="noopener noreferrer"
                   target="_blank"
                 >
