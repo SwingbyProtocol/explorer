@@ -44,7 +44,7 @@ export const currencyNetwork = (currency: string): string => {
     case CoinSymbol.WBTC:
       return 'WBTC on Ethereum';
 
-    case CoinSymbol.ETH_SB_BTC:
+    case CoinSymbol.ERC20_SB_BTC:
       return 'sbBTC on Ethereum';
 
     default:

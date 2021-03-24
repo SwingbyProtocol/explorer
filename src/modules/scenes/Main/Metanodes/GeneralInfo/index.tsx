@@ -1,13 +1,17 @@
 import { Text } from '@swingby-protocol/pulsar';
+import { CONTRACTS } from '@swingby-protocol/sdk';
 import { FormattedMessage } from 'react-intl';
 
-import { CONTRACT_SB_BTC, CONTRACT_SWAP, URL_ETHERSCAN } from '../../../../env';
+import { CONTRACT_SB_BTC, mode, PATH, URL_ETHERSCAN } from '../../../../env';
+import { useToggleBridge } from '../../../../hooks';
 import { Atag, TextRoom } from '../../../Common';
 
 import { GeneralInfoContainer, Left, Right, Row, RowTitle, AddressP } from './styled';
 
 export const GeneralInfo = () => {
-  const bridgeContract = CONTRACT_SWAP;
+  const { bridge } = useToggleBridge(PATH.METANODES);
+
+  const bridgeContract = bridge && CONTRACTS.bridges[bridge][mode].address;
   const contractUrl = `${URL_ETHERSCAN}/address/${bridgeContract}`;
 
   const lpContract = CONTRACT_SB_BTC;

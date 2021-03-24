@@ -100,7 +100,7 @@ export const AddLiquidity = (props: Props) => {
         const { feeTotal } = await estimateAmountReceiving({
           context,
           currencyDeposit: currency as TCurrency,
-          currencyReceiving: CoinSymbol.ETH_SB_BTC as TCurrency,
+          currencyReceiving: CoinSymbol.ERC20_SB_BTC as TCurrency,
           amountDesired: amount,
         });
         if (cancelled) return;
@@ -125,7 +125,7 @@ export const AddLiquidity = (props: Props) => {
     size: 'big',
     theme: themeMode,
     defaultCurrencyDeposit: currency as any,
-    defaultCurrencyReceiving: CoinSymbol.ETH_SB_BTC as any,
+    defaultCurrencyReceiving: CoinSymbol.ERC20_SB_BTC as any,
     defaultAddressReceiving: receivingAddress,
     defaultAmountDesired: amount,
     locale,
@@ -179,9 +179,9 @@ export const AddLiquidity = (props: Props) => {
                 {
                   id: 'pool.receive-address',
                 },
-                { value: CoinSymbol.ETH_SB_BTC },
+                { value: CoinSymbol.ERC20_SB_BTC },
               )}
-              left={<Coin symbol={CoinSymbol.ETH_SB_BTC} />}
+              left={<Coin symbol={CoinSymbol.ERC20_SB_BTC} />}
               onChange={(e) => {
                 if (!EthereumWalletAddressCoins.includes(currency)) {
                   setReceivingAddress(e.target.value);

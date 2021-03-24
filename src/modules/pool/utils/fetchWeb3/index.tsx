@@ -4,6 +4,7 @@ import { IEtherscanTransaction } from '../..';
 import { fetch } from '../../../fetch';
 
 const organizeTxs = (txs: IEtherscanTransaction[], address: string) => {
+  console.log('txs', txs);
   return txs.map((tx: IEtherscanTransaction) => {
     const { timeStamp, hash, value, from } = tx;
     const walletAddress = address.toLowerCase();
@@ -26,6 +27,11 @@ export const fetchRecentTransaction = async (
     txsWithPage = previousTxsWithPage;
   }
 
+  console.log(
+    'url',
+    `/api/etherscan/get-sbbtc-transaction?address=${address}&bridge=${bridge}&page=${page}`,
+  );
+
   const results = await Promise.all([
     fetch<IEtherscanTransaction[]>(
       `/api/etherscan/get-sbbtc-transaction?address=${address}&bridge=${bridge}&page=${page}`,
@@ -44,8 +50,8 @@ export const fetchRecentTransaction = async (
     txsWithPage = {
       data: {
         ...txsWithPage.data,
-        [page]: organizeTxs(fetchedHistories, address),
-        [page + 1]: organizeTxs(nextPageFetchedHistories, address),
+        [page]: fetchedHistories && organizeTxs(fetchedHistories, address),
+        [page + 1]: fetchedHistories && organizeTxs(nextPageFetchedHistories, address),
       },
       total: totalTxs,
     };
@@ -54,8 +60,8 @@ export const fetchRecentTransaction = async (
     txsWithPage = {
       data: {
         ...txsWithPage.data,
-        [page]: organizeTxs(fetchedHistories, address),
-        [page + 1]: organizeTxs(nextPageFetchedHistories, address),
+        [page]: fetchedHistories && organizeTxs(fetchedHistories, address),
+        [page + 1]: fetchedHistories && organizeTxs(nextPageFetchedHistories, address),
       },
       total: txsWithPage.total,
     };

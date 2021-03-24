@@ -6,6 +6,7 @@ import {
   etherscanApiKey,
   bscscanApiKey,
   CONTRACT_SB_BTC,
+  CONTRACT_BEP20_SB_BTC,
 } from '../../../env';
 
 export const getScanBaseEndpoint = (bridge: SkybridgeBridge) => {
@@ -13,7 +14,7 @@ export const getScanBaseEndpoint = (bridge: SkybridgeBridge) => {
     case 'btc_erc':
       return ENDPOINT_ETHERSCAN;
 
-    case 'btc_bep':
+    case 'btc_bep20':
       return ENDPOINT_BSCSCAN;
 
     default:
@@ -26,7 +27,7 @@ export const getScanApiKey = (bridge: SkybridgeBridge) => {
     case 'btc_erc':
       return etherscanApiKey;
 
-    case 'btc_bep':
+    case 'btc_bep20':
       return bscscanApiKey;
 
     default:
@@ -39,9 +40,8 @@ export const getSbBtcContract = (bridge: SkybridgeBridge) => {
     case 'btc_erc':
       return CONTRACT_SB_BTC;
 
-    // Todo: Add sbBTC address for BSC (from SDK)
-    case 'btc_bep':
-      return CONTRACT_SB_BTC;
+    case 'btc_bep20':
+      return CONTRACT_BEP20_SB_BTC;
 
     default:
       return CONTRACT_SB_BTC;

@@ -86,17 +86,19 @@ export const CACHED_ENDPOINT = 'https://metanode-earnings.vercel.app/api';
 // Memo: BTCE contract address as WBTC in testnet
 export const CONTRACT_WBTC =
   process.env.NEXT_PUBLIC_CONTRACT_WBTC || mode === MODE.PRODUCTION
-    ? CONTRACTS.WBTC.production.address
-    : CONTRACTS.WBTC.test.address;
+    ? CONTRACTS.coins.WBTC.production.address
+    : CONTRACTS.coins.WBTC.test.address;
 
 export const CONTRACT_SB_BTC =
   process.env.NEXT_PUBLIC_SB_BTC || mode === MODE.PRODUCTION
-    ? CONTRACTS.sbBTC.production.address
-    : CONTRACTS.sbBTC.test.address;
+    ? CONTRACTS.coins.sbBTC.production.address
+    : CONTRACTS.coins.sbBTC.test.address;
 
-export const CONTRACT_SWAP =
-  process.env.NEXT_PUBLIC_CONTRACT_SWAP || CONTRACTS.skybridge[mode].address;
-export const CONTRACT_SWAP_ABI = CONTRACTS.skybridge[mode].abi;
+// Todo: implement production address once sbBTC_BEP20 for mainnet has been deployed
+export const CONTRACT_BEP20_SB_BTC =
+  process.env.NEXT_PUBLIC_SB_BTC || mode === MODE.PRODUCTION
+    ? CONTRACTS.coins['sbBTC.BEP20'].test.address
+    : CONTRACTS.coins['sbBTC.BEP20'].test.address;
 
 // Memo: BTC is not on Ethereum, it doesn’t have an address, so the contract uses this one to represent BTC
-export const ZERO_ADDRESS = CONTRACTS.BTC.production.address;
+export const ZERO_ADDRESS = CONTRACTS.coins.BTC.production.address;

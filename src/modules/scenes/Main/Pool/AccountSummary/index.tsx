@@ -30,7 +30,7 @@ export const AccountSummary = () => {
   const explorer = useSelector((state) => state.explorer);
   const { usd } = explorer;
   const pool = useSelector((state) => state.pool);
-  const { balanceSbBTC, web3, userAddress } = pool;
+  const { balanceSbBTC, userAddress } = pool;
 
   const [claimableAmount, setClaimableAmount] = useState(0);
   const [totalEarnings, setTotalEarnings] = useState(0);
@@ -55,7 +55,7 @@ export const AccountSummary = () => {
 
   // Todo: Add toggle bridge logic from SDK
   useEffect(() => {
-    if (web3 && userAddress) {
+    if (userAddress) {
       (async () => {
         const urlEarning = ENDPOINT_EARNINGS;
 
@@ -79,7 +79,7 @@ export const AccountSummary = () => {
         setTotalEarnings(Number(totalEarnings));
       })();
     }
-  }, [dispatch, web3, userAddress, context, bridge]);
+  }, [dispatch, userAddress, context, bridge]);
 
   return (
     <AccountSummaryContainer>

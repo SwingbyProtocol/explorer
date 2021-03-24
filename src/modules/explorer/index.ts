@@ -33,7 +33,7 @@ export const BRIDGE = {
 };
 
 // Memo: interface
-export type TCurrency = 'BTC' | 'WBTC' | 'sbBTC' | 'BTCB';
+export type TCurrency = 'BTC' | 'WBTC' | 'sbBTC' | 'BTCB.BEP20' | 'sbBTC.BEP20';
 export interface FloatRawObject {
   addressDeposit: string;
   addressIn: string;
