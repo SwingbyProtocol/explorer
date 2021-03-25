@@ -3,7 +3,8 @@ import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
 
-import { LOCAL_STORAGE } from '../../../../env';
+import { LOCAL_STORAGE, mode, PATH } from '../../../../env';
+import { useToggleBridge } from '../../../../hooks';
 import { initOnboard } from '../../../../onboard';
 import { setOnboard, setUserAddress } from '../../../../store';
 
@@ -15,6 +16,7 @@ export const ConnectWallet = () => {
   const dispatch = useDispatch();
   const pool = useSelector((state) => state.pool);
   const { onboard } = pool;
+  const { bridge } = useToggleBridge(PATH.POOL);
 
   const selectedWallet =
     typeof window !== 'undefined' && window.localStorage.getItem(LOCAL_STORAGE.SelectedWallet);
@@ -36,21 +38,25 @@ export const ConnectWallet = () => {
       window.localStorage.setItem(LOCAL_STORAGE.UserWalletAddress, formattedAddress);
     };
 
-    const onboardData = initOnboard({
-      subscriptions: {
-        address: updateUserAddress,
-        wallet: (wallet) => {
-          if (wallet.provider) {
-            window.localStorage.setItem(LOCAL_STORAGE.SelectedWallet, wallet.name);
-          } else {
-            window.localStorage.removeItem(LOCAL_STORAGE.SelectedWallet);
-            window.localStorage.removeItem(LOCAL_STORAGE.UserWalletAddress);
-          }
+    const onboardData =
+      bridge &&
+      initOnboard({
+        subscriptions: {
+          address: updateUserAddress,
+          wallet: (wallet) => {
+            if (wallet.provider) {
+              window.localStorage.setItem(LOCAL_STORAGE.SelectedWallet, wallet.name);
+            } else {
+              window.localStorage.removeItem(LOCAL_STORAGE.SelectedWallet);
+              window.localStorage.removeItem(LOCAL_STORAGE.UserWalletAddress);
+            }
+          },
         },
-      },
-    });
+        mode,
+        bridge,
+      });
     dispatch(setOnboard(onboardData));
-  }, [dispatch, theme.pulsar.id]);
+  }, [dispatch, theme.pulsar.id, bridge]);
 
   useEffect(() => {
     (async () => {
