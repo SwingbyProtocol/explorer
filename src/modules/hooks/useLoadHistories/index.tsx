@@ -50,20 +50,22 @@ export const useLoadHistories = (filterTransactionType: TransactionType) => {
     }
   };
 
-  const getBridge = (queryBridge: Bridge | ''): Bridge[] => {
+  const getBridge = (queryBridge: Bridge): Bridge[] => {
     switch (queryBridge) {
-      case '':
-        return [Bridge.BtcBep20, Bridge.BtcErc];
+      case Bridge.BtcBep20:
+        return [Bridge.BtcBep20];
+      case Bridge.BtcErc:
+        return [Bridge.BtcErc];
 
       default:
-        return [queryBridge];
+        return [Bridge.BtcBep20, Bridge.BtcErc];
     }
   };
 
   const filter = {
     type: getType(filterTransactionType),
     status,
-    bridge: getBridge(query.bridge as Bridge | ''),
+    bridge: getBridge(query.bridge as Bridge),
   };
 
   const { data, loading } = useTransactionsHistoryQuery({
