@@ -40,19 +40,21 @@ export const useLinkToWidget = (data: IData) => {
   }, [onboard]);
 
   useEffect(() => {
-    const handleSetWalletAddress = (address: string): void => {
-      if (address !== undefined) {
-        setWalletAddress(address);
-      }
-    };
-    const onboardData = initOnboard({
-      subscriptions: {
-        address: handleSetWalletAddress,
-      },
-      mode,
-      bridge,
-    });
-    dispatch(setOnboard(onboardData));
+    if (bridge) {
+      const handleSetWalletAddress = (address: string): void => {
+        if (address !== undefined) {
+          setWalletAddress(address);
+        }
+      };
+      const onboardData = initOnboard({
+        subscriptions: {
+          address: handleSetWalletAddress,
+        },
+        mode,
+        bridge,
+      });
+      dispatch(setOnboard(onboardData));
+    }
   }, [dispatch, bridge]);
 
   useEffect(() => {
