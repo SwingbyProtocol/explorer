@@ -6,6 +6,7 @@ import {
   TransactionStatus,
   TransactionType,
   useTransactionsHistoryQuery,
+  Bridge,
 } from '../../../generated/graphql';
 import { PAGE_COUNT } from '../../env/';
 
@@ -49,9 +50,20 @@ export const useLoadHistories = (filterTransactionType: TransactionType) => {
     }
   };
 
+  const getBridge = (queryBridge: Bridge | ''): Bridge[] => {
+    switch (queryBridge) {
+      case '':
+        return [Bridge.BtcBep20, Bridge.BtcErc];
+
+      default:
+        return [queryBridge];
+    }
+  };
+
   const filter = {
     type: getType(filterTransactionType),
     status,
+    bridge: getBridge(query.bridge as Bridge | ''),
   };
 
   const { data, loading } = useTransactionsHistoryQuery({

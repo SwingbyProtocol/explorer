@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon';
 
-import { TransactionCurrency, TransactionStatus } from '../../generated/graphql';
+import { TransactionCurrency, TransactionStatus, Bridge } from '../../generated/graphql';
 
 import { castCurrencyName, CoinSymbol } from './../coins';
 
@@ -24,18 +24,26 @@ export {
   isBinanceAddress,
   isBitcoinAddress,
   isEtherAddress,
-  loadHistory,
   removeDuplicatedTxs,
   toBTC,
   toSatoshi,
   TxStatus,
 } from './utils';
 
-export const BRIDGE = {
-  ethereum: 'Ethereum',
-  multipleBridges: 'Multiple-Bridges',
-  binance: 'Binance',
-};
+export const selectableBridge = [
+  {
+    menu: 'Multiple-Bridges',
+    bridge: '',
+  },
+  {
+    menu: 'Ethereum',
+    bridge: Bridge.BtcErc,
+  },
+  {
+    menu: 'BSC',
+    bridge: Bridge.BtcBep20,
+  },
+];
 
 // Memo: interface
 export interface FloatRawObject {

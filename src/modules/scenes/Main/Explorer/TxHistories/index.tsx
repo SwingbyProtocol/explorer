@@ -8,20 +8,20 @@ import { CursorPagination } from '../../../../../components/CursorPagination';
 import { Loader } from '../../../../../components/Loader';
 import { TransactionType } from '../../../../../generated/graphql';
 import { PAGE_COUNT, PATH, TXS_COUNT } from '../../../../env';
-import { BRIDGE } from '../../../../explorer';
+import { selectableBridge } from '../../../../explorer';
 import { useLoadHistories } from '../../../../hooks';
 import { toggleIsExistPreviousPage, toggleIsRejectedTx } from '../../../../store';
 
 import { TxHistoriesItem } from './Item';
 import {
   BrowserFooter,
+  Filter,
   Left,
+  NoResultsFound,
   Right,
   TextFee,
   TitleRow,
   TxHistoriesContainer,
-  Filter,
-  NoResultsFound,
 } from './styled';
 
 const ROW_HEIGHT = 90;
@@ -92,16 +92,15 @@ export const TxHistories = () => {
       >
         Float transactions
       </Dropdown.Item>
-      {Object.values(BRIDGE).map((chain: string) => {
-        const bridge = chain === BRIDGE.ethereum ? '' : chain.toLowerCase();
+      {selectableBridge.map((chain) => {
+        // const bridge = chain === selectableBridge.multipleBridges ? '' : chain.toLowerCase();
         return (
           <Dropdown.Item
-            selected={chainBridge === bridge}
-            onClick={() => chain === BRIDGE.ethereum && routerPush(bridge, q)}
-            key={chain}
-            disabled={chain !== BRIDGE.ethereum}
+            selected={chainBridge === chain.bridge}
+            onClick={() => routerPush(chain.bridge, q)}
+            key={chain.menu}
           >
-            Bitcoin - {chain}
+            Bitcoin - {chain.menu}
           </Dropdown.Item>
         );
       })}
