@@ -2,15 +2,17 @@ import { Text, Tooltip } from '@swingby-protocol/pulsar';
 import { FormattedMessage } from 'react-intl';
 
 import { Loader } from '../../../../../components/Loader';
-import { TStatus } from '../../../../explorer';
 import {
   churnedIn,
   INodeListResponse,
   INodeStatusTable,
   listNodeStatus,
-  bondTooLow,
+  bondLow,
   bondExpiring,
   mayChurnIn,
+  inactiveBondExpired,
+  inactiveBondTooLow,
+  toggleStatusIconColor,
 } from '../../../../metanodes';
 import { TextRoom } from '../../../Common';
 
@@ -36,14 +38,22 @@ export const NodeStatus = (props: Props) => {
   const churnedInStatus =
     nodeStatusTable && nodeStatusTable.find((it: INodeStatusTable) => it.status === churnedIn);
 
-  const bondTooLowStatus =
-    nodeStatusTable && nodeStatusTable.find((it: INodeStatusTable) => it.status === bondTooLow);
+  const bondLowStatus =
+    nodeStatusTable && nodeStatusTable.find((it: INodeStatusTable) => it.status === bondLow);
 
   const bondExpiringStatus =
     nodeStatusTable && nodeStatusTable.find((it: INodeStatusTable) => it.status === bondExpiring);
 
   const mayChurnInStatus =
     nodeStatusTable && nodeStatusTable.find((it: INodeStatusTable) => it.status === mayChurnIn);
+
+  const inactiveBondExpiredStatus =
+    nodeStatusTable &&
+    nodeStatusTable.find((it: INodeStatusTable) => it.status === inactiveBondExpired);
+
+  const inactiveBondTooLowStatus =
+    nodeStatusTable &&
+    nodeStatusTable.find((it: INodeStatusTable) => it.status === inactiveBondTooLow);
 
   const showNodeStatus = (nodeTable: INodeStatusTable) => (
     <Tooltip
@@ -66,24 +76,34 @@ export const NodeStatus = (props: Props) => {
 
   const metanodeStatusTable = [
     {
-      status: churnedInStatus,
-      iconStatus: 'COMPLETED',
+      table: churnedInStatus,
+      status: churnedInStatus?.status,
       text: 'metanodes.metanode-status.churned-in',
     },
     {
-      status: mayChurnInStatus,
-      iconStatus: 'WAITING',
+      table: mayChurnInStatus,
+      status: mayChurnInStatus?.status,
       text: 'metanodes.may-churn-in',
     },
     {
-      status: bondExpiringStatus,
-      iconStatus: 'PENDING',
+      table: bondLowStatus,
+      status: bondLowStatus?.status,
+      text: 'metanodes.bond-low',
+    },
+    {
+      table: bondExpiringStatus,
+      status: bondExpiringStatus?.status,
       text: 'metanodes.bond-expiring',
     },
     {
-      status: bondTooLowStatus,
-      iconStatus: 'REFUNDED',
-      text: 'metanodes.bond-too-low',
+      table: inactiveBondExpiredStatus,
+      status: inactiveBondExpiredStatus?.status,
+      text: 'metanodes.inactive-bond-expired',
+    },
+    {
+      table: inactiveBondTooLowStatus,
+      status: inactiveBondTooLowStatus?.status,
+      text: 'metanodes.inactive-bond-too-low',
     },
   ];
   return (
@@ -97,17 +117,17 @@ export const NodeStatus = (props: Props) => {
         <>
           {metanodeStatusTable.map(
             (it) =>
-              it.status && (
+              it.table && (
                 <Row>
                   <Left>
                     <ColumnStatus>
-                      <StatusIcon status={it.iconStatus as TStatus} />
+                      <StatusIcon status={toggleStatusIconColor(it.status)} />
                       <TextRoom variant="label">
                         <FormattedMessage id={it.text} />
                       </TextRoom>
                     </ColumnStatus>
                   </Left>
-                  <Right>{showNodeStatus(it.status)}</Right>
+                  <Right>{showNodeStatus(it.table)}</Right>
                 </Row>
               ),
           )}
