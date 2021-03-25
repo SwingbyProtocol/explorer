@@ -1,12 +1,64 @@
 import Onboard from 'bnc-onboard';
+import type { SkybridgeBridge, SkybridgeMode } from '@swingby-protocol/sdk';
+import type { Subscriptions } from 'bnc-onboard/dist/src/interfaces'; // eslint-disable-line import/no-internal-modules
 
-import { blocknativeApiKey, ETHER_NETWORK, infuraApiKey, appName, RPC_URL } from '../../env';
+import { appName, blocknativeApiKey, infuraApiKey, mode, PATH } from '../../env';
 
-// Ref: https://github.com/blocknative/react-demo/blob/master/src/services.js
-export const initOnboard = ({ subscriptions }) => {
+const APP_NAME = appName;
+
+const getEtherNetwork = ({ mode }: { mode: SkybridgeMode }) => {
+  const network =
+    mode === 'production' ? { id: 1, network: 'mainnet' } : { id: 5, network: 'goerli' };
+
+  return {
+    id: network.id,
+    rpcUrl: `https://${network.network}.infura.io/v3/${infuraApiKey}`,
+  };
+};
+
+const getBscNetwork = ({ mode }: { mode: SkybridgeMode }) => {
+  const id = mode === 'production' ? 56 : 97;
+  return {
+    id,
+    rpcUrl:
+      mode === 'production'
+        ? 'https://bsc-dataseed1.binance.org:443'
+        : 'https://data-seed-prebsc-1-s1.binance.org:8545',
+  };
+};
+
+const getNetwork = ({
+  mode,
+  bridge,
+  path,
+}: {
+  mode: SkybridgeMode;
+  bridge: SkybridgeBridge;
+  path?: PATH;
+}) => {
+  if (bridge === 'btc_bep20' && path === PATH.METANODES) {
+    return getBscNetwork({ mode });
+  }
+
+  return getEtherNetwork({ mode });
+};
+
+export const initOnboard = ({
+  subscriptions,
+  mode,
+  bridge,
+  path,
+}: {
+  mode: SkybridgeMode;
+  bridge: SkybridgeBridge;
+  subscriptions: Subscriptions;
+  path?: PATH;
+}) => {
+  const { id: networkId, rpcUrl } = getNetwork({ mode, bridge, path });
+
   return Onboard({
     dappId: blocknativeApiKey,
-    networkId: ETHER_NETWORK.id,
+    networkId,
     hideBranding: true,
     subscriptions,
     walletSelect: {
@@ -14,7 +66,7 @@ export const initOnboard = ({ subscriptions }) => {
         { walletName: 'metamask', preferred: true },
         {
           walletName: 'ledger',
-          rpcUrl: RPC_URL,
+          rpcUrl,
           preferred: true,
         },
         {
@@ -22,17 +74,17 @@ export const initOnboard = ({ subscriptions }) => {
           infuraKey: infuraApiKey,
           preferred: true,
         },
-        { walletName: 'walletLink', rpcUrl: RPC_URL, appName, preferred: true },
+        { walletName: 'walletLink', rpcUrl, appName: APP_NAME, preferred: true },
         { walletName: 'authereum' },
-        { walletName: 'lattice', rpcUrl: RPC_URL, appName },
+        { walletName: 'lattice', rpcUrl, appName: APP_NAME },
         { walletName: 'torus' },
         { walletName: 'opera' },
         {
           walletName: 'trezor',
           // Memo: Not sure if it is necessary to set the email
           // email: CONTACT_EMAIL,
-          appUrl: appName,
-          rpcUrl: RPC_URL,
+          appUrl: APP_NAME,
+          rpcUrl,
         },
       ],
     },
@@ -44,4 +96,11 @@ export const initOnboard = ({ subscriptions }) => {
       { checkName: 'balance', minimumBalance: '100000' },
     ],
   });
+};
+
+export const showConnectNetwork = (bridge: SkybridgeBridge) => {
+  if (bridge === 'btc_bep20') {
+    return mode === 'production' ? 'BSC mainnet' : 'BSC testnet';
+  }
+  return mode === 'production' ? 'Ethereum mainnet' : 'Goerli testnet';
 };

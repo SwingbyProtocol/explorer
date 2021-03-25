@@ -1,1 +1,1 @@
-export { initOnboard } from './services';
+export { initOnboard, showConnectNetwork } from './services';

@@ -7,9 +7,12 @@ import {
   INodeListResponse,
   INodeStatusTable,
   listNodeStatus,
-  bondTooLow,
+  bondLow,
   bondExpiring,
   mayChurnIn,
+  inactiveBondExpired,
+  inactiveBondTooLow,
+  toggleStatusIconColor,
 } from '../../../../metanodes';
 import { TextRoom } from '../../../Common';
 
@@ -35,14 +38,22 @@ export const NodeStatus = (props: Props) => {
   const churnedInStatus =
     nodeStatusTable && nodeStatusTable.find((it: INodeStatusTable) => it.status === churnedIn);
 
-  const bondTooLowStatus =
-    nodeStatusTable && nodeStatusTable.find((it: INodeStatusTable) => it.status === bondTooLow);
+  const bondLowStatus =
+    nodeStatusTable && nodeStatusTable.find((it: INodeStatusTable) => it.status === bondLow);
 
   const bondExpiringStatus =
     nodeStatusTable && nodeStatusTable.find((it: INodeStatusTable) => it.status === bondExpiring);
 
   const mayChurnInStatus =
     nodeStatusTable && nodeStatusTable.find((it: INodeStatusTable) => it.status === mayChurnIn);
+
+  const inactiveBondExpiredStatus =
+    nodeStatusTable &&
+    nodeStatusTable.find((it: INodeStatusTable) => it.status === inactiveBondExpired);
+
+  const inactiveBondTooLowStatus =
+    nodeStatusTable &&
+    nodeStatusTable.find((it: INodeStatusTable) => it.status === inactiveBondTooLow);
 
   const showNodeStatus = (nodeTable: INodeStatusTable) => (
     <Tooltip
@@ -62,6 +73,39 @@ export const NodeStatus = (props: Props) => {
   );
 
   const loader = <Loader marginTop={0} minHeight={0} />;
+
+  const metanodeStatusTable = [
+    {
+      table: churnedInStatus,
+      status: churnedInStatus?.status,
+      text: 'metanodes.metanode-status.churned-in',
+    },
+    {
+      table: mayChurnInStatus,
+      status: mayChurnInStatus?.status,
+      text: 'metanodes.may-churn-in',
+    },
+    {
+      table: bondLowStatus,
+      status: bondLowStatus?.status,
+      text: 'metanodes.bond-low',
+    },
+    {
+      table: bondExpiringStatus,
+      status: bondExpiringStatus?.status,
+      text: 'metanodes.bond-expiring',
+    },
+    {
+      table: inactiveBondExpiredStatus,
+      status: inactiveBondExpiredStatus?.status,
+      text: 'metanodes.inactive-bond-expired',
+    },
+    {
+      table: inactiveBondTooLowStatus,
+      status: inactiveBondTooLowStatus?.status,
+      text: 'metanodes.inactive-bond-too-low',
+    },
+  ];
   return (
     <NodeStatusContainer>
       <RowTitle>
@@ -71,50 +115,22 @@ export const NodeStatus = (props: Props) => {
       </RowTitle>
       {metanodes ? (
         <>
-          <Row>
-            <Left>
-              <ColumnStatus>
-                <StatusIcon status="COMPLETED" />
-                <TextRoom variant="label">
-                  <FormattedMessage id="metanodes.metanode-status.churned-in" />
-                </TextRoom>
-              </ColumnStatus>
-            </Left>
-            <Right>{showNodeStatus(churnedInStatus)}</Right>
-          </Row>
-          <Row>
-            <Left>
-              <ColumnStatus>
-                <StatusIcon status="WAITING" />
-                <TextRoom variant="label">
-                  <FormattedMessage id="metanodes.may-churn-in" />
-                </TextRoom>
-              </ColumnStatus>
-            </Left>
-            <Right>{showNodeStatus(mayChurnInStatus)}</Right>
-          </Row>
-          <Row>
-            <Left>
-              <ColumnStatus>
-                <StatusIcon status="PENDING" />
-                <TextRoom variant="label">
-                  <FormattedMessage id="metanodes.bond-expiring" />
-                </TextRoom>
-              </ColumnStatus>
-            </Left>
-            <Right>{showNodeStatus(bondExpiringStatus)}</Right>
-          </Row>
-          <Row>
-            <Left>
-              <ColumnStatus>
-                <StatusIcon status="REFUNDED" />
-                <TextRoom variant="label">
-                  <FormattedMessage id="metanodes.bond-too-low" />
-                </TextRoom>
-              </ColumnStatus>
-            </Left>
-            <Right>{showNodeStatus(bondTooLowStatus)}</Right>
-          </Row>
+          {metanodeStatusTable.map(
+            (it) =>
+              it.table && (
+                <Row>
+                  <Left>
+                    <ColumnStatus>
+                      <StatusIcon status={toggleStatusIconColor(it.status)} />
+                      <TextRoom variant="label">
+                        <FormattedMessage id={it.text} />
+                      </TextRoom>
+                    </ColumnStatus>
+                  </Left>
+                  <Right>{showNodeStatus(it.table)}</Right>
+                </Row>
+              ),
+          )}
         </>
       ) : (
         loader

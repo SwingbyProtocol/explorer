@@ -3,9 +3,10 @@ import { DateTime } from 'luxon';
 import { FormattedMessage } from 'react-intl';
 
 import { Loader } from '../../../../../components/Loader';
-import { URL_ETHERSCAN } from '../../../../env';
-import { useRunCountDown } from '../../../../hooks';
+import { PATH } from '../../../../env';
+import { useRunCountDown, useToggleBridge } from '../../../../hooks';
 import { IChurn } from '../../../../metanodes';
+import { getScanDetailBaseEndpoint } from '../../../../pool';
 import { Atag, TextRoom } from '../../../Common';
 
 import { AddressP, ChurningContainer, Left, Right, Row, RowTitle } from './styled';
@@ -20,6 +21,9 @@ export const Churning = (props: Props) => {
   const nextTimestamp = churnTime && Number(dt.toSeconds().toFixed(0));
   const cd = useRunCountDown(nextTimestamp);
 
+  const { bridge } = useToggleBridge(PATH.METANODES);
+  const baseUrl = getScanDetailBaseEndpoint(bridge);
+
   const nextTime = cd?.days >= 0 && (
     <FormattedMessage
       id="metanodes.churned-next-time"
@@ -32,7 +36,7 @@ export const Churning = (props: Props) => {
   );
 
   const lastAddress = churnTime && churnTime.lastTxHash;
-  const lastAddressUrl = `${URL_ETHERSCAN}/tx/${lastAddress}`;
+  const lastAddressUrl = `${baseUrl}/tx/${lastAddress}`;
 
   const loader = <Loader marginTop={0} minHeight={0} />;
   return (

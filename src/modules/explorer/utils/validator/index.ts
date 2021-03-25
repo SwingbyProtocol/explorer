@@ -8,7 +8,7 @@ export const isBitcoinAddress = (address: string): boolean => {
 };
 
 export const isBinanceAddress = (address: string): boolean =>
-  isAddressValid({ address, context: { mode }, chain: 'binance' });
+  isAddressValid({ address, context: { mode }, chain: 'binance-smart' });
 
 export const isEtherAddress = (address: string): boolean => {
   return isAddressValid({ address, context: { mode }, chain: 'ethereum' });
@@ -27,7 +27,7 @@ export const isAddress = (address: string): boolean => {
 
 export const checkIsValidAddress = (
   address: string,
-  toCurrency: string,
+  toCurrency: CoinSymbol,
   fn: (result: boolean) => void, // useEffect's set function
 ): void => {
   if (toCurrency === CoinSymbol.BTC) {

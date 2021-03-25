@@ -7,7 +7,7 @@ import { fetch } from '../../../modules/fetch';
 import {
   getSbBtcContract,
   getScanApiKey,
-  getScanBaseEndpoint,
+  getScanApiBaseEndpoint,
   IEtherscanTransaction,
 } from '../../../modules/pool';
 
@@ -17,7 +17,7 @@ const generateUrl = (
   limit: number,
   bridge: SkybridgeBridge,
 ) => {
-  const base = getScanBaseEndpoint(bridge);
+  const base = getScanApiBaseEndpoint(bridge);
   const apiKey = getScanApiKey(bridge);
   const sbBtcContractAddress = getSbBtcContract(bridge);
 

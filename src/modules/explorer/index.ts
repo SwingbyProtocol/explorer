@@ -1,6 +1,8 @@
 import { DateTime } from 'luxon';
 
-import { ITransactionHistory, TransactionStatus } from '../../generated/graphql';
+import { TransactionCurrency, TransactionStatus } from '../../generated/graphql';
+
+import { castCurrencyName, CoinSymbol } from './../coins';
 
 export { TxRowTransition, TxRowVariants } from './animation';
 export {
@@ -36,15 +38,14 @@ export const BRIDGE = {
 };
 
 // Memo: interface
-export type TCurrency = 'BTC' | 'WBTC' | 'sbBTC' | 'BTCB';
 export interface FloatRawObject {
   addressDeposit: string;
   addressIn: string;
   addressOut: string;
   amountIn: string;
   amountOut: string;
-  currencyIn: TCurrency;
-  currencyOut: TCurrency;
+  currencyIn: CoinSymbol;
+  currencyOut: CoinSymbol;
   hash: string;
   status: TransactionStatus;
   timestamp: number;
@@ -52,7 +53,7 @@ export interface FloatRawObject {
   fee?: string;
   txIdOut?: string;
   rewards?: Reward[];
-  feeCurrency?: TCurrency;
+  feeCurrency?: CoinSymbol;
 }
 
 export interface SwapRawObject {
@@ -60,12 +61,12 @@ export interface SwapRawObject {
   addressOut: string;
   amountIn: string;
   amountOut: string;
-  currencyIn: TCurrency;
-  currencyOut: TCurrency;
+  currencyIn: CoinSymbol;
+  currencyOut: CoinSymbol;
   fee?: string;
   hash?: string;
-  feeCurrency: TCurrency;
   status: TransactionStatus;
+  feeCurrency: CoinSymbol;
   timestamp?: number;
   txIdIn?: string;
   txIdOut?: string;
@@ -196,17 +197,33 @@ export interface IMetanode {
   version: string;
 }
 
-export const castGraphQlType = (tx: ITransactionHistory) => {
+export interface IGraphQLTransactionHistory {
+  depositAddress: string;
+  depositAmount: string;
+  depositTxHash?: string;
+  depositCurrency: TransactionCurrency;
+  receivingAddress: string;
+  receivingAmount: string;
+  receivingTxHash?: string;
+  receivingCurrency: TransactionCurrency;
+  feeCurrency: TransactionCurrency;
+  feeTotal: string;
+  id: string;
+  at: string;
+  status: TransactionStatus;
+}
+
+export const castGraphQlType = (tx: IGraphQLTransactionHistory) => {
   return {
     addressIn: tx.depositAddress,
     addressOut: tx.receivingAddress,
     amountIn: tx.depositAmount,
     amountOut: tx.receivingAmount,
-    currencyIn: tx.depositCurrency as TCurrency,
-    currencyOut: tx.receivingCurrency as TCurrency,
+    currencyIn: castCurrencyName(tx.depositCurrency),
+    currencyOut: castCurrencyName(tx.receivingCurrency),
     fee: tx.feeTotal,
     hash: tx.id,
-    feeCurrency: tx.feeCurrency as TCurrency,
+    feeCurrency: castCurrencyName(tx.feeCurrency),
     status: tx.status,
     timestamp: DateTime.fromISO(tx.at).toSeconds(),
     txIdIn: tx.depositTxHash,

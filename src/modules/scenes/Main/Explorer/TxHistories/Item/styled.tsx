@@ -84,6 +84,8 @@ export const ColumnFee = styled.div`
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
+    word-break: break-word;
+    max-width: ${rem(140)};
   }
 `;
 

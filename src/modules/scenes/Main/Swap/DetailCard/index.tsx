@@ -4,6 +4,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import { copyToClipboard, toastCopyAddress } from '../../../../../components/Toast';
+import { CoinSymbol } from '../../../../coins';
 import { currencyNetwork } from '../../../../explorer';
 import { transactionDetailByTxId } from '../../../../swap/';
 import { IconInfo, TextRoom } from '../../../Common';
@@ -23,7 +24,7 @@ import {
 
 interface Props {
   role: string;
-  currency: string;
+  currency: CoinSymbol;
   amount: string;
   address: string;
   txId: string;

@@ -64,28 +64,13 @@ export const TxHistoriesItem = ({
 
   const borderColor = getBorderColor({ status: tx.status, theme });
 
-  const oldTxType = useMemo(
-    () => ({
-      addressDeposit: tx.depositAddress,
-      addressIn: tx.depositAddress,
-      addressOut: tx.receivingAddress,
-      amountIn: tx.depositAmount,
-      amountOut: tx.receivingAmount,
-      currencyIn: tx.depositCurrency,
-      currencyOut: tx.receivingCurrency,
-      status: tx.status,
-      hash: tx.id,
-      fee: tx.feeTotal,
-      feeCurrency: tx.feeCurrency,
-      timestamp: DateTime.fromISO(tx.at).toMillis(),
-    }),
-    [tx],
-  );
+  const oldTxType = useMemo(() => castGraphQlType(tx), [tx]);
 
   const { isClaimWidgetModalOpen, setIsClaimWidgetModalOpen } = useLinkToWidget({
     toggleOpenLink,
     tx: oldTxType,
     action: 'claim',
+    setToggleOpenLink,
   });
 
   return (
@@ -101,8 +86,7 @@ export const TxHistoriesItem = ({
         borderColor={borderColor}
         onClick={() => goToDetail(tx.id)}
         onMouseEnter={() => {
-          const txData = castGraphQlType(tx);
-          dispatch(selectSwapDetails(txData));
+          dispatch(selectSwapDetails(oldTxType));
         }}
         variants={TxRowVariants}
         transition={TxRowTransition}
@@ -136,7 +120,7 @@ export const TxHistoriesItem = ({
           <Coin symbol={tx.depositCurrency} />
           <div>
             <Top>
-              <NetworkText variant="label">{currencyNetwork(tx.depositCurrency)}</NetworkText>
+              <NetworkText variant="label">{currencyNetwork(oldTxType.currencyIn)}</NetworkText>
             </Top>
             <RowAmount>
               <AmountSpan variant="accent">{tx.depositAmount}</AmountSpan>
@@ -150,7 +134,7 @@ export const TxHistoriesItem = ({
           <Coin symbol={tx.receivingCurrency} />
           <div>
             <Top>
-              <NetworkText variant="label">{currencyNetwork(tx.receivingCurrency)}</NetworkText>
+              <NetworkText variant="label">{currencyNetwork(oldTxType.currencyOut)}</NetworkText>
             </Top>
             <RowAmount>
               <AmountSpan variant="accent">{tx.receivingAmount}</AmountSpan>
@@ -161,7 +145,7 @@ export const TxHistoriesItem = ({
           <Text variant="section-title">
             {getCryptoAssetFormatter({
               locale,
-              displaySymbol: tx.feeCurrency,
+              displaySymbol: oldTxType.feeCurrency,
             }).format(Number(tx.feeTotal))}
           </Text>
         </ColumnFee>
@@ -182,7 +166,7 @@ export const TxHistoriesItem = ({
                 <Dropdown.Item
                   onClick={() =>
                     window.open(
-                      transactionDetailByTxId(tx.receivingCurrency, tx.receivingTxHash),
+                      transactionDetailByTxId(oldTxType.currencyIn, tx.receivingTxHash),
                       '_blank',
                       'noopener',
                     )

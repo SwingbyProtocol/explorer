@@ -52,17 +52,12 @@ export const bscscanApiKey = 'Y57NEYW477ZGHRNY8ADUF24I8S4UX8BK8S';
 export const blocknativeApiKey =
   process.env.NEXT_PUBLIC_BLOCKNATIVE_KEY || '52950909-d5f6-42eb-8621-acb35a8ee1d3';
 
-export const ETHER_NETWORK =
-  mode === MODE.PRODUCTION ? { id: 1, network: 'mainnet' } : { id: 5, network: 'goerli' };
-
 export const infuraApiKey =
   process.env.NEXT_PUBLIC_INFURA_KEY || 'f35c2a4f3d0941a38a3edb62ed10c847';
 
-export const RPC_URL = `https://${ETHER_NETWORK.network}.infura.io/v3/${infuraApiKey}`;
-
 export const appName = 'Swingby Explorer';
 
-export const ENDPOINT_SKYBRIDGE_EXCHANGE = 'https://network.skybridge.exchange/api/v1';
+export const ENDPOINT_SKYBRIDGE_EXCHANGE = 'https://network.skybridge.exchange/api/v2';
 
 export const ENDPOINT_ETHEREUM_NODE =
   process.env.NEXT_PUBLIC_ETHEREUM_NODE_ENDPOINT || mode === MODE.PRODUCTION
@@ -86,22 +81,26 @@ export const ENDPOINT_BSCSCAN =
 export const URL_ETHERSCAN =
   mode === MODE.PRODUCTION ? 'https://etherscan.io' : 'https://goerli.etherscan.io';
 
-export const CACHED_ENDPOINT = 'https://metanode-earnings.vercel.app/api';
+export const URL_BSCSCAN =
+  mode === MODE.PRODUCTION ? 'https://bscscan.com' : 'https://testnet.bscscan.com';
 
-// Memo: BTCE contract address as WBTC in testnet
-export const CONTRACT_WBTC =
-  process.env.NEXT_PUBLIC_CONTRACT_WBTC || mode === MODE.PRODUCTION
-    ? CONTRACTS.WBTC.production.address
-    : CONTRACTS.WBTC.test.address;
+export const BTC_EXPLORER =
+  mode === MODE.PRODUCTION
+    ? 'https://www.blockchain.com/btc'
+    : 'https://www.blockchain.com/btc-testnet';
+
+export const CACHED_ENDPOINT = 'https://metanode-earnings.vercel.app/api';
 
 export const CONTRACT_SB_BTC =
   process.env.NEXT_PUBLIC_SB_BTC || mode === MODE.PRODUCTION
-    ? CONTRACTS.sbBTC.production.address
-    : CONTRACTS.sbBTC.test.address;
+    ? CONTRACTS.coins.sbBTC.production.address
+    : CONTRACTS.coins.sbBTC.test.address;
 
-export const CONTRACT_SWAP =
-  process.env.NEXT_PUBLIC_CONTRACT_SWAP || CONTRACTS.skybridge[mode].address;
-export const CONTRACT_SWAP_ABI = CONTRACTS.skybridge[mode].abi;
+// Todo: implement production address once sbBTC_BEP20 for mainnet has been deployed
+export const CONTRACT_BEP20_SB_BTC =
+  process.env.NEXT_PUBLIC_SB_BTC || mode === MODE.PRODUCTION
+    ? CONTRACTS.coins['sbBTC.BEP20'].test.address
+    : CONTRACTS.coins['sbBTC.BEP20'].test.address;
 
 // Memo: BTC is not on Ethereum, it doesn’t have an address, so the contract uses this one to represent BTC
-export const ZERO_ADDRESS = CONTRACTS.BTC.production.address;
+export const ZERO_ADDRESS = CONTRACTS.coins.BTC.production.address;

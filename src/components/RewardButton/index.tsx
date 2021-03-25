@@ -1,4 +1,4 @@
-import { createToast, useMatchMedia } from '@swingby-protocol/pulsar';
+import { createToast, Text, Tooltip, useMatchMedia } from '@swingby-protocol/pulsar';
 import { CONTRACTS } from '@swingby-protocol/sdk';
 import type { API as OnboardApi } from 'bnc-onboard/dist/src/interfaces'; // eslint-disable-line import/no-internal-modules
 import { rem } from 'polished';
@@ -7,8 +7,9 @@ import { FormattedMessage } from 'react-intl';
 import Web3 from 'web3';
 import { TransactionConfig } from 'web3-eth';
 
-import { mode } from '../../modules/env';
-import { initOnboard } from '../../modules/onboard';
+import { mode, PATH } from '../../modules/env';
+import { useToggleBridge } from '../../modules/hooks';
+import { initOnboard, showConnectNetwork } from '../../modules/onboard';
 import { ButtonScale } from '../../modules/scenes/Common';
 import { StylingConstants } from '../../modules/styles';
 
@@ -19,6 +20,7 @@ export const RewardButton = () => {
   const lg = useMatchMedia({ query: `(min-width: ${rem(media.lg)})` });
   const sm = useMatchMedia({ query: `(min-width: ${rem(media.sm)})` });
   const [onboard, setOnboard] = useState<OnboardApi>(null);
+  const { bridge } = useToggleBridge(PATH.METANODES);
 
   const distributeRewards = async () => {
     await onboard.walletSelect();
@@ -32,8 +34,8 @@ export const RewardButton = () => {
     try {
       const web3 = new Web3(wallet.provider);
       const contract = new web3.eth.Contract(
-        CONTRACTS.skybridge[mode].abi,
-        CONTRACTS.skybridge[mode].address,
+        CONTRACTS.bridges[bridge][mode].abi,
+        CONTRACTS.bridges[bridge][mode].address,
         wallet.provider,
       );
 
@@ -43,7 +45,7 @@ export const RewardButton = () => {
         nonce: await web3.eth.getTransactionCount(address),
         gasPrice: web3.utils.toHex(gasPrice),
         from: address,
-        to: CONTRACTS.skybridge[mode].address,
+        to: CONTRACTS.bridges[bridge][mode].address,
         value: '0x0',
         data: contract.methods.distributeNodeRewards().encodeABI(),
       };
@@ -74,19 +76,33 @@ export const RewardButton = () => {
   };
 
   useEffect(() => {
-    setOnboard(initOnboard({ subscriptions: {} }));
-  }, []);
+    bridge && setOnboard(initOnboard({ subscriptions: {}, mode, bridge, path: PATH.METANODES }));
+  }, [bridge]);
 
   return (
     <RewardButtonContainer>
-      <ButtonScale
-        size={lg ? 'country' : 'state'}
-        shape={sm ? 'fit' : 'fill'}
-        variant="primary"
-        onClick={distributeRewards}
+      <Tooltip
+        content={
+          <Tooltip.Content>
+            <Text variant="normal">
+              <FormattedMessage
+                id="metanodes.distribute-rewards-warning"
+                values={{ network: showConnectNetwork(bridge) }}
+              />
+            </Text>
+          </Tooltip.Content>
+        }
+        targetHtmlTag="span"
       >
-        <FormattedMessage id="metanodes.distribute-rewards" />
-      </ButtonScale>
+        <ButtonScale
+          size={lg ? 'country' : 'state'}
+          shape={sm ? 'fit' : 'fill'}
+          variant="primary"
+          onClick={distributeRewards}
+        >
+          <FormattedMessage id="metanodes.distribute-rewards" />
+        </ButtonScale>
+      </Tooltip>
     </RewardButtonContainer>
   );
 };

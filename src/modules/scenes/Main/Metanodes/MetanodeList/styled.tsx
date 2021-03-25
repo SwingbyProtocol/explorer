@@ -2,7 +2,13 @@ import { SwapStatusIcon, Text } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
 import styled from 'styled-components';
 
-import { bondExpiring, bondTooLow, mayChurnIn } from '../../../../metanodes';
+import {
+  bondExpiring,
+  bondLow,
+  inactiveBondExpired,
+  inactiveBondTooLow,
+  mayChurnIn,
+} from '../../../../metanodes';
 import { StylingConstants } from '../../../../styles';
 import { AddressLinkP, TextBlock, TextRoom } from '../../../Common';
 
@@ -57,9 +63,13 @@ export const StakeInfos = styled.div`
 
 export const Row = styled.div<BgProps>`
   background: ${(props) =>
-    props.bg === bondTooLow
+    props.bg === bondLow
       ? 'rgba(235, 65, 65, 0.2)'
       : props.bg === bondExpiring
+      ? 'rgba(235, 65, 65, 0.2)'
+      : props.bg === inactiveBondExpired
+      ? 'rgba(235, 65, 65, 0.2)'
+      : props.bg === inactiveBondTooLow
       ? 'rgba(235, 65, 65, 0.2)'
       : props.bg === mayChurnIn
       ? 'rgba(143, 231, 217, 0.2)'

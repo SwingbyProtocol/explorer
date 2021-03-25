@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { toastWrongAddress } from '../../../components/Toast';
 import { useAffiliateCode } from '../../affiliate-code';
-import { EthereumWalletAddressCoins } from '../../coins';
+import { CoinSymbol, EthereumWalletAddressCoins, getTxBridge } from '../../coins';
 import { mode } from '../../env';
 import { TSwapWidget, TTxRawObject } from '../../explorer';
 import { initOnboard } from '../../onboard';
@@ -16,10 +16,11 @@ interface IData {
   action: TSwapWidget | null;
   toggleOpenLink: number;
   tx: TTxRawObject;
+  setToggleOpenLink: (arg: number) => void;
 }
 
 export const useLinkToWidget = (data: IData) => {
-  const { toggleOpenLink, tx, action } = data;
+  const { toggleOpenLink, tx, action, setToggleOpenLink } = data;
   const router = useRouter();
   const [theme] = useThemeSettings();
   const dispatch = useDispatch();
@@ -30,6 +31,8 @@ export const useLinkToWidget = (data: IData) => {
   const [isClaimWidgetModalOpen, setIsClaimWidgetModalOpen] = useState(false);
   const [isDuplicateWidgetModalOpen, setIsDuplicateWidgetModalOpen] = useState(false);
 
+  const bridge = tx && getTxBridge(tx);
+
   const formattedUserAddress = walletAddress && walletAddress.toLowerCase();
 
   const login = useCallback(async () => {
@@ -38,18 +41,22 @@ export const useLinkToWidget = (data: IData) => {
   }, [onboard]);
 
   useEffect(() => {
-    const handleSetWalletAddress = (address: string): void => {
-      if (address !== undefined) {
-        setWalletAddress(address);
-      }
-    };
-    const onboardData = initOnboard({
-      subscriptions: {
-        address: handleSetWalletAddress,
-      },
-    });
-    dispatch(setOnboard(onboardData));
-  }, [dispatch]);
+    if (bridge) {
+      const handleSetWalletAddress = (address: string): void => {
+        if (address !== undefined) {
+          setWalletAddress(address);
+        }
+      };
+      const onboardData = initOnboard({
+        subscriptions: {
+          address: handleSetWalletAddress,
+        },
+        mode,
+        bridge,
+      });
+      dispatch(setOnboard(onboardData));
+    }
+  }, [dispatch, bridge, toggleOpenLink, setToggleOpenLink]);
 
   useEffect(() => {
     if (tx && toggleOpenLink > 1) {
@@ -79,7 +86,7 @@ export const useLinkToWidget = (data: IData) => {
             });
 
       // Memo: Open the ^widget for ETH coins
-      if (EthereumWalletAddressCoins.includes(tx?.currencyOut)) {
+      if (EthereumWalletAddressCoins.includes(tx?.currencyOut as CoinSymbol)) {
         if (tx.addressOut.toLowerCase() === formattedUserAddress) {
           action === 'claim' && window.open(getUrl({ widget }), '_blank', 'noopener');
           action === 'duplicate' && openPopup({ widget });
@@ -89,6 +96,7 @@ export const useLinkToWidget = (data: IData) => {
           login();
           return;
         }
+
         if (tx.addressOut.toLowerCase() !== formattedUserAddress && walletAddress !== undefined) {
           toastWrongAddress();
           setWalletAddress(null);
@@ -105,6 +113,9 @@ export const useLinkToWidget = (data: IData) => {
         action === 'duplicate' && setIsDuplicateWidgetModalOpen(true);
         return;
       }
+    } else {
+      // Memo: to avoid toggleOpenLink = 1 bug
+      walletAddress && setToggleOpenLink(toggleOpenLink + 1);
     }
   }, [
     tx,
@@ -117,6 +128,7 @@ export const useLinkToWidget = (data: IData) => {
     router,
     walletAddress,
     onboard,
+    setToggleOpenLink,
   ]);
 
   return {

@@ -9,8 +9,13 @@ import { PulseLoader } from 'react-spinners';
 import { useTheme } from 'styled-components';
 
 import { useAffiliateCode } from '../../../../affiliate-code';
-import { CoinSymbol, EthereumWalletAddressCoins } from '../../../../coins';
-import { TCurrency } from '../../../../explorer';
+import {
+  CoinSymbol,
+  EthereumWalletAddressCoins,
+  getBridgeSbBtc,
+  TBtcCurrency,
+  TSbBTC,
+} from '../../../../coins';
 import { usePoolWithdrawCoin, useToggleBridge } from '../../../../hooks';
 import { IWithdrawAmountValidation } from '../../../../pool';
 import { useSdkContext } from '../../../../sdk-context';
@@ -51,7 +56,7 @@ export const AddLiquidity = (props: Props) => {
   const { formatMessage } = useIntl();
   const pool = useSelector((state) => state.pool);
   const { userAddress } = pool;
-  const { poolCurrencies } = useToggleBridge(PATH.POOL);
+  const { poolCurrencies, bridge } = useToggleBridge(PATH.POOL);
   const { locale } = useRouter();
   const affiliateCode = useAffiliateCode();
   const [themeMode] = useThemeSettings();
@@ -70,7 +75,7 @@ export const AddLiquidity = (props: Props) => {
 
   const currencyItems = (
     <>
-      {poolCurrencies.map((currency) => (
+      {poolCurrencies.map((currency: CoinSymbol) => (
         <Dropdown.Item onClick={() => setCurrency(currency)} key={currency}>
           {<CoinDropDown symbol={currency} />} {currency}
         </Dropdown.Item>
@@ -89,6 +94,7 @@ export const AddLiquidity = (props: Props) => {
   const [transactionFee, setTransactionFee] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const context = useSdkContext();
+  const sbBTC = getBridgeSbBtc(bridge);
   useEffect(() => {
     let cancelled = false;
 
@@ -99,8 +105,8 @@ export const AddLiquidity = (props: Props) => {
 
         const { feeTotal } = await estimateAmountReceiving({
           context,
-          currencyDeposit: currency as TCurrency,
-          currencyReceiving: CoinSymbol.ETH_SB_BTC as TCurrency,
+          currencyDeposit: currency as CoinSymbol,
+          currencyReceiving: sbBTC,
           amountDesired: amount,
         });
         if (cancelled) return;
@@ -117,15 +123,15 @@ export const AddLiquidity = (props: Props) => {
       cancelled = true;
       setTransactionFee('');
     };
-  }, [currency, amount, context]);
+  }, [currency, amount, context, bridge, sbBTC]);
 
   const widget = createWidget({
     resource: 'pool',
     mode,
     size: 'big',
     theme: themeMode,
-    defaultCurrencyDeposit: currency as any,
-    defaultCurrencyReceiving: CoinSymbol.ETH_SB_BTC as any,
+    defaultCurrencyDeposit: currency as TBtcCurrency,
+    defaultCurrencyReceiving: sbBTC as TSbBTC,
     defaultAddressReceiving: receivingAddress,
     defaultAmountDesired: amount,
     locale,
@@ -179,9 +185,9 @@ export const AddLiquidity = (props: Props) => {
                 {
                   id: 'pool.receive-address',
                 },
-                { value: CoinSymbol.ETH_SB_BTC },
+                { value: sbBTC },
               )}
-              left={<Coin symbol={CoinSymbol.ETH_SB_BTC} />}
+              left={<Coin symbol={sbBTC} />}
               onChange={(e) => {
                 if (!EthereumWalletAddressCoins.includes(currency)) {
                   setReceivingAddress(e.target.value);

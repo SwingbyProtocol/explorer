@@ -115,6 +115,7 @@
   "metanodes.address": "アドレス",
   "metanodes.stake-time-locked-until": "ステーキングロック解除日",
   "metanodes.distribute-rewards": "Distribute Rewards",
+  "metanodes.distribute-rewards-warning": "ウォレットが{network}に接続されていることを確認ください。",
   "fees.fees": "トランザクション手数料",
   "fees.currency": "通貨",
   "fees.live": "状態",
