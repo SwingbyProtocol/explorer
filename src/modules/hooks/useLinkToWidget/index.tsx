@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { toastWrongAddress } from '../../../components/Toast';
 import { useAffiliateCode } from '../../affiliate-code';
-import { CoinSymbol, EthereumWalletAddressCoins } from '../../coins';
+import { CoinSymbol, EthereumWalletAddressCoins, getTxBridge } from '../../coins';
 import { mode } from '../../env';
 import { TSwapWidget, TTxRawObject } from '../../explorer';
 import { initOnboard } from '../../onboard';
@@ -30,6 +30,8 @@ export const useLinkToWidget = (data: IData) => {
   const [isClaimWidgetModalOpen, setIsClaimWidgetModalOpen] = useState(false);
   const [isDuplicateWidgetModalOpen, setIsDuplicateWidgetModalOpen] = useState(false);
 
+  const bridge = tx && getTxBridge(tx);
+
   const formattedUserAddress = walletAddress && walletAddress.toLowerCase();
 
   const login = useCallback(async () => {
@@ -38,18 +40,22 @@ export const useLinkToWidget = (data: IData) => {
   }, [onboard]);
 
   useEffect(() => {
-    const handleSetWalletAddress = (address: string): void => {
-      if (address !== undefined) {
-        setWalletAddress(address);
-      }
-    };
-    const onboardData = initOnboard({
-      subscriptions: {
-        address: handleSetWalletAddress,
-      },
-    });
-    dispatch(setOnboard(onboardData));
-  }, [dispatch]);
+    if (bridge) {
+      const handleSetWalletAddress = (address: string): void => {
+        if (address !== undefined) {
+          setWalletAddress(address);
+        }
+      };
+      const onboardData = initOnboard({
+        subscriptions: {
+          address: handleSetWalletAddress,
+        },
+        mode,
+        bridge,
+      });
+      dispatch(setOnboard(onboardData));
+    }
+  }, [dispatch, bridge]);
 
   useEffect(() => {
     if (tx && toggleOpenLink > 1) {

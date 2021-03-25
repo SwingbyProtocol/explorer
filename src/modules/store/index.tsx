@@ -18,7 +18,6 @@ export {
   setOnboard,
   togglePoolMode,
   setBalanceSbBTC,
-  setWeb3,
   getRecentTxs,
   resetPoolState,
   getMinimumWithdrawAmount,

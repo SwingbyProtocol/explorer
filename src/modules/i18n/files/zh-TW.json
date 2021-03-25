@@ -115,6 +115,7 @@
   "metanodes.version": "版本",
   "metanodes.stake-time-locked-until": "質押時間鎖定至",
   "metanodes.distribute-rewards": "Distribute Rewards",
+  "metanodes.distribute-rewards-warning": "請確認您的錢包已鏈接到{network}。",
   "fees.fees": "Transaction Fees",
   "fees.currency": "代幣",
   "fees.live": "狀態",

@@ -1,5 +1,7 @@
 import { SkybridgeBridge } from '@swingby-protocol/sdk';
 
+import { TTxRawObject } from '../explorer';
+
 export type TBtcCurrency = 'BTC' | 'BTCB.BEP20' | 'WBTC';
 export type TSbBTC = 'sbBTC' | 'sbBTC.BEP20';
 
@@ -47,4 +49,12 @@ export const getBridgeSbBtc = (bridge: SkybridgeBridge): CoinSymbol => {
     default:
       return CoinSymbol.ERC20_SB_BTC;
   }
+};
+
+export const getTxBridge = (tx: TTxRawObject): SkybridgeBridge => {
+  if (BTCBCoins.includes(tx.currencyIn) || BTCBCoins.includes(tx.currencyOut)) {
+    return 'btc_bep20';
+  }
+
+  return 'btc_erc';
 };

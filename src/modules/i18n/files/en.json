@@ -111,6 +111,7 @@
   "metanodes.amount": "Amount",
   "metanodes.stake-time-locked-until": "Stake Time Locked Until",
   "metanodes.distribute-rewards": "Distribute Rewards",
+  "metanodes.distribute-rewards-warning": "Be sure your wallet has connected {network}.",
   "metanodes.general-info": "General Info",
   "metanodes.bridge-contract": "Bridge Contract:",
   "metanodes.lp-contract": "LP Token Contract:",
