@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import {
   bondExpiring,
-  bondTooLow,
+  bondLow,
   inactiveBondExpired,
   inactiveBondTooLow,
   mayChurnIn,
@@ -63,7 +63,7 @@ export const StakeInfos = styled.div`
 
 export const Row = styled.div<BgProps>`
   background: ${(props) =>
-    props.bg === bondTooLow
+    props.bg === bondLow
       ? 'rgba(235, 65, 65, 0.2)'
       : props.bg === bondExpiring
       ? 'rgba(235, 65, 65, 0.2)'
