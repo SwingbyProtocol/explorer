@@ -1,12 +1,10 @@
-import * as Apollo from '@apollo/client';
 import { gql } from '@apollo/client';
+import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-
-// Memo: Fetch query in every 10secs
-const defaultOptions =  {pollInterval: 10000}
+const defaultOptions =  {}
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -19,6 +17,8 @@ export type Scalars = {
   /** A timestamp. */
   DateTime: string;
 };
+
+
 
 export type Transaction = {
   __typename?: 'Transaction';
@@ -59,13 +59,15 @@ export enum TransactionStatus {
 
 export enum Bridge {
   BtcErc = 'btc_erc',
-  BtcBep = 'btc_bep'
+  BtcBep20 = 'btc_bep20'
 }
 
 export enum TransactionCurrency {
   Btc = 'BTC',
-  Wbtc = 'WBTC',
-  SbBtc = 'sbBTC'
+  WbtcErc20 = 'WBTC__ERC20',
+  SbBtcErc20 = 'sbBTC__ERC20',
+  BtcbBep20 = 'BTCB__BEP20',
+  SbBtcBep20 = 'sbBTC__BEP20'
 }
 
 export type TransactionsConnection = {
@@ -79,6 +81,14 @@ export type TransactionsQueryWhere = {
   id?: Maybe<Scalars['ID']>;
   type?: Maybe<Array<TransactionType>>;
   status?: Maybe<Array<TransactionStatus>>;
+  bridge?: Maybe<Array<Bridge>>;
+  depositAddress?: Maybe<Array<Scalars['String']>>;
+  depositTxHash?: Maybe<Array<Scalars['String']>>;
+  depositCurrency?: Maybe<Array<TransactionCurrency>>;
+  receivingAddress?: Maybe<Array<Scalars['String']>>;
+  receivingTxHash?: Maybe<Array<Scalars['String']>>;
+  receivingCurrency?: Maybe<Array<TransactionCurrency>>;
+  feeCurrency?: Maybe<Array<TransactionCurrency>>;
   /** Return transactions that occurred at this timestamp or later. */
   since?: Maybe<Scalars['DateTime']>;
   /** Return transactions that occurred at this timestamp or earlier. */
@@ -160,10 +170,6 @@ export type TransactionsHistoryQueryVariables = Exact<{
   where?: Maybe<TransactionsQueryWhere>;
 }>;
 
-export type TransactionsTotalCountQueryVariables = Exact<{
-  where?: Maybe<TransactionsQueryWhere>;
-}>;
-
 
 export type TransactionsHistoryQuery = (
   { __typename?: 'Query' }
@@ -175,7 +181,7 @@ export type TransactionsHistoryQuery = (
       & Pick<TransactionsConnectionEdges, 'cursor'>
       & { node: (
         { __typename?: 'Transaction' }
-        & Pick<Transaction, 'id' | 'status' | 'at' | 'depositAddress' | 'depositCurrency' | 'depositTxHash' | 'depositAmount' | 'receivingAddress' | 'receivingCurrency' | 'receivingAmount' | 'receivingTxHash' | 'feeTotal' | 'feeCurrency'>
+        & Pick<Transaction, 'id' | 'status' | 'at' | 'depositAddress' | 'depositCurrency' | 'depositAmount' | 'receivingAddress' | 'receivingCurrency' | 'receivingAmount' | 'receivingTxHash' | 'feeTotal' | 'feeCurrency'>
       ) }
     )>, pageInfo: (
       { __typename?: 'ForwardPaginationPageInfo' }
@@ -183,29 +189,6 @@ export type TransactionsHistoryQuery = (
     ) }
   ) }
 );
-export type TransactionsTotalQtyQuery = (
-  { __typename?: 'Query' }
-  & { transactions: (
-    { __typename?: 'TransactionsConnection' }
-    & Pick<TransactionsConnection, 'totalCount'>
-  ) }
-);
-
-export interface ITransactionHistory {
-  depositAddress: string;
-  depositAmount: string;
-  depositTxHash?: string;
-  depositCurrency: string;
-  receivingAddress: string;
-  receivingAmount: string;
-  receivingTxHash?: string;
-  receivingCurrency: string;
-  feeCurrency: string;
-  feeTotal: string;
-  id: string;
-  at: string;
-  status: TransactionStatus;
-}
 
 
 export const TransactionsHistoryDocument = gql`
@@ -226,7 +209,6 @@ export const TransactionsHistoryDocument = gql`
         depositAddress
         depositCurrency
         depositAmount
-        depositTxHash
         receivingAddress
         receivingCurrency
         receivingAmount
@@ -242,15 +224,6 @@ export const TransactionsHistoryDocument = gql`
       hasNextPage
       hasPreviousPage
     }
-  }
-}
-    `;
-export const TransactionsTotalCountDocument = gql`
-    query TransactionsHistory($where: TransactionsQueryWhere) {
-  transactions(
-    where: $where
-  ) {
-    totalCount
   }
 }
     `;
@@ -276,22 +249,13 @@ export const TransactionsTotalCountDocument = gql`
  * });
  */
 export function useTransactionsHistoryQuery(baseOptions?: Apollo.QueryHookOptions<TransactionsHistoryQuery, TransactionsHistoryQueryVariables>) {
-  const options = {...defaultOptions, ...baseOptions}
-  return Apollo.useQuery<TransactionsHistoryQuery, TransactionsHistoryQueryVariables>(TransactionsHistoryDocument, options);
-}
-
-export function useGetTransactionTotalCountQuery(baseOptions?: Apollo.QueryHookOptions<TransactionsTotalQtyQuery, TransactionsHistoryQueryVariables>) {
-  const options = {...defaultOptions, ...baseOptions}
-  return Apollo.useQuery<TransactionsTotalQtyQuery, TransactionsTotalCountQueryVariables>(TransactionsTotalCountDocument, options);
-}
-
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<TransactionsHistoryQuery, TransactionsHistoryQueryVariables>(TransactionsHistoryDocument, options);
+      }
 export function useTransactionsHistoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TransactionsHistoryQuery, TransactionsHistoryQueryVariables>) {
-  const options = {...defaultOptions, ...baseOptions}
-  return Apollo.useLazyQuery<TransactionsHistoryQuery, TransactionsHistoryQueryVariables>(TransactionsHistoryDocument, options);
-}
-
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<TransactionsHistoryQuery, TransactionsHistoryQueryVariables>(TransactionsHistoryDocument, options);
+        }
 export type TransactionsHistoryQueryHookResult = ReturnType<typeof useTransactionsHistoryQuery>;
-
 export type TransactionsHistoryLazyQueryHookResult = ReturnType<typeof useTransactionsHistoryLazyQuery>;
-
 export type TransactionsHistoryQueryResult = Apollo.QueryResult<TransactionsHistoryQuery, TransactionsHistoryQueryVariables>;

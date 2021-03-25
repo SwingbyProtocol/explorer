@@ -1,5 +1,5 @@
 overwrite: true
-schema: 'https://graph.swingby.network/api/graphql'
+schema: 'https://graph.skybridge.info/api/graphql'
 documents: 'src/**/*.graphql'
 generates:
   src/generated/graphql.tsx:
