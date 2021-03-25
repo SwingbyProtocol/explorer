@@ -47,13 +47,8 @@ export const bscscanApiKey = 'Y57NEYW477ZGHRNY8ADUF24I8S4UX8BK8S';
 export const blocknativeApiKey =
   process.env.NEXT_PUBLIC_BLOCKNATIVE_KEY || '52950909-d5f6-42eb-8621-acb35a8ee1d3';
 
-export const ETHER_NETWORK =
-  mode === MODE.PRODUCTION ? { id: 1, network: 'mainnet' } : { id: 5, network: 'goerli' };
-
 export const infuraApiKey =
   process.env.NEXT_PUBLIC_INFURA_KEY || 'f35c2a4f3d0941a38a3edb62ed10c847';
-
-export const RPC_URL = `https://${ETHER_NETWORK.network}.infura.io/v3/${infuraApiKey}`;
 
 export const appName = 'Swingby Explorer';
 
