@@ -75,9 +75,12 @@ export const getDiffDays = (unixTimestamp: number) => {
   return <FormattedRelativeTime value={diffDays} unit="day" numeric="auto" />;
 };
 
-export const convertTxTime = (unixTimestamp: number) => {
-  const ts = unixTimestamp * 1000;
-  const txTime = DateTime.fromMillis(ts).toLocal();
+export const convertTxTime = (txTimeParam: number | DateTime) => {
+  const txTime =
+    typeof txTimeParam === 'number'
+      ? DateTime.fromMillis(txTimeParam * 1000).toLocal()
+      : txTimeParam;
+  const ts = txTime.toMillis();
 
   const now = DateTime.local();
   const Ago60Mins = now.minus({ hours: 1 });

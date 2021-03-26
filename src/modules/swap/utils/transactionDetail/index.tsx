@@ -1,25 +1,12 @@
 import { CoinSymbol, ETHCoins, BTCBCoins } from '../../../coins';
-import { MODE, mode } from '../../../env';
-
-const btcExplorerBaseUrl =
-  mode === MODE.PRODUCTION
-    ? 'https://www.blockchain.com/btc'
-    : 'https://www.blockchain.com/btc-testnet';
-
-const bnbExplorerBaseUrl =
-  mode === MODE.PRODUCTION
-    ? 'https://explorer.binance.org'
-    : 'https://testnet-explorer.binance.org';
-
-const etherExplorerBaseUrl =
-  mode === MODE.PRODUCTION ? 'https://etherscan.io' : 'https://goerli.etherscan.io';
+import { BTC_EXPLORER, URL_BSCSCAN, URL_ETHERSCAN } from '../../../env';
 
 export const transactionDetailByTxId = (currency: CoinSymbol, hash: string): string => {
-  const btcBaseUrl = btcExplorerBaseUrl + '/tx';
+  const btcBaseUrl = BTC_EXPLORER + '/tx';
 
-  const bnbBaseUrl = bnbExplorerBaseUrl + '/tx';
+  const bnbBaseUrl = URL_BSCSCAN + '/tx';
 
-  const etherBaseUrl = etherExplorerBaseUrl + '/tx';
+  const etherBaseUrl = URL_ETHERSCAN + '/tx';
 
   if (currency === CoinSymbol.BTC) {
     return `${btcBaseUrl}/${hash}`;
@@ -34,11 +21,11 @@ export const transactionDetailByTxId = (currency: CoinSymbol, hash: string): str
 };
 
 export const transactionDetailByAddress = (currency: CoinSymbol, address: string): string => {
-  const btcBaseUrl = btcExplorerBaseUrl + '/address';
+  const btcBaseUrl = BTC_EXPLORER + '/address';
 
-  const bnbBaseUrl = bnbExplorerBaseUrl + '/address';
+  const bnbBaseUrl = URL_BSCSCAN + '/address';
 
-  const etherBaseUrl = etherExplorerBaseUrl + '/address';
+  const etherBaseUrl = URL_ETHERSCAN + '/address';
 
   if (currency === CoinSymbol.BTC) {
     return `${btcBaseUrl}/${address}`;

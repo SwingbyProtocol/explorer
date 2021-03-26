@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import { Card } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
-import { Card, Icon } from '@swingby-protocol/pulsar';
+import styled from 'styled-components';
 
 import { StylingConstants } from '../../../../styles';
 
@@ -62,31 +62,14 @@ export const Top = styled.div`
 `;
 
 export const Bottom = styled.div`
-  display: none;
   @media (min-width: ${rem(media.md)}) {
-    display: block;
+    margin-top: ${({ theme }) => rem(-theme.pulsar.size.street)};
   }
+
   @media (min-width: ${rem(media.lg)}) {
     margin-top: ${({ theme }) => rem(theme.pulsar.size.town)};
   }
   @media (min-width: ${rem(media.xl)}) {
     margin-top: ${({ theme }) => rem(theme.pulsar.size.state)};
-  }
-`;
-
-export const Filter = styled(Icon.Filter)`
-  color: ${({ theme }) => theme.pulsar.color.text.masked};
-  font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
-`;
-
-export const NoResultsFound = styled.div`
-  display: grid;
-  grid-row-gap: ${({ theme }) => rem(theme.pulsar.size.house)};
-  margin-top: ${rem(50)};
-  margin-bottom: ${rem(50)};
-  text-align: center;
-  @media (min-width: ${rem(media.md)}) {
-    margin-top: ${rem(150)};
-    margin-bottom: 0;
   }
 `;

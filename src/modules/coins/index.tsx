@@ -1,5 +1,6 @@
 import { SkybridgeBridge } from '@swingby-protocol/sdk';
 
+import { TransactionCurrency } from '../../generated/graphql';
 import { TTxRawObject } from '../explorer';
 
 export type TBtcCurrency = 'BTC' | 'BTCB.BEP20' | 'WBTC';
@@ -57,4 +58,27 @@ export const getTxBridge = (tx: TTxRawObject): SkybridgeBridge => {
   }
 
   return 'btc_erc';
+};
+
+// Memo: convert currency name from GraphQL data
+export const castCurrencyName = (currency: TransactionCurrency): CoinSymbol => {
+  switch (currency) {
+    case TransactionCurrency.Btc:
+      return CoinSymbol.BTC;
+
+    case TransactionCurrency.WbtcErc20:
+      return CoinSymbol.WBTC;
+
+    case TransactionCurrency.SbBtcErc20:
+      return CoinSymbol.ERC20_SB_BTC;
+
+    case TransactionCurrency.BtcbBep20:
+      return CoinSymbol.BTC_B;
+
+    case TransactionCurrency.SbBtcBep20:
+      return CoinSymbol.BEP20_SB_BTC;
+
+    default:
+      return currency as CoinSymbol;
+  }
 };

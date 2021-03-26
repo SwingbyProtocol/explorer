@@ -10,6 +10,7 @@ export {
   TextBlock,
   TextEllipsis,
   SizeS,
+  SizeM,
   SizeL,
   ButtonScale,
   IconBack,
