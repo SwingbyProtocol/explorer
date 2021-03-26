@@ -3,7 +3,7 @@ query TransactionsHistory(
   $after: String
   $last: Int
   $before: String
-  $where: TransactionsQueryWhere
+  $where: TransactionWhereInput
 ) {
   transactions(first: $first, after: $after, last: $last, before: $before, where: $where) {
     totalCount

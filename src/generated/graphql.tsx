@@ -39,6 +39,55 @@ export type Transaction = {
   feeTotal: Scalars['Decimal'];
 };
 
+export enum StringFilterMode {
+  Default = 'default',
+  Insensitive = 'insensitive'
+}
+
+export type StringFilter = {
+  contains?: Maybe<Scalars['String']>;
+  endsWith?: Maybe<Scalars['String']>;
+  equals?: Maybe<Scalars['String']>;
+  gt?: Maybe<Scalars['String']>;
+  gte?: Maybe<Scalars['String']>;
+  in?: Maybe<Array<Maybe<Scalars['String']>>>;
+  lt?: Maybe<Scalars['String']>;
+  lte?: Maybe<Scalars['String']>;
+  mode?: Maybe<StringFilterMode>;
+  not?: Maybe<StringFilter>;
+  notIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  startsWith?: Maybe<Scalars['String']>;
+};
+
+export type DecimalFilter = {
+  equals?: Maybe<Scalars['Decimal']>;
+  gt?: Maybe<Scalars['Decimal']>;
+  gte?: Maybe<Scalars['Decimal']>;
+  in?: Maybe<Array<Maybe<Scalars['Decimal']>>>;
+  lt?: Maybe<Scalars['Decimal']>;
+  lte?: Maybe<Scalars['Decimal']>;
+  not?: Maybe<DecimalFilter>;
+  notIn?: Maybe<Array<Maybe<Scalars['Decimal']>>>;
+};
+
+export type DateTimeFilter = {
+  equals?: Maybe<Scalars['DateTime']>;
+  gt?: Maybe<Scalars['DateTime']>;
+  gte?: Maybe<Scalars['DateTime']>;
+  in?: Maybe<Array<Maybe<Scalars['DateTime']>>>;
+  lt?: Maybe<Scalars['DateTime']>;
+  lte?: Maybe<Scalars['DateTime']>;
+  not?: Maybe<DateTimeFilter>;
+  notIn?: Maybe<Array<Maybe<Scalars['DateTime']>>>;
+};
+
+export type BridgeEnumFilter = {
+  equals?: Maybe<Bridge>;
+  in?: Maybe<Array<Maybe<Bridge>>>;
+  not?: Maybe<BridgeEnumFilter>;
+  notIn?: Maybe<Array<Maybe<Bridge>>>;
+};
+
 export enum TransactionType {
   Swap = 'SWAP',
   Deposit = 'DEPOSIT',
@@ -77,22 +126,25 @@ export type TransactionsConnection = {
   pageInfo: ForwardPaginationPageInfo;
 };
 
-export type TransactionsQueryWhere = {
-  id?: Maybe<Scalars['ID']>;
-  type?: Maybe<Array<TransactionType>>;
-  status?: Maybe<Array<TransactionStatus>>;
-  bridge?: Maybe<Array<Bridge>>;
-  depositAddress?: Maybe<Array<Scalars['String']>>;
-  depositTxHash?: Maybe<Array<Scalars['String']>>;
-  depositCurrency?: Maybe<Array<TransactionCurrency>>;
-  receivingAddress?: Maybe<Array<Scalars['String']>>;
-  receivingTxHash?: Maybe<Array<Scalars['String']>>;
-  receivingCurrency?: Maybe<Array<TransactionCurrency>>;
-  feeCurrency?: Maybe<Array<TransactionCurrency>>;
-  /** Return transactions that occurred at this timestamp or later. */
-  since?: Maybe<Scalars['DateTime']>;
-  /** Return transactions that occurred at this timestamp or earlier. */
-  until?: Maybe<Scalars['DateTime']>;
+export type TransactionWhereInput = {
+  AND?: Maybe<Array<Maybe<TransactionWhereInput>>>;
+  NOT?: Maybe<Array<Maybe<TransactionWhereInput>>>;
+  OR?: Maybe<Array<Maybe<TransactionWhereInput>>>;
+  id?: Maybe<StringFilter>;
+  type?: Maybe<TransactionTypeEnumFilter>;
+  status?: Maybe<TransactionStatusEnumFilter>;
+  bridge?: Maybe<BridgeEnumFilter>;
+  depositAddress?: Maybe<StringFilter>;
+  depositTxHash?: Maybe<StringFilter>;
+  depositCurrency?: Maybe<TransactionCurrencyEnumFilter>;
+  depositAmount?: Maybe<DecimalFilter>;
+  receivingAddress?: Maybe<StringFilter>;
+  receivingTxHash?: Maybe<StringFilter>;
+  receivingCurrency?: Maybe<TransactionCurrencyEnumFilter>;
+  receivingAmount?: Maybe<DecimalFilter>;
+  feeCurrency?: Maybe<TransactionCurrencyEnumFilter>;
+  feeTotal?: Maybe<DecimalFilter>;
+  at?: Maybe<DateTimeFilter>;
 };
 
 export type Node = {
@@ -127,6 +179,27 @@ export type ForwardPaginationPageInfo = {
   hasPreviousPage: Scalars['Boolean'];
 };
 
+export type TransactionTypeEnumFilter = {
+  equals?: Maybe<TransactionType>;
+  in?: Maybe<Array<Maybe<TransactionType>>>;
+  not?: Maybe<TransactionTypeEnumFilter>;
+  notIn?: Maybe<Array<Maybe<TransactionType>>>;
+};
+
+export type TransactionStatusEnumFilter = {
+  equals?: Maybe<TransactionStatus>;
+  in?: Maybe<Array<Maybe<TransactionStatus>>>;
+  not?: Maybe<TransactionStatusEnumFilter>;
+  notIn?: Maybe<Array<Maybe<TransactionStatus>>>;
+};
+
+export type TransactionCurrencyEnumFilter = {
+  equals?: Maybe<TransactionCurrency>;
+  in?: Maybe<Array<Maybe<TransactionCurrency>>>;
+  not?: Maybe<TransactionCurrencyEnumFilter>;
+  notIn?: Maybe<Array<Maybe<TransactionCurrency>>>;
+};
+
 export enum NodeStatus {
   ChurnedIn = 'CHURNED_IN',
   MayChurnIn = 'MAY_CHURN_IN',
@@ -150,7 +223,7 @@ export type QueryTransactionArgs = {
 
 
 export type QueryTransactionsArgs = {
-  where?: Maybe<TransactionsQueryWhere>;
+  where?: Maybe<TransactionWhereInput>;
   first?: Maybe<Scalars['Int']>;
   after?: Maybe<Scalars['String']>;
   last?: Maybe<Scalars['Int']>;
@@ -167,7 +240,7 @@ export type TransactionsHistoryQueryVariables = Exact<{
   after?: Maybe<Scalars['String']>;
   last?: Maybe<Scalars['Int']>;
   before?: Maybe<Scalars['String']>;
-  where?: Maybe<TransactionsQueryWhere>;
+  where?: Maybe<TransactionWhereInput>;
 }>;
 
 
@@ -192,7 +265,7 @@ export type TransactionsHistoryQuery = (
 
 
 export const TransactionsHistoryDocument = gql`
-    query TransactionsHistory($first: Int, $after: String, $last: Int, $before: String, $where: TransactionsQueryWhere) {
+    query TransactionsHistory($first: Int, $after: String, $last: Int, $before: String, $where: TransactionWhereInput) {
   transactions(
     first: $first
     after: $after
