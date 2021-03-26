@@ -7,6 +7,7 @@ import {
   TransactionType,
   useTransactionsHistoryQuery,
   Bridge,
+  TransactionWhereInput,
 } from '../../../generated/graphql';
 import { PAGE_COUNT } from '../../env/';
 
@@ -16,7 +17,7 @@ export const useLoadHistories = (filterTransactionType: TransactionType) => {
 
   const { query, push } = useRouter();
 
-  const { after: afterParam, before: beforeParam } = query;
+  const { after: afterParam, before: beforeParam, q } = query;
 
   const after = typeof afterParam === 'string' ? afterParam : undefined;
   const before = typeof beforeParam === 'string' ? beforeParam : undefined;
@@ -33,40 +34,74 @@ export const useLoadHistories = (filterTransactionType: TransactionType) => {
   } = TransactionStatus;
 
   const status = isRejectedTx
-    ? [Refunded, SigningRefund, SendingRefund]
-    : [Completed, Sending, Pending, Signing, Waiting];
+    ? { in: [Refunded, SigningRefund, SendingRefund] }
+    : { in: [Completed, Sending, Pending, Signing, Waiting] };
 
   const getType = (filterTransactionType: TransactionType) => {
-    const type = Object.values(TransactionType).filter(
-      (it: TransactionType) => it === filterTransactionType,
-    );
-
     switch (filterTransactionType) {
       case TransactionType.Deposit:
-        return [TransactionType.Deposit, TransactionType.Withdrawal];
+        return { in: [TransactionType.Deposit, TransactionType.Withdrawal] };
 
       default:
-        return type;
+        return { in: [TransactionType.Swap] };
     }
   };
 
-  const getBridge = (queryBridge: Bridge): Bridge[] => {
+  const getBridge = (queryBridge: Bridge): { in: Bridge[] } => {
     switch (queryBridge) {
       case Bridge.BtcBep20:
-        return [Bridge.BtcBep20];
+        return { in: [Bridge.BtcBep20] };
       case Bridge.BtcErc:
-        return [Bridge.BtcErc];
+        return { in: [Bridge.BtcErc] };
 
       default:
-        return [Bridge.BtcBep20, Bridge.BtcErc];
+        return { in: [Bridge.BtcBep20, Bridge.BtcErc] };
     }
   };
 
-  const filter = {
+  const basicFilter = {
     type: getType(filterTransactionType),
     status,
     bridge: getBridge(query.bridge as Bridge),
   };
+
+  const filter =
+    q !== ''
+      ? {
+          AND: [
+            {
+              OR: [
+                {
+                  id: {
+                    equals: q,
+                  },
+                },
+                {
+                  depositAddress: {
+                    equals: q,
+                  },
+                },
+                {
+                  receivingAddress: {
+                    equals: q,
+                  },
+                },
+                {
+                  depositTxHash: {
+                    equals: q,
+                  },
+                },
+                {
+                  receivingTxHash: {
+                    equals: q,
+                  },
+                },
+              ],
+            },
+            basicFilter,
+          ],
+        }
+      : basicFilter;
 
   const { data, loading } = useTransactionsHistoryQuery({
     pollInterval: 10000,
@@ -75,7 +110,7 @@ export const useLoadHistories = (filterTransactionType: TransactionType) => {
       before,
       first: after ? PAGE_COUNT : !before ? PAGE_COUNT : undefined,
       last: before ? PAGE_COUNT : undefined,
-      where: filter,
+      where: filter as TransactionWhereInput,
     },
   });
 

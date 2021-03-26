@@ -1,7 +1,7 @@
 import { Transaction, useTransactionsHistoryQuery } from '../../../generated/graphql';
 import { castGraphQlType } from '../../explorer';
 export const useLoadTransaction = (hash: string) => {
-  const where = { id: hash };
+  const where = { id: { equals: hash } };
 
   const { data, loading } = useTransactionsHistoryQuery({
     variables: {

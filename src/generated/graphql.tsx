@@ -12,63 +12,24 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  /** A number without precision limits. */
-  Decimal: string;
   /** A timestamp. */
   DateTime: string;
+  /** A number without precision limits. */
+  Decimal: string;
 };
 
-
-
-export type Transaction = {
-  __typename?: 'Transaction';
-  id: Scalars['ID'];
-  at: Scalars['DateTime'];
-  type: TransactionType;
-  status: TransactionStatus;
-  bridge: Bridge;
-  depositAddress: Scalars['String'];
-  depositAmount: Scalars['Decimal'];
-  depositTxHash?: Maybe<Scalars['String']>;
-  depositCurrency: TransactionCurrency;
-  receivingAddress: Scalars['String'];
-  receivingAmount: Scalars['Decimal'];
-  receivingTxHash?: Maybe<Scalars['String']>;
-  receivingCurrency: TransactionCurrency;
-  feeCurrency: TransactionCurrency;
-  feeTotal: Scalars['Decimal'];
-};
-
-export enum StringFilterMode {
-  Default = 'default',
-  Insensitive = 'insensitive'
+export enum Bridge {
+  BtcErc = 'btc_erc',
+  BtcBep20 = 'btc_bep20'
 }
 
-export type StringFilter = {
-  contains?: Maybe<Scalars['String']>;
-  endsWith?: Maybe<Scalars['String']>;
-  equals?: Maybe<Scalars['String']>;
-  gt?: Maybe<Scalars['String']>;
-  gte?: Maybe<Scalars['String']>;
-  in?: Maybe<Array<Maybe<Scalars['String']>>>;
-  lt?: Maybe<Scalars['String']>;
-  lte?: Maybe<Scalars['String']>;
-  mode?: Maybe<StringFilterMode>;
-  not?: Maybe<StringFilter>;
-  notIn?: Maybe<Array<Maybe<Scalars['String']>>>;
-  startsWith?: Maybe<Scalars['String']>;
+export type BridgeEnumFilter = {
+  equals?: Maybe<Bridge>;
+  in?: Maybe<Array<Maybe<Bridge>>>;
+  not?: Maybe<BridgeEnumFilter>;
+  notIn?: Maybe<Array<Maybe<Bridge>>>;
 };
 
-export type DecimalFilter = {
-  equals?: Maybe<Scalars['Decimal']>;
-  gt?: Maybe<Scalars['Decimal']>;
-  gte?: Maybe<Scalars['Decimal']>;
-  in?: Maybe<Array<Maybe<Scalars['Decimal']>>>;
-  lt?: Maybe<Scalars['Decimal']>;
-  lte?: Maybe<Scalars['Decimal']>;
-  not?: Maybe<DecimalFilter>;
-  notIn?: Maybe<Array<Maybe<Scalars['Decimal']>>>;
-};
 
 export type DateTimeFilter = {
   equals?: Maybe<Scalars['DateTime']>;
@@ -81,70 +42,24 @@ export type DateTimeFilter = {
   notIn?: Maybe<Array<Maybe<Scalars['DateTime']>>>;
 };
 
-export type BridgeEnumFilter = {
-  equals?: Maybe<Bridge>;
-  in?: Maybe<Array<Maybe<Bridge>>>;
-  not?: Maybe<BridgeEnumFilter>;
-  notIn?: Maybe<Array<Maybe<Bridge>>>;
+
+export type DecimalFilter = {
+  equals?: Maybe<Scalars['Decimal']>;
+  gt?: Maybe<Scalars['Decimal']>;
+  gte?: Maybe<Scalars['Decimal']>;
+  in?: Maybe<Array<Maybe<Scalars['Decimal']>>>;
+  lt?: Maybe<Scalars['Decimal']>;
+  lte?: Maybe<Scalars['Decimal']>;
+  not?: Maybe<DecimalFilter>;
+  notIn?: Maybe<Array<Maybe<Scalars['Decimal']>>>;
 };
 
-export enum TransactionType {
-  Swap = 'SWAP',
-  Deposit = 'DEPOSIT',
-  Withdrawal = 'WITHDRAWAL'
-}
-
-export enum TransactionStatus {
-  Waiting = 'WAITING',
-  Pending = 'PENDING',
-  Signing = 'SIGNING',
-  Sending = 'SENDING',
-  Completed = 'COMPLETED',
-  SigningRefund = 'SIGNING_REFUND',
-  SendingRefund = 'SENDING_REFUND',
-  Refunded = 'REFUNDED',
-  Expired = 'EXPIRED'
-}
-
-export enum Bridge {
-  BtcErc = 'btc_erc',
-  BtcBep20 = 'btc_bep20'
-}
-
-export enum TransactionCurrency {
-  Btc = 'BTC',
-  WbtcErc20 = 'WBTC__ERC20',
-  SbBtcErc20 = 'sbBTC__ERC20',
-  BtcbBep20 = 'BTCB__BEP20',
-  SbBtcBep20 = 'sbBTC__BEP20'
-}
-
-export type TransactionsConnection = {
-  __typename?: 'TransactionsConnection';
-  totalCount: Scalars['Int'];
-  edges: Array<TransactionsConnectionEdges>;
-  pageInfo: ForwardPaginationPageInfo;
-};
-
-export type TransactionWhereInput = {
-  AND?: Maybe<Array<Maybe<TransactionWhereInput>>>;
-  NOT?: Maybe<Array<Maybe<TransactionWhereInput>>>;
-  OR?: Maybe<Array<Maybe<TransactionWhereInput>>>;
-  id?: Maybe<StringFilter>;
-  type?: Maybe<TransactionTypeEnumFilter>;
-  status?: Maybe<TransactionStatusEnumFilter>;
-  bridge?: Maybe<BridgeEnumFilter>;
-  depositAddress?: Maybe<StringFilter>;
-  depositTxHash?: Maybe<StringFilter>;
-  depositCurrency?: Maybe<TransactionCurrencyEnumFilter>;
-  depositAmount?: Maybe<DecimalFilter>;
-  receivingAddress?: Maybe<StringFilter>;
-  receivingTxHash?: Maybe<StringFilter>;
-  receivingCurrency?: Maybe<TransactionCurrencyEnumFilter>;
-  receivingAmount?: Maybe<DecimalFilter>;
-  feeCurrency?: Maybe<TransactionCurrencyEnumFilter>;
-  feeTotal?: Maybe<DecimalFilter>;
-  at?: Maybe<DateTimeFilter>;
+export type ForwardPaginationPageInfo = {
+  __typename?: 'ForwardPaginationPageInfo';
+  startCursor: Scalars['String'];
+  endCursor: Scalars['String'];
+  hasNextPage: Scalars['Boolean'];
+  hasPreviousPage: Scalars['Boolean'];
 };
 
 export type Node = {
@@ -163,41 +78,6 @@ export type Node = {
   bondAddress: Scalars['String'];
   bondAmount: Scalars['Decimal'];
   bondExpiresAt: Scalars['DateTime'];
-};
-
-export type TransactionsConnectionEdges = {
-  __typename?: 'TransactionsConnectionEdges';
-  node: Transaction;
-  cursor: Scalars['String'];
-};
-
-export type ForwardPaginationPageInfo = {
-  __typename?: 'ForwardPaginationPageInfo';
-  startCursor: Scalars['String'];
-  endCursor: Scalars['String'];
-  hasNextPage: Scalars['Boolean'];
-  hasPreviousPage: Scalars['Boolean'];
-};
-
-export type TransactionTypeEnumFilter = {
-  equals?: Maybe<TransactionType>;
-  in?: Maybe<Array<Maybe<TransactionType>>>;
-  not?: Maybe<TransactionTypeEnumFilter>;
-  notIn?: Maybe<Array<Maybe<TransactionType>>>;
-};
-
-export type TransactionStatusEnumFilter = {
-  equals?: Maybe<TransactionStatus>;
-  in?: Maybe<Array<Maybe<TransactionStatus>>>;
-  not?: Maybe<TransactionStatusEnumFilter>;
-  notIn?: Maybe<Array<Maybe<TransactionStatus>>>;
-};
-
-export type TransactionCurrencyEnumFilter = {
-  equals?: Maybe<TransactionCurrency>;
-  in?: Maybe<Array<Maybe<TransactionCurrency>>>;
-  not?: Maybe<TransactionCurrencyEnumFilter>;
-  notIn?: Maybe<Array<Maybe<TransactionCurrency>>>;
 };
 
 export enum NodeStatus {
@@ -233,6 +113,126 @@ export type QueryTransactionsArgs = {
 
 export type QueryNodesArgs = {
   bridge?: Maybe<Array<Bridge>>;
+};
+
+export type StringFilter = {
+  contains?: Maybe<Scalars['String']>;
+  endsWith?: Maybe<Scalars['String']>;
+  equals?: Maybe<Scalars['String']>;
+  gt?: Maybe<Scalars['String']>;
+  gte?: Maybe<Scalars['String']>;
+  in?: Maybe<Array<Maybe<Scalars['String']>>>;
+  lt?: Maybe<Scalars['String']>;
+  lte?: Maybe<Scalars['String']>;
+  mode?: Maybe<StringFilterMode>;
+  not?: Maybe<StringFilter>;
+  notIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  startsWith?: Maybe<Scalars['String']>;
+};
+
+export enum StringFilterMode {
+  Default = 'default',
+  Insensitive = 'insensitive'
+}
+
+export type Transaction = {
+  __typename?: 'Transaction';
+  id: Scalars['ID'];
+  at: Scalars['DateTime'];
+  type: TransactionType;
+  status: TransactionStatus;
+  bridge: Bridge;
+  depositAddress: Scalars['String'];
+  depositAmount: Scalars['Decimal'];
+  depositTxHash?: Maybe<Scalars['String']>;
+  depositCurrency: TransactionCurrency;
+  receivingAddress: Scalars['String'];
+  receivingAmount: Scalars['Decimal'];
+  receivingTxHash?: Maybe<Scalars['String']>;
+  receivingCurrency: TransactionCurrency;
+  feeCurrency: TransactionCurrency;
+  feeTotal: Scalars['Decimal'];
+};
+
+export enum TransactionCurrency {
+  Btc = 'BTC',
+  WbtcErc20 = 'WBTC__ERC20',
+  SbBtcErc20 = 'sbBTC__ERC20',
+  BtcbBep20 = 'BTCB__BEP20',
+  SbBtcBep20 = 'sbBTC__BEP20'
+}
+
+export type TransactionCurrencyEnumFilter = {
+  equals?: Maybe<TransactionCurrency>;
+  in?: Maybe<Array<Maybe<TransactionCurrency>>>;
+  not?: Maybe<TransactionCurrencyEnumFilter>;
+  notIn?: Maybe<Array<Maybe<TransactionCurrency>>>;
+};
+
+export enum TransactionStatus {
+  Waiting = 'WAITING',
+  Pending = 'PENDING',
+  Signing = 'SIGNING',
+  Sending = 'SENDING',
+  Completed = 'COMPLETED',
+  SigningRefund = 'SIGNING_REFUND',
+  SendingRefund = 'SENDING_REFUND',
+  Refunded = 'REFUNDED',
+  Expired = 'EXPIRED'
+}
+
+export type TransactionStatusEnumFilter = {
+  equals?: Maybe<TransactionStatus>;
+  in?: Maybe<Array<Maybe<TransactionStatus>>>;
+  not?: Maybe<TransactionStatusEnumFilter>;
+  notIn?: Maybe<Array<Maybe<TransactionStatus>>>;
+};
+
+export enum TransactionType {
+  Swap = 'SWAP',
+  Deposit = 'DEPOSIT',
+  Withdrawal = 'WITHDRAWAL'
+}
+
+export type TransactionTypeEnumFilter = {
+  equals?: Maybe<TransactionType>;
+  in?: Maybe<Array<Maybe<TransactionType>>>;
+  not?: Maybe<TransactionTypeEnumFilter>;
+  notIn?: Maybe<Array<Maybe<TransactionType>>>;
+};
+
+export type TransactionWhereInput = {
+  AND?: Maybe<Array<Maybe<TransactionWhereInput>>>;
+  NOT?: Maybe<Array<Maybe<TransactionWhereInput>>>;
+  OR?: Maybe<Array<Maybe<TransactionWhereInput>>>;
+  id?: Maybe<StringFilter>;
+  type?: Maybe<TransactionTypeEnumFilter>;
+  status?: Maybe<TransactionStatusEnumFilter>;
+  bridge?: Maybe<BridgeEnumFilter>;
+  depositAddress?: Maybe<StringFilter>;
+  depositTxHash?: Maybe<StringFilter>;
+  depositCurrency?: Maybe<TransactionCurrencyEnumFilter>;
+  depositAmount?: Maybe<DecimalFilter>;
+  receivingAddress?: Maybe<StringFilter>;
+  receivingTxHash?: Maybe<StringFilter>;
+  receivingCurrency?: Maybe<TransactionCurrencyEnumFilter>;
+  receivingAmount?: Maybe<DecimalFilter>;
+  feeCurrency?: Maybe<TransactionCurrencyEnumFilter>;
+  feeTotal?: Maybe<DecimalFilter>;
+  at?: Maybe<DateTimeFilter>;
+};
+
+export type TransactionsConnection = {
+  __typename?: 'TransactionsConnection';
+  totalCount: Scalars['Int'];
+  edges: Array<TransactionsConnectionEdges>;
+  pageInfo: ForwardPaginationPageInfo;
+};
+
+export type TransactionsConnectionEdges = {
+  __typename?: 'TransactionsConnectionEdges';
+  node: Transaction;
+  cursor: Scalars['String'];
 };
 
 export type TransactionsHistoryQueryVariables = Exact<{
