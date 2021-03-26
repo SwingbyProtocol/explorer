@@ -45,6 +45,8 @@
   "home.network.rewards": "Rewards (1W)",
   "home.network.capacity": "Capacity (Float)",
   "home.network.network-bridges": "Network Bridges",
+  "home.network.bitcoin-ethereum": "Bitcoin - Ethereum",
+  "home.network.bitcoin-bsc": "Bitcoin - BSC",
   "home.network.float": "Float",
   "home.network.vol": "Vol.",
   "home.network.total-vol": "Total Volume (7 Days)",

@@ -90,7 +90,8 @@ export interface Reward {
 }
 
 export interface IFloat {
-  btc: number;
+  btcEth: number;
+  btcBsc: number;
   wbtc: number;
   btcb: number;
 }
@@ -140,7 +141,8 @@ export interface ILoadHistoryArgs {
 export interface INetworkInfos {
   capacity: number;
   floatBalances: {
-    btc: number;
+    btcEth: number;
+    btcBsc: number;
     wbtc: number;
     btcb: number;
   };

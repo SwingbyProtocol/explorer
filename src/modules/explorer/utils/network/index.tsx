@@ -55,19 +55,19 @@ export const fetchFloatBalances = async (usdBtc: number): Promise<IFloatBalances
       fetcher<IFloatAmount[]>(getFloatBalUrl(ENDPOINT_BSC_NODE)),
     ]);
     const resEth = results[0];
-    const resBSC = results[1];
+    const resBsc = results[1];
     const formattedBTCB = castToBackendVariable(CoinSymbol.BTC_B);
 
     const floats: IFloat = {
-      btc:
-        Number(getFloatBalance(CoinSymbol.BTC, resEth)) +
-        Number(getFloatBalance(CoinSymbol.BTC, resBSC)),
+      btcEth: Number(getFloatBalance(CoinSymbol.BTC, resEth)),
+      btcBsc: Number(getFloatBalance(CoinSymbol.BTC, resBsc)),
       wbtc: Number(getFloatBalance(CoinSymbol.WBTC, resEth)),
-      btcb: Number(getFloatBalance(formattedBTCB, resBSC)),
+      btcb: Number(getFloatBalance(formattedBTCB, resBsc)),
     };
 
     const capacity: number =
-      usdBtc * (Number(floats.btc) + Number(floats.wbtc) + Number(floats.btcb));
+      usdBtc *
+      (Number(floats.btcEth) + Number(floats.btcBsc) + Number(floats.wbtc) + Number(floats.btcb));
 
     return { floats, capacity };
   } catch (err) {

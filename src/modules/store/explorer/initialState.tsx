@@ -1,6 +1,6 @@
 export const networkInfos = {
   capacity: 0,
-  floatBalances: { btc: 0, wbtc: 0, btcb: 0 },
+  floatBalances: { btcEth: 0, btcBsc: 0, wbtc: 0, btcb: 0 },
   stats: {
     volume1wksWBTC: 0,
     volume1wksBTCB: 0,

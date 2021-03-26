@@ -18,6 +18,7 @@ export const ExplorerInfosContainer = styled.div`
     padding-top: ${({ theme }) => rem(theme.pulsar.size.box * 7)};
   }
   @media (min-width: ${rem(media.lg)}) {
+    margin-top: ${rem(64)};
     padding-top: ${({ theme }) => rem(theme.pulsar.size.closet)};
     grid-area: auto;
     border-right: 1px solid #cecddc;

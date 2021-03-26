@@ -44,7 +44,7 @@ export const BrowserDiv = styled(Card)`
 export const Top = styled.div`
   @media (min-width: ${rem(media.md)}) {
     display: grid;
-    margin-bottom: ${({ theme }) => rem(theme.pulsar.size.country)};
+    margin-bottom: 0;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr;
     grid-template-areas:
@@ -52,7 +52,6 @@ export const Top = styled.div`
       'volume volume volume volume';
   }
   @media (min-width: ${rem(media.lg)}) {
-    margin-bottom: ${({ theme }) => rem(theme.pulsar.size.city)};
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr;
     align-items: start;
@@ -66,10 +65,12 @@ export const Bottom = styled.div`
   display: none;
   @media (min-width: ${rem(media.md)}) {
     display: block;
-    margin-top: ${({ theme }) => rem(-theme.pulsar.size.street)};
   }
   @media (min-width: ${rem(media.lg)}) {
-    margin-top: ${({ theme }) => rem(theme.pulsar.size.country)};
+    margin-top: ${({ theme }) => rem(theme.pulsar.size.town)};
+  }
+  @media (min-width: ${rem(media.xl)}) {
+    margin-top: ${({ theme }) => rem(theme.pulsar.size.state)};
   }
 `;
 

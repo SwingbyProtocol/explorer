@@ -28,7 +28,7 @@ export const SwapVolumeContainer = styled.div`
     align-self: start;
   }
   @media (min-width: ${rem(media.lg)}) {
-    margin-top: 0;
+    margin-top: ${rem(64)};
     width: ${rem(300)};
     grid-area: auto;
     padding-top: 0;
@@ -50,6 +50,7 @@ export const Box = styled.div`
     width: 100%;
   }
 `;
+
 export const LineContainer = styled.div`
   text-align: center;
   position: relative;
@@ -71,7 +72,8 @@ export const TitleDiv = styled.div`
     padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
   }
   @media (min-width: ${rem(media.lg)}) {
-    margin-bottom: ${({ theme }) => rem(theme.pulsar.size.box)};
+    margin-top: ${({ theme }) => rem(-theme.pulsar.size.house)};
+    margin-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
   }
 `;
 
