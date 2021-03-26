@@ -1,38 +1,49 @@
-import { CoinSymbol } from '../coins';
+import { DateTime } from 'luxon';
 
+import { Bridge, Transaction, TransactionStatus } from '../../generated/graphql';
+
+import { castCurrencyName, CoinSymbol } from './../coins';
+
+export { TxRowTransition, TxRowVariants } from './animation';
 export {
-  loadHistory,
-  currencyNetwork,
-  TxStatus,
-  removeDuplicatedTxs,
-  convertTxTime,
-  fetchFloatBalances,
-  fetchStatsInfo,
-  getUsdPrice,
   calculateFixedFee,
-  getTransactionFees,
-  exponentialToNumber,
+  calTvl,
   capitalize,
-  toBTC,
-  toSatoshi,
-  isEtherAddress,
-  isBinanceAddress,
-  isBitcoinAddress,
   checkIsValidAddress,
   checkIsValidAmount,
   convertDateTime,
+  convertTxTime,
+  currencyNetwork,
+  exponentialToNumber,
+  fetchFloatBalances,
+  fetchStatsInfo,
   getBorderColor,
   getDiffDays,
-  calTvl,
+  getTransactionFees,
+  getUsdPrice,
+  isBinanceAddress,
+  isBitcoinAddress,
+  isEtherAddress,
+  removeDuplicatedTxs,
+  toBTC,
+  toSatoshi,
+  TxStatus,
 } from './utils';
 
-export { TxRowTransition, TxRowVariants } from './animation';
-
-export const BRIDGE = {
-  ethereum: 'Ethereum',
-  multipleBridges: 'Multiple-Bridges',
-  binance: 'Binance',
-};
+export const selectableBridge = [
+  {
+    menu: 'Multiple-Bridges',
+    bridge: '',
+  },
+  {
+    menu: 'Ethereum',
+    bridge: Bridge.BtcErc,
+  },
+  {
+    menu: 'BSC',
+    bridge: Bridge.BtcBep20,
+  },
+];
 
 // Memo: interface
 export interface FloatRawObject {
@@ -44,7 +55,7 @@ export interface FloatRawObject {
   currencyIn: CoinSymbol;
   currencyOut: CoinSymbol;
   hash: string;
-  status: TStatus;
+  status: TransactionStatus;
   timestamp: number;
   txIdIn?: string;
   fee?: string;
@@ -62,8 +73,8 @@ export interface SwapRawObject {
   currencyOut: CoinSymbol;
   fee?: string;
   hash?: string;
+  status: TransactionStatus;
   feeCurrency: CoinSymbol;
-  status: TStatus;
   timestamp?: number;
   txIdIn?: string;
   txIdOut?: string;
@@ -193,3 +204,21 @@ export interface IMetanode {
   stake: IStake;
   version: string;
 }
+
+export const castGraphQlType = (tx: Transaction) => {
+  return {
+    addressIn: tx.depositAddress,
+    addressOut: tx.receivingAddress,
+    amountIn: tx.depositAmount,
+    amountOut: tx.receivingAmount,
+    currencyIn: castCurrencyName(tx.depositCurrency),
+    currencyOut: castCurrencyName(tx.receivingCurrency),
+    fee: tx.feeTotal,
+    hash: tx.id,
+    feeCurrency: castCurrencyName(tx.feeCurrency),
+    status: tx.status,
+    timestamp: DateTime.fromISO(tx.at).toSeconds(),
+    txIdIn: tx.depositTxHash,
+    txIdOut: tx.receivingTxHash,
+  };
+};

@@ -38,6 +38,11 @@ export const TXS_COUNT = 10;
 
 export const NODES_PER_PAGE = 10;
 
+export const graphEndpoint =
+  mode === MODE.PRODUCTION
+    ? 'https://graph.skybridge.info/api/graphql'
+    : 'https://testnet.graph.skybridge.info/api/graphql';
+
 export const GA_TAG = process.env.NEXT_PUBLIC_GA_TAG || 'G-8C02VKBZ6P';
 
 export const etherscanApiKey = process.env.ETHERSCAN_KEY || 'NYXXH5CD1NQJMYJGZYAFK7G9G6AZGZTT3H';
@@ -78,6 +83,11 @@ export const URL_ETHERSCAN =
 
 export const URL_BSCSCAN =
   mode === MODE.PRODUCTION ? 'https://bscscan.com' : 'https://testnet.bscscan.com';
+
+export const BTC_EXPLORER =
+  mode === MODE.PRODUCTION
+    ? 'https://www.blockchain.com/btc'
+    : 'https://www.blockchain.com/btc-testnet';
 
 export const CACHED_ENDPOINT = 'https://metanode-earnings.vercel.app/api';
 

@@ -1,143 +1,152 @@
-import { Dropdown, getCryptoAssetFormatter, Text } from '@swingby-protocol/pulsar';
+import { Dropdown, Text } from '@swingby-protocol/pulsar';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { useDispatch } from 'react-redux';
-import { useTheme } from 'styled-components';
+import React, { useCallback, useEffect, useState } from 'react';
+import { FormattedMessage } from 'react-intl';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { LinkToWidgetModal } from '../../../../../components/LinkToWidgetModal';
-import { Pagination } from '../../../../../components/Pagination';
-import {
-  capitalize,
-  convertTxTime,
-  currencyNetwork,
-  getBorderColor,
-  TTxRawObject,
-  TxRowTransition,
-  TxRowVariants,
-} from '../../../../explorer';
-import { useLinkToWidget } from '../../../../hooks';
-import { selectSwapDetails } from '../../../../store';
-import { transactionDetailByTxId } from '../../../../swap';
+import { CursorPagination } from '../../../../../components/CursorPagination';
+import { Loader } from '../../../../../components/Loader';
+import { TransactionType } from '../../../../../generated/graphql';
+import { PAGE_COUNT, PATH, TXS_COUNT } from '../../../../env';
+import { selectableBridge } from '../../../../explorer';
+import { useLoadHistories } from '../../../../hooks';
+import { toggleIsExistPreviousPage, toggleIsRejectedTx } from '../../../../store';
 
+import { TxHistoriesItem } from './Item';
 import {
-  AddressP,
-  AmountSpan,
-  Bottom,
   BrowserFooter,
-  Coin,
-  Column,
-  ColumnAmount,
-  ColumnEllipsis,
-  ColumnFee,
-  Ellipsis,
-  IconArrowRight,
+  Filter,
   Left,
+  NoResultsFound,
   Right,
-  Status,
-  StatusCircle,
-  StatusText,
   TextFee,
   TitleRow,
-  Top,
   TxHistoriesContainer,
-  TxHistoryRow,
 } from './styled';
 
-interface Props {
-  filter: JSX.Element;
-  loader: JSX.Element;
-  adjustIndex: number;
-  page: number;
-  maximumPage: number;
-  bridge: string;
-  isNoResult: boolean;
-  isLoadingHistory: boolean;
-  noResultFound: JSX.Element;
-  currentTxs: TTxRawObject[];
-  goNextPage: () => void;
-  goBackPage: () => void;
-  goToDetail: (arg: string) => void;
-}
+const ROW_HEIGHT = 90;
 
-export const TxHistories = (props: Props) => {
-  const {
-    filter,
-    maximumPage,
-    page,
-    currentTxs,
-    goNextPage,
-    bridge,
-    goBackPage,
-    goToDetail,
-    loader,
-    isNoResult,
-    isLoadingHistory,
-    noResultFound,
-    adjustIndex,
-  } = props;
+export const TxHistories = () => {
+  const { push, query } = useRouter();
 
-  const { locale } = useIntl();
+  const params = query;
 
-  const dispatch = useDispatch();
-  const [chosenTx, setChosenTx] = useState(null);
-  const [toggleOpenLink, setToggleOpenLink] = useState(1);
-  const router = useRouter();
-  const theme = useTheme();
+  const q = String(params.q || '');
+  const chainBridge = String(params.bridge || '');
 
-  const { isClaimWidgetModalOpen, setIsClaimWidgetModalOpen } = useLinkToWidget({
-    toggleOpenLink,
-    tx: chosenTx,
-    action: 'claim',
-  });
+  const goToDetail = (hash: string) => {
+    push(`${chainBridge === 'floats' ? PATH.FLOAT : PATH.SWAP}/${hash}`);
+    dispatch(toggleIsExistPreviousPage(true));
+  };
 
-  const externalLinkMenu = (tx: TTxRawObject) => (
-    <>
-      <Dropdown.Item
-        onClick={() => {
-          setChosenTx(tx);
-          setToggleOpenLink(toggleOpenLink + 1);
-        }}
-      >
-        <p>
-          <FormattedMessage id="home.recent-swaps.check-swap-progress" />
-        </p>
-      </Dropdown.Item>
-      {tx.txIdOut && (
-        <Dropdown.Item
-          onClick={() =>
-            window.open(transactionDetailByTxId(tx.currencyOut, tx.txIdOut), '_blank', 'noopener')
-          }
-        >
-          <p>
-            <FormattedMessage id="home.recent-swaps.get-tx-details" />
-          </p>
-        </Dropdown.Item>
-      )}
-    </>
+  const routerPush = useCallback(
+    (bridge: string, q: string): void => {
+      // Memo: Shallow routing make URL faster update and page won't get replaced. Only the state of the route is changed.
+      // Ref: https://nextjs.org/docs/routing/shallow-routing
+      push(
+        {
+          pathname: '/',
+          query: { bridge, q },
+        },
+        undefined,
+        { shallow: true },
+      );
+    },
+    [push],
   );
 
-  // Memo: px for row height
-  const rowHeight = 90;
-  const rowHeightWithTxs = currentTxs && currentTxs.length * rowHeight;
+  const dispatch = useDispatch();
+  const explorer = useSelector((state) => state.explorer);
+  const { isRejectedTx } = explorer;
+
+  const [filterTransaction, setFilterTransaction] = useState<TransactionType>(TransactionType.Swap);
+
+  const { data, loading, goToNextPage, goToPreviousPage, totalCount } = useLoadHistories(
+    filterTransaction,
+  );
+
+  const filter = (
+    <Dropdown target={<Filter />}>
+      {/* Memo: Just shows user the filter is hiding 'waiting' */}
+      <Dropdown.Item selected={true} disabled={true}>
+        <FormattedMessage id="home.recent-swaps.hide-waiting" />
+      </Dropdown.Item>
+      <Dropdown.Item
+        selected={isRejectedTx}
+        onClick={() => {
+          routerPush(chainBridge, q);
+          dispatch(toggleIsRejectedTx(!isRejectedTx));
+        }}
+      >
+        <FormattedMessage id="home.recent-swaps.rejected-tx" />
+      </Dropdown.Item>
+      <Dropdown.Item
+        selected={filterTransaction === TransactionType.Deposit}
+        onClick={() => {
+          if (filterTransaction === TransactionType.Deposit) {
+            setFilterTransaction(TransactionType.Swap);
+          } else {
+            setFilterTransaction(TransactionType.Deposit);
+          }
+        }}
+      >
+        Float transactions
+      </Dropdown.Item>
+      {selectableBridge.map((chain) => {
+        // const bridge = chain === selectableBridge.multipleBridges ? '' : chain.toLowerCase();
+        return (
+          <Dropdown.Item
+            selected={chainBridge === chain.bridge}
+            onClick={() => routerPush(chain.bridge, q)}
+            key={chain.menu}
+          >
+            Bitcoin - {chain.menu}
+          </Dropdown.Item>
+        );
+      })}
+    </Dropdown>
+  );
+
+  const loader = (
+    <Loader marginTop={100} minHeight={92 * TXS_COUNT} testId="main.loading-container" />
+  );
+
+  // Memo: To make `drop animation`. Migrate it later.
+  const [adjustIndex, setAdjustIndex] = useState(0);
+  const [previousTxTotal, setPreviousTxTotal] = useState(0);
+  useEffect(() => {
+    if (previousTxTotal === 0 && totalCount > 0) {
+      setPreviousTxTotal(totalCount);
+      setAdjustIndex(2);
+    }
+    if (previousTxTotal > 0) {
+      setAdjustIndex(totalCount - previousTxTotal);
+    }
+  }, [adjustIndex, previousTxTotal, totalCount]);
+
+  const noResultFound = (
+    <NoResultsFound>
+      <Text variant="title-s">
+        <FormattedMessage id="home.no-results-found" />
+      </Text>
+      <Text variant="title-xs">
+        <FormattedMessage id="home.try-different-tx" />
+      </Text>
+    </NoResultsFound>
+  );
 
   return (
     <>
-      <LinkToWidgetModal
-        isWidgetModalOpen={isClaimWidgetModalOpen}
-        setIsWidgetModalOpen={setIsClaimWidgetModalOpen}
-        tx={chosenTx}
-      />
-      <TxHistoriesContainer txsHeight={rowHeightWithTxs}>
+      <TxHistoriesContainer txsHeight={PAGE_COUNT * ROW_HEIGHT}>
         <TitleRow>
           <Left>
             <Text variant="section-title">
               <FormattedMessage id="home.recent-swaps.recent-swaps" />
             </Text>
           </Left>
-          <Right isFloats={bridge === 'floats'}>
+          <Right isFloats={chainBridge === 'floats'}>
             <TextFee variant="section-title">
-              {bridge === 'floats' ? (
+              {chainBridge === 'floats' ? (
                 <FormattedMessage id="home.recent-swaps.fees-max" />
               ) : (
                 <FormattedMessage id="home.recent-swaps.fees" />
@@ -146,109 +155,18 @@ export const TxHistories = (props: Props) => {
             {filter}
           </Right>
         </TitleRow>
-        {router.query.q && isNoResult && noResultFound}
-        {/* Memo: show loader */}
-        {page > 1 ? !currentTxs.length && loader : isLoadingHistory && loader}
-        {currentTxs &&
-          currentTxs.map((tx: TTxRawObject, i: number) => {
-            const bgKey = i - adjustIndex;
-            const borderColor = getBorderColor({ status: tx.status, theme });
-            return (
-              <TxHistoryRow
-                key={tx.hash}
-                bg={bgKey % 2 !== 0}
-                borderColor={borderColor}
-                onMouseEnter={() => {
-                  dispatch(selectSwapDetails(tx));
-                }}
-                onClick={() => goToDetail(tx.hash)}
-                variants={page === 1 && TxRowVariants}
-                transition={page === 1 && TxRowTransition}
-                initial={page === 1 ? 'initial' : null}
-                animate={page === 1 ? 'in' : null}
-              >
-                <Column>
-                  <Status>
-                    <StatusCircle status={tx.status} />
-                    <StatusText variant="accent">{capitalize(tx.status)}</StatusText>
-                  </Status>
-                  <Bottom>
-                    <Text variant="label">{convertTxTime(tx.timestamp)}</Text>
-                  </Bottom>
-                </Column>
-                <Column>
-                  <Top>
-                    <Text variant="label">
-                      <FormattedMessage id="common.from" />
-                    </Text>
-                  </Top>
-                  <Bottom>
-                    <Text variant="label">
-                      <FormattedMessage id="common.to" />
-                    </Text>
-                  </Bottom>
-                </Column>
-                <Column>
-                  <Top>
-                    <AddressP>{tx.addressIn?.toLowerCase()}</AddressP>
-                  </Top>
-                  <Bottom>
-                    <AddressP>{tx.addressOut?.toLowerCase()}</AddressP>
-                  </Bottom>
-                </Column>
-                <ColumnAmount>
-                  <Coin symbol={tx.currencyIn} />
-                  <div>
-                    <Top>
-                      <Text variant="label">{currencyNetwork(tx.currencyIn)}</Text>
-                    </Top>
-                    <Bottom>
-                      <AmountSpan variant="accent">{tx.amountIn}</AmountSpan>
-                    </Bottom>
-                  </div>
-                </ColumnAmount>
-                <Column>
-                  <IconArrowRight />
-                </Column>
-                <ColumnAmount>
-                  <Coin symbol={tx.currencyOut} />
-                  <div>
-                    <Top>
-                      <Text variant="label">{currencyNetwork(tx.currencyOut)}</Text>
-                    </Top>
-                    <Bottom>
-                      <AmountSpan variant="accent">{tx.amountOut}</AmountSpan>
-                    </Bottom>
-                  </div>
-                </ColumnAmount>
-                <ColumnFee>
-                  <Text variant="section-title">
-                    {getCryptoAssetFormatter({
-                      locale,
-                      displaySymbol: tx.feeCurrency,
-                    }).format(Number(tx.fee))}
-                  </Text>
-                </ColumnFee>
-                <ColumnEllipsis
-                  onClick={(event) => {
-                    event.stopPropagation();
-                  }}
-                >
-                  <Dropdown target={<Ellipsis />} data-testid="dropdown">
-                    {externalLinkMenu(tx)}
-                  </Dropdown>
-                </ColumnEllipsis>
-              </TxHistoryRow>
-            );
-          })}
+        {!!data && data.transactions.totalCount < 1 && noResultFound}
+        {loading && loader}
+        {data?.transactions.edges.map(({ node: tx }, i) => (
+          <TxHistoriesItem key={tx.id} bgKey={i - adjustIndex} goToDetail={goToDetail} tx={tx} />
+        ))}
       </TxHistoriesContainer>
       <BrowserFooter>
-        <Pagination
-          goNextPage={goNextPage}
-          goBackPage={goBackPage}
-          page={page}
-          maximumPage={maximumPage}
-          isSimple={true}
+        <CursorPagination
+          goToNextPage={goToNextPage}
+          goToPreviousPage={goToPreviousPage}
+          hasNextPage={data?.transactions.pageInfo.hasNextPage}
+          hasPreviousPage={data?.transactions.pageInfo.hasPreviousPage}
         />
       </BrowserFooter>
     </>

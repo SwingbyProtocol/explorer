@@ -63,6 +63,13 @@ export const SizeS = styled.div`
   }
 `;
 
+export const SizeM = styled.div`
+  display: none;
+  @media (min-width: ${rem(media.md)}) {
+    display: block;
+  }
+`;
+
 export const SizeL = styled.div`
   display: none;
   @media (min-width: ${rem(media.lg)}) {

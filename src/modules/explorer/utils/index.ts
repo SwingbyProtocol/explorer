@@ -1,4 +1,3 @@
-export { loadHistory } from './loadHistory';
 export {
   currencyNetwork,
   TxStatus,

@@ -10,6 +10,9 @@ import { SearchIcon, SearchInput } from './styled';
 
 export const Search = () => {
   const router = useRouter();
+  const params = router.query;
+  const chainBridge = String(params.bridge || '');
+
   const [search, setSearch] = useState('');
   const { media } = StylingConstants;
   const lg = useMatchMedia({ query: `(min-width: ${rem(media.lg)})` });
@@ -25,7 +28,7 @@ export const Search = () => {
         setSearch(evt.target.value);
         router.push({
           pathname: '/',
-          query: { bridge: '', q: evt.target.value, page: 1 },
+          query: { bridge: chainBridge, q: evt.target.value },
         });
       }}
       placeholder={formatMessage({ id: 'common.placeholder.search' })}

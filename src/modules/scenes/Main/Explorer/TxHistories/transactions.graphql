@@ -1,0 +1,34 @@
+query TransactionsHistory(
+  $first: Int
+  $after: String
+  $last: Int
+  $before: String
+  $where: TransactionWhereInput
+) {
+  transactions(first: $first, after: $after, last: $last, before: $before, where: $where) {
+    totalCount
+    edges {
+      node {
+        id
+        status
+        at
+        depositAddress
+        depositCurrency
+        depositAmount
+        receivingAddress
+        receivingCurrency
+        receivingAmount
+        receivingTxHash
+        feeTotal
+        feeCurrency
+      }
+      cursor
+    }
+    pageInfo {
+      startCursor
+      endCursor
+      hasNextPage
+      hasPreviousPage
+    }
+  }
+}

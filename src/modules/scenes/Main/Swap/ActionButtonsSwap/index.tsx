@@ -38,6 +38,7 @@ export const ActionButtons = (props: Props) => {
     toggleOpenLink,
     tx,
     action,
+    setToggleOpenLink,
   });
 
   return (

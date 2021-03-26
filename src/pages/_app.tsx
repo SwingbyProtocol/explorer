@@ -3,15 +3,22 @@ import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 import { IntlProvider } from 'react-intl';
 import { Provider as ReduxProvider } from 'react-redux';
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 
 import { Globals } from '../components/Globals';
 import { languages } from '../modules/i18n';
 import { SEO } from '../modules/seo';
 import { useStore } from '../modules/store';
+import { graphEndpoint } from '../modules/env';
 
 import './style.css';
 
 const DEFAULT_LOCALE = 'en';
+
+const apolloClient = new ApolloClient({
+  uri: graphEndpoint,
+  cache: new InMemoryCache(),
+});
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
@@ -30,7 +37,7 @@ function MyApp({ Component, pageProps }) {
   ]);
 
   return (
-    <>
+    <ApolloProvider client={apolloClient}>
       <RouterScrollProvider>
         <SEO />
         <IntlProvider messages={messages} locale={locale} defaultLocale={DEFAULT_LOCALE}>
@@ -41,7 +48,7 @@ function MyApp({ Component, pageProps }) {
           </ReduxProvider>
         </IntlProvider>
       </RouterScrollProvider>
-    </>
+    </ApolloProvider>
   );
 }
 

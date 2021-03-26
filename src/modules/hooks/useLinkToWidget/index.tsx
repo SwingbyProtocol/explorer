@@ -16,10 +16,11 @@ interface IData {
   action: TSwapWidget | null;
   toggleOpenLink: number;
   tx: TTxRawObject;
+  setToggleOpenLink: (arg: number) => void;
 }
 
 export const useLinkToWidget = (data: IData) => {
-  const { toggleOpenLink, tx, action } = data;
+  const { toggleOpenLink, tx, action, setToggleOpenLink } = data;
   const router = useRouter();
   const [theme] = useThemeSettings();
   const dispatch = useDispatch();
@@ -55,7 +56,7 @@ export const useLinkToWidget = (data: IData) => {
       });
       dispatch(setOnboard(onboardData));
     }
-  }, [dispatch, bridge]);
+  }, [dispatch, bridge, toggleOpenLink, setToggleOpenLink]);
 
   useEffect(() => {
     if (tx && toggleOpenLink > 1) {
@@ -95,6 +96,7 @@ export const useLinkToWidget = (data: IData) => {
           login();
           return;
         }
+
         if (tx.addressOut.toLowerCase() !== formattedUserAddress && walletAddress !== undefined) {
           toastWrongAddress();
           setWalletAddress(null);
@@ -111,6 +113,9 @@ export const useLinkToWidget = (data: IData) => {
         action === 'duplicate' && setIsDuplicateWidgetModalOpen(true);
         return;
       }
+    } else {
+      // Memo: to avoid toggleOpenLink = 1 bug
+      walletAddress && setToggleOpenLink(toggleOpenLink + 1);
     }
   }, [
     tx,
@@ -123,6 +128,7 @@ export const useLinkToWidget = (data: IData) => {
     router,
     walletAddress,
     onboard,
+    setToggleOpenLink,
   ]);
 
   return {
