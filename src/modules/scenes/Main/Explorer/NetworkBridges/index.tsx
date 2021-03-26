@@ -5,6 +5,7 @@ import { PulseLoader } from 'react-spinners';
 import { useTheme } from 'styled-components';
 
 import { CoinSymbol } from '../../../../coins';
+import { mode } from '../../../../env';
 import { IFloat, IStats } from '../../../../explorer';
 
 import {
@@ -30,6 +31,12 @@ export const NetworkBridges = (props: Props) => {
   const data = [
     { coin: CoinSymbol.BTC, float: floatBalances.btc, vol: stats.volume1wksBTC },
     { coin: CoinSymbol.WBTC, float: floatBalances.wbtc, vol: stats.volume1wksWBTC },
+    // Todo: apply for production when ready
+    mode === 'test' && {
+      coin: CoinSymbol.BTC_B,
+      float: floatBalances.btcb,
+      vol: stats.volume1wksBTCB,
+    },
   ];
   const placeholderLoader = (
     <PulseLoader margin={3} size={4} color={theme.pulsar.color.text.normal} />

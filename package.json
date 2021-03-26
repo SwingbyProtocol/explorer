@@ -24,7 +24,7 @@
     "@react-hook/copy": "^2.0.1",
     "@swingby-protocol/header": "^1.2.1",
     "@swingby-protocol/ip-check": "^2.1.0",
-    "@swingby-protocol/pulsar": "^3.9.0",
+    "@swingby-protocol/pulsar": "^3.10.0",
     "@swingby-protocol/sdk": "^1.0.0-alpha.89",
     "@swingby-protocol/widget": "^1.1.0",
     "abortcontroller-polyfill": "^1.7.1",

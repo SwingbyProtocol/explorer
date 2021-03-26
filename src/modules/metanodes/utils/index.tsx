@@ -73,3 +73,11 @@ export const listNodeStatus = (nodes: INodeListResponse[]): INodeStatusTable[] =
   });
   return statusTable;
 };
+
+export const calTvl = (metanodes: INodeListResponse[]) => {
+  let tvl = 0;
+  metanodes.forEach((metanode) => {
+    tvl += Number(metanode.stake.amount);
+  });
+  return tvl;
+};

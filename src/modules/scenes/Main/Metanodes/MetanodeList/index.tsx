@@ -3,13 +3,14 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { DateTime } from 'luxon';
 import { SkybridgeBridge } from '@swingby-protocol/sdk';
 
-import { convertDateTime, getDiffDays, calTvl } from '../../../../explorer';
+import { convertDateTime, getDiffDays } from '../../../../explorer';
 import {
   getSbBtcRewardCurrency,
   INodeListResponse,
   toggleStatusBg,
   toggleStatusIconColor,
   toggleStatusWord,
+  calTvl,
 } from '../../../../metanodes';
 import { SizeL, TextBlock, TextRoom } from '../../../Common';
 

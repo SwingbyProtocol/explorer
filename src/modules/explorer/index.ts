@@ -23,7 +23,6 @@ export {
   convertDateTime,
   getBorderColor,
   getDiffDays,
-  calTvl,
 } from './utils';
 
 export { TxRowTransition, TxRowVariants } from './animation';
@@ -93,10 +92,12 @@ export interface Reward {
 export interface IFloat {
   btc: number;
   wbtc: number;
+  btcb: number;
 }
 
 export interface IStats {
   volume1wksWBTC: number;
+  volume1wksBTCB: number;
   volume1wksBTC: number;
   rewards1wksUSD: number;
   volumes: string[];
@@ -141,9 +142,11 @@ export interface INetworkInfos {
   floatBalances: {
     btc: number;
     wbtc: number;
+    btcb: number;
   };
   stats: {
     volume1wksWBTC: number;
+    volume1wksBTCB: number;
     volume1wksBTC: number;
     rewards1wksUSD: number;
     volumes: string[];
