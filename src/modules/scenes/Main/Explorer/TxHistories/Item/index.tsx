@@ -1,3 +1,5 @@
+/* eslint-disable import/no-internal-modules */
+
 import { Dropdown, getCryptoAssetFormatter, Text } from '@swingby-protocol/pulsar';
 import { DateTime } from 'luxon';
 import { useMemo, useState } from 'react';
@@ -6,7 +8,10 @@ import { useDispatch } from 'react-redux';
 import { useTheme } from 'styled-components';
 
 import { LinkToWidgetModal } from '../../../../../../components/LinkToWidgetModal';
-import type { TransactionsHistoryQueryHookResult } from '../../../../../../generated/graphql';
+import type {
+  Transaction,
+  TransactionsHistoryQueryHookResult,
+} from '../../../../../../generated/graphql';
 import {
   capitalize,
   castGraphQlType,
@@ -64,7 +69,7 @@ export const TxHistoriesItem = ({
 
   const borderColor = getBorderColor({ status: tx.status, theme });
 
-  const oldTxType = useMemo(() => castGraphQlType(tx), [tx]);
+  const oldTxType = useMemo(() => castGraphQlType(tx as Transaction), [tx]);
 
   const { isClaimWidgetModalOpen, setIsClaimWidgetModalOpen } = useLinkToWidget({
     toggleOpenLink,

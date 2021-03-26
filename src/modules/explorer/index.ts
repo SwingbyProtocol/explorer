@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon';
 
-import { TransactionCurrency, TransactionStatus, Bridge } from '../../generated/graphql';
+import { Bridge, Transaction, TransactionStatus } from '../../generated/graphql';
 
 import { castCurrencyName, CoinSymbol } from './../coins';
 
@@ -205,23 +205,7 @@ export interface IMetanode {
   version: string;
 }
 
-export interface IGraphQLTransactionHistory {
-  depositAddress: string;
-  depositAmount: string;
-  depositTxHash?: string;
-  depositCurrency: TransactionCurrency;
-  receivingAddress: string;
-  receivingAmount: string;
-  receivingTxHash?: string;
-  receivingCurrency: TransactionCurrency;
-  feeCurrency: TransactionCurrency;
-  feeTotal: string;
-  id: string;
-  at: string;
-  status: TransactionStatus;
-}
-
-export const castGraphQlType = (tx: IGraphQLTransactionHistory) => {
+export const castGraphQlType = (tx: Transaction) => {
   return {
     addressIn: tx.depositAddress,
     addressOut: tx.receivingAddress,

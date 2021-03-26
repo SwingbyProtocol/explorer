@@ -1,6 +1,5 @@
-import { useTransactionsHistoryQuery } from '../../../generated/graphql';
+import { Transaction, useTransactionsHistoryQuery } from '../../../generated/graphql';
 import { castGraphQlType } from '../../explorer';
-
 export const useLoadTransaction = (hash: string) => {
   const where = { id: hash };
 
@@ -11,7 +10,7 @@ export const useLoadTransaction = (hash: string) => {
   });
 
   const txData = data && hash && data.transactions.edges[0].node;
-  const tx = txData && castGraphQlType(txData);
+  const tx = txData && castGraphQlType(txData as Transaction);
 
   return { tx, loading };
 };
