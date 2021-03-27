@@ -254,7 +254,7 @@ export type TransactionsHistoryQuery = (
       & Pick<TransactionsConnectionEdges, 'cursor'>
       & { node: (
         { __typename?: 'Transaction' }
-        & Pick<Transaction, 'id' | 'status' | 'at' | 'depositAddress' | 'depositCurrency' | 'depositAmount' | 'receivingAddress' | 'receivingCurrency' | 'receivingAmount' | 'receivingTxHash' | 'feeTotal' | 'feeCurrency'>
+        & Pick<Transaction, 'id' | 'status' | 'at' | 'depositAddress' | 'depositCurrency' | 'depositAmount' | 'depositTxHash' | 'receivingAddress' | 'receivingCurrency' | 'receivingAmount' | 'receivingTxHash' | 'feeTotal' | 'feeCurrency'>
       ) }
     )>, pageInfo: (
       { __typename?: 'ForwardPaginationPageInfo' }
@@ -282,6 +282,7 @@ export const TransactionsHistoryDocument = gql`
         depositAddress
         depositCurrency
         depositAmount
+        depositTxHash
         receivingAddress
         receivingCurrency
         receivingAmount
