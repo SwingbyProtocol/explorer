@@ -1,5 +1,6 @@
 import { Text } from '@swingby-protocol/pulsar';
 import { Doughnut } from 'react-chartjs-2';
+import CountUp from 'react-countup';
 import { FormattedMessage } from 'react-intl';
 import { useTheme } from 'styled-components';
 
@@ -79,7 +80,9 @@ export const TotalNodes = ({ metanodes: metanodesParam }: Props) => {
       {metanodes?.length > 0 ? (
         <>
           <DoughnutWrapper>
-            <TextNodeNum variant="title-s">{totalNodeCount}</TextNodeNum>
+            <TextNodeNum variant="title-s">
+              <CountUp delay={1} end={totalNodeCount} duration={7} />
+            </TextNodeNum>
             <Doughnut data={data} options={DOUGHNUT_OPTIONS} width={70} height={70} />
           </DoughnutWrapper>
           <StatusContainer>
