@@ -21,6 +21,7 @@ import {
 
 interface Props {
   metanodes: INodeListResponse[] | null;
+  isLoading: boolean;
 }
 
 const MAX_CHURNED_IN = 50;
@@ -41,7 +42,7 @@ const DOUGHNUT_OPTIONS = {
   cutoutPercentage: 80,
 };
 
-export const TotalNodes = ({ metanodes: metanodesParam }: Props) => {
+export const TotalNodes = ({ metanodes: metanodesParam, isLoading }: Props) => {
   const theme = useTheme();
   const metanodes = metanodesParam ?? [];
 
@@ -77,7 +78,7 @@ export const TotalNodes = ({ metanodes: metanodesParam }: Props) => {
           <FormattedMessage id="metanodes.total-nodes" />
         </Text>
       </RowTitle>
-      {metanodes?.length > 0 ? (
+      {!isLoading ? (
         <>
           <DoughnutWrapper>
             <TextNodeNum variant="title-s">
@@ -98,7 +99,7 @@ export const TotalNodes = ({ metanodes: metanodesParam }: Props) => {
                 />
               </TextRoom>
             </Row>
-            {notActiveNodeCount && (
+            {notActiveNodeCount > 0 && (
               <Row>
                 <StatusIcon status="WAITING" />
                 <TextRoom variant="label">

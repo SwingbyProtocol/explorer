@@ -24,6 +24,7 @@ export const useToggleMetanode = () => {
   const [liquidity, setLiquidity] = useState<ILiquidity | null>(null);
   const [churnTime, setChurnTime] = useState<IChurn | null>(null);
   const [bondHistories, setBondHistories] = useState<TBondHistory[] | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [liquidityRatio, setLiquidityRatio] = useState<ILiquidityRatio[] | null>(null);
 
@@ -34,6 +35,7 @@ export const useToggleMetanode = () => {
   }, [bridge]);
 
   useEffect(() => {
+    setIsLoading(true);
     bridge &&
       (async () => {
         const rewardsUrl = `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/rewards-last-week`;
@@ -61,11 +63,22 @@ export const useToggleMetanode = () => {
         setLiquidity(liquidityData);
         setBondHistories(bondHistoriesData);
         setLiquidityRatio(liquidityRationData);
+        setIsLoading(false);
       })();
   }, [bridge, getChurnTime]);
 
   useInterval(() => {
     getChurnTime();
   }, [1000 * 60]);
-  return { bridge, metanodes, bondHistories, liquidity, liquidityRatio, churnTime, reward };
+
+  return {
+    bridge,
+    metanodes,
+    bondHistories,
+    liquidity,
+    liquidityRatio,
+    churnTime,
+    reward,
+    isLoading,
+  };
 };

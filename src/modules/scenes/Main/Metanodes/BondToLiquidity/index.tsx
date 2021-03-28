@@ -19,16 +19,17 @@ import {
 
 interface Props {
   liquidity: ILiquidity | null;
+  isLoading: boolean;
 }
 
 export const BondToLiquidity = (props: Props) => {
-  const { liquidity } = props;
+  const { liquidity, isLoading } = props;
   const { formatMessage } = useIntl();
 
   const status = liquidity && liquidity.status;
 
   return (
-    <BondToLiquidityContainer isLoading={!liquidity}>
+    <BondToLiquidityContainer isLoading={isLoading}>
       <RowTitle>
         <div>
           <Text variant="section-title">

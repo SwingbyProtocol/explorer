@@ -9,11 +9,12 @@ import { EarningsContainer, Row } from './styled';
 
 interface Props {
   reward: IReward | null;
+  isLoading: boolean;
 }
 
 export const Earnings = (props: Props) => {
   const { locale } = useIntl();
-  const { reward } = props;
+  const { reward, isLoading } = props;
   const rewardsTotal = reward ? reward.total : 0;
   const rewardsSwingby = reward ? reward.stakingRewards : 0;
   const rewardsSbBtcUsd = reward ? reward.networkRewards : 0;
@@ -72,7 +73,7 @@ export const Earnings = (props: Props) => {
           <IconInfo />
         </Tooltip>
       </Row>
-      {reward ? (
+      {!isLoading ? (
         <>
           <Row>
             <Text variant="title-xs">{earningTotal}</Text>

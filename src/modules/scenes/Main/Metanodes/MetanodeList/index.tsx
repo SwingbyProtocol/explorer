@@ -39,11 +39,12 @@ import {
 interface Props {
   metanodes: INodeListResponse[] | null;
   bridge: SkybridgeBridge;
+  isLoading: boolean;
 }
 
 export const MetanodeList = (props: Props) => {
   const { locale } = useIntl();
-  const { metanodes, bridge } = props;
+  const { metanodes, bridge, isLoading } = props;
   const tvl = metanodes && calTvl(metanodes);
 
   return (
@@ -74,7 +75,8 @@ export const MetanodeList = (props: Props) => {
             </TextRoom>
           </SizeL>
         </Row>
-        {metanodes &&
+        {!isLoading &&
+          metanodes &&
           metanodes.map((node: INodeListResponse, i: number) => {
             const bnbAddress = node.addresses[0];
             const ethAddress = node.addresses[1];

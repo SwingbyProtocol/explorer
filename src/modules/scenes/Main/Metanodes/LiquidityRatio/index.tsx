@@ -17,10 +17,11 @@ import {
 
 interface Props {
   liquidityRatio: ILiquidityRatio[] | null;
+  isLoading: boolean;
 }
 
 export const LiquidityRatio = (props: Props) => {
-  const { liquidityRatio } = props;
+  const { liquidityRatio, isLoading } = props;
   const { formatMessage } = useIntl();
 
   const btcRation = liquidityRatio && liquidityRatio[0];
@@ -28,7 +29,7 @@ export const LiquidityRatio = (props: Props) => {
   const bridgedRation = liquidityRatio && liquidityRatio[1];
 
   return (
-    <LiquidityRatioContainer isLoading={!liquidityRatio}>
+    <LiquidityRatioContainer isLoading={isLoading}>
       <RowTitle>
         <div>
           <Text variant="section-title">

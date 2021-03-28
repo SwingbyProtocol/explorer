@@ -13,10 +13,11 @@ import { AddressP, ChurningContainer, Left, Right, Row, RowTitle } from './style
 
 interface Props {
   churnTime: IChurn | null;
+  isLoading: boolean;
 }
 
 export const Churning = (props: Props) => {
-  const { churnTime } = props;
+  const { churnTime, isLoading } = props;
   const dt = churnTime && DateTime.fromISO(churnTime.nextAt);
   const nextTimestamp = churnTime && Number(dt.toSeconds().toFixed(0));
   const cd = useRunCountDown(nextTimestamp);
@@ -46,7 +47,7 @@ export const Churning = (props: Props) => {
           <FormattedMessage id="metanodes.churning" />
         </Text>
       </RowTitle>
-      {churnTime ? (
+      {!isLoading ? (
         <>
           <Row>
             <Left>

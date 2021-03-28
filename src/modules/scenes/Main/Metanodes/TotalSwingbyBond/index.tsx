@@ -11,10 +11,11 @@ import { Box, LineContainer, LineDiv, TitleDiv, TotalSwingbyBondContainer } from
 
 interface Props {
   bondHistories: TBondHistory[] | null;
+  isLoading: boolean;
 }
 
 export const TotalSwingbyBond = (props: Props) => {
-  const { bondHistories } = props;
+  const { bondHistories, isLoading } = props;
   // Ref: https://github.com/jerairrest/react-chartjs-2/issues/306
   const { formatDate } = useIntl();
   const intl = useIntl();
@@ -143,9 +144,9 @@ export const TotalSwingbyBond = (props: Props) => {
           </Text>
         </TitleDiv>
         <Box>
-          {bondHistories ? (
+          {!isLoading ? (
             <LineContainer>
-              <LineDiv isLoading={false}>
+              <LineDiv isLoading={isLoading}>
                 <Line type="line" data={data} options={options} height={110} />
               </LineDiv>
             </LineContainer>

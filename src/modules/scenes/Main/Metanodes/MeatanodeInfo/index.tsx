@@ -23,6 +23,7 @@ export const MetanodeInfo = () => {
     liquidityRatio,
     churnTime,
     reward,
+    isLoading,
   } = useToggleMetanode();
 
   return (
@@ -31,21 +32,21 @@ export const MetanodeInfo = () => {
       <Top>
         <Left>
           <GeneralInfo />
-          <TotalNodes metanodes={metanodes} />
-          <NodeStatus metanodes={metanodes} />
+          <TotalNodes metanodes={metanodes} isLoading={isLoading} />
+          <NodeStatus metanodes={metanodes} isLoading={isLoading} />
         </Left>
         <Right>
-          <TotalSwingbyBond bondHistories={bondHistories} />
-          <BondToLiquidity liquidity={liquidity} />
-          <LiquidityRatio liquidityRatio={liquidityRatio} />
+          <TotalSwingbyBond bondHistories={bondHistories} isLoading={isLoading} />
+          <BondToLiquidity liquidity={liquidity} isLoading={isLoading} />
+          <LiquidityRatio liquidityRatio={liquidityRatio} isLoading={isLoading} />
           <Row>
-            <Churning churnTime={churnTime} />
-            <Earnings reward={reward} />
+            <Churning churnTime={churnTime} isLoading={isLoading} />
+            <Earnings reward={reward} isLoading={isLoading} />
           </Row>
         </Right>
       </Top>
       <Bottom>
-        <MetanodeList metanodes={metanodes} bridge={bridge} />
+        <MetanodeList metanodes={metanodes} bridge={bridge} isLoading={isLoading} />
       </Bottom>
     </MetanodeInfoContainer>
   );
