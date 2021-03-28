@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { PATH } from '../../../../env';
 import { fetchFloatBalances, fetchStatsInfo } from '../../../../explorer';
+import { useToggleBridge } from '../../../../hooks';
 import { updateNetworkInfos } from '../../../../store';
 import { ExplorerInfos } from '../ExplorerInfos';
 import { NetworkBridges } from '../NetworkBridges';
@@ -14,12 +16,16 @@ export const Browser = () => {
   const dispatch = useDispatch();
   const explorer = useSelector((state) => state.explorer);
   const { usd, networkInfos } = explorer;
+  const { bridge } = useToggleBridge(PATH.ROOT);
 
   const { floatBalances, stats, capacity } = networkInfos;
   useEffect(() => {
     usd.BTC > 0 &&
       (async () => {
-        const results = await Promise.all([fetchFloatBalances(usd.BTC), fetchStatsInfo()]);
+        const results = await Promise.all([
+          fetchFloatBalances(usd.BTC, bridge),
+          fetchStatsInfo(bridge),
+        ]);
 
         const data = results[0];
         const stats = results[1];
@@ -31,7 +37,7 @@ export const Browser = () => {
             updateNetworkInfos({ floatBalances: data.floats, capacity: data.capacity, stats }),
           );
       })();
-  }, [usd, dispatch]);
+  }, [usd, dispatch, bridge]);
 
   return (
     <BrowserContainer>

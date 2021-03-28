@@ -22,11 +22,14 @@ export const useToggleBridge = (path: PATH) => {
 
   // Memo: Redirect to btc_erc bridge
   useEffect(() => {
-    if (params.bridge === '' || !SKYBRIDGE_BRIDGES.includes(params.bridge as SkybridgeBridge)) {
-      router.push({
-        pathname: path,
-        query: { bridge: btcErc },
-      });
+    // Memo: Multiple-bridge as default path for Root
+    if (path !== PATH.ROOT) {
+      if (params.bridge === '' || !SKYBRIDGE_BRIDGES.includes(params.bridge as SkybridgeBridge)) {
+        router.push({
+          pathname: path,
+          query: { bridge: btcErc },
+        });
+      }
     }
   }, [path, bridge, btcErc, router, params.bridge]);
 
