@@ -6,6 +6,7 @@ export { usePoolWithdrawCoin } from './usePoolWithdrawCoin';
 export { useLoadHistories } from './useLoadHistories';
 export { useLoadTransaction } from './useLoadTransaction';
 export { useToggleMetanode } from './useToggleMetanode';
+export { useGetNetworkData } from './useGetNetworkData';
 
 export interface ICountdown {
   days: number;

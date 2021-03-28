@@ -1,13 +1,15 @@
 import { Text } from '@swingby-protocol/pulsar';
 import React from 'react';
 import { FormattedMessage, FormattedNumber } from 'react-intl';
+import { useSelector } from 'react-redux';
 import { PulseLoader } from 'react-spinners';
 import { useTheme } from 'styled-components';
 
 import { CoinSymbol } from '../../../../coins';
-import { IFloat, IStats } from '../../../../explorer';
 
 import {
+  BridgeContainer,
+  BridgeInfos,
   Coin,
   CoinContainer,
   CoinInfo,
@@ -15,17 +17,10 @@ import {
   FloatSpan,
   NetworkBridgeContainer,
   Row,
+  RowBridgeTitle,
   TitleText,
   VolSpan,
-  BridgeContainer,
-  BridgeInfos,
-  RowBridgeTitle,
 } from './styled';
-
-interface Props {
-  floatBalances: IFloat;
-  stats: IStats;
-}
 
 interface IBridgeData {
   coin: CoinSymbol;
@@ -33,9 +28,11 @@ interface IBridgeData {
   vol: number;
 }
 
-export const NetworkBridges = (props: Props) => {
-  const { floatBalances, stats } = props;
+export const NetworkBridges = () => {
   const theme = useTheme();
+  const explorer = useSelector((state) => state.explorer);
+  const { networkInfos } = explorer;
+  const { floatBalances, stats } = networkInfos;
 
   const dataEthBridge = [
     { coin: CoinSymbol.BTC, float: floatBalances.btcEth, vol: stats.volume1wksWBTC },

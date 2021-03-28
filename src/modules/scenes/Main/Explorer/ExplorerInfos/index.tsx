@@ -7,7 +7,6 @@ import { PulseLoader } from 'react-spinners';
 import { useTheme } from 'styled-components';
 
 import { PATH } from '../../../../env';
-import { IStats } from '../../../../explorer';
 
 import {
   DataDiv,
@@ -24,16 +23,12 @@ import {
   ValidatorLinkSpan,
 } from './styled';
 
-interface Props {
-  capacity: number;
-  stats: IStats;
-}
-
-export const ExplorerInfos = (props: Props) => {
-  const { capacity, stats } = props;
-  const explorer = useSelector((state) => state.explorer);
-  const { usd } = explorer;
+export const ExplorerInfos = () => {
   const theme = useTheme();
+
+  const explorer = useSelector((state) => state.explorer);
+  const { networkInfos, usd, isLoading } = explorer;
+  const { stats, capacity } = networkInfos;
 
   const placeholderLoader = (
     <PulseLoader margin={3} size={4} color={theme.pulsar.color.text.normal} />
@@ -109,7 +104,7 @@ export const ExplorerInfos = (props: Props) => {
                       <Text variant="label">{info.description}</Text>
                     </Row>
                   )}
-                  {!stats.volume1wksBTC ? (
+                  {isLoading ? (
                     placeholderLoader
                   ) : (
                     <Row>
