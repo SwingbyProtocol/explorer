@@ -57,6 +57,8 @@
   "home.recent-swaps.fees-max": "Fees (Max)",
   "home.recent-swaps.hide-waiting": "Hide waiting",
   "home.recent-swaps.rejected-tx": "Rejected transactions",
+  "home.recent-swaps.float-txs": "Float transactions",
+  "home.recent-swaps.filter-bridge": "Bitcoin - {bridge}",
   "swap.claim-swap": "Claim Swap",
   "swap.duplicate": "Duplicate",
   "swap.duplicate-popup": "Click to repeat this swap",

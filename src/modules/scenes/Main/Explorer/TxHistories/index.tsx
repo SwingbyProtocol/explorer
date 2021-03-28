@@ -90,17 +90,20 @@ export const TxHistories = () => {
           }
         }}
       >
-        Float transactions
+        <FormattedMessage id="home.recent-swaps.float-txs" />
       </Dropdown.Item>
+      <Dropdown.Divider />
       {selectableBridge.map((chain) => {
-        // const bridge = chain === selectableBridge.multipleBridges ? '' : chain.toLowerCase();
         return (
           <Dropdown.Item
             selected={chainBridge === chain.bridge}
             onClick={() => routerPush(chain.bridge, q)}
             key={chain.menu}
           >
-            Bitcoin - {chain.menu}
+            <FormattedMessage
+              id="home.recent-swaps.filter-bridge"
+              values={{ bridge: chain.menu }}
+            />
           </Dropdown.Item>
         );
       })}
