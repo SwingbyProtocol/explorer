@@ -1,13 +1,15 @@
 import { Text } from '@swingby-protocol/pulsar';
 import React from 'react';
 import { FormattedMessage, FormattedNumber } from 'react-intl';
+import { useSelector } from 'react-redux';
 import { PulseLoader } from 'react-spinners';
 import { useTheme } from 'styled-components';
 
 import { CoinSymbol } from '../../../../coins';
-import { IFloat, IStats } from '../../../../explorer';
 
 import {
+  BridgeContainer,
+  BridgeInfos,
   Coin,
   CoinContainer,
   CoinInfo,
@@ -15,33 +17,49 @@ import {
   FloatSpan,
   NetworkBridgeContainer,
   Row,
+  RowBridgeTitle,
   TitleText,
   VolSpan,
 } from './styled';
 
-interface Props {
-  floatBalances: IFloat;
-  stats: IStats;
+interface IBridgeData {
+  coin: CoinSymbol;
+  float: number;
+  vol: number;
 }
 
-export const NetworkBridges = (props: Props) => {
-  const { floatBalances, stats } = props;
+export const NetworkBridges = () => {
   const theme = useTheme();
-  const data = [
-    { coin: CoinSymbol.BTC, float: floatBalances.btc, vol: stats.volume1wksBTC },
+  const explorer = useSelector((state) => state.explorer);
+  const { networkInfos } = explorer;
+  const { floatBalances, stats } = networkInfos;
+
+  const dataEthBridge = [
+    { coin: CoinSymbol.BTC, float: floatBalances.btcEth, vol: stats.volume1wksWBTC },
     { coin: CoinSymbol.WBTC, float: floatBalances.wbtc, vol: stats.volume1wksWBTC },
   ];
+
+  const dataBscBridge = [
+    {
+      coin: CoinSymbol.BTC,
+      float: floatBalances.btcBsc,
+      vol: stats.volume1wksBTCB,
+    },
+    {
+      coin: CoinSymbol.BTC_B,
+      float: floatBalances.btcb,
+      vol: stats.volume1wksBTCB,
+    },
+  ];
+
   const placeholderLoader = (
     <PulseLoader margin={3} size={4} color={theme.pulsar.color.text.normal} />
   );
-  return (
-    <NetworkBridgeContainer>
-      <TitleText variant="section-title">
-        {' '}
-        <FormattedMessage id="home.network.network-bridges" />
-      </TitleText>
-      <CoinContainer>
-        {data.map((coin) => {
+
+  const bridgeInfo = (bridgeData: IBridgeData[]) => {
+    return (
+      <>
+        {bridgeData.map((coin: IBridgeData) => {
           return (
             <CoinInfo key={coin.coin}>
               <Coin symbol={coin.coin} />
@@ -74,7 +92,33 @@ export const NetworkBridges = (props: Props) => {
             </CoinInfo>
           );
         })}
-      </CoinContainer>
+      </>
+    );
+  };
+
+  return (
+    <NetworkBridgeContainer>
+      <TitleText variant="section-title">
+        <FormattedMessage id="home.network.network-bridges" />
+      </TitleText>
+      <BridgeInfos>
+        <BridgeContainer>
+          <RowBridgeTitle>
+            <Text variant="label">
+              <FormattedMessage id="home.network.bitcoin-ethereum" />
+            </Text>
+          </RowBridgeTitle>
+          <CoinContainer>{bridgeInfo(dataEthBridge)}</CoinContainer>
+        </BridgeContainer>
+        <BridgeContainer>
+          <RowBridgeTitle>
+            <Text variant="label">
+              <FormattedMessage id="home.network.bitcoin-bsc" />
+            </Text>
+          </RowBridgeTitle>
+          <CoinContainer>{bridgeInfo(dataBscBridge)}</CoinContainer>
+        </BridgeContainer>
+      </BridgeInfos>
     </NetworkBridgeContainer>
   );
 };

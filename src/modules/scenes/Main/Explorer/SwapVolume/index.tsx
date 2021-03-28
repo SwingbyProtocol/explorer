@@ -1,28 +1,21 @@
 import { Text } from '@swingby-protocol/pulsar';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Line } from 'react-chartjs-2';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 
 import { LoaderComingSoon } from '../../../../../components/LoaderComingSoon';
 import { convert2Currency, numToK } from '../../../../common';
-import { IStats } from '../../../../explorer';
-import { networkInfos } from '../../../../store/explorer';
 
 import { Box, LineContainer, LineDiv, SwapVolumeContainer, TitleDiv } from './styled';
 
-interface Props {
-  stats: IStats;
-}
-
-export const SwapVolume = (props: Props) => {
+export const SwapVolume = () => {
   // Ref: https://github.com/jerairrest/react-chartjs-2/issues/306
-  const { stats } = props;
-  const { volumes } = stats;
   const { formatDate } = useIntl();
   const explorer = useSelector((state) => state.explorer);
-  const { usd } = explorer;
-  const [loading, setLoading] = useState(true);
+  const { networkInfos, usd, isLoading } = explorer;
+  const { stats } = networkInfos;
+  const { volumes } = stats;
   const intl = useIntl();
 
   const data = (canvas) => {
@@ -144,14 +137,6 @@ export const SwapVolume = (props: Props) => {
     },
   };
 
-  useEffect(() => {
-    if (volumes !== networkInfos.stats.volumes) {
-      setTimeout(() => {
-        setLoading(false);
-      }, 500);
-    }
-  }, [volumes]);
-
   return (
     <SwapVolumeContainer>
       <Box>
@@ -161,8 +146,8 @@ export const SwapVolume = (props: Props) => {
           </Text>
         </TitleDiv>
         <LineContainer>
-          {loading && <LoaderComingSoon />}
-          <LineDiv isLoading={loading}>
+          {isLoading && <LoaderComingSoon />}
+          <LineDiv isLoading={isLoading}>
             <Line type="line" data={data} options={options} height={110} />
           </LineDiv>
         </LineContainer>

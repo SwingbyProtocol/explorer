@@ -7,7 +7,6 @@ import { castCurrencyName, CoinSymbol } from './../coins';
 export { TxRowTransition, TxRowVariants } from './animation';
 export {
   calculateFixedFee,
-  calTvl,
   capitalize,
   checkIsValidAddress,
   checkIsValidAmount,
@@ -102,12 +101,15 @@ export interface Reward {
 }
 
 export interface IFloat {
-  btc: number;
+  btcEth: number;
+  btcBsc: number;
   wbtc: number;
+  btcb: number;
 }
 
 export interface IStats {
   volume1wksWBTC: number;
+  volume1wksBTCB: number;
   volume1wksBTC: number;
   rewards1wksUSD: number;
   volumes: string[];
@@ -150,11 +152,14 @@ export interface ILoadHistoryArgs {
 export interface INetworkInfos {
   capacity: number;
   floatBalances: {
-    btc: number;
+    btcEth: number;
+    btcBsc: number;
     wbtc: number;
+    btcb: number;
   };
   stats: {
     volume1wksWBTC: number;
+    volume1wksBTCB: number;
     volume1wksBTC: number;
     rewards1wksUSD: number;
     volumes: string[];

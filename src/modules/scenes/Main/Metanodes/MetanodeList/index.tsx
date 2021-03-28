@@ -3,13 +3,14 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { DateTime } from 'luxon';
 import { SkybridgeBridge } from '@swingby-protocol/sdk';
 
-import { convertDateTime, getDiffDays, calTvl } from '../../../../explorer';
+import { convertDateTime, getDiffDays } from '../../../../explorer';
 import {
   getSbBtcRewardCurrency,
   INodeListResponse,
   toggleStatusBg,
   toggleStatusIconColor,
   toggleStatusWord,
+  calTvl,
 } from '../../../../metanodes';
 import { SizeL, TextBlock, TextRoom } from '../../../Common';
 
@@ -38,11 +39,12 @@ import {
 interface Props {
   metanodes: INodeListResponse[] | null;
   bridge: SkybridgeBridge;
+  isLoading: boolean;
 }
 
 export const MetanodeList = (props: Props) => {
   const { locale } = useIntl();
-  const { metanodes, bridge } = props;
+  const { metanodes, bridge, isLoading } = props;
   const tvl = metanodes && calTvl(metanodes);
 
   return (
@@ -73,7 +75,8 @@ export const MetanodeList = (props: Props) => {
             </TextRoom>
           </SizeL>
         </Row>
-        {metanodes &&
+        {!isLoading &&
+          metanodes &&
           metanodes.map((node: INodeListResponse, i: number) => {
             const bnbAddress = node.addresses[0];
             const ethAddress = node.addresses[1];

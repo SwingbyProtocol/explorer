@@ -29,10 +29,11 @@ import {
 
 interface Props {
   metanodes: INodeListResponse[] | null;
+  isLoading: boolean;
 }
 
 export const NodeStatus = (props: Props) => {
-  const { metanodes } = props;
+  const { metanodes, isLoading } = props;
   const nodeStatusTable = metanodes && listNodeStatus(metanodes);
 
   const churnedInStatus =
@@ -113,7 +114,7 @@ export const NodeStatus = (props: Props) => {
           <FormattedMessage id="metanodes.metanode-status" />
         </Text>
       </RowTitle>
-      {metanodes ? (
+      {!isLoading ? (
         <>
           {metanodeStatusTable.map(
             (it) =>

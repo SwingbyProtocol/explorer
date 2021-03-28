@@ -60,9 +60,15 @@ export const appName = 'Swingby Explorer';
 export const ENDPOINT_SKYBRIDGE_EXCHANGE = 'https://network.skybridge.exchange/api/v2';
 
 export const ENDPOINT_ETHEREUM_NODE =
-  process.env.NEXT_PUBLIC_ETHEREUM_NODE_ENDPOINT || mode === MODE.PRODUCTION
+  mode === 'production'
     ? 'https://btc-wbtc-mainnet.quantexe.com'
     : 'https://tbtc-goerli-node-1.swingby.network';
+
+//Todo: Add mainnet endpoint
+export const ENDPOINT_BSC_NODE =
+  mode === 'production'
+    ? 'https://tbtc-bsc-1.swingby.network'
+    : 'https://tbtc-bsc-1.swingby.network';
 
 export const ENDPOINT_BINANCE_NODE =
   process.env.NEXT_PUBLIC_BINANCE_NODE_ENDPOINT || 'https://testnet-node.swingby.network';

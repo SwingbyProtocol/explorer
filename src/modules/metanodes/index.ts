@@ -2,7 +2,7 @@ import { SKYBRIDGE_BRIDGES, SkybridgeBridge } from '@swingby-protocol/sdk';
 
 import { TStatus } from '../explorer';
 
-export { fetchNodeEarningsList, fetchNodeList, listNodeStatus } from './utils';
+export { fetchNodeEarningsList, fetchNodeList, listNodeStatus, calTvl } from './utils';
 
 export interface INodeListResponse {
   id: string;

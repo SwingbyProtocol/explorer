@@ -1,5 +1,6 @@
 import { Text } from '@swingby-protocol/pulsar';
 import { Doughnut } from 'react-chartjs-2';
+import CountUp from 'react-countup';
 import { FormattedMessage } from 'react-intl';
 import { useTheme } from 'styled-components';
 
@@ -20,6 +21,7 @@ import {
 
 interface Props {
   metanodes: INodeListResponse[] | null;
+  isLoading: boolean;
 }
 
 const MAX_CHURNED_IN = 50;
@@ -40,7 +42,7 @@ const DOUGHNUT_OPTIONS = {
   cutoutPercentage: 80,
 };
 
-export const TotalNodes = ({ metanodes: metanodesParam }: Props) => {
+export const TotalNodes = ({ metanodes: metanodesParam, isLoading }: Props) => {
   const theme = useTheme();
   const metanodes = metanodesParam ?? [];
 
@@ -76,10 +78,12 @@ export const TotalNodes = ({ metanodes: metanodesParam }: Props) => {
           <FormattedMessage id="metanodes.total-nodes" />
         </Text>
       </RowTitle>
-      {metanodes?.length > 0 ? (
+      {!isLoading ? (
         <>
           <DoughnutWrapper>
-            <TextNodeNum variant="title-s">{totalNodeCount}</TextNodeNum>
+            <TextNodeNum variant="title-s">
+              <CountUp delay={1} end={totalNodeCount} duration={7} />
+            </TextNodeNum>
             <Doughnut data={data} options={DOUGHNUT_OPTIONS} width={70} height={70} />
           </DoughnutWrapper>
           <StatusContainer>
@@ -95,7 +99,7 @@ export const TotalNodes = ({ metanodes: metanodesParam }: Props) => {
                 />
               </TextRoom>
             </Row>
-            {notActiveNodeCount && (
+            {notActiveNodeCount > 0 && (
               <Row>
                 <StatusIcon status="WAITING" />
                 <TextRoom variant="label">

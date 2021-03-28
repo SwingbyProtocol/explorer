@@ -22,9 +22,6 @@ export const NetworkBridgeContainer = styled.div`
     padding-top: ${({ theme }) => rem(theme.pulsar.size.street)};
     margin-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
   }
-  @media (min-width: ${rem(media.md)}) {
-    margin-bottom: 0;
-  }
   @media (min-width: ${rem(media.lg)}) {
     grid-area: auto;
     padding-top: 0;
@@ -48,28 +45,21 @@ export const TitleText = styled(Text)`
 `;
 
 export const CoinContainer = styled.div`
-  margin-top: ${({ theme }) => rem(theme.pulsar.size.street)};
   display: grid;
-  grid-gap: ${({ theme }) => rem(theme.pulsar.size.house)};
   grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.street)};
   align-self: center;
   justify-content: center;
   grid-template-columns: 1fr 1fr;
   height: ${rem(60)};
-  @media (min-width: ${rem(media.xs)}) {
-    grid-gap: ${({ theme }) => rem(theme.pulsar.size.town)};
-  }
   @media (min-width: ${rem(media.md)}) {
-    margin-top: ${({ theme }) => rem(theme.pulsar.size.city)};
+    margin-top: 0;
     width: 100%;
-    height: ${rem(100)};
-    grid-gap: ${({ theme }) => rem(theme.pulsar.size.street)};
+    grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.street)};
     grid-template-columns: 1fr 1fr;
     padding-left: ${({ theme }) => rem(theme.pulsar.size.street)};
   }
   @media (min-width: ${rem(media.lg)}) {
     padding-left: 0;
-    margin-top: ${({ theme }) => rem(theme.pulsar.size.street)};
     grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.room)};
   }
   @media (min-width: ${rem(media.xl)}) {
@@ -111,4 +101,26 @@ export const FloatSpan = styled.div`
 
 export const VolSpan = styled.div`
   font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
+`;
+
+export const BridgeContainer = styled.div`
+  margin-top: ${({ theme }) => rem(theme.pulsar.size.closet)};
+`;
+
+export const BridgeInfos = styled.div`
+  margin-top: ${({ theme }) => rem(theme.pulsar.size.street)};
+  display: grid;
+  justify-content: center;
+  @media (min-width: ${rem(media.lg)}) {
+    margin-top: ${({ theme }) => rem(theme.pulsar.size.drawer)};
+  }
+`;
+
+export const RowBridgeTitle = styled.div`
+  @media (min-width: ${rem(media.md)}) {
+    margin-left: ${({ theme }) => rem(theme.pulsar.size.street)};
+  }
+  @media (min-width: ${rem(media.lg)}) {
+    margin-left: 0;
+  }
 `;

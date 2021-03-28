@@ -7,6 +7,7 @@ import * as initial from './initialState';
 export { networkInfos } from './initialState';
 
 enum Actions {
+  ToggleIsLoading = 'Explorer/TOGGLE_IS_LOADING',
   ToggleIsExistPreviousPage = 'Explorer/TOGGLE_IS_EXIST_PREVIOUS_PAGE',
   FetchHistory = 'Explorer/FETCH_HISTORY',
   SelectSwapDetails = 'Explorer/SELECT_SWAP_DETAILS',
@@ -19,6 +20,7 @@ enum Actions {
 }
 
 const initialState = {
+  isLoading: false,
   swapHistory: null,
   swapHistoryTemp: null,
   swapDetails: null,
@@ -32,6 +34,10 @@ const initialState = {
 type State = typeof initialState;
 
 export const explorer: Reducer<State, Action> = (state = initialState, action) => {
+  if (action.type === Actions.ToggleIsLoading) {
+    return { ...state, isLoading: action.data };
+  }
+
   if (action.type === Actions.ToggleIsExistPreviousPage) {
     return { ...state, isExistPreviousPage: action.data };
   }
@@ -71,6 +77,9 @@ export const explorer: Reducer<State, Action> = (state = initialState, action) =
   return state;
 };
 
+export const toggleIsLoading = (data: boolean) =>
+  ({ type: Actions.ToggleIsLoading, data } as const);
+
 export const toggleIsExistPreviousPage = (data: boolean) =>
   ({ type: Actions.ToggleIsExistPreviousPage, data } as const);
 
@@ -96,6 +105,7 @@ export const updateNetworkInfos = (data: INetworkInfos) =>
   ({ type: Actions.UpdateNetworkInfos, data } as const);
 
 type Action =
+  | ReturnType<typeof toggleIsLoading>
   | ReturnType<typeof toggleIsExistPreviousPage>
   | ReturnType<typeof getHistory>
   | ReturnType<typeof selectSwapDetails>
