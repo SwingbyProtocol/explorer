@@ -40,7 +40,7 @@ export const Layout = ({ children }: Props) => {
       dispatch(fetchUsdPrice(priceUSD));
       dispatch(fetchTransactionFees(results[2]));
     })();
-  }, [60000]);
+  }, [1000 * 60 * 10]); // Interval: 10min
 
   return (
     <>

@@ -146,6 +146,7 @@ export type Transaction = {
   depositAmount: Scalars['Decimal'];
   depositTxHash?: Maybe<Scalars['String']>;
   depositCurrency: TransactionCurrency;
+  sendingAddress?: Maybe<Scalars['String']>;
   receivingAddress: Scalars['String'];
   receivingAmount: Scalars['Decimal'];
   receivingTxHash?: Maybe<Scalars['String']>;
@@ -213,6 +214,7 @@ export type TransactionWhereInput = {
   depositTxHash?: Maybe<StringFilter>;
   depositCurrency?: Maybe<TransactionCurrencyEnumFilter>;
   depositAmount?: Maybe<DecimalFilter>;
+  sendingAddress?: Maybe<StringFilter>;
   receivingAddress?: Maybe<StringFilter>;
   receivingTxHash?: Maybe<StringFilter>;
   receivingCurrency?: Maybe<TransactionCurrencyEnumFilter>;
@@ -254,7 +256,7 @@ export type TransactionsHistoryQuery = (
       & Pick<TransactionsConnectionEdges, 'cursor'>
       & { node: (
         { __typename?: 'Transaction' }
-        & Pick<Transaction, 'id' | 'status' | 'at' | 'depositAddress' | 'depositCurrency' | 'depositAmount' | 'depositTxHash' | 'receivingAddress' | 'receivingCurrency' | 'receivingAmount' | 'receivingTxHash' | 'feeTotal' | 'feeCurrency'>
+        & Pick<Transaction, 'id' | 'status' | 'at' | 'sendingAddress' | 'depositAddress' | 'depositCurrency' | 'depositAmount' | 'depositTxHash' | 'receivingAddress' | 'receivingCurrency' | 'receivingAmount' | 'receivingTxHash' | 'feeTotal' | 'feeCurrency'>
       ) }
     )>, pageInfo: (
       { __typename?: 'ForwardPaginationPageInfo' }
@@ -279,6 +281,7 @@ export const TransactionsHistoryDocument = gql`
         id
         status
         at
+        sendingAddress
         depositAddress
         depositCurrency
         depositAmount

@@ -6,6 +6,7 @@ import { PulseLoader } from 'react-spinners';
 import { useTheme } from 'styled-components';
 
 import { CoinSymbol } from '../../../../coins';
+import { isEnableBscSupport } from '../../../../env';
 
 import {
   BridgeContainer,
@@ -42,13 +43,13 @@ export const NetworkBridges = () => {
   const dataBscBridge = [
     {
       coin: CoinSymbol.BTC,
-      float: floatBalances.btcBsc,
-      vol: stats.volume1wksBTCB,
+      float: isEnableBscSupport ? floatBalances.btcBsc : 9999,
+      vol: isEnableBscSupport ? stats.volume1wksBTCB : 9999,
     },
     {
       coin: CoinSymbol.BTC_B,
-      float: floatBalances.btcb,
-      vol: stats.volume1wksBTCB,
+      float: isEnableBscSupport ? floatBalances.btcb : 9999,
+      vol: isEnableBscSupport ? stats.volume1wksBTCB : 9999,
     },
   ];
 
@@ -56,7 +57,7 @@ export const NetworkBridges = () => {
     <PulseLoader margin={3} size={4} color={theme.pulsar.color.text.normal} />
   );
 
-  const bridgeInfo = (bridgeData: IBridgeData[]) => {
+  const bridgeInfo = (bridgeData: IBridgeData[], isEnableSupport: boolean) => {
     return (
       <>
         {bridgeData.map((coin: IBridgeData) => {
@@ -72,7 +73,7 @@ export const NetworkBridges = () => {
                     placeholderLoader
                   ) : (
                     <FloatSpan>
-                      <FormattedNumber value={Number(coin.float)} />
+                      {isEnableSupport ? <FormattedNumber value={Number(coin.float)} /> : 'N/A'}
                     </FloatSpan>
                   )}
                 </Row>
@@ -84,7 +85,7 @@ export const NetworkBridges = () => {
                     placeholderLoader
                   ) : (
                     <VolSpan>
-                      <FormattedNumber value={Number(coin.vol)} />
+                      {isEnableSupport ? <FormattedNumber value={Number(coin.vol)} /> : 'N/A'}
                     </VolSpan>
                   )}
                 </Row>
@@ -108,7 +109,7 @@ export const NetworkBridges = () => {
               <FormattedMessage id="home.network.bitcoin-ethereum" />
             </Text>
           </RowBridgeTitle>
-          <CoinContainer>{bridgeInfo(dataEthBridge)}</CoinContainer>
+          <CoinContainer>{bridgeInfo(dataEthBridge, true)}</CoinContainer>
         </BridgeContainer>
         <BridgeContainer>
           <RowBridgeTitle>
@@ -116,7 +117,7 @@ export const NetworkBridges = () => {
               <FormattedMessage id="home.network.bitcoin-bsc" />
             </Text>
           </RowBridgeTitle>
-          <CoinContainer>{bridgeInfo(dataBscBridge)}</CoinContainer>
+          <CoinContainer>{bridgeInfo(dataBscBridge, isEnableBscSupport)}</CoinContainer>
         </BridgeContainer>
       </BridgeInfos>
     </NetworkBridgeContainer>

@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { CursorPagination } from '../../../../../components/CursorPagination';
 import { Loader } from '../../../../../components/Loader';
 import { TransactionType } from '../../../../../generated/graphql';
-import { PAGE_COUNT, PATH, TXS_COUNT } from '../../../../env';
+import { isEnableBscSupport, PAGE_COUNT, PATH, TXS_COUNT } from '../../../../env';
 import { selectableBridge } from '../../../../explorer';
 import { useLoadHistories } from '../../../../hooks';
 import { toggleIsExistPreviousPage, toggleIsRejectedTx } from '../../../../store';
@@ -99,6 +99,7 @@ export const TxHistories = () => {
             selected={chainBridge === chain.bridge}
             onClick={() => routerPush(chain.bridge, q)}
             key={chain.menu}
+            disabled={!isEnableBscSupport && chain.menu === 'BSC'}
           >
             <FormattedMessage
               id="home.recent-swaps.filter-bridge"

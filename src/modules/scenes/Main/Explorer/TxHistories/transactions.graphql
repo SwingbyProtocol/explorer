@@ -12,6 +12,7 @@ query TransactionsHistory(
         id
         status
         at
+        sendingAddress
         depositAddress
         depositCurrency
         depositAmount

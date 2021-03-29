@@ -76,22 +76,26 @@ export const useLoadHistories = (filterTransactionType: TransactionType) => {
                   },
                 },
                 {
-                  depositAddress: {
+                  sendingAddress: {
+                    mode: 'insensitive',
                     equals: q,
                   },
                 },
                 {
                   receivingAddress: {
+                    mode: 'insensitive',
                     equals: q,
                   },
                 },
                 {
                   depositTxHash: {
+                    mode: 'insensitive',
                     equals: q,
                   },
                 },
                 {
                   receivingTxHash: {
+                    mode: 'insensitive',
                     equals: q,
                   },
                 },
@@ -117,12 +121,12 @@ export const useLoadHistories = (filterTransactionType: TransactionType) => {
 
   const goToNextPage = useCallback(() => {
     const after = data?.transactions.pageInfo.endCursor;
-    push({ query: { after } }, null, { scroll: false, shallow: true });
+    push({ query: { after } }, null, { scroll: true, shallow: true });
   }, [data?.transactions.pageInfo.endCursor, push]);
 
   const goToPreviousPage = useCallback(() => {
     const before = data?.transactions.pageInfo.startCursor;
-    push({ query: { before } }, null, { scroll: false, shallow: true });
+    push({ query: { before } }, null, { scroll: true, shallow: true });
   }, [data?.transactions.pageInfo.startCursor, push]);
 
   return { data, loading, goToNextPage, goToPreviousPage, totalCount };
