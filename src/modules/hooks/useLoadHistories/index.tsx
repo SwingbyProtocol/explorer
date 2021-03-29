@@ -76,22 +76,26 @@ export const useLoadHistories = (filterTransactionType: TransactionType) => {
                   },
                 },
                 {
-                  depositAddress: {
+                  sendingAddress: {
+                    mode: 'insensitive',
                     equals: q,
                   },
                 },
                 {
                   receivingAddress: {
+                    mode: 'insensitive',
                     equals: q,
                   },
                 },
                 {
                   depositTxHash: {
+                    mode: 'insensitive',
                     equals: q,
                   },
                 },
                 {
                   receivingTxHash: {
+                    mode: 'insensitive',
                     equals: q,
                   },
                 },

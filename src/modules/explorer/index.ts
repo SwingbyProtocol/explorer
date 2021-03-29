@@ -212,7 +212,7 @@ export interface IMetanode {
 
 export const castGraphQlType = (tx: Transaction) => {
   return {
-    addressIn: tx.depositAddress,
+    addressIn: tx.sendingAddress ? tx.sendingAddress : '',
     addressOut: tx.receivingAddress,
     amountIn: tx.depositAmount,
     amountOut: tx.receivingAmount,
