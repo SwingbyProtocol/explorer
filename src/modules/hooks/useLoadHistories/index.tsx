@@ -123,34 +123,36 @@ export const useLoadHistories = (filterTransactionType: TransactionType) => {
     },
   });
 
-  const totalCount = data && data.transactions.totalCount;
-
-  const goToNextPage = useCallback(() => {
-    const after = data?.transactions.pageInfo.endCursor;
-
-    fetchMore({
-      variables: {
-        after,
-        before,
-        first: after ? PAGE_COUNT : !before ? PAGE_COUNT : undefined,
-        last: before ? PAGE_COUNT : undefined,
-        where: filter as TransactionWhereInput,
-      },
-      // updateQuery: (prev, { fetchMoreResult }) => {
-      //   if (!fetchMoreResult) return prev;
-      //   return Object.assign({}, prev, {
-      //     transactions: [...prev.transactions.edges, ...fetchMoreResult.transactions.edges],
-      //   });
-      // },
-    });
-
-    // push({ query: { after } }, null, { scroll: true, shallow: true });
-  }, [before, fetchMore, data?.transactions.pageInfo.endCursor, filter]);
+  const goToNextPage = useCallback(
+    (after: string) => {
+      // const after = data?.transactions.pageInfo.endCursor;
+      fetchMore &&
+        fetchMore({
+          variables: {
+            after,
+            before,
+            first: after ? PAGE_COUNT : !before ? PAGE_COUNT : undefined,
+            last: before ? PAGE_COUNT : undefined,
+            where: filter as TransactionWhereInput,
+          },
+          updateQuery: (prev, { fetchMoreResult }) => {
+            fetchMoreResult.transactions.edges = [
+              ...prev.transactions.edges,
+              ...fetchMoreResult.transactions.edges,
+            ];
+            return fetchMoreResult;
+          },
+        });
+    },
+    [before, fetchMore, filter],
+  );
 
   const goToPreviousPage = useCallback(() => {
     const before = data?.transactions.pageInfo.startCursor;
     push({ query: { before } }, null, { scroll: false, shallow: true });
   }, [data?.transactions.pageInfo.startCursor, push]);
+
+  const totalCount = data && data.transactions.totalCount;
 
   return { data, loading, goToNextPage, goToPreviousPage, totalCount };
 };

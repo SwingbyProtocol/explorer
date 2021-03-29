@@ -4,7 +4,6 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { CursorPagination } from '../../../../../components/CursorPagination';
 import { Loader } from '../../../../../components/Loader';
 import { TransactionType } from '../../../../../generated/graphql';
 import { PAGE_COUNT, PATH, TXS_COUNT } from '../../../../env';
@@ -14,7 +13,6 @@ import { toggleIsExistPreviousPage, toggleIsRejectedTx } from '../../../../store
 
 import { TxHistoriesItem } from './Item';
 import {
-  BrowserFooter,
   Filter,
   Left,
   NoResultsFound,
@@ -61,24 +59,23 @@ export const TxHistories = () => {
 
   const [filterTransaction, setFilterTransaction] = useState<TransactionType>(TransactionType.Swap);
 
-  const { data, loading, goToNextPage, goToPreviousPage, totalCount } = useLoadHistories(
-    filterTransaction,
-  );
+  const { data, loading, goToNextPage, totalCount } = useLoadHistories(filterTransaction);
 
   const [isOnHover, setIsOnHover] = useState(false);
 
   const observer = useRef<IntersectionObserver>();
   const lastTxElementRef = useCallback(
     (node) => {
-      observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
-          console.log('hello');
-          isOnHover && goToNextPage();
-        }
-      });
-      if (node) observer.current.observe(node);
+      if (isOnHover === true) {
+        observer.current = new IntersectionObserver((entries) => {
+          if (entries[0].isIntersecting) {
+            goToNextPage(data?.transactions.pageInfo.endCursor);
+          }
+        });
+        if (node) observer.current.observe(node);
+      }
     },
-    [isOnHover, goToNextPage],
+    [isOnHover, goToNextPage, data?.transactions.pageInfo.endCursor],
   );
 
   const filter = (
@@ -156,11 +153,7 @@ export const TxHistories = () => {
 
   return (
     <>
-      <TxHistoriesContainer
-        txsHeight={PAGE_COUNT * ROW_HEIGHT}
-        onMouseEnter={() => setIsOnHover(true)}
-        onMouseLeave={() => setIsOnHover(false)}
-      >
+      <TxHistoriesContainer txsHeight={PAGE_COUNT * ROW_HEIGHT}>
         <TitleRow>
           <Left>
             <Text variant="section-title">
@@ -180,23 +173,28 @@ export const TxHistories = () => {
         </TitleRow>
         {!!data && data.transactions.totalCount < 1 && noResultFound}
         {loading && loader}
-        {data?.transactions.edges.map(({ node: tx }, i) => {
-          const length = data?.transactions.edges.length;
-          return (
-            <div key={tx.id} ref={i === length - 2 ? lastTxElementRef : undefined}>
-              <TxHistoriesItem bgKey={i - adjustIndex} goToDetail={goToDetail} tx={tx} />
-            </div>
-          );
-        })}
+        <div
+          onMouseEnter={() => !isOnHover && setIsOnHover(true)}
+          onMouseLeave={() => isOnHover && setIsOnHover(false)}
+        >
+          {data?.transactions.edges.map(({ node: tx }, i) => {
+            const length = data?.transactions.edges.length;
+            return (
+              <div key={i} ref={i === length - 2 ? lastTxElementRef : undefined}>
+                <TxHistoriesItem bgKey={i - adjustIndex} goToDetail={goToDetail} tx={tx} />
+              </div>
+            );
+          })}
+        </div>
       </TxHistoriesContainer>
-      <BrowserFooter>
+      {/* <BrowserFooter>
         <CursorPagination
           goToNextPage={goToNextPage}
           goToPreviousPage={goToPreviousPage}
           hasNextPage={data?.transactions.pageInfo.hasNextPage}
           hasPreviousPage={data?.transactions.pageInfo.hasPreviousPage}
         />
-      </BrowserFooter>
+      </BrowserFooter> */}
     </>
   );
 };
