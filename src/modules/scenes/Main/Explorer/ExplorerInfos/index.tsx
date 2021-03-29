@@ -1,4 +1,5 @@
 import { getFiatAssetFormatter, Text } from '@swingby-protocol/pulsar';
+import { SKYBRIDGE_BRIDGES } from '@swingby-protocol/sdk';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -7,6 +8,7 @@ import { PulseLoader } from 'react-spinners';
 import { useTheme } from 'styled-components';
 
 import { PATH } from '../../../../env';
+import { useToggleBridge } from '../../../../hooks';
 
 import {
   DataDiv,
@@ -39,6 +41,7 @@ export const ExplorerInfos = () => {
   const { formatMessage } = useIntl();
   const formattedMetanodes = formatMessage({ id: 'metanodes.metanodes' });
   const formattedRewards = formatMessage({ id: 'home.network.rewards' });
+  const { bridge } = useToggleBridge(PATH.ROOT);
 
   const rewards1wks = stats.rewards1wksUSD;
 
@@ -94,7 +97,12 @@ export const ExplorerInfos = () => {
                       <Text variant="label">{info.description}</Text>
                       <ValidatorLinkSpan
                         variant="accent"
-                        onClick={() => router.push(PATH.METANODES)}
+                        onClick={() =>
+                          router.push({
+                            pathname: PATH.METANODES,
+                            query: { bridge: bridge ? bridge : SKYBRIDGE_BRIDGES[0] },
+                          })
+                        }
                       >
                         <FormattedMessage id="common.all" />
                       </ValidatorLinkSpan>
