@@ -7,6 +7,7 @@ import {
   ENDPOINT_BSC_NODE,
   ENDPOINT_COINGECKO,
   ENDPOINT_ETHEREUM_NODE,
+  isEnableBscSupport,
   mode,
 } from '../../../env';
 import { fetch, fetcher } from '../../../fetch';
@@ -88,9 +89,9 @@ export const fetchFloatBalances = async (
 
     const floats: IFloat = {
       btcEth: Number(getFloatBalance(CoinSymbol.BTC, resEth)),
-      btcBsc: Number(getFloatBalance(CoinSymbol.BTC, resBsc)),
+      btcBsc: isEnableBscSupport ? Number(getFloatBalance(CoinSymbol.BTC, resBsc)) : 0,
       wbtc: Number(getFloatBalance(CoinSymbol.WBTC, resEth)),
-      btcb: Number(getFloatBalance(formattedBTCB, resBsc)),
+      btcb: isEnableBscSupport ? Number(getFloatBalance(formattedBTCB, resBsc)) : 0,
     };
 
     const { btcEth, btcBsc, wbtc, btcb } = floats;
@@ -211,12 +212,18 @@ export const fetchStatsInfo = async (bridge: SkybridgeBridge): Promise<IStats> =
     const ethNodeLength = results[1].ok ? results[1].response.length : 0;
     const ethRewards1wksUSD = results[2].ok ? Number(results[2].response.total) : 0;
 
-    const bscNetwork24hrSwapVolume = results[3].ok
-      ? results[3].response.network24hrSwapsVolume
+    const bscNetwork24hrSwapVolume = isEnableBscSupport
+      ? results[3].ok
+        ? results[3].response.network24hrSwapsVolume
+        : swapVolume24hrsFallback
       : swapVolume24hrsFallback;
 
-    const bscNodeLength = results[4].ok ? results[4].response.length : 0;
-    const bscRewards1wksUSD = results[5].ok ? Number(results[5].response.total) : 0;
+    const bscNodeLength = isEnableBscSupport ? (results[4].ok ? results[4].response.length : 0) : 0;
+    const bscRewards1wksUSD = isEnableBscSupport
+      ? results[5].ok
+        ? Number(results[5].response.total)
+        : 0
+      : 0;
 
     const volume1wksWBTC: number = sumArray(ethNetwork24hrSwapVolume.slice(0, 7));
     const volume1wksBTCB: number = sumArray(bscNetwork24hrSwapVolume.slice(0, 7));
