@@ -1,9 +1,10 @@
 import { Dropdown, Text } from '@swingby-protocol/pulsar';
 import { useRouter } from 'next/router';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { CursorPagination } from '../../../../../components/CursorPagination';
 import { Loader } from '../../../../../components/Loader';
 import { TransactionType } from '../../../../../generated/graphql';
 import { PAGE_COUNT, PATH, TXS_COUNT } from '../../../../env';
@@ -13,6 +14,7 @@ import { toggleIsExistPreviousPage, toggleIsRejectedTx } from '../../../../store
 
 import { TxHistoriesItem } from './Item';
 import {
+  BrowserFooter,
   Filter,
   Left,
   NoResultsFound,
@@ -59,23 +61,8 @@ export const TxHistories = () => {
 
   const [filterTransaction, setFilterTransaction] = useState<TransactionType>(TransactionType.Swap);
 
-  const { data, loading, goToNextPage, totalCount } = useLoadHistories(filterTransaction);
-
-  const [isOnHover, setIsOnHover] = useState(false);
-
-  const observer = useRef<IntersectionObserver>();
-  const lastTxElementRef = useCallback(
-    (node) => {
-      if (isOnHover === true) {
-        observer.current = new IntersectionObserver((entries) => {
-          if (entries[0].isIntersecting) {
-            goToNextPage(data?.transactions.pageInfo.endCursor);
-          }
-        });
-        if (node) observer.current.observe(node);
-      }
-    },
-    [isOnHover, goToNextPage, data?.transactions.pageInfo.endCursor],
+  const { data, loading, goToNextPage, goToPreviousPage, totalCount } = useLoadHistories(
+    filterTransaction,
   );
 
   const filter = (
@@ -173,28 +160,18 @@ export const TxHistories = () => {
         </TitleRow>
         {!!data && data.transactions.totalCount < 1 && noResultFound}
         {loading && loader}
-        <div
-          onMouseEnter={() => !isOnHover && setIsOnHover(true)}
-          onMouseLeave={() => isOnHover && setIsOnHover(false)}
-        >
-          {data?.transactions.edges.map(({ node: tx }, i) => {
-            const length = data?.transactions.edges.length;
-            return (
-              <div key={i} ref={i === length - 2 ? lastTxElementRef : undefined}>
-                <TxHistoriesItem bgKey={i - adjustIndex} goToDetail={goToDetail} tx={tx} />
-              </div>
-            );
-          })}
-        </div>
+        {data?.transactions.edges.map(({ node: tx }, i) => (
+          <TxHistoriesItem key={tx.id} bgKey={i - adjustIndex} goToDetail={goToDetail} tx={tx} />
+        ))}
       </TxHistoriesContainer>
-      {/* <BrowserFooter>
+      <BrowserFooter>
         <CursorPagination
           goToNextPage={goToNextPage}
           goToPreviousPage={goToPreviousPage}
           hasNextPage={data?.transactions.pageInfo.hasNextPage}
           hasPreviousPage={data?.transactions.pageInfo.hasPreviousPage}
         />
-      </BrowserFooter> */}
+      </BrowserFooter>
     </>
   );
 };
