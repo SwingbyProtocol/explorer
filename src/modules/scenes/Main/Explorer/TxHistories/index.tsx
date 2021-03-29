@@ -1,6 +1,6 @@
 import { Dropdown, Text } from '@swingby-protocol/pulsar';
 import { useRouter } from 'next/router';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -63,6 +63,22 @@ export const TxHistories = () => {
 
   const { data, loading, goToNextPage, goToPreviousPage, totalCount } = useLoadHistories(
     filterTransaction,
+  );
+
+  const [isOnHover, setIsOnHover] = useState(false);
+
+  const observer = useRef<IntersectionObserver>();
+  const lastTxElementRef = useCallback(
+    (node) => {
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          console.log('hello');
+          isOnHover && goToNextPage();
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [isOnHover, goToNextPage],
   );
 
   const filter = (
@@ -140,7 +156,11 @@ export const TxHistories = () => {
 
   return (
     <>
-      <TxHistoriesContainer txsHeight={PAGE_COUNT * ROW_HEIGHT}>
+      <TxHistoriesContainer
+        txsHeight={PAGE_COUNT * ROW_HEIGHT}
+        onMouseEnter={() => setIsOnHover(true)}
+        onMouseLeave={() => setIsOnHover(false)}
+      >
         <TitleRow>
           <Left>
             <Text variant="section-title">
@@ -160,9 +180,14 @@ export const TxHistories = () => {
         </TitleRow>
         {!!data && data.transactions.totalCount < 1 && noResultFound}
         {loading && loader}
-        {data?.transactions.edges.map(({ node: tx }, i) => (
-          <TxHistoriesItem key={tx.id} bgKey={i - adjustIndex} goToDetail={goToDetail} tx={tx} />
-        ))}
+        {data?.transactions.edges.map(({ node: tx }, i) => {
+          const length = data?.transactions.edges.length;
+          return (
+            <div key={tx.id} ref={i === length - 2 ? lastTxElementRef : undefined}>
+              <TxHistoriesItem bgKey={i - adjustIndex} goToDetail={goToDetail} tx={tx} />
+            </div>
+          );
+        })}
       </TxHistoriesContainer>
       <BrowserFooter>
         <CursorPagination

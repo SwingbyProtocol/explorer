@@ -1,13 +1,13 @@
 import { useRouter } from 'next/router';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
 import {
+  Bridge,
   TransactionStatus,
   TransactionType,
-  useTransactionsHistoryQuery,
-  Bridge,
   TransactionWhereInput,
+  useTransactionsHistoryQuery,
 } from '../../../generated/graphql';
 import { PAGE_COUNT } from '../../env/';
 
@@ -32,9 +32,13 @@ export const useLoadHistories = (filterTransactionType: TransactionType) => {
     Refunded,
   } = TransactionStatus;
 
-  const status = isRejectedTx
-    ? { in: [Refunded, SigningRefund, SendingRefund] }
-    : { in: [Completed, Sending, Pending, Signing] };
+  const status = useMemo(
+    () =>
+      isRejectedTx
+        ? { in: [Refunded, SigningRefund, SendingRefund] }
+        : { in: [Completed, Sending, Pending, Signing] },
+    [Refunded, SigningRefund, SendingRefund, Completed, Sending, Pending, Signing, isRejectedTx],
+  );
 
   const getType = (filterTransactionType: TransactionType) => {
     switch (filterTransactionType) {
@@ -58,56 +62,62 @@ export const useLoadHistories = (filterTransactionType: TransactionType) => {
     }
   };
 
-  const basicFilter = {
-    type: getType(filterTransactionType),
-    status,
-    bridge: getBridge(query.bridge as Bridge),
-  };
+  const basicFilter = useMemo(
+    () => ({
+      type: getType(filterTransactionType),
+      status,
+      bridge: getBridge(query.bridge as Bridge),
+    }),
+    [filterTransactionType, query.bridge, status],
+  );
 
-  const filter =
-    q !== ''
-      ? {
-          AND: [
-            {
-              OR: [
-                {
-                  id: {
-                    equals: q,
+  const filter = useMemo(
+    () =>
+      q !== ''
+        ? {
+            AND: [
+              {
+                OR: [
+                  {
+                    id: {
+                      equals: q,
+                    },
                   },
-                },
-                {
-                  depositAddress: {
-                    equals: q,
+                  {
+                    depositAddress: {
+                      equals: q,
+                    },
                   },
-                },
-                {
-                  receivingAddress: {
-                    equals: q,
+                  {
+                    receivingAddress: {
+                      equals: q,
+                    },
                   },
-                },
-                {
-                  depositTxHash: {
-                    equals: q,
+                  {
+                    depositTxHash: {
+                      equals: q,
+                    },
                   },
-                },
-                {
-                  receivingTxHash: {
-                    equals: q,
+                  {
+                    receivingTxHash: {
+                      equals: q,
+                    },
                   },
-                },
-              ],
-            },
-            basicFilter,
-          ],
-        }
-      : basicFilter;
+                ],
+              },
+              basicFilter,
+            ],
+          }
+        : basicFilter,
+    [basicFilter, q],
+  );
 
-  const { data, loading } = useTransactionsHistoryQuery({
+  const { data, loading, fetchMore } = useTransactionsHistoryQuery({
     pollInterval: 10000,
     variables: {
       after,
       before,
-      first: after ? PAGE_COUNT : !before ? PAGE_COUNT : undefined,
+      first: PAGE_COUNT,
       last: before ? PAGE_COUNT : undefined,
       where: filter as TransactionWhereInput,
     },
@@ -117,8 +127,25 @@ export const useLoadHistories = (filterTransactionType: TransactionType) => {
 
   const goToNextPage = useCallback(() => {
     const after = data?.transactions.pageInfo.endCursor;
-    push({ query: { after } }, null, { scroll: false, shallow: true });
-  }, [data?.transactions.pageInfo.endCursor, push]);
+
+    fetchMore({
+      variables: {
+        after,
+        before,
+        first: after ? PAGE_COUNT : !before ? PAGE_COUNT : undefined,
+        last: before ? PAGE_COUNT : undefined,
+        where: filter as TransactionWhereInput,
+      },
+      // updateQuery: (prev, { fetchMoreResult }) => {
+      //   if (!fetchMoreResult) return prev;
+      //   return Object.assign({}, prev, {
+      //     transactions: [...prev.transactions.edges, ...fetchMoreResult.transactions.edges],
+      //   });
+      // },
+    });
+
+    // push({ query: { after } }, null, { scroll: true, shallow: true });
+  }, [before, fetchMore, data?.transactions.pageInfo.endCursor, filter]);
 
   const goToPreviousPage = useCallback(() => {
     const before = data?.transactions.pageInfo.startCursor;
