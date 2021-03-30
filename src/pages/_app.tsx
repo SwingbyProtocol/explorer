@@ -1,24 +1,22 @@
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import { relayStylePagination } from '@apollo/client/utilities'; // eslint-disable-line import/no-internal-modules
 import { RouterScrollProvider } from '@moxy/next-router-scroll';
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 import { IntlProvider } from 'react-intl';
 import { Provider as ReduxProvider } from 'react-redux';
-import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
-import { relayStylePagination } from '@apollo/client/utilities'; // eslint-disable-line import/no-internal-modules
 
 import { Globals } from '../components/Globals';
+import { graphEndpoint } from '../modules/env';
 import { languages } from '../modules/i18n';
 import { SEO } from '../modules/seo';
 import { useStore } from '../modules/store';
-import { graphEndpoint } from '../modules/env';
-
 import './style.css';
 
 const DEFAULT_LOCALE = 'en';
 
 const apolloClient = new ApolloClient({
   uri: graphEndpoint,
-  // cache: new InMemoryCache(),
   cache: new InMemoryCache({
     typePolicies: {
       Query: {

@@ -9,10 +9,10 @@ import InfiniteLoader from 'react-window-infinite-loader';
 
 import { Loader } from '../../../../../components/Loader';
 import { TransactionType } from '../../../../../generated/graphql';
-import { isEnableBscSupport, PATH, TXS_COUNT } from '../../../../env';
+import { isEnableBscSupport, TXS_COUNT } from '../../../../env';
 import { selectableBridge } from '../../../../explorer';
 import { useLoadHistories } from '../../../../hooks';
-import { toggleIsExistPreviousPage, toggleIsRejectedTx } from '../../../../store';
+import { toggleIsRejectedTx } from '../../../../store';
 
 import { TxHistoriesItem } from './Item';
 import {
@@ -35,11 +35,6 @@ export const TxHistories = () => {
 
   const q = String(params.q || '');
   const chainBridge = String(params.bridge || '');
-
-  const goToDetail = (hash: string) => {
-    push(`${chainBridge === 'floats' ? PATH.FLOAT : PATH.SWAP}/${hash}`);
-    dispatch(toggleIsExistPreviousPage(true));
-  };
 
   const routerPush = useCallback(
     (bridge: string, q: string): void => {
@@ -171,15 +166,7 @@ export const TxHistories = () => {
                 >
                   {({ index, style }) => {
                     const tx = data.transactions.edges[index].node;
-                    return (
-                      <TxHistoriesItem
-                        key={tx.id}
-                        bgKey={index}
-                        goToDetail={goToDetail}
-                        tx={tx}
-                        style={style}
-                      />
-                    );
+                    return <TxHistoriesItem key={tx.id} bgKey={index} tx={tx} style={style} />;
                   }}
                 </List>
               )}
