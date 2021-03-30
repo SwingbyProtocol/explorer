@@ -1,5 +1,4 @@
 import { CoinIcon, Icon, SwapStatusIcon, Text } from '@swingby-protocol/pulsar';
-import { motion } from 'framer-motion';
 import { rem } from 'polished';
 import styled from 'styled-components';
 
@@ -12,7 +11,7 @@ interface BgProps {
 
 const { media } = StylingConstants;
 
-export const TxHistoryRow = styled(motion.div)<BgProps>`
+export const TxHistoryRow = styled.div<BgProps>`
   height: ${rem(92)};
   background: ${(props) => !props.bg && props.theme.pulsar.color.bg.hover};
   padding-top: ${({ theme }) => rem(theme.pulsar.size.street)};

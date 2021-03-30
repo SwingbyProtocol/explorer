@@ -1,40 +1,26 @@
 import { useRouter } from 'next/router';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
 import {
+  Bridge,
   TransactionStatus,
   TransactionType,
-  useTransactionsHistoryQuery,
-  Bridge,
   TransactionWhereInput,
+  useTransactionsHistoryQuery,
 } from '../../../generated/graphql';
-import { PAGE_COUNT } from '../../env/';
 
 export const useLoadHistories = (filterTransactionType: TransactionType) => {
   const explorer = useSelector((state) => state.explorer);
   const { isRejectedTx } = explorer;
 
-  const { query, push } = useRouter();
+  const { query } = useRouter();
 
   const { after: afterParam, before: beforeParam, q } = query;
 
+  const PAGE_SIZE = 50;
   const after = typeof afterParam === 'string' ? afterParam : undefined;
   const before = typeof beforeParam === 'string' ? beforeParam : undefined;
-
-  const {
-    Pending,
-    Signing,
-    Sending,
-    Completed,
-    SigningRefund,
-    SendingRefund,
-    Refunded,
-  } = TransactionStatus;
-
-  const status = isRejectedTx
-    ? { in: [Refunded, SigningRefund, SendingRefund] }
-    : { in: [Completed, Sending, Pending, Signing] };
 
   const getType = (filterTransactionType: TransactionType) => {
     switch (filterTransactionType) {
@@ -58,14 +44,29 @@ export const useLoadHistories = (filterTransactionType: TransactionType) => {
     }
   };
 
-  const basicFilter = {
-    type: getType(filterTransactionType),
-    status,
-    bridge: getBridge(query.bridge as Bridge),
+  const getStatus = (isRejectedTx: boolean) => {
+    const {
+      Pending,
+      Signing,
+      Sending,
+      Completed,
+      SigningRefund,
+      SendingRefund,
+      Refunded,
+    } = TransactionStatus;
+    return isRejectedTx
+      ? { in: [Refunded, SigningRefund, SendingRefund] }
+      : { in: [Completed, Sending, Pending, Signing] };
   };
 
-  const filter =
-    q !== ''
+  const filter = useMemo(() => {
+    const baseFilter = {
+      type: getType(filterTransactionType),
+      status: getStatus(isRejectedTx),
+      bridge: getBridge(query.bridge as Bridge),
+    };
+
+    return q !== ''
       ? {
           AND: [
             {
@@ -101,33 +102,35 @@ export const useLoadHistories = (filterTransactionType: TransactionType) => {
                 },
               ],
             },
-            basicFilter,
+            baseFilter,
           ],
         }
-      : basicFilter;
+      : baseFilter;
+  }, [filterTransactionType, q, query.bridge, isRejectedTx]);
 
-  const { data, loading } = useTransactionsHistoryQuery({
+  const { data, loading, fetchMore } = useTransactionsHistoryQuery({
     pollInterval: 10000,
     variables: {
       after,
       before,
-      first: after ? PAGE_COUNT : !before ? PAGE_COUNT : undefined,
-      last: before ? PAGE_COUNT : undefined,
+      first: after ? PAGE_SIZE : !before ? PAGE_SIZE : undefined,
+      last: before ? PAGE_SIZE : undefined,
       where: filter as TransactionWhereInput,
     },
   });
 
-  const totalCount = data && data.transactions.totalCount;
-
-  const goToNextPage = useCallback(() => {
+  const fetchMoreQuery = useCallback(() => {
     const after = data?.transactions.pageInfo.endCursor;
-    push({ query: { after } }, null, { scroll: true, shallow: true });
-  }, [data?.transactions.pageInfo.endCursor, push]);
+    return fetchMore({
+      variables: {
+        after,
+        before: null,
+        first: PAGE_SIZE,
+        last: null,
+        where: filter as TransactionWhereInput,
+      },
+    });
+  }, [data?.transactions.pageInfo.endCursor, fetchMore, filter]);
 
-  const goToPreviousPage = useCallback(() => {
-    const before = data?.transactions.pageInfo.startCursor;
-    push({ query: { before } }, null, { scroll: true, shallow: true });
-  }, [data?.transactions.pageInfo.startCursor, push]);
-
-  return { data, loading, goToNextPage, goToPreviousPage, totalCount };
+  return { data, loading, fetchMoreQuery };
 };

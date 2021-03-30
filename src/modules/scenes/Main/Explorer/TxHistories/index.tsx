@@ -1,20 +1,21 @@
 import { Dropdown, Text } from '@swingby-protocol/pulsar';
 import { useRouter } from 'next/router';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
+import AutoSizer from 'react-virtualized-auto-sizer';
+import { FixedSizeList as List } from 'react-window';
+import InfiniteLoader from 'react-window-infinite-loader';
 
-import { CursorPagination } from '../../../../../components/CursorPagination';
 import { Loader } from '../../../../../components/Loader';
 import { TransactionType } from '../../../../../generated/graphql';
-import { isEnableBscSupport, PAGE_COUNT, PATH, TXS_COUNT } from '../../../../env';
+import { isEnableBscSupport, PATH, TXS_COUNT } from '../../../../env';
 import { selectableBridge } from '../../../../explorer';
 import { useLoadHistories } from '../../../../hooks';
 import { toggleIsExistPreviousPage, toggleIsRejectedTx } from '../../../../store';
 
 import { TxHistoriesItem } from './Item';
 import {
-  BrowserFooter,
   Filter,
   Left,
   NoResultsFound,
@@ -25,6 +26,7 @@ import {
 } from './styled';
 
 const ROW_HEIGHT = 90;
+const TABLE_ROW_COUNT = 10;
 
 export const TxHistories = () => {
   const { push, query } = useRouter();
@@ -61,9 +63,7 @@ export const TxHistories = () => {
 
   const [filterTransaction, setFilterTransaction] = useState<TransactionType>(TransactionType.Swap);
 
-  const { data, loading, goToNextPage, goToPreviousPage, totalCount } = useLoadHistories(
-    filterTransaction,
-  );
+  const { data, loading, fetchMoreQuery } = useLoadHistories(filterTransaction);
 
   const filter = (
     <Dropdown target={<Filter />}>
@@ -115,19 +115,6 @@ export const TxHistories = () => {
     <Loader marginTop={100} minHeight={92 * TXS_COUNT} testId="main.loading-container" />
   );
 
-  // Memo: To make `drop animation`. Migrate it later.
-  const [adjustIndex, setAdjustIndex] = useState(0);
-  const [previousTxTotal, setPreviousTxTotal] = useState(0);
-  useEffect(() => {
-    if (previousTxTotal === 0 && totalCount > 0) {
-      setPreviousTxTotal(totalCount);
-      setAdjustIndex(2);
-    }
-    if (previousTxTotal > 0) {
-      setAdjustIndex(totalCount - previousTxTotal);
-    }
-  }, [adjustIndex, previousTxTotal, totalCount]);
-
   const noResultFound = (
     <NoResultsFound>
       <Text variant="title-s">
@@ -141,7 +128,7 @@ export const TxHistories = () => {
 
   return (
     <>
-      <TxHistoriesContainer txsHeight={PAGE_COUNT * ROW_HEIGHT}>
+      <TxHistoriesContainer txsHeight={TABLE_ROW_COUNT * ROW_HEIGHT}>
         <TitleRow>
           <Left>
             <Text variant="section-title">
@@ -161,18 +148,45 @@ export const TxHistories = () => {
         </TitleRow>
         {!!data && data.transactions.totalCount < 1 && noResultFound}
         {loading && loader}
-        {data?.transactions.edges.map(({ node: tx }, i) => (
-          <TxHistoriesItem key={tx.id} bgKey={i - adjustIndex} goToDetail={goToDetail} tx={tx} />
-        ))}
+
+        <AutoSizer disableHeight>
+          {({ width }) => (
+            <InfiniteLoader
+              itemCount={data?.transactions.totalCount ?? Infinity}
+              isItemLoaded={(index: number) =>
+                !!data?.transactions.edges[index] || !data?.transactions.pageInfo.hasNextPage
+              }
+              loadMoreItems={fetchMoreQuery}
+            >
+              {({ onItemsRendered, ref }) => (
+                <List
+                  initialScrollOffset={0}
+                  onItemsRendered={onItemsRendered}
+                  ref={ref}
+                  height={ROW_HEIGHT * TABLE_ROW_COUNT}
+                  width={width}
+                  itemCount={data?.transactions.edges.length ?? 0}
+                  itemSize={ROW_HEIGHT}
+                  itemKey={(index: number) => data?.transactions.edges[index].node.id}
+                >
+                  {({ index, style }) => {
+                    const tx = data.transactions.edges[index].node;
+                    return (
+                      <TxHistoriesItem
+                        key={tx.id}
+                        bgKey={index}
+                        goToDetail={goToDetail}
+                        tx={tx}
+                        style={style}
+                      />
+                    );
+                  }}
+                </List>
+              )}
+            </InfiniteLoader>
+          )}
+        </AutoSizer>
       </TxHistoriesContainer>
-      <BrowserFooter>
-        <CursorPagination
-          goToNextPage={goToNextPage}
-          goToPreviousPage={goToPreviousPage}
-          hasNextPage={data?.transactions.pageInfo.hasNextPage}
-          hasPreviousPage={data?.transactions.pageInfo.hasPreviousPage}
-        />
-      </BrowserFooter>
     </>
   );
 };
