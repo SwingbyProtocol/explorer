@@ -18,8 +18,6 @@ import {
   convertTxTime,
   currencyNetwork,
   getBorderColor,
-  TxRowTransition,
-  TxRowVariants,
 } from '../../../../../explorer';
 import { useLinkToWidget } from '../../../../../hooks';
 import { selectSwapDetails } from '../../../../../store';
@@ -45,9 +43,9 @@ import {
   Status,
   StatusCircle,
   StatusText,
+  TextTime,
   Top,
   TxHistoryRow,
-  TextTime,
 } from './styled';
 
 type QueriedTransaction = TransactionsHistoryQueryHookResult['data']['transactions']['edges'][number]['node'];
@@ -56,10 +54,12 @@ export const TxHistoriesItem = ({
   tx,
   goToDetail,
   bgKey,
+  style,
 }: {
   tx: QueriedTransaction;
   goToDetail: (arg: string) => void;
   bgKey: number;
+  style: any;
 }) => {
   const { locale } = useIntl();
   const dispatch = useDispatch();
@@ -93,10 +93,7 @@ export const TxHistoriesItem = ({
         onMouseEnter={() => {
           dispatch(selectSwapDetails(oldTxType));
         }}
-        variants={TxRowVariants}
-        transition={TxRowTransition}
-        initial={'initial'}
-        animate={'in'}
+        style={style}
       >
         <Column>
           <Status>

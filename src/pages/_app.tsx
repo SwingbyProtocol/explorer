@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 import { IntlProvider } from 'react-intl';
 import { Provider as ReduxProvider } from 'react-redux';
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import { relayStylePagination } from '@apollo/client/utilities'; // eslint-disable-line import/no-internal-modules
 
 import { Globals } from '../components/Globals';
 import { languages } from '../modules/i18n';
@@ -17,7 +18,16 @@ const DEFAULT_LOCALE = 'en';
 
 const apolloClient = new ApolloClient({
   uri: graphEndpoint,
-  cache: new InMemoryCache(),
+  // cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          transactions: relayStylePagination(),
+        },
+      },
+    },
+  }),
 });
 
 function MyApp({ Component, pageProps }) {
