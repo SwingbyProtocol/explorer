@@ -1,0 +1,20 @@
+query TransactionHistory(
+  $id: ID!
+) {
+  transaction(id: $id) {
+  id
+  status
+  at
+  sendingAddress
+  depositAddress
+  depositCurrency
+  depositAmount
+  depositTxHash
+  receivingAddress
+  receivingCurrency
+  receivingAmount
+  receivingTxHash
+  feeTotal
+  feeCurrency
+  }
+}

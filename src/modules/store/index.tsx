@@ -8,7 +8,6 @@ export {
   updateSwapHistoryTemp,
   fetchUsdPrice,
   fetchTransactionFees,
-  selectSwapDetails,
   updateNetworkInfos,
   networkInfos,
   toggleIsExistPreviousPage,

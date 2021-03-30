@@ -237,6 +237,19 @@ export type TransactionsConnectionEdges = {
   cursor: Scalars['String'];
 };
 
+export type TransactionHistoryQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type TransactionHistoryQuery = (
+  { __typename?: 'Query' }
+  & { transaction: (
+    { __typename?: 'Transaction' }
+    & Pick<Transaction, 'id' | 'status' | 'at' | 'sendingAddress' | 'depositAddress' | 'depositCurrency' | 'depositAmount' | 'depositTxHash' | 'receivingAddress' | 'receivingCurrency' | 'receivingAmount' | 'receivingTxHash' | 'feeTotal' | 'feeCurrency'>
+  ) }
+);
+
 export type TransactionsHistoryQueryVariables = Exact<{
   first?: Maybe<Scalars['Int']>;
   after?: Maybe<Scalars['String']>;
@@ -266,6 +279,54 @@ export type TransactionsHistoryQuery = (
 );
 
 
+export const TransactionHistoryDocument = gql`
+    query TransactionHistory($id: ID!) {
+  transaction(id: $id) {
+    id
+    status
+    at
+    sendingAddress
+    depositAddress
+    depositCurrency
+    depositAmount
+    depositTxHash
+    receivingAddress
+    receivingCurrency
+    receivingAmount
+    receivingTxHash
+    feeTotal
+    feeCurrency
+  }
+}
+    `;
+
+/**
+ * __useTransactionHistoryQuery__
+ *
+ * To run a query within a React component, call `useTransactionHistoryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTransactionHistoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTransactionHistoryQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useTransactionHistoryQuery(baseOptions: Apollo.QueryHookOptions<TransactionHistoryQuery, TransactionHistoryQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<TransactionHistoryQuery, TransactionHistoryQueryVariables>(TransactionHistoryDocument, options);
+      }
+export function useTransactionHistoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TransactionHistoryQuery, TransactionHistoryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<TransactionHistoryQuery, TransactionHistoryQueryVariables>(TransactionHistoryDocument, options);
+        }
+export type TransactionHistoryQueryHookResult = ReturnType<typeof useTransactionHistoryQuery>;
+export type TransactionHistoryLazyQueryHookResult = ReturnType<typeof useTransactionHistoryLazyQuery>;
+export type TransactionHistoryQueryResult = Apollo.QueryResult<TransactionHistoryQuery, TransactionHistoryQueryVariables>;
 export const TransactionsHistoryDocument = gql`
     query TransactionsHistory($first: Int, $after: String, $last: Int, $before: String, $where: TransactionWhereInput) {
   transactions(
