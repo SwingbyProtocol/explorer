@@ -1,4 +1,4 @@
-query TransactionHistory(
+query TransactionDetails(
   $id: ID!
 ) {
   transaction(id: $id) {
