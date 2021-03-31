@@ -21,7 +21,7 @@ const apolloClient = new ApolloClient({
     typePolicies: {
       Query: {
         fields: {
-          transactions: relayStylePagination(),
+          transactions: relayStylePagination(['where']),
         },
       },
     },
