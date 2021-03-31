@@ -1,8 +1,5 @@
-import { SKYBRIDGE_BRIDGES } from '@swingby-protocol/sdk';
 import Head from 'next/head';
 
-import { mode, PATH } from '../../../../env';
-import { useToggleBridge } from '../../../../hooks';
 import { BridgeMetanodes } from '../BridgeMetanodes';
 import { BridgeMobileMetanodes } from '../BridgeMobileMetanodes';
 import { MetanodeInfo } from '../MeatanodeInfo';
@@ -10,10 +7,6 @@ import { MetanodeInfo } from '../MeatanodeInfo';
 import { BrowserMetanodesContainer, BrowserMetanodesDiv, Left, Right } from './styled';
 
 export const BrowserMetanodes = () => {
-  const btcErc = SKYBRIDGE_BRIDGES.find((bridge) => bridge === 'btc_erc');
-
-  const { bridge } = useToggleBridge(PATH.METANODES);
-
   return (
     <>
       <Head>
@@ -26,15 +19,7 @@ export const BrowserMetanodes = () => {
             <BridgeMetanodes />
           </Left>
           <Right>
-            {bridge && bridge !== btcErc ? (
-              mode === 'production' ? (
-                <h1>COMING SOON</h1>
-              ) : (
-                <MetanodeInfo />
-              )
-            ) : (
-              <MetanodeInfo />
-            )}
+            <MetanodeInfo />
           </Right>
         </BrowserMetanodesDiv>
       </BrowserMetanodesContainer>

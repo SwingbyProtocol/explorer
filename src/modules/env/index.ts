@@ -69,11 +69,9 @@ export const ENDPOINT_BSC_NODE =
     ? 'https://btc-bsc-mainnet.quantexe.com'
     : 'https://tbtc-bsc-1.swingby.network';
 
-export const ENDPOINT_BINANCE_NODE =
-  process.env.NEXT_PUBLIC_BINANCE_NODE_ENDPOINT || 'https://testnet-node.swingby.network';
+export const ENDPOINT_BINANCE_NODE = 'https://testnet-node.swingby.network';
 
-export const ENDPOINT_EARNINGS =
-  process.env.NEXT_PUBLIC_EARNINGS_ENDPOINT || 'https://earnings-api.vercel.app/api/earnings';
+export const ENDPOINT_EARNINGS = 'https://earnings-api.vercel.app/api/earnings';
 
 export const ENDPOINT_COINGECKO = 'https://api.coingecko.com/api/v3';
 
@@ -97,17 +95,17 @@ export const BTC_EXPLORER =
 export const CACHED_ENDPOINT = 'https://metanode-earnings.vercel.app/api';
 
 export const CONTRACT_SB_BTC =
-  process.env.NEXT_PUBLIC_SB_BTC || mode === MODE.PRODUCTION
+  mode === MODE.PRODUCTION
     ? CONTRACTS.coins.sbBTC.production.address
     : CONTRACTS.coins.sbBTC.test.address;
 
-// Todo: implement production address once sbBTC_BEP20 for mainnet has been deployed
 export const CONTRACT_BEP20_SB_BTC =
-  process.env.NEXT_PUBLIC_SB_BTC || mode === MODE.PRODUCTION
-    ? CONTRACTS.coins['sbBTC.BEP20'].test.address
+  mode === MODE.PRODUCTION
+    ? CONTRACTS.coins['sbBTC.BEP20'].production.address
     : CONTRACTS.coins['sbBTC.BEP20'].test.address;
 
 // Memo: BTC is not on Ethereum, it doesn’t have an address, so the contract uses this one to represent BTC
 export const ZERO_ADDRESS = CONTRACTS.coins.BTC.production.address;
 
-export const isEnableBscSupport = true;
+export const isEnableBscSupport =
+  process.env.NEXT_PUBLIC_IS_BSC_SUPPORT === 'true' ? true : mode === 'test' ? true : false;

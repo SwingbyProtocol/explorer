@@ -13,7 +13,6 @@ export const BrowserDetail = () => {
   const router = useRouter();
   const params = router.query;
   const hash = String(params.hash);
-  console.log('router hash', hash);
   const { tx } = useLoadTransaction(hash);
 
   return (
