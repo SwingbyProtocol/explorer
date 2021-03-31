@@ -25,7 +25,9 @@ interface Props {
 export const ActionButtons = (props: Props) => {
   const { tx } = props;
   const [action, setAction] = useState<TSwapWidget | null>(null);
-  const [toggleOpenLink, setToggleOpenLink] = useState(1);
+
+  // Memo: 1: Close the modal, More than 1: Open the modal
+  const [toggleOpenLink, setToggleOpenLink] = useState<number>(1);
   const currentUrl = typeof window !== 'undefined' && window.location.href;
   const { copy } = useCopy(currentUrl);
 
@@ -47,6 +49,7 @@ export const ActionButtons = (props: Props) => {
         isWidgetModalOpen={isClaimWidgetModalOpen}
         setIsWidgetModalOpen={setIsClaimWidgetModalOpen}
         tx={tx}
+        setToggleOpenLink={setToggleOpenLink}
       />
       <DuplicateSwapWidgetModal
         isWidgetModalOpen={isDuplicateWidgetModalOpen}

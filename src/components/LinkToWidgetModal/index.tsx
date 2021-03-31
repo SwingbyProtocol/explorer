@@ -15,11 +15,12 @@ import { Buttons, ModalContainer, TextAddress } from './styled';
 interface Props {
   isWidgetModalOpen: boolean;
   setIsWidgetModalOpen: (arg: boolean) => void;
+  setToggleOpenLink: (arg: number) => void;
   tx: TTxRawObject;
 }
 
 export const LinkToWidgetModal = (props: Props) => {
-  const { isWidgetModalOpen, setIsWidgetModalOpen, tx } = props;
+  const { isWidgetModalOpen, setIsWidgetModalOpen, tx, setToggleOpenLink } = props;
   const { locale } = useRouter();
   const affiliateCode = useAffiliateCode();
   const [theme] = useThemeSettings();
@@ -36,8 +37,15 @@ export const LinkToWidgetModal = (props: Props) => {
       locale,
       affiliateCode,
     });
+
   return (
-    <Modal open={isWidgetModalOpen} onClose={() => setIsWidgetModalOpen(false)}>
+    <Modal
+      open={isWidgetModalOpen}
+      onClose={() => {
+        setIsWidgetModalOpen(false);
+        setToggleOpenLink(1);
+      }}
+    >
       <Modal.Content>
         <ModalContainer>
           <Text variant="title-xs">
@@ -48,14 +56,21 @@ export const LinkToWidgetModal = (props: Props) => {
             <ButtonScale
               variant="primary"
               size="city"
-              onClick={() => window.open(getUrl({ widget }), '_blank', 'noopener')}
+              onClick={() => {
+                window.open(getUrl({ widget }), '_blank', 'noopener');
+                setIsWidgetModalOpen(false);
+                setToggleOpenLink(1);
+              }}
             >
               <FormattedMessage id="common.modal.yes" />
             </ButtonScale>
             <ButtonScale
               variant="secondary"
               size="city"
-              onClick={() => setIsWidgetModalOpen(false)}
+              onClick={() => {
+                setIsWidgetModalOpen(false);
+                setToggleOpenLink(1);
+              }}
             >
               <FormattedMessage id="common.modal.back" />
             </ButtonScale>

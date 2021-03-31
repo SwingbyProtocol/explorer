@@ -90,6 +90,7 @@ export const useLinkToWidget = (data: IData) => {
         if (tx.addressOut.toLowerCase() === formattedUserAddress) {
           action === 'claim' && window.open(getUrl({ widget }), '_blank', 'noopener');
           action === 'duplicate' && openPopup({ widget });
+          setToggleOpenLink(1);
           return;
         }
         if (formattedUserAddress === null) {
@@ -105,17 +106,16 @@ export const useLinkToWidget = (data: IData) => {
         }
         if (walletAddress === undefined) {
           setWalletAddress(null);
+          setToggleOpenLink(1);
           return;
         }
       } else {
         // WHEN: Not swap to ERC20 coin
         action === 'claim' && setIsClaimWidgetModalOpen(true);
         action === 'duplicate' && setIsDuplicateWidgetModalOpen(true);
+        setToggleOpenLink(1);
         return;
       }
-    } else {
-      // Memo: to avoid toggleOpenLink = 1 bug
-      walletAddress && setToggleOpenLink(toggleOpenLink + 1);
     }
   }, [
     tx,

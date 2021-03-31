@@ -1,17 +1,23 @@
 import { Dropdown, Text } from '@swingby-protocol/pulsar';
 import { useRouter } from 'next/router';
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { FixedSizeList as List } from 'react-window';
 import InfiniteLoader from 'react-window-infinite-loader';
 
+import { LinkToWidgetModal } from '../../../../../components/LinkToWidgetModal';
 import { Loader } from '../../../../../components/Loader';
-import { Bridge, TransactionType } from '../../../../../generated/graphql';
 import { isEnableBscSupport, TXS_COUNT } from '../../../../env';
-import { ISwapQueryPrams, selectableBridge, selectableTxType } from '../../../../explorer';
-import { useLoadHistories } from '../../../../hooks';
+import { useLinkToWidget, useLoadHistories } from '../../../../hooks';
+import { Bridge, TransactionType, Transaction } from '../../../../../generated/graphql';
+import {
+  ISwapQueryPrams,
+  selectableBridge,
+  selectableTxType,
+  castGraphQlType,
+} from '../../../../explorer';
 import { toggleIsRejectedTx } from '../../../../store';
 
 import { TxHistoriesItem } from './Item';
@@ -141,10 +147,26 @@ export const TxHistories = () => {
     </NoResultsFound>
   );
 
+  // Memo: 1: Close the modal, More than 1: Open the modal
+  const [toggleOpenLink, setToggleOpenLink] = useState<number>(1);
+  const [txDetail, setTxDetail] = useState(data && data.transactions?.edges[0].node);
+  const oldTxType = useMemo(() => txDetail && castGraphQlType(txDetail as Transaction), [txDetail]);
+  const { isClaimWidgetModalOpen, setIsClaimWidgetModalOpen } = useLinkToWidget({
+    toggleOpenLink,
+    tx: oldTxType,
+    action: 'claim',
+    setToggleOpenLink,
+  });
   const isFloatTx = type === TransactionType.Deposit || type === TransactionType.Withdrawal;
 
   return (
     <>
+      <LinkToWidgetModal
+        isWidgetModalOpen={isClaimWidgetModalOpen}
+        setIsWidgetModalOpen={setIsClaimWidgetModalOpen}
+        setToggleOpenLink={setToggleOpenLink}
+        tx={oldTxType}
+      />
       <TxHistoriesContainer txsHeight={TABLE_ROW_COUNT * ROW_HEIGHT}>
         <TitleRow>
           <Left>
@@ -188,7 +210,17 @@ export const TxHistories = () => {
                 >
                   {({ index, style }) => {
                     const tx = data.transactions.edges[index].node;
-                    return <TxHistoriesItem key={tx.id} bgKey={index} tx={tx} style={style} />;
+                    return (
+                      <TxHistoriesItem
+                        key={tx.id}
+                        bgKey={index}
+                        tx={tx}
+                        style={style}
+                        toggleOpenLink={toggleOpenLink}
+                        setToggleOpenLink={setToggleOpenLink}
+                        setTxDetail={setTxDetail}
+                      />
+                    );
                   }}
                 </List>
               )}

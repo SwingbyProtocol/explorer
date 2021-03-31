@@ -225,7 +225,7 @@ export interface IMetanode {
   version: string;
 }
 
-export const castGraphQlType = (tx: Transaction) => {
+export const castGraphQlType = (tx: Transaction): TTxRawObject => {
   return {
     addressIn: tx.sendingAddress ? tx.sendingAddress : '',
     addressOut: tx.receivingAddress,
