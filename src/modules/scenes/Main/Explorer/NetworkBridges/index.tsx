@@ -32,7 +32,7 @@ interface IBridgeData {
 export const NetworkBridges = () => {
   const theme = useTheme();
   const explorer = useSelector((state) => state.explorer);
-  const { networkInfos } = explorer;
+  const { networkInfos, isLoading } = explorer;
   const { floatBalances, stats } = networkInfos;
 
   const dataEthBridge = [
@@ -69,7 +69,7 @@ export const NetworkBridges = () => {
                   <Text variant="label">
                     <FormattedMessage id="home.network.float" />
                   </Text>
-                  {!coin.float ? (
+                  {isLoading ? (
                     placeholderLoader
                   ) : (
                     <FloatSpan>
@@ -81,7 +81,7 @@ export const NetworkBridges = () => {
                   <Text variant="label">
                     <FormattedMessage id="home.network.vol" />
                   </Text>
-                  {!coin.float ? (
+                  {isLoading ? (
                     placeholderLoader
                   ) : (
                     <VolSpan>

@@ -64,10 +64,9 @@ export const ENDPOINT_ETHEREUM_NODE =
     ? 'https://btc-wbtc-mainnet.quantexe.com'
     : 'https://tbtc-goerli-node-1.swingby.network';
 
-//Todo: Add mainnet endpoint
 export const ENDPOINT_BSC_NODE =
   mode === 'production'
-    ? 'https://tbtc-bsc-1.swingby.network'
+    ? 'https://btc-bsc-mainnet.quantexe.com'
     : 'https://tbtc-bsc-1.swingby.network';
 
 export const ENDPOINT_BINANCE_NODE =
@@ -111,4 +110,4 @@ export const CONTRACT_BEP20_SB_BTC =
 // Memo: BTC is not on Ethereum, it doesn’t have an address, so the contract uses this one to represent BTC
 export const ZERO_ADDRESS = CONTRACTS.coins.BTC.production.address;
 
-export const isEnableBscSupport = mode === 'test' ? true : false;
+export const isEnableBscSupport = process.env.NEXT_PUBLIC_IS_BSC_SUPPORT === 'true' ? true : false;
