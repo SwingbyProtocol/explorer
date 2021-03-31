@@ -1,9 +1,9 @@
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useToggleBridge } from '..';
 import { PATH } from '../../env';
-import { fetchFloatBalances, fetchStatsInfo, IFloat, IStats } from '../../explorer';
+import { fetchFloatBalances, fetchStatsInfo } from '../../explorer';
 import { toggleIsLoading, updateNetworkInfos } from '../../store';
 
 export const useGetNetworkData = () => {
@@ -11,14 +11,6 @@ export const useGetNetworkData = () => {
   const explorer = useSelector((state) => state.explorer);
   const { usd } = explorer;
   const { bridge } = useToggleBridge(PATH.ROOT);
-
-  const updateState = useCallback(
-    (floats: IFloat, capacity: number, stats: IStats) => {
-      dispatch(updateNetworkInfos({ floatBalances: floats, capacity, stats }));
-      dispatch(toggleIsLoading(false));
-    },
-    [dispatch],
-  );
 
   useEffect(() => {
     dispatch(toggleIsLoading(true));
@@ -32,7 +24,10 @@ export const useGetNetworkData = () => {
         const data = results[0];
         const stats = results[1];
 
-        data.floats && data.capacity && stats && updateState(data.floats, data.capacity, stats);
+        dispatch(
+          updateNetworkInfos({ floatBalances: data.floats, capacity: data.capacity, stats }),
+        );
+        dispatch(toggleIsLoading(false));
       })();
-  }, [usd, dispatch, bridge, updateState]);
+  }, [usd, dispatch, bridge]);
 };

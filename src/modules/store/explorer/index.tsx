@@ -11,7 +11,6 @@ enum Actions {
   ToggleIsExistPreviousPage = 'Explorer/TOGGLE_IS_EXIST_PREVIOUS_PAGE',
   FetchHistory = 'Explorer/FETCH_HISTORY',
   ClearHistory = 'Explorer/CLEAR_HISTORY',
-  ToggleIsRejectedTx = 'Explorer/TOGGLE_IS_REJECTED_TX',
   UpdateSwapHistoryTemp = 'Explorer/UPDATE_SWAP_HISTORY_TEMP',
   FetchUsdPrice = 'Explorer/FETCH_USD_PRICE',
   FetchTransactionFees = 'Explorer/FETCH_TRANSACTION_FEES',
@@ -22,7 +21,6 @@ const initialState = {
   isLoading: false,
   swapHistory: null,
   swapHistoryTemp: null,
-  isRejectedTx: false,
   usd: initial.usd,
   networkInfos: initial.networkInfos,
   transactionFees: null,
@@ -46,10 +44,6 @@ export const explorer: Reducer<State, Action> = (state = initialState, action) =
 
   if (action.type === Actions.ClearHistory) {
     return { ...state, swapHistory: null };
-  }
-
-  if (action.type === Actions.ToggleIsRejectedTx) {
-    return { ...state, isRejectedTx: action.data };
   }
 
   if (action.type === Actions.UpdateSwapHistoryTemp) {
@@ -81,9 +75,6 @@ export const getHistory = (data: ITransactions) => ({ type: Actions.FetchHistory
 
 export const clearHistory = () => ({ type: Actions.ClearHistory } as const);
 
-export const toggleIsRejectedTx = (data: boolean) =>
-  ({ type: Actions.ToggleIsRejectedTx, data } as const);
-
 export const updateSwapHistoryTemp = (data: TTxRawObject[]) =>
   ({ type: Actions.UpdateSwapHistoryTemp, data } as const);
 
@@ -100,7 +91,6 @@ type Action =
   | ReturnType<typeof toggleIsExistPreviousPage>
   | ReturnType<typeof getHistory>
   | ReturnType<typeof clearHistory>
-  | ReturnType<typeof toggleIsRejectedTx>
   | ReturnType<typeof updateSwapHistoryTemp>
   | ReturnType<typeof fetchUsdPrice>
   | ReturnType<typeof fetchTransactionFees>

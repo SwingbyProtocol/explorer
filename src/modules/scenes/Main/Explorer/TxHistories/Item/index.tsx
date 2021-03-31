@@ -151,13 +151,14 @@ export const TxHistoriesItem = ({
               </Dropdown.Item>
               {tx.receivingTxHash && (
                 <Dropdown.Item
-                  onClick={() =>
+                  onClick={() => {
+                    console.log(tx);
                     window.open(
-                      transactionDetailByTxId(oldTxType.currencyIn, tx.receivingTxHash),
+                      transactionDetailByTxId(oldTxType.currencyOut, tx.receivingTxHash),
                       '_blank',
                       'noopener',
-                    )
-                  }
+                    );
+                  }}
                 >
                   <p>
                     <FormattedMessage id="home.recent-swaps.get-tx-details" />

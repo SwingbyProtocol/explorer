@@ -2,23 +2,21 @@ import { Dropdown, Text } from '@swingby-protocol/pulsar';
 import { useRouter } from 'next/router';
 import React, { useCallback, useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { FixedSizeList as List } from 'react-window';
 import InfiniteLoader from 'react-window-infinite-loader';
 
 import { LinkToWidgetModal } from '../../../../../components/LinkToWidgetModal';
 import { Loader } from '../../../../../components/Loader';
+import { Bridge, Transaction, TransactionType } from '../../../../../generated/graphql';
 import { isEnableBscSupport, TXS_COUNT } from '../../../../env';
-import { useLinkToWidget, useLoadHistories } from '../../../../hooks';
-import { Bridge, TransactionType, Transaction } from '../../../../../generated/graphql';
 import {
+  castGraphQlType,
   ISwapQueryPrams,
   selectableBridge,
   selectableTxType,
-  castGraphQlType,
 } from '../../../../explorer';
-import { toggleIsRejectedTx } from '../../../../store';
+import { useLinkToWidget, useLoadHistories } from '../../../../hooks';
 
 import { TxHistoriesItem } from './Item';
 import {
@@ -42,28 +40,25 @@ export const TxHistories = () => {
   const q = String(params.q || '');
   const chainBridge = String(params.bridge || '') as Bridge;
   const type = String(params.type || '') as TransactionType;
+  const rejected = String(params.rejected || '');
 
   const routerPush = useCallback(
     (params: ISwapQueryPrams): void => {
-      const { bridge, type, q } = params;
+      const { bridge, type, rejected, q } = params;
 
       // Memo: Shallow routing make URL faster update and page won't get replaced. Only the state of the route is changed.
       // Ref: https://nextjs.org/docs/routing/shallow-routing
       push(
         {
           pathname: '/',
-          query: { bridge, type, q },
+          query: { bridge, type, rejected, q },
         },
         undefined,
-        { shallow: true },
+        { shallow: true, scroll: false },
       );
     },
     [push],
   );
-
-  const dispatch = useDispatch();
-  const explorer = useSelector((state) => state.explorer);
-  const { isRejectedTx } = explorer;
 
   const { data, loading, fetchMoreQuery } = useLoadHistories();
 
@@ -74,10 +69,11 @@ export const TxHistories = () => {
         <FormattedMessage id="home.recent-swaps.filter.hide-waiting" />
       </Dropdown.Item>
       <Dropdown.Item
-        selected={isRejectedTx}
+        selected={rejected === 'true'}
         onClick={() => {
-          routerPush({ bridge: chainBridge, q, type });
-          dispatch(toggleIsRejectedTx(!isRejectedTx));
+          rejected === 'true'
+            ? routerPush({ bridge: chainBridge, q, type, rejected: 'false' })
+            : routerPush({ bridge: chainBridge, q, type, rejected: 'true' });
         }}
       >
         <FormattedMessage id="home.recent-swaps.filter.rejected-tx" />
@@ -92,7 +88,7 @@ export const TxHistories = () => {
           <Dropdown.Item
             selected={type === txType.type}
             onClick={() => {
-              routerPush({ bridge: chainBridge, type: txType.type, q });
+              routerPush({ bridge: chainBridge, type: txType.type, q, rejected });
             }}
           >
             <FormattedMessage id={txType.menu} />
@@ -108,7 +104,7 @@ export const TxHistories = () => {
         return (
           <Dropdown.Item
             selected={chainBridge === chain.bridge}
-            onClick={() => routerPush({ bridge: chain.bridge, type, q })}
+            onClick={() => routerPush({ bridge: chain.bridge, type, q, rejected })}
             key={chain.menu}
             disabled={!isEnableBscSupport && chain.menu === 'BSC'}
           >
@@ -149,7 +145,7 @@ export const TxHistories = () => {
 
   // Memo: 1: Close the modal, More than 1: Open the modal
   const [toggleOpenLink, setToggleOpenLink] = useState<number>(1);
-  const [txDetail, setTxDetail] = useState(data && data.transactions?.edges[0].node);
+  const [txDetail, setTxDetail] = useState(null);
   const oldTxType = useMemo(() => txDetail && castGraphQlType(txDetail as Transaction), [txDetail]);
   const { isClaimWidgetModalOpen, setIsClaimWidgetModalOpen } = useLinkToWidget({
     toggleOpenLink,
