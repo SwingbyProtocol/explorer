@@ -10,25 +10,33 @@ import {
   useTransactionsHistoryQuery,
 } from '../../../generated/graphql';
 
-export const useLoadHistories = (filterTransactionType: TransactionType) => {
+export const useLoadHistories = () => {
   const explorer = useSelector((state) => state.explorer);
   const { isRejectedTx } = explorer;
 
   const { query } = useRouter();
 
-  const { after: afterParam, before: beforeParam, q } = query;
+  const { after: afterParam, before: beforeParam, q, type } = query;
 
   const PAGE_SIZE = 50;
   const after = typeof afterParam === 'string' ? afterParam : undefined;
   const before = typeof beforeParam === 'string' ? beforeParam : undefined;
 
-  const getType = (filterTransactionType: TransactionType) => {
-    switch (filterTransactionType) {
+  const txType = type === '' ? TransactionType.Swap : type;
+
+  const getType = (type: TransactionType | 'search') => {
+    switch (type) {
       case TransactionType.Deposit:
-        return { in: [TransactionType.Deposit, TransactionType.Withdrawal] };
+        return { equals: TransactionType.Deposit };
+
+      case TransactionType.Withdrawal:
+        return { equals: TransactionType.Withdrawal };
+
+      case 'search':
+        return { in: [TransactionType.Swap, TransactionType.Deposit, TransactionType.Withdrawal] };
 
       default:
-        return { in: [TransactionType.Swap] };
+        return { equals: TransactionType.Swap };
     }
   };
 
@@ -61,7 +69,7 @@ export const useLoadHistories = (filterTransactionType: TransactionType) => {
 
   const filter = useMemo(() => {
     const baseFilter = {
-      type: getType(filterTransactionType),
+      type: getType(txType as TransactionType),
       status: getStatus(isRejectedTx),
       bridge: getBridge(query.bridge as Bridge),
     };
@@ -106,7 +114,7 @@ export const useLoadHistories = (filterTransactionType: TransactionType) => {
           ],
         }
       : baseFilter;
-  }, [filterTransactionType, q, query.bridge, isRejectedTx]);
+  }, [q, query.bridge, isRejectedTx, txType]);
 
   const { data, loading, fetchMore } = useTransactionsHistoryQuery({
     pollInterval: 10000,

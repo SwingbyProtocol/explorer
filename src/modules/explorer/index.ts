@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon';
 
-import { Bridge, Transaction, TransactionStatus } from '../../generated/graphql';
+import { Bridge, Transaction, TransactionStatus, TransactionType } from '../../generated/graphql';
 
 import { castCurrencyName, CoinSymbol } from './../coins';
 
@@ -31,16 +31,31 @@ export {
 
 export const selectableBridge = [
   {
-    menu: 'Multiple-Bridges',
-    bridge: '',
+    menu: 'Multiple Bridges',
+    bridge: '' as Bridge,
   },
   {
     menu: 'Ethereum',
-    bridge: Bridge.BtcErc,
+    bridge: Bridge.BtcErc as Bridge,
   },
   {
     menu: 'BSC',
-    bridge: Bridge.BtcBep20,
+    bridge: Bridge.BtcBep20 as Bridge,
+  },
+];
+
+export const selectableTxType = [
+  {
+    menu: 'home.recent-swaps.filter.swap',
+    type: '' as TransactionType,
+  },
+  {
+    menu: 'home.recent-swaps.filter.deposit',
+    type: TransactionType.Deposit as TransactionType,
+  },
+  {
+    menu: 'home.recent-swaps.filter.withdrawal',
+    type: TransactionType.Withdrawal as TransactionType,
   },
 ];
 
@@ -227,3 +242,9 @@ export const castGraphQlType = (tx: Transaction): TTxRawObject => {
     txIdOut: tx.receivingTxHash,
   };
 };
+
+export interface ISwapQueryPrams {
+  bridge: Bridge | '';
+  type: TransactionType | '';
+  q: string | '';
+}
