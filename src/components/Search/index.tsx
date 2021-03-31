@@ -28,7 +28,11 @@ export const Search = () => {
         setSearch(evt.target.value);
         router.push({
           pathname: '/',
-          query: { bridge: chainBridge, q: evt.target.value },
+          query: {
+            bridge: chainBridge,
+            type: evt.target.value ? 'search' : '',
+            q: evt.target.value,
+          },
         });
       }}
       placeholder={formatMessage({ id: 'common.placeholder.search' })}

@@ -24,13 +24,16 @@ export const useLoadHistories = () => {
 
   const txType = type === '' ? TransactionType.Swap : type;
 
-  const getType = (type: TransactionType) => {
+  const getType = (type: TransactionType | 'search') => {
     switch (type) {
       case TransactionType.Deposit:
         return { equals: TransactionType.Deposit };
 
       case TransactionType.Withdrawal:
         return { equals: TransactionType.Withdrawal };
+
+      case 'search':
+        return { in: [TransactionType.Swap, TransactionType.Deposit, TransactionType.Withdrawal] };
 
       default:
         return { equals: TransactionType.Swap };
