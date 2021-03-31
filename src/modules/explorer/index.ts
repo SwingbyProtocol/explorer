@@ -247,4 +247,5 @@ export interface ISwapQueryPrams {
   bridge: Bridge | '';
   type: TransactionType | '';
   q: string | '';
+  rejected: string | '';
 }

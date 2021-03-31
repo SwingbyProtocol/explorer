@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router';
 import { useCallback, useMemo } from 'react';
-import { useSelector } from 'react-redux';
 
 import {
   Bridge,
@@ -12,14 +11,14 @@ import {
 } from '../../../generated/graphql';
 
 export const useLoadHistories = () => {
-  const isRejectedTx = useSelector((state) => state.explorer.isRejectedTx);
   const { query } = useRouter();
 
-  const { after: afterParam, before: beforeParam, q, type } = query;
+  const { after: afterParam, before: beforeParam, q, type, rejected } = query;
 
   const PAGE_SIZE = 50;
   const after = typeof afterParam === 'string' ? afterParam : undefined;
   const before = typeof beforeParam === 'string' ? beforeParam : undefined;
+  const isRejected = rejected;
 
   const txType = type === '' ? TransactionType.Swap : type;
 
@@ -51,7 +50,7 @@ export const useLoadHistories = () => {
     }
   };
 
-  const getStatus = (isRejectedTx: boolean) => {
+  const getStatus = (isRejectedTx: string) => {
     const {
       Pending,
       Signing,
@@ -61,7 +60,7 @@ export const useLoadHistories = () => {
       SendingRefund,
       Refunded,
     } = TransactionStatus;
-    return isRejectedTx
+    return isRejectedTx === 'true'
       ? { in: [Refunded, SigningRefund, SendingRefund] }
       : { in: [Completed, Sending, Pending, Signing] };
   };
@@ -69,7 +68,7 @@ export const useLoadHistories = () => {
   const filter = useMemo((): TransactionWhereInput => {
     const baseFilter = {
       type: getType(txType as TransactionType),
-      status: getStatus(isRejectedTx),
+      status: getStatus(isRejected as string),
       bridge: getBridge(query.bridge as Bridge),
     };
 
@@ -115,7 +114,7 @@ export const useLoadHistories = () => {
         baseFilter,
       ],
     };
-  }, [q, query.bridge, isRejectedTx, txType]);
+  }, [q, query.bridge, isRejected, txType]);
 
   const { data, loading, fetchMore } = useTransactionsHistoryQuery({
     pollInterval: 10000,

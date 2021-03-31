@@ -4,7 +4,6 @@ export {
   toggleIsLoading,
   getHistory,
   clearHistory,
-  toggleIsRejectedTx,
   updateSwapHistoryTemp,
   fetchUsdPrice,
   fetchTransactionFees,
