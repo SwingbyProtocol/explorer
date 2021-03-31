@@ -110,4 +110,4 @@ export const CONTRACT_BEP20_SB_BTC =
 // Memo: BTC is not on Ethereum, it doesn’t have an address, so the contract uses this one to represent BTC
 export const ZERO_ADDRESS = CONTRACTS.coins.BTC.production.address;
 
-export const isEnableBscSupport = process.env.NEXT_PUBLIC_IS_BSC_SUPPORT === 'true' ? true : false;
+export const isEnableBscSupport = true;
