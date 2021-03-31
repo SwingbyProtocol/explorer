@@ -1,17 +1,18 @@
 import { Dropdown, Text } from '@swingby-protocol/pulsar';
 import { useRouter } from 'next/router';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { FixedSizeList as List } from 'react-window';
 import InfiniteLoader from 'react-window-infinite-loader';
 
+import { LinkToWidgetModal } from '../../../../../components/LinkToWidgetModal';
 import { Loader } from '../../../../../components/Loader';
-import { TransactionType } from '../../../../../generated/graphql';
+import { Transaction, TransactionType } from '../../../../../generated/graphql';
 import { isEnableBscSupport, TXS_COUNT } from '../../../../env';
-import { selectableBridge } from '../../../../explorer';
-import { useLoadHistories } from '../../../../hooks';
+import { castGraphQlType, selectableBridge } from '../../../../explorer';
+import { useLinkToWidget, useLoadHistories } from '../../../../hooks';
 import { toggleIsRejectedTx } from '../../../../store';
 
 import { TxHistoriesItem } from './Item';
@@ -121,8 +122,23 @@ export const TxHistories = () => {
     </NoResultsFound>
   );
 
+  const [toggleOpenLink, setToggleOpenLink] = useState(1);
+  const [txDetail, setTxDetail] = useState(data && data.transactions?.edges[0].node);
+  const oldTxType = useMemo(() => txDetail && castGraphQlType(txDetail as Transaction), [txDetail]);
+  const { isClaimWidgetModalOpen, setIsClaimWidgetModalOpen } = useLinkToWidget({
+    toggleOpenLink,
+    tx: oldTxType,
+    action: 'claim',
+    setToggleOpenLink,
+  });
+
   return (
     <>
+      <LinkToWidgetModal
+        isWidgetModalOpen={isClaimWidgetModalOpen}
+        setIsWidgetModalOpen={setIsClaimWidgetModalOpen}
+        tx={oldTxType}
+      />
       <TxHistoriesContainer txsHeight={TABLE_ROW_COUNT * ROW_HEIGHT}>
         <TitleRow>
           <Left>
@@ -166,7 +182,17 @@ export const TxHistories = () => {
                 >
                   {({ index, style }) => {
                     const tx = data.transactions.edges[index].node;
-                    return <TxHistoriesItem key={tx.id} bgKey={index} tx={tx} style={style} />;
+                    return (
+                      <TxHistoriesItem
+                        key={tx.id}
+                        bgKey={index}
+                        tx={tx}
+                        style={style}
+                        toggleOpenLink={toggleOpenLink}
+                        setToggleOpenLink={setToggleOpenLink}
+                        setTxDetail={setTxDetail}
+                      />
+                    );
                   }}
                 </List>
               )}
