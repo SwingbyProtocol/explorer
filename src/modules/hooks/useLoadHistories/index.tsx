@@ -12,9 +12,7 @@ import {
 } from '../../../generated/graphql';
 
 export const useLoadHistories = () => {
-  const explorer = useSelector((state) => state.explorer);
-  const { isRejectedTx } = explorer;
-
+  const isRejectedTx = useSelector((state) => state.explorer.isRejectedTx);
   const { query } = useRouter();
 
   const { after: afterParam, before: beforeParam, q, type } = query;
