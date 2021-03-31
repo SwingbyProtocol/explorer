@@ -74,13 +74,7 @@ export const TxHistoriesItem = ({
 
   return (
     <Link href={`${chainBridge === 'floats' ? PATH.FLOAT : PATH.SWAP}/${tx.id}`}>
-      <TxHistoryRow
-        key={tx.id}
-        bg={bgKey % 2 !== 0}
-        borderColor={borderColor}
-        style={style}
-        onMouseEnter={() => setTxDetail(tx as Transaction)}
-      >
+      <TxHistoryRow key={tx.id} bg={bgKey % 2 !== 0} borderColor={borderColor} style={style}>
         <Column>
           <Status>
             <StatusCircle status={tx.status} />
@@ -147,7 +141,12 @@ export const TxHistoriesItem = ({
             }}
           >
             <Dropdown target={<Ellipsis />} data-testid="dropdown">
-              <Dropdown.Item onClick={() => setToggleOpenLink(toggleOpenLink + 1)}>
+              <Dropdown.Item
+                onClick={() => {
+                  setToggleOpenLink(toggleOpenLink + 1);
+                  setTxDetail(tx as Transaction);
+                }}
+              >
                 <FormattedMessage id="home.recent-swaps.check-swap-progress" />
               </Dropdown.Item>
               {tx.receivingTxHash && (

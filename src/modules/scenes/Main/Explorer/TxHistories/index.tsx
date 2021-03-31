@@ -122,7 +122,8 @@ export const TxHistories = () => {
     </NoResultsFound>
   );
 
-  const [toggleOpenLink, setToggleOpenLink] = useState(1);
+  // Memo: 1: Close the modal, More than 1: Open the modal
+  const [toggleOpenLink, setToggleOpenLink] = useState<number>(1);
   const [txDetail, setTxDetail] = useState(data && data.transactions?.edges[0].node);
   const oldTxType = useMemo(() => txDetail && castGraphQlType(txDetail as Transaction), [txDetail]);
   const { isClaimWidgetModalOpen, setIsClaimWidgetModalOpen } = useLinkToWidget({
@@ -137,6 +138,7 @@ export const TxHistories = () => {
       <LinkToWidgetModal
         isWidgetModalOpen={isClaimWidgetModalOpen}
         setIsWidgetModalOpen={setIsClaimWidgetModalOpen}
+        setToggleOpenLink={setToggleOpenLink}
         tx={oldTxType}
       />
       <TxHistoriesContainer txsHeight={TABLE_ROW_COUNT * ROW_HEIGHT}>
