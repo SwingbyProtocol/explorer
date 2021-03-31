@@ -54,7 +54,7 @@ export const TxHistories = () => {
           query: { bridge, type, rejected, q },
         },
         undefined,
-        { shallow: true },
+        { shallow: true, scroll: false },
       );
     },
     [push],
