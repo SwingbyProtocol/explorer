@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 
 import {
   Bridge,
+  StringFilterMode,
   TransactionStatus,
   TransactionType,
   TransactionWhereInput,
@@ -67,53 +68,55 @@ export const useLoadHistories = () => {
       : { in: [Completed, Sending, Pending, Signing] };
   };
 
-  const filter = useMemo(() => {
+  const filter = useMemo((): TransactionWhereInput => {
     const baseFilter = {
       type: getType(txType as TransactionType),
       status: getStatus(isRejectedTx),
       bridge: getBridge(query.bridge as Bridge),
     };
 
-    return q !== ''
-      ? {
-          AND: [
+    if (typeof q !== 'string' || !q) {
+      return baseFilter;
+    }
+
+    return {
+      AND: [
+        {
+          OR: [
             {
-              OR: [
-                {
-                  id: {
-                    equals: q,
-                  },
-                },
-                {
-                  sendingAddress: {
-                    mode: 'insensitive',
-                    equals: q,
-                  },
-                },
-                {
-                  receivingAddress: {
-                    mode: 'insensitive',
-                    equals: q,
-                  },
-                },
-                {
-                  depositTxHash: {
-                    mode: 'insensitive',
-                    equals: q,
-                  },
-                },
-                {
-                  receivingTxHash: {
-                    mode: 'insensitive',
-                    equals: q,
-                  },
-                },
-              ],
+              id: {
+                equals: q,
+              },
             },
-            baseFilter,
+            {
+              sendingAddress: {
+                mode: StringFilterMode.Insensitive,
+                equals: q,
+              },
+            },
+            {
+              receivingAddress: {
+                mode: StringFilterMode.Insensitive,
+                equals: q,
+              },
+            },
+            {
+              depositTxHash: {
+                mode: StringFilterMode.Insensitive,
+                equals: q,
+              },
+            },
+            {
+              receivingTxHash: {
+                mode: StringFilterMode.Insensitive,
+                equals: q,
+              },
+            },
           ],
-        }
-      : baseFilter;
+        },
+        baseFilter,
+      ],
+    };
   }, [q, query.bridge, isRejectedTx, txType]);
 
   const { data, loading, fetchMore } = useTransactionsHistoryQuery({
@@ -123,7 +126,7 @@ export const useLoadHistories = () => {
       before,
       first: after ? PAGE_SIZE : !before ? PAGE_SIZE : undefined,
       last: before ? PAGE_SIZE : undefined,
-      where: filter as TransactionWhereInput,
+      where: filter,
     },
   });
 
@@ -135,7 +138,7 @@ export const useLoadHistories = () => {
         before: null,
         first: PAGE_SIZE,
         last: null,
-        where: filter as TransactionWhereInput,
+        where: filter,
       },
     });
   }, [data?.transactions.pageInfo.endCursor, fetchMore, filter]);
