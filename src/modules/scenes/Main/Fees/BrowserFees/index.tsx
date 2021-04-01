@@ -18,8 +18,7 @@ import {
 } from './styled';
 
 export const BrowserFees = () => {
-  const explorer = useSelector((state) => state.explorer);
-  const { transactionFees } = explorer;
+  const transactionFees = useSelector((state) => state.explorer.transactionFees);
 
   return (
     <>

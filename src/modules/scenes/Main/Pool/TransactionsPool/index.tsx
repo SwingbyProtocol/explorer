@@ -31,8 +31,8 @@ import {
 
 export const TransactionsPool = () => {
   const dispatch = useDispatch();
-  const pool = useSelector((state) => state.pool);
-  const { recentTxs, userAddress } = pool;
+  const recentTxs = useSelector((state) => state.pool.recentTxs);
+  const userAddress = useSelector((state) => state.pool.userAddress);
   const { bridge } = useToggleBridge(PATH.POOL);
 
   const baseUrl = getScanDetailBaseEndpoint(bridge);

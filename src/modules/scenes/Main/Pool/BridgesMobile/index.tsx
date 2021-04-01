@@ -12,8 +12,7 @@ import { BackDrop, BridgesMobileContainer, DropTargetBridges, TextTitle } from '
 
 export const BridgesMobile = () => {
   const { bridge, setBridge } = useToggleBridge(PATH.POOL);
-  const pool = useSelector((state) => state.pool);
-  const { userAddress } = pool;
+  const userAddress = useSelector((state) => state.pool.userAddress);
 
   const bridgesItems = (
     <>

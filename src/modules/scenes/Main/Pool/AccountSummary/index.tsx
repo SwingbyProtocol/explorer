@@ -27,10 +27,9 @@ import {
 export const AccountSummary = () => {
   const { bridge } = useToggleBridge(PATH.POOL);
   const dispatch = useDispatch();
-  const explorer = useSelector((state) => state.explorer);
-  const { usd } = explorer;
-  const pool = useSelector((state) => state.pool);
-  const { balanceSbBTC, userAddress } = pool;
+  const usd = useSelector((state) => state.explorer.usd);
+  const balanceSbBTC = useSelector((state) => state.pool.balanceSbBTC);
+  const userAddress = useSelector((state) => state.pool.userAddress);
 
   const [claimableAmount, setClaimableAmount] = useState(0);
   const [totalEarnings, setTotalEarnings] = useState(0);

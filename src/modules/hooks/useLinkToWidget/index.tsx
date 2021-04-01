@@ -25,8 +25,7 @@ export const useLinkToWidget = (data: IData) => {
   const [theme] = useThemeSettings();
   const dispatch = useDispatch();
   const affiliateCode = useAffiliateCode();
-  const pool = useSelector((state) => state.pool);
-  const { onboard } = pool;
+  const onboard = useSelector((state) => state.pool.onboard);
   const [walletAddress, setWalletAddress] = useState(null);
   const [isClaimWidgetModalOpen, setIsClaimWidgetModalOpen] = useState(false);
   const [isDuplicateWidgetModalOpen, setIsDuplicateWidgetModalOpen] = useState(false);

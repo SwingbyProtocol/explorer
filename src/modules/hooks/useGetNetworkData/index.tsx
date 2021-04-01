@@ -8,8 +8,7 @@ import { toggleIsLoading, updateNetworkInfos } from '../../store';
 
 export const useGetNetworkData = () => {
   const dispatch = useDispatch();
-  const explorer = useSelector((state) => state.explorer);
-  const { usd } = explorer;
+  const usd = useSelector((state) => state.explorer.usd);
   const { bridge } = useToggleBridge(PATH.ROOT);
 
   useEffect(() => {

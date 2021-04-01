@@ -34,8 +34,7 @@ export const EarningsChart = () => {
   const [earnings, setEarnings] = useState(earningsAll);
   const [isLoading, setIsLoading] = useState(true);
 
-  const pool = useSelector((state) => state.pool);
-  const { userAddress } = pool;
+  const userAddress = useSelector((state) => state.pool.userAddress);
 
   useEffect(() => {
     (async () => {

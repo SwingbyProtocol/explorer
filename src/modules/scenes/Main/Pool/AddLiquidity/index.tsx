@@ -54,8 +54,7 @@ interface Props {
 export const AddLiquidity = (props: Props) => {
   const { addressValidationResult, amountValidationResult } = props;
   const { formatMessage } = useIntl();
-  const pool = useSelector((state) => state.pool);
-  const { userAddress } = pool;
+  const userAddress = useSelector((state) => state.pool.userAddress);
   const { poolCurrencies, bridge } = useToggleBridge(PATH.POOL);
   const { locale } = useRouter();
   const affiliateCode = useAffiliateCode();

@@ -182,12 +182,12 @@ export const toggleStatusIconColor = (status: TChurnStatus): TStatus => {
 export const getSbBtcRewardCurrency = (bridge: SkybridgeBridge) => {
   switch (bridge) {
     case btcErc:
-      return 'ETH';
+      return 'ERC20';
 
     case btcBep:
-      return 'BNB';
+      return 'BEP20';
 
     default:
-      return 'ETH';
+      return 'ERC20';
   }
 };
