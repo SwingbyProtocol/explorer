@@ -153,7 +153,7 @@ export const TextNowrap = styled(TextRoom)`
 export const BoxAddress = styled.div``;
 export const RowAddress = styled.div`
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: ${({ theme }) => rem(theme.pulsar.size.country)} auto;
   grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.box)};
   align-items: center;
 `;
@@ -161,7 +161,7 @@ export const RowAddress = styled.div`
 export const ColumnAddress = styled.div`
   width: ${rem(100)};
   @media (min-width: ${rem(media.xl)}) {
-    width: ${rem(140)};
+    width: ${rem(126)};
   }
 `;
 
@@ -214,4 +214,11 @@ export const TextNodeStatus = styled(TextNodeName)`
 
 export const AddressP = styled(AddressLinkP)`
   cursor: text;
+`;
+
+export const CurrencyBox = styled.div`
+  width: ${({ theme }) => rem(theme.pulsar.size.state)};
+`;
+export const CurrencyColumn = styled.div`
+  display: flex;
 `;

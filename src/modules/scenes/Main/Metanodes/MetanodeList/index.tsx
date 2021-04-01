@@ -34,6 +34,8 @@ import {
   TextNodeStatus,
   TextNowrap,
   AddressP,
+  CurrencyBox,
+  CurrencyColumn,
 } from './styled';
 
 interface Props {
@@ -46,6 +48,9 @@ export const MetanodeList = (props: Props) => {
   const { locale } = useIntl();
   const { metanodes, bridge, isLoading } = props;
   const tvl = metanodes && calTvl(metanodes);
+
+  const swingbyRewardCurrency = 'BEP2';
+  const sbBTCRewardCurrency = bridge && getSbBtcRewardCurrency(bridge);
 
   return (
     <MetanodeListContainer>
@@ -92,9 +97,6 @@ export const MetanodeList = (props: Props) => {
             const expireTime = convertDateTime(expireTimestamp);
             const lockedPortion = Number((Number(node.stake.amount) / tvl) * 100).toFixed(2);
 
-            const swingbyRewardCurrency = 'BNB';
-            const sbBTCRewardCurrency = bridge && getSbBtcRewardCurrency(bridge);
-
             return (
               <Row key={node.id} bg={toggleStatusBg(node.status, i)}>
                 <ColumnLeft>
@@ -132,17 +134,23 @@ export const MetanodeList = (props: Props) => {
                 <SizeL>
                   <BoxAddress>
                     <RowAddress>
-                      <div>
-                        <TextRoom variant="label">{swingbyRewardCurrency}:</TextRoom>
-                      </div>
+                      <CurrencyColumn>
+                        <CurrencyBox>
+                          <TextRoom variant="label">{swingbyRewardCurrency}</TextRoom>
+                        </CurrencyBox>
+                        <TextRoom variant="label">:</TextRoom>
+                      </CurrencyColumn>
                       <ColumnAddress>
                         <AddressP>{bnbAddress}</AddressP>
                       </ColumnAddress>
                     </RowAddress>
                     <RowAddress>
-                      <div>
-                        <TextRoom variant="label">{sbBTCRewardCurrency}:</TextRoom>
-                      </div>
+                      <CurrencyColumn>
+                        <CurrencyBox>
+                          <TextRoom variant="label">{sbBTCRewardCurrency}</TextRoom>
+                        </CurrencyBox>
+                        <TextRoom variant="label">:</TextRoom>
+                      </CurrencyColumn>
                       <ColumnAddress>
                         <AddressP>{ethAddress}</AddressP>
                       </ColumnAddress>
