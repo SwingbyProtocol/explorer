@@ -18,8 +18,8 @@ import {
 
 export const AccountId = () => {
   const dispatch = useDispatch();
-  const pool = useSelector((state) => state.pool);
-  const { userAddress, onboard } = pool;
+  const userAddress = useSelector((state) => state.pool.userAddress);
+  const onboard = useSelector((state) => state.pool.onboard);
   const avatarSrc = userAddress && blockies.create({ seed: userAddress }).toDataURL();
 
   const { copy } = useCopy(userAddress);

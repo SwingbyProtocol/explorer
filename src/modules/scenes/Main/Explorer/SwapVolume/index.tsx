@@ -12,8 +12,9 @@ import { Box, LineContainer, LineDiv, SwapVolumeContainer, TitleDiv } from './st
 export const SwapVolume = () => {
   // Ref: https://github.com/jerairrest/react-chartjs-2/issues/306
   const { formatDate } = useIntl();
-  const explorer = useSelector((state) => state.explorer);
-  const { networkInfos, usd, isLoading } = explorer;
+  const isLoading = useSelector((state) => state.explorer.isLoading);
+  const usd = useSelector((state) => state.explorer.usd);
+  const networkInfos = useSelector((state) => state.explorer.networkInfos);
   const { stats } = networkInfos;
   const { volumes } = stats;
   const intl = useIntl();

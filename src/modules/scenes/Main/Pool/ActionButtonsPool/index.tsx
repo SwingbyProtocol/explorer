@@ -10,8 +10,8 @@ import { ActionButtonsPoolContainer, Buttons, RowText, TextAPR, TextTitle } from
 
 export const ActionButtonsPool = () => {
   const dispatch = useDispatch();
-  const pool = useSelector((state) => state.pool);
-  const { mode } = pool;
+  const mode = useSelector((state) => state.pool.mode);
+
   return (
     <ActionButtonsPoolContainer>
       {mode === PoolMode.Summary ? (

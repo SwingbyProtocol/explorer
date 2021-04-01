@@ -14,8 +14,7 @@ export const ConnectWallet = () => {
   const theme = useTheme();
 
   const dispatch = useDispatch();
-  const pool = useSelector((state) => state.pool);
-  const { onboard } = pool;
+  const onboard = useSelector((state) => state.pool.onboard);
   const { bridge } = useToggleBridge(PATH.POOL);
 
   const selectedWallet =

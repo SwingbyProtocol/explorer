@@ -31,8 +31,8 @@ interface IBridgeData {
 
 export const NetworkBridges = () => {
   const theme = useTheme();
-  const explorer = useSelector((state) => state.explorer);
-  const { networkInfos, isLoading } = explorer;
+  const isLoading = useSelector((state) => state.explorer.isLoading);
+  const networkInfos = useSelector((state) => state.explorer.networkInfos);
   const { floatBalances, stats } = networkInfos;
 
   const dataEthBridge = [

@@ -28,9 +28,11 @@ import {
 export const ExplorerInfos = () => {
   const theme = useTheme();
 
-  const explorer = useSelector((state) => state.explorer);
-  const { networkInfos, usd, isLoading } = explorer;
+  const networkInfos = useSelector((state) => state.explorer.networkInfos);
   const { stats, capacity } = networkInfos;
+
+  const usd = useSelector((state) => state.explorer.usd);
+  const isLoading = useSelector((state) => state.explorer.isLoading);
 
   const placeholderLoader = (
     <PulseLoader margin={3} size={4} color={theme.pulsar.color.text.normal} />

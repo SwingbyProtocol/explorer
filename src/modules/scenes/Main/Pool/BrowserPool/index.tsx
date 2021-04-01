@@ -25,8 +25,8 @@ import {
 } from './styled';
 
 export const BrowserPool = () => {
-  const pool = useSelector((state) => state.pool);
-  const { userAddress, mode } = pool;
+  const userAddress = useSelector((state) => state.pool.userAddress);
+  const mode = useSelector((state) => state.pool.mode);
 
   const addressValidationResult = (
     <ValidationResult>

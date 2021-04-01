@@ -54,8 +54,8 @@ export const Withdraw = (props: Props) => {
   const theme = useTheme();
   const [themeMode] = useThemeSettings();
 
-  const pool = useSelector((state) => state.pool);
-  const { balanceSbBTC, minimumWithdrawAmount } = pool;
+  const balanceSbBTC = useSelector((state) => state.pool.balanceSbBTC);
+  const minimumWithdrawAmount = useSelector((state) => state.pool.minimumWithdrawAmount);
   const transactionFees = useSelector((state) => state.explorer.transactionFees);
   const { locale } = useRouter();
   const dispatch = useDispatch();
