@@ -27,6 +27,7 @@ export {
   toBTC,
   toSatoshi,
   TxStatus,
+  getEndpoint,
 } from './utils';
 
 export const selectableBridge = [

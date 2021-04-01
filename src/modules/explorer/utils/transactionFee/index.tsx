@@ -1,13 +1,13 @@
 import { BigNumber } from 'bignumber.js';
 
-import { ENDPOINT_ETHEREUM_NODE } from '../../../env';
 import { fetch } from '../../../fetch';
 import { IFee } from '../../index';
+import { getEndpoint } from '../network';
 
 export const getTransactionFees = async (): Promise<IFee[]> => {
-  const url = ENDPOINT_ETHEREUM_NODE + '/api/v1/swaps/fees';
+  const { urlEth } = await getEndpoint();
   try {
-    const result = await fetch<IFee[]>(url);
+    const result = await fetch<IFee[]>(urlEth);
     return result.ok && result.response;
   } catch (err) {
     console.log(err);

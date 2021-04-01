@@ -1,18 +1,57 @@
-import { SkybridgeBridge } from '@swingby-protocol/sdk';
+import { buildContext, SkybridgeBridge } from '@swingby-protocol/sdk';
 
 import { CoinSymbol } from '../../../coins';
 import { sumArray } from '../../../common';
-import {
-  CACHED_ENDPOINT,
-  ENDPOINT_BSC_NODE,
-  ENDPOINT_COINGECKO,
-  ENDPOINT_ETHEREUM_NODE,
-  isEnableBscSupport,
-  mode,
-} from '../../../env';
+import { CACHED_ENDPOINT, ENDPOINT_COINGECKO, isEnableBscSupport, mode } from '../../../env';
 import { fetch, fetcher } from '../../../fetch';
 import { INodeListResponse, IReward } from '../../../metanodes';
 import { IFloat, IFloatAmount, IFloatBalances, IStats } from '../../index';
+
+// Memo: get active node endpoint
+export const getEndpoint = async (): Promise<{ urlEth: string; urlBsc: string }> => {
+  let urlEth = '';
+  let urlBsc = '';
+
+  const getContext = async () => {
+    try {
+      const context = await buildContext({ mode });
+      urlEth = context && context.servers.swapNode.btc_erc;
+      urlBsc = context && context.servers.swapNode.btc_bep20;
+      const getFloatBalUrl = (base: string) => base + '/api/v1/floats/balances';
+      const results =
+        context &&
+        (await Promise.all([
+          fetcher<IFloatAmount[]>(getFloatBalUrl(urlEth)),
+          fetcher<IFloatAmount[]>(getFloatBalUrl(urlBsc)),
+        ]));
+      if (results) {
+        return { urlEth, urlBsc };
+      }
+    } catch (error) {
+      throw Error(error);
+    }
+  };
+
+  // Memo: Recursion
+  try {
+    await getContext();
+  } catch (error) {
+    try {
+      await getContext();
+    } catch (error) {
+      try {
+        await getContext();
+      } catch (error) {
+        try {
+          await getContext();
+        } catch (error) {
+          console.log('error', error);
+        }
+      }
+    }
+  }
+  return { urlEth, urlBsc };
+};
 
 export const castToBackendVariable = (frontVariable: string) => {
   switch (frontVariable) {
@@ -79,9 +118,10 @@ export const fetchFloatBalances = async (
   const getFloatBalUrl = (base: string) => base + '/api/v1/floats/balances';
 
   try {
+    const { urlEth, urlBsc } = await getEndpoint();
     const results = await Promise.all([
-      fetcher<IFloatAmount[]>(getFloatBalUrl(ENDPOINT_ETHEREUM_NODE)),
-      fetcher<IFloatAmount[]>(getFloatBalUrl(ENDPOINT_BSC_NODE)),
+      fetcher<IFloatAmount[]>(getFloatBalUrl(urlEth)),
+      fetcher<IFloatAmount[]>(getFloatBalUrl(urlBsc)),
     ]);
     const resEth = results[0];
     const resBsc = results[1];
@@ -93,7 +133,6 @@ export const fetchFloatBalances = async (
       wbtc: Number(getFloatBalance(CoinSymbol.WBTC, resEth)),
       btcb: isEnableBscSupport ? Number(getFloatBalance(formattedBTCB, resBsc)) : 0,
     };
-
     const { btcEth, btcBsc, wbtc, btcb } = floats;
     const capacity: number = usdBtc * getCapacity({ bridge, btcEth, btcBsc, wbtc, btcb });
 
@@ -192,13 +231,14 @@ export const fetchStatsInfo = async (bridge: SkybridgeBridge): Promise<IStats> =
     CACHED_ENDPOINT + `/v1/${mode}/${bridge}/rewards-last-week`;
 
   try {
+    const { urlEth, urlBsc } = await getEndpoint();
     const results = await Promise.all([
       // Memo: Ethereum bridge
-      fetch<{ network24hrSwapsVolume: number[] }>(getBridgeUrl(ENDPOINT_ETHEREUM_NODE)),
+      fetch<{ network24hrSwapsVolume: number[] }>(getBridgeUrl(urlEth)),
       fetch<INodeListResponse[]>(getbridgePeersUrl('btc_erc')),
       fetch<IReward>(getRewardsUrl('btc_erc')),
       // Memo: BSC bridge
-      fetch<{ network24hrSwapsVolume: number[] }>(getBridgeUrl(ENDPOINT_BSC_NODE)),
+      fetch<{ network24hrSwapsVolume: number[] }>(getBridgeUrl(urlBsc)),
       fetch<INodeListResponse[]>(getbridgePeersUrl('btc_bep20')),
       fetch<IReward>(getRewardsUrl('btc_bep20')),
     ]);

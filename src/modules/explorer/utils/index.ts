@@ -17,7 +17,7 @@ export {
   toSatoshi,
 } from './transactionFee';
 
-export { fetchFloatBalances, fetchStatsInfo, getUsdPrice } from './network';
+export { fetchFloatBalances, fetchStatsInfo, getUsdPrice, getEndpoint } from './network';
 
 export {
   isEtherAddress,
