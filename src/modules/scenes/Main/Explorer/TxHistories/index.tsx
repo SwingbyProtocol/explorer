@@ -90,6 +90,7 @@ export const TxHistories = () => {
             onClick={() => {
               routerPush({ bridge: chainBridge, type: txType.type, q, rejected });
             }}
+            key={txType.type}
           >
             <FormattedMessage id={txType.menu} />
           </Dropdown.Item>

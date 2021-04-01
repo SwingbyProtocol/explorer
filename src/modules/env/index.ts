@@ -59,16 +59,6 @@ export const appName = 'Swingby Explorer';
 
 export const ENDPOINT_SKYBRIDGE_EXCHANGE = 'https://network.skybridge.exchange/api/v2';
 
-export const ENDPOINT_ETHEREUM_NODE =
-  mode === 'production'
-    ? 'https://btc-wbtc-mainnet.quantexe.com'
-    : 'https://tbtc-goerli-node-1.swingby.network';
-
-export const ENDPOINT_BSC_NODE =
-  mode === 'production'
-    ? 'https://btc-bsc-mainnet.quantexe.com'
-    : 'https://tbtc-bsc-1.swingby.network';
-
 export const ENDPOINT_BINANCE_NODE = 'https://testnet-node.swingby.network';
 
 export const ENDPOINT_EARNINGS = 'https://earnings-api.vercel.app/api/earnings';

@@ -23,10 +23,14 @@ export const useGetNetworkData = () => {
         const data = results[0];
         const stats = results[1];
 
-        dispatch(
-          updateNetworkInfos({ floatBalances: data.floats, capacity: data.capacity, stats }),
-        );
-        dispatch(toggleIsLoading(false));
+        const updateStates = () => {
+          dispatch(
+            updateNetworkInfos({ floatBalances: data.floats, capacity: data.capacity, stats }),
+          );
+          dispatch(toggleIsLoading(false));
+        };
+
+        data && stats && updateStates();
       })();
   }, [usd, dispatch, bridge]);
 };
