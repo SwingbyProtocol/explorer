@@ -5,7 +5,6 @@ import { Loader } from '../../../../../components/Loader';
 import {
   churnedIn,
   INodeListResponse,
-  INodeStatusTable,
   listNodeStatus,
   bondLow,
   bondExpiring,
@@ -13,6 +12,8 @@ import {
   inactiveBondExpired,
   inactiveBondTooLow,
   toggleStatusIconColor,
+  unreachable,
+  INodeStatusTable,
 } from '../../../../metanodes';
 import { TextRoom } from '../../../Common';
 
@@ -55,6 +56,9 @@ export const NodeStatus = (props: Props) => {
   const inactiveBondTooLowStatus =
     nodeStatusTable &&
     nodeStatusTable.find((it: INodeStatusTable) => it.status === inactiveBondTooLow);
+
+  const unreachableStatus =
+    nodeStatusTable && nodeStatusTable.find((it: INodeStatusTable) => it.status === unreachable);
 
   const showNodeStatus = (nodeTable: INodeStatusTable) => (
     <Tooltip
@@ -105,6 +109,11 @@ export const NodeStatus = (props: Props) => {
       table: inactiveBondTooLowStatus,
       status: inactiveBondTooLowStatus?.status,
       text: 'metanodes.inactive-bond-too-low',
+    },
+    {
+      table: unreachableStatus,
+      status: unreachableStatus?.status,
+      text: 'metanodes.unreachable',
     },
   ];
   return (

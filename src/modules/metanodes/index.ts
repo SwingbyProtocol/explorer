@@ -114,7 +114,8 @@ type TChurnStatus =
   | 'may-churn-out--bond-expiring'
   | 'may-churn-in'
   | 'inactive--bond-expired'
-  | 'inactive--bond-too-low';
+  | 'inactive--bond-too-low'
+  | 'unreachable';
 
 export const churnedIn = 'churned-in';
 export const bondLow = 'may-churn-out--bond-too-low';
@@ -122,6 +123,7 @@ export const bondExpiring = 'may-churn-out--bond-expiring';
 export const mayChurnIn = 'may-churn-in';
 export const inactiveBondExpired = 'inactive--bond-expired';
 export const inactiveBondTooLow = 'inactive--bond-too-low';
+export const unreachable = 'unreachable';
 
 export const toggleStatusBg = (status: TChurnStatus, i: number): string | boolean => {
   switch (status) {
@@ -135,6 +137,8 @@ export const toggleStatusBg = (status: TChurnStatus, i: number): string | boolea
       return inactiveBondExpired;
     case inactiveBondTooLow:
       return inactiveBondTooLow;
+    case unreachable:
+      return unreachable;
 
     default:
       return mayChurnIn;
@@ -155,6 +159,8 @@ export const toggleStatusWord = (status: TChurnStatus): string | boolean => {
       return 'metanodes.metanode-status.inactive-bond-expired';
     case inactiveBondTooLow:
       return 'metanodes.metanode-status.inactive-bond-too-low';
+    case unreachable:
+      return 'metanodes.metanode-status.unreachable';
 
     default:
       return status;
