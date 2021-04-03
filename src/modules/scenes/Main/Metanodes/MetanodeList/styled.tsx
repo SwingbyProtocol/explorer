@@ -8,6 +8,7 @@ import {
   inactiveBondExpired,
   inactiveBondTooLow,
   mayChurnIn,
+  unreachable,
 } from '../../../../metanodes';
 import { StylingConstants } from '../../../../styles';
 import { AddressLinkP, TextBlock, TextRoom } from '../../../Common';
@@ -70,6 +71,8 @@ export const Row = styled.div<BgProps>`
       : props.bg === inactiveBondExpired
       ? 'rgba(235, 65, 65, 0.2)'
       : props.bg === inactiveBondTooLow
+      ? 'rgba(235, 65, 65, 0.2)'
+      : props.bg === unreachable
       ? 'rgba(235, 65, 65, 0.2)'
       : props.bg === mayChurnIn
       ? 'rgba(143, 231, 217, 0.2)'

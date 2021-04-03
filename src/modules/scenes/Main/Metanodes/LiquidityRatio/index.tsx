@@ -1,6 +1,7 @@
 import { Text } from '@swingby-protocol/pulsar';
 import { FormattedMessage, useIntl } from 'react-intl';
 
+import { castToBackendVariable } from '../../../../explorer';
 import { ILiquidityRatio } from '../../../../metanodes';
 import { TextRoom } from '../../../Common';
 
@@ -44,7 +45,9 @@ export const LiquidityRatio = (props: Props) => {
           </ColumnStatus>
           <ColumnStatus>
             <StatusIcon status="SIGNING" />
-            <TextRoom variant="label">{liquidityRatio && bridgedRation.currency}</TextRoom>
+            <TextRoom variant="label">
+              {liquidityRatio && castToBackendVariable(bridgedRation.currency)}
+            </TextRoom>
           </ColumnStatus>
         </ContainerStatus>
       </RowTitle>
