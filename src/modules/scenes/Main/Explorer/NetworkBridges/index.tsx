@@ -1,4 +1,5 @@
 import { Text } from '@swingby-protocol/pulsar';
+import { CONTRACTS } from '@swingby-protocol/sdk';
 import React from 'react';
 import { FormattedMessage, FormattedNumber } from 'react-intl';
 import { useSelector } from 'react-redux';
@@ -6,7 +7,7 @@ import { PulseLoader } from 'react-spinners';
 import { useTheme } from 'styled-components';
 
 import { CoinSymbol } from '../../../../coins';
-import { isEnableBscSupport } from '../../../../env';
+import { isEnableBscSupport, mode, URL_BSCSCAN, URL_ETHERSCAN } from '../../../../env';
 
 import {
   BridgeContainer,
@@ -21,6 +22,8 @@ import {
   RowBridgeTitle,
   TitleText,
   VolSpan,
+  IconExternalLink,
+  Atag,
 } from './styled';
 
 interface IBridgeData {
@@ -97,6 +100,43 @@ export const NetworkBridges = () => {
     );
   };
 
+  const networkScan = (scanBaseUrl: string) => {
+    const getScanName = (scanBaseUrl: string) => {
+      switch (scanBaseUrl) {
+        case URL_ETHERSCAN:
+          return 'Etherscan';
+        case URL_BSCSCAN:
+          return 'BscScan';
+
+        default:
+          return 'Etherscan';
+      }
+    };
+
+    const getContract = (scanBaseUrl: string) => {
+      switch (scanBaseUrl) {
+        case URL_ETHERSCAN:
+          return CONTRACTS.bridges.btc_erc[mode].address;
+        case URL_BSCSCAN:
+          return CONTRACTS.bridges.btc_bep20[mode].address;
+
+        default:
+          return CONTRACTS.bridges.btc_erc[mode].address;
+      }
+    };
+
+    return (
+      <Atag
+        href={`${scanBaseUrl}/address/${getContract(scanBaseUrl)}`}
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <Text variant="label">{getScanName(scanBaseUrl)}</Text>
+        <IconExternalLink />
+      </Atag>
+    );
+  };
+
   return (
     <NetworkBridgeContainer>
       <TitleText variant="section-title">
@@ -108,6 +148,7 @@ export const NetworkBridges = () => {
             <Text variant="label">
               <FormattedMessage id="home.network.bitcoin-ethereum" />
             </Text>
+            {networkScan(URL_ETHERSCAN)}
           </RowBridgeTitle>
           <CoinContainer>{bridgeInfo(dataEthBridge, true)}</CoinContainer>
         </BridgeContainer>
@@ -116,6 +157,7 @@ export const NetworkBridges = () => {
             <Text variant="label">
               <FormattedMessage id="home.network.bitcoin-bsc" />
             </Text>
+            {networkScan(URL_BSCSCAN)}
           </RowBridgeTitle>
           <CoinContainer>{bridgeInfo(dataBscBridge, isEnableBscSupport)}</CoinContainer>
         </BridgeContainer>
