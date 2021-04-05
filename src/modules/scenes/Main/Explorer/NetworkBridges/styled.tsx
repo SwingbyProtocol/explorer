@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { CoinIcon, Text } from '@swingby-protocol/pulsar';
+import { CoinIcon, Icon, Text } from '@swingby-protocol/pulsar';
 
 import { StylingConstants } from '../../../../styles';
 
@@ -117,10 +117,25 @@ export const BridgeInfos = styled.div`
 `;
 
 export const RowBridgeTitle = styled.div`
+  display: flex;
+  justify-content: space-between;
   @media (min-width: ${rem(media.md)}) {
     margin-left: ${({ theme }) => rem(theme.pulsar.size.street)};
   }
   @media (min-width: ${rem(media.lg)}) {
     margin-left: 0;
   }
+`;
+
+export const IconExternalLink = styled(Icon.ExternalLink)`
+  margin-left: ${({ theme }) => rem(theme.pulsar.size.box)};
+  width: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  color: ${({ theme }) => theme.pulsar.color.text.masked};
+`;
+
+export const Atag = styled.a`
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  margin-right: ${({ theme }) => rem(theme.pulsar.size.closet)};
 `;
