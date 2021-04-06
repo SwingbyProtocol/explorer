@@ -1,0 +1,63 @@
+import { useCallback, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+
+import { CACHED_ENDPOINT, mode, PATH } from '../../env';
+import { fetcher } from '../../fetch';
+import { IBondHistories } from '../../metanodes';
+import { ITvl } from '../index';
+
+export const useGetAllBridgesTvl = (path: PATH) => {
+  const [isLoading, setIsLoading] = useState<Boolean>(false);
+  const [tvl, setTvl] = useState<ITvl>({
+    allBridges: 0,
+    btc_erc: 0,
+    btc_bep20: 0,
+  });
+
+  const usd = useSelector((state) => state.explorer.usd);
+  const floatBalances = useSelector((state) => state.explorer.networkInfos.floatBalances);
+  const { btcEth, wbtc, btcBsc, btcb } = floatBalances;
+  const floatBalTtl = (btcEth + wbtc + btcBsc + btcb) * usd.BTC;
+
+  const isNoLoading = useCallback(
+    (path: PATH): Boolean => {
+      if (path === PATH.ROOT) {
+        return floatBalTtl > 0;
+      }
+      return true;
+    },
+    [floatBalTtl],
+  );
+
+  useEffect(() => {
+    setIsLoading(true);
+    isNoLoading(path) &&
+      (async () => {
+        const urlBondEth = `${CACHED_ENDPOINT}/v1/${mode}/btc_erc/liquidity-historic`;
+        const urlBondBsc = `${CACHED_ENDPOINT}/v1/${mode}/btc_bep20/liquidity-historic`;
+
+        const results = await Promise.all([
+          fetcher<IBondHistories>(urlBondEth),
+          fetcher<IBondHistories>(urlBondBsc),
+        ]);
+
+        const tvlSwingbyEth = Number(results[0].data[0].bond);
+        const tvlSwingbyBsc = Number(results[1].data[0].bond);
+        const tvlSwingby = tvlSwingbyEth + tvlSwingbyBsc;
+
+        const tvlAmount = floatBalTtl + tvlSwingby;
+
+        setTvl({
+          allBridges: tvlAmount,
+          btc_erc: tvlSwingbyEth,
+          btc_bep20: tvlSwingbyBsc,
+        });
+        setIsLoading(false);
+      })();
+  }, [floatBalTtl, usd.SWINGBY, isNoLoading, path]);
+
+  return {
+    tvl,
+    isLoading,
+  };
+};
