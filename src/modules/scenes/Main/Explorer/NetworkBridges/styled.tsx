@@ -139,3 +139,34 @@ export const Atag = styled.a`
   align-items: center;
   margin-right: ${({ theme }) => rem(theme.pulsar.size.closet)};
 `;
+
+export const RowTitelText = styled.div`
+  display: flex;
+  justify-content: space-between;
+  @media (min-width: ${rem(media.xs)}) {
+    flex-direction: column;
+    align-items: center;
+  }
+  @media (min-width: ${rem(media.md)}) {
+    flex-direction: row;
+    align-items: center;
+  }
+`;
+
+export const RowLoader = styled.div`
+  margin-left: ${({ theme }) => rem(theme.pulsar.size.drawer)};
+`;
+
+export const TextTvl = styled(Text)`
+  display: flex;
+  align-items: center;
+  margin-right: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  margin-top: ${({ theme }) => rem(theme.pulsar.size.box / 2)};
+  @media (min-width: ${rem(media.xs)}) {
+    margin-top: ${({ theme }) => rem(theme.pulsar.size.box)};
+    margin-bottom: ${({ theme }) => rem(-theme.pulsar.size.box)};
+  }
+  @media (min-width: ${rem(media.md)}) {
+    margin-top: ${({ theme }) => rem(theme.pulsar.size.box / 2)};
+  }
+`;

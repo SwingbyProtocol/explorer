@@ -1,13 +1,15 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { CACHED_ENDPOINT, mode, PATH } from '../../env';
 import { fetcher } from '../../fetch';
 import { IBondHistories } from '../../metanodes';
+import { toggleIsLoading } from '../../store';
 import { ITvl } from '../index';
 
 export const useGetAllBridgesTvl = (path: PATH) => {
-  const [isLoading, setIsLoading] = useState<Boolean>(false);
+  const dispatch = useDispatch();
+
   const [tvl, setTvl] = useState<ITvl>({
     allBridges: 0,
     btc_erc: 0,
@@ -30,7 +32,7 @@ export const useGetAllBridgesTvl = (path: PATH) => {
   );
 
   useEffect(() => {
-    setIsLoading(true);
+    dispatch(toggleIsLoading(true));
     isNoLoading(path) &&
       (async () => {
         const urlBondEth = `${CACHED_ENDPOINT}/v1/${mode}/btc_erc/liquidity-historic`;
@@ -52,12 +54,11 @@ export const useGetAllBridgesTvl = (path: PATH) => {
           btc_erc: tvlSwingbyEth,
           btc_bep20: tvlSwingbyBsc,
         });
-        setIsLoading(false);
+        dispatch(toggleIsLoading(false));
       })();
-  }, [floatBalTtl, usd.SWINGBY, isNoLoading, path]);
+  }, [floatBalTtl, usd.SWINGBY, isNoLoading, path, dispatch]);
 
   return {
     tvl,
-    isLoading,
   };
 };

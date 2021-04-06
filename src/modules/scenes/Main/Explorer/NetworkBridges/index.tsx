@@ -1,13 +1,14 @@
-import { Text } from '@swingby-protocol/pulsar';
+import { getFiatAssetFormatter, Text } from '@swingby-protocol/pulsar';
 import { CONTRACTS } from '@swingby-protocol/sdk';
 import React from 'react';
-import { FormattedMessage, FormattedNumber } from 'react-intl';
+import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { PulseLoader } from 'react-spinners';
 import { useTheme } from 'styled-components';
 
 import { CoinSymbol } from '../../../../coins';
-import { isEnableBscSupport, mode, URL_BSCSCAN, URL_ETHERSCAN } from '../../../../env';
+import { isEnableBscSupport, mode, PATH, URL_BSCSCAN, URL_ETHERSCAN } from '../../../../env';
+import { useGetAllBridgesTvl } from '../../../../hooks';
 
 import {
   BridgeContainer,
@@ -24,6 +25,9 @@ import {
   VolSpan,
   IconExternalLink,
   Atag,
+  RowTitelText,
+  RowLoader,
+  TextTvl,
 } from './styled';
 
 interface IBridgeData {
@@ -33,6 +37,15 @@ interface IBridgeData {
 }
 
 export const NetworkBridges = () => {
+  const { tvl } = useGetAllBridgesTvl(PATH.ROOT);
+  const { locale } = useIntl();
+  const tvlUsd = getFiatAssetFormatter({
+    locale,
+    currency: 'USD',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(tvl.allBridges);
+
   const theme = useTheme();
   const isLoading = useSelector((state) => state.explorer.isLoading);
   const networkInfos = useSelector((state) => state.explorer.networkInfos);
@@ -58,6 +71,12 @@ export const NetworkBridges = () => {
 
   const placeholderLoader = (
     <PulseLoader margin={3} size={4} color={theme.pulsar.color.text.normal} />
+  );
+
+  const placeholderLoaderTvl = (
+    <RowLoader>
+      <PulseLoader margin={3} size={2} color={theme.pulsar.color.text.masked} />
+    </RowLoader>
   );
 
   const bridgeInfo = (bridgeData: IBridgeData[], isEnableSupport: boolean) => {
@@ -139,9 +158,14 @@ export const NetworkBridges = () => {
 
   return (
     <NetworkBridgeContainer>
-      <TitleText variant="section-title">
-        <FormattedMessage id="home.network.network-bridges" />
-      </TitleText>
+      <RowTitelText>
+        <TitleText variant="section-title">
+          <FormattedMessage id="home.network.network-bridges" />
+        </TitleText>
+        <TextTvl variant="label">
+          <FormattedMessage id="common.tvl" /> {isLoading ? placeholderLoaderTvl : tvlUsd}
+        </TextTvl>
+      </RowTitelText>
       <BridgeInfos>
         <BridgeContainer>
           <RowBridgeTitle>
