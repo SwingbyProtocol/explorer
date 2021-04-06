@@ -1,4 +1,4 @@
-import { SwapStatusIcon, Text } from '@swingby-protocol/pulsar';
+import { SwapStatusIcon, Text, Tooltip } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
 import styled from 'styled-components';
 
@@ -133,11 +133,12 @@ export const ChurnStatus = styled.div`
   display: grid;
   grid-template-columns: ${({ theme }) => rem(theme.pulsar.size.room)} auto;
   align-items: center;
-  @media (min-width: ${rem(media.lg)}) {
-    grid-template-columns: ${({ theme }) => rem(theme.pulsar.size.room)} auto;
-  }
-  @media (min-width: ${rem(media.xl)}) {
-    grid-template-columns: ${({ theme }) => rem(theme.pulsar.size.room)} auto;
+`;
+
+export const TooltipStatus = styled(Tooltip)`
+  width: ${rem(100)};
+  @media (min-width: ${rem(media.md)}) {
+    width: ${rem(120)};
   }
 `;
 

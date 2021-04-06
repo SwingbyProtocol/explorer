@@ -1,6 +1,7 @@
-import { getCryptoAssetFormatter } from '@swingby-protocol/pulsar';
+import { getCryptoAssetFormatter, Tooltip, useMatchMedia } from '@swingby-protocol/pulsar';
 import { SkybridgeBridge } from '@swingby-protocol/sdk';
 import { DateTime } from 'luxon';
+import { rem } from 'polished';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 
@@ -14,6 +15,7 @@ import {
   toggleStatusIconColor,
   toggleStatusWord,
 } from '../../../../metanodes';
+import { StylingConstants } from '../../../../styles';
 import { SizeL, TextBlock, TextRoom } from '../../../Common';
 
 import {
@@ -38,6 +40,7 @@ import {
   TextNodeName,
   TextNodeStatus,
   TextNowrap,
+  TooltipStatus,
 } from './styled';
 
 interface Props {
@@ -54,6 +57,9 @@ export const MetanodeList = (props: Props) => {
   const tvlUsd = tvl[bridge];
   const swingbyRewardCurrency = 'BEP2';
   const sbBTCRewardCurrency = bridge && getSbBtcRewardCurrency(bridge);
+
+  const { media } = StylingConstants;
+  const xl = useMatchMedia({ query: `(min-width: ${rem(media.xl)})` });
 
   return (
     <MetanodeListContainer>
@@ -101,6 +107,9 @@ export const MetanodeList = (props: Props) => {
             const lockedUsdValue = Number(node.stake.amount) * usd.SWINGBY;
             const lockedPortion = Number((lockedUsdValue / tvlUsd) * 100).toFixed(2);
 
+            const isNoRequiredTooltip =
+              xl || node.status === 'churned-in' || node.status === 'may-churn-in';
+
             return (
               <Row key={node.id} bg={toggleStatusBg(node.status, i)}>
                 <ColumnLeft>
@@ -115,9 +124,25 @@ export const MetanodeList = (props: Props) => {
                       </ColumnNodeName>
                       <ChurnStatus>
                         <StatusIcon status={toggleStatusIconColor(node.status)} />
-                        <TextNodeStatus variant="label">
-                          <FormattedMessage id={toggleStatusWord(node.status) as string} />
-                        </TextNodeStatus>
+
+                        {isNoRequiredTooltip ? (
+                          <TextNodeStatus variant="label">
+                            <FormattedMessage id={toggleStatusWord(node.status) as string} />
+                          </TextNodeStatus>
+                        ) : (
+                          <TooltipStatus
+                            content={
+                              <Tooltip.Content>
+                                <FormattedMessage id={toggleStatusWord(node.status) as string} />
+                              </Tooltip.Content>
+                            }
+                            targetHtmlTag="span"
+                          >
+                            <TextNodeStatus variant="label">
+                              <FormattedMessage id={toggleStatusWord(node.status) as string} />
+                            </TextNodeStatus>
+                          </TooltipStatus>
+                        )}
                       </ChurnStatus>
                     </NodeStatus>
                   </Location>
