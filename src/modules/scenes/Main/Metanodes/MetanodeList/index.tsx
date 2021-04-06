@@ -1,20 +1,23 @@
 import { getCryptoAssetFormatter } from '@swingby-protocol/pulsar';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { DateTime } from 'luxon';
 import { SkybridgeBridge } from '@swingby-protocol/sdk';
+import { DateTime } from 'luxon';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { useSelector } from 'react-redux';
 
+import { PATH } from '../../../../env';
 import { convertDateTime, getDiffDays } from '../../../../explorer';
+import { useGetAllBridgesTvl } from '../../../../hooks';
 import {
   getSbBtcRewardCurrency,
   INodeListResponse,
   toggleStatusBg,
   toggleStatusIconColor,
   toggleStatusWord,
-  calTvl,
 } from '../../../../metanodes';
 import { SizeL, TextBlock, TextRoom } from '../../../Common';
 
 import {
+  AddressP,
   BoxAddress,
   ChurnStatus,
   Column,
@@ -22,6 +25,8 @@ import {
   ColumnExpiry,
   ColumnLeft,
   ColumnNodeName,
+  CurrencyBox,
+  CurrencyColumn,
   ImgFlag,
   Location,
   MetanodeListContainer,
@@ -33,9 +38,6 @@ import {
   TextNodeName,
   TextNodeStatus,
   TextNowrap,
-  AddressP,
-  CurrencyBox,
-  CurrencyColumn,
 } from './styled';
 
 interface Props {
@@ -47,8 +49,9 @@ interface Props {
 export const MetanodeList = (props: Props) => {
   const { locale } = useIntl();
   const { metanodes, bridge, isLoading } = props;
-  const tvl = metanodes && calTvl(metanodes);
-
+  const { tvl } = useGetAllBridgesTvl(PATH.METANODES);
+  const usd = useSelector((state) => state.explorer.usd);
+  const tvlUsd = tvl[bridge];
   const swingbyRewardCurrency = 'BEP2';
   const sbBTCRewardCurrency = bridge && getSbBtcRewardCurrency(bridge);
 
@@ -95,7 +98,8 @@ export const MetanodeList = (props: Props) => {
             const dt = DateTime.fromISO(node.stake.expiresAt);
             const expireTimestamp = dt.toSeconds();
             const expireTime = convertDateTime(expireTimestamp);
-            const lockedPortion = Number((Number(node.stake.amount) / tvl) * 100).toFixed(2);
+            const lockedUsdValue = Number(node.stake.amount) * usd.SWINGBY;
+            const lockedPortion = Number((lockedUsdValue / tvlUsd) * 100).toFixed(2);
 
             return (
               <Row key={node.id} bg={toggleStatusBg(node.status, i)}>

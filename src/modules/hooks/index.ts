@@ -7,10 +7,17 @@ export { useLoadHistories } from './useLoadHistories';
 export { useLoadTransaction } from './useLoadTransaction';
 export { useToggleMetanode } from './useToggleMetanode';
 export { useGetNetworkData } from './useGetNetworkData';
+export { useGetAllBridgesTvl } from './useGetAllBridgesTvl';
 
 export interface ICountdown {
   days: number;
   hours: number;
   minutes: number;
   seconds: number;
+}
+
+export interface ITvl {
+  allBridges: number;
+  btc_erc: number;
+  btc_bep20: number;
 }
