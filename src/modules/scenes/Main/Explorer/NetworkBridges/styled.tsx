@@ -139,3 +139,18 @@ export const Atag = styled.a`
   align-items: center;
   margin-right: ${({ theme }) => rem(theme.pulsar.size.closet)};
 `;
+
+export const RowTitelText = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+export const RowLoader = styled.div`
+  margin-left: ${({ theme }) => rem(theme.pulsar.size.drawer)};
+`;
+
+export const TextTvl = styled(Text)`
+  display: flex;
+  align-items: center;
+  margin-right: ${({ theme }) => rem(theme.pulsar.size.closet)};
+`;

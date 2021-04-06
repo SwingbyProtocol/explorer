@@ -1,13 +1,12 @@
 import { FormattedMessage } from 'react-intl';
 
-import { PATH } from '../../../env';
 import { AssetTitle } from '../../../../components/AssetTitle/';
-import { TitleWithTvl } from '../../../../components/TitleWithTvl';
+import { PATH } from '../../../env';
 
 export const titleGenerator = (path: string): JSX.Element => {
   switch (path) {
     case PATH.ROOT:
-      return <TitleWithTvl />;
+      return <FormattedMessage id="home.explorer" />;
     case PATH.SWAP + '/[hash]':
       return <FormattedMessage id="home.explorer" />;
     case PATH.POOL:
