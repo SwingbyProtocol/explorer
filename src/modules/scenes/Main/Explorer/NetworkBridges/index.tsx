@@ -1,4 +1,4 @@
-import { getFiatAssetFormatter, Text } from '@swingby-protocol/pulsar';
+import { getFiatAssetFormatter, Text, Tooltip } from '@swingby-protocol/pulsar';
 import { CONTRACTS } from '@swingby-protocol/sdk';
 import React from 'react';
 import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
@@ -28,6 +28,8 @@ import {
   RowTitelText,
   RowLoader,
   TextTvl,
+  IconInfo,
+  RowTvlText,
 } from './styled';
 
 interface IBridgeData {
@@ -44,7 +46,21 @@ export const NetworkBridges = () => {
     currency: 'USD',
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
-  }).format(tvl.allBridges);
+  }).format(tvl.floatBalance + tvl.metanodeLocked.allBridges);
+
+  const tvlFloatBal = getFiatAssetFormatter({
+    locale,
+    currency: 'USD',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(tvl.floatBalance);
+
+  const tvlMetanodeLockedUsd = getFiatAssetFormatter({
+    locale,
+    currency: 'USD',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(tvl.metanodeLocked.allBridges);
 
   const theme = useTheme();
   const isLoading = useSelector((state) => state.explorer.isLoading);
@@ -162,9 +178,30 @@ export const NetworkBridges = () => {
         <TitleText variant="section-title">
           <FormattedMessage id="home.network.network-bridges" />
         </TitleText>
-        <TextTvl variant="label">
-          <FormattedMessage id="common.tvl" /> {isLoading ? placeholderLoaderTvl : tvlUsd}
-        </TextTvl>
+        <RowTvlText>
+          <TextTvl variant="label">
+            <FormattedMessage id="common.tvl" /> {isLoading ? placeholderLoaderTvl : tvlUsd}
+          </TextTvl>
+          <Tooltip
+            content={
+              <Tooltip.Content>
+                <Text variant="masked">
+                  <FormattedMessage id="home.network.tvl.float" values={{ value: tvlFloatBal }} />
+                </Text>
+                <br />
+                <Text variant="masked">
+                  <FormattedMessage
+                    id="home.network.tvl.swingby"
+                    values={{ value: tvlMetanodeLockedUsd }}
+                  />
+                </Text>
+              </Tooltip.Content>
+            }
+            data-testid="tooltip"
+          >
+            <IconInfo />
+          </Tooltip>
+        </RowTvlText>
       </RowTitelText>
       <BridgeInfos>
         <BridgeContainer>
