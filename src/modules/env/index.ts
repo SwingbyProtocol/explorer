@@ -59,7 +59,8 @@ export const appName = 'Swingby Explorer';
 
 export const ENDPOINT_SKYBRIDGE_EXCHANGE = 'https://network.skybridge.exchange/api/v2';
 
-export const ENDPOINT_BINANCE_NODE = 'https://testnet-node.swingby.network';
+export const ENDPOINT_ETHEREUM_BRIDGE = 'https://btc-wbtc-mainnet.quantexe.com/api/v1';
+export const ENDPOINT_BSC_BRIDGE = 'https://btc-bsc-mainnet.quantexe.com/api/v1';
 
 export const ENDPOINT_EARNINGS = 'https://earnings-api.vercel.app/api/earnings';
 

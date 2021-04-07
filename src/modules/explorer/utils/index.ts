@@ -23,6 +23,7 @@ export {
   getUsdPrice,
   getEndpoint,
   castToBackendVariable,
+  getFloatBalance,
 } from './network';
 
 export {

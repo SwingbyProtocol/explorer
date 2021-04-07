@@ -72,7 +72,7 @@ export const getUsdPrice = async (currency: string): Promise<number> => {
   return Number(price);
 };
 
-const getFloatBalance = (currency: string, floatInfos: IFloatAmount[]): string => {
+export const getFloatBalance = (currency: string, floatInfos: IFloatAmount[]): string => {
   let floatBalance: string;
   try {
     floatInfos.forEach((floatInfo) => {
