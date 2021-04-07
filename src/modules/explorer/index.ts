@@ -29,6 +29,7 @@ export {
   TxStatus,
   getEndpoint,
   castToBackendVariable,
+  getFloatBalance,
 } from './utils';
 
 export const selectableBridge = [
