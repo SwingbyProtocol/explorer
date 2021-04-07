@@ -54,7 +54,7 @@ export const MetanodeList = (props: Props) => {
   const { metanodes, bridge, isLoading } = props;
   const { tvl } = useGetAllBridgesTvl(PATH.METANODES);
   const usd = useSelector((state) => state.explorer.usd);
-  const tvlUsd = tvl[bridge];
+  const tvlUsd = tvl.metanodeLocked[bridge];
   const swingbyRewardCurrency = 'BEP2';
   const sbBTCRewardCurrency = bridge && getSbBtcRewardCurrency(bridge);
 
