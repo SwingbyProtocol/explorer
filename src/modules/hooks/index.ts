@@ -17,7 +17,10 @@ export interface ICountdown {
 }
 
 export interface ITvl {
-  allBridges: number;
-  btc_erc: number;
-  btc_bep20: number;
+  floatBalance: number;
+  metanodeLocked: {
+    allBridges: number;
+    btc_erc: number;
+    btc_bep20: number;
+  };
 }

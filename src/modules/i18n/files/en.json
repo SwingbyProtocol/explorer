@@ -50,6 +50,8 @@
   "home.network.bitcoin-bsc": "Bitcoin - BSC",
   "home.network.float": "Float",
   "home.network.vol": "Vol.",
+  "home.network.tvl.float": "Float BTC: {value}",
+  "home.network.tvl.swingby": "Locked SWINGBY: {value}",
   "home.network.total-vol": "Total Volume (7 Days)",
   "home.recent-swaps.check-swap-progress": "Check the swap progress",
   "home.recent-swaps.get-tx-details": "Get the transaction details",

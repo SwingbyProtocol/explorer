@@ -153,6 +153,10 @@ export const RowTitelText = styled.div`
   }
 `;
 
+export const RowTvlText = styled.div`
+  display: flex;
+`;
+
 export const RowLoader = styled.div`
   margin-left: ${({ theme }) => rem(theme.pulsar.size.drawer)};
 `;
@@ -160,7 +164,7 @@ export const RowLoader = styled.div`
 export const TextTvl = styled(Text)`
   display: flex;
   align-items: center;
-  margin-right: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  margin-right: ${({ theme }) => rem(theme.pulsar.size.drawer)};
   margin-top: ${({ theme }) => rem(theme.pulsar.size.box / 2)};
   @media (min-width: ${rem(media.xs)}) {
     margin-top: ${({ theme }) => rem(theme.pulsar.size.box)};
@@ -169,4 +173,12 @@ export const TextTvl = styled(Text)`
   @media (min-width: ${rem(media.md)}) {
     margin-top: ${({ theme }) => rem(theme.pulsar.size.box / 2)};
   }
+`;
+
+export const IconInfo = styled(Icon.InfoCircle)`
+  margin-bottom: ${({ theme }) => rem(-theme.pulsar.size.box / 2)};
+  margin-right: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  font-size: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  color: ${({ theme }) => theme.pulsar.color.text.masked};
+  cursor: pointer;
 `;

@@ -11,9 +11,12 @@ export const useGetAllBridgesTvl = (path: PATH) => {
   const dispatch = useDispatch();
 
   const [tvl, setTvl] = useState<ITvl>({
-    allBridges: 0,
-    btc_erc: 0,
-    btc_bep20: 0,
+    floatBalance: 0,
+    metanodeLocked: {
+      allBridges: 0,
+      btc_erc: 0,
+      btc_bep20: 0,
+    },
   });
 
   const usd = useSelector((state) => state.explorer.usd);
@@ -47,12 +50,13 @@ export const useGetAllBridgesTvl = (path: PATH) => {
         const tvlSwingbyBsc = Number(results[1].data[0].bond);
         const tvlSwingby = tvlSwingbyEth + tvlSwingbyBsc;
 
-        const tvlAmount = floatBalTtl + tvlSwingby;
-
         setTvl({
-          allBridges: tvlAmount,
-          btc_erc: tvlSwingbyEth,
-          btc_bep20: tvlSwingbyBsc,
+          floatBalance: floatBalTtl,
+          metanodeLocked: {
+            allBridges: tvlSwingby,
+            btc_erc: tvlSwingbyEth,
+            btc_bep20: tvlSwingbyBsc,
+          },
         });
         dispatch(toggleIsLoading(false));
       })();
