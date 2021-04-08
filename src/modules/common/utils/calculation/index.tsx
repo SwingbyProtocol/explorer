@@ -1,9 +1,3 @@
-export const numToK = (num: number) => {
-  return Math.abs(num) > 999
-    ? Math.sign(num) * Number((Math.abs(num) / 1000).toFixed(1)) + 'k'
-    : Math.sign(num) * Math.abs(num);
-};
-
 export const formatNum = (n: number): string | number => {
   if (n < 1e3) return n;
   if (n >= 1e3 && n < 1e6) return +(n / 1e3).toFixed(1) + 'K';

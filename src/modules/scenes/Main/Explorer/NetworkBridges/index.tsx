@@ -41,7 +41,6 @@ interface IBridgeData {
 export const NetworkBridges = () => {
   const { tvl } = useGetAllBridgesTvl(PATH.ROOT);
   const { locale } = useIntl();
-  console.log('locale', locale);
   const tvlUsd = getFiatAssetFormatter({
     locale,
     currency: 'USD',
