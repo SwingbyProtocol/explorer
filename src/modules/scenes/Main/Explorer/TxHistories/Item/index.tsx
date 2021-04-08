@@ -152,7 +152,6 @@ export const TxHistoriesItem = ({
               {tx.receivingTxHash && (
                 <Dropdown.Item
                   onClick={() => {
-                    console.log(tx);
                     window.open(
                       transactionDetailByTxId(oldTxType.currencyOut, tx.receivingTxHash),
                       '_blank',

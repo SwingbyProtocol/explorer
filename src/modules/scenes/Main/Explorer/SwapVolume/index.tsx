@@ -5,7 +5,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 
 import { LoaderComingSoon } from '../../../../../components/LoaderComingSoon';
-import { convert2Currency, numToK } from '../../../../common';
+import { convert2Currency, formatNum } from '../../../../common';
 
 import { Box, LineContainer, LineDiv, SwapVolumeContainer, TitleDiv } from './styled';
 
@@ -127,7 +127,7 @@ export const SwapVolume = () => {
             padding: 10,
             callback(value: number, i: number) {
               if (i % 2 === 0) {
-                return '$' + numToK(value);
+                return '$' + formatNum(value);
               } else {
                 return '';
               }
