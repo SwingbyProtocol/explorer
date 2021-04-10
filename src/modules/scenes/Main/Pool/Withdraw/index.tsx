@@ -163,6 +163,7 @@ export const Withdraw = (props: Props) => {
     mode,
     size: 'big',
     theme: themeMode,
+    defaultCurrencyDeposit: getBridgeSbBtc(bridge),
     defaultCurrencyReceiving: currency as TBtcCurrency,
     defaultAddressReceiving: receivingAddress,
     defaultAmountDesired: amount,
