@@ -216,7 +216,8 @@ const getVolumes = (arg: getVolumesArg): IChartDate[] => {
   const buildVolumesArray = (swapVolume: number[], usdBtc: number) => {
     return swapVolume.map((vol: number, i: number) => {
       const d = new Date();
-      d.setDate(d.getDate() - 6 + i);
+      // d.setDate(d.getDate() - 6 + i);
+      d.setDate(d.getDate() - i);
       const dt = getShortDate(d);
 
       return {
@@ -289,7 +290,9 @@ export const fetchStatsInfo = async (bridge: SkybridgeBridge, usdBtc: number): P
       usdBtc,
       ethNetwork24hrSwapVolume,
       bscNetwork24hrSwapVolume,
-    }).slice(0, 7);
+    })
+      .slice(0, 7)
+      .reverse();
 
     const metanodes = getMetanodesLength({ bridge, ethNodeLength, bscNodeLength });
     const rewards1wksUSD = getRewards1wks({ bridge, ethRewards1wksUSD, bscRewards1wksUSD });
