@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 
 import { IFloatHistoryObject } from '..';
@@ -13,8 +12,6 @@ export const useGetStatsChartData = () => {
   const { bridge } = useToggleBridge(PATH.ROOT);
   const volumes = useSelector((state) => state.explorer.networkInfos.stats.volumes);
   const isLoading = useSelector((state) => state.explorer.isLoading);
-
-  const { formatDate } = useIntl();
 
   const getFloatHistoryUrl = (bridge: string) => {
     if (bridge) {
@@ -30,10 +27,10 @@ export const useGetStatsChartData = () => {
       const results = await Promise.all([
         fetcher<IFloatHistoryObject[]>(getFloatHistoryUrl(bridge)),
       ]);
-      const floatHistoriesData = listFloatAmountHistories(results[0], formatDate);
+      const floatHistoriesData = listFloatAmountHistories(results[0]);
       setFloatHistories(floatHistoriesData);
     })();
-  }, [bridge, formatDate, isLoading]);
+  }, [bridge, isLoading]);
 
   return { volumes, floatHistories };
 };

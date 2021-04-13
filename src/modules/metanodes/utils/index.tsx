@@ -1,7 +1,7 @@
-import { FormatDateOptions } from '@formatjs/intl';
 import { SkybridgeBridge } from '@swingby-protocol/sdk';
 
 import { INodeListResponse, INodeStatusTable } from '..';
+import { getShortDate } from '../../common';
 import { CACHED_ENDPOINT, mode } from '../../env';
 import { IChartDate } from '../../explorer';
 import { camelize, fetch } from '../../fetch';
@@ -93,19 +93,12 @@ const sumFloatAmount = (floatHistories: IFloatHistory[]) => {
   return String(amount);
 };
 
-export const listFloatAmountHistories = (
-  histories: IFloatHistoryObject[],
-  formatDate: (arg: Date, opts: FormatDateOptions) => string,
-): IChartDate[] => {
+export const listFloatAmountHistories = (histories: IFloatHistoryObject[]): IChartDate[] => {
   let dateLookUpTable: string[] = [];
   let historiesTable: IChartDate[] = [];
 
   histories.forEach((history: IFloatHistoryObject) => {
-    const d = new Date(history.at);
-    const date = formatDate(d, {
-      month: 'short',
-      day: 'numeric',
-    });
+    const date = getShortDate(history.at);
 
     if (!dateLookUpTable.includes(date)) {
       const item: IChartDate = {

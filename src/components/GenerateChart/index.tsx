@@ -33,7 +33,14 @@ export const GenerateChart = (props: Props) => {
     gradient.addColorStop(0.8, 'rgba(255,255,255, 0.3)');
 
     return {
-      labels: chart && chart.map((it) => it.at),
+      labels:
+        chart &&
+        chart.map((it) =>
+          intl.formatDate(it.at, {
+            month: 'short',
+            day: 'numeric',
+          }),
+        ),
       datasets: [
         {
           pointBorderColor: 'rgba(75,192,192,1)',
