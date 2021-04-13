@@ -31,7 +31,7 @@ export const useGetStatsChartData = () => {
         fetcher<IFloatHistoryObject[]>(getFloatHistoryUrl(bridge)),
       ]);
       const floatHistoriesData = listFloatAmountHistories(results[0], formatDate);
-      isLoading && setFloatHistories(floatHistoriesData);
+      setFloatHistories(floatHistoriesData);
     })();
   }, [bridge, formatDate, isLoading]);
 

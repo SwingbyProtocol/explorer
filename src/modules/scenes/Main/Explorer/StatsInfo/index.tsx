@@ -70,6 +70,7 @@ export const StatsInfo = () => {
     {
       icon: <NetworkCapacity />,
       description: 'Swingby Locked',
+      // Todo: Add data
       chart: floatHistories,
       value: getFiatAssetFormatter({
         locale,
@@ -81,7 +82,7 @@ export const StatsInfo = () => {
     {
       icon: <NetworkCapacity />,
       description: <FormattedMessage id="home.network.capacity" />,
-      chart: volumes,
+      chart: floatHistories,
       value: getFiatAssetFormatter({
         locale,
         currency: 'USD',
