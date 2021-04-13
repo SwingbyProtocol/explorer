@@ -1,3 +1,4 @@
+import { SkybridgeBridge } from '@swingby-protocol/sdk';
 export { useInterval } from './useInterval';
 export { useRunCountDown } from './useRunCountDown';
 export { useLinkToWidget } from './useLinkToWidget';
@@ -8,6 +9,7 @@ export { useLoadTransaction } from './useLoadTransaction';
 export { useToggleMetanode } from './useToggleMetanode';
 export { useGetNetworkData } from './useGetNetworkData';
 export { useGetAllBridgesTvl } from './useGetAllBridgesTvl';
+export { useGetStatsChartData } from './useGetStatsChartData';
 
 export interface ICountdown {
   days: number;
@@ -23,4 +25,21 @@ export interface ITvl {
     btc_erc: number;
     btc_bep20: number;
   };
+}
+
+export interface IFloatHistoryObject {
+  at: Date;
+  data: IFloatHistory[];
+}
+
+export interface IFloatHistory {
+  amount: string;
+  bridge: SkybridgeBridge;
+  currency: Currency;
+}
+
+export enum Currency {
+  Btc = 'BTC',
+  Btcb = 'BTCB',
+  Wbtc = 'WBTC',
 }

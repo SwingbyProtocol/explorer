@@ -5,25 +5,26 @@ import { Line } from 'react-chartjs-2';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 
-import { convert2Currency, formatNum } from '../../modules/common';
+import { formatNum } from '../../modules/common';
+import { IChartDate } from '../../modules/explorer';
 import { LineBox } from '../../modules/scenes/Common';
 import { StylingConstants } from '../../modules/styles';
 import { LoaderComingSoon } from '../LoaderComingSoon';
 
 import { LineContainer } from './styled';
 
-export const GenerateChart = () => {
+interface Props {
+  chart: IChartDate[];
+}
+
+export const GenerateChart = (props: Props) => {
   // Ref: https://github.com/jerairrest/react-chartjs-2/issues/306
-  const { formatDate } = useIntl();
   const isLoading = useSelector((state) => state.explorer.isLoading);
-  const usd = useSelector((state) => state.explorer.usd);
-  const networkInfos = useSelector((state) => state.explorer.networkInfos);
-  const { stats } = networkInfos;
-  const { volumes } = stats;
   const intl = useIntl();
   const { media } = StylingConstants;
   const lg = useMatchMedia({ query: `(min-width: ${rem(media.lg)})` });
   const xl = useMatchMedia({ query: `(min-width: ${rem(media.xl)})` });
+  const { chart } = props;
 
   const data = (canvas) => {
     const ctx = canvas.getContext('2d');
@@ -31,24 +32,8 @@ export const GenerateChart = () => {
     gradient.addColorStop(0, '#31D5B8');
     gradient.addColorStop(0.8, 'rgba(255,255,255, 0.3)');
 
-    const handleFormatData = (dateAgo: number) => {
-      const today = new Date();
-      return formatDate(today.setDate(today.getDate() - dateAgo), {
-        month: 'short',
-        day: 'numeric',
-      });
-    };
-
     return {
-      labels: [
-        handleFormatData(6),
-        handleFormatData(5),
-        handleFormatData(4),
-        handleFormatData(3),
-        handleFormatData(2),
-        handleFormatData(1),
-        handleFormatData(0),
-      ],
+      labels: chart && chart.map((it) => it.at),
       datasets: [
         {
           pointBorderColor: 'rgba(75,192,192,1)',
@@ -64,15 +49,7 @@ export const GenerateChart = () => {
           fill: 'start',
           backgroundColor: gradient,
           borderColor: '#31D5B8',
-          data: [
-            convert2Currency(volumes[6], usd.BTC),
-            convert2Currency(volumes[5], usd.BTC),
-            convert2Currency(volumes[4], usd.BTC),
-            convert2Currency(volumes[3], usd.BTC),
-            convert2Currency(volumes[2], usd.BTC),
-            convert2Currency(volumes[1], usd.BTC),
-            convert2Currency(volumes[0], usd.BTC),
-          ],
+          data: chart && chart.map((it) => it.amount),
         },
       ],
     };

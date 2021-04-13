@@ -9,7 +9,7 @@ import { useTheme } from 'styled-components';
 
 import { GenerateChart } from '../../../../../components/GenerateChart';
 import { PATH } from '../../../../env';
-import { useToggleBridge } from '../../../../hooks';
+import { useGetStatsChartData, useToggleBridge } from '../../../../hooks';
 
 import {
   DataDiv,
@@ -40,6 +40,8 @@ export const StatsInfo = () => {
   const usd = useSelector((state) => state.explorer.usd);
   const isLoading = useSelector((state) => state.explorer.isLoading);
 
+  const { volumes, floatHistories } = useGetStatsChartData();
+
   const placeholderLoader = (
     <PulseLoader margin={3} size={4} color={theme.pulsar.color.text.normal} />
   );
@@ -57,6 +59,7 @@ export const StatsInfo = () => {
     {
       icon: <Network />,
       description: <FormattedMessage id="home.network.volume" />,
+      chart: volumes,
       value: getFiatAssetFormatter({
         locale,
         currency: 'USD',
@@ -67,6 +70,7 @@ export const StatsInfo = () => {
     {
       icon: <NetworkCapacity />,
       description: 'Swingby Locked',
+      chart: floatHistories,
       value: getFiatAssetFormatter({
         locale,
         currency: 'USD',
@@ -77,6 +81,7 @@ export const StatsInfo = () => {
     {
       icon: <NetworkCapacity />,
       description: <FormattedMessage id="home.network.capacity" />,
+      chart: volumes,
       value: getFiatAssetFormatter({
         locale,
         currency: 'USD',
@@ -128,7 +133,7 @@ export const StatsInfo = () => {
                 </Left>
                 <Right>
                   <ChartBox>
-                    <GenerateChart />
+                    <GenerateChart chart={info.chart} />
                   </ChartBox>
                 </Right>
               </InfoContainer>

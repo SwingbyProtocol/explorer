@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useToggleBridge } from '..';
@@ -10,6 +11,7 @@ export const useGetNetworkData = () => {
   const dispatch = useDispatch();
   const usd = useSelector((state) => state.explorer.usd);
   const { bridge } = useToggleBridge(PATH.ROOT);
+  const { formatDate } = useIntl();
 
   useEffect(() => {
     dispatch(toggleIsLoading(true));
@@ -17,7 +19,7 @@ export const useGetNetworkData = () => {
       (async () => {
         const results = await Promise.all([
           fetchFloatBalances(usd.BTC, bridge),
-          fetchStatsInfo(bridge),
+          fetchStatsInfo(bridge, usd.BTC, formatDate),
         ]);
 
         const data = results[0];
@@ -32,5 +34,5 @@ export const useGetNetworkData = () => {
 
         data && stats && updateStates();
       })();
-  }, [usd, dispatch, bridge]);
+  }, [usd, dispatch, bridge, formatDate]);
 };

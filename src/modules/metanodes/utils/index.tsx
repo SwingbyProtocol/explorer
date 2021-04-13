@@ -1,8 +1,11 @@
+import { FormatDateOptions } from '@formatjs/intl';
 import { SkybridgeBridge } from '@swingby-protocol/sdk';
 
 import { INodeListResponse, INodeStatusTable } from '..';
 import { CACHED_ENDPOINT, mode } from '../../env';
+import { IChartDate } from '../../explorer';
 import { camelize, fetch } from '../../fetch';
+import { IFloatHistory, IFloatHistoryObject } from '../../hooks';
 
 export const fetchNodeList = async (bridge: SkybridgeBridge) => {
   const url = `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/nodes`;
@@ -80,4 +83,39 @@ export const calTvl = (metanodes: INodeListResponse[]) => {
     tvl += Number(metanode.stake.amount);
   });
   return tvl;
+};
+
+const sumFloatAmount = (floatHistories: IFloatHistory[]) => {
+  let amount = 0;
+  floatHistories.forEach((it: IFloatHistory) => {
+    amount += Number(it.amount);
+  });
+  return String(amount);
+};
+
+export const listFloatAmountHistories = (
+  histories: IFloatHistoryObject[],
+  formatDate: (arg: Date, opts: FormatDateOptions) => string,
+): IChartDate[] => {
+  let dateLookUpTable: string[] = [];
+  let historiesTable: IChartDate[] = [];
+
+  histories.forEach((history: IFloatHistoryObject) => {
+    const d = new Date(history.at);
+    const date = formatDate(d, {
+      month: 'short',
+      day: 'numeric',
+    });
+
+    if (!dateLookUpTable.includes(date)) {
+      const item: IChartDate = {
+        at: date,
+        amount: sumFloatAmount(history.data),
+      };
+      dateLookUpTable.push(date);
+      historiesTable.push(item);
+    }
+  });
+
+  return historiesTable.reverse();
 };

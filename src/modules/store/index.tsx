@@ -10,6 +10,7 @@ export {
   updateNetworkInfos,
   networkInfos,
   toggleIsExistPreviousPage,
+  initalVolumes,
 } from './explorer';
 
 export {
