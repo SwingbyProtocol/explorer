@@ -17,7 +17,7 @@ export const useGetNetworkData = () => {
       (async () => {
         const results = await Promise.all([
           fetchFloatBalances(usd.BTC, bridge),
-          fetchStatsInfo(bridge),
+          fetchStatsInfo(bridge, usd.BTC),
         ]);
 
         const data = results[0];

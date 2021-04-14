@@ -130,7 +130,7 @@ export interface IStats {
   volume1wksBTCB: number;
   volume1wksBTC: number;
   rewards1wksUSD: number;
-  volumes: string[];
+  volumes: IChartDate[];
   metanodes: number;
 }
 
@@ -180,7 +180,7 @@ export interface INetworkInfos {
     volume1wksBTCB: number;
     volume1wksBTC: number;
     rewards1wksUSD: number;
-    volumes: string[];
+    volumes: IChartDate[];
     metanodes: number;
   };
 }
@@ -251,4 +251,9 @@ export interface ISwapQueryPrams {
   type: TransactionType | '';
   q: string | '';
   rejected: string | '';
+}
+
+export interface IChartDate {
+  at: string;
+  amount: string;
 }

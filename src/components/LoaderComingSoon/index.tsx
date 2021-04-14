@@ -7,22 +7,24 @@ import { LoaderComingSoonContainer, TextComingSoon, Row, LoaderBox } from './sty
 
 interface Props {
   isPlaceholder?: boolean;
+  isSmallWindow?: boolean;
 }
 
 export const LoaderComingSoon = (props: Props) => {
   const theme = useTheme();
+  const textVariant = props.isSmallWindow ? 'label' : 'accent';
   return (
     <LoaderComingSoonContainer>
-      <TextComingSoon variant="accent">{'</>'}</TextComingSoon>
+      <TextComingSoon variant={textVariant}>{'</>'}</TextComingSoon>
       <Row>
-        <TextComingSoon variant="accent">
+        <TextComingSoon variant={textVariant}>
           {props.isPlaceholder ? (
             <FormattedMessage id="common.loader.coming-soon" />
           ) : (
             <FormattedMessage id="common.loader.loading" />
           )}
         </TextComingSoon>
-        {!props.isPlaceholder && (
+        {!props.isPlaceholder && !props.isSmallWindow && (
           <LoaderBox>
             <PulseLoader margin={3} size={4} color={theme.pulsar.color.text.normal} />
           </LoaderBox>

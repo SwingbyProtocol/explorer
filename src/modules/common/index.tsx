@@ -7,4 +7,5 @@ export {
   scrollToTop,
   formatNum,
   sumArray,
+  getShortDate,
 } from './utils';

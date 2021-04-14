@@ -1,11 +1,11 @@
 import { buildContext, SkybridgeBridge } from '@swingby-protocol/sdk';
 
 import { CoinSymbol } from '../../../coins';
-import { sumArray } from '../../../common';
+import { getShortDate, sumArray } from '../../../common';
 import { CACHED_ENDPOINT, ENDPOINT_COINGECKO, isEnableBscSupport, mode } from '../../../env';
 import { fetch, fetcher } from '../../../fetch';
 import { INodeListResponse, IReward } from '../../../metanodes';
-import { IFloat, IFloatAmount, IFloatBalances, IStats } from '../../index';
+import { IChartDate, IFloat, IFloatAmount, IFloatBalances, IStats } from '../../index';
 
 // Memo: get active node endpoint
 export const getEndpoint = async (): Promise<{ urlEth: string; urlBsc: string }> => {
@@ -200,30 +200,44 @@ const getRewards1wks = (arg: getRewards1wksArg): number => {
 
 interface getVolumesArg {
   bridge: SkybridgeBridge;
+  usdBtc: number;
   ethNetwork24hrSwapVolume: number[];
   bscNetwork24hrSwapVolume: number[];
 }
 
-const getVolumes = (arg: getVolumesArg): string[] => {
-  const { bridge, ethNetwork24hrSwapVolume, bscNetwork24hrSwapVolume } = arg;
+const getVolumes = (arg: getVolumesArg): IChartDate[] => {
+  const { bridge, ethNetwork24hrSwapVolume, bscNetwork24hrSwapVolume, usdBtc } = arg;
 
-  const totalVolumes: string[] = ethNetwork24hrSwapVolume.map((volume: number, i: number) => {
+  const totalVolumes: number[] = ethNetwork24hrSwapVolume.map((volume: number, i: number) => {
     const dayVolume = volume + bscNetwork24hrSwapVolume[i];
-    return dayVolume.toFixed(3);
+    return Number(dayVolume.toFixed(3));
   });
+
+  const buildVolumesArray = (swapVolume: number[], usdBtc: number) => {
+    return swapVolume.map((vol: number, i: number) => {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      const dt = getShortDate(String(d));
+
+      return {
+        at: String(dt),
+        amount: String(vol * usdBtc),
+      };
+    });
+  };
 
   switch (bridge) {
     case 'btc_erc':
-      return ethNetwork24hrSwapVolume.map(String);
+      return buildVolumesArray(ethNetwork24hrSwapVolume, usdBtc);
     case 'btc_bep20':
-      return bscNetwork24hrSwapVolume.map(String);
+      return buildVolumesArray(bscNetwork24hrSwapVolume, usdBtc);
 
     default:
-      return totalVolumes;
+      return buildVolumesArray(totalVolumes, usdBtc);
   }
 };
 
-export const fetchStatsInfo = async (bridge: SkybridgeBridge): Promise<IStats> => {
+export const fetchStatsInfo = async (bridge: SkybridgeBridge, usdBtc: number): Promise<IStats> => {
   const getBridgeUrl = (endpoint: string) => endpoint + '/api/v1/swaps/stats';
   const getbridgePeersUrl = (bridge: SkybridgeBridge) =>
     CACHED_ENDPOINT + `/v1/${mode}/${bridge}/nodes`;
@@ -270,11 +284,14 @@ export const fetchStatsInfo = async (bridge: SkybridgeBridge): Promise<IStats> =
 
     const volume1wksBTC: number = getVolume1wksBTC({ bridge, volume1wksWBTC, volume1wksBTCB });
 
-    const volumes: string[] = getVolumes({
+    const volumes: IChartDate[] = getVolumes({
       bridge,
+      usdBtc,
       ethNetwork24hrSwapVolume,
       bscNetwork24hrSwapVolume,
-    });
+    })
+      .slice(0, 7)
+      .reverse();
 
     const metanodes = getMetanodesLength({ bridge, ethNodeLength, bscNodeLength });
     const rewards1wksUSD = getRewards1wks({ bridge, ethRewards1wksUSD, bscRewards1wksUSD });

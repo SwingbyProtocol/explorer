@@ -1,9 +1,8 @@
 import React from 'react';
 
 import { useGetNetworkData } from '../../../../hooks';
-import { ExplorerInfos } from '../ExplorerInfos';
 import { NetworkBridges } from '../NetworkBridges';
-import { SwapVolume } from '../SwapVolume';
+import { StatsInfo } from '../StatsInfo';
 import { TxHistories } from '../TxHistories';
 
 import { Bottom, BrowserContainer, BrowserDiv, Top } from './styled';
@@ -16,8 +15,7 @@ export const Browser = () => {
       <BrowserDiv size="bare">
         <Top>
           <NetworkBridges />
-          <ExplorerInfos />
-          <SwapVolume />
+          <StatsInfo />
         </Top>
         <Bottom>
           <TxHistories />

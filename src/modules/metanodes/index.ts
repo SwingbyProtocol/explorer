@@ -2,7 +2,14 @@ import { SKYBRIDGE_BRIDGES, SkybridgeBridge } from '@swingby-protocol/sdk';
 
 import { TStatus } from '../explorer';
 
-export { fetchNodeEarningsList, fetchNodeList, listNodeStatus, calTvl } from './utils';
+export {
+  fetchNodeEarningsList,
+  fetchNodeList,
+  listNodeStatus,
+  calTvl,
+  listFloatAmountHistories,
+  getLockedHistory,
+} from './utils';
 
 export interface INodeListResponse {
   id: string;
@@ -69,7 +76,7 @@ export interface IChurn {
 }
 
 export type TBondHistory = {
-  since: Date;
+  since: string;
   bond: string;
 };
 export interface IBondHistories {
