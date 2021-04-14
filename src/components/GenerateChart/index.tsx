@@ -1,14 +1,10 @@
-import { useMatchMedia } from '@swingby-protocol/pulsar';
-import { rem } from 'polished';
 import React from 'react';
 import { Line } from 'react-chartjs-2';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 
-import { formatNum } from '../../modules/common';
 import { IChartDate } from '../../modules/explorer';
 import { LineBox } from '../../modules/scenes/Common';
-import { StylingConstants } from '../../modules/styles';
 import { LoaderComingSoon } from '../LoaderComingSoon';
 
 import { LineContainer } from './styled';
@@ -21,9 +17,6 @@ export const GenerateChart = (props: Props) => {
   // Ref: https://github.com/jerairrest/react-chartjs-2/issues/306
   const isLoading = useSelector((state) => state.explorer.isLoading);
   const intl = useIntl();
-  const { media } = StylingConstants;
-  const lg = useMatchMedia({ query: `(min-width: ${rem(media.lg)})` });
-  const xl = useMatchMedia({ query: `(min-width: ${rem(media.xl)})` });
   const { chart } = props;
 
   const data = (canvas) => {
@@ -72,7 +65,7 @@ export const GenerateChart = (props: Props) => {
       },
     },
     layout: {
-      padding: 2,
+      padding: 10,
     },
     tooltips: {
       displayColors: false,
@@ -93,23 +86,7 @@ export const GenerateChart = (props: Props) => {
       ],
       yAxes: [
         {
-          gridLines: {
-            display: false,
-          },
-          ticks: {
-            beginAtZero: false,
-            fontColor: '#929D9D',
-            fontSize: 8,
-            padding: 0,
-            callback(value: number, i: number) {
-              const num = xl ? 3 : lg ? 2 : 3;
-              if (i % num === 0) {
-                return '$' + formatNum(value);
-              } else {
-                return '';
-              }
-            },
-          },
+          display: false,
         },
       ],
     },
