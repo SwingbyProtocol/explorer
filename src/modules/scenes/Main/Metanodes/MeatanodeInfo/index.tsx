@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { PATH } from '../../../../env';
 import { useToggleMetanode } from '../../../../hooks';
 import { ActionButtonMetanodes } from '../ActionButtonMetanodes';
 import { BondToLiquidity } from '../BondToLiquidity';
@@ -24,7 +25,7 @@ export const MetanodeInfo = () => {
     churnTime,
     reward,
     isLoading,
-  } = useToggleMetanode();
+  } = useToggleMetanode(PATH.METANODES);
 
   return (
     <MetanodeInfoContainer>
