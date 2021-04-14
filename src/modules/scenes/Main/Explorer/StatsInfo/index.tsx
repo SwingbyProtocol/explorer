@@ -31,6 +31,7 @@ import {
   StatsWithoutChart,
   TextValue,
   ValidatorLinkSpan,
+  RowReward,
 } from './styled';
 
 export const StatsInfo = () => {
@@ -182,7 +183,7 @@ export const StatsInfo = () => {
                           </ValidatorLinkSpan>
                         </RowValidator>
                       ) : (
-                        <RowValidator>
+                        <RowReward>
                           <Text variant="label">{info.description}</Text>
                           <Tooltip
                             content={
@@ -206,7 +207,7 @@ export const StatsInfo = () => {
                           >
                             <IconInfo />
                           </Tooltip>
-                        </RowValidator>
+                        </RowReward>
                       )}
                       {isLoading ? (
                         placeholderLoader

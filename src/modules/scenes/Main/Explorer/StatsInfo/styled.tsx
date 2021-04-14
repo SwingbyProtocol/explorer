@@ -91,6 +91,11 @@ export const RowValidator = styled.div`
   margin-bottom: ${({ theme }) => rem(-theme.pulsar.size.box)};
 `;
 
+export const RowReward = styled.div`
+  display: flex;
+  margin-bottom: ${({ theme }) => rem(-theme.pulsar.size.box / 2)};
+`;
+
 export const TextValue = styled(Text)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
 `;
