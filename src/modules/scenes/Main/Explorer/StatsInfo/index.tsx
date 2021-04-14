@@ -40,7 +40,7 @@ export const StatsInfo = () => {
   const usd = useSelector((state) => state.explorer.usd);
   const isLoading = useSelector((state) => state.explorer.isLoading);
 
-  const { volumes, floatHistories } = useGetStatsChartData();
+  const { volumes, floatHistories, lockHistories } = useGetStatsChartData();
 
   const placeholderLoader = (
     <PulseLoader margin={3} size={4} color={theme.pulsar.color.text.normal} />
@@ -70,8 +70,7 @@ export const StatsInfo = () => {
     {
       icon: <NetworkCapacity />,
       description: 'Swingby Locked',
-      // Todo: Add data
-      chart: floatHistories,
+      chart: lockHistories,
       value: getFiatAssetFormatter({
         locale,
         currency: 'USD',

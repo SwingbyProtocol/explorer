@@ -216,9 +216,8 @@ const getVolumes = (arg: getVolumesArg): IChartDate[] => {
   const buildVolumesArray = (swapVolume: number[], usdBtc: number) => {
     return swapVolume.map((vol: number, i: number) => {
       const d = new Date();
-      // d.setDate(d.getDate() - 6 + i);
       d.setDate(d.getDate() - i);
-      const dt = getShortDate(d);
+      const dt = getShortDate(String(d));
 
       return {
         at: String(dt),

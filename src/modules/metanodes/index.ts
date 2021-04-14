@@ -8,6 +8,7 @@ export {
   listNodeStatus,
   calTvl,
   listFloatAmountHistories,
+  getLockedHistory,
 } from './utils';
 
 export interface INodeListResponse {
@@ -75,7 +76,7 @@ export interface IChurn {
 }
 
 export type TBondHistory = {
-  since: Date;
+  since: string;
   bond: string;
 };
 export interface IBondHistories {
