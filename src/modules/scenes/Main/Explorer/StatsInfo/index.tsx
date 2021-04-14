@@ -34,27 +34,26 @@ import {
 
 export const StatsInfo = () => {
   const theme = useTheme();
+  const router = useRouter();
+  const { locale } = useIntl();
+  const { formatMessage } = useIntl();
 
-  const networkInfos = useSelector((state) => state.explorer.networkInfos);
-  const { stats, capacity } = networkInfos;
+  const formattedMetanodes = formatMessage({ id: 'metanodes.metanodes' });
+  const formattedRewards = formatMessage({ id: 'home.network.rewards' });
 
+  const stats = useSelector((state) => state.explorer.networkInfos.stats);
   const usd = useSelector((state) => state.explorer.usd);
   const isLoading = useSelector((state) => state.explorer.isLoading);
-
   const { volumes, floatHistories, lockHistories } = useGetStatsChartData();
+  const { bridge } = useToggleBridge(PATH.ROOT);
 
   const placeholderLoader = (
     <PulseLoader margin={3} size={4} color={theme.pulsar.color.text.normal} />
   );
 
-  const router = useRouter();
-  const { locale } = useIntl();
-  const { formatMessage } = useIntl();
-  const formattedMetanodes = formatMessage({ id: 'metanodes.metanodes' });
-  const formattedRewards = formatMessage({ id: 'home.network.rewards' });
-  const { bridge } = useToggleBridge(PATH.ROOT);
-
   const rewards1wks = stats.rewards1wksUSD;
+  const lockedAmount = Number(lockHistories[lockHistories.length - 1].amount);
+  const floatAmount = Number(floatHistories[floatHistories.length - 1].amount);
 
   const dataChart = usd && [
     {
@@ -77,7 +76,7 @@ export const StatsInfo = () => {
         currency: 'USD',
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
-      }).format(capacity),
+      }).format(lockedAmount),
     },
     {
       icon: <NetworkCapacity />,
@@ -88,7 +87,7 @@ export const StatsInfo = () => {
         currency: 'USD',
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
-      }).format(capacity),
+      }).format(floatAmount),
     },
   ];
 
