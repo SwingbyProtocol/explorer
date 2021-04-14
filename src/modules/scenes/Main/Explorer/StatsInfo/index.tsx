@@ -29,6 +29,7 @@ import {
   ChartBox,
   StatsWithoutChart,
   DataRow,
+  NetworkLock,
 } from './styled';
 
 export const StatsInfo = () => {
@@ -68,7 +69,7 @@ export const StatsInfo = () => {
       }).format(Number(stats.volume1wksBTC) * usd.BTC),
     },
     {
-      icon: <NetworkCapacity />,
+      icon: <NetworkLock />,
       description: 'Swingby Locked',
       chart: lockHistories,
       value: getFiatAssetFormatter({
