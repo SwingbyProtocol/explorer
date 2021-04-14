@@ -16,8 +16,8 @@ import {
 import { useInterval } from '../useInterval';
 import { useToggleBridge } from '../useToggleBridge';
 
-export const useToggleMetanode = () => {
-  const { bridge } = useToggleBridge(PATH.METANODES);
+export const useToggleMetanode = (path: PATH) => {
+  const { bridge } = useToggleBridge(path);
 
   const [metanodes, setMetanodes] = useState<INodeListResponse[] | null>(null);
   const [reward, setReward] = useState<IReward | null>(null);
@@ -36,8 +36,9 @@ export const useToggleMetanode = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    bridge &&
-      (async () => {
+    // bridge &&
+    (async () => {
+      if (bridge) {
         const rewardsUrl = `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/rewards-last-week`;
         const liquidityUrl = `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/bond-to-liquidity`;
         const bondHistoryUrl = `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/liquidity-historic`;
@@ -64,7 +65,34 @@ export const useToggleMetanode = () => {
         setBondHistories(bondHistoriesData);
         setLiquidityRatio(liquidityRationData);
         setIsLoading(false);
-      })();
+      } else {
+        const ercRewardsUrl = `${CACHED_ENDPOINT}/v1/${mode}/btc_erc/rewards-last-week`;
+        const bscRewardsUrl = `${CACHED_ENDPOINT}/v1/${mode}/btc_bep20/rewards-last-week`;
+
+        const results = await Promise.all([
+          fetcher<IReward>(ercRewardsUrl),
+          fetcher<IReward>(bscRewardsUrl),
+        ]);
+
+        const ercRewardData = results[0];
+        const bscRewardData = results[1];
+
+        const rewardData = {
+          currency: 'USD',
+          networkRewards: (
+            Number(ercRewardData.networkRewards) + Number(bscRewardData.networkRewards)
+          ).toFixed(0),
+          stakingRewards: (
+            Number(ercRewardData.stakingRewards) + Number(bscRewardData.stakingRewards)
+          ).toFixed(0),
+          total: (Number(ercRewardData.total) + Number(bscRewardData.total)).toFixed(0),
+          avgPerNode: '0',
+        };
+
+        setReward(rewardData);
+        setIsLoading(false);
+      }
+    })();
   }, [bridge, getChurnTime]);
 
   useInterval(() => {

@@ -91,6 +91,11 @@ export const RowValidator = styled.div`
   margin-bottom: ${({ theme }) => rem(-theme.pulsar.size.box)};
 `;
 
+export const RowReward = styled.div`
+  display: flex;
+  margin-bottom: ${({ theme }) => rem(-theme.pulsar.size.box / 2)};
+`;
+
 export const TextValue = styled(Text)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
 `;
@@ -179,4 +184,12 @@ export const StatsWithoutChart = styled.div`
 export const DataRow = styled.div`
   display: flex;
   align-items: center;
+`;
+
+export const IconInfo = styled(Icon.InfoCircle)`
+  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.box / 2)};
+  margin-left: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  font-size: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  color: ${({ theme }) => theme.pulsar.color.text.masked};
+  cursor: pointer;
 `;

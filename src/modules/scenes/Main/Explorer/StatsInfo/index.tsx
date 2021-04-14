@@ -1,4 +1,4 @@
-import { getFiatAssetFormatter, Text } from '@swingby-protocol/pulsar';
+import { getFiatAssetFormatter, Text, Tooltip } from '@swingby-protocol/pulsar';
 import { SKYBRIDGE_BRIDGES } from '@swingby-protocol/sdk';
 import { useRouter } from 'next/router';
 import React from 'react';
@@ -9,52 +9,56 @@ import { useTheme } from 'styled-components';
 
 import { GenerateChart } from '../../../../../components/GenerateChart';
 import { PATH } from '../../../../env';
-import { useGetStatsChartData, useToggleBridge } from '../../../../hooks';
+import { useGetStatsChartData, useToggleMetanode } from '../../../../hooks';
 
 import {
+  ChartBox,
   DataDiv,
-  StatsInfoContainer,
+  DataRow,
+  IconInfo,
   InfoContainer,
   InfosContainer,
+  Left,
   Network,
   NetworkCapacity,
+  NetworkLock,
   NetworkMetanodes,
   NetworkRewards,
+  Right,
   Row,
   RowValidator,
+  StatsInfoContainer,
+  StatsWithoutChart,
   TextValue,
   ValidatorLinkSpan,
-  Left,
-  Right,
-  ChartBox,
-  StatsWithoutChart,
-  DataRow,
-  NetworkLock,
+  RowReward,
 } from './styled';
 
 export const StatsInfo = () => {
   const theme = useTheme();
+  const router = useRouter();
+  const { locale } = useIntl();
+  const { formatMessage } = useIntl();
 
-  const networkInfos = useSelector((state) => state.explorer.networkInfos);
-  const { stats, capacity } = networkInfos;
+  const formattedMetanodes = formatMessage({ id: 'metanodes.metanodes' });
+  const formattedRewards = formatMessage({ id: 'home.network.rewards' });
 
+  const stats = useSelector((state) => state.explorer.networkInfos.stats);
   const usd = useSelector((state) => state.explorer.usd);
   const isLoading = useSelector((state) => state.explorer.isLoading);
-
+  const { bridge, reward } = useToggleMetanode(PATH.ROOT);
   const { volumes, floatHistories, lockHistories } = useGetStatsChartData();
 
   const placeholderLoader = (
     <PulseLoader margin={3} size={4} color={theme.pulsar.color.text.normal} />
   );
 
-  const router = useRouter();
-  const { locale } = useIntl();
-  const { formatMessage } = useIntl();
-  const formattedMetanodes = formatMessage({ id: 'metanodes.metanodes' });
-  const formattedRewards = formatMessage({ id: 'home.network.rewards' });
-  const { bridge } = useToggleBridge(PATH.ROOT);
+  const lockedAmount = Number(lockHistories[lockHistories.length - 1].amount);
+  const floatAmount = Number(floatHistories[floatHistories.length - 1].amount);
 
-  const rewards1wks = stats.rewards1wksUSD;
+  const rewardsTotal = reward ? reward.total : 0;
+  const rewardsSwingby = reward ? reward.stakingRewards : 0;
+  const rewardsSbBtcUsd = reward ? reward.networkRewards : 0;
 
   const dataChart = usd && [
     {
@@ -77,7 +81,7 @@ export const StatsInfo = () => {
         currency: 'USD',
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
-      }).format(capacity),
+      }).format(lockedAmount),
     },
     {
       icon: <NetworkCapacity />,
@@ -88,7 +92,7 @@ export const StatsInfo = () => {
         currency: 'USD',
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
-      }).format(capacity),
+      }).format(floatAmount),
     },
   ];
 
@@ -106,9 +110,23 @@ export const StatsInfo = () => {
         currency: 'USD',
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
-      }).format(rewards1wks),
+      }).format(Number(rewardsTotal)),
     },
   ];
+
+  const earningSwingbyUsd = getFiatAssetFormatter({
+    locale,
+    currency: 'USD',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(Number(rewardsSwingby));
+
+  const earningSbBtcUsd = getFiatAssetFormatter({
+    locale,
+    currency: 'USD',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(Number(rewardsSbBtcUsd));
 
   return (
     <StatsInfoContainer>
@@ -165,9 +183,31 @@ export const StatsInfo = () => {
                           </ValidatorLinkSpan>
                         </RowValidator>
                       ) : (
-                        <Row>
+                        <RowReward>
                           <Text variant="label">{info.description}</Text>
-                        </Row>
+                          <Tooltip
+                            content={
+                              <Tooltip.Content>
+                                <Text variant="accent">
+                                  <FormattedMessage
+                                    id="metanodes.swingby"
+                                    values={{ value: earningSwingbyUsd }}
+                                  />
+                                </Text>
+                                <br />
+                                <Text variant="accent">
+                                  <FormattedMessage
+                                    id="metanodes.sbBTC"
+                                    values={{ value: earningSbBtcUsd }}
+                                  />
+                                </Text>
+                              </Tooltip.Content>
+                            }
+                            data-testid="tooltip"
+                          >
+                            <IconInfo />
+                          </Tooltip>
+                        </RowReward>
                       )}
                       {isLoading ? (
                         placeholderLoader
