@@ -53,9 +53,12 @@ export const StatsInfo = () => {
     <PulseLoader margin={3} size={4} color={theme.pulsar.color.text.normal} />
   );
 
-  const rewards1wks = stats.rewards1wksUSD;
   const lockedAmount = Number(lockHistories[lockHistories.length - 1].amount);
   const floatAmount = Number(floatHistories[floatHistories.length - 1].amount);
+
+  const rewardsTotal = reward ? reward.total : 0;
+  const rewardsSwingby = reward ? reward.stakingRewards : 0;
+  const rewardsSbBtcUsd = reward ? reward.networkRewards : 0;
 
   const dataChart = usd && [
     {
@@ -107,12 +110,9 @@ export const StatsInfo = () => {
         currency: 'USD',
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
-      }).format(rewards1wks),
+      }).format(Number(rewardsTotal)),
     },
   ];
-
-  const rewardsSwingby = reward ? reward.stakingRewards : 0;
-  const rewardsSbBtcUsd = reward ? reward.networkRewards : 0;
 
   const earningSwingbyUsd = getFiatAssetFormatter({
     locale,

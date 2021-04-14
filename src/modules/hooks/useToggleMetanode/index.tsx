@@ -79,13 +79,13 @@ export const useToggleMetanode = (path: PATH) => {
 
         const rewardData = {
           currency: 'USD',
-          networkRewards: String(
-            Number(ercRewardData.networkRewards) + Number(bscRewardData.networkRewards),
-          ),
-          stakingRewards: String(
-            Number(ercRewardData.stakingRewards) + Number(bscRewardData.stakingRewards),
-          ),
-          total: String(Number(ercRewardData.total) + Number(bscRewardData.total)),
+          networkRewards: (
+            Number(ercRewardData.networkRewards) + Number(bscRewardData.networkRewards)
+          ).toFixed(0),
+          stakingRewards: (
+            Number(ercRewardData.stakingRewards) + Number(bscRewardData.stakingRewards)
+          ).toFixed(0),
+          total: (Number(ercRewardData.total) + Number(bscRewardData.total)).toFixed(0),
           avgPerNode: '0',
         };
 
