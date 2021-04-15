@@ -37,7 +37,7 @@ export const useToggleMetanode = (path: PATH) => {
   useEffect(() => {
     setIsLoading(true);
     (async () => {
-      if (bridge) {
+      if (bridge && path === PATH.METANODES) {
         const rewardsUrl = `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/rewards-last-week`;
         const liquidityUrl = `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/bond-to-liquidity`;
         const bondHistoryUrl = `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/liquidity-historic`;
@@ -64,8 +64,13 @@ export const useToggleMetanode = (path: PATH) => {
         setBondHistories(bondHistoriesData);
         setLiquidityRatio(liquidityRationData);
         setIsLoading(false);
+      } else if (bridge && path === PATH.ROOT) {
+        const rewardsUrl = `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/rewards-last-week`;
+        const rewardData = await fetcher<IReward>(rewardsUrl);
+        setReward(rewardData);
+        setIsLoading(false);
       } else {
-        // Memo: path === Root
+        // Memo: path === Root && bridge === '' (Multi-bridge)
         const ercRewardsUrl = `${CACHED_ENDPOINT}/v1/${mode}/btc_erc/rewards-last-week`;
         const bscRewardsUrl = `${CACHED_ENDPOINT}/v1/${mode}/btc_bep20/rewards-last-week`;
 
@@ -93,7 +98,7 @@ export const useToggleMetanode = (path: PATH) => {
         setIsLoading(false);
       }
     })();
-  }, [bridge, getChurnTime]);
+  }, [bridge, getChurnTime, path]);
 
   useInterval(() => {
     path === PATH.METANODES && getChurnTime();
