@@ -36,7 +36,6 @@ export const useToggleMetanode = (path: PATH) => {
 
   useEffect(() => {
     setIsLoading(true);
-    // bridge &&
     (async () => {
       if (bridge) {
         const rewardsUrl = `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/rewards-last-week`;
@@ -66,6 +65,7 @@ export const useToggleMetanode = (path: PATH) => {
         setLiquidityRatio(liquidityRationData);
         setIsLoading(false);
       } else {
+        // Memo: path === Root
         const ercRewardsUrl = `${CACHED_ENDPOINT}/v1/${mode}/btc_erc/rewards-last-week`;
         const bscRewardsUrl = `${CACHED_ENDPOINT}/v1/${mode}/btc_bep20/rewards-last-week`;
 
@@ -96,7 +96,7 @@ export const useToggleMetanode = (path: PATH) => {
   }, [bridge, getChurnTime]);
 
   useInterval(() => {
-    getChurnTime();
+    path === PATH.METANODES && getChurnTime();
   }, [1000 * 60]);
 
   return {
