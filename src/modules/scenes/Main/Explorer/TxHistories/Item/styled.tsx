@@ -14,8 +14,6 @@ const { media } = StylingConstants;
 export const TxHistoryRow = styled.div<BgProps>`
   height: ${rem(92)};
   background: ${(props) => !props.bg && props.theme.pulsar.color.bg.hover};
-  /* padding-top: ${({ theme }) => rem(theme.pulsar.size.street)};
-  padding-bottom: ${({ theme }) => rem(theme.pulsar.size.street)}; */
   padding-right: ${({ theme }) => rem(theme.pulsar.size.box)};
   padding-left: ${({ theme }) => rem(theme.pulsar.size.drawer)};
   display: flex;
@@ -33,7 +31,6 @@ export const TxHistoryRow = styled.div<BgProps>`
     padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
   }
   @media (min-width: ${rem(media.lg)}) {
-    /* grid-template-columns: 13% 22% 21% 4% 23% 15% auto; */
     grid-template-columns: 13% 20% 21% 4% 23% 15% auto;
   }
   @media (min-width: ${rem(media.xl)}) {
@@ -75,6 +72,7 @@ export const ColumnAmount = styled(Column)`
   display: grid;
   grid-template-columns: ${({ theme }) => rem(theme.pulsar.size.town)} ${rem(60)};
   align-items: center;
+  height: auto;
   @media (min-width: ${rem(media.md)}) {
     grid-template-columns: ${({ theme }) => rem(theme.pulsar.size.state)} ${rem(100)};
   }
@@ -95,9 +93,10 @@ export const ColumnFee = styled.div`
 
 export const Top = styled.div`
   width: ${({ theme }) => rem(theme.pulsar.size.state)};
-  height: ${({ theme }) => rem(theme.pulsar.size.street)};
   display: flex;
-  align-items: flex-end;
+  @media (min-width: ${rem(media.md)}) {
+    display: block;
+  }
 `;
 
 export const Row = styled.div``;
@@ -155,6 +154,7 @@ export const AmountSpan = styled(Text)`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  padding-bottom: ${({ theme }) => rem(theme.pulsar.size.box)};
   @media (min-width: ${rem(media.md)}) {
     font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
   }

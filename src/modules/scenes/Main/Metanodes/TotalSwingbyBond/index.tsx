@@ -42,16 +42,6 @@ export const TotalSwingbyBond = (props: Props) => {
       labels: bondDate && bondDate.reverse(),
       datasets: [
         {
-          // pointBorderColor: 'rgba(75,192,192,1)',
-          // pointBackgroundColor: 'white',
-          // pointBorderWidth: 2,
-          // pointHoverRadius: 6,
-          // pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-          // pointHoverBorderColor: 'rgba(220,220,220,1)',
-          // pointHoverBorderWidth: 2,
-          // pointRadius: 1.5,
-          // // Memo: To disable pointHit dot
-          // pointHitRadius: 0,
           fill: 'start',
           backgroundColor: gradient,
           borderColor: '#31D5B8',
