@@ -1,11 +1,17 @@
 import { buildContext, SkybridgeBridge } from '@swingby-protocol/sdk';
 
 import { CoinSymbol } from '../../../coins';
-import { getShortDate, sumArray } from '../../../common';
+import { calculateVwap, getShortDate, sumArray } from '../../../common';
 import { CACHED_ENDPOINT, ENDPOINT_COINGECKO, isEnableBscSupport, mode } from '../../../env';
 import { fetch, fetcher } from '../../../fetch';
 import { INodeListResponse, IReward } from '../../../metanodes';
 import { IChartDate, IFloat, IFloatAmount, IFloatBalances, IStats } from '../../index';
+
+interface IMarketData {
+  prices: Array<number[]>;
+  market_caps: Array<number[]>;
+  total_volumes: Array<number[]>;
+}
 
 // Memo: get active node endpoint
 export const getEndpoint = async (): Promise<{ urlEth: string; urlBsc: string }> => {
@@ -70,6 +76,49 @@ export const getUsdPrice = async (currency: string): Promise<number> => {
   const price = result.ok && result.response[currency].usd;
 
   return Number(price);
+};
+
+export const getUsdVwap = async (currency: string): Promise<number> => {
+  const now = Math.floor(Date.now() / 1000);
+  const hrs24 = 24 * 60 * 60;
+
+  // Memo: get 7days ago timestamp
+  const from = now - hrs24 * 7;
+
+  const url =
+    ENDPOINT_COINGECKO +
+    `/coins/${currency}/market_chart/range?vs_currency=usd&from=${from}&to=${now}`;
+
+  const res = await fetcher<IMarketData>(url);
+  const length = res.prices.length;
+  const day = length / 7;
+
+  const index = {
+    today: length - 1,
+    daysAgo1: Number((length - day * 1).toFixed(0)),
+    daysAgo2: Number((length - day * 2).toFixed(0)),
+    daysAgo3: Number((length - day * 3).toFixed(0)),
+    daysAgo4: Number((length - day * 4).toFixed(0)),
+    daysAgo5: Number((length - day * 5).toFixed(0)),
+    daysAgo6: Number((length - day * 6).toFixed(0)),
+    daysAgo7: 0,
+  };
+
+  // Memo: Calculate 7days VWAP
+  // Input: [[volume, price], [volume, price], ...]
+  const vwap = calculateVwap([
+    [res.total_volumes[index.today][1], res.prices[index.today][1]],
+    [res.total_volumes[index.daysAgo1][1], res.prices[index.daysAgo1][1]],
+    [res.total_volumes[index.daysAgo2][1], res.prices[index.daysAgo2][1]],
+    [res.total_volumes[index.daysAgo3][1], res.prices[index.daysAgo3][1]],
+    [res.total_volumes[index.daysAgo4][1], res.prices[index.daysAgo4][1]],
+    [res.total_volumes[index.daysAgo5][1], res.prices[index.daysAgo5][1]],
+    [res.total_volumes[index.daysAgo6][1], res.prices[index.daysAgo6][1]],
+    [res.total_volumes[index.daysAgo7][1], res.prices[index.daysAgo7][1]],
+  ]);
+
+  const formattedVwap = Number(vwap.toFixed(4));
+  return formattedVwap;
 };
 
 export const getFloatBalance = (currency: string, floatInfos: IFloatAmount[]): string => {

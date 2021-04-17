@@ -30,6 +30,7 @@ export {
   getEndpoint,
   castToBackendVariable,
   getFloatBalance,
+  getUsdVwap,
 } from './utils';
 
 export const selectableBridge = [

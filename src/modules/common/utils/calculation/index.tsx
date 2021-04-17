@@ -20,3 +20,13 @@ export const sumArray = (arr: number[]) => {
     return prev + current;
   });
 };
+
+// Memo: Calculate the Volume-Weighted Average Price (VWAP)
+// Ref: https://github.com/miguelmota/vwap/blob/master/index.js
+// Input: [[volume, price], [volume, price], ...]
+export const calculateVwap = (...p: any[]): number => {
+  if (p.length === 1 && Array.isArray(p[0])) p = p[0];
+  if (!p.length) return 0;
+  // Formula: sum(num shares * share price)/(total shares)
+  return p.reduce((s, x) => s + x[0] * x[1], 0) / p.reduce((s, x) => s + x[0], 0) || 0;
+};
