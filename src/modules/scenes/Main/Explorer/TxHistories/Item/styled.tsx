@@ -25,13 +25,13 @@ export const TxHistoryRow = styled.div<BgProps>`
     display: grid;
 
     grid-template-columns: 13% 20% 22% 5% 22% auto;
-    padding-right: ${({ theme }) => rem(0)};
-    padding-left: ${({ theme }) => rem(0)};
+    padding-right: ${rem(0)};
+    padding-left: ${rem(0)};
     padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
     padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
   }
   @media (min-width: ${rem(media.lg)}) {
-    grid-template-columns: 13% 20% 21% 4% 23% 15% auto;
+    grid-template-columns: 14% 20% 21% 3% 23% 15% auto;
   }
   @media (min-width: ${rem(media.xl)}) {
     /* Memo: Won't show animation for low spec computer   */
@@ -100,6 +100,17 @@ export const Top = styled.div`
 `;
 
 export const Row = styled.div``;
+
+export const RowAbsolute = styled.div`
+  position: absolute;
+  bottom: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  @media (min-width: ${rem(media.md)}) {
+    bottom: ${rem(0)};
+  }
+  @media (min-width: ${rem(media.lg)}) {
+    bottom: ${({ theme }) => rem(theme.pulsar.size.box)};
+  }
+`;
 
 export const RowAddress = styled.div`
   display: grid;
@@ -174,6 +185,7 @@ export const TextTime = styled(Text)`
     font-size: ${({ theme }) => rem(theme.pulsar.size.closet)};
   }
 `;
+export const TextConfirmation = styled(TextTime)``;
 
 export const StatusText = styled(Text)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.closet)};
