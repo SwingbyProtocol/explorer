@@ -19,6 +19,7 @@ import {
   convertTxTime,
   currencyNetwork,
   getBorderColor,
+  TxStatus,
 } from '../../../../../explorer';
 import { transactionDetailByTxId } from '../../../../../swap';
 import { AddressLinkP } from '../../../../Common';
@@ -37,11 +38,13 @@ import {
   IconDetail,
   NetworkText,
   Row,
+  RowAbsolute,
   RowAddress,
   RowAmount,
   Status,
   StatusCircle,
   StatusText,
+  TextConfirmation,
   TextTime,
   Top,
   TxHistoryRow,
@@ -83,6 +86,18 @@ export const TxHistoriesItem = ({
           <Row>
             <TextTime variant="label">{convertTxTime(DateTime.fromISO(tx.at))}</TextTime>
           </Row>
+          {tx.status === TxStatus.PENDING && (
+            <RowAbsolute>
+              <TextConfirmation variant="label">
+                <FormattedMessage
+                  id="home.recent-swaps.confirmation"
+                  values={{
+                    confirmations: '< 3',
+                  }}
+                />
+              </TextConfirmation>
+            </RowAbsolute>
+          )}
         </Column>
         <ColumnM>
           <RowAddress>
