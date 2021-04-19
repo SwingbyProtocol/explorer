@@ -25,13 +25,13 @@ export const TxHistoryRow = styled.div<BgProps>`
     display: grid;
 
     grid-template-columns: 13% 20% 22% 5% 22% auto;
-    padding-right: ${({ theme }) => rem(0)};
-    padding-left: ${({ theme }) => rem(0)};
+    padding-right: ${rem(0)};
+    padding-left: ${rem(0)};
     padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
     padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
   }
   @media (min-width: ${rem(media.lg)}) {
-    grid-template-columns: 13% 20% 21% 4% 23% 15% auto;
+    grid-template-columns: 14% 20% 21% 3% 23% 15% auto;
   }
   @media (min-width: ${rem(media.xl)}) {
     /* Memo: Won't show animation for low spec computer   */
