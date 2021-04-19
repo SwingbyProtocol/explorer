@@ -7,7 +7,7 @@ import { getEndpoint } from '../network';
 export const getTransactionFees = async (): Promise<IFee[]> => {
   const { urlEth } = await getEndpoint();
   try {
-    const result = await fetch<IFee[]>(urlEth);
+    const result = await fetch<IFee[]>(urlEth + '/api/v1/swaps/fees');
     return result.ok && result.response;
   } catch (err) {
     console.log(err);
