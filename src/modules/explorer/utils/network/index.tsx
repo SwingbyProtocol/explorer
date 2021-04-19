@@ -79,42 +79,24 @@ export const getUsdPrice = async (currency: string): Promise<number> => {
 };
 
 export const getUsdVwap = async (currency: string): Promise<number> => {
-  const now = Math.floor(Date.now() / 1000);
-  const hrs24 = 24 * 60 * 60;
-
-  // Memo: get 7days ago timestamp
-  const from = now - hrs24 * 7;
+  const days = 7;
 
   const url =
     ENDPOINT_COINGECKO +
-    `/coins/${currency}/market_chart/range?vs_currency=usd&from=${from}&to=${now}`;
+    `/coins/${currency}/market_chart?days=${days}&vs_currency=usd&interval=daily`;
 
   const res = await fetcher<IMarketData>(url);
-  const length = res.prices.length;
-  const day = length / 7;
-
-  const index = {
-    today: length - 1,
-    daysAgo1: Number((length - day * 1).toFixed(0)),
-    daysAgo2: Number((length - day * 2).toFixed(0)),
-    daysAgo3: Number((length - day * 3).toFixed(0)),
-    daysAgo4: Number((length - day * 4).toFixed(0)),
-    daysAgo5: Number((length - day * 5).toFixed(0)),
-    daysAgo6: Number((length - day * 6).toFixed(0)),
-    daysAgo7: 0,
-  };
 
   // Memo: Calculate 7days VWAP
   // Input: [[volume, price], [volume, price], ...]
   const vwap = calculateVwap([
-    [res.total_volumes[index.today][1], res.prices[index.today][1]],
-    [res.total_volumes[index.daysAgo1][1], res.prices[index.daysAgo1][1]],
-    [res.total_volumes[index.daysAgo2][1], res.prices[index.daysAgo2][1]],
-    [res.total_volumes[index.daysAgo3][1], res.prices[index.daysAgo3][1]],
-    [res.total_volumes[index.daysAgo4][1], res.prices[index.daysAgo4][1]],
-    [res.total_volumes[index.daysAgo5][1], res.prices[index.daysAgo5][1]],
-    [res.total_volumes[index.daysAgo6][1], res.prices[index.daysAgo6][1]],
-    [res.total_volumes[index.daysAgo7][1], res.prices[index.daysAgo7][1]],
+    [res.total_volumes[0][1], res.prices[0][1]],
+    [res.total_volumes[1][1], res.prices[1][1]],
+    [res.total_volumes[2][1], res.prices[2][1]],
+    [res.total_volumes[3][1], res.prices[3][1]],
+    [res.total_volumes[4][1], res.prices[4][1]],
+    [res.total_volumes[5][1], res.prices[5][1]],
+    [res.total_volumes[6][1], res.prices[6][1]],
   ]);
 
   const formattedVwap = Number(vwap.toFixed(4));
