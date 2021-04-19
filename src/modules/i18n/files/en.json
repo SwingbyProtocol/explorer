@@ -64,6 +64,7 @@
   "home.recent-swaps.filter.deposit": "Liquidity Deposits",
   "home.recent-swaps.filter.withdrawal": "Liquidity Withdrawals",
   "home.recent-swaps.filter-bridge": "Bitcoin - {bridge}",
+  "home.recent-swaps.confirmation": "Block Confirmations: {confirmations}",
   "swap.claim-swap": "Claim Swap",
   "swap.duplicate": "Duplicate",
   "swap.duplicate-popup": "Click to repeat this swap",

@@ -58,6 +58,7 @@
   "home.recent-swaps.filter.swap": "跨链兌換",
   "home.recent-swaps.filter.deposit": "提供流动性",
   "home.recent-swaps.filter.withdrawal": "移除流动性",
+  "home.recent-swaps.confirmation": "区块确认: {confirmations}",
   "swap.claim-swap": "认领此兑换",
   "swap.duplicate": "重複兑换",
   "swap.share": "分享",

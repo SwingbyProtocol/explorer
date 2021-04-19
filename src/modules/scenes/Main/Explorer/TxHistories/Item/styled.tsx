@@ -101,6 +101,17 @@ export const Top = styled.div`
 
 export const Row = styled.div``;
 
+export const RowAbsolute = styled.div`
+  position: absolute;
+  bottom: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  @media (min-width: ${rem(media.md)}) {
+    bottom: ${rem(0)};
+  }
+  @media (min-width: ${rem(media.lg)}) {
+    bottom: ${({ theme }) => rem(theme.pulsar.size.box)};
+  }
+`;
+
 export const RowAddress = styled.div`
   display: grid;
   grid-template-columns: ${({ theme }) => rem(theme.pulsar.size.city)} auto;
@@ -174,6 +185,7 @@ export const TextTime = styled(Text)`
     font-size: ${({ theme }) => rem(theme.pulsar.size.closet)};
   }
 `;
+export const TextConfirmation = styled(TextTime)``;
 
 export const StatusText = styled(Text)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.closet)};
