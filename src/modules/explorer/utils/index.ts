@@ -15,6 +15,7 @@ export {
   exponentialToNumber,
   toBTC,
   toSatoshi,
+  getTransactionFee,
 } from './transactionFee';
 
 export {
@@ -22,8 +23,10 @@ export {
   fetchStatsInfo,
   getUsdPrice,
   getEndpoint,
+  getFixedBaseEndpoint,
   castToBackendVariable,
   getFloatBalance,
+  getBaseEndpoint,
 } from './network';
 
 export {

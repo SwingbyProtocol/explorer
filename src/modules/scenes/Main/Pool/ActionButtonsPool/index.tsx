@@ -1,7 +1,10 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
+import { PulseLoader } from 'react-spinners';
+import { useTheme } from 'styled-components';
 
+import { useGetLiquidityApr } from '../../../../hooks';
 import { PoolMode } from '../../../../pool';
 import { togglePoolMode } from '../../../../store';
 import { ButtonScale, IconArrowLeft } from '../../../Common';
@@ -10,7 +13,14 @@ import { ActionButtonsPoolContainer, Buttons, RowText, TextAPR, TextTitle } from
 
 export const ActionButtonsPool = () => {
   const dispatch = useDispatch();
+  const theme = useTheme();
   const mode = useSelector((state) => state.pool.mode);
+
+  const { estimateApr, isLoading } = useGetLiquidityApr();
+
+  const placeholderLoader = (
+    <PulseLoader margin={3} size={4} color={theme.pulsar.color.text.normal} />
+  );
 
   return (
     <ActionButtonsPoolContainer>
@@ -19,9 +29,7 @@ export const ActionButtonsPool = () => {
           <TextTitle variant="accent">
             <FormattedMessage id="pool.apr" />
           </TextTitle>
-          <TextAPR variant="accent">
-            <FormattedMessage id="common.coming-soon" />
-          </TextAPR>
+          <TextAPR variant="accent">{isLoading ? placeholderLoader : estimateApr}</TextAPR>
         </RowText>
       ) : (
         <IconArrowLeft onClick={() => dispatch(togglePoolMode(PoolMode.Summary))} />

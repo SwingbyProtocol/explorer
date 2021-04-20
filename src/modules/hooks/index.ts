@@ -10,6 +10,7 @@ export { useToggleMetanode } from './useToggleMetanode';
 export { useGetNetworkData } from './useGetNetworkData';
 export { useGetAllBridgesTvl } from './useGetAllBridgesTvl';
 export { useGetStatsChartData } from './useGetStatsChartData';
+export { useGetLiquidityApr } from './useGetLiquidityApr';
 
 export interface ICountdown {
   days: number;

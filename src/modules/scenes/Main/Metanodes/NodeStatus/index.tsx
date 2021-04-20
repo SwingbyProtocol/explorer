@@ -65,9 +65,9 @@ export const NodeStatus = (props: Props) => {
       content={
         <Tooltip.Content>
           {nodeTable.nodes.map((node: string) => (
-            <>
+            <div key={node}>
               <TextRoom variant="label">{node},</TextRoom>{' '}
-            </>
+            </div>
           ))}
         </Tooltip.Content>
       }
@@ -126,9 +126,9 @@ export const NodeStatus = (props: Props) => {
       {!isLoading ? (
         <>
           {metanodeStatusTable.map(
-            (it) =>
+            (it, i) =>
               it.table && (
-                <Row>
+                <Row key={i}>
                   <Left>
                     <ColumnStatus>
                       <StatusIcon status={toggleStatusIconColor(it.status)} />
