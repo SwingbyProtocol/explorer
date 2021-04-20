@@ -57,6 +57,31 @@ export const getEndpoint = async (): Promise<{ urlEth: string; urlBsc: string }>
   return { urlEth, urlBsc };
 };
 
+export const getBaseEndpoint = async (bridge: SkybridgeBridge) => {
+  const { urlEth, urlBsc } = await getEndpoint();
+  switch (bridge) {
+    case 'btc_erc':
+      return urlEth;
+    case 'btc_bep20':
+      return urlBsc;
+
+    default:
+      return urlEth;
+  }
+};
+
+export const getFixedBaseEndpoint = (bridge: SkybridgeBridge) => {
+  switch (bridge) {
+    case 'btc_erc':
+      return ENDPOINT_ETHEREUM_BRIDGE;
+    case 'btc_bep20':
+      return ENDPOINT_BSC_BRIDGE;
+
+    default:
+      return ENDPOINT_ETHEREUM_BRIDGE;
+  }
+};
+
 export const castToBackendVariable = (frontVariable: string) => {
   switch (frontVariable) {
     case CoinSymbol.BTC_B:

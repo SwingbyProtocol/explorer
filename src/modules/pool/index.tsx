@@ -10,7 +10,6 @@ export {
   getScanApiBaseEndpoint,
   getScanApiKey,
   getSbBtcContract,
-  getLiquidityApr,
   getScanDetailBaseEndpoint,
 } from './utils';
 

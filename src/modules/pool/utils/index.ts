@@ -7,8 +7,6 @@ export { makeEarningsData, makeTimeLabels } from './earnings';
 
 export { fetchSbBTCBalance } from './seedAPI';
 
-export { getLiquidityApr } from './apr';
-
 export {
   getScanApiBaseEndpoint,
   getScanApiKey,
