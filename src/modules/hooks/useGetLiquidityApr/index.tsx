@@ -56,7 +56,6 @@ export const useGetLiquidityApr = () => {
         const floatUsd = getFloatUsd(bridge, usdBtc, floatBalances);
 
         if (floatUsd > 0) {
-          // Ref: (1mvolusd*12*.002*.33/floatusd)
           // Eg: ((32,356,354 * 0.002 * 0.33) / 470,438) * 100 = 4.5
           const estApr =
             ((estimatedYearlyVolumeUsd * bridgeFeePercent * feeGoesLiquidityProvider) / floatUsd) *
