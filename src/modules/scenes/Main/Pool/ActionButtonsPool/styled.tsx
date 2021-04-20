@@ -15,6 +15,10 @@ export const ActionButtonsPoolContainer = styled.div`
 
 export const RowText = styled.div`
   width: ${rem(80)};
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.box)};
+
   @media (min-width: ${rem(media.sm)}) {
     width: auto;
   }

@@ -53,22 +53,19 @@ export const useGetLiquidityApr = () => {
         const zeroInArray = network1mSwapVolume.filter((it: number) => it === 0).length;
         const filledMonth = 12 - zeroInArray;
         const averageVolume = results[0].networkSwapsVolume / filledMonth;
-        console.log('filledMonth', filledMonth);
-        console.log('averageVolume', averageVolume);
         const estimatedYearlyVolumeUsd = averageVolume * usdBtc * 12;
         const floatUsd = getFloatUsd(bridge, usdBtc, floatBalances);
 
         if (floatUsd > 0) {
           // Ref: (1mvolusd*12*.002*.33/floatusd)
           // Eg: ((32,356,354 * 0.002 * 0.33) / 470,438) * 100 = 4.5
-          console.log('estimatedYearlyVolumeUsd', estimatedYearlyVolumeUsd);
           const estApr =
             ((estimatedYearlyVolumeUsd * bridgeFeePercent * feeGoesLiquidityProvider) / floatUsd) *
             100;
 
           const formattedEstApr = Number(estApr.toFixed(1));
           setEstimateApr(`${String(formattedEstApr)}%`);
-          setIsLoading(true);
+          setIsLoading(false);
         }
       } catch (error) {
         console.log('error:', error);
