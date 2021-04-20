@@ -2,7 +2,14 @@ import { buildContext, SkybridgeBridge } from '@swingby-protocol/sdk';
 
 import { CoinSymbol } from '../../../coins';
 import { getShortDate, sumArray } from '../../../common';
-import { CACHED_ENDPOINT, ENDPOINT_COINGECKO, isEnableBscSupport, mode } from '../../../env';
+import {
+  CACHED_ENDPOINT,
+  ENDPOINT_BSC_BRIDGE,
+  ENDPOINT_COINGECKO,
+  ENDPOINT_ETHEREUM_BRIDGE,
+  isEnableBscSupport,
+  mode,
+} from '../../../env';
 import { fetch, fetcher } from '../../../fetch';
 import { INodeListResponse, IReward } from '../../../metanodes';
 import { IChartDate, IFloat, IFloatAmount, IFloatBalances, IStats } from '../../index';
@@ -42,11 +49,8 @@ export const getEndpoint = async (): Promise<{ urlEth: string; urlBsc: string }>
       try {
         await getContext();
       } catch (error) {
-        try {
-          await getContext();
-        } catch (error) {
-          console.log('error', error);
-        }
+        console.log('Error:', error);
+        return { urlEth: ENDPOINT_ETHEREUM_BRIDGE, urlBsc: ENDPOINT_BSC_BRIDGE };
       }
     }
   }
