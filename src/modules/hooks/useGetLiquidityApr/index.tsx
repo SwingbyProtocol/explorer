@@ -50,8 +50,7 @@ export const useGetLiquidityApr = () => {
         const bridgeFeePercent = Number(results[1].bridgeFeePercent) * 0.01;
         const floatBalances = results[2].floats;
 
-        const zeroInArray = network1mSwapVolume.filter((it: number) => it === 0).length;
-        const filledMonth = 12 - zeroInArray;
+        const filledMonth = network1mSwapVolume.filter((it: number) => it !== 0).length;
         const averageVolume = results[0].networkSwapsVolume / filledMonth;
         const estimatedYearlyVolumeUsd = averageVolume * usdBtc * 12;
         const floatUsd = getFloatUsd(bridge, usdBtc, floatBalances);
