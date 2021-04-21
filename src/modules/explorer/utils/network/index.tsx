@@ -101,7 +101,7 @@ export const getUsdPrice = async (currency: string): Promise<number> => {
   return Number(price);
 };
 
-export const getVwap = async (currency: 'btcUsd' | 'swingbyUsd'): Promise<number> => {
+export const fetchVwap = async (currency: 'btcUsd' | 'swingbyUsd'): Promise<number> => {
   const url = `${CACHED_ENDPOINT}/v1/vwap-prices`;
   const res = await fetcher<{
     btcUsd: string;
