@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { useToggleBridge } from '..';
+import { sumArray } from '../../common';
 import { PATH } from '../../env';
 import {
   fetchFloatBalances,
@@ -39,9 +40,7 @@ export const useGetLiquidityApr = () => {
         const baseUrl = getFixedBaseEndpoint(bridge);
 
         const results = await Promise.all([
-          fetcher<{ network1mSwapsVolume: number[]; networkSwapsVolume: number }>(
-            `${baseUrl}/api/v1/swaps/stats`,
-          ),
+          fetcher<{ network1mSwapsVolume: number[] }>(`${baseUrl}/api/v1/swaps/stats`),
           getTransactionFee(bridge),
           fetchFloatBalances(usdBtc, bridge),
         ]);
@@ -51,7 +50,8 @@ export const useGetLiquidityApr = () => {
         const floatBalances = results[2].floats;
 
         const filledMonth = network1mSwapVolume.filter((it: number) => it !== 0).length;
-        const averageVolume = results[0].networkSwapsVolume / filledMonth;
+        const yearlyVolume = sumArray(network1mSwapVolume);
+        const averageVolume = yearlyVolume / filledMonth;
         const estimatedYearlyVolumeUsd = averageVolume * usdBtc * 12;
         const floatUsd = getFloatUsd(bridge, usdBtc, floatBalances);
 
