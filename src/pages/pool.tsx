@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 
 import { Layout } from '../components/Layout';
 import { NoServiceToUSModal } from '../components/NoServiceToUSModal';
-import { IFetchUsd, getUsdPrice } from '../modules/explorer';
+import { IFetchUsd, getVwap } from '../modules/explorer';
 import { getIpInfoFromRequest } from '../modules/ip-info';
 import { Main } from '../modules/scenes';
 import { fetchUsdPrice } from '../modules/store';
@@ -33,7 +33,7 @@ export default function Pool({ shouldBlockIp, initialPriceUSD }: Props) {
 export const getServerSideProps: GetServerSideProps<Props> = async ({ req }) => {
   const initialPriceUSD = await (async (): Promise<IFetchUsd> => {
     try {
-      const results = await Promise.all([getUsdPrice('bitcoin'), getUsdPrice('swingby')]);
+      const results = await Promise.all([getVwap('btcUsd'), getVwap('swingbyUsd')]);
 
       const priceUSD = {
         BTC: results[0],
