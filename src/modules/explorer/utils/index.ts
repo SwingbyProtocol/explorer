@@ -22,6 +22,7 @@ export {
   fetchFloatBalances,
   fetchStatsInfo,
   getUsdPrice,
+  fetchVwap,
   getEndpoint,
   getFixedBaseEndpoint,
   castToBackendVariable,

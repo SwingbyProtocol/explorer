@@ -33,6 +33,7 @@ export {
   getFloatBalance,
   getBaseEndpoint,
   getFixedBaseEndpoint,
+  fetchVwap,
 } from './utils';
 
 export const selectableBridge = [
