@@ -2,7 +2,14 @@ import { buildContext, SkybridgeBridge } from '@swingby-protocol/sdk';
 
 import { CoinSymbol } from '../../../coins';
 import { calculateVwap, getShortDate, sumArray } from '../../../common';
-import { CACHED_ENDPOINT, ENDPOINT_COINGECKO, isEnableBscSupport, mode } from '../../../env';
+import {
+  CACHED_ENDPOINT,
+  ENDPOINT_BSC_BRIDGE,
+  ENDPOINT_COINGECKO,
+  ENDPOINT_ETHEREUM_BRIDGE,
+  isEnableBscSupport,
+  mode,
+} from '../../../env';
 import { fetch, fetcher } from '../../../fetch';
 import { INodeListResponse, IReward } from '../../../metanodes';
 import { IChartDate, IFloat, IFloatAmount, IFloatBalances, IStats } from '../../index';
@@ -48,15 +55,37 @@ export const getEndpoint = async (): Promise<{ urlEth: string; urlBsc: string }>
       try {
         await getContext();
       } catch (error) {
-        try {
-          await getContext();
-        } catch (error) {
-          console.log('error', error);
-        }
+        console.log('Error:', error);
+        return { urlEth: ENDPOINT_ETHEREUM_BRIDGE, urlBsc: ENDPOINT_BSC_BRIDGE };
       }
     }
   }
   return { urlEth, urlBsc };
+};
+
+export const getBaseEndpoint = async (bridge: SkybridgeBridge) => {
+  const { urlEth, urlBsc } = await getEndpoint();
+  switch (bridge) {
+    case 'btc_erc':
+      return urlEth;
+    case 'btc_bep20':
+      return urlBsc;
+
+    default:
+      return urlEth;
+  }
+};
+
+export const getFixedBaseEndpoint = (bridge: SkybridgeBridge) => {
+  switch (bridge) {
+    case 'btc_erc':
+      return ENDPOINT_ETHEREUM_BRIDGE;
+    case 'btc_bep20':
+      return ENDPOINT_BSC_BRIDGE;
+
+    default:
+      return ENDPOINT_ETHEREUM_BRIDGE;
+  }
 };
 
 export const castToBackendVariable = (frontVariable: string) => {

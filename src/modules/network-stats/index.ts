@@ -29,7 +29,7 @@ export const getNodeQty = async (): Promise<string> => {
 };
 
 export const get7daysVolume = async (): Promise<string> => {
-  const getBridgeUrl = (endpoint: string) => endpoint + '/swaps/stats';
+  const getBridgeUrl = (endpoint: string) => endpoint + '/api/v1/swaps/stats';
 
   try {
     const results = await Promise.all([
@@ -62,7 +62,7 @@ export const get7daysVolume = async (): Promise<string> => {
 };
 
 export const getTVL = async (): Promise<string> => {
-  const getFloatBalUrl = (base: string) => base + '/floats/balances';
+  const getFloatBalUrl = (base: string) => base + '/api/v1/floats/balances';
 
   const getBondBalUrl = (bridge: SkybridgeBridge) =>
     CACHED_ENDPOINT + `/v1/production/${bridge}/liquidity-historic`;

@@ -1,3 +1,4 @@
+import { SkybridgeBridge } from '@swingby-protocol/sdk';
 import { BigNumber } from 'bignumber.js';
 
 import { fetch } from '../../../fetch';
@@ -9,6 +10,28 @@ export const getTransactionFees = async (): Promise<IFee[]> => {
   try {
     const result = await fetch<IFee[]>(urlEth + '/api/v1/swaps/fees');
     return result.ok && result.response;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getTransactionFee = async (bridge: SkybridgeBridge): Promise<IFee> => {
+  const getTargetCurrency = (bridge: SkybridgeBridge) => {
+    switch (bridge) {
+      case 'btc_erc':
+        return 'WBTC';
+      case 'btc_bep20':
+        return 'BTCB';
+
+      default:
+        return 'WBTC';
+    }
+  };
+
+  try {
+    const fees = await getTransactionFees();
+    const fee = fees.find((it: IFee) => it.currency === getTargetCurrency(bridge));
+    return fee;
   } catch (err) {
     console.log(err);
   }

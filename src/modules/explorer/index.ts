@@ -19,6 +19,7 @@ export {
   getBorderColor,
   getDiffDays,
   getTransactionFees,
+  getTransactionFee,
   getUsdPrice,
   isBinanceAddress,
   isBitcoinAddress,
@@ -30,6 +31,8 @@ export {
   getEndpoint,
   castToBackendVariable,
   getFloatBalance,
+  getBaseEndpoint,
+  getFixedBaseEndpoint,
   getUsdVwap,
 } from './utils';
 
