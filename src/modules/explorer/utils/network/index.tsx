@@ -112,7 +112,8 @@ export const fetchVwap = async (currency: 'btcUsd' | 'swingbyUsd') => {
 
   const formattedVwap = Number(vwap.toFixed(4));
   // memo: test
-  return { message: 'Something wrong' };
+  // return { message: 'Something wrong' };
+  return formattedVwap;
 };
 
 export const getFloatBalance = (currency: string, floatInfos: IFloatAmount[]): string => {
