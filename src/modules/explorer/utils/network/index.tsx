@@ -101,7 +101,7 @@ export const getUsdPrice = async (currency: string): Promise<number> => {
   return Number(price);
 };
 
-export const fetchVwap = async (currency: 'btcUsd' | 'swingbyUsd'): Promise<number> => {
+export const fetchVwap = async (currency: 'btcUsd' | 'swingbyUsd') => {
   const url = `${CACHED_ENDPOINT}/v1/vwap-prices`;
   const res = await fetcher<{
     btcUsd: string;
@@ -111,7 +111,8 @@ export const fetchVwap = async (currency: 'btcUsd' | 'swingbyUsd'): Promise<numb
   const vwap = Number(res[currency]);
 
   const formattedVwap = Number(vwap.toFixed(4));
-  return formattedVwap;
+  // memo: test
+  return { message: 'Something wrong' };
 };
 
 export const getFloatBalance = (currency: string, floatInfos: IFloatAmount[]): string => {
