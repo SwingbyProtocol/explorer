@@ -14,6 +14,12 @@ import { fetch, fetcher } from '../../../fetch';
 import { INodeListResponse, IReward } from '../../../metanodes';
 import { IChartDate, IFloat, IFloatAmount, IFloatBalances, IStats } from '../../index';
 
+interface IMarketData {
+  prices: Array<number[]>;
+  market_caps: Array<number[]>;
+  total_volumes: Array<number[]>;
+}
+
 // Memo: get active node endpoint
 export const getEndpoint = async (): Promise<{ urlEth: string; urlBsc: string }> => {
   let urlEth = '';
@@ -101,6 +107,40 @@ export const getUsdPrice = async (currency: string): Promise<number> => {
   return Number(price);
 };
 
+// Memo: Calculate the Volume-Weighted Average Price (VWAP)
+// Ref: https://github.com/miguelmota/vwap/blob/master/index.js
+// Input: [[volume, price], [volume, price], ...]
+const calculateVwap = (...p: any[]): number => {
+  if (p.length === 1 && Array.isArray(p[0])) p = p[0];
+  if (!p.length) return 0;
+  // Formula: sum(num shares * share price)/(total shares)
+  return p.reduce((s, x) => s + x[0] * x[1], 0) / p.reduce((s, x) => s + x[0], 0) || 0;
+};
+
+export const getUsdVwap = async (currency: string): Promise<number> => {
+  const days = 7;
+
+  const url =
+    ENDPOINT_COINGECKO +
+    `/coins/${currency}/market_chart?days=${days}&vs_currency=usd&interval=daily`;
+
+  const res = await fetcher<IMarketData>(url);
+
+  // Memo: Calculate 7days VWAP
+  // Input: [[volume, price], [volume, price], ...]
+  const vwap = calculateVwap([
+    [res.total_volumes[0][1], res.prices[0][1]],
+    [res.total_volumes[1][1], res.prices[1][1]],
+    [res.total_volumes[2][1], res.prices[2][1]],
+    [res.total_volumes[3][1], res.prices[3][1]],
+    [res.total_volumes[4][1], res.prices[4][1]],
+    [res.total_volumes[5][1], res.prices[5][1]],
+    [res.total_volumes[6][1], res.prices[6][1]],
+  ]);
+
+  return vwap;
+};
+
 export const fetchVwap = async (currency: 'btcUsd' | 'swingbyUsd'): Promise<number> => {
   const url = `${CACHED_ENDPOINT}/v1/vwap-prices`;
   const res = await fetcher<{
@@ -108,7 +148,9 @@ export const fetchVwap = async (currency: 'btcUsd' | 'swingbyUsd'): Promise<numb
     swingbyUsd: string;
   }>(url);
 
-  const vwap = Number(res[currency]);
+  const coinGeckoSymbol = currency === 'btcUsd' ? 'bitcoin' : 'swingby';
+  // Memo: getUsdVwap -> fallback in case metanode-earnigs API broken
+  const vwap = res[currency] ? Number(res[currency]) : await getUsdVwap(coinGeckoSymbol);
 
   const formattedVwap = Number(vwap.toFixed(4));
   return formattedVwap;
