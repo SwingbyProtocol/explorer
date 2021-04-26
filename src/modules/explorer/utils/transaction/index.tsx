@@ -148,3 +148,11 @@ export const capitalize = (s: string): string => {
   const word = s.toLowerCase();
   return word.charAt(0).toUpperCase() + word.slice(1);
 };
+
+export const getRequiredBlockConfirmations = (currencyIn: CoinSymbol) => {
+  if (currencyIn === CoinSymbol.BTC) {
+    return '< 2';
+  } else {
+    return '< 10';
+  }
+};

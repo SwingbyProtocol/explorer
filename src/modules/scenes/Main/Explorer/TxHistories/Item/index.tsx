@@ -19,6 +19,7 @@ import {
   convertTxTime,
   currencyNetwork,
   getBorderColor,
+  getRequiredBlockConfirmations,
   TxStatus,
 } from '../../../../../explorer';
 import { transactionDetailByTxId } from '../../../../../swap';
@@ -92,7 +93,7 @@ export const TxHistoriesItem = ({
                 <FormattedMessage
                   id="home.recent-swaps.confirmation"
                   values={{
-                    confirmations: '< 3',
+                    confirmations: getRequiredBlockConfirmations(oldTxType.currencyIn),
                   }}
                 />
               </TextConfirmation>

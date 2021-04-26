@@ -33,6 +33,7 @@ export {
   getFloatBalance,
   getBaseEndpoint,
   getFixedBaseEndpoint,
+  getRequiredBlockConfirmations,
   fetchVwap,
 } from './utils';
 
