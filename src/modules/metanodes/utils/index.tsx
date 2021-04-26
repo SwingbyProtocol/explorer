@@ -195,12 +195,12 @@ export const mergeLockedArray = (
 
 export const getLockedHistory = async (bridge: string) => {
   if (bridge) {
-    const url = `${CACHED_ENDPOINT}/v1/production/${bridge}/liquidity-historic`;
+    const url = `${CACHED_ENDPOINT}/v1/production/${bridge}/bonded-historic`;
     const rawData = await fetcher<IBondHistories>(url);
     return formatHistoriesArray(rawData);
   } else {
-    const urlBtcEth = `${CACHED_ENDPOINT}/v1/production/btc_erc/liquidity-historic`;
-    const urlBtcBsc = `${CACHED_ENDPOINT}/v1/production/btc_bep20/liquidity-historic`;
+    const urlBtcEth = `${CACHED_ENDPOINT}/v1/production/btc_erc/bonded-historic`;
+    const urlBtcBsc = `${CACHED_ENDPOINT}/v1/production/btc_bep20/bonded-historic`;
 
     const results = await Promise.all([
       fetcher<IBondHistories>(urlBtcEth),
