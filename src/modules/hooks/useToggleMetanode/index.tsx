@@ -40,7 +40,7 @@ export const useToggleMetanode = (path: PATH) => {
       if (bridge && path === PATH.METANODES) {
         const rewardsUrl = `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/rewards-last-week`;
         const liquidityUrl = `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/bond-to-liquidity`;
-        const bondHistoryUrl = `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/liquidity-historic`;
+        const bondHistoryUrl = `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/bonded-historic`;
         const liquidityRatioUrl = `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/liquidity-ratio`;
 
         const results = await Promise.all([

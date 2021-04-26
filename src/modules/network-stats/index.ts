@@ -65,7 +65,7 @@ export const getTVL = async (): Promise<string> => {
   const getFloatBalUrl = (base: string) => base + '/api/v1/floats/balances';
 
   const getBondBalUrl = (bridge: SkybridgeBridge) =>
-    CACHED_ENDPOINT + `/v1/production/${bridge}/liquidity-historic`;
+    CACHED_ENDPOINT + `/v1/production/${bridge}/bonded-historic`;
 
   try {
     const results = await Promise.all([

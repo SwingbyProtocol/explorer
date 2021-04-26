@@ -38,8 +38,8 @@ export const useGetAllBridgesTvl = (path: PATH) => {
     dispatch(toggleIsLoading(true));
     isNoLoading(path) &&
       (async () => {
-        const urlBondEth = `${CACHED_ENDPOINT}/v1/${mode}/btc_erc/liquidity-historic`;
-        const urlBondBsc = `${CACHED_ENDPOINT}/v1/${mode}/btc_bep20/liquidity-historic`;
+        const urlBondEth = `${CACHED_ENDPOINT}/v1/${mode}/btc_erc/bonded-historic`;
+        const urlBondBsc = `${CACHED_ENDPOINT}/v1/${mode}/btc_bep20/bonded-historic`;
 
         const results = await Promise.all([
           fetcher<IBondHistories>(urlBondEth),
