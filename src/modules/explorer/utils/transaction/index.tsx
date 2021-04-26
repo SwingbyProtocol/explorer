@@ -3,6 +3,7 @@ import { DateTime, Interval } from 'luxon';
 import { transparentize } from 'polished';
 import { FormattedDate, FormattedRelativeTime, FormattedTime } from 'react-intl';
 
+import { TransactionStatus } from '../../../../generated/graphql';
 import { CoinSymbol } from '../../../coins';
 import { TStatus, TTxRawObject } from '../../index';
 
@@ -147,4 +148,20 @@ export const capitalize = (s: string): string => {
   }
   const word = s.toLowerCase();
   return word.charAt(0).toUpperCase() + word.slice(1);
+};
+
+export const getRequiredBlockConfirmations = (currencyIn: CoinSymbol) => {
+  if (currencyIn === CoinSymbol.BTC) {
+    return '< 2';
+  } else {
+    return '< 10';
+  }
+};
+
+export const castUiStatus = (status: TransactionStatus) => {
+  if (status === TxStatus.SENDING) {
+    return 'Processing';
+  } else {
+    return capitalize(status);
+  }
 };

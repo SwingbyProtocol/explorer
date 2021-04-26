@@ -14,11 +14,12 @@ import type {
 } from '../../../../../../generated/graphql';
 import { PATH } from '../../../../../env';
 import {
-  capitalize,
   castGraphQlType,
+  castUiStatus,
   convertTxTime,
   currencyNetwork,
   getBorderColor,
+  getRequiredBlockConfirmations,
   TxStatus,
 } from '../../../../../explorer';
 import { transactionDetailByTxId } from '../../../../../swap';
@@ -81,7 +82,7 @@ export const TxHistoriesItem = ({
         <Column>
           <Status>
             <StatusCircle status={tx.status} />
-            <StatusText variant="accent">{capitalize(tx.status)}</StatusText>
+            <StatusText variant="accent">{castUiStatus(tx.status)}</StatusText>
           </Status>
           <Row>
             <TextTime variant="label">{convertTxTime(DateTime.fromISO(tx.at))}</TextTime>
@@ -92,7 +93,7 @@ export const TxHistoriesItem = ({
                 <FormattedMessage
                   id="home.recent-swaps.confirmation"
                   values={{
-                    confirmations: '< 3',
+                    confirmations: getRequiredBlockConfirmations(oldTxType.currencyIn),
                   }}
                 />
               </TextConfirmation>

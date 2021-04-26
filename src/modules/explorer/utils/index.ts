@@ -6,7 +6,9 @@ export {
   convertTxTime,
   capitalize,
   getDiffDays,
+  getRequiredBlockConfirmations,
   getBorderColor,
+  castUiStatus,
 } from './transaction';
 
 export {
