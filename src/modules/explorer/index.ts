@@ -35,6 +35,7 @@ export {
   getFixedBaseEndpoint,
   getRequiredBlockConfirmations,
   fetchVwap,
+  castUiStatus,
 } from './utils';
 
 export const selectableBridge = [

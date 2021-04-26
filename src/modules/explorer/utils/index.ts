@@ -8,6 +8,7 @@ export {
   getDiffDays,
   getRequiredBlockConfirmations,
   getBorderColor,
+  castUiStatus,
 } from './transaction';
 
 export {

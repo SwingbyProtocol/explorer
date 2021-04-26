@@ -3,6 +3,7 @@ import { DateTime, Interval } from 'luxon';
 import { transparentize } from 'polished';
 import { FormattedDate, FormattedRelativeTime, FormattedTime } from 'react-intl';
 
+import { TransactionStatus } from '../../../../generated/graphql';
 import { CoinSymbol } from '../../../coins';
 import { TStatus, TTxRawObject } from '../../index';
 
@@ -154,5 +155,13 @@ export const getRequiredBlockConfirmations = (currencyIn: CoinSymbol) => {
     return '< 2';
   } else {
     return '< 10';
+  }
+};
+
+export const castUiStatus = (status: TransactionStatus) => {
+  if (status === TxStatus.SENDING) {
+    return 'Processing';
+  } else {
+    return capitalize(status);
   }
 };
