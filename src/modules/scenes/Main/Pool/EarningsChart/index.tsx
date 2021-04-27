@@ -94,6 +94,7 @@ export const EarningsChart = () => {
   };
 
   const options = {
+    animation: false,
     responsive: true,
     pointDotStrokeWidth: 0,
     elements: {

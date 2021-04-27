@@ -30,6 +30,7 @@ const CHURNED_IN_STATUSES = ['churned-in'];
 const MAY_CHURNED_OUT_STATUSES = ['may-churn-out--bond-too-low', 'may-churn-out--bond-expiring'];
 
 const DOUGHNUT_OPTIONS = {
+  animation: false,
   plugins: {
     legend: {
       display: false,

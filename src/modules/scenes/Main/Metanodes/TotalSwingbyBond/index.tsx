@@ -41,6 +41,7 @@ export const TotalSwingbyBond = (props: Props) => {
   const isLabelShows = (i: number) => i % 3 === 0;
 
   const options = {
+    animation: false,
     parsing: {
       xAxisKey: 'since',
       yAxisKey: 'bond',
