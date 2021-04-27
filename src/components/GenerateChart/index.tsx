@@ -16,11 +16,9 @@ interface Props {
 export const GenerateChart = (props: Props) => {
   // Ref: https://github.com/jerairrest/react-chartjs-2/issues/306
   const isLoading = useSelector((state) => state.explorer.isLoading);
-  const { formatDate } = useIntl();
   const intl = useIntl();
 
   const { chart } = props;
-  console.log('chart', chart);
 
   const data = (canvas) => {
     const ctx = canvas.getContext('2d');
@@ -29,22 +27,26 @@ export const GenerateChart = (props: Props) => {
     gradient.addColorStop(0.8, 'rgba(255,255,255, 0.3)');
 
     return {
+      labels:
+        chart &&
+        chart.map((it) =>
+          intl.formatDate(it.at, {
+            month: 'short',
+            day: 'numeric',
+          }),
+        ),
       datasets: [
         {
           fill: 'start',
           backgroundColor: gradient,
           borderColor: '#31D5B8',
-          data: chart,
+          data: chart && chart.map((it) => it.amount),
         },
       ],
     };
   };
 
   const options = {
-    parsing: {
-      xAxisKey: 'at',
-      yAxisKey: 'amount',
-    },
     responsive: true,
     pointDotStrokeWidth: 0,
     elements: {
@@ -59,16 +61,8 @@ export const GenerateChart = (props: Props) => {
         position: 'nearest',
         intersect: false,
         callbacks: {
-          title: (data) => {
-            const since = formatDate(data[0].label, {
-              month: 'short',
-              day: 'numeric',
-            });
-            return since;
-          },
           label: (data) => {
-            console.log('data', data);
-            return intl.formatNumber(data.raw.amount, { style: 'currency', currency: 'USD' });
+            return intl.formatNumber(data.raw, { style: 'currency', currency: 'USD' });
           },
         },
       },

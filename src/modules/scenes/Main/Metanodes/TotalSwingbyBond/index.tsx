@@ -32,7 +32,7 @@ export const TotalSwingbyBond = (props: Props) => {
           fill: 'start',
           backgroundColor: gradient,
           borderColor: '#31D5B8',
-          data: bondHistories.reverse(),
+          data: bondHistories && bondHistories.reverse(),
         },
       ],
     };
@@ -109,7 +109,7 @@ export const TotalSwingbyBond = (props: Props) => {
           color: '#929D9D',
           font: 10,
           padding: 0,
-          callback(value: number, i: number, values) {
+          callback(value: number, i: number) {
             if (i % 2 === 0) {
               return '$' + formatNum(value);
             } else {

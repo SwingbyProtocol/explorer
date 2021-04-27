@@ -133,37 +133,10 @@ export const StatsInfo = () => {
     maximumFractionDigits: 0,
   }).format(Number(rewardsSbBtcUsd));
 
-  const chartItem = (info) => {
-    return (
-      <InfoContainer>
-        <Left>
-          {info.icon}
-          <DataDiv>
-            <Row>
-              <Text variant="label">{info.description}</Text>
-            </Row>
-            {isLoading ? (
-              placeholderLoader
-            ) : (
-              <Row>
-                <TextValue variant="accent">{info.value}</TextValue>
-              </Row>
-            )}
-          </DataDiv>
-        </Left>
-        <Right>
-          <ChartBox>
-            <GenerateChart chart={info.chart} />
-          </ChartBox>
-        </Right>
-      </InfoContainer>
-    );
-  };
-
   return (
     <StatsInfoContainer>
       <InfosContainer>
-        {/* {usd &&
+        {usd &&
           dataChart.map((info) => {
             return (
               <InfoContainer key={info.key}>
@@ -189,12 +162,8 @@ export const StatsInfo = () => {
                 </Right>
               </InfoContainer>
             );
-          })} */}
+          })}
 
-        {/* Fixme: Chart will be duplicated somehow */}
-        {dataChart && chartItem(dataChart[0])}
-        {dataChart && chartItem(dataChart[1])}
-        {dataChart && chartItem(dataChart[2])}
         <StatsWithoutChart>
           {' '}
           {usd &&
