@@ -67,8 +67,6 @@ export const InfoContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  @media (min-width: ${rem(media.xs)}) {
-  }
   @media (min-width: ${rem(media.lg)}) {
     align-items: flex-end;
   }

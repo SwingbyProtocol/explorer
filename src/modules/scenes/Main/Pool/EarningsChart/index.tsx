@@ -96,36 +96,34 @@ export const EarningsChart = () => {
   const options = {
     responsive: true,
     pointDotStrokeWidth: 0,
-    legend: { display: false },
     elements: {
       point: {
         radius: 0,
       },
     },
+    plugins: {
+      legend: { display: false },
+    },
     scales: {
-      xAxes: [
-        {
-          gridLines: {
-            display: false,
-          },
-          ticks: {
-            fontSize: 10,
-            fontColor: '#929D9D',
-          },
+      x: {
+        grid: {
+          display: false,
         },
-      ],
-      yAxes: [
-        {
-          gridLines: {
-            display: false,
-          },
-          ticks: {
-            fontColor: '#929D9D',
-            fontSize: 10,
-            padding: 20,
-          },
+        ticks: {
+          font: 10,
+          color: '#929D9D',
         },
-      ],
+      },
+      y: {
+        grid: {
+          display: false,
+        },
+        ticks: {
+          color: '#929D9D',
+          font: 10,
+          padding: 0,
+        },
+      },
     },
   };
 

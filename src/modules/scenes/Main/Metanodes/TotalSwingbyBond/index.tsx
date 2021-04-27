@@ -20,18 +20,6 @@ export const TotalSwingbyBond = (props: Props) => {
   const { formatDate } = useIntl();
   const intl = useIntl();
 
-  const bondVolumes =
-    bondHistories && bondHistories.map((it: TBondHistory) => Number(it.bond).toFixed(0));
-
-  const bondDate =
-    bondHistories &&
-    bondHistories.map((it: TBondHistory) =>
-      formatDate(it.since, {
-        month: 'short',
-        day: 'numeric',
-      }),
-    );
-
   const data = (canvas) => {
     const ctx = canvas.getContext('2d');
     const gradient = ctx.createLinearGradient(0, 0, 0, 140);
@@ -39,13 +27,12 @@ export const TotalSwingbyBond = (props: Props) => {
     gradient.addColorStop(0.8, 'rgba(255,255,255, 0.3)');
 
     return {
-      labels: bondDate && bondDate.reverse(),
       datasets: [
         {
           fill: 'start',
           backgroundColor: gradient,
           borderColor: '#31D5B8',
-          data: bondVolumes && bondVolumes.reverse(),
+          data: bondHistories.reverse(),
         },
       ],
     };
@@ -54,76 +41,83 @@ export const TotalSwingbyBond = (props: Props) => {
   const isLabelShows = (i: number) => i % 3 === 0;
 
   const options = {
+    parsing: {
+      xAxisKey: 'since',
+      yAxisKey: 'bond',
+    },
     responsive: true,
-    pointDotStrokeWidth: 0,
-    legend: { display: false },
     elements: {
       point: {
         radius: 0,
       },
     },
-
-    tooltips: {
-      displayColors: false,
-      position: 'nearest',
-      intersect: false,
-      callbacks: {
-        label: (data) => {
-          return intl.formatNumber(data.value, { style: 'currency', currency: 'USD' });
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        displayColors: false,
+        position: 'nearest',
+        intersect: false,
+        callbacks: {
+          title: (data) => {
+            const since = formatDate(data[0].label, {
+              month: 'short',
+              day: 'numeric',
+            });
+            return since;
+          },
+          label: (data) => {
+            return intl.formatNumber(data.raw.bond, { style: 'currency', currency: 'USD' });
+          },
         },
       },
     },
+
     scales: {
-      xAxes: [
-        {
-          gridLines: {
-            display: false,
-          },
-          time: {
-            round: true,
-            unit: 'date',
-            minUnit: 'date',
-          },
-          ticks: {
-            source: 'data',
-            stepSize: 2,
-            fontSize: 10,
-            fontColor: '#929D9D',
-            callback(date: string, i: number) {
-              if (i === 0) {
-                return date;
-              } else if (i === bondDate.length - 1 && isLabelShows(bondDate.length)) {
-                return date;
-              } else if (isLabelShows(i)) {
-                return date;
-              } else {
-                return '';
-              }
-            },
+      x: {
+        grid: {
+          display: false,
+        },
+        ticks: {
+          showLabelBackdrop: true,
+          stacked: true,
+          stepSize: 2,
+          font: 10,
+          color: '#929D9D',
+          callback(label: string, i: number) {
+            const value = formatDate(this.getLabelForValue(label), {
+              month: 'short',
+              day: 'numeric',
+            });
+            if (i === 0) {
+              return value;
+            } else if (i === bondHistories.length - 1 && isLabelShows(bondHistories.length)) {
+              return value;
+            } else if (isLabelShows(i)) {
+              return value;
+            } else {
+              return null;
+            }
           },
         },
-      ],
-      yAxes: [
-        {
-          gridLines: {
-            display: false,
-          },
-          ticks: {
-            source: 'data',
-            beginAtZero: false,
-            fontColor: '#929D9D',
-            fontSize: 10,
-            padding: 10,
-            callback(value: number, i: number) {
-              if (i % 2 === 0) {
-                return '$' + formatNum(value);
-              } else {
-                return '';
-              }
-            },
+      },
+
+      y: {
+        grid: {
+          display: false,
+        },
+        ticks: {
+          color: '#929D9D',
+          font: 10,
+          padding: 0,
+          callback(value: number, i: number, values) {
+            if (i % 2 === 0) {
+              return '$' + formatNum(value);
+            } else {
+              return '';
+            }
           },
         },
-      ],
+      },
     },
   };
 
