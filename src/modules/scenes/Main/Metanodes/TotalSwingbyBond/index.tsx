@@ -80,9 +80,12 @@ export const TotalSwingbyBond = (props: Props) => {
             display: false,
           },
           time: {
+            round: true,
             unit: 'date',
+            minUnit: 'date',
           },
           ticks: {
+            source: 'data',
             stepSize: 2,
             fontSize: 10,
             fontColor: '#929D9D',
@@ -106,6 +109,7 @@ export const TotalSwingbyBond = (props: Props) => {
             display: false,
           },
           ticks: {
+            source: 'data',
             beginAtZero: false,
             fontColor: '#929D9D',
             fontSize: 10,
