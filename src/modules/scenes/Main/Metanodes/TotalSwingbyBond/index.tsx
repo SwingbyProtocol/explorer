@@ -78,8 +78,6 @@ export const TotalSwingbyBond = (props: Props) => {
           display: false,
         },
         ticks: {
-          showLabelBackdrop: true,
-          stacked: true,
           stepSize: 2,
           font: 10,
           color: '#929D9D',
