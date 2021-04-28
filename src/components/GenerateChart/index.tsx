@@ -37,6 +37,7 @@ export const GenerateChart = (props: Props) => {
         ),
       datasets: [
         {
+          fill: 'start',
           backgroundColor: gradient,
           borderColor: '#31D5B8',
           data: chart && chart.map((it) => it.amount),
@@ -46,47 +47,35 @@ export const GenerateChart = (props: Props) => {
   };
 
   const options = {
+    animation: false,
     responsive: true,
     pointDotStrokeWidth: 0,
-    legend: { display: false },
     elements: {
       point: {
         radius: 0,
       },
     },
-    layout: {
-      padding: 2,
-    },
-    tooltips: {
-      displayColors: false,
-      position: 'nearest',
-      intersect: false,
-      padding: 0,
-      callbacks: {
-        label: (data) => {
-          return intl.formatNumber(data.value, { style: 'currency', currency: 'USD' });
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        displayColors: false,
+        position: 'nearest',
+        intersect: false,
+        callbacks: {
+          label: (data) => {
+            return intl.formatNumber(data.raw, { style: 'currency', currency: 'USD' });
+          },
         },
       },
     },
     scales: {
-      xAxes: [
-        {
-          display: false,
-        },
-      ],
-      yAxes: [
-        {
-          gridLines: {
-            display: false,
-          },
-          ticks: {
-            padding: 0,
-            callback() {
-              return '';
-            },
-          },
-        },
-      ],
+      x: {
+        display: false,
+      },
+
+      y: {
+        display: false,
+      },
     },
   };
 

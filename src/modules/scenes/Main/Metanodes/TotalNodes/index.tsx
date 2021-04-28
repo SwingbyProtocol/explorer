@@ -30,8 +30,11 @@ const CHURNED_IN_STATUSES = ['churned-in'];
 const MAY_CHURNED_OUT_STATUSES = ['may-churn-out--bond-too-low', 'may-churn-out--bond-expiring'];
 
 const DOUGHNUT_OPTIONS = {
-  legend: {
-    display: false,
+  animation: false,
+  plugins: {
+    legend: {
+      display: false,
+    },
   },
   elements: {
     display: true,
@@ -39,7 +42,7 @@ const DOUGHNUT_OPTIONS = {
       borderWidth: 0,
     },
   },
-  cutoutPercentage: 80,
+  cutout: 80,
 };
 
 export const TotalNodes = ({ metanodes: metanodesParam, isLoading }: Props) => {
@@ -84,7 +87,13 @@ export const TotalNodes = ({ metanodes: metanodesParam, isLoading }: Props) => {
             <TextNodeNum variant="title-s">
               <CountUp delay={1} end={totalNodeCount} duration={7} />
             </TextNodeNum>
-            <Doughnut data={data} options={DOUGHNUT_OPTIONS} width={70} height={70} />
+            <Doughnut
+              type="doughnut"
+              data={data}
+              options={DOUGHNUT_OPTIONS}
+              width={70}
+              height={70}
+            />
           </DoughnutWrapper>
           <StatusContainer>
             <Row>

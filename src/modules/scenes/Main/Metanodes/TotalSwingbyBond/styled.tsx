@@ -62,7 +62,6 @@ export const Box = styled.div`
     width: ${rem(420 * 1.3)};
   }
   @media (min-width: ${rem(media.lg)}) {
-    margin-top: ${({ theme }) => rem(theme.pulsar.size.room)};
     width: ${rem(300)};
   }
   @media (min-width: ${rem((media.lg + media.xl) / 2)}) {
@@ -84,7 +83,7 @@ export const LineContainer = styled.div`
 
 export const TitleDiv = styled.div`
   align-self: flex-start;
-  padding-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
+  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.closet)};
   margin-left: ${({ theme }) => rem(theme.pulsar.size.street)};
   display: flex;
   justify-content: space-between;
@@ -94,7 +93,6 @@ export const TitleDiv = styled.div`
     padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
   }
   @media (min-width: ${rem(media.md)}) {
-    margin-bottom: ${({ theme }) => rem(theme.pulsar.size.closet)};
   }
   @media (min-width: ${rem(media.lg)}) {
     padding-bottom: 0;

@@ -62,6 +62,7 @@ export const StatsInfo = () => {
 
   const dataChart = usd && [
     {
+      key: 'volume',
       icon: <Network />,
       description: <FormattedMessage id="home.network.volume" />,
       chart: volumes,
@@ -73,6 +74,7 @@ export const StatsInfo = () => {
       }).format(Number(stats.volume1wksBTC) * usd.BTC),
     },
     {
+      key: 'swingbyLocked',
       icon: <NetworkLock />,
       description: 'Swingby Locked',
       chart: lockHistories,
@@ -84,6 +86,7 @@ export const StatsInfo = () => {
       }).format(lockedAmount),
     },
     {
+      key: 'capacity',
       icon: <NetworkCapacity />,
       description: <FormattedMessage id="home.network.capacity" />,
       chart: floatHistories,
@@ -98,11 +101,13 @@ export const StatsInfo = () => {
 
   const data = [
     {
+      key: 'metanodes',
       icon: <NetworkMetanodes />,
       description: formattedMetanodes,
       value: stats.metanodes,
     },
     {
+      key: 'rewards',
       icon: <NetworkRewards />,
       description: formattedRewards,
       value: getFiatAssetFormatter({
@@ -132,9 +137,9 @@ export const StatsInfo = () => {
     <StatsInfoContainer>
       <InfosContainer>
         {usd &&
-          dataChart.map((info, i) => {
+          dataChart.map((info) => {
             return (
-              <InfoContainer key={i}>
+              <InfoContainer key={info.key}>
                 <Left>
                   {info.icon}
                   <DataDiv>
@@ -158,12 +163,13 @@ export const StatsInfo = () => {
               </InfoContainer>
             );
           })}
+
         <StatsWithoutChart>
           {' '}
           {usd &&
-            data.map((info, i) => {
+            data.map((info) => {
               return (
-                <InfoContainer key={i}>
+                <InfoContainer key={info.key}>
                   <DataRow>
                     {info.icon}
                     <DataDiv>
