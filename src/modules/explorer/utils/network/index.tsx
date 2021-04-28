@@ -1,5 +1,6 @@
-import { buildContext, SkybridgeBridge } from '@swingby-protocol/sdk';
+import { SkybridgeBridge } from '@swingby-protocol/sdk';
 
+import { buildChaosNodeContext } from '../../../build-node-context';
 import { CoinSymbol } from '../../../coins';
 import { getShortDate, sumArray } from '../../../common';
 import {
@@ -21,7 +22,7 @@ export const getEndpoint = async (): Promise<{ urlEth: string; urlBsc: string }>
 
   const getContext = async () => {
     try {
-      const context = await buildContext({ mode });
+      const context = await buildChaosNodeContext({ mode });
       urlEth = context && context.servers.swapNode.btc_erc;
       urlBsc = context && context.servers.swapNode.btc_bep20;
       const getFloatBalUrl = (base: string) => base + '/api/v1/floats/balances';
