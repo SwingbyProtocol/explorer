@@ -18,7 +18,7 @@ export const buildChaosNodeContext = async <M extends SkybridgeMode>({
 }: {
   mode: M;
 } & PartialDeep<Omit<SkybridgeContext<M>, 'mode'>>): Promise<SkybridgeContext<M>> => {
-  const results = await Promise.all(
+  const results: any = await Promise.all(
     SKYBRIDGE_BRIDGES.map((bridge) => getNetworkDetails({ mode, bridge })),
   );
 
@@ -51,10 +51,12 @@ export const buildChaosNodeContext = async <M extends SkybridgeMode>({
     try {
       const nodes =
         mode === 'test'
-          ? results[index]['swapNodes']
-          : results[index]['swapNodes'].filter((it: string) => getChaosNode(bridge).includes(it));
+          ? results[index]['swapNodes'].map((it) => it.restUri)
+          : results[index]['swapNodes'].filter((it) => getChaosNode(bridge).includes(it.restUri));
 
-      return nodes[randomInt(0, results[index][from].length - 1)] || null;
+      const url = (nodes && nodes[randomInt(0, results[index][from].length - 1)].restUri) || null;
+
+      return url;
     } catch (e) {
       console.error('wat', e, JSON.stringify(results));
       return null;

@@ -26,6 +26,7 @@ export const getEndpoint = async (): Promise<{ urlEth: string; urlBsc: string }>
       urlEth = context && context.servers.swapNode.btc_erc;
       urlBsc = context && context.servers.swapNode.btc_bep20;
       const getFloatBalUrl = (base: string) => base + '/api/v1/floats/balances';
+      console.log('getFloatBalUrl(urlEth)', getFloatBalUrl(urlEth));
       const results =
         context &&
         (await Promise.all([

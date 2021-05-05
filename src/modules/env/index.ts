@@ -57,7 +57,7 @@ export const infuraApiKey =
 
 export const appName = 'Swingby Explorer';
 
-export const ENDPOINT_SKYBRIDGE_EXCHANGE = 'https://network.skybridge.exchange/api/v2';
+export const ENDPOINT_SKYBRIDGE_EXCHANGE = 'https://network.skybridge.exchange/api/v3';
 
 export const ENDPOINT_ETHEREUM_BRIDGE = 'https://btc-wbtc-mainnet.quantexe.com';
 export const ENDPOINT_BSC_BRIDGE = 'https://btc-bsc-mainnet.quantexe.com';
