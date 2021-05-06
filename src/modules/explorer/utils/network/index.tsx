@@ -1,5 +1,4 @@
 import { SkybridgeBridge } from '@swingby-protocol/sdk';
-import { error } from 'node:console';
 
 import { buildChaosNodeContext } from '../../../build-node-context';
 import { CoinSymbol } from '../../../coins';
