@@ -26,7 +26,7 @@ export const getEndpoint = async (): Promise<{ urlEth: string; urlBsc: string }>
       urlEth = context && context.servers.swapNode.btc_erc;
       urlBsc = context && context.servers.swapNode.btc_bep20;
       const getFloatBalUrl = (base: string) => base + '/api/v1/floats/balances';
-      console.log('getFloatBalUrl(urlEth)', getFloatBalUrl(urlEth));
+
       const results =
         context &&
         (await Promise.all([
@@ -105,15 +105,20 @@ export const getUsdPrice = async (currency: string): Promise<number> => {
 
 export const fetchVwap = async (currency: 'btcUsd' | 'swingbyUsd'): Promise<number> => {
   const url = `${CACHED_ENDPOINT}/v1/vwap-prices`;
-  const res = await fetcher<{
-    btcUsd: string;
-    swingbyUsd: string;
-  }>(url);
+  try {
+    const res = await fetcher<{
+      btcUsd: string;
+      swingbyUsd: string;
+    }>(url);
 
-  const vwap = Number(res[currency]);
+    const vwap = Number(res[currency]);
 
-  const formattedVwap = Number(vwap.toFixed(4));
-  return formattedVwap;
+    const formattedVwap = Number(vwap.toFixed(4));
+    return formattedVwap;
+  } catch (error) {
+    console.log('error', error);
+    return 0;
+  }
 };
 
 export const getFloatBalance = (currency: string, floatInfos: IFloatAmount[]): string => {
