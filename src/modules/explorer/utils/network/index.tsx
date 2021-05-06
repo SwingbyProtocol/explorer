@@ -26,7 +26,7 @@ export const getEndpoint = async (): Promise<{ urlEth: string; urlBsc: string }>
       urlEth = context && context.servers.swapNode.btc_erc;
       urlBsc = context && context.servers.swapNode.btc_bep20;
       const getFloatBalUrl = (base: string) => base + '/api/v1/floats/balances';
-      console.log('getFloatBalUrl(urlEth)', getFloatBalUrl(urlEth));
+
       const results =
         context &&
         (await Promise.all([
@@ -110,8 +110,8 @@ export const fetchVwap = async (currency: 'btcUsd' | 'swingbyUsd'): Promise<numb
     swingbyUsd: string;
   }>(url);
 
-  const vwap = Number(res[currency]);
-
+  // Memo: Try catch won't works since always return value (500 is not goes to `catch`)
+  const vwap = Number(res[currency] ? res[currency] : 0);
   const formattedVwap = Number(vwap.toFixed(4));
   return formattedVwap;
 };
