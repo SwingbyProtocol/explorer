@@ -1,4 +1,5 @@
 import { SkybridgeBridge } from '@swingby-protocol/sdk';
+import { error } from 'node:console';
 
 import { buildChaosNodeContext } from '../../../build-node-context';
 import { CoinSymbol } from '../../../coins';
@@ -105,15 +106,20 @@ export const getUsdPrice = async (currency: string): Promise<number> => {
 
 export const fetchVwap = async (currency: 'btcUsd' | 'swingbyUsd'): Promise<number> => {
   const url = `${CACHED_ENDPOINT}/v1/vwap-prices`;
-  const res = await fetcher<{
-    btcUsd: string;
-    swingbyUsd: string;
-  }>(url);
+  try {
+    const res = await fetcher<{
+      btcUsd: string;
+      swingbyUsd: string;
+    }>(url);
 
-  // Memo: Try catch won't works since always return value (500 is not goes to `catch`)
-  const vwap = Number(res[currency] ? res[currency] : 0);
-  const formattedVwap = Number(vwap.toFixed(4));
-  return formattedVwap;
+    const vwap = Number(res[currency]);
+
+    const formattedVwap = Number(vwap.toFixed(4));
+    return formattedVwap;
+  } catch (error) {
+    console.log('error', error);
+    return 0;
+  }
 };
 
 export const getFloatBalance = (currency: string, floatInfos: IFloatAmount[]): string => {
