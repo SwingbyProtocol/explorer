@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import { CACHED_ENDPOINT, mode, PATH } from '../../env';
+import { CACHED_ENDPOINT, ENDPOINT_SKYBRIDGE_EXCHANGE, mode, PATH } from '../../env';
 import { fetcher } from '../../fetch';
 import {
   fetchNodeList,
@@ -29,7 +29,8 @@ export const useToggleMetanode = (path: PATH) => {
   const [liquidityRatio, setLiquidityRatio] = useState<ILiquidityRatio[] | null>(null);
 
   const getChurnTime = useCallback(async () => {
-    const churnUrl = bridge && `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/churn`;
+    const churnUrl = bridge && `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/churn-info`;
+
     const result = await fetcher<IChurn>(churnUrl);
     setChurnTime(result);
   }, [bridge]);
