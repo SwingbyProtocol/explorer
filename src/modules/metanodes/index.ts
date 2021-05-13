@@ -12,23 +12,20 @@ export {
 } from './utils';
 
 export interface INodeListResponse {
+  addresses: string[];
+  bondAddress: string;
+  bondAmount: string;
+  bondExpiresAt: string;
   id: string;
-  ip: {
-    address: string;
-    regionCode: string;
-    regionName: string;
-  };
+  ip: string;
+  lastSeenAt: string;
+  moniker: string;
+  p2pHost: string;
+  regionCode: string;
+  regionName: string;
+  restUri: string;
   status: TChurnStatus;
   version: string;
-  moniker: string;
-  restUri: string;
-  p2pUri: string;
-  addresses: string[];
-  stake: {
-    address: string;
-    amount: string;
-    expiresAt: string;
-  };
 }
 
 export interface INodeEarningsResponse {

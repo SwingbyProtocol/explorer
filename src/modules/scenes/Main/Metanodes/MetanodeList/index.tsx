@@ -99,12 +99,12 @@ export const MetanodeList = (props: Props) => {
               displaySymbol: '',
               minimumFractionDigits: 0,
               maximumFractionDigits: 0,
-            }).format(Number(node.stake.amount));
+            }).format(Number(node.bondAmount));
 
-            const dt = DateTime.fromISO(node.stake.expiresAt);
+            const dt = DateTime.fromISO(node.bondExpiresAt);
             const expireTimestamp = dt.toSeconds();
             const expireTime = convertDateTime(expireTimestamp);
-            const lockedUsdValue = Number(node.stake.amount) * usd.SWINGBY;
+            const lockedUsdValue = Number(node.bondAmount) * usd.SWINGBY;
             const lockedPortion = Number((lockedUsdValue / tvlUsd) * 100).toFixed(2);
 
             const isNoRequiredTooltip =
@@ -115,8 +115,8 @@ export const MetanodeList = (props: Props) => {
                 <ColumnLeft>
                   <Location>
                     <ImgFlag
-                      alt={node.ip.regionCode}
-                      src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${node.ip.regionCode}.svg`}
+                      alt={node.regionCode}
+                      src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${node.regionCode}.svg`}
                     />
                     <NodeStatus>
                       <ColumnNodeName>

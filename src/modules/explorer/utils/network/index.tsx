@@ -4,10 +4,10 @@ import { buildChaosNodeContext } from '../../../build-node-context';
 import { CoinSymbol } from '../../../coins';
 import { getShortDate, sumArray } from '../../../common';
 import {
-  CACHED_ENDPOINT,
   ENDPOINT_BSC_BRIDGE,
   ENDPOINT_COINGECKO,
   ENDPOINT_ETHEREUM_BRIDGE,
+  ENDPOINT_SKYBRIDGE_EXCHANGE,
   isEnableBscSupport,
   mode,
 } from '../../../env';
@@ -104,7 +104,7 @@ export const getUsdPrice = async (currency: string): Promise<number> => {
 };
 
 export const fetchVwap = async (currency: 'btcUsd' | 'swingbyUsd'): Promise<number> => {
-  const url = `${CACHED_ENDPOINT}/v1/vwap-prices`;
+  const url = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/vwap-prices`;
   try {
     const res = await fetcher<{
       btcUsd: string;
@@ -289,9 +289,9 @@ const getVolumes = (arg: getVolumesArg): IChartDate[] => {
 export const fetchStatsInfo = async (bridge: SkybridgeBridge, usdBtc: number): Promise<IStats> => {
   const getBridgeUrl = (endpoint: string) => endpoint + '/api/v1/swaps/stats';
   const getbridgePeersUrl = (bridge: SkybridgeBridge) =>
-    CACHED_ENDPOINT + `/v1/${mode}/${bridge}/nodes`;
+    `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/nodes`;
   const getRewardsUrl = (bridge: SkybridgeBridge) =>
-    CACHED_ENDPOINT + `/v1/${mode}/${bridge}/rewards-last-week`;
+    `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/rewards-last-week`;
 
   try {
     const { urlEth, urlBsc } = await getEndpoint();

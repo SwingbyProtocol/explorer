@@ -2,13 +2,14 @@ import { SkybridgeBridge } from '@swingby-protocol/sdk';
 
 import { IBondHistories, INodeListResponse, INodeStatusTable, TBondHistory } from '..';
 import { getShortDate } from '../../common';
-import { CACHED_ENDPOINT, mode } from '../../env';
+import { CACHED_ENDPOINT, ENDPOINT_SKYBRIDGE_EXCHANGE, mode } from '../../env';
 import { IChartDate } from '../../explorer';
 import { camelize, fetch, fetcher } from '../../fetch';
 import { IFloatHistory, IFloatHistoryObject } from '../../hooks';
 
 export const fetchNodeList = async (bridge: SkybridgeBridge) => {
-  const url = `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/nodes`;
+  const url = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/nodes`;
+  console.log('url', url);
 
   try {
     const result = await fetch<INodeListResponse[]>(url);
