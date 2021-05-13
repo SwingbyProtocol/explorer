@@ -9,7 +9,6 @@ import { IFloatHistory, IFloatHistoryObject } from '../../hooks';
 
 export const fetchNodeList = async (bridge: SkybridgeBridge) => {
   const url = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/nodes`;
-  console.log('url', url);
 
   try {
     const result = await fetch<INodeListResponse[]>(url);
@@ -81,7 +80,7 @@ export const listNodeStatus = (nodes: INodeListResponse[]): INodeStatusTable[] =
 export const calTvl = (metanodes: INodeListResponse[]) => {
   let tvl = 0;
   metanodes.forEach((metanode) => {
-    tvl += Number(metanode.stake.amount);
+    tvl += Number(metanode.bondAmount);
   });
   return tvl;
 };
