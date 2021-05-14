@@ -59,8 +59,6 @@ export const useToggleMetanode = (path: PATH) => {
         const bondHistoriesData = results[3].data;
         const liquidityRationData = results[4].data;
 
-        console.log('nodes', nodes);
-
         setMetanodes(nodes);
         setReward(rewardData);
         setLiquidity(liquidityData);

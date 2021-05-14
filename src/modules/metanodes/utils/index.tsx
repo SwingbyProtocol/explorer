@@ -5,7 +5,7 @@ import { getShortDate } from '../../common';
 import { CACHED_ENDPOINT, ENDPOINT_SKYBRIDGE_EXCHANGE, mode } from '../../env';
 import { IChartDate } from '../../explorer';
 import { camelize, fetch, fetcher } from '../../fetch';
-import { IFloatHistory, IFloatHistoryObject } from '../../hooks';
+import { IFloatHistoryObject } from '../../hooks';
 
 export const fetchNodeList = async (bridge: SkybridgeBridge) => {
   const url = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/nodes`;
@@ -85,14 +85,6 @@ export const calTvl = (metanodes: INodeListResponse[]) => {
   return tvl;
 };
 
-const sumFloatAmount = (floatHistories: IFloatHistory[]) => {
-  let amount = 0;
-  floatHistories.forEach((it: IFloatHistory) => {
-    amount += Number(it.amount);
-  });
-  return String(amount);
-};
-
 export const listFloatAmountHistories = (histories: IFloatHistoryObject[]): IChartDate[] => {
   let dateLookUpTable: string[] = [];
   let historiesTable: IChartDate[] = [];
@@ -103,7 +95,7 @@ export const listFloatAmountHistories = (histories: IFloatHistoryObject[]): ICha
     if (!dateLookUpTable.includes(date)) {
       const item: IChartDate = {
         at: date,
-        amount: sumFloatAmount(history.data),
+        amount: history.totalUsd,
       };
       dateLookUpTable.push(date);
       historiesTable.push(item);
@@ -193,22 +185,16 @@ export const mergeLockedArray = (
   return mergedArray;
 };
 
-export const getLockedHistory = async (bridge: string) => {
-  if (bridge) {
-    const url = `${CACHED_ENDPOINT}/v1/production/${bridge}/bonded-historic`;
-    const rawData = await fetcher<IBondHistories>(url);
-    return formatHistoriesArray(rawData);
-  } else {
-    const urlBtcEth = `${CACHED_ENDPOINT}/v1/production/btc_erc/bonded-historic`;
-    const urlBtcBsc = `${CACHED_ENDPOINT}/v1/production/btc_bep20/bonded-historic`;
+export const getLockedHistory = async () => {
+  const urlBtcEth = `${CACHED_ENDPOINT}/v1/production/btc_erc/bonded-historic`;
+  const urlBtcBsc = `${CACHED_ENDPOINT}/v1/production/btc_bep20/bonded-historic`;
 
-    const results = await Promise.all([
-      fetcher<IBondHistories>(urlBtcEth),
-      fetcher<IBondHistories>(urlBtcBsc),
-    ]);
-    const lockedHistoryEth = formatHistoriesArray(results[0]);
-    const lockedHistoryBsc = formatHistoriesArray(results[1]);
-    const mergedArray = mergeLockedArray(lockedHistoryEth, lockedHistoryBsc);
-    return listLockHistories(mergedArray);
-  }
+  const results = await Promise.all([
+    fetcher<IBondHistories>(urlBtcEth),
+    fetcher<IBondHistories>(urlBtcBsc),
+  ]);
+  const lockedHistoryEth = formatHistoriesArray(results[0]);
+  const lockedHistoryBsc = formatHistoriesArray(results[1]);
+  const mergedArray = mergeLockedArray(lockedHistoryEth, lockedHistoryBsc);
+  return listLockHistories(mergedArray);
 };

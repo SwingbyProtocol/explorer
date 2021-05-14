@@ -2,37 +2,31 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { IFloatHistoryObject } from '..';
-import { CACHED_ENDPOINT, PATH } from '../../env';
+import { ENDPOINT_SKYBRIDGE_EXCHANGE } from '../../env';
 import { fetcher } from '../../fetch';
-import { listFloatAmountHistories, getLockedHistory } from '../../metanodes';
-import { initalVolumes } from '../../store';
-import { useToggleBridge } from '../useToggleBridge';
+import { getLockedHistory, listFloatAmountHistories } from '../../metanodes';
+import { initialVolumes } from '../../store';
 
 export const useGetStatsChartData = () => {
-  const { bridge } = useToggleBridge(PATH.ROOT);
   const volumes = useSelector((state) => state.explorer.networkInfos.stats.volumes);
-  const [floatHistories, setFloatHistories] = useState(initalVolumes);
-  const [lockHistories, setLockHistories] = useState(initalVolumes);
+  const [floatHistories, setFloatHistories] = useState(initialVolumes);
+  const [lockHistories, setLockHistories] = useState(initialVolumes);
 
-  const getFloatHistory = async (bridge: string) => {
-    let url = '';
-    if (bridge) {
-      url = `${CACHED_ENDPOINT}/v1/production/${bridge}/float-historic`;
-    } else {
-      url = `${CACHED_ENDPOINT}/v1/production/float-historic`;
-    }
+  const getFloatHistory = async () => {
+    const url = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/production/float-historic`;
+
     const data = await fetcher<IFloatHistoryObject[]>(url);
     return data;
   };
 
   useEffect(() => {
     (async () => {
-      const results = await Promise.all([getFloatHistory(bridge), getLockedHistory(bridge)]);
+      const results = await Promise.all([getFloatHistory(), getLockedHistory()]);
       const floatHistoriesData = listFloatAmountHistories(results[0]);
       setFloatHistories(floatHistoriesData);
       setLockHistories(results[1]);
     })();
-  }, [bridge]);
+  }, []);
 
   return { volumes, floatHistories, lockHistories };
 };

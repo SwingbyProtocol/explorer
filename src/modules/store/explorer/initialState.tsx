@@ -1,5 +1,5 @@
 const intialVolume = { at: '1-Jan', amount: '1' };
-export const initalVolumes = [
+export const initialVolumes = [
   intialVolume,
   intialVolume,
   intialVolume,
@@ -16,7 +16,7 @@ export const networkInfos = {
     volume1wksBTCB: 0,
     volume1wksBTC: 0,
     rewards1wksUSD: 0,
-    volumes: initalVolumes,
+    volumes: initialVolumes,
     metanodes: 0,
   },
 };
