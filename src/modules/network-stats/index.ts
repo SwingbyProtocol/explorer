@@ -3,14 +3,19 @@ import { SkybridgeBridge } from '@swingby-protocol/sdk';
 
 import { CoinSymbol } from '../coins';
 import { sumArray } from '../common';
-import { CACHED_ENDPOINT, ENDPOINT_BSC_BRIDGE, ENDPOINT_ETHEREUM_BRIDGE } from '../env';
+import {
+  CACHED_ENDPOINT,
+  ENDPOINT_BSC_BRIDGE,
+  ENDPOINT_ETHEREUM_BRIDGE,
+  ENDPOINT_SKYBRIDGE_EXCHANGE,
+} from '../env';
 import { castToBackendVariable, getUsdPrice, IFloatAmount, getFloatBalance } from '../explorer';
 import { fetcher } from '../fetch';
 import { IBondHistories, INodeListResponse } from '../metanodes';
 
 export const getNodeQty = async (): Promise<string> => {
   const getbridgePeersUrl = (bridge: SkybridgeBridge) =>
-    CACHED_ENDPOINT + `/v1/production/${bridge}/nodes`;
+    `${ENDPOINT_SKYBRIDGE_EXCHANGE}/production/${bridge}/nodes`;
 
   try {
     const results = await Promise.all([

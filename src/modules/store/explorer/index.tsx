@@ -4,7 +4,7 @@ import { IFee, IFetchUsd, INetworkInfos, ITransactions, TTxRawObject } from '../
 
 import * as initial from './initialState';
 
-export { networkInfos, initalVolumes } from './initialState';
+export { networkInfos, initialVolumes } from './initialState';
 
 enum Actions {
   ToggleIsLoading = 'Explorer/TOGGLE_IS_LOADING',

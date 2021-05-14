@@ -39,10 +39,10 @@ export const useToggleMetanode = (path: PATH) => {
     setIsLoading(true);
     (async () => {
       if (bridge && path === PATH.METANODES) {
-        const rewardsUrl = `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/rewards-last-week`;
+        const rewardsUrl = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/rewards-last-week`;
         const liquidityUrl = `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/bond-to-liquidity`;
         const bondHistoryUrl = `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/bonded-historic`;
-        const liquidityRatioUrl = `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/liquidity-ratio`;
+        const liquidityRatioUrl = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/liquidity-ratio`;
 
         const results = await Promise.all([
           fetchNodeList(bridge),
@@ -66,14 +66,14 @@ export const useToggleMetanode = (path: PATH) => {
         setLiquidityRatio(liquidityRationData);
         setIsLoading(false);
       } else if (bridge && path === PATH.ROOT) {
-        const rewardsUrl = `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/rewards-last-week`;
+        const rewardsUrl = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/rewards-last-week`;
         const rewardData = await fetcher<IReward>(rewardsUrl);
         setReward(rewardData);
         setIsLoading(false);
       } else {
         // Memo: path === Root && bridge === '' (Multi-bridge)
-        const ercRewardsUrl = `${CACHED_ENDPOINT}/v1/${mode}/btc_erc/rewards-last-week`;
-        const bscRewardsUrl = `${CACHED_ENDPOINT}/v1/${mode}/btc_bep20/rewards-last-week`;
+        const ercRewardsUrl = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/btc_erc/rewards-last-week`;
+        const bscRewardsUrl = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/btc_bep20/rewards-last-week`;
 
         const results = await Promise.all([
           fetcher<IReward>(ercRewardsUrl),
