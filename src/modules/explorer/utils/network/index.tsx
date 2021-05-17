@@ -25,14 +25,17 @@ export const getEndpoint = async (): Promise<{ urlEth: string; urlBsc: string }>
       const context = await buildChaosNodeContext({ mode });
       urlEth = context && context.servers.swapNode.btc_erc;
       urlBsc = context && context.servers.swapNode.btc_bep20;
+
+      if (!urlEth || !urlBsc) {
+        throw Error('retry for getting context');
+      }
+
       const getFloatBalUrl = (base: string) => base + '/api/v1/floats/balances';
 
-      const results =
-        context &&
-        (await Promise.all([
-          fetcher<IFloatAmount[]>(getFloatBalUrl(urlEth)),
-          fetcher<IFloatAmount[]>(getFloatBalUrl(urlBsc)),
-        ]));
+      const results = await Promise.all([
+        fetcher<IFloatAmount[]>(getFloatBalUrl(urlEth)),
+        fetcher<IFloatAmount[]>(getFloatBalUrl(urlBsc)),
+      ]);
       if (results) {
         return { urlEth, urlBsc };
       }
