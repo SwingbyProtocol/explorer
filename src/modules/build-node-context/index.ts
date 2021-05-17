@@ -52,13 +52,14 @@ export const buildChaosNodeContext = async <M extends SkybridgeMode>({
       const nodes =
         mode === 'test'
           ? results[index]['swapNodes'].map((it) => it.restUri)
-          : results[index]['swapNodes'].filter((it) => getChaosNode(bridge).includes(it.restUri));
+          : results[index]['swapNodes']
+              .filter((it) => getChaosNode(bridge).includes(it.restUri))
+              .map((it) => it.restUri);
 
-      const url = nodes && nodes[randomInt(0, results[index][from].length - 1)].restUri;
+      const url = nodes && nodes[randomInt(0, results[index][from].length - 1)];
 
       return url;
     } catch (e) {
-      console.error('wat', e, JSON.stringify(results));
       return null;
     }
   };

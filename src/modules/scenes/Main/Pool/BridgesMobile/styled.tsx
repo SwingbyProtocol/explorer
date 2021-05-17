@@ -11,6 +11,8 @@ export const BridgesMobileContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: ${({ theme }) => rem(theme.pulsar.size.drawer)};
+  padding-left: ${({ theme }) => rem(theme.pulsar.size.box)};
+  padding-right: ${({ theme }) => rem(theme.pulsar.size.box)};
   @media (min-width: ${rem(media.md)}) {
     display: none;
   }
@@ -18,6 +20,7 @@ export const BridgesMobileContainer = styled.div`
 
 export const DropTargetBridges = styled(Dropdown.DefaultTarget)`
   padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
+  padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
 `;
 
 export const TextTitle = styled(Text)`

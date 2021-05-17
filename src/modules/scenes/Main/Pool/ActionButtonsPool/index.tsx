@@ -1,3 +1,5 @@
+import { useMatchMedia } from '@swingby-protocol/pulsar';
+import { rem } from 'polished';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,6 +9,7 @@ import { useTheme } from 'styled-components';
 import { useGetLiquidityApr } from '../../../../hooks';
 import { PoolMode } from '../../../../pool';
 import { togglePoolMode } from '../../../../store';
+import { StylingConstants } from '../../../../styles';
 import { ButtonScale, IconArrowLeft } from '../../../Common';
 
 import { ActionButtonsPoolContainer, Buttons, RowText, TextAPR, TextTitle } from './styled';
@@ -17,6 +20,9 @@ export const ActionButtonsPool = () => {
   const mode = useSelector((state) => state.pool.mode);
 
   const { estimateApr, isLoading } = useGetLiquidityApr();
+
+  const { media } = StylingConstants;
+  const sm = useMatchMedia({ query: `(min-width: ${rem(media.sm)})` });
 
   const placeholderLoader = (
     <PulseLoader margin={3} size={4} color={theme.pulsar.color.text.normal} />
@@ -47,7 +53,7 @@ export const ActionButtonsPool = () => {
           size="city"
           onClick={() => dispatch(togglePoolMode(PoolMode.AddLiquidity))}
         >
-          <FormattedMessage id="pool.add-liquidity" />
+          <FormattedMessage id="pool.add-liquidity" values={{ value: sm && '+ ' }} />
         </ButtonScale>
       </Buttons>
     </ActionButtonsPoolContainer>
