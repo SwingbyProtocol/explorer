@@ -30,6 +30,7 @@ export const TotalSwingbyBond = (props: Props) => {
       datasets: [
         {
           fill: 'start',
+          tension: 0.4,
           backgroundColor: gradient,
           borderColor: '#31D5B8',
           data: bondHistories && bondHistories.reverse(),

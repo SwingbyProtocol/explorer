@@ -38,6 +38,7 @@ export const GenerateChart = (props: Props) => {
       datasets: [
         {
           fill: 'start',
+          tension: 0.4,
           backgroundColor: gradient,
           borderColor: '#31D5B8',
           data: chart && chart.map((it) => it.amount),
