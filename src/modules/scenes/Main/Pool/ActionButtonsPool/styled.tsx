@@ -10,7 +10,15 @@ export const ActionButtonsPoolContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: ${({ theme }) => rem(theme.pulsar.size.house)};
   margin-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
+  padding-left: ${({ theme }) => rem(theme.pulsar.size.box)};
+  padding-right: ${({ theme }) => rem(theme.pulsar.size.box)};
+  @media (min-width: ${rem(media.md)}) {
+    margin-top: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
 `;
 
 export const RowText = styled.div`
@@ -27,7 +35,7 @@ export const RowText = styled.div`
 export const Buttons = styled.div`
   display: grid;
   grid-template-columns: auto auto;
-  grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.drawer)};
+  grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.closet)};
   @media (min-width: ${rem(media.sm)}) {
     grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.house)};
   }

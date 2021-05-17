@@ -60,7 +60,6 @@ export const buildChaosNodeContext = async <M extends SkybridgeMode>({
 
       return url;
     } catch (e) {
-      console.error('wat', e, JSON.stringify(results));
       return null;
     }
   };

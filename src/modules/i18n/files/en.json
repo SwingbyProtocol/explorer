@@ -92,7 +92,7 @@
   "pool.usd": "($USD)",
   "pool.apr": "APR: ",
   "pool.withdraw": "Withdraw",
-  "pool.add-liquidity": "+ Add Liquidity",
+  "pool.add-liquidity": "{value}Add Liquidity",
   "pool.bridges": "Bridges",
   "pool.connectWallet": "Connect Wallet",
   "pool.transactions": "Transactions",
