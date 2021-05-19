@@ -105,44 +105,27 @@ export const listFloatAmountHistories = (histories: IFloatHistoryObject[]): ICha
   return historiesTable.reverse();
 };
 
-export const listLockHistories = (locks: IChartDate[]): IChartDate[] => {
-  let dateLookUpTable: string[] = [];
-  let locksTable: IChartDate[] = [];
-
-  locks.forEach((lock: IChartDate) => {
-    const date = lock.at;
-    if (dateLookUpTable.includes(date)) {
-      locksTable = locksTable.map((item: IChartDate) => {
-        if (item.at === date) {
-          return {
-            at: date,
-            amount: item.amount + lock.amount,
-          };
-        } else {
-          return item;
-        }
-      });
-    } else {
-      const item: IChartDate = {
-        at: lock.at,
-        amount: lock.amount,
-      };
-      dateLookUpTable.push(date);
-      locksTable.push(item);
-    }
-  });
-
-  return locksTable;
+export const removeDuplicatedAt = (locks: IChartDate[]): IChartDate[] => {
+  // Memo: Remove duplicated 'at'
+  return locks.filter((v, i, a) => a.findIndex((t) => t.at === v.at) === i);
 };
 
 const formatHistoriesArray = (rawData: IBondHistories) => {
-  const data = rawData.data.map((it: TBondHistory) => {
-    return {
-      at: getShortDate(it.since),
-      amount: it.bond,
-    };
+  let historiesLookUpTable: string[] = [];
+  let historiesTable: IChartDate[] = [];
+
+  rawData.data.forEach((it: TBondHistory) => {
+    const date = getShortDate(it.since);
+    if (!historiesLookUpTable.includes(date)) {
+      const item: IChartDate = {
+        at: date,
+        amount: it.bond,
+      };
+      historiesLookUpTable.push(date);
+      historiesTable.push(item);
+    }
   });
-  return data.reverse();
+  return historiesTable.reverse();
 };
 
 export const mergeLockedArray = (
@@ -154,7 +137,7 @@ export const mergeLockedArray = (
   const pushToMergedArray = (baseArray: IChartDate[], targetArray: IChartDate[]): void => {
     baseArray.forEach((base) => {
       const targetLookUpArray = targetArray.filter(
-        (target) => new Date(base.at) > new Date(target.at),
+        (target) => new Date(base.at) >= new Date(target.at),
       );
       const lockUpLastElement =
         targetLookUpArray && targetLookUpArray[targetLookUpArray.length - 1];
@@ -186,8 +169,8 @@ export const mergeLockedArray = (
 };
 
 export const getLockedHistory = async () => {
-  const urlBtcEth = `${CACHED_ENDPOINT}/v1/production/btc_erc/bonded-historic`;
-  const urlBtcBsc = `${CACHED_ENDPOINT}/v1/production/btc_bep20/bonded-historic`;
+  const urlBtcEth = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/production/btc_erc/bonded-historic`;
+  const urlBtcBsc = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/production/btc_bep20/bonded-historic`;
 
   const results = await Promise.all([
     fetcher<IBondHistories>(urlBtcEth),
@@ -196,5 +179,8 @@ export const getLockedHistory = async () => {
   const lockedHistoryEth = formatHistoriesArray(results[0]);
   const lockedHistoryBsc = formatHistoriesArray(results[1]);
   const mergedArray = mergeLockedArray(lockedHistoryEth, lockedHistoryBsc);
-  return listLockHistories(mergedArray);
+
+  // Memo: Remove duplicated 'at'
+  const listedLockHistories = removeDuplicatedAt(mergedArray);
+  return listedLockHistories;
 };

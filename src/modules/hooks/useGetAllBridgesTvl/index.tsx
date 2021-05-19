@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { CACHED_ENDPOINT, mode, PATH } from '../../env';
+import { ENDPOINT_SKYBRIDGE_EXCHANGE, mode, PATH } from '../../env';
 import { fetcher } from '../../fetch';
 import { IBondHistories } from '../../metanodes';
 import { toggleIsLoading } from '../../store';
@@ -38,8 +38,8 @@ export const useGetAllBridgesTvl = (path: PATH) => {
     dispatch(toggleIsLoading(true));
     isNoLoading(path) &&
       (async () => {
-        const urlBondEth = `${CACHED_ENDPOINT}/v1/${mode}/btc_erc/bonded-historic`;
-        const urlBondBsc = `${CACHED_ENDPOINT}/v1/${mode}/btc_bep20/bonded-historic`;
+        const urlBondEth = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/btc_erc/bonded-historic`;
+        const urlBondBsc = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/btc_bep20/bonded-historic`;
 
         const results = await Promise.all([
           fetcher<IBondHistories>(urlBondEth),
