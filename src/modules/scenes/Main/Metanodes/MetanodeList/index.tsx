@@ -52,7 +52,7 @@ interface Props {
 export const MetanodeList = (props: Props) => {
   const { locale } = useIntl();
   const { metanodes, bridge, isLoading } = props;
-  const tvl = useGetBridgesTvl(PATH.METANODES);
+  const { tvl } = useGetBridgesTvl(PATH.METANODES);
   const usd = useSelector((state) => state.explorer.usd);
   const tvlUsd = tvl[bridge];
   const swingbyRewardCurrency = 'BEP2';
@@ -91,6 +91,7 @@ export const MetanodeList = (props: Props) => {
         </Row>
         {!isLoading &&
           metanodes &&
+          tvlUsd > 0 &&
           metanodes.map((node: INodeListResponse, i: number) => {
             const bnbAddress = node.addresses[0];
             const ethAddress = node.addresses[1];
