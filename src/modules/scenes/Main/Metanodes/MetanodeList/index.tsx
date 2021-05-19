@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 
 import { PATH } from '../../../../env';
 import { convertDateTime, getDiffDays } from '../../../../explorer';
-import { useGetAllBridgesTvl } from '../../../../hooks';
+import { useGetBridgesTvl } from '../../../../hooks';
 import {
   getSbBtcRewardCurrency,
   INodeListResponse,
@@ -52,9 +52,9 @@ interface Props {
 export const MetanodeList = (props: Props) => {
   const { locale } = useIntl();
   const { metanodes, bridge, isLoading } = props;
-  const { tvl } = useGetAllBridgesTvl(PATH.METANODES);
+  const tvl = useGetBridgesTvl(PATH.METANODES);
   const usd = useSelector((state) => state.explorer.usd);
-  const tvlUsd = tvl.metanodeLocked[bridge];
+  const tvlUsd = tvl[bridge];
   const swingbyRewardCurrency = 'BEP2';
   const sbBTCRewardCurrency = bridge && getSbBtcRewardCurrency(bridge);
 

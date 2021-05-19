@@ -46,6 +46,7 @@ export const StatsInfo = () => {
   const stats = useSelector((state) => state.explorer.networkInfos.stats);
   const usd = useSelector((state) => state.explorer.usd);
   const isLoading = useSelector((state) => state.explorer.isLoading);
+
   const { bridge, reward, isLoading: isLoadingMetanode } = useToggleMetanode(PATH.ROOT);
   const {
     volumes,
@@ -163,7 +164,7 @@ export const StatsInfo = () => {
                 </Left>
                 <Right>
                   <ChartBox>
-                    <GenerateChart chart={info.chart} />
+                    <GenerateChart chart={info.chart} isLoading={isLoadingAll} />
                   </ChartBox>
                 </Right>
               </InfoContainer>
@@ -171,7 +172,6 @@ export const StatsInfo = () => {
           })}
 
         <StatsWithoutChart>
-          {' '}
           {usd &&
             data.map((info) => {
               return (
