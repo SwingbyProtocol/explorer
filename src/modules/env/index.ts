@@ -90,8 +90,6 @@ export const BTC_EXPLORER =
     ? 'https://www.blockchain.com/btc'
     : 'https://www.blockchain.com/btc-testnet';
 
-export const CACHED_ENDPOINT = 'https://metanode-earnings.vercel.app/api';
-
 export const CONTRACT_SB_BTC =
   mode === MODE.PRODUCTION
     ? CONTRACTS.coins.sbBTC.production.address

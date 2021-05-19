@@ -2,7 +2,7 @@ import { SkybridgeBridge } from '@swingby-protocol/sdk';
 
 import { IBondHistories, INodeListResponse, INodeStatusTable, TBondHistory } from '..';
 import { getShortDate } from '../../common';
-import { CACHED_ENDPOINT, ENDPOINT_SKYBRIDGE_EXCHANGE, mode } from '../../env';
+import { ENDPOINT_SKYBRIDGE_EXCHANGE, mode } from '../../env';
 import { IChartDate } from '../../explorer';
 import { camelize, fetch, fetcher } from '../../fetch';
 import { IFloatHistoryObject } from '../../hooks';
@@ -20,7 +20,7 @@ export const fetchNodeList = async (bridge: SkybridgeBridge) => {
 };
 
 export const fetchNodeEarningsList = async () => {
-  const url = `${CACHED_ENDPOINT}/v1/${mode}/rewards/ranking`;
+  const url = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/rewards/ranking`;
   const result = await fetch<
     Array<{
       address: string;
