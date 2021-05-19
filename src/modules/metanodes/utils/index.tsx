@@ -168,7 +168,7 @@ export const mergeLockedArray = (
   return mergedArray;
 };
 
-export const getLockedHistory = async () => {
+export const getLockedHistory = async (bridge: SkybridgeBridge) => {
   const urlBtcEth = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/production/btc_erc/bonded-historic`;
   const urlBtcBsc = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/production/btc_bep20/bonded-historic`;
 
@@ -176,11 +176,18 @@ export const getLockedHistory = async () => {
     fetcher<IBondHistories>(urlBtcEth),
     fetcher<IBondHistories>(urlBtcBsc),
   ]);
-  const lockedHistoryEth = formatHistoriesArray(results[0]);
-  const lockedHistoryBsc = formatHistoriesArray(results[1]);
-  const mergedArray = mergeLockedArray(lockedHistoryEth, lockedHistoryBsc);
 
-  // Memo: Remove duplicated 'at'
-  const listedLockHistories = removeDuplicatedAt(mergedArray);
-  return listedLockHistories;
+  if (bridge === 'btc_erc') {
+    return formatHistoriesArray(results[0]);
+  } else if (bridge === 'btc_bep20') {
+    return formatHistoriesArray(results[1]);
+  } else {
+    const lockedHistoryEth = formatHistoriesArray(results[0]);
+    const lockedHistoryBsc = formatHistoriesArray(results[1]);
+    const mergedArray = mergeLockedArray(lockedHistoryEth, lockedHistoryBsc);
+
+    // Memo: Remove duplicated 'at'
+    const listedLockHistories = removeDuplicatedAt(mergedArray);
+    return listedLockHistories;
+  }
 };
