@@ -1,7 +1,6 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
 import { useIntl } from 'react-intl';
-import { useSelector } from 'react-redux';
 
 import { IChartDate } from '../../modules/explorer';
 import { LineBox } from '../../modules/scenes/Common';
@@ -11,14 +10,14 @@ import { LineContainer } from './styled';
 
 interface Props {
   chart: IChartDate[];
+  isLoading: boolean;
 }
 
 export const GenerateChart = (props: Props) => {
   // Ref: https://github.com/jerairrest/react-chartjs-2/issues/306
-  const isLoading = useSelector((state) => state.explorer.isLoading);
   const intl = useIntl();
 
-  const { chart } = props;
+  const { chart, isLoading } = props;
 
   const data = (canvas) => {
     const ctx = canvas.getContext('2d');

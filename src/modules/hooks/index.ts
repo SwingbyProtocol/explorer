@@ -8,9 +8,10 @@ export { useLoadHistories } from './useLoadHistories';
 export { useLoadTransaction } from './useLoadTransaction';
 export { useToggleMetanode } from './useToggleMetanode';
 export { useGetNetworkData } from './useGetNetworkData';
-export { useGetAllBridgesTvl } from './useGetAllBridgesTvl';
+export { useGetBridgesTvl } from './useGetBridgesTvl';
 export { useGetStatsChartData } from './useGetStatsChartData';
 export { useGetLiquidityApr } from './useGetLiquidityApr';
+export { useGetTvlSummary } from './useGetTvlSummary';
 
 export interface ICountdown {
   days: number;
@@ -20,12 +21,21 @@ export interface ICountdown {
 }
 
 export interface ITvl {
-  floatBalance: number;
-  metanodeLocked: {
-    allBridges: number;
-    btc_erc: number;
-    btc_bep20: number;
-  };
+  tvlUsd: number;
+  floatUsd: number;
+  lockedSwingbyUsd: number;
+}
+
+export interface ITvlResponses {
+  tvl: ITvlObject;
+  bonded: ITvlObject;
+  liquidity: ITvlObject;
+}
+
+export interface ITvlObject {
+  usd: string;
+  btc: string;
+  swingby: string;
 }
 
 export interface IFloatHistoryObject {

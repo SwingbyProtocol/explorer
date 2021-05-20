@@ -46,9 +46,16 @@ export const StatsInfo = () => {
   const stats = useSelector((state) => state.explorer.networkInfos.stats);
   const usd = useSelector((state) => state.explorer.usd);
   const isLoading = useSelector((state) => state.explorer.isLoading);
-  const { bridge, reward } = useToggleMetanode(PATH.ROOT);
-  const { volumes, floatHistories, lockHistories } = useGetStatsChartData();
 
+  const { bridge, reward, isLoading: isLoadingMetanode } = useToggleMetanode(PATH.ROOT);
+  const {
+    volumes,
+    floatHistories,
+    lockHistories,
+    isLoading: isLoadingGetChart,
+  } = useGetStatsChartData();
+
+  const isLoadingAll = isLoading || isLoadingMetanode || isLoadingGetChart;
   const placeholderLoader = (
     <PulseLoader margin={3} size={4} color={theme.pulsar.color.text.normal} />
   );
@@ -146,7 +153,7 @@ export const StatsInfo = () => {
                     <Row>
                       <Text variant="label">{info.description}</Text>
                     </Row>
-                    {isLoading ? (
+                    {isLoadingAll ? (
                       placeholderLoader
                     ) : (
                       <Row>
@@ -157,7 +164,7 @@ export const StatsInfo = () => {
                 </Left>
                 <Right>
                   <ChartBox>
-                    <GenerateChart chart={info.chart} />
+                    <GenerateChart chart={info.chart} isLoading={isLoadingAll} />
                   </ChartBox>
                 </Right>
               </InfoContainer>
@@ -165,7 +172,6 @@ export const StatsInfo = () => {
           })}
 
         <StatsWithoutChart>
-          {' '}
           {usd &&
             data.map((info) => {
               return (
@@ -215,7 +221,7 @@ export const StatsInfo = () => {
                           </Tooltip>
                         </RowReward>
                       )}
-                      {isLoading ? (
+                      {isLoadingAll ? (
                         placeholderLoader
                       ) : (
                         <Row>

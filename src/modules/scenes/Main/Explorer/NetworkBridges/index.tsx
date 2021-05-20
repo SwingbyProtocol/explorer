@@ -7,10 +7,11 @@ import { PulseLoader } from 'react-spinners';
 import { useTheme } from 'styled-components';
 
 import { CoinSymbol } from '../../../../coins';
-import { isEnableBscSupport, mode, PATH, URL_BSCSCAN, URL_ETHERSCAN } from '../../../../env';
-import { useGetAllBridgesTvl } from '../../../../hooks';
+import { isEnableBscSupport, mode, URL_BSCSCAN, URL_ETHERSCAN } from '../../../../env';
+import { useGetTvlSummary } from '../../../../hooks';
 
 import {
+  Atag,
   BridgeContainer,
   BridgeInfos,
   Coin,
@@ -18,18 +19,17 @@ import {
   CoinInfo,
   DataDiv,
   FloatSpan,
+  IconExternalLink,
+  IconInfo,
   NetworkBridgeContainer,
   Row,
   RowBridgeTitle,
+  RowLoader,
+  RowTitelText,
+  RowTvlText,
+  TextTvl,
   TitleText,
   VolSpan,
-  IconExternalLink,
-  Atag,
-  RowTitelText,
-  RowLoader,
-  TextTvl,
-  IconInfo,
-  RowTvlText,
 } from './styled';
 
 interface IBridgeData {
@@ -39,28 +39,29 @@ interface IBridgeData {
 }
 
 export const NetworkBridges = () => {
-  const { tvl } = useGetAllBridgesTvl(PATH.ROOT);
+  const { tvl, isLoading: isLoadingTvl } = useGetTvlSummary();
   const { locale } = useIntl();
+
   const tvlUsd = getFiatAssetFormatter({
     locale,
     currency: 'USD',
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
-  }).format(tvl.floatBalance + tvl.metanodeLocked.allBridges);
+  }).format(tvl.tvlUsd);
 
   const tvlFloatBal = getFiatAssetFormatter({
     locale,
     currency: 'USD',
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
-  }).format(tvl.floatBalance);
+  }).format(tvl.floatUsd);
 
   const tvlMetanodeLockedUsd = getFiatAssetFormatter({
     locale,
     currency: 'USD',
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
-  }).format(tvl.metanodeLocked.allBridges);
+  }).format(tvl.lockedSwingbyUsd);
 
   const theme = useTheme();
   const isLoading = useSelector((state) => state.explorer.isLoading);
@@ -89,6 +90,7 @@ export const NetworkBridges = () => {
     <PulseLoader margin={3} size={4} color={theme.pulsar.color.text.normal} />
   );
 
+  const isLoadingAll = isLoadingTvl || isLoading;
   const placeholderLoaderTvl = (
     <RowLoader>
       <PulseLoader margin={3} size={2} color={theme.pulsar.color.text.masked} />
@@ -107,7 +109,7 @@ export const NetworkBridges = () => {
                   <Text variant="label">
                     <FormattedMessage id="home.network.float" />
                   </Text>
-                  {isLoading ? (
+                  {isLoadingAll ? (
                     placeholderLoader
                   ) : (
                     <FloatSpan>
@@ -119,7 +121,7 @@ export const NetworkBridges = () => {
                   <Text variant="label">
                     <FormattedMessage id="home.network.vol" />
                   </Text>
-                  {isLoading ? (
+                  {isLoadingAll ? (
                     placeholderLoader
                   ) : (
                     <VolSpan>
@@ -180,7 +182,7 @@ export const NetworkBridges = () => {
         </TitleText>
         <RowTvlText>
           <TextTvl variant="label">
-            <FormattedMessage id="common.tvl" /> {isLoading ? placeholderLoaderTvl : tvlUsd}
+            <FormattedMessage id="common.tvl" /> {isLoadingAll ? placeholderLoaderTvl : tvlUsd}
           </TextTvl>
           <Tooltip
             content={

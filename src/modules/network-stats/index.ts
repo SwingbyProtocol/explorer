@@ -3,13 +3,8 @@ import { SkybridgeBridge } from '@swingby-protocol/sdk';
 
 import { CoinSymbol } from '../coins';
 import { sumArray } from '../common';
-import {
-  CACHED_ENDPOINT,
-  ENDPOINT_BSC_BRIDGE,
-  ENDPOINT_ETHEREUM_BRIDGE,
-  ENDPOINT_SKYBRIDGE_EXCHANGE,
-} from '../env';
-import { castToBackendVariable, getUsdPrice, IFloatAmount, getFloatBalance } from '../explorer';
+import { ENDPOINT_BSC_BRIDGE, ENDPOINT_ETHEREUM_BRIDGE, ENDPOINT_SKYBRIDGE_EXCHANGE } from '../env';
+import { castToBackendVariable, getFloatBalance, getUsdPrice, IFloatAmount } from '../explorer';
 import { fetcher } from '../fetch';
 import { IBondHistories, INodeListResponse } from '../metanodes';
 
@@ -70,7 +65,7 @@ export const getTVL = async (): Promise<string> => {
   const getFloatBalUrl = (base: string) => base + '/api/v1/floats/balances';
 
   const getBondBalUrl = (bridge: SkybridgeBridge) =>
-    CACHED_ENDPOINT + `/v1/production/${bridge}/bonded-historic`;
+    ENDPOINT_SKYBRIDGE_EXCHANGE + `/production/${bridge}/bonded-historic`;
 
   try {
     const results = await Promise.all([

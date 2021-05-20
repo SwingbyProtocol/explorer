@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import { CACHED_ENDPOINT, ENDPOINT_SKYBRIDGE_EXCHANGE, mode, PATH } from '../../env';
+import { ENDPOINT_SKYBRIDGE_EXCHANGE, mode, PATH } from '../../env';
 import { fetcher } from '../../fetch';
 import {
   fetchNodeList,
@@ -40,8 +40,8 @@ export const useToggleMetanode = (path: PATH) => {
     (async () => {
       if (bridge && path === PATH.METANODES) {
         const rewardsUrl = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/rewards-last-week`;
-        const liquidityUrl = `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/bond-to-liquidity`;
-        const bondHistoryUrl = `${CACHED_ENDPOINT}/v1/${mode}/${bridge}/bonded-historic`;
+        const liquidityUrl = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/bond-to-liquidity`;
+        const bondHistoryUrl = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/bonded-historic`;
         const liquidityRatioUrl = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/liquidity-ratio`;
 
         const results = await Promise.all([
