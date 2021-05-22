@@ -9,6 +9,7 @@ export {
   calTvl,
   listFloatAmountHistories,
   getLockedHistory,
+  listHistory,
 } from './utils';
 
 export interface INodeListResponse {

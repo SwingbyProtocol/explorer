@@ -110,11 +110,11 @@ export const removeDuplicatedAt = (locks: IChartDate[]): IChartDate[] => {
   return locks.filter((v, i, a) => a.findIndex((t) => t.at === v.at) === i);
 };
 
-const formatHistoriesArray = (rawData: IBondHistories) => {
+export const listHistory = (histories: TBondHistory[]) => {
   let historiesLookUpTable: string[] = [];
   let historiesTable: IChartDate[] = [];
 
-  rawData.data.forEach((it: TBondHistory) => {
+  histories.forEach((it: TBondHistory) => {
     const date = getShortDate(it.since);
     if (!historiesLookUpTable.includes(date)) {
       const item: IChartDate = {
@@ -125,6 +125,11 @@ const formatHistoriesArray = (rawData: IBondHistories) => {
       historiesTable.push(item);
     }
   });
+  return historiesTable;
+};
+
+const formatHistoriesArray = (rawData: IBondHistories) => {
+  const historiesTable = listHistory(rawData.data);
   return historiesTable.reverse();
 };
 
