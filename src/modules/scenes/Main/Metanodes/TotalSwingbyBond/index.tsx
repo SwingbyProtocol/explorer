@@ -5,12 +5,12 @@ import { FormattedMessage, useIntl } from 'react-intl';
 
 import { Loader } from '../../../../../components/Loader';
 import { formatNum } from '../../../../common';
-import { TBondHistory } from '../../../../metanodes';
+import { IChartDate } from '../../../../explorer';
 
 import { Box, LineContainer, LineDiv, TitleDiv, TotalSwingbyBondContainer } from './styled';
 
 interface Props {
-  bondHistories: TBondHistory[] | null;
+  bondHistories: IChartDate[] | null;
   isLoading: boolean;
 }
 
@@ -19,6 +19,7 @@ export const TotalSwingbyBond = (props: Props) => {
   // Ref: https://github.com/jerairrest/react-chartjs-2/issues/306
   const { formatDate } = useIntl();
   const intl = useIntl();
+  const chart = bondHistories && bondHistories;
 
   const data = (canvas) => {
     const ctx = canvas.getContext('2d');
@@ -27,13 +28,21 @@ export const TotalSwingbyBond = (props: Props) => {
     gradient.addColorStop(0.8, 'rgba(255,255,255, 0.3)');
 
     return {
+      labels:
+        chart &&
+        chart.map((it) =>
+          intl.formatDate(it.at, {
+            month: 'short',
+            day: 'numeric',
+          }),
+        ),
       datasets: [
         {
           fill: 'start',
           tension: 0.4,
           backgroundColor: gradient,
           borderColor: '#31D5B8',
-          data: bondHistories && bondHistories.reverse(),
+          data: chart && chart.map((it) => it.amount),
         },
       ],
     };
@@ -44,8 +53,8 @@ export const TotalSwingbyBond = (props: Props) => {
   const options = {
     animation: false,
     parsing: {
-      xAxisKey: 'since',
-      yAxisKey: 'bond',
+      xAxisKey: 'at',
+      yAxisKey: 'amount',
     },
     responsive: true,
     elements: {
@@ -60,15 +69,8 @@ export const TotalSwingbyBond = (props: Props) => {
         position: 'nearest',
         intersect: false,
         callbacks: {
-          title: (data) => {
-            const since = formatDate(data[0].label, {
-              month: 'short',
-              day: 'numeric',
-            });
-            return since;
-          },
           label: (data) => {
-            return intl.formatNumber(data.raw.bond, { style: 'currency', currency: 'USD' });
+            return intl.formatNumber(data.raw, { style: 'currency', currency: 'USD' });
           },
         },
       },
@@ -90,7 +92,7 @@ export const TotalSwingbyBond = (props: Props) => {
             });
             if (i === 0) {
               return value;
-            } else if (i === bondHistories.length - 1 && isLabelShows(bondHistories.length)) {
+            } else if (i === chart.length - 1 && isLabelShows(chart.length)) {
               return value;
             } else if (isLabelShows(i)) {
               return value;

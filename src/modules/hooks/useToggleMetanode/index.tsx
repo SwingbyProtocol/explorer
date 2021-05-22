@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import { ENDPOINT_SKYBRIDGE_EXCHANGE, mode, PATH } from '../../env';
+import { IChartDate } from '../../explorer';
 import { fetcher } from '../../fetch';
 import {
   fetchNodeList,
@@ -11,7 +12,7 @@ import {
   ILiquidityRatios,
   INodeListResponse,
   IReward,
-  TBondHistory,
+  listHistory,
 } from '../../metanodes';
 import { useInterval } from '../useInterval';
 import { useToggleBridge } from '../useToggleBridge';
@@ -23,7 +24,7 @@ export const useToggleMetanode = (path: PATH) => {
   const [reward, setReward] = useState<IReward | null>(null);
   const [liquidity, setLiquidity] = useState<ILiquidity | null>(null);
   const [churnTime, setChurnTime] = useState<IChurn | null>(null);
-  const [bondHistories, setBondHistories] = useState<TBondHistory[] | null>(null);
+  const [bondHistories, setBondHistories] = useState<IChartDate[] | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const [liquidityRatio, setLiquidityRatio] = useState<ILiquidityRatio[] | null>(null);
@@ -59,10 +60,12 @@ export const useToggleMetanode = (path: PATH) => {
         const bondHistoriesData = results[3].data;
         const liquidityRationData = results[4].data;
 
+        const listBondHistory = listHistory(bondHistoriesData).reverse();
+
         setMetanodes(nodes);
         setReward(rewardData);
         setLiquidity(liquidityData);
-        setBondHistories(bondHistoriesData);
+        setBondHistories(listBondHistory);
         setLiquidityRatio(liquidityRationData);
         setIsLoading(false);
       } else if (bridge && path === PATH.ROOT) {
