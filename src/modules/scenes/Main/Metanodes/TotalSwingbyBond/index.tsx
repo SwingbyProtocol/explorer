@@ -1,13 +1,16 @@
 import { Text } from '@swingby-protocol/pulsar';
-import React from 'react';
-import { Line } from 'react-chartjs-2';
+import React, { useMemo } from 'react';
+// import { Line } from 'react-chartjs-2';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { nanoid } from 'nanoid';
 
 import { Loader } from '../../../../../components/Loader';
 import { formatNum } from '../../../../common';
 import { IChartDate } from '../../../../explorer';
+import { CustomTooltip } from '../../../../../components/CustomTooltip';
 
-import { Box, LineContainer, LineDiv, TitleDiv, TotalSwingbyBondContainer } from './styled';
+import { Box, TitleDiv, TotalSwingbyBondContainer } from './styled';
 
 interface Props {
   bondHistories: IChartDate[] | null;
@@ -16,113 +19,9 @@ interface Props {
 
 export const TotalSwingbyBond = (props: Props) => {
   const { bondHistories, isLoading } = props;
-  // Ref: https://github.com/jerairrest/react-chartjs-2/issues/306
-  const { formatDate } = useIntl();
   const intl = useIntl();
   const chart = bondHistories && bondHistories;
-
-  const data = (canvas) => {
-    const ctx = canvas.getContext('2d');
-    const gradient = ctx.createLinearGradient(0, 0, 0, 140);
-    gradient.addColorStop(0, '#31D5B8');
-    gradient.addColorStop(0.8, 'rgba(255,255,255, 0.3)');
-
-    return {
-      labels:
-        chart &&
-        chart.map((it) =>
-          intl.formatDate(it.at, {
-            month: 'short',
-            day: 'numeric',
-          }),
-        ),
-      datasets: [
-        {
-          fill: 'start',
-          tension: 0.4,
-          backgroundColor: gradient,
-          borderColor: '#31D5B8',
-          data: chart && chart.map((it) => it.amount),
-        },
-      ],
-    };
-  };
-
-  const isLabelShows = (i: number) => i % 3 === 0;
-
-  const options = {
-    animation: false,
-    parsing: {
-      xAxisKey: 'at',
-      yAxisKey: 'amount',
-    },
-    responsive: true,
-    elements: {
-      point: {
-        radius: 0,
-      },
-    },
-    plugins: {
-      legend: { display: false },
-      tooltip: {
-        displayColors: false,
-        position: 'nearest',
-        intersect: false,
-        callbacks: {
-          label: (data) => {
-            return intl.formatNumber(data.raw, { style: 'currency', currency: 'USD' });
-          },
-        },
-      },
-    },
-
-    scales: {
-      x: {
-        grid: {
-          display: false,
-        },
-        ticks: {
-          stepSize: 2,
-          font: 10,
-          color: '#929D9D',
-          callback(label: string, i: number) {
-            const value = formatDate(this.getLabelForValue(label), {
-              month: 'short',
-              day: 'numeric',
-            });
-            if (i === 0) {
-              return value;
-            } else if (i === chart.length - 1 && isLabelShows(chart.length)) {
-              return value;
-            } else if (isLabelShows(i)) {
-              return value;
-            } else {
-              return null;
-            }
-          },
-        },
-      },
-
-      y: {
-        grid: {
-          display: false,
-        },
-        ticks: {
-          color: '#929D9D',
-          font: 10,
-          padding: 0,
-          callback(value: number, i: number) {
-            if (i % 2 === 0) {
-              return '$' + formatNum(value);
-            } else {
-              return '';
-            }
-          },
-        },
-      },
-    },
-  };
-
+  const gradientId = useMemo(() => nanoid(), []);
   const loader = <Loader marginTop={0} minHeight={128} />;
 
   return (
@@ -135,11 +34,47 @@ export const TotalSwingbyBond = (props: Props) => {
         </TitleDiv>
         <Box>
           {!isLoading ? (
-            <LineContainer>
-              <LineDiv isLoading={isLoading}>
-                <Line type="line" data={data} options={options} height={110} />
-              </LineDiv>
-            </LineContainer>
+            <ResponsiveContainer width="100%" height="100%" minHeight={130}>
+              <AreaChart data={chart}>
+                <defs>
+                  <linearGradient id={gradientId} x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="40%" stopColor="#31D5B8" stopOpacity={1} />
+                    <stop offset="100%" stopColor="#31D5B8" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <XAxis
+                  dataKey="at"
+                  tickFormatter={(label) =>
+                    intl.formatDate(label, {
+                      month: 'short',
+                      day: 'numeric',
+                    })
+                  }
+                  fontSize="0.75rem"
+                  fontWeight="500"
+                  tickLine={false}
+                  axisLine={false}
+                />
+                <YAxis
+                  dataKey="amount"
+                  tickFormatter={(label) => '$' + formatNum(label)}
+                  domain={['dataMin', 'dataMax']}
+                  tickLine={false}
+                  axisLine={false}
+                  fontSize="0.75rem"
+                  fontWeight="500"
+                />
+                <Tooltip content={CustomTooltip} />
+                <Area
+                  type="monotone"
+                  dataKey="amount"
+                  stroke="#82ca9d"
+                  fill={`url(#${gradientId})`}
+                  fillOpacity="0.1"
+                  strokeWidth={2}
+                />
+              </AreaChart>
+            </ResponsiveContainer>
           ) : (
             loader
           )}

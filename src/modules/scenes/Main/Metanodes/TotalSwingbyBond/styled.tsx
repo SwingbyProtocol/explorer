@@ -52,6 +52,7 @@ export const Box = styled.div`
     width: ${rem(420 * 1.4)};
     padding-left: ${({ theme }) => rem(theme.pulsar.size.street)};
     padding-right: ${({ theme }) => rem(theme.pulsar.size.street)};
+    margin-top: ${({ theme }) => rem(theme.pulsar.size.house)};
   }
   @media (min-width: ${rem(media.md)}) {
     width: ${rem(420)};
@@ -62,14 +63,13 @@ export const Box = styled.div`
     width: ${rem(420 * 1.3)};
   }
   @media (min-width: ${rem(media.lg)}) {
-    width: ${rem(300)};
+    width: ${rem(360)};
   }
   @media (min-width: ${rem((media.lg + media.xl) / 2)}) {
-    width: ${rem(340)};
+    width: ${rem(430)};
   }
   @media (min-width: ${rem(media.xl)}) {
-    width: ${rem(380)};
-    padding-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
+    width: ${rem(450)};
   }
 `;
 
