@@ -1,40 +1,24 @@
 import { Text } from '@swingby-protocol/pulsar';
 import React, { useEffect, useState } from 'react';
-import { Line } from 'react-chartjs-2';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { useSelector } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
 
+import { GenerateChart } from '../../../../../components/GenerateChart';
 import { LoaderComingSoon } from '../../../../../components/LoaderComingSoon';
 import { ENDPOINT_EARNINGS } from '../../../../env';
 import { fetch } from '../../../../fetch';
-import { IEarning, makeEarningsData, makeTimeLabels, TEarningPeriod } from '../../../../pool';
-import { LineBox } from '../../../Common';
+import { IEarning, makeEarningsData, TEarningPeriod } from '../../../../pool';
 
-import { Box, Column, EarningsChartContainer, LineContainer, TextDate, TitleDiv } from './styled';
+import { Box, Column, EarningsChartContainer, TextDate, TitleDiv, ChartContainer } from './styled';
 
 export const EarningsChart = () => {
-  const today = new Date();
-  const initialEarningsAll = {
-    values: ['0', '0', '0', '0', '0', '0', '0'],
-    times: [
-      new Date().setDate(today.getDate() - 6),
-      new Date().setDate(today.getDate() - 5),
-      new Date().setDate(today.getDate() - 4),
-      new Date().setDate(today.getDate() - 3),
-      new Date().setDate(today.getDate() - 2),
-      new Date().setDate(today.getDate() - 1),
-      String(today),
-    ],
-  };
-
   const [chartDuration, setChartDuration] = useState<TEarningPeriod>('All');
-  const [earningsAll, setEarningsAll] = useState(initialEarningsAll);
+  const [earningsAll, setEarningsAll] = useState(null);
   const [earnings14Days, setEarnings14Days] = useState(null);
   const [earnings24Hours, setEarnings24Hours] = useState(null);
   const [earnings, setEarnings] = useState(earningsAll);
-  const [isLoading, setIsLoading] = useState(true);
 
-  const userAddress = useSelector((state) => state.pool.userAddress);
+  // Memo: use useState once API enable
+  const isLoading = true;
 
   useEffect(() => {
     (async () => {
@@ -71,72 +55,7 @@ export const EarningsChart = () => {
     }
   }, [chartDuration, earningsAll, earnings14Days, earnings24Hours]);
 
-  const { formatDate, formatTime } = useIntl();
-
-  const data = (canvas) => {
-    const ctx = canvas.getContext('2d');
-    const gradient = ctx.createLinearGradient(0, 0, 0, 140);
-    gradient.addColorStop(0, '#31D5B8');
-    gradient.addColorStop(0.8, 'rgba(255,255,255, 0.3)');
-
-    return {
-      labels: makeTimeLabels(earnings.times as string[], chartDuration, formatDate, formatTime),
-      datasets: [
-        {
-          fill: 'start',
-          tension: 0.4,
-          backgroundColor: gradient,
-          borderColor: '#31D5B8',
-          data: earnings.values,
-        },
-      ],
-    };
-  };
-
-  const options = {
-    animation: false,
-    responsive: true,
-    pointDotStrokeWidth: 0,
-    elements: {
-      point: {
-        radius: 0,
-      },
-    },
-    plugins: {
-      legend: { display: false },
-    },
-    scales: {
-      x: {
-        grid: {
-          display: false,
-        },
-        ticks: {
-          font: 10,
-          color: '#929D9D',
-        },
-      },
-      y: {
-        grid: {
-          display: false,
-        },
-        ticks: {
-          color: '#929D9D',
-          font: 10,
-          padding: 0,
-        },
-      },
-    },
-  };
-
-  useEffect(() => {
-    const loading = earnings.values === initialEarningsAll.values;
-    if (!loading && userAddress) {
-      setTimeout(() => {
-        // Todo: Change to 'false' after 'earnings API' works
-        setIsLoading(true);
-      }, 800);
-    }
-  }, [earnings.values, initialEarningsAll.values, userAddress]);
+  const loader = <LoaderComingSoon isPlaceholder={true} />;
 
   return (
     <EarningsChartContainer>
@@ -173,13 +92,15 @@ export const EarningsChart = () => {
             </TextDate>
           </Column>
         </TitleDiv>
-        <LineContainer>
-          {/* Memo: remove isPlaceholder props after 'earnings API' works */}
-          {isLoading && <LoaderComingSoon isPlaceholder={true} />}
-          <LineBox isLoading={isLoading}>
-            <Line type="line" data={data} options={options} height={110} />
-          </LineBox>
-        </LineContainer>
+        <ChartContainer>
+          <GenerateChart
+            chart={earnings}
+            isLoading={isLoading}
+            minHeight={110}
+            loader={loader}
+            isAxis={true}
+          />
+        </ChartContainer>
       </Box>
     </EarningsChartContainer>
   );

@@ -14,7 +14,6 @@ interface DateProps {
 export const EarningsChartContainer = styled.div`
   grid-area: volume;
   display: flex;
-  justify-content: center;
   align-items: center;
   flex-direction: column;
   padding-top: ${({ theme }) => rem(theme.pulsar.size.town)};
@@ -75,14 +74,13 @@ export const Box = styled.div`
   }
   @media (min-width: ${rem(media.lg)}) {
     width: 100%;
-    margin-top: ${({ theme }) => rem(theme.pulsar.size.room)};
   }
 `;
-export const LineContainer = styled.div`
+export const ChartContainer = styled.div`
   text-align: center;
   position: relative;
   @media (min-width: ${rem(media.lg)}) {
-    padding-top: 0;
+    padding-top: ${({ theme }) => rem(theme.pulsar.size.drawer)};
   }
 `;
 

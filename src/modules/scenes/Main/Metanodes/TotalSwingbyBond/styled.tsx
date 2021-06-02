@@ -1,16 +1,9 @@
-import styled from 'styled-components';
 import { rem } from 'polished';
-import { Text } from '@swingby-protocol/pulsar';
+import styled from 'styled-components';
 
 import { StylingConstants } from '../../../../styles';
-import { LineBox } from '../../../Common';
 
 const { media } = StylingConstants;
-
-interface DateProps {
-  isActive: boolean;
-  isAll: boolean;
-}
 
 export const TotalSwingbyBondContainer = styled.div`
   grid-area: volume;
@@ -52,6 +45,7 @@ export const Box = styled.div`
     width: ${rem(420 * 1.4)};
     padding-left: ${({ theme }) => rem(theme.pulsar.size.street)};
     padding-right: ${({ theme }) => rem(theme.pulsar.size.street)};
+    margin-top: ${({ theme }) => rem(theme.pulsar.size.house)};
   }
   @media (min-width: ${rem(media.md)}) {
     width: ${rem(420)};
@@ -62,22 +56,13 @@ export const Box = styled.div`
     width: ${rem(420 * 1.3)};
   }
   @media (min-width: ${rem(media.lg)}) {
-    width: ${rem(300)};
+    width: ${rem(360)};
   }
   @media (min-width: ${rem((media.lg + media.xl) / 2)}) {
-    width: ${rem(340)};
+    width: ${rem(430)};
   }
   @media (min-width: ${rem(media.xl)}) {
-    width: ${rem(380)};
-    padding-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
-  }
-`;
-
-export const LineContainer = styled.div`
-  text-align: center;
-  position: relative;
-  @media (min-width: ${rem(media.lg)}) {
-    padding-top: 0;
+    width: ${rem(450)};
   }
 `;
 
@@ -97,28 +82,5 @@ export const TitleDiv = styled.div`
   @media (min-width: ${rem(media.lg)}) {
     padding-bottom: 0;
     margin-left: 0;
-  }
-`;
-
-export const Column = styled.div`
-  width: ${rem(80)};
-  display: flex;
-  justify-content: space-between;
-`;
-
-export const TextDate = styled(Text)<DateProps>`
-  cursor: pointer;
-  color: ${(props) => props.isActive && props.theme.pulsar.color.primary.normal};
-  border-bottom: ${(props) =>
-    props.isAll
-      ? props.isActive
-        ? `1px solid ${props.theme.pulsar.color.primary.normal}`
-        : `1px solid ${props.theme.pulsar.color.text.masked}`
-      : `1px solid transparent`};
-`;
-
-export const LineDiv = styled(LineBox)`
-  @media (min-width: ${rem(media.lg)}) {
-    height: ${rem(126)};
   }
 `;

@@ -1,90 +1,89 @@
-import React from 'react';
-import { Line } from 'react-chartjs-2';
+import { nanoid } from 'nanoid';
+import React, { useMemo } from 'react';
 import { useIntl } from 'react-intl';
+import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { useTheme } from 'styled-components';
 
+import { formatNum } from '../../modules/common';
 import { IChartDate } from '../../modules/explorer';
 import { LineBox } from '../../modules/scenes/Common';
-import { LoaderComingSoon } from '../LoaderComingSoon';
 
-import { LineContainer } from './styled';
+import { CustomTooltip } from './CustomTooltip';
+import { ChartContainer } from './styled';
 
 interface Props {
   chart: IChartDate[];
   isLoading: boolean;
+  minHeight: number;
+  loader: JSX.Element;
+  isAxis: boolean;
 }
 
 export const GenerateChart = (props: Props) => {
-  // Ref: https://github.com/jerairrest/react-chartjs-2/issues/306
+  const { chart, isLoading, minHeight, loader, isAxis } = props;
+  const gradientId = useMemo(() => nanoid(), []);
+  const theme = useTheme();
   const intl = useIntl();
 
-  const { chart, isLoading } = props;
-
-  const data = (canvas) => {
-    const ctx = canvas.getContext('2d');
-    const gradient = ctx.createLinearGradient(0, 0, 0, 140);
-    gradient.addColorStop(0, '#31D5B8');
-    gradient.addColorStop(0.8, 'rgba(255,255,255, 0.3)');
-
-    return {
-      labels:
-        chart &&
-        chart.map((it) =>
-          intl.formatDate(it.at, {
-            month: 'short',
-            day: 'numeric',
-          }),
-        ),
-      datasets: [
-        {
-          fill: 'start',
-          tension: 0.4,
-          backgroundColor: gradient,
-          borderColor: '#31D5B8',
-          data: chart && chart.map((it) => it.amount),
-        },
-      ],
-    };
-  };
-
-  const options = {
-    animation: false,
-    responsive: true,
-    pointDotStrokeWidth: 0,
-    elements: {
-      point: {
-        radius: 0,
-      },
-    },
-    plugins: {
-      legend: { display: false },
-      tooltip: {
-        displayColors: false,
-        position: 'nearest',
-        intersect: false,
-        callbacks: {
-          label: (data) => {
-            return intl.formatNumber(data.raw, { style: 'currency', currency: 'USD' });
-          },
-        },
-      },
-    },
-    scales: {
-      x: {
-        display: false,
-      },
-
-      y: {
-        display: false,
-      },
-    },
-  };
-
   return (
-    <LineContainer>
-      {isLoading && <LoaderComingSoon isPlaceholder={false} isSmallWindow={true} />}
+    <ChartContainer>
+      {isLoading && loader}
       <LineBox isLoading={isLoading}>
-        <Line type="line" data={data} options={options} height={110} />
+        {chart && (
+          <ResponsiveContainer width="100%" minHeight={minHeight}>
+            <AreaChart data={chart}>
+              <defs>
+                <linearGradient id={gradientId} x1="0" x2="0" y1="0" y2="1">
+                  <stop
+                    offset="40%"
+                    stopColor={theme.pulsar.color.primary.normal}
+                    stopOpacity={1}
+                  />
+                  <stop
+                    offset="100%"
+                    stopColor={theme.pulsar.color.primary.normal}
+                    stopOpacity={0}
+                  />
+                </linearGradient>
+              </defs>
+
+              <Tooltip content={CustomTooltip} />
+              <XAxis
+                dataKey="at"
+                tickFormatter={(label) =>
+                  intl.formatDate(label, {
+                    month: 'short',
+                    day: 'numeric',
+                  })
+                }
+                fontSize="0.75rem"
+                fontWeight="500"
+                tickLine={false}
+                axisLine={false}
+                hide={!isAxis}
+              />
+              <YAxis
+                dataKey={(v) => parseInt(v.amount)}
+                tickFormatter={(label) => '$' + formatNum(label)}
+                domain={['dataMin', 'dataMax']}
+                tickLine={false}
+                axisLine={false}
+                fontSize="0.75rem"
+                fontWeight="500"
+                hide={!isAxis}
+              />
+              <Area
+                type="monotone"
+                dataKey="amount"
+                stroke={theme.pulsar.color.primary.normal}
+                fill={`url(#${gradientId})`}
+                fillOpacity="0.1"
+                strokeWidth={2}
+              />
+            </AreaChart>
+          </ResponsiveContainer>
+        )}
       </LineBox>
-    </LineContainer>
+    </ChartContainer>
   );
 };

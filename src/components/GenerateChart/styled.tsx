@@ -5,7 +5,7 @@ import { StylingConstants } from '../../modules/styles';
 
 const { media } = StylingConstants;
 
-export const LineContainer = styled.div`
+export const ChartContainer = styled.div`
   text-align: center;
   position: relative;
   @media (min-width: ${rem(media.lg)}) {

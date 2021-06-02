@@ -8,6 +8,7 @@ import { PulseLoader } from 'react-spinners';
 import { useTheme } from 'styled-components';
 
 import { GenerateChart } from '../../../../../components/GenerateChart';
+import { LoaderComingSoon } from '../../../../../components/LoaderComingSoon';
 import { PATH } from '../../../../env';
 import { useGetStatsChartData, useToggleMetanode } from '../../../../hooks';
 
@@ -140,6 +141,8 @@ export const StatsInfo = () => {
     maximumFractionDigits: 0,
   }).format(Number(rewardsSbBtcUsd));
 
+  const loader = <LoaderComingSoon isPlaceholder={false} isSmallWindow={true} />;
+
   return (
     <StatsInfoContainer>
       <InfosContainer>
@@ -164,7 +167,13 @@ export const StatsInfo = () => {
                 </Left>
                 <Right>
                   <ChartBox>
-                    <GenerateChart chart={info.chart} isLoading={isLoadingAll} />
+                    <GenerateChart
+                      chart={info.chart}
+                      isLoading={isLoadingAll}
+                      minHeight={76}
+                      loader={loader}
+                      isAxis={false}
+                    />
                   </ChartBox>
                 </Right>
               </InfoContainer>
