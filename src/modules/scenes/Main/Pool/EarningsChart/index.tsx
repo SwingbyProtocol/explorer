@@ -22,7 +22,9 @@ export const EarningsChart = () => {
   const [earnings14Days, setEarnings14Days] = useState(null);
   const [earnings24Hours, setEarnings24Hours] = useState(null);
   const [earnings, setEarnings] = useState(earningsAll);
-  const [isLoading, setIsLoading] = useState(true);
+
+  // Memo: use useState once API enable
+  const isLoading = true;
 
   useEffect(() => {
     (async () => {
@@ -120,7 +122,7 @@ export const EarningsChart = () => {
                   axisLine={false}
                 />
                 <YAxis
-                  dataKey="value"
+                  dataKey={(v) => parseInt(v.value)}
                   tickFormatter={(label) => '$' + formatNum(label)}
                   domain={['dataMin', 'dataMax']}
                   tickLine={false}

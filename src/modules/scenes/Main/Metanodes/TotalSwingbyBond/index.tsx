@@ -1,6 +1,5 @@
 import { Text } from '@swingby-protocol/pulsar';
 import React, { useMemo } from 'react';
-// import { Line } from 'react-chartjs-2';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { nanoid } from 'nanoid';
@@ -56,7 +55,7 @@ export const TotalSwingbyBond = (props: Props) => {
                   axisLine={false}
                 />
                 <YAxis
-                  dataKey="amount"
+                  dataKey={(v) => parseInt(v.amount)}
                   tickFormatter={(label) => '$' + formatNum(label)}
                   domain={['dataMin', 'dataMax']}
                   tickLine={false}

@@ -68,7 +68,7 @@ export const InfoContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   @media (min-width: ${rem(media.lg)}) {
-    align-items: flex-end;
+    align-items: center;
   }
 `;
 
