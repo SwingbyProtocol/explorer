@@ -76,7 +76,7 @@ export const Box = styled.div`
     width: 100%;
   }
 `;
-export const LineContainer = styled.div`
+export const ChartContainer = styled.div`
   text-align: center;
   position: relative;
   @media (min-width: ${rem(media.lg)}) {

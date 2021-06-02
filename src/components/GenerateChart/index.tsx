@@ -1,53 +1,89 @@
 import { nanoid } from 'nanoid';
 import React, { useMemo } from 'react';
-import { Area, AreaChart, ResponsiveContainer, Tooltip, YAxis } from 'recharts';
+import { useIntl } from 'react-intl';
+import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { useTheme } from 'styled-components';
 
+import { formatNum } from '../../modules/common';
 import { IChartDate } from '../../modules/explorer';
 import { LineBox } from '../../modules/scenes/Common';
 import { CustomTooltip } from '../CustomTooltip';
-import { LoaderComingSoon } from '../LoaderComingSoon';
 
-import { LineContainer } from './styled';
+import { ChartContainer } from './styled';
 
 interface Props {
   chart: IChartDate[];
   isLoading: boolean;
+  minHeight: number;
+  loader: JSX.Element;
+  isAxis: boolean;
 }
 
 export const GenerateChart = (props: Props) => {
-  const { chart, isLoading } = props;
+  const { chart, isLoading, minHeight, loader, isAxis } = props;
   const gradientId = useMemo(() => nanoid(), []);
+  const theme = useTheme();
+  const intl = useIntl();
 
   return (
-    <LineContainer>
-      {isLoading && <LoaderComingSoon isPlaceholder={false} isSmallWindow={true} />}
+    <ChartContainer>
+      {isLoading && loader}
       <LineBox isLoading={isLoading}>
-        <ResponsiveContainer width="100%" minHeight={76}>
-          <AreaChart data={chart}>
-            <defs>
-              <linearGradient id={gradientId} x1="0" x2="0" y1="0" y2="1">
-                <stop offset="40%" stopColor="#31D5B8" stopOpacity={1} />
-                <stop offset="100%" stopColor="#31D5B8" stopOpacity={0} />
-              </linearGradient>
-            </defs>
+        {chart && (
+          <ResponsiveContainer width="100%" minHeight={minHeight}>
+            <AreaChart data={chart}>
+              <defs>
+                <linearGradient id={gradientId} x1="0" x2="0" y1="0" y2="1">
+                  <stop
+                    offset="40%"
+                    stopColor={theme.pulsar.color.primary.normal}
+                    stopOpacity={1}
+                  />
+                  <stop
+                    offset="100%"
+                    stopColor={theme.pulsar.color.primary.normal}
+                    stopOpacity={0}
+                  />
+                </linearGradient>
+              </defs>
 
-            <Tooltip content={CustomTooltip} />
-            <YAxis
-              dataKey={(v) => parseInt(v.amount)}
-              domain={['dataMin', 'dataMax']}
-              hide={true}
-            />
-            <Area
-              type="monotone"
-              dataKey="amount"
-              stroke="#82ca9d"
-              fill={`url(#${gradientId})`}
-              fillOpacity="0.1"
-              strokeWidth={2}
-            />
-          </AreaChart>
-        </ResponsiveContainer>
+              <Tooltip content={CustomTooltip} />
+              <XAxis
+                dataKey="at"
+                tickFormatter={(label) =>
+                  intl.formatDate(label, {
+                    month: 'short',
+                    day: 'numeric',
+                  })
+                }
+                fontSize="0.75rem"
+                fontWeight="500"
+                tickLine={false}
+                axisLine={false}
+                hide={!isAxis}
+              />
+              <YAxis
+                dataKey={(v) => parseInt(v.amount)}
+                tickFormatter={(label) => '$' + formatNum(label)}
+                domain={['dataMin', 'dataMax']}
+                tickLine={false}
+                axisLine={false}
+                fontSize="0.75rem"
+                fontWeight="500"
+                hide={!isAxis}
+              />
+              <Area
+                type="monotone"
+                dataKey="amount"
+                stroke={theme.pulsar.color.primary.normal}
+                fill={`url(#${gradientId})`}
+                fillOpacity="0.1"
+                strokeWidth={2}
+              />
+            </AreaChart>
+          </ResponsiveContainer>
+        )}
       </LineBox>
-    </LineContainer>
+    </ChartContainer>
   );
 };

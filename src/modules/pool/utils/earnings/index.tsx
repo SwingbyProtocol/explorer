@@ -17,8 +17,8 @@ export const makeEarningsData = (rawData: IEarning[], duration: 'All' | '14d' | 
   const dataSet = rawData.slice(0, period).reverse();
   const data = dataSet.map((it) => {
     return {
-      value: Number(it.value),
-      timestamp: it.timestamp,
+      amount: Number(it.value),
+      at: it.timestamp,
     };
   });
   return data;

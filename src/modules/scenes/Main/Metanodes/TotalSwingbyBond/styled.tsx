@@ -1,16 +1,9 @@
-import styled from 'styled-components';
 import { rem } from 'polished';
-import { Text } from '@swingby-protocol/pulsar';
+import styled from 'styled-components';
 
 import { StylingConstants } from '../../../../styles';
-import { LineBox } from '../../../Common';
 
 const { media } = StylingConstants;
-
-interface DateProps {
-  isActive: boolean;
-  isAll: boolean;
-}
 
 export const TotalSwingbyBondContainer = styled.div`
   grid-area: volume;
@@ -73,14 +66,6 @@ export const Box = styled.div`
   }
 `;
 
-export const LineContainer = styled.div`
-  text-align: center;
-  position: relative;
-  @media (min-width: ${rem(media.lg)}) {
-    padding-top: 0;
-  }
-`;
-
 export const TitleDiv = styled.div`
   align-self: flex-start;
   margin-bottom: ${({ theme }) => rem(theme.pulsar.size.closet)};
@@ -97,28 +82,5 @@ export const TitleDiv = styled.div`
   @media (min-width: ${rem(media.lg)}) {
     padding-bottom: 0;
     margin-left: 0;
-  }
-`;
-
-export const Column = styled.div`
-  width: ${rem(80)};
-  display: flex;
-  justify-content: space-between;
-`;
-
-export const TextDate = styled(Text)<DateProps>`
-  cursor: pointer;
-  color: ${(props) => props.isActive && props.theme.pulsar.color.primary.normal};
-  border-bottom: ${(props) =>
-    props.isAll
-      ? props.isActive
-        ? `1px solid ${props.theme.pulsar.color.primary.normal}`
-        : `1px solid ${props.theme.pulsar.color.text.masked}`
-      : `1px solid transparent`};
-`;
-
-export const LineDiv = styled(LineBox)`
-  @media (min-width: ${rem(media.lg)}) {
-    height: ${rem(126)};
   }
 `;

@@ -1,22 +1,16 @@
 import { Text } from '@swingby-protocol/pulsar';
-import { nanoid } from 'nanoid';
-import React, { useEffect, useMemo, useState } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import React, { useEffect, useState } from 'react';
+import { FormattedMessage } from 'react-intl';
 
-import { CustomTooltip } from '../../../../../components/CustomTooltip';
+import { GenerateChart } from '../../../../../components/GenerateChart';
 import { LoaderComingSoon } from '../../../../../components/LoaderComingSoon';
-import { formatNum } from '../../../../common';
 import { ENDPOINT_EARNINGS } from '../../../../env';
 import { fetch } from '../../../../fetch';
 import { IEarning, makeEarningsData, TEarningPeriod } from '../../../../pool';
-import { LineBox } from '../../../Common';
 
-import { Box, Column, EarningsChartContainer, LineContainer, TextDate, TitleDiv } from './styled';
+import { Box, Column, EarningsChartContainer, TextDate, TitleDiv, ChartContainer } from './styled';
 
 export const EarningsChart = () => {
-  const gradientId = useMemo(() => nanoid(), []);
-  const intl = useIntl();
   const [chartDuration, setChartDuration] = useState<TEarningPeriod>('All');
   const [earningsAll, setEarningsAll] = useState(null);
   const [earnings14Days, setEarnings14Days] = useState(null);
@@ -61,6 +55,8 @@ export const EarningsChart = () => {
     }
   }, [chartDuration, earningsAll, earnings14Days, earnings24Hours]);
 
+  const loader = <LoaderComingSoon isPlaceholder={true} />;
+
   return (
     <EarningsChartContainer>
       <Box>
@@ -96,53 +92,15 @@ export const EarningsChart = () => {
             </TextDate>
           </Column>
         </TitleDiv>
-        <LineContainer>
-          {/* Todo: remove isPlaceholder props after 'earnings API' works */}
-          {isLoading && <LoaderComingSoon isPlaceholder={true} />}
-          <LineBox isLoading={isLoading}>
-            <ResponsiveContainer width="100%" height="100%" minHeight={110}>
-              <AreaChart data={earnings}>
-                <defs>
-                  <linearGradient id={gradientId} x1="0" x2="0" y1="0" y2="1">
-                    <stop offset="40%" stopColor="#31D5B8" stopOpacity={1} />
-                    <stop offset="100%" stopColor="#31D5B8" stopOpacity={0} />
-                  </linearGradient>
-                </defs>
-                <XAxis
-                  dataKey="timestamp"
-                  tickFormatter={(label) =>
-                    intl.formatDate(label, {
-                      month: 'short',
-                      day: 'numeric',
-                    })
-                  }
-                  fontSize="0.75rem"
-                  fontWeight="500"
-                  tickLine={false}
-                  axisLine={false}
-                />
-                <YAxis
-                  dataKey={(v) => parseInt(v.value)}
-                  tickFormatter={(label) => '$' + formatNum(label)}
-                  domain={['dataMin', 'dataMax']}
-                  tickLine={false}
-                  axisLine={false}
-                  fontSize="0.75rem"
-                  fontWeight="500"
-                />
-                <Tooltip content={CustomTooltip} />
-                <Area
-                  type="monotone"
-                  dataKey="value"
-                  stroke="#82ca9d"
-                  fill={`url(#${gradientId})`}
-                  fillOpacity="0.1"
-                  strokeWidth={2}
-                />
-              </AreaChart>
-            </ResponsiveContainer>
-          </LineBox>
-        </LineContainer>
+        <ChartContainer>
+          <GenerateChart
+            chart={earnings}
+            isLoading={isLoading}
+            minHeight={110}
+            loader={loader}
+            isAxis={true}
+          />
+        </ChartContainer>
       </Box>
     </EarningsChartContainer>
   );

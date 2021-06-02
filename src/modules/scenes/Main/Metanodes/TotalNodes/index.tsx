@@ -77,7 +77,6 @@ export const TotalNodes = ({ metanodes: metanodesParam, isLoading }: Props) => {
                   cy="50%"
                   innerRadius={72}
                   outerRadius={90}
-                  fill="#8884d8"
                   paddingAngle={0}
                   dataKey="value"
                 >
