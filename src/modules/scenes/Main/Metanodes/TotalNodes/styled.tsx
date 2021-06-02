@@ -81,3 +81,11 @@ export const Row = styled.div`
   grid-template-columns: ${({ theme }) => rem(theme.pulsar.size.street)} auto;
   align-items: center;
 `;
+
+export const CustomTooltipContainer = styled.div`
+  border-radius: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  background: ${({ theme }) => theme.pulsar.color.bg.masked};
+  display: flex;
+  flex-direction: column;
+  padding: ${rem(4)} ${rem(12)};
+`;

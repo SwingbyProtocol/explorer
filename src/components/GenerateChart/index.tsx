@@ -7,8 +7,8 @@ import { useTheme } from 'styled-components';
 import { formatNum } from '../../modules/common';
 import { IChartDate } from '../../modules/explorer';
 import { LineBox } from '../../modules/scenes/Common';
-import { CustomTooltip } from '../CustomTooltip';
 
+import { CustomTooltip } from './CustomTooltip';
 import { ChartContainer } from './styled';
 
 interface Props {

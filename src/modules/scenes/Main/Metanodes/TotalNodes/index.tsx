@@ -5,7 +5,6 @@ import { FormattedMessage } from 'react-intl';
 import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip } from 'recharts';
 import { useTheme } from 'styled-components';
 
-import { CustomTooltipPie } from '../../../../../components/CustomTooltipPie';
 import { Loader } from '../../../../../components/Loader';
 import { INodeListResponse } from '../../../../metanodes';
 import { TextRoom } from '../../../Common';
@@ -19,6 +18,7 @@ import {
   TextNodeNum,
   TotalNodesContainer,
   StatusIconWithWarningHalf,
+  CustomTooltipContainer,
 } from './styled';
 
 interface Props {
@@ -55,6 +55,20 @@ export const TotalNodes = ({ metanodes: metanodesParam, isLoading }: Props) => {
     theme.pulsar.color.warning.normal,
     theme.pulsar.color.primary.normal,
   ];
+
+  const CustomTooltipPie = ({ payload }) => {
+    const data = payload?.[0]?.payload;
+
+    if (!data) return <></>;
+    return (
+      <CustomTooltipContainer>
+        <Text variant="label">
+          {data.payload.name}: {data.payload.value}
+        </Text>
+      </CustomTooltipContainer>
+    );
+  };
+
   return (
     <TotalNodesContainer>
       <RowTitle>
