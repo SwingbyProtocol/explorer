@@ -2,10 +2,7 @@ import { FormatDateOptions } from 'react-intl';
 
 import { IEarning, TEarningPeriod } from '../..';
 
-export const makeEarningsData = (
-  rawData: IEarning[],
-  duration: 'All' | '14d' | '1d',
-): { values: string[]; times: number[] } => {
+export const makeEarningsData = (rawData: IEarning[], duration: 'All' | '14d' | '1d') => {
   let period: number;
   if (duration === 'All') {
     period = rawData.length;
@@ -17,20 +14,14 @@ export const makeEarningsData = (
     period = 24;
   }
 
-  const dataSet = rawData.slice(0, period);
-  const values = dataSet
-    .map((data: IEarning) => {
-      return data.value;
-    })
-    .reverse();
-
-  const times = dataSet
-    .map((data: IEarning) => {
-      return data.timestamp;
-    })
-    .reverse();
-
-  return { values, times };
+  const dataSet = rawData.slice(0, period).reverse();
+  const data = dataSet.map((it) => {
+    return {
+      value: Number(it.value),
+      timestamp: it.timestamp,
+    };
+  });
+  return data;
 };
 
 type TFormatType = (value: string | number | Date, opts?: FormatDateOptions) => string;

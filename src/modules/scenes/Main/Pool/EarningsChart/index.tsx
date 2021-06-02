@@ -1,40 +1,28 @@
 import { Text } from '@swingby-protocol/pulsar';
-import React, { useEffect, useState } from 'react';
-import { Line } from 'react-chartjs-2';
+import { nanoid } from 'nanoid';
+import React, { useEffect, useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useSelector } from 'react-redux';
+import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
+import { CustomTooltip } from '../../../../../components/CustomTooltip';
 import { LoaderComingSoon } from '../../../../../components/LoaderComingSoon';
+import { formatNum } from '../../../../common';
 import { ENDPOINT_EARNINGS } from '../../../../env';
 import { fetch } from '../../../../fetch';
-import { IEarning, makeEarningsData, makeTimeLabels, TEarningPeriod } from '../../../../pool';
+import { IEarning, makeEarningsData, TEarningPeriod } from '../../../../pool';
 import { LineBox } from '../../../Common';
 
 import { Box, Column, EarningsChartContainer, LineContainer, TextDate, TitleDiv } from './styled';
 
 export const EarningsChart = () => {
-  const today = new Date();
-  const initialEarningsAll = {
-    values: ['0', '0', '0', '0', '0', '0', '0'],
-    times: [
-      new Date().setDate(today.getDate() - 6),
-      new Date().setDate(today.getDate() - 5),
-      new Date().setDate(today.getDate() - 4),
-      new Date().setDate(today.getDate() - 3),
-      new Date().setDate(today.getDate() - 2),
-      new Date().setDate(today.getDate() - 1),
-      String(today),
-    ],
-  };
-
+  const gradientId = useMemo(() => nanoid(), []);
+  const intl = useIntl();
   const [chartDuration, setChartDuration] = useState<TEarningPeriod>('All');
-  const [earningsAll, setEarningsAll] = useState(initialEarningsAll);
+  const [earningsAll, setEarningsAll] = useState(null);
   const [earnings14Days, setEarnings14Days] = useState(null);
   const [earnings24Hours, setEarnings24Hours] = useState(null);
   const [earnings, setEarnings] = useState(earningsAll);
   const [isLoading, setIsLoading] = useState(true);
-
-  const userAddress = useSelector((state) => state.pool.userAddress);
 
   useEffect(() => {
     (async () => {
@@ -70,73 +58,6 @@ export const EarningsChart = () => {
       }
     }
   }, [chartDuration, earningsAll, earnings14Days, earnings24Hours]);
-
-  const { formatDate, formatTime } = useIntl();
-
-  const data = (canvas) => {
-    const ctx = canvas.getContext('2d');
-    const gradient = ctx.createLinearGradient(0, 0, 0, 140);
-    gradient.addColorStop(0, '#31D5B8');
-    gradient.addColorStop(0.8, 'rgba(255,255,255, 0.3)');
-
-    return {
-      labels: makeTimeLabels(earnings.times as string[], chartDuration, formatDate, formatTime),
-      datasets: [
-        {
-          fill: 'start',
-          tension: 0.4,
-          backgroundColor: gradient,
-          borderColor: '#31D5B8',
-          data: earnings.values,
-        },
-      ],
-    };
-  };
-
-  const options = {
-    animation: false,
-    responsive: true,
-    pointDotStrokeWidth: 0,
-    elements: {
-      point: {
-        radius: 0,
-      },
-    },
-    plugins: {
-      legend: { display: false },
-    },
-    scales: {
-      x: {
-        grid: {
-          display: false,
-        },
-        ticks: {
-          font: 10,
-          color: '#929D9D',
-        },
-      },
-      y: {
-        grid: {
-          display: false,
-        },
-        ticks: {
-          color: '#929D9D',
-          font: 10,
-          padding: 0,
-        },
-      },
-    },
-  };
-
-  useEffect(() => {
-    const loading = earnings.values === initialEarningsAll.values;
-    if (!loading && userAddress) {
-      setTimeout(() => {
-        // Todo: Change to 'false' after 'earnings API' works
-        setIsLoading(true);
-      }, 800);
-    }
-  }, [earnings.values, initialEarningsAll.values, userAddress]);
 
   return (
     <EarningsChartContainer>
@@ -174,10 +95,50 @@ export const EarningsChart = () => {
           </Column>
         </TitleDiv>
         <LineContainer>
-          {/* Memo: remove isPlaceholder props after 'earnings API' works */}
+          {/* Todo: remove isPlaceholder props after 'earnings API' works */}
           {isLoading && <LoaderComingSoon isPlaceholder={true} />}
           <LineBox isLoading={isLoading}>
-            <Line type="line" data={data} options={options} height={110} />
+            <ResponsiveContainer width="100%" height="100%" minHeight={110}>
+              <AreaChart data={earnings}>
+                <defs>
+                  <linearGradient id={gradientId} x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="40%" stopColor="#31D5B8" stopOpacity={1} />
+                    <stop offset="100%" stopColor="#31D5B8" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <XAxis
+                  dataKey="timestamp"
+                  tickFormatter={(label) =>
+                    intl.formatDate(label, {
+                      month: 'short',
+                      day: 'numeric',
+                    })
+                  }
+                  fontSize="0.75rem"
+                  fontWeight="500"
+                  tickLine={false}
+                  axisLine={false}
+                />
+                <YAxis
+                  dataKey="value"
+                  tickFormatter={(label) => '$' + formatNum(label)}
+                  domain={['dataMin', 'dataMax']}
+                  tickLine={false}
+                  axisLine={false}
+                  fontSize="0.75rem"
+                  fontWeight="500"
+                />
+                <Tooltip content={CustomTooltip} />
+                <Area
+                  type="monotone"
+                  dataKey="value"
+                  stroke="#82ca9d"
+                  fill={`url(#${gradientId})`}
+                  fillOpacity="0.1"
+                  strokeWidth={2}
+                />
+              </AreaChart>
+            </ResponsiveContainer>
           </LineBox>
         </LineContainer>
       </Box>
