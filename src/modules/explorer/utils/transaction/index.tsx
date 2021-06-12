@@ -159,7 +159,7 @@ export const getRequiredBlockConfirmations = (currencyIn: CoinSymbol) => {
 };
 
 export const castUiStatus = (status: TransactionStatus) => {
-  if (status === TxStatus.SENDING) {
+  if (status === TxStatus.SIGNING) {
     return 'Processing';
   } else {
     return capitalize(status);
