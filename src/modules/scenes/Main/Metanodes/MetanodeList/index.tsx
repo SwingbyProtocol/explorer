@@ -4,6 +4,7 @@ import { DateTime } from 'luxon';
 import { rem } from 'polished';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
+import { hasFlag } from 'country-flag-icons';
 
 import { PATH } from '../../../../env';
 import { convertDateTime, getDiffDays } from '../../../../explorer';
@@ -116,7 +117,11 @@ export const MetanodeList = (props: Props) => {
                   <Location>
                     <ImgFlag
                       alt={node.regionCode}
-                      src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${node.regionCode}.svg`}
+                      src={
+                        hasFlag(node.regionCode)
+                          ? `https://purecatamphetamine.github.io/country-flag-icons/3x2/${node.regionCode}.svg`
+                          : 'https://cdn3.iconfinder.com/data/icons/seo-and-internet-marketing-12/512/52-512.png'
+                      }
                     />
                     <NodeStatus>
                       <ColumnNodeName>
