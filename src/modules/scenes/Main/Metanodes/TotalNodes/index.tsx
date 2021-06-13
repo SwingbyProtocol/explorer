@@ -35,14 +35,16 @@ export const TotalNodes = ({ metanodes: metanodesParam, isLoading }: Props) => {
   const theme = useTheme();
   const metanodes = metanodesParam ?? [];
 
-  const totalNodeCount = metanodes.length;
-  const activeNodeCount = metanodes.filter((it) => CHURNED_IN_STATUSES.includes(it.status)).length;
-  const mayChurnOutNodeCount = metanodes.filter((it) =>
-    MAY_CHURNED_OUT_STATUSES.includes(it.status),
-  ).length;
-  const notActiveNodeCount = metanodes.filter(
-    (it) => ![...CHURNED_IN_STATUSES, ...MAY_CHURNED_OUT_STATUSES].includes(it.status),
-  ).length;
+  const totalNodeCount = metanodes && metanodes.length;
+  const activeNodeCount =
+    metanodes && metanodes.filter((it) => CHURNED_IN_STATUSES.includes(it.status)).length;
+  const mayChurnOutNodeCount =
+    metanodes && metanodes.filter((it) => MAY_CHURNED_OUT_STATUSES.includes(it.status)).length;
+  const notActiveNodeCount =
+    metanodes &&
+    metanodes.filter(
+      (it) => ![...CHURNED_IN_STATUSES, ...MAY_CHURNED_OUT_STATUSES].includes(it.status),
+    ).length;
 
   const loader = <Loader marginTop={0} minHeight={288} />;
   const data = [

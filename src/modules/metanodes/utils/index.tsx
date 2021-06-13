@@ -6,6 +6,7 @@ import { ENDPOINT_SKYBRIDGE_EXCHANGE, mode } from '../../env';
 import { IChartDate } from '../../explorer';
 import { camelize, fetch, fetcher } from '../../fetch';
 import { IFloatHistoryObject } from '../../hooks';
+import { initialVolumes } from '../../store';
 
 export const fetchNodeList = async (bridge: SkybridgeBridge) => {
   const url = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/nodes`;
@@ -174,25 +175,30 @@ export const mergeLockedArray = (
 };
 
 export const getLockedHistory = async (bridge: SkybridgeBridge) => {
-  const urlBtcEth = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/production/btc_erc/bonded-historic`;
-  const urlBtcBsc = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/production/btc_bep20/bonded-historic`;
+  try {
+    const urlBtcEth = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/production/btc_erc/bonded-historic`;
+    const urlBtcBsc = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/production/btc_bep20/bonded-historic`;
 
-  const results = await Promise.all([
-    fetcher<IBondHistories>(urlBtcEth),
-    fetcher<IBondHistories>(urlBtcBsc),
-  ]);
+    const results = await Promise.all([
+      fetcher<IBondHistories>(urlBtcEth),
+      fetcher<IBondHistories>(urlBtcBsc),
+    ]);
 
-  if (bridge === 'btc_erc') {
-    return formatHistoriesArray(results[0]);
-  } else if (bridge === 'btc_bep20') {
-    return formatHistoriesArray(results[1]);
-  } else {
-    const lockedHistoryEth = formatHistoriesArray(results[0]);
-    const lockedHistoryBsc = formatHistoriesArray(results[1]);
-    const mergedArray = mergeLockedArray(lockedHistoryEth, lockedHistoryBsc);
+    if (bridge === 'btc_erc') {
+      return formatHistoriesArray(results[0]);
+    } else if (bridge === 'btc_bep20') {
+      return formatHistoriesArray(results[1]);
+    } else {
+      const lockedHistoryEth = formatHistoriesArray(results[0]);
+      const lockedHistoryBsc = formatHistoriesArray(results[1]);
+      const mergedArray = mergeLockedArray(lockedHistoryEth, lockedHistoryBsc);
 
-    // Memo: Remove duplicated 'at'
-    const listedLockHistories = removeDuplicatedAt(mergedArray);
-    return listedLockHistories;
+      // Memo: Remove duplicated 'at'
+      const listedLockHistories = removeDuplicatedAt(mergedArray);
+      return listedLockHistories;
+    }
+  } catch (error) {
+    console.log('error', error);
+    return initialVolumes;
   }
 };

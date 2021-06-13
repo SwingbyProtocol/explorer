@@ -22,3 +22,36 @@ export const networkInfos = {
 };
 
 export const usd = { BTC: 0, SWINGBY: 0 };
+
+export const floatHistoryObjectInitialValue = [
+  {
+    at: '2021-01-01T00:00:00.474Z',
+    data: [
+      {
+        amount: '0',
+        bridge: 'btc_erc',
+        currency: 'BTC',
+        amountUsd: '0',
+      },
+      {
+        amount: '0',
+        bridge: 'btc_erc',
+        currency: 'WBTC',
+        amountUsd: '0',
+      },
+      {
+        amount: '0',
+        bridge: 'btc_bep20',
+        currency: 'BTC',
+        amountUsd: '0',
+      },
+      {
+        amount: '0',
+        bridge: 'btc_bep20',
+        currency: 'BTCB',
+        amountUsd: '0',
+      },
+    ],
+    totalUsd: '0',
+  },
+];

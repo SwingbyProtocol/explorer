@@ -5243,6 +5243,11 @@ cosmiconfig@^7.0.0:
     path-type "^4.0.0"
     yaml "^1.10.0"
 
+country-flag-icons@^1.2.10:
+  version "1.2.10"
+  resolved "https://registry.yarnpkg.com/country-flag-icons/-/country-flag-icons-1.2.10.tgz#c60fdf25883abacd28fbbf3842b920890f944591"
+  integrity sha512-nG+kGe4wVU9M+EsLUhP4buSuNdBH0leTm0Fv6RToXxO9BbbxUKV9VUq+9AcztnW7nEnweK7WYdtJsfyNLmQugQ==
+
 countup.js@^1.9.3:
   version "1.9.3"
   resolved "https://registry.yarnpkg.com/countup.js/-/countup.js-1.9.3.tgz#ce3e50cd7160441e478f07da31895edcc0f1c9dd"

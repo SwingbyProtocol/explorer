@@ -11,6 +11,7 @@ export {
   networkInfos,
   toggleIsExistPreviousPage,
   initialVolumes,
+  floatHistoryObjectInitialValue,
 } from './explorer';
 
 export {

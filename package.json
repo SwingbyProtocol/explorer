@@ -34,6 +34,7 @@
     "blockies-ts": "^1.0.0",
     "bnc-onboard": "^1.16.1",
     "cors": "^2.8.5",
+    "country-flag-icons": "^1.2.10",
     "framer-motion": "^3.1.1",
     "graphql": "^15.5.0",
     "isomorphic-unfetch": "^3.1.0",

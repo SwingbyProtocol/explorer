@@ -42,7 +42,6 @@ export interface IFloatHistoryObject {
   at: Date;
   data: IFloatHistory[];
   totalUsd: string;
-  amountUsd: string;
 }
 
 export interface IFloatHistory {

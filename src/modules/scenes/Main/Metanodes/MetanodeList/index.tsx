@@ -4,6 +4,7 @@ import { DateTime } from 'luxon';
 import { rem } from 'polished';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
+import { hasFlag } from 'country-flag-icons';
 
 import { PATH } from '../../../../env';
 import { convertDateTime, getDiffDays } from '../../../../explorer';
@@ -91,7 +92,6 @@ export const MetanodeList = (props: Props) => {
         </Row>
         {!isLoading &&
           metanodes &&
-          tvlUsd > 0 &&
           metanodes.map((node: INodeListResponse, i: number) => {
             const bnbAddress = node.addresses[0];
             const ethAddress = node.addresses[1];
@@ -117,7 +117,11 @@ export const MetanodeList = (props: Props) => {
                   <Location>
                     <ImgFlag
                       alt={node.regionCode}
-                      src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${node.regionCode}.svg`}
+                      src={
+                        hasFlag(node.regionCode)
+                          ? `https://purecatamphetamine.github.io/country-flag-icons/3x2/${node.regionCode}.svg`
+                          : 'https://cdn3.iconfinder.com/data/icons/seo-and-internet-marketing-12/512/52-512.png'
+                      }
                     />
                     <NodeStatus>
                       <ColumnNodeName>
@@ -153,7 +157,7 @@ export const MetanodeList = (props: Props) => {
                 </SizeL>
                 <div>
                   <TextRoom>{bondAmount}</TextRoom>{' '}
-                  <TextRoom variant="label">({lockedPortion}%)</TextRoom>
+                  {tvlUsd > 0 && <TextRoom variant="label">({lockedPortion}%)</TextRoom>}
                 </div>
                 <ColumnExpiry>
                   <Column>

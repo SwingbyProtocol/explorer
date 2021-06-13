@@ -6,7 +6,7 @@ import { IFloatHistoryObject } from '..';
 import { ENDPOINT_SKYBRIDGE_EXCHANGE, PATH } from '../../env';
 import { fetcher } from '../../fetch';
 import { getLockedHistory, listFloatAmountHistories } from '../../metanodes';
-import { initialVolumes } from '../../store';
+import { floatHistoryObjectInitialValue, initialVolumes } from '../../store';
 import { useToggleBridge } from '../useToggleBridge';
 
 export const useGetStatsChartData = () => {
@@ -20,24 +20,32 @@ export const useGetStatsChartData = () => {
     const url = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/production/float-historic`;
     const urlEth = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/production/btc_erc/float-historic`;
     const urlBsc = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/production/btc_bep20/float-historic`;
-
-    if (bridge === 'btc_erc') {
-      return await fetcher<IFloatHistoryObject[]>(urlEth);
-    } else if (bridge === 'btc_bep20') {
-      return await fetcher<IFloatHistoryObject[]>(urlBsc);
-    } else {
-      return await fetcher<IFloatHistoryObject[]>(url);
+    try {
+      if (bridge === 'btc_erc') {
+        return await fetcher<IFloatHistoryObject[]>(urlEth);
+      } else if (bridge === 'btc_bep20') {
+        return await fetcher<IFloatHistoryObject[]>(urlBsc);
+      } else {
+        return await fetcher<IFloatHistoryObject[]>(url);
+      }
+    } catch (error) {
+      console.log(error);
+      return floatHistoryObjectInitialValue;
     }
   };
 
   useEffect(() => {
     setIsLoading(true);
     (async () => {
-      const results = await Promise.all([getFloatHistory(bridge), getLockedHistory(bridge)]);
-      const floatHistoriesData = listFloatAmountHistories(results[0]);
-      setFloatHistories(floatHistoriesData);
-      setLockHistories(results[1]);
-      setIsLoading(false);
+      try {
+        const results = await Promise.all([getFloatHistory(bridge), getLockedHistory(bridge)]);
+        const floatHistoriesData = listFloatAmountHistories(results[0] as IFloatHistoryObject[]);
+        setFloatHistories(floatHistoriesData);
+        setLockHistories(results[1]);
+        setIsLoading(false);
+      } catch (error) {
+        setIsLoading(false);
+      }
     })();
   }, [bridge]);
 

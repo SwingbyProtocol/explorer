@@ -71,6 +71,7 @@ export const StatsInfo = () => {
   const dataChart = usd && [
     {
       key: 'volume',
+      isLoading: isLoadingAll ? isLoadingAll : Number(stats.volume1wksBTC) > 1 ? false : true,
       icon: <Network />,
       description: <FormattedMessage id="home.network.volume" />,
       chart: volumes,
@@ -83,6 +84,7 @@ export const StatsInfo = () => {
     },
     {
       key: 'swingbyLocked',
+      isLoading: isLoadingAll ? isLoadingAll : lockedAmount > 1 ? false : true,
       icon: <NetworkLock />,
       description: 'Swingby Locked',
       chart: lockHistories,
@@ -95,6 +97,7 @@ export const StatsInfo = () => {
     },
     {
       key: 'capacity',
+      isLoading: isLoadingAll ? isLoadingAll : floatAmount > 1 ? false : true,
       icon: <NetworkCapacity />,
       description: <FormattedMessage id="home.network.capacity" />,
       chart: floatHistories,
@@ -110,12 +113,14 @@ export const StatsInfo = () => {
   const data = [
     {
       key: 'metanodes',
+      isLoading: isLoadingAll ? isLoadingAll : stats.metanodes > 1 ? false : true,
       icon: <NetworkMetanodes />,
       description: formattedMetanodes,
       value: stats.metanodes,
     },
     {
       key: 'rewards',
+      isLoading: isLoadingAll ? isLoadingAll : Number(rewardsTotal) > 1 ? false : true,
       icon: <NetworkRewards />,
       description: formattedRewards,
       value: getFiatAssetFormatter({
@@ -156,7 +161,7 @@ export const StatsInfo = () => {
                     <Row>
                       <Text variant="label">{info.description}</Text>
                     </Row>
-                    {isLoadingAll ? (
+                    {info.isLoading ? (
                       placeholderLoader
                     ) : (
                       <Row>
@@ -169,7 +174,7 @@ export const StatsInfo = () => {
                   <ChartBox>
                     <GenerateChart
                       chart={info.chart}
-                      isLoading={isLoadingAll}
+                      isLoading={info.isLoading}
                       minHeight={76}
                       loader={loader}
                       isAxis={false}
@@ -230,7 +235,7 @@ export const StatsInfo = () => {
                           </Tooltip>
                         </RowReward>
                       )}
-                      {isLoadingAll ? (
+                      {info.isLoading ? (
                         placeholderLoader
                       ) : (
                         <Row>

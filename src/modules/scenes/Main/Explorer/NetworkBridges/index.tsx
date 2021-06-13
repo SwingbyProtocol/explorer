@@ -7,7 +7,7 @@ import { PulseLoader } from 'react-spinners';
 import { useTheme } from 'styled-components';
 
 import { CoinSymbol } from '../../../../coins';
-import { isEnableBscSupport, mode, URL_BSCSCAN, URL_ETHERSCAN } from '../../../../env';
+import { mode, URL_BSCSCAN, URL_ETHERSCAN } from '../../../../env';
 import { useGetTvlSummary } from '../../../../hooks';
 
 import {
@@ -76,13 +76,13 @@ export const NetworkBridges = () => {
   const dataBscBridge = [
     {
       coin: CoinSymbol.BTC,
-      float: isEnableBscSupport ? floatBalances.btcBsc : 9999,
-      vol: isEnableBscSupport ? stats.volume1wksBTCB : 9999,
+      float: floatBalances.btcBsc,
+      vol: stats.volume1wksBTCB,
     },
     {
       coin: CoinSymbol.BTC_B,
-      float: isEnableBscSupport ? floatBalances.btcb : 9999,
-      vol: isEnableBscSupport ? stats.volume1wksBTCB : 9999,
+      float: floatBalances.btcb,
+      vol: stats.volume1wksBTCB,
     },
   ];
 
@@ -97,7 +97,7 @@ export const NetworkBridges = () => {
     </RowLoader>
   );
 
-  const bridgeInfo = (bridgeData: IBridgeData[], isEnableSupport: boolean) => {
+  const bridgeInfo = (bridgeData: IBridgeData[]) => {
     return (
       <>
         {bridgeData.map((coin: IBridgeData) => {
@@ -112,9 +112,7 @@ export const NetworkBridges = () => {
                   {isLoadingAll ? (
                     placeholderLoader
                   ) : (
-                    <FloatSpan>
-                      {isEnableSupport ? <FormattedNumber value={Number(coin.float)} /> : 'N/A'}
-                    </FloatSpan>
+                    <FloatSpan>{<FormattedNumber value={Number(coin.float)} />}</FloatSpan>
                   )}
                 </Row>
                 <Row>
@@ -124,9 +122,7 @@ export const NetworkBridges = () => {
                   {isLoadingAll ? (
                     placeholderLoader
                   ) : (
-                    <VolSpan>
-                      {isEnableSupport ? <FormattedNumber value={Number(coin.vol)} /> : 'N/A'}
-                    </VolSpan>
+                    <VolSpan>{<FormattedNumber value={Number(coin.vol)} />}</VolSpan>
                   )}
                 </Row>
               </DataDiv>
@@ -213,7 +209,7 @@ export const NetworkBridges = () => {
             </Text>
             {networkScan(URL_ETHERSCAN)}
           </RowBridgeTitle>
-          <CoinContainer>{bridgeInfo(dataEthBridge, true)}</CoinContainer>
+          <CoinContainer>{bridgeInfo(dataEthBridge)}</CoinContainer>
         </BridgeContainer>
         <BridgeContainer>
           <RowBridgeTitle>
@@ -222,7 +218,7 @@ export const NetworkBridges = () => {
             </Text>
             {networkScan(URL_BSCSCAN)}
           </RowBridgeTitle>
-          <CoinContainer>{bridgeInfo(dataBscBridge, isEnableBscSupport)}</CoinContainer>
+          <CoinContainer>{bridgeInfo(dataBscBridge)}</CoinContainer>
         </BridgeContainer>
       </BridgeInfos>
     </NetworkBridgeContainer>

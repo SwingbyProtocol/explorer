@@ -23,20 +23,23 @@ export const useGetBridgesTvl = (path: PATH) => {
     (async () => {
       const urlBondEth = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/btc_erc/bonded-historic`;
       const urlBondBsc = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/btc_bep20/bonded-historic`;
+      try {
+        const results = await Promise.all([
+          fetcher<IBondHistories>(urlBondEth),
+          fetcher<IBondHistories>(urlBondBsc),
+        ]);
 
-      const results = await Promise.all([
-        fetcher<IBondHistories>(urlBondEth),
-        fetcher<IBondHistories>(urlBondBsc),
-      ]);
+        const tvlSwingbyEth = Number(results[0].data[0].bond);
+        const tvlSwingbyBsc = Number(results[1].data[0].bond);
 
-      const tvlSwingbyEth = Number(results[0].data[0].bond);
-      const tvlSwingbyBsc = Number(results[1].data[0].bond);
-
-      setTvl({
-        btc_erc: tvlSwingbyEth,
-        btc_bep20: tvlSwingbyBsc,
-      });
-      dispatch(toggleIsLoading(false));
+        setTvl({
+          btc_erc: tvlSwingbyEth,
+          btc_bep20: tvlSwingbyBsc,
+        });
+        dispatch(toggleIsLoading(false));
+      } catch (error) {
+        dispatch(toggleIsLoading(false));
+      }
     })();
   }, [path, dispatch]);
 

@@ -26,83 +26,108 @@ export const useToggleMetanode = (path: PATH) => {
   const [churnTime, setChurnTime] = useState<IChurn | null>(null);
   const [bondHistories, setBondHistories] = useState<IChartDate[] | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-
   const [liquidityRatio, setLiquidityRatio] = useState<ILiquidityRatio[] | null>(null);
+
+  const getRewards = useCallback(async () => {
+    if (bridge && path === PATH.METANODES) {
+      const rewardsUrl = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/rewards-last-week`;
+      const result = await fetcher<IReward>(rewardsUrl);
+      setReward(result);
+    }
+    if (bridge && path === PATH.ROOT) {
+      const rewardsUrl = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/rewards-last-week`;
+      const rewardData = await fetcher<IReward>(rewardsUrl);
+      setReward(rewardData);
+    } else {
+      // Memo: path === Root && bridge === '' (Multi-bridge)
+      const ercRewardsUrl = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/btc_erc/rewards-last-week`;
+      const bscRewardsUrl = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/btc_bep20/rewards-last-week`;
+
+      const results = await Promise.all([
+        fetcher<IReward>(ercRewardsUrl),
+        fetcher<IReward>(bscRewardsUrl),
+      ]);
+
+      const ercRewardData = results[0];
+      const bscRewardData = results[1];
+
+      const rewardData = {
+        currency: 'USD',
+        networkRewards: (
+          Number(ercRewardData.networkRewards) + Number(bscRewardData.networkRewards)
+        ).toFixed(0),
+        stakingRewards: (
+          Number(ercRewardData.stakingRewards) + Number(bscRewardData.stakingRewards)
+        ).toFixed(0),
+        total: (Number(ercRewardData.total) + Number(bscRewardData.total)).toFixed(0),
+        avgPerNode: '0',
+      };
+
+      setReward(rewardData);
+      setIsLoading(false);
+    }
+  }, [bridge, path]);
+
+  const getLiquidity = useCallback(async () => {
+    const url = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/bond-to-liquidity`;
+    const result = await fetcher<ILiquidity>(url);
+    setLiquidity(result);
+  }, [bridge]);
+
+  const getBondHistory = useCallback(async () => {
+    const url = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/bonded-historic`;
+    const result = await fetcher<IBondHistories>(url);
+    const bondHistoriesData = result.data;
+    const listBondHistory = listHistory(bondHistoriesData).reverse();
+    setBondHistories(listBondHistory);
+  }, [bridge]);
+
+  const getLiquidityRation = useCallback(async () => {
+    const url = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/liquidity-ratio`;
+    const result = await fetcher<ILiquidityRatios>(url);
+    const liquidityRationData = result.data;
+    setLiquidityRatio(liquidityRationData);
+  }, [bridge]);
 
   const getChurnTime = useCallback(async () => {
     const churnUrl = bridge && `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/churn-info`;
-
     const result = await fetcher<IChurn>(churnUrl);
     setChurnTime(result);
   }, [bridge]);
 
+  const getNodes = useCallback(async () => {
+    const nodes = await fetchNodeList(bridge);
+    setMetanodes(nodes);
+  }, [bridge]);
+
   useEffect(() => {
-    setIsLoading(true);
     (async () => {
-      if (bridge && path === PATH.METANODES) {
-        const rewardsUrl = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/rewards-last-week`;
-        const liquidityUrl = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/bond-to-liquidity`;
-        const bondHistoryUrl = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/bonded-historic`;
-        const liquidityRatioUrl = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/liquidity-ratio`;
-
-        const results = await Promise.all([
-          fetchNodeList(bridge),
-          fetcher<IReward>(rewardsUrl),
-          fetcher<ILiquidity>(liquidityUrl),
-          fetcher<IBondHistories>(bondHistoryUrl),
-          fetcher<ILiquidityRatios>(liquidityRatioUrl),
+      try {
+        setIsLoading(true);
+        await Promise.all([
+          getRewards(),
+          getLiquidity(),
+          getBondHistory(),
+          getLiquidityRation(),
           getChurnTime(),
+          getNodes(),
         ]);
-
-        const nodes = results[0];
-        const rewardData = results[1];
-        const liquidityData = results[2];
-        const bondHistoriesData = results[3].data;
-        const liquidityRationData = results[4].data;
-
-        const listBondHistory = listHistory(bondHistoriesData).reverse();
-
-        setMetanodes(nodes);
-        setReward(rewardData);
-        setLiquidity(liquidityData);
-        setBondHistories(listBondHistory);
-        setLiquidityRatio(liquidityRationData);
         setIsLoading(false);
-      } else if (bridge && path === PATH.ROOT) {
-        const rewardsUrl = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/rewards-last-week`;
-        const rewardData = await fetcher<IReward>(rewardsUrl);
-        setReward(rewardData);
-        setIsLoading(false);
-      } else {
-        // Memo: path === Root && bridge === '' (Multi-bridge)
-        const ercRewardsUrl = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/btc_erc/rewards-last-week`;
-        const bscRewardsUrl = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/btc_bep20/rewards-last-week`;
-
-        const results = await Promise.all([
-          fetcher<IReward>(ercRewardsUrl),
-          fetcher<IReward>(bscRewardsUrl),
-        ]);
-
-        const ercRewardData = results[0];
-        const bscRewardData = results[1];
-
-        const rewardData = {
-          currency: 'USD',
-          networkRewards: (
-            Number(ercRewardData.networkRewards) + Number(bscRewardData.networkRewards)
-          ).toFixed(0),
-          stakingRewards: (
-            Number(ercRewardData.stakingRewards) + Number(bscRewardData.stakingRewards)
-          ).toFixed(0),
-          total: (Number(ercRewardData.total) + Number(bscRewardData.total)).toFixed(0),
-          avgPerNode: '0',
-        };
-
-        setReward(rewardData);
+      } catch (error) {
         setIsLoading(false);
       }
     })();
-  }, [bridge, getChurnTime, path]);
+  }, [getBondHistory, getLiquidityRation, getChurnTime, getLiquidity, getRewards, getNodes]);
+
+  useEffect(() => {
+    setMetanodes(null);
+    setReward(null);
+    setLiquidity(null);
+    setChurnTime(null);
+    setBondHistories(null);
+    setLiquidityRatio(null);
+    setIsLoading(true);
+  }, [bridge]);
 
   useInterval(() => {
     path === PATH.METANODES && getChurnTime();

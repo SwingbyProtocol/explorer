@@ -15,22 +15,26 @@ export const useGetNetworkData = () => {
     dispatch(toggleIsLoading(true));
     usd.BTC > 0 &&
       (async () => {
-        const results = await Promise.all([
-          fetchFloatBalances(usd.BTC, bridge),
-          fetchStatsInfo(bridge, usd.BTC),
-        ]);
+        try {
+          const results = await Promise.all([
+            fetchFloatBalances(usd.BTC, bridge),
+            fetchStatsInfo(bridge, usd.BTC),
+          ]);
 
-        const data = results[0];
-        const stats = results[1];
+          const data = results[0];
+          const stats = results[1];
 
-        const updateStates = () => {
-          dispatch(
-            updateNetworkInfos({ floatBalances: data.floats, capacity: data.capacity, stats }),
-          );
+          const updateStates = () => {
+            dispatch(
+              updateNetworkInfos({ floatBalances: data.floats, capacity: data.capacity, stats }),
+            );
+            dispatch(toggleIsLoading(false));
+          };
+
+          data && stats && updateStates();
+        } catch (error) {
           dispatch(toggleIsLoading(false));
-        };
-
-        data && stats && updateStates();
+        }
       })();
   }, [usd, dispatch, bridge]);
 };
