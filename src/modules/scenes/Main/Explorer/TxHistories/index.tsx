@@ -9,7 +9,7 @@ import InfiniteLoader from 'react-window-infinite-loader';
 import { LinkToWidgetModal } from '../../../../../components/LinkToWidgetModal';
 import { Loader } from '../../../../../components/Loader';
 import { Bridge, Transaction, TransactionType } from '../../../../../generated/graphql';
-import { isEnableBscSupport, TXS_COUNT } from '../../../../env';
+import { TXS_COUNT } from '../../../../env';
 import {
   castGraphQlType,
   ISwapQueryPrams,
@@ -107,7 +107,6 @@ export const TxHistories = () => {
             selected={chainBridge === chain.bridge}
             onClick={() => routerPush({ bridge: chain.bridge, type, q, rejected })}
             key={chain.menu}
-            disabled={!isEnableBscSupport && chain.menu === 'BSC'}
           >
             <FormattedMessage
               id="home.recent-swaps.filter-bridge"
