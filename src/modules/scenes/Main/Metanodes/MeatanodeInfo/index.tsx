@@ -26,7 +26,6 @@ export const MetanodeInfo = () => {
     reward,
     isLoading,
   } = useToggleMetanode(PATH.METANODES);
-
   return (
     <MetanodeInfoContainer>
       <ActionButtonMetanodes />

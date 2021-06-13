@@ -91,7 +91,6 @@ export const MetanodeList = (props: Props) => {
         </Row>
         {!isLoading &&
           metanodes &&
-          tvlUsd > 0 &&
           metanodes.map((node: INodeListResponse, i: number) => {
             const bnbAddress = node.addresses[0];
             const ethAddress = node.addresses[1];
@@ -153,7 +152,7 @@ export const MetanodeList = (props: Props) => {
                 </SizeL>
                 <div>
                   <TextRoom>{bondAmount}</TextRoom>{' '}
-                  <TextRoom variant="label">({lockedPortion}%)</TextRoom>
+                  {tvlUsd > 0 && <TextRoom variant="label">({lockedPortion}%)</TextRoom>}
                 </div>
                 <ColumnExpiry>
                   <Column>

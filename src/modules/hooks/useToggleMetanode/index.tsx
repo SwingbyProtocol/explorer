@@ -26,12 +26,10 @@ export const useToggleMetanode = (path: PATH) => {
   const [churnTime, setChurnTime] = useState<IChurn | null>(null);
   const [bondHistories, setBondHistories] = useState<IChartDate[] | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-
   const [liquidityRatio, setLiquidityRatio] = useState<ILiquidityRatio[] | null>(null);
 
   const getChurnTime = useCallback(async () => {
     const churnUrl = bridge && `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/churn-info`;
-
     const result = await fetcher<IChurn>(churnUrl);
     setChurnTime(result);
   }, [bridge]);
@@ -107,6 +105,16 @@ export const useToggleMetanode = (path: PATH) => {
       }
     })();
   }, [bridge, getChurnTime, path]);
+
+  useEffect(() => {
+    setMetanodes(null);
+    setReward(null);
+    setLiquidity(null);
+    setChurnTime(null);
+    setBondHistories(null);
+    setLiquidityRatio(null);
+    setIsLoading(true);
+  }, [bridge]);
 
   useInterval(() => {
     path === PATH.METANODES && getChurnTime();
