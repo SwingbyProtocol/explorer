@@ -10,11 +10,12 @@ import { Box, TitleDiv, TotalSwingbyBondContainer } from './styled';
 
 interface Props {
   bondHistories: IChartDate[] | null;
+  isLoading: boolean;
 }
 
 export const TotalSwingbyBond = (props: Props) => {
-  const { bondHistories } = props;
-  const chart = bondHistories && bondHistories;
+  const { bondHistories, isLoading } = props;
+  const chart = !isLoading && bondHistories && bondHistories;
   const loader = <Loader marginTop={0} minHeight={130} />;
 
   return (
@@ -28,7 +29,7 @@ export const TotalSwingbyBond = (props: Props) => {
         <Box>
           <GenerateChart
             chart={chart}
-            isLoading={bondHistories ? false : true}
+            isLoading={!isLoading && bondHistories ? false : true}
             minHeight={130}
             loader={loader}
             isAxis={true}

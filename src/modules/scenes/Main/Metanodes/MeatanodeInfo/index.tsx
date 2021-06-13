@@ -36,7 +36,7 @@ export const MetanodeInfo = () => {
           <NodeStatus metanodes={metanodes} isLoading={isLoading} />
         </Left>
         <Right>
-          <TotalSwingbyBond bondHistories={bondHistories} />
+          <TotalSwingbyBond bondHistories={bondHistories} isLoading={isLoading} />
           <BondToLiquidity liquidity={liquidity} isLoading={isLoading} />
           <LiquidityRatio liquidityRatio={liquidityRatio} isLoading={isLoading} />
           <Row>
