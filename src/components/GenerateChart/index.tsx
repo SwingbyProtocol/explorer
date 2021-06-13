@@ -29,7 +29,7 @@ export const GenerateChart = (props: Props) => {
     <ChartContainer>
       {isLoading && loader}
       <LineBox isLoading={isLoading}>
-        {!isLoading && chart && (
+        {chart && (
           <ResponsiveContainer width="100%" minHeight={minHeight}>
             <AreaChart data={chart}>
               <defs>
