@@ -6,7 +6,7 @@ import { sumArray } from '../common';
 import { ENDPOINT_BSC_BRIDGE, ENDPOINT_ETHEREUM_BRIDGE, ENDPOINT_SKYBRIDGE_EXCHANGE } from '../env';
 import { castToBackendVariable, getFloatBalance, getUsdPrice, IFloatAmount } from '../explorer';
 import { fetcher } from '../fetch';
-import { IBondHistories, INodeListResponse } from '../metanodes';
+import { INodeListResponse, TBondHistory } from '../metanodes';
 
 export const getNodeQty = async (): Promise<string> => {
   const getbridgePeersUrl = (bridge: SkybridgeBridge) =>
@@ -71,16 +71,16 @@ export const getTVL = async (): Promise<string> => {
     const results = await Promise.all([
       fetcher<IFloatAmount[]>(getFloatBalUrl(ENDPOINT_ETHEREUM_BRIDGE)),
       fetcher<IFloatAmount[]>(getFloatBalUrl(ENDPOINT_BSC_BRIDGE)),
-      fetcher<IBondHistories>(getBondBalUrl('btc_erc')),
-      fetcher<IBondHistories>(getBondBalUrl('btc_bep20')),
+      fetcher<TBondHistory[]>(getBondBalUrl('btc_erc')),
+      fetcher<TBondHistory[]>(getBondBalUrl('btc_bep20')),
       getUsdPrice('bitcoin'),
     ]);
 
     const resEth = results[0];
     const resBsc = results[1];
 
-    const tvlSwingbyEth = Number(results[2].data[0].bond);
-    const tvlSwingbyBsc = Number(results[3].data[0].bond);
+    const tvlSwingbyEth = Number(results[2][0].bond);
+    const tvlSwingbyBsc = Number(results[3][0].bond);
 
     const usdBtc = results[4];
 

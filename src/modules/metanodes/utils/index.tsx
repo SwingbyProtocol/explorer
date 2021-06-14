@@ -1,6 +1,6 @@
 import { SkybridgeBridge } from '@swingby-protocol/sdk';
 
-import { IBondHistories, INodeListResponse, INodeStatusTable, TBondHistory } from '..';
+import { INodeListResponse, INodeStatusTable, TBondHistory } from '..';
 import { getShortDate } from '../../common';
 import { ENDPOINT_SKYBRIDGE_EXCHANGE, mode } from '../../env';
 import { IChartDate } from '../../explorer';
@@ -129,8 +129,8 @@ export const listHistory = (histories: TBondHistory[]) => {
   return historiesTable;
 };
 
-const formatHistoriesArray = (rawData: IBondHistories) => {
-  const historiesTable = listHistory(rawData.data);
+const formatHistoriesArray = (rawData: TBondHistory[]) => {
+  const historiesTable = listHistory(rawData);
   return historiesTable.reverse();
 };
 
@@ -180,8 +180,8 @@ export const getLockedHistory = async (bridge: SkybridgeBridge) => {
     const urlBtcBsc = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/production/btc_bep20/bonded-historic`;
 
     const results = await Promise.all([
-      fetcher<IBondHistories>(urlBtcEth),
-      fetcher<IBondHistories>(urlBtcBsc),
+      fetcher<TBondHistory[]>(urlBtcEth),
+      fetcher<TBondHistory[]>(urlBtcBsc),
     ]);
 
     if (bridge === 'btc_erc') {

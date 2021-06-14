@@ -5,7 +5,6 @@ import { IChartDate } from '../../explorer';
 import { fetcher } from '../../fetch';
 import {
   fetchNodeList,
-  IBondHistories,
   IChurn,
   ILiquidity,
   ILiquidityRatio,
@@ -13,6 +12,7 @@ import {
   INodeListResponse,
   IReward,
   listHistory,
+  TBondHistory,
 } from '../../metanodes';
 import { useInterval } from '../useInterval';
 import { useToggleBridge } from '../useToggleBridge';
@@ -42,7 +42,6 @@ export const useToggleMetanode = (path: PATH) => {
       // Memo: path === Root && bridge === '' (Multi-bridge)
       const ercRewardsUrl = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/btc_erc/rewards-last-week`;
       const bscRewardsUrl = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/btc_bep20/rewards-last-week`;
-
       const results = await Promise.all([
         fetcher<IReward>(ercRewardsUrl),
         fetcher<IReward>(bscRewardsUrl),
@@ -62,43 +61,51 @@ export const useToggleMetanode = (path: PATH) => {
         total: (Number(ercRewardData.total) + Number(bscRewardData.total)).toFixed(0),
         avgPerNode: '0',
       };
-
       setReward(rewardData);
-      setIsLoading(false);
     }
   }, [bridge, path]);
 
   const getLiquidity = useCallback(async () => {
-    const url = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/bond-to-liquidity`;
-    const result = await fetcher<ILiquidity>(url);
-    setLiquidity(result);
-  }, [bridge]);
+    if (bridge && path === PATH.METANODES) {
+      const url = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/bond-to-liquidity`;
+      const result = await fetcher<ILiquidity>(url);
+      setLiquidity(result);
+    }
+  }, [bridge, path]);
 
   const getBondHistory = useCallback(async () => {
-    const url = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/bonded-historic`;
-    const result = await fetcher<IBondHistories>(url);
-    const bondHistoriesData = result.data;
-    const listBondHistory = listHistory(bondHistoriesData).reverse();
-    setBondHistories(listBondHistory);
-  }, [bridge]);
+    if (bridge && path === PATH.METANODES) {
+      const url = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/bonded-historic`;
+      const result = await fetcher<TBondHistory[]>(url);
+      const bondHistoriesData = result;
+      const listBondHistory = listHistory(bondHistoriesData).reverse();
+      setBondHistories(listBondHistory);
+    }
+  }, [bridge, path]);
 
   const getLiquidityRation = useCallback(async () => {
-    const url = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/liquidity-ratio`;
-    const result = await fetcher<ILiquidityRatios>(url);
-    const liquidityRationData = result.data;
-    setLiquidityRatio(liquidityRationData);
-  }, [bridge]);
+    if (bridge && path === PATH.METANODES) {
+      const url = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/liquidity-ratio`;
+      const result = await fetcher<ILiquidityRatios>(url);
+      const liquidityRationData = result.data;
+      setLiquidityRatio(liquidityRationData);
+    }
+  }, [bridge, path]);
 
   const getChurnTime = useCallback(async () => {
-    const churnUrl = bridge && `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/churn-info`;
-    const result = await fetcher<IChurn>(churnUrl);
-    setChurnTime(result);
-  }, [bridge]);
+    if (bridge && path === PATH.METANODES) {
+      const churnUrl = bridge && `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/churn-info`;
+      const result = await fetcher<IChurn>(churnUrl);
+      setChurnTime(result);
+    }
+  }, [bridge, path]);
 
   const getNodes = useCallback(async () => {
-    const nodes = await fetchNodeList(bridge);
-    setMetanodes(nodes);
-  }, [bridge]);
+    if (bridge && path === PATH.METANODES) {
+      const nodes = await fetchNodeList(bridge);
+      setMetanodes(nodes);
+    }
+  }, [bridge, path]);
 
   useEffect(() => {
     (async () => {
