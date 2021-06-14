@@ -38,10 +38,7 @@ export const TXS_COUNT = 10;
 
 export const NODES_PER_PAGE = 10;
 
-export const graphEndpoint =
-  mode === MODE.PRODUCTION
-    ? 'https://graph.skybridge.info/api/graphql'
-    : 'https://testnet.graph.skybridge.info/api/graphql';
+export const graphEndpoint = 'https://network.skybridge.exchange/api/v3/graphql';
 
 export const GA_TAG = process.env.NEXT_PUBLIC_GA_TAG || 'G-8C02VKBZ6P';
 

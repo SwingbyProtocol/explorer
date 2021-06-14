@@ -1,5 +1,5 @@
 overwrite: true
-schema: 'https://graph.skybridge.info/api/graphql'
+schema: 'https://network.skybridge.exchange/api/v3/graphql'
 documents: 'src/**/*.graphql'
 generates:
   src/generated/graphql.tsx:

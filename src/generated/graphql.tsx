@@ -62,16 +62,31 @@ export type ForwardPaginationPageInfo = {
   hasPreviousPage: Scalars['Boolean'];
 };
 
+export enum Mode {
+  Test = 'test',
+  Production = 'production'
+}
+
+export type ModeEnumFilter = {
+  equals?: Maybe<Mode>;
+  in?: Maybe<Array<Maybe<Mode>>>;
+  not?: Maybe<ModeEnumFilter>;
+  notIn?: Maybe<Array<Maybe<Mode>>>;
+};
+
 export type Node = {
   __typename?: 'Node';
   id: Scalars['ID'];
+  mode: Mode;
   bridge: Bridge;
   status: NodeStatus;
   ip: Scalars['String'];
+  ipRegionCode?: Maybe<Scalars['String']>;
+  ipRegionName?: Maybe<Scalars['String']>;
   version: Scalars['String'];
   moniker: Scalars['String'];
   restUri: Scalars['String'];
-  p2pUri: Scalars['String'];
+  p2pHost: Scalars['String'];
   address1: Scalars['String'];
   address2: Scalars['String'];
   lastSeenAt: Scalars['DateTime'];
@@ -86,7 +101,8 @@ export enum NodeStatus {
   MayChurnOutBondTooLow = 'MAY_CHURN_OUT__BOND_TOO_LOW',
   MayChurnOutBondExpiring = 'MAY_CHURN_OUT__BOND_EXPIRING',
   InactiveBondTooLow = 'INACTIVE__BOND_TOO_LOW',
-  InactiveBondExpired = 'INACTIVE__BOND_EXPIRED'
+  InactiveBondExpired = 'INACTIVE__BOND_EXPIRED',
+  Unreachable = 'UNREACHABLE'
 }
 
 export type Query = {
@@ -112,7 +128,8 @@ export type QueryTransactionsArgs = {
 
 
 export type QueryNodesArgs = {
-  bridge?: Maybe<Array<Bridge>>;
+  mode: Mode;
+  bridge: Bridge;
 };
 
 export type StringFilter = {
@@ -142,6 +159,7 @@ export type Transaction = {
   type: TransactionType;
   status: TransactionStatus;
   bridge: Bridge;
+  mode: Mode;
   depositAddress: Scalars['String'];
   depositAmount: Scalars['Decimal'];
   depositTxHash?: Maybe<Scalars['String']>;
@@ -210,6 +228,7 @@ export type TransactionWhereInput = {
   type?: Maybe<TransactionTypeEnumFilter>;
   status?: Maybe<TransactionStatusEnumFilter>;
   bridge?: Maybe<BridgeEnumFilter>;
+  mode?: Maybe<ModeEnumFilter>;
   depositAddress?: Maybe<StringFilter>;
   depositTxHash?: Maybe<StringFilter>;
   depositCurrency?: Maybe<TransactionCurrencyEnumFilter>;
