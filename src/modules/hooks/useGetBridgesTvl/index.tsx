@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 
 import { ENDPOINT_SKYBRIDGE_EXCHANGE, mode, PATH } from '../../env';
 import { fetcher } from '../../fetch';
-import { IBondHistories } from '../../metanodes';
+import { TBondHistory } from '../../metanodes';
 import { toggleIsLoading } from '../../store';
 
 // Memo: TVL data for Metanode page
@@ -25,12 +25,12 @@ export const useGetBridgesTvl = (path: PATH) => {
       const urlBondBsc = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/btc_bep20/bonded-historic`;
       try {
         const results = await Promise.all([
-          fetcher<IBondHistories>(urlBondEth),
-          fetcher<IBondHistories>(urlBondBsc),
+          fetcher<TBondHistory[]>(urlBondEth),
+          fetcher<TBondHistory[]>(urlBondBsc),
         ]);
 
-        const tvlSwingbyEth = Number(results[0].data[0].bond);
-        const tvlSwingbyBsc = Number(results[1].data[0].bond);
+        const tvlSwingbyEth = Number(results[0][0].bond);
+        const tvlSwingbyBsc = Number(results[1][0].bond);
 
         setTvl({
           btc_erc: tvlSwingbyEth,
