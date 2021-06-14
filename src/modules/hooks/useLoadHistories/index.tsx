@@ -3,12 +3,14 @@ import { useCallback, useMemo } from 'react';
 
 import {
   Bridge,
+  Mode,
   StringFilterMode,
   TransactionStatus,
   TransactionType,
   TransactionWhereInput,
   useTransactionsHistoryQuery,
 } from '../../../generated/graphql';
+import { mode } from '../../env';
 
 export const useLoadHistories = () => {
   const { query } = useRouter();
@@ -70,6 +72,7 @@ export const useLoadHistories = () => {
       type: getType(txType as TransactionType),
       status: getStatus(isRejected as string),
       bridge: getBridge(query.bridge as Bridge),
+      mode: { equals: mode as Mode },
     };
 
     if (typeof q !== 'string' || !q) {
