@@ -1,0 +1,1 @@
+export { binanceChainWallet } from './binanceChainWallet';

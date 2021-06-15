@@ -3,6 +3,7 @@ import type { SkybridgeBridge, SkybridgeMode } from '@swingby-protocol/sdk';
 import type { Subscriptions } from 'bnc-onboard/dist/src/interfaces'; // eslint-disable-line import/no-internal-modules
 
 import { appName, blocknativeApiKey, infuraApiKey, mode, PATH } from '../../env';
+import { binanceChainWallet } from '../customWallet';
 
 const APP_NAME = appName;
 
@@ -12,6 +13,7 @@ const getEtherNetwork = ({ mode }: { mode: SkybridgeMode }) => {
 
   return {
     id: network.id,
+    networkName: mode === 'production' ? 'Ethereum Mainnet' : 'Goerli',
     rpcUrl: `https://${network.network}.infura.io/v3/${infuraApiKey}`,
   };
 };
@@ -20,6 +22,7 @@ const getBscNetwork = ({ mode }: { mode: SkybridgeMode }) => {
   const id = mode === 'production' ? 56 : 97;
   return {
     id,
+    networkName: mode === 'production' ? 'BSC Mainnet' : 'BSC Testnet',
     rpcUrl:
       mode === 'production'
         ? 'https://bsc-dataseed1.binance.org:443'
@@ -54,16 +57,22 @@ export const initOnboard = ({
   subscriptions: Subscriptions;
   path?: PATH;
 }) => {
-  const { id: networkId, rpcUrl } = getNetwork({ mode, bridge, path });
+  const { id: networkId, rpcUrl, networkName } = getNetwork({ mode, bridge, path });
 
   return Onboard({
     dappId: blocknativeApiKey,
     networkId,
+    networkName,
     hideBranding: true,
     subscriptions,
     walletSelect: {
       wallets: [
         { walletName: 'metamask', preferred: true },
+        binanceChainWallet({
+          walletName: 'Binance Chain Wallet',
+          isMobile: false,
+          preferred: true,
+        }),
         {
           walletName: 'ledger',
           rpcUrl,
@@ -74,7 +83,7 @@ export const initOnboard = ({
           infuraKey: infuraApiKey,
           preferred: true,
         },
-        { walletName: 'walletLink', rpcUrl, appName: APP_NAME, preferred: true },
+        { walletName: 'walletLink', rpcUrl, appName: APP_NAME },
         { walletName: 'authereum' },
         { walletName: 'lattice', rpcUrl, appName: APP_NAME },
         { walletName: 'torus' },

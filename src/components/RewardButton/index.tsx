@@ -9,7 +9,7 @@ import { TransactionConfig } from 'web3-eth';
 
 import { mode, PATH } from '../../modules/env';
 import { useToggleBridge } from '../../modules/hooks';
-import { initOnboard, showConnectNetwork } from '../../modules/onboard';
+import { initOnboard, showConnectNetwork } from '../../modules/onboardBack';
 import { ButtonScale } from '../../modules/scenes/Common';
 import { StylingConstants } from '../../modules/styles';
 

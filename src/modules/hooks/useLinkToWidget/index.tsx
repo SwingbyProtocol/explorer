@@ -8,7 +8,7 @@ import { useAffiliateCode } from '../../affiliate-code';
 import { CoinSymbol, EthereumWalletAddressCoins, getTxBridge } from '../../coins';
 import { mode } from '../../env';
 import { TSwapWidget, TTxRawObject } from '../../explorer';
-import { initOnboard } from '../../onboard';
+import { initOnboard } from '../../onboardBack';
 import { setOnboard } from '../../store';
 import { useThemeSettings } from '../../store/settings';
 

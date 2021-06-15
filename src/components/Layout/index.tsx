@@ -8,6 +8,7 @@ import { SdkContextProvider } from '../../modules/sdk-context';
 import { fetchTransactionFees, fetchUsdPrice } from '../../modules/store';
 import { Header } from '../Header';
 import { Swap } from '../Swap';
+import { OnboardProvider } from '../../modules/onboard';
 
 import { SwapContainer } from './styled';
 import { CookieConsentHandler } from './CookieConsentHandler';
@@ -45,13 +46,15 @@ export const Layout = ({ children }: Props) => {
   return (
     <>
       <SdkContextProvider mode={mode}>
-        <Header />
+        <OnboardProvider>
+          <Header />
 
-        <SwapContainer>
-          <Swap />
-        </SwapContainer>
+          <SwapContainer>
+            <Swap />
+          </SwapContainer>
 
-        {children}
+          {children}
+        </OnboardProvider>
       </SdkContextProvider>
 
       <CookieConsentHandler />
