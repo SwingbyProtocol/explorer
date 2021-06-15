@@ -15,8 +15,6 @@ export {
 } from './explorer';
 
 export {
-  setUserAddress,
-  setOnboard,
   togglePoolMode,
   setBalanceSbBTC,
   getRecentTxs,

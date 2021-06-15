@@ -1,15 +1,13 @@
 import { createWidget, getUrl, openPopup } from '@swingby-protocol/widget';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
 import { toastWrongAddress } from '../../../components/Toast';
 import { useAffiliateCode } from '../../affiliate-code';
-import { CoinSymbol, EthereumWalletAddressCoins, getTxBridge } from '../../coins';
+import { CoinSymbol, EthereumWalletAddressCoins } from '../../coins';
 import { mode } from '../../env';
 import { TSwapWidget, TTxRawObject } from '../../explorer';
-import { initOnboard } from '../../onboard';
-import { setOnboard } from '../../store';
+import { useOnboard } from '../../onboard';
 import { useThemeSettings } from '../../store/settings';
 
 interface IData {
@@ -23,39 +21,18 @@ export const useLinkToWidget = (data: IData) => {
   const { toggleOpenLink, tx, action, setToggleOpenLink } = data;
   const router = useRouter();
   const [theme] = useThemeSettings();
-  const dispatch = useDispatch();
   const affiliateCode = useAffiliateCode();
-  const onboard = useSelector((state) => state.pool.onboard);
+  const { onboard, address } = useOnboard();
   const [walletAddress, setWalletAddress] = useState(null);
   const [isClaimWidgetModalOpen, setIsClaimWidgetModalOpen] = useState(false);
   const [isDuplicateWidgetModalOpen, setIsDuplicateWidgetModalOpen] = useState(false);
 
-  const bridge = tx && getTxBridge(tx);
-
-  const formattedUserAddress = walletAddress && walletAddress.toLowerCase();
+  const formattedUserAddress = address && address.toLowerCase();
 
   const login = useCallback(async () => {
-    await onboard.walletSelect();
-    await onboard.walletCheck();
+    await onboard?.walletSelect();
+    await onboard?.walletCheck();
   }, [onboard]);
-
-  useEffect(() => {
-    if (bridge) {
-      const handleSetWalletAddress = (address: string): void => {
-        if (address !== undefined) {
-          setWalletAddress(address);
-        }
-      };
-      const onboardData = initOnboard({
-        subscriptions: {
-          address: handleSetWalletAddress,
-        },
-        mode,
-        bridge,
-      });
-      dispatch(setOnboard(onboardData));
-    }
-  }, [dispatch, bridge, toggleOpenLink, setToggleOpenLink]);
 
   useEffect(() => {
     if (tx && toggleOpenLink > 1) {
@@ -97,13 +74,14 @@ export const useLinkToWidget = (data: IData) => {
           return;
         }
 
-        if (tx.addressOut.toLowerCase() !== formattedUserAddress && walletAddress !== undefined) {
+        if (tx.addressOut.toLowerCase() !== formattedUserAddress) {
           toastWrongAddress();
           setWalletAddress(null);
           onboard.walletReset();
           return;
         }
-        if (walletAddress === undefined) {
+
+        if (!address) {
           setWalletAddress(null);
           setToggleOpenLink(1);
           return;
@@ -128,6 +106,7 @@ export const useLinkToWidget = (data: IData) => {
     walletAddress,
     onboard,
     setToggleOpenLink,
+    address,
   ]);
 
   return {

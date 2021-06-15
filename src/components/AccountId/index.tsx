@@ -1,10 +1,10 @@
 import useCopy from '@react-hook/copy';
 import * as blockies from 'blockies-ts';
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { ellipseAddress } from '../../modules/common';
-import { LOCAL_STORAGE } from '../../modules/env';
+import { useOnboard } from '../../modules/onboard';
 import { resetPoolState } from '../../modules/store';
 import { copyToClipboard, toastCopyAddress } from '../Toast';
 
@@ -18,27 +18,25 @@ import {
 
 export const AccountId = () => {
   const dispatch = useDispatch();
-  const userAddress = useSelector((state) => state.pool.userAddress);
-  const onboard = useSelector((state) => state.pool.onboard);
-  const avatarSrc = userAddress && blockies.create({ seed: userAddress }).toDataURL();
+  const { address, onboard } = useOnboard();
+  const avatarSrc = address && blockies.create({ seed: address }).toDataURL();
 
-  const { copy } = useCopy(userAddress);
+  const { copy } = useCopy(address);
 
   return (
     <AccountIdWrapper>
-      {userAddress && (
+      {address && (
         <AccountIdContainer>
           <ImageAvatar src={avatarSrc} alt="avatar" />
           <TextAddress
             variant="section-title"
             onClick={() => copyToClipboard(copy, toastCopyAddress)}
           >
-            {ellipseAddress(userAddress)}
+            {ellipseAddress(address)}
           </TextAddress>
           <IconClose
             onClick={() => {
               onboard && onboard.walletReset();
-              window.localStorage.removeItem(LOCAL_STORAGE.UserWalletAddress);
               dispatch(resetPoolState());
             }}
           />
