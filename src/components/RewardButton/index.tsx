@@ -19,7 +19,7 @@ export const RewardButton = () => {
   const lg = useMatchMedia({ query: `(min-width: ${rem(media.lg)})` });
   const sm = useMatchMedia({ query: `(min-width: ${rem(media.sm)})` });
   const { bridge } = useToggleBridge(PATH.METANODES);
-  const { onboard, address } = useOnboard();
+  const { onboard } = useOnboard();
 
   const distributeRewards = async () => {
     await onboard.walletSelect();
@@ -28,6 +28,7 @@ export const RewardButton = () => {
     }
 
     const wallet = onboard.getState().wallet;
+    const address = onboard.getState().address;
 
     try {
       const web3 = new Web3(wallet.provider);
