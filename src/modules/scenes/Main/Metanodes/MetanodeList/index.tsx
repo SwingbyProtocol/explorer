@@ -1,10 +1,10 @@
 import { getCryptoAssetFormatter, Tooltip, useMatchMedia } from '@swingby-protocol/pulsar';
 import { SkybridgeBridge } from '@swingby-protocol/sdk';
+import { hasFlag } from 'country-flag-icons';
 import { DateTime } from 'luxon';
 import { rem } from 'polished';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
-import { hasFlag } from 'country-flag-icons';
 
 import { PATH } from '../../../../env';
 import { convertDateTime, getDiffDays } from '../../../../explorer';
@@ -53,9 +53,8 @@ interface Props {
 export const MetanodeList = (props: Props) => {
   const { locale } = useIntl();
   const { metanodes, bridge, isLoading } = props;
-  const { tvl } = useGetBridgesTvl(PATH.METANODES);
+  const { tvl } = useGetBridgesTvl(PATH.METANODES, bridge);
   const usd = useSelector((state) => state.explorer.usd);
-  const tvlUsd = tvl[bridge];
   const swingbyRewardCurrency = 'BEP2';
   const sbBTCRewardCurrency = bridge && getSbBtcRewardCurrency(bridge);
 
@@ -106,7 +105,7 @@ export const MetanodeList = (props: Props) => {
             const expireTimestamp = dt.toSeconds();
             const expireTime = convertDateTime(expireTimestamp);
             const lockedUsdValue = Number(node.bondAmount) * usd.SWINGBY;
-            const lockedPortion = Number((lockedUsdValue / tvlUsd) * 100).toFixed(2);
+            const lockedPortion = Number((lockedUsdValue / tvl) * 100).toFixed(2);
 
             const isNoRequiredTooltip =
               xl || node.status === 'churned-in' || node.status === 'may-churn-in';
@@ -157,7 +156,7 @@ export const MetanodeList = (props: Props) => {
                 </SizeL>
                 <div>
                   <TextRoom>{bondAmount}</TextRoom>{' '}
-                  {tvlUsd > 0 && <TextRoom variant="label">({lockedPortion}%)</TextRoom>}
+                  {tvl > 0 && <TextRoom variant="label">({lockedPortion}%)</TextRoom>}
                 </div>
                 <ColumnExpiry>
                   <Column>

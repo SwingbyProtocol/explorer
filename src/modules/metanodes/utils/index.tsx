@@ -1,6 +1,6 @@
 import { SkybridgeBridge } from '@swingby-protocol/sdk';
 
-import { INodeListResponse, INodeStatusTable, TBondHistory } from '..';
+import { IBondHistories, INodeListResponse, INodeStatusTable, TBondHistory } from '..';
 import { getShortDate } from '../../common';
 import { ENDPOINT_SKYBRIDGE_EXCHANGE, mode } from '../../env';
 import { IChartDate } from '../../explorer';
@@ -179,18 +179,19 @@ export const getLockedHistory = async (bridge: SkybridgeBridge) => {
     const urlBtcEth = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/production/btc_erc/bonded-historic`;
     const urlBtcBsc = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/production/btc_bep20/bonded-historic`;
 
-    const results = await Promise.all([
-      fetcher<TBondHistory[]>(urlBtcEth),
-      fetcher<TBondHistory[]>(urlBtcBsc),
-    ]);
-
     if (bridge === 'btc_erc') {
-      return formatHistoriesArray(results[0]);
+      const result = await fetcher<IBondHistories>(urlBtcEth);
+      return formatHistoriesArray(result.data);
     } else if (bridge === 'btc_bep20') {
-      return formatHistoriesArray(results[1]);
+      const result = await fetcher<IBondHistories>(urlBtcBsc);
+      return formatHistoriesArray(result.data);
     } else {
-      const lockedHistoryEth = formatHistoriesArray(results[0]);
-      const lockedHistoryBsc = formatHistoriesArray(results[1]);
+      const results = await Promise.all([
+        fetcher<IBondHistories>(urlBtcEth),
+        fetcher<IBondHistories>(urlBtcBsc),
+      ]);
+      const lockedHistoryEth = formatHistoriesArray(results[0].data);
+      const lockedHistoryBsc = formatHistoriesArray(results[1].data);
       const mergedArray = mergeLockedArray(lockedHistoryEth, lockedHistoryBsc);
 
       // Memo: Remove duplicated 'at'

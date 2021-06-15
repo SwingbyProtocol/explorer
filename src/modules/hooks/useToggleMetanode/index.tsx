@@ -5,6 +5,7 @@ import { IChartDate } from '../../explorer';
 import { fetcher } from '../../fetch';
 import {
   fetchNodeList,
+  IBondHistories,
   IChurn,
   ILiquidity,
   ILiquidityRatio,
@@ -12,7 +13,6 @@ import {
   INodeListResponse,
   IReward,
   listHistory,
-  TBondHistory,
 } from '../../metanodes';
 import { useInterval } from '../useInterval';
 import { useToggleBridge } from '../useToggleBridge';
@@ -33,8 +33,7 @@ export const useToggleMetanode = (path: PATH) => {
       const rewardsUrl = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/rewards-last-week`;
       const result = await fetcher<IReward>(rewardsUrl);
       setReward(result);
-    }
-    if (bridge && path === PATH.ROOT) {
+    } else if (bridge && path === PATH.ROOT) {
       const rewardsUrl = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/rewards-last-week`;
       const rewardData = await fetcher<IReward>(rewardsUrl);
       setReward(rewardData);
@@ -76,8 +75,8 @@ export const useToggleMetanode = (path: PATH) => {
   const getBondHistory = useCallback(async () => {
     if (bridge && path === PATH.METANODES) {
       const url = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/bonded-historic`;
-      const result = await fetcher<TBondHistory[]>(url);
-      const bondHistoriesData = result;
+      const result = await fetcher<IBondHistories>(url);
+      const bondHistoriesData = result.data;
       const listBondHistory = listHistory(bondHistoriesData).reverse();
       setBondHistories(listBondHistory);
     }
