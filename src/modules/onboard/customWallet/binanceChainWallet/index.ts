@@ -1,6 +1,8 @@
 import { CommonWalletOptions, Helpers, WalletModule } from 'bnc-onboard/dist/src/interfaces'; // eslint-disable-line
 import { binanceChainWalletLogo } from './logo';
 
+// Ref: https://github.com/blocknative/onboard/blob/develop/src/modules/select/wallets/metamask.ts
+
 const extensionInstallMessage = (helpers: {
   currentWallet: string | undefined;
   selectedWallet: string;

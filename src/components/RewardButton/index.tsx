@@ -1,15 +1,14 @@
 import { createToast, Text, Tooltip, useMatchMedia } from '@swingby-protocol/pulsar';
 import { CONTRACTS } from '@swingby-protocol/sdk';
-import type { API as OnboardApi } from 'bnc-onboard/dist/src/interfaces'; // eslint-disable-line import/no-internal-modules
 import { rem } from 'polished';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Web3 from 'web3';
 import { TransactionConfig } from 'web3-eth';
 
 import { mode, PATH } from '../../modules/env';
 import { useToggleBridge } from '../../modules/hooks';
-import { initOnboard, showConnectNetwork } from '../../modules/onboardBack';
+import { showConnectNetwork, useOnboard } from '../../modules/onboard';
 import { ButtonScale } from '../../modules/scenes/Common';
 import { StylingConstants } from '../../modules/styles';
 
@@ -19,8 +18,8 @@ export const RewardButton = () => {
   const { media } = StylingConstants;
   const lg = useMatchMedia({ query: `(min-width: ${rem(media.lg)})` });
   const sm = useMatchMedia({ query: `(min-width: ${rem(media.sm)})` });
-  const [onboard, setOnboard] = useState<OnboardApi>(null);
   const { bridge } = useToggleBridge(PATH.METANODES);
+  const { onboard, address } = useOnboard();
 
   const distributeRewards = async () => {
     await onboard.walletSelect();
@@ -29,7 +28,6 @@ export const RewardButton = () => {
     }
 
     const wallet = onboard.getState().wallet;
-    const address = onboard.getState().address;
 
     try {
       const web3 = new Web3(wallet.provider);
@@ -74,10 +72,6 @@ export const RewardButton = () => {
       } catch (e) {}
     }
   };
-
-  useEffect(() => {
-    bridge && setOnboard(initOnboard({ subscriptions: {}, mode, bridge, path: PATH.METANODES }));
-  }, [bridge]);
 
   return (
     <RewardButtonContainer>

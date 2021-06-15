@@ -1,10 +1,13 @@
 import Onboard from 'bnc-onboard';
 import type { Subscriptions } from 'bnc-onboard/dist/src/interfaces'; // eslint-disable-line import/no-internal-modules
 
-import { infuraApiKey, blocknativeApiKey } from '../env';
+import { infuraApiKey, blocknativeApiKey, appName } from '../env';
 
-const appName = 'Swingby Bridge';
-const appUrl = 'https://bridge.swingby.network';
+import { binanceChainWallet } from './customWallet';
+
+import { getNetworkFromId } from '.';
+
+const APP_NAME = appName;
 
 const RPC_URLS = {
   1: `https://mainnet.infura.io/v3/${infuraApiKey}`,
@@ -24,24 +27,45 @@ export const initOnboard = ({
   if (!rpcUrl) {
     throw new Error(`Could not find RPC URL for network ID: "${networkId}"`);
   }
+  const networkName = getNetworkFromId(networkId);
 
   return Onboard({
     dappId: blocknativeApiKey,
     networkId,
+    networkName,
     hideBranding: true,
     subscriptions,
     walletSelect: {
       wallets: [
         { walletName: 'metamask', preferred: true },
-        { walletName: 'ledger', preferred: true },
-        ...(infuraApiKey ? [{ walletName: 'walletConnect', preferred: true }] : []),
-        { walletName: 'walletLink', preferred: true },
+        binanceChainWallet({
+          walletName: 'Binance Chain Wallet',
+          isMobile: false,
+          preferred: true,
+        }),
+        {
+          walletName: 'ledger',
+          rpcUrl,
+          preferred: true,
+        },
+        {
+          walletName: 'walletConnect',
+          infuraKey: infuraApiKey,
+          preferred: true,
+        },
+        { walletName: 'walletLink', rpcUrl, appName: APP_NAME },
         { walletName: 'authereum' },
-        { walletName: 'lattice' },
+        { walletName: 'lattice', rpcUrl, appName: APP_NAME },
         { walletName: 'torus' },
         { walletName: 'opera' },
-        { walletName: 'trezor' },
-      ].map((it) => ({ ...it, rpcUrl, appUrl, appName, infuraKey: infuraApiKey })),
+        {
+          walletName: 'trezor',
+          // Memo: Not sure if it is necessary to set the email
+          // email: CONTACT_EMAIL,
+          appUrl: APP_NAME,
+          rpcUrl,
+        },
+      ],
     },
     walletCheck: [
       { checkName: 'derivationPath' },

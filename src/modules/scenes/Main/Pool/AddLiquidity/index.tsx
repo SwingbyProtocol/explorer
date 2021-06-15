@@ -4,7 +4,6 @@ import { createWidget, openPopup } from '@swingby-protocol/widget';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useSelector } from 'react-redux';
 import { PulseLoader } from 'react-spinners';
 import { useTheme } from 'styled-components';
 
@@ -17,6 +16,7 @@ import {
   TSbBTC,
 } from '../../../../coins';
 import { usePoolWithdrawCoin, useToggleBridge } from '../../../../hooks';
+import { useOnboard } from '../../../../onboard';
 import { IWithdrawAmountValidation } from '../../../../pool';
 import { useSdkContext } from '../../../../sdk-context';
 import { useThemeSettings } from '../../../../store/settings';
@@ -54,7 +54,7 @@ interface Props {
 export const AddLiquidity = (props: Props) => {
   const { addressValidationResult, amountValidationResult } = props;
   const { formatMessage } = useIntl();
-  const userAddress = useSelector((state) => state.pool.userAddress);
+  const { address } = useOnboard();
   const { poolCurrencies, bridge } = useToggleBridge(PATH.POOL);
   const { locale } = useRouter();
   const affiliateCode = useAffiliateCode();
@@ -70,7 +70,7 @@ export const AddLiquidity = (props: Props) => {
     setCurrency,
     isValidAddress,
     isValidAmount,
-  } = usePoolWithdrawCoin(userAddress, 'pool');
+  } = usePoolWithdrawCoin(address, 'pool');
 
   const currencyItems = (
     <>
@@ -84,7 +84,7 @@ export const AddLiquidity = (props: Props) => {
 
   const receivingWalletAddress = (): string => {
     if (EthereumWalletAddressCoins.includes(currency)) {
-      return userAddress;
+      return address;
     } else {
       return receivingAddress;
     }

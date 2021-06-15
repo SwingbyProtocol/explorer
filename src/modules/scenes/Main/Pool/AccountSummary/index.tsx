@@ -8,6 +8,7 @@ import { CoinSymbol } from '../../../../coins';
 import { ENDPOINT_EARNINGS, PATH } from '../../../../env';
 import { fetcher } from '../../../../fetch';
 import { useToggleBridge } from '../../../../hooks';
+import { useOnboard } from '../../../../onboard';
 import { fetchSbBTCBalance, orgFloor } from '../../../../pool';
 import { useSdkContext } from '../../../../sdk-context';
 import { setBalanceSbBTC } from '../../../../store';
@@ -29,7 +30,7 @@ export const AccountSummary = () => {
   const dispatch = useDispatch();
   const usd = useSelector((state) => state.explorer.usd);
   const balanceSbBTC = useSelector((state) => state.pool.balanceSbBTC);
-  const userAddress = useSelector((state) => state.pool.userAddress);
+  const { address } = useOnboard();
 
   const [claimableAmount, setClaimableAmount] = useState(0);
   const [totalEarnings, setTotalEarnings] = useState(0);
@@ -54,12 +55,12 @@ export const AccountSummary = () => {
 
   // Todo: Add toggle bridge logic from SDK
   useEffect(() => {
-    if (userAddress) {
+    if (address) {
       (async () => {
         const urlEarning = ENDPOINT_EARNINGS;
 
         const results = await Promise.all([
-          fetchSbBTCBalance(userAddress, bridge),
+          fetchSbBTCBalance(address, bridge),
           getSbbtcPrice({ context, bridge }),
           fetcher<{ total: string }>(urlEarning),
         ]);
@@ -78,7 +79,7 @@ export const AccountSummary = () => {
         setTotalEarnings(Number(totalEarnings));
       })();
     }
-  }, [dispatch, userAddress, context, bridge]);
+  }, [dispatch, address, context, bridge]);
 
   return (
     <AccountSummaryContainer>

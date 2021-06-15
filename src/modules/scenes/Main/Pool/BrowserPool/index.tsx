@@ -3,6 +3,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useSelector } from 'react-redux';
 
+import { useOnboard } from '../../../../onboard';
 import { IWithdrawAmountValidation, PoolMode } from '../../../../pool';
 import { AccountSummary } from '../AccountSummary';
 import { ActionButtonsPool } from '../ActionButtonsPool';
@@ -25,8 +26,8 @@ import {
 } from './styled';
 
 export const BrowserPool = () => {
-  const userAddress = useSelector((state) => state.pool.userAddress);
   const mode = useSelector((state) => state.pool.mode);
+  const { address } = useOnboard();
 
   const addressValidationResult = (
     <ValidationResult>
@@ -108,7 +109,7 @@ export const BrowserPool = () => {
             <Bridges />
           </Left>
           <Right>
-            {!userAddress && <ConnectWallet />}
+            {!address && <ConnectWallet />}
             <ActionButtonsPool />
             {switchRightComponent(mode)}
           </Right>

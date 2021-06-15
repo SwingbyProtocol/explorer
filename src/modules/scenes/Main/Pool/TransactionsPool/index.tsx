@@ -8,6 +8,7 @@ import { Pagination } from '../../../../../components/Pagination';
 import { PATH, TXS_COUNT } from '../../../../env';
 import { convertTxTime, toBTC } from '../../../../explorer';
 import { useToggleBridge } from '../../../../hooks';
+import { useOnboard } from '../../../../onboard';
 import {
   fetchRecentTransaction,
   getScanDetailBaseEndpoint,
@@ -32,34 +33,34 @@ import {
 export const TransactionsPool = () => {
   const dispatch = useDispatch();
   const recentTxs = useSelector((state) => state.pool.recentTxs);
-  const userAddress = useSelector((state) => state.pool.userAddress);
+  const { address } = useOnboard();
   const { bridge } = useToggleBridge(PATH.POOL);
 
   const baseUrl = getScanDetailBaseEndpoint(bridge);
 
-  const txsData = userAddress ? recentTxs : initialTxsData;
+  const txsData = address ? recentTxs : initialTxsData;
   const [page, setPage] = useState(1);
   const goBackPage = async () => {
     setPage(page - 1);
-    const histories = await fetchRecentTransaction(userAddress, page - 1, recentTxs, bridge);
+    const histories = await fetchRecentTransaction(address, page - 1, recentTxs, bridge);
     dispatch(getRecentTxs(histories));
   };
 
   const goNextPage = async () => {
     setPage(page + 1);
-    const histories = await fetchRecentTransaction(userAddress, page + 1, recentTxs, bridge);
+    const histories = await fetchRecentTransaction(address, page + 1, recentTxs, bridge);
     dispatch(getRecentTxs(histories));
   };
   const maximumPage = recentTxs && Math.ceil(recentTxs.total / TXS_COUNT);
 
   useEffect(() => {
     (async () => {
-      if (userAddress) {
-        const histories = await fetchRecentTransaction(userAddress, 1, null, bridge);
+      if (address) {
+        const histories = await fetchRecentTransaction(address, 1, null, bridge);
         dispatch(getRecentTxs(histories));
       }
     })();
-  }, [userAddress, dispatch, bridge]);
+  }, [address, dispatch, bridge]);
 
   return (
     <TransactionsPoolContainer>
