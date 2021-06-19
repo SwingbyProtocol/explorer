@@ -26,8 +26,9 @@ export const useGetTvlSummary = () => {
         });
       } catch (error) {
         console.log('error', error);
+      } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
     })();
   }, []);
 
