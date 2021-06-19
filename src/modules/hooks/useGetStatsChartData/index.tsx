@@ -44,6 +44,8 @@ export const useGetStatsChartData = () => {
         setLockHistories(results[1]);
         setIsLoading(false);
       } catch (error) {
+        console.log('error', error);
+      } finally {
         setIsLoading(false);
       }
     })();

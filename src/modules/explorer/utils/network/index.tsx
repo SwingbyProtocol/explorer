@@ -12,7 +12,7 @@ import {
 } from '../../../env';
 import { fetch, fetcher } from '../../../fetch';
 import { INodeListResponse, IReward } from '../../../metanodes';
-import { IChartDate, IFloat, IFloatAmount, IFloatBalances, IStats } from '../../index';
+import { IChartDate, IFloat, IFloatAmount, IFloatBalances } from '../../index';
 
 // Memo: get active node endpoint
 export const getEndpoint = async (): Promise<{ urlEth: string; urlBsc: string }> => {
@@ -288,24 +288,22 @@ const getVolumes = (arg: getVolumesArg): IChartDate[] => {
   }
 };
 
-export const fetchStatsInfo = async (bridge: SkybridgeBridge, usdBtc: number): Promise<IStats> => {
+export const fetchVolumeInfo = async (
+  bridge: SkybridgeBridge,
+  usdBtc: number,
+): Promise<{
+  volume1wksWBTC: number;
+  volume1wksBTCB: number;
+  volume1wksBTC: number;
+  volumes: IChartDate[] | null;
+}> => {
   const getBridgeUrl = (endpoint: string) => endpoint + '/api/v1/swaps/stats';
-  const getbridgePeersUrl = (bridge: SkybridgeBridge) =>
-    `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/nodes`;
-  const getRewardsUrl = (bridge: SkybridgeBridge) =>
-    `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/rewards-last-week`;
 
   try {
     const { urlEth, urlBsc } = await getEndpoint();
     const results = await Promise.all([
-      // Memo: Ethereum bridge
       fetch<{ network24hrSwapsVolume: number[] }>(getBridgeUrl(urlEth)),
-      fetch<INodeListResponse[]>(getbridgePeersUrl('btc_erc')),
-      fetch<IReward>(getRewardsUrl('btc_erc')),
-      // Memo: BSC bridge
       fetch<{ network24hrSwapsVolume: number[] }>(getBridgeUrl(urlBsc)),
-      fetch<INodeListResponse[]>(getbridgePeersUrl('btc_bep20')),
-      fetch<IReward>(getRewardsUrl('btc_bep20')),
     ]);
 
     const swapVolume24hrsFallback = [0, 0, 0, 0, 0, 0, 0];
@@ -314,15 +312,9 @@ export const fetchStatsInfo = async (bridge: SkybridgeBridge, usdBtc: number): P
       ? results[0].response.network24hrSwapsVolume
       : swapVolume24hrsFallback;
 
-    const ethNodeLength = results[1].ok ? results[1].response.length : 0;
-    const ethRewards1wksUSD = results[2].ok ? Number(results[2].response.total) : 0;
-
-    const bscNetwork24hrSwapVolume = results[3].ok
-      ? results[3].response.network24hrSwapsVolume
+    const bscNetwork24hrSwapVolume = results[1].ok
+      ? results[1].response.network24hrSwapsVolume
       : swapVolume24hrsFallback;
-
-    const bscNodeLength = results[4].ok ? results[4].response.length : 0;
-    const bscRewards1wksUSD = results[5].ok ? Number(results[5].response.total) : 0;
 
     const volume1wksWBTC: number = sumArray(ethNetwork24hrSwapVolume.slice(0, 7));
     const volume1wksBTCB: number = sumArray(bscNetwork24hrSwapVolume.slice(0, 7));
@@ -338,18 +330,63 @@ export const fetchStatsInfo = async (bridge: SkybridgeBridge, usdBtc: number): P
       .slice(0, 7)
       .reverse();
 
-    const metanodes = getMetanodesLength({ bridge, ethNodeLength, bscNodeLength });
-    const rewards1wksUSD = getRewards1wks({ bridge, ethRewards1wksUSD, bscRewards1wksUSD });
-
     return {
       volume1wksWBTC,
       volume1wksBTCB,
       volume1wksBTC,
-      rewards1wksUSD,
       volumes,
-      metanodes,
     };
   } catch (err) {
     console.log(err);
+    return {
+      volume1wksWBTC: 0,
+      volume1wksBTCB: 0,
+      volume1wksBTC: 0,
+      volumes: null,
+    };
+  }
+};
+
+export const fetch1wksRewards = async (bridge: SkybridgeBridge): Promise<number> => {
+  const getRewardsUrl = (bridge: SkybridgeBridge) =>
+    `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/rewards-last-week`;
+  try {
+    const results = await Promise.all([
+      fetch<IReward>(getRewardsUrl('btc_erc')),
+      fetch<IReward>(getRewardsUrl('btc_bep20')),
+    ]);
+
+    const ethRewards1wksUSD = results[0].ok ? Number(results[0].response.total) : 0;
+
+    const bscRewards1wksUSD = results[1].ok ? Number(results[1].response.total) : 0;
+
+    const rewards1wksUSD = getRewards1wks({ bridge, ethRewards1wksUSD, bscRewards1wksUSD });
+
+    return rewards1wksUSD;
+  } catch (err) {
+    console.log(err);
+    return 0;
+  }
+};
+
+export const fetchNodeLength = async (bridge: SkybridgeBridge): Promise<number> => {
+  const getbridgePeersUrl = (bridge: SkybridgeBridge) =>
+    `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/nodes`;
+
+  try {
+    const results = await Promise.all([
+      fetch<INodeListResponse[]>(getbridgePeersUrl('btc_erc')),
+      fetch<INodeListResponse[]>(getbridgePeersUrl('btc_bep20')),
+    ]);
+
+    const ethNodeLength = results[0].ok ? results[0].response.length : 0;
+    const bscNodeLength = results[1].ok ? results[1].response.length : 0;
+
+    const metanodesLength = getMetanodesLength({ bridge, ethNodeLength, bscNodeLength });
+
+    return metanodesLength;
+  } catch (err) {
+    console.log(err);
+    return 0;
   }
 };

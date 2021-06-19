@@ -63,11 +63,11 @@ export const useGetLiquidityApr = () => {
 
           const formattedEstApr = Number(estApr.toFixed(1));
           setEstimateApr(`${String(formattedEstApr)}%`);
-          setIsLoading(false);
         }
       } catch (error) {
         console.log('error:', error);
         setEstimateApr('N/A');
+      } finally {
         setIsLoading(false);
       }
     })();

@@ -23,8 +23,9 @@ export const useGetBridgesTvl = (path: PATH, bridge: SkybridgeBridge) => {
         const result = await fetcher<IBondHistories>(url);
 
         setTvl(Number(result.data[0].bond));
-        dispatch(toggleIsLoading(false));
       } catch (error) {
+        console.log('error', error);
+      } finally {
         dispatch(toggleIsLoading(false));
       }
     })();

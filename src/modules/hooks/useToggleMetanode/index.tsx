@@ -118,8 +118,9 @@ export const useToggleMetanode = (path: PATH) => {
           getChurnTime(),
           getNodes(),
         ]);
-        setIsLoading(false);
       } catch (error) {
+        console.log('error', error);
+      } finally {
         setIsLoading(false);
       }
     })();
