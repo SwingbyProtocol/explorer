@@ -27,10 +27,8 @@ export const useGetNetworkData = () => {
             fetch1wksRewards(bridge),
             fetchNodeLength(bridge),
           ]);
-          console.log('results', results);
 
           const data = results[0];
-          // const stats = results[1];
           const stats = {
             volume1wksWBTC: results[1].volume1wksWBTC,
             volume1wksBTCB: results[1].volume1wksBTCB,
