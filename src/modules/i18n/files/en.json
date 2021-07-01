@@ -39,6 +39,7 @@
   "footer.transaction-fees": "Transaction Fees",
   "footer.mainnet": "Skybridge Mainnet",
   "footer.testnet": "Skybridge Testnet",
+  "footer.erc20": "ERC20 Bridge",
   "home.explorer": "Skybridge Explorer",
   "home.no-results-found": "No results found :-(",
   "home.try-different-tx": "Try a different transaction or address",
