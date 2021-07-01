@@ -21,12 +21,16 @@ export const URL = {
   SwapFees: 'https://tbtc-goerli-node-1.swingby.network/api/v1/swaps/fees',
   SkybridgeMainnet: 'https://skybridge.info/',
   SkybridgeTestnet: 'https://testnet.skybridge.info/',
+  Erc20Bridge: 'https://bridge.swingby.network/',
+  YieldFarming: 'https://farm.swingby.network/',
 };
 
 export const Links = [
   { link: URL.WhatIsSwingby, description: 'footer.what-is-swingby' },
   { link: URL.Earn, description: 'footer.earn' },
   { link: PATH.FEES, description: 'footer.transaction-fees' },
+  { link: URL.Erc20Bridge, description: 'footer.erc20' },
+  { link: URL.YieldFarming, description: 'footer.yield-farming' },
 ];
 export const Developers = [
   { link: URL.WhitePaper, description: 'footer.white-paper' },
