@@ -12,6 +12,28 @@ export const getTransactionFees = async (): Promise<IFee[]> => {
     return result.ok && result.response;
   } catch (err) {
     console.log(err);
+    return [
+      {
+        bridgeFeePercent: '0',
+        currency: 'sbBTC',
+        minerFee: '0',
+      },
+      {
+        bridgeFeePercent: '0',
+        currency: 'BTC',
+        minerFee: '0',
+      },
+      {
+        bridgeFeePercent: '0',
+        currency: 'WBTC',
+        minerFee: '0',
+      },
+      {
+        bridgeFeePercent: '0',
+        currency: 'BTCB',
+        minerFee: '0',
+      },
+    ];
   }
 };
 

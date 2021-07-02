@@ -71,7 +71,7 @@ export const StatsInfo = () => {
   const dataChart = usd && [
     {
       key: 'volume',
-      isLoading: isLoadingAll ? isLoadingAll : Number(stats.volume1wksBTC) > 1 ? false : true,
+      isLoading: isLoadingAll,
       icon: <Network />,
       description: <FormattedMessage id="home.network.volume" />,
       chart: volumes,

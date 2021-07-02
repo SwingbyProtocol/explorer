@@ -190,6 +190,15 @@ export const fetchFloatBalances = async (
     return { floats, capacity };
   } catch (err) {
     console.log(err);
+    return {
+      floats: {
+        btcEth: 0,
+        btcBsc: 0,
+        wbtc: 0,
+        btcb: 0,
+      },
+      capacity: 0,
+    };
   }
 };
 

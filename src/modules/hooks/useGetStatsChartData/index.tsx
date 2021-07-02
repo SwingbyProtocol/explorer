@@ -40,9 +40,8 @@ export const useGetStatsChartData = () => {
       try {
         const results = await Promise.all([getFloatHistory(bridge), getLockedHistory(bridge)]);
         const floatHistoriesData = listFloatAmountHistories(results[0] as IFloatHistoryObject[]);
-        setFloatHistories(floatHistoriesData);
-        setLockHistories(results[1]);
-        setIsLoading(false);
+        results[0].length && setFloatHistories(floatHistoriesData);
+        results[1].length && setLockHistories(results[1]);
       } catch (error) {
         console.log('error', error);
       } finally {
