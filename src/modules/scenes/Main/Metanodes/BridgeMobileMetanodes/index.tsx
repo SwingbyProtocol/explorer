@@ -35,7 +35,7 @@ export const BridgeMobileMetanodes = () => {
       <Dropdown
         target={
           <DropTargetBridges size="city">
-            <TextChosenFilter> {selectedBridge.tabMenu}</TextChosenFilter>{' '}
+            <TextChosenFilter> {selectedBridge && selectedBridge.tabMenu}</TextChosenFilter>{' '}
           </DropTargetBridges>
         }
         data-testid="dropdown"
