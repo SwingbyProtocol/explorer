@@ -18,7 +18,7 @@ export const Header = () => {
     () => [
       {
         key: 'farm',
-        render: 'Farm',
+        render: 'Farms',
         href: URL.YieldFarming,
         target: '_blank',
         rel: 'noopener noreferrer',
