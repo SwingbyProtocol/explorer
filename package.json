@@ -27,7 +27,7 @@
     "@swingby-protocol/header": "^1.2.1",
     "@swingby-protocol/ip-check": "^2.1.0",
     "@swingby-protocol/pulsar": "^3.10.1",
-    "@swingby-protocol/sdk": "^1.0.0-alpha.100",
+    "@swingby-protocol/sdk": "^1.0.0-alpha.101",
     "@swingby-protocol/widget": "^1.1.0",
     "abortcontroller-polyfill": "^1.7.1",
     "bignumber.js": "^9.0.1",

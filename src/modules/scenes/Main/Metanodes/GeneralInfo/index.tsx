@@ -1,5 +1,5 @@
 import { Text } from '@swingby-protocol/pulsar';
-import { CONTRACTS } from '@swingby-protocol/sdk';
+import { CONTRACTS, SKYBRIDGE_BRIDGES } from '@swingby-protocol/sdk';
 import { FormattedMessage } from 'react-intl';
 
 import { mode, PATH } from '../../../../env';
@@ -13,7 +13,8 @@ export const GeneralInfo = () => {
   const { bridge } = useToggleBridge(PATH.METANODES);
 
   const baseUrl = getScanDetailBaseEndpoint(bridge);
-  const bridgeContract = bridge && CONTRACTS.bridges[bridge][mode].address;
+  const bridgeContract =
+    SKYBRIDGE_BRIDGES.includes(bridge) && CONTRACTS.bridges[bridge][mode].address;
   const contractUrl = `${baseUrl}/address/${bridgeContract}`;
 
   const lpContract = getSbBtcContract(bridge);
