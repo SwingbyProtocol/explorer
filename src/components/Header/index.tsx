@@ -17,7 +17,7 @@ export const Header = () => {
   const items = useMemo(
     () => [
       {
-        key: 'farm',
+        key: 'farms',
         render: 'Farms',
         href: URL.YieldFarming,
         target: '_blank',
