@@ -1,2 +1,2 @@
 export { binanceChainWallet } from './binanceChainWallet';
-export { walletConnectBsc } from './walletConnectBsc';
+export { customWalletConnect } from './customWalletConnect';

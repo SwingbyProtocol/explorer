@@ -1,9 +1,9 @@
 import Onboard from 'bnc-onboard';
 import type { Subscriptions } from 'bnc-onboard/dist/src/interfaces'; // eslint-disable-line import/no-internal-modules
 
-import { infuraApiKey, blocknativeApiKey, appName } from '../env';
+import { appName, blocknativeApiKey, infuraApiKey } from '../env';
 
-import { binanceChainWallet, walletConnectBsc } from './customWallet';
+import { binanceChainWallet, customWalletConnect } from './customWallet';
 
 import { getNetworkFromId } from '.';
 
@@ -34,18 +34,16 @@ export const initOnboard = ({
       isMobile: false,
       preferred: true,
     }),
-    {
-      walletName: 'walletConnect',
+    customWalletConnect({
+      walletName: 'WalletConnect',
+      isMobile: true,
       preferred: true,
-      rpc: {
-        1: RPC_URLS[1],
-        56: RPC_URLS[56],
-      },
-    },
-    walletConnectBsc,
+      networkId,
+    }),
     {
       walletName: 'ledger',
       rpcUrl,
+      preferred: true,
     },
     { walletName: 'walletLink', rpcUrl, appName },
     { walletName: 'authereum' },
