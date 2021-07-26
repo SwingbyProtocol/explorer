@@ -56,7 +56,8 @@ export const StatsInfo = () => {
     isLoading: isLoadingGetChart,
   } = useGetStatsChartData();
 
-  const isLoadingAll = isLoading || isLoadingMetanode || isLoadingGetChart;
+  const isLoadingAll =
+    isLoading || isLoadingMetanode || isLoadingGetChart || stats.volume1wksBTC === 0;
   const placeholderLoader = (
     <PulseLoader margin={3} size={4} color={theme.pulsar.color.text.normal} />
   );
