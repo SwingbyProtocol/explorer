@@ -7,14 +7,14 @@ import { walletConnectLogo } from './logo';
 export function customWalletConnect(
   options: CommonWalletOptions & { isMobile: boolean },
 ): WalletModule {
-  const { networkId, isMobile } = options;
+  const { networkId, isMobile, preferred } = options;
 
   return {
     name: 'WalletConnect',
     iconSrc: walletConnectLogo,
     iconSrcSet: walletConnectLogo,
     svg: walletConnectLogo,
-    wallet: async (helpers: Helpers) => {
+    wallet: async () => {
       const POLLING_INTERVAL = 12000;
       const bscRpcUrl = 'https://bsc-dataseed1.binance.org:443';
       const bridge = 'https://pancakeswap.bridge.walletconnect.org/';
@@ -74,6 +74,6 @@ export function customWalletConnect(
     link: 'https://walletconnect.org/',
     desktop: true,
     mobile: isMobile,
-    preferred: true,
+    preferred,
   };
 }
