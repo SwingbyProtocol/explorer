@@ -90,7 +90,8 @@ export const NetworkBridges = () => {
     <PulseLoader margin={3} size={4} color={theme.pulsar.color.text.normal} />
   );
 
-  const isLoadingAll = isLoadingTvl || isLoading;
+  // Memo: Show 'loading' animation if backend api is broken
+  const isLoadingAll = isLoadingTvl || isLoading || floatBalances.btcEth === 0;
   const placeholderLoaderTvl = (
     <RowLoader>
       <PulseLoader margin={3} size={2} color={theme.pulsar.color.text.masked} />
