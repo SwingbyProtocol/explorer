@@ -1,13 +1,11 @@
 import Onboard from 'bnc-onboard';
 import type { Subscriptions } from 'bnc-onboard/dist/src/interfaces'; // eslint-disable-line import/no-internal-modules
 
-import { infuraApiKey, blocknativeApiKey, appName } from '../env';
+import { appName, blocknativeApiKey, infuraApiKey } from '../env';
 
-import { binanceChainWallet } from './customWallet';
+import { binanceChainWallet, customWalletConnect } from './customWallet';
 
 import { getNetworkFromId } from '.';
-
-const APP_NAME = appName;
 
 const RPC_URLS = {
   1: `https://mainnet.infura.io/v3/${infuraApiKey}`,
@@ -29,6 +27,36 @@ export const initOnboard = ({
   }
   const networkName = getNetworkFromId(networkId);
 
+  const wallets = [
+    { walletName: 'metamask', preferred: true },
+    binanceChainWallet({
+      walletName: 'Binance Chain Wallet',
+      isMobile: false,
+      preferred: true,
+    }),
+    customWalletConnect({
+      walletName: 'WalletConnect',
+      isMobile: true,
+      preferred: true,
+      networkId,
+    }),
+    {
+      walletName: 'ledger',
+      rpcUrl,
+    },
+    { walletName: 'walletLink', rpcUrl, appName },
+    { walletName: 'authereum' },
+    { walletName: 'lattice', rpcUrl, appName },
+    { walletName: 'torus' },
+    { walletName: 'opera' },
+    {
+      walletName: 'trezor',
+      email: 'info@swingby.network',
+      appUrl: appName,
+      rpcUrl,
+    },
+  ];
+
   return Onboard({
     dappId: blocknativeApiKey,
     networkId,
@@ -36,43 +64,15 @@ export const initOnboard = ({
     hideBranding: true,
     subscriptions,
     walletSelect: {
-      wallets: [
-        { walletName: 'metamask', preferred: true },
-        binanceChainWallet({
-          walletName: 'Binance Chain Wallet',
-          isMobile: false,
-          preferred: true,
-        }),
-        {
-          walletName: 'ledger',
-          rpcUrl,
-          preferred: true,
-        },
-        {
-          walletName: 'walletConnect',
-          infuraKey: infuraApiKey,
-          preferred: true,
-        },
-        { walletName: 'walletLink', rpcUrl, appName: APP_NAME },
-        { walletName: 'authereum' },
-        { walletName: 'lattice', rpcUrl, appName: APP_NAME },
-        { walletName: 'torus' },
-        { walletName: 'opera' },
-        {
-          walletName: 'trezor',
-          // Memo: Not sure if it is necessary to set the email
-          // email: CONTACT_EMAIL,
-          appUrl: APP_NAME,
-          rpcUrl,
-        },
-      ],
+      wallets,
     },
     walletCheck: [
       { checkName: 'derivationPath' },
       { checkName: 'connect' },
       { checkName: 'accounts' },
       { checkName: 'network' },
-      { checkName: 'balance', minimumBalance: '100000' },
+      // Memo: Remove this for bypass miss leading when connect BSC
+      // { checkName: 'balance', minimumBalance: '100000' },
     ],
   });
 };
