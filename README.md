@@ -31,12 +31,10 @@ v1.22.4
   - A JavaScript library for arbitrary-precision decimal and non-decimal arithmetic
 - [bnc-onboard](https://github.com/blocknative/onboard)
   - Client library to onboard users to web3 apps
-- [chart.js](https://github.com/chartjs/Chart.js)
-  - Simple HTML5 Charts using the 'canvas' tag
-- [react-chartjs-2](https://github.com/reactchartjs/react-chartjs-2)
-  - React wrapper for Chart.js
 - [framer-motion](https://github.com/framer/motion)
   - Open source, production-ready animation and gesture library for React
+- [graphql](https://github.com/graphql/graphql-js)
+  - A reference implementation of GraphQL for JavaScript
 - [jest](https://github.com/facebook/jest)
   - Delightful JavaScript Testing.
 - [luxon](https://github.com/moment/luxon)
@@ -53,6 +51,8 @@ v1.22.4
   - Predictable state container for JavaScript apps
 - [react-redux](https://github.com/reduxjs/react-redux)
   - Official React bindings for Redux
+- [recharts](https://www.npmjs.com/package/recharts)
+  - About Redefined chart library built with React and D3
 - [redux-devtools-extension](https://github.com/zalmoxisus/redux-devtools-extension)
   - Redux DevTools extension.
 - [react-spinners](https://github.com/davidhu2000/react-spinners)
@@ -68,6 +68,8 @@ v1.22.4
   - Prettier config for Swingby's projects
 - [cypress](https://github.com/cypress-io/cypress)
   - Fast, easy and reliable testing for anything that runs in a browser.
+- [husky](https://typicode.github.io/husky/#/)
+  - Modern native Git hooks made easy
 
 ## Package manager
 
@@ -78,16 +80,16 @@ v1.22.4
 
 - [Mainnet](https://vercel.com/swingby/new-explorer-mainnet)
 
-  - https://new-explorer-mainnet.vercel.app/
+  - <https://new-explorer-mainnet.vercel.app/>
 
 - [Testnet](https://vercel.com/swingby/new-explorer-testnet)
-  - https://testnet.skybridge.info/
+  - <https://testnet.skybridge.info/>
 
 ## How To Use
 
 ```bash
-$ yarn
-$ yarn dev
+yarn
+yarn dev
 ```
 
 ## Translation
