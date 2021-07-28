@@ -3,8 +3,6 @@
 
 echo '🏗️👷 Styling, testing and building your project before committing'
 
-yarn pretty-quick --staged
-
 # Check Prettier standards
 yarn check-format ||
 (
@@ -29,12 +27,14 @@ yarn check-types ||
 # If everything passes... Now we can commit
 echo '🤔🤔🤔🤔... Alright.... Code looks good to me... Trying to build now. 🤔🤔🤔🤔'
 
-yarn build:ts ||
+yarn build ||
 (
     echo '❌👷🔨❌ Next build failed: View the errors above to see why ❌👷🔨❌
     '
     false;
 )
+
+yarn pretty-quick --staged
 
 # If everything passes... Now we can commit
 echo '✅✅✅✅ You win this time... I am committing this now. ✅✅✅✅'
