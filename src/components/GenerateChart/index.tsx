@@ -65,7 +65,7 @@ export const GenerateChart = (props: Props) => {
               <YAxis
                 dataKey={(v) => parseInt(v.amount)}
                 tickFormatter={(label) => '$' + formatNum(label)}
-                domain={['dataMin', 'dataMax']}
+                domain={[0, 'dataMax']}
                 tickLine={false}
                 axisLine={false}
                 fontSize="0.75rem"
