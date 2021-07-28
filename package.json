@@ -10,7 +10,12 @@
     "test": "echo 'No tests here so far'",
     "cypress": "TZ=Etc/UTC cypress",
     "format": "prettier --write '**/*.{js,jsx,ts,tsx,css,json,md,mdx,html}'",
-    "generate": "graphql-codegen --config codegen.yml"
+    "generate": "graphql-codegen --config codegen.yml",
+    "check-types": "tsc --pretty --noEmit",
+    "check-format": "prettier --check .",
+    "check-lint": "eslint . --ext ts --ext tsx --ext js",
+    "test-all": "yarn check-format && yarn check-lint && yarn check-types && yarn build && yarn pretty-quick --staged",
+    "prepare": "husky install"
   },
   "prettier": {
     "arrowParens": "always",
@@ -91,7 +96,7 @@
     "@types/styled-components": "^5.1.4",
     "cypress": "^5.5.0",
     "eslint": "^7.12.1",
-    "husky": "^4.3.8",
+    "husky": "^7.0.0",
     "pino-pretty": "^4.6.0",
     "prettier": "^2.1.2",
     "pretty-quick": "^3.1.1",
