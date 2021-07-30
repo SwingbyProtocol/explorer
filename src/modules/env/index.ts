@@ -38,18 +38,6 @@ export const NODES_PER_PAGE = 10;
 
 export const graphEndpoint = 'https://network.skybridge.exchange/api/v3/graphql';
 
-export const GA_TAG = process.env.NEXT_PUBLIC_GA_TAG || 'G-8C02VKBZ6P';
-
-export const etherscanApiKey = process.env.ETHERSCAN_KEY || 'NYXXH5CD1NQJMYJGZYAFK7G9G6AZGZTT3H';
-
-export const bscscanApiKey = 'Y57NEYW477ZGHRNY8ADUF24I8S4UX8BK8S';
-
-export const blocknativeApiKey =
-  process.env.NEXT_PUBLIC_BLOCKNATIVE_KEY || '52950909-d5f6-42eb-8621-acb35a8ee1d3';
-
-export const infuraApiKey =
-  process.env.NEXT_PUBLIC_INFURA_KEY || 'f35c2a4f3d0941a38a3edb62ed10c847';
-
 export const appName = 'Swingby Explorer';
 
 export const ENDPOINT_SKYBRIDGE_EXCHANGE = 'https://network.skybridge.exchange/api/v3';
@@ -100,3 +88,14 @@ export const ZERO_ADDRESS = CONTRACTS.coins.BTC.production.address;
 
 export const isEnableBscSupport =
   process.env.NEXT_PUBLIC_IS_BSC_SUPPORT === 'true' ? true : mode === 'test' ? true : false;
+
+export const GA_TAG = process.env.NEXT_PUBLIC_GA_TAG;
+
+export const etherscanApiKey = process.env.NEXT_PUBLIC_ETHER_SCAN_KEY;
+console.log('etherscanApiKey', etherscanApiKey);
+
+export const bscscanApiKey = process.env.NEXT_PUBLIC_BSC_SCAN_KEY;
+
+export const blocknativeApiKey = process.env.NEXT_PUBLIC_BLOCKNATIVE_KEY;
+
+export const infuraApiKey = process.env.NEXT_PUBLIC_INFURA_KEY;
