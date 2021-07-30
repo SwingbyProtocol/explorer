@@ -92,7 +92,6 @@ export const isEnableBscSupport =
 export const GA_TAG = process.env.NEXT_PUBLIC_GA_TAG;
 
 export const etherscanApiKey = process.env.NEXT_PUBLIC_ETHER_SCAN_KEY;
-console.log('etherscanApiKey', etherscanApiKey);
 
 export const bscscanApiKey = process.env.NEXT_PUBLIC_BSC_SCAN_KEY;
 

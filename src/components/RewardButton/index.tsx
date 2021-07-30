@@ -38,13 +38,21 @@ export const RewardButton = () => {
         CONTRACTS.bridges[bridge][mode].address,
       );
 
-      const estimatedGas = await contract.methods
-        .distributeNodeRewards()
-        .estimateGas({ from: address });
+      const distributableRewards = await contract.methods.lockedLPTokensForNode().call();
 
-      const gasLimit = calculateGasMargin(estimatedGas);
+      if (distributableRewards > 0) {
+        const estimatedGas = await contract.methods
+          .distributeNodeRewards()
+          .estimateGas({ from: address });
+        const gasLimit = calculateGasMargin(estimatedGas);
 
-      return await contract.methods.distributeNodeRewards().send({ from: address, gasLimit });
+        return await contract.methods.distributeNodeRewards().send({ from: address, gasLimit });
+      } else {
+        createToast({
+          content: <FormattedMessage id="metanodes.distribute-rewards.rewards-not-enough" />,
+          type: 'danger',
+        });
+      }
     } catch (e) {
       console.error('Error trying to distribute rewards', e);
       createToast({ content: e?.message || 'Failed to send transaction', type: 'danger' });
