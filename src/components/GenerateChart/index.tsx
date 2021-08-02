@@ -22,8 +22,18 @@ interface Props {
 export const GenerateChart = (props: Props) => {
   const { chart, isLoading, minHeight, loader, isAxis } = props;
   const gradientId = useMemo(() => nanoid(), []);
-  const theme = useTheme();
+  const { pulsar } = useTheme();
   const intl = useIntl();
+
+  // Memo: 'stopOpacity: 1' until 85% for light theme
+  const gradients = [
+    { offset: '40%', stopOpacity: 1 },
+    { offset: '60%', stopOpacity: 0.8 },
+    { offset: '70%', stopOpacity: 0.6 },
+    { offset: '85%', stopOpacity: pulsar.id === 'PulsarDark' ? 0.4 : 1 },
+    { offset: '90%', stopOpacity: 0.2 },
+    { offset: '100%', stopOpacity: 0.1 },
+  ];
 
   return (
     <ChartContainer>
@@ -34,16 +44,14 @@ export const GenerateChart = (props: Props) => {
             <AreaChart data={chart}>
               <defs>
                 <linearGradient id={gradientId} x1="0" x2="0" y1="0" y2="1">
-                  <stop
-                    offset="40%"
-                    stopColor={theme.pulsar.color.primary.normal}
-                    stopOpacity={1}
-                  />
-                  <stop
-                    offset="100%"
-                    stopColor={theme.pulsar.color.primary.normal}
-                    stopOpacity={0}
-                  />
+                  {gradients.map((it) => (
+                    <stop
+                      key={it.offset}
+                      offset={it.offset}
+                      stopColor={pulsar.color.primary.normal}
+                      stopOpacity={it.stopOpacity}
+                    />
+                  ))}
                 </linearGradient>
               </defs>
 
@@ -70,12 +78,13 @@ export const GenerateChart = (props: Props) => {
                 axisLine={false}
                 fontSize="0.75rem"
                 fontWeight="500"
+                scale="sqrt"
                 hide={!isAxis}
               />
               <Area
                 type="monotone"
                 dataKey="amount"
-                stroke={theme.pulsar.color.primary.normal}
+                stroke={pulsar.color.primary.normal}
                 fill={`url(#${gradientId})`}
                 fillOpacity="0.1"
                 strokeWidth={2}
