@@ -19,21 +19,6 @@ export const ethChaosNodeEndpoints = [
   'https://motion-re-0080.yen.farm',
   'https://livemex-re-0079.yen.farm',
   'https://moonfly-re-0078.yen.farm',
-  'https://swingby-chaos-28.senticator.ai',
-  'https://swingby-chaos-21.senticator.ai',
-  'https://chaos-2.skybridge.exchange',
-  'https://chaos-3.skybridge.exchange',
-  'https://chaos-4.skybridge.exchange',
-  'https://chaos-1.skybridge.exchange',
-  'https://chaos-6.skybridge.exchange',
-  'https://chaos-5.skybridge.exchange',
-  'https://swingby-chaos-33.senticator.ai',
-  'https://swingby-chaos-30.senticator.ai',
-  'https://swingby-chaos-31.senticator.ai',
-  'https://swingby-chaos-25.senticator.ai',
-  'https://swingby-chaos-24.senticator.ai',
-  'https://swingby-chaos-22.senticator.ai',
-  'https://swingby-chaos-32.senticator.ai',
 ];
 
 export const bscChaosNodeEndpoints = [
