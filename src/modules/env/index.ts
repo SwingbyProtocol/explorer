@@ -44,13 +44,11 @@ export const ENDPOINT_SKYBRIDGE_EXCHANGE = 'https://network.skybridge.exchange/a
 
 export const ENDPOINT_ETHEREUM_BRIDGE =
   mode === MODE.PRODUCTION
-    ? 'https://btc-wbtc-mainnet.quantexe.com'
+    ? 'https://taitan-0083.zoo.farm'
     : 'https://tbtc-goerli-node-1.swingby.network';
 
 export const ENDPOINT_BSC_BRIDGE =
-  mode === MODE.PRODUCTION
-    ? 'https://btc-bsc-mainnet.quantexe.com'
-    : 'https://tbtc-bsc-1.swingby.network';
+  mode === MODE.PRODUCTION ? 'https://ra-cailum.zoo.farm' : 'https://tbtc-bsc-1.swingby.network';
 
 export const ENDPOINT_EARNINGS = 'https://earnings-api.vercel.app/api/earnings';
 
