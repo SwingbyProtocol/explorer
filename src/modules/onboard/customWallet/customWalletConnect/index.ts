@@ -1,6 +1,6 @@
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import { CommonWalletOptions, Helpers, WalletModule } from 'bnc-onboard/dist/src/interfaces'; // eslint-disable-line
-import { infuraApiKey } from '../../../env';
+import { infuraApiKey, WC_BRIDGE } from '../../../env';
 
 import { walletConnectLogo } from './logo';
 
@@ -17,13 +17,12 @@ export function customWalletConnect(
     wallet: async () => {
       const POLLING_INTERVAL = 12000;
       const bscRpcUrl = 'https://bsc-dataseed1.binance.org:443';
-      const bridge = 'https://pancakeswap.bridge.walletconnect.org/';
       const provider = new WalletConnectProvider({
         rpc: {
           1: `https://mainnet.infura.io/v3/${infuraApiKey}`,
           56: bscRpcUrl,
         },
-        bridge,
+        bridge: WC_BRIDGE,
         pollingInterval: POLLING_INTERVAL,
         chainId: networkId,
       });
