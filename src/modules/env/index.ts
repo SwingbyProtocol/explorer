@@ -6,10 +6,8 @@ export const logLevel =
 export const DEPLOYED_URL =
   process.env.NEXT_PUBLIC_DEPLOYED_URL || 'https://testnet.skybridge.info/';
 
-export enum MODE {
-  PRODUCTION = 'production',
-  TEST = 'test',
-}
+export const ROOT_URL =
+  process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : DEPLOYED_URL;
 
 export enum PATH {
   ROOT = '/',
@@ -28,7 +26,7 @@ export enum LOCAL_STORAGE {
 }
 
 export const mode: SkybridgeMode =
-  process.env.NEXT_PUBLIC_MODE === MODE.PRODUCTION ? MODE.PRODUCTION : MODE.TEST;
+  process.env.NEXT_PUBLIC_MODE === 'production' ? 'production' : 'test';
 
 export const PAGE_COUNT = 25;
 
@@ -43,41 +41,41 @@ export const appName = 'Swingby Explorer';
 export const ENDPOINT_SKYBRIDGE_EXCHANGE = 'https://network.skybridge.exchange/api/v3';
 
 export const ENDPOINT_ETHEREUM_BRIDGE =
-  mode === MODE.PRODUCTION
+  mode === 'production'
     ? 'https://taitan-0083.zoo.farm'
     : 'https://tbtc-goerli-node-1.swingby.network';
 
 export const ENDPOINT_BSC_BRIDGE =
-  mode === MODE.PRODUCTION ? 'https://ra-cailum.zoo.farm' : 'https://tbtc-bsc-1.swingby.network';
+  mode === 'production' ? 'https://ra-cailum.zoo.farm' : 'https://tbtc-bsc-1.swingby.network';
 
 export const ENDPOINT_EARNINGS = 'https://earnings-api.vercel.app/api/earnings';
 
 export const ENDPOINT_COINGECKO = 'https://api.coingecko.com/api/v3';
 
 export const ENDPOINT_ETHERSCAN =
-  mode === MODE.PRODUCTION ? 'https://api.etherscan.io' : 'https://api-goerli.etherscan.io';
+  mode === 'production' ? 'https://api.etherscan.io' : 'https://api-goerli.etherscan.io';
 
 export const ENDPOINT_BSCSCAN =
-  mode === MODE.PRODUCTION ? 'https://api.bscscan.com' : 'https://api-testnet.bscscan.com';
+  mode === 'production' ? 'https://api.bscscan.com' : 'https://api-testnet.bscscan.com';
 
 export const URL_ETHERSCAN =
-  mode === MODE.PRODUCTION ? 'https://etherscan.io' : 'https://goerli.etherscan.io';
+  mode === 'production' ? 'https://etherscan.io' : 'https://goerli.etherscan.io';
 
 export const URL_BSCSCAN =
-  mode === MODE.PRODUCTION ? 'https://bscscan.com' : 'https://testnet.bscscan.com';
+  mode === 'production' ? 'https://bscscan.com' : 'https://testnet.bscscan.com';
 
 export const BTC_EXPLORER =
-  mode === MODE.PRODUCTION
+  mode === 'production'
     ? 'https://www.blockchain.com/btc'
     : 'https://www.blockchain.com/btc-testnet';
 
 export const CONTRACT_SB_BTC =
-  mode === MODE.PRODUCTION
+  mode === 'production'
     ? CONTRACTS.coins.sbBTC.production.address
     : CONTRACTS.coins.sbBTC.test.address;
 
 export const CONTRACT_BEP20_SB_BTC =
-  mode === MODE.PRODUCTION
+  mode === 'production'
     ? CONTRACTS.coins['sbBTC.BEP20'].production.address
     : CONTRACTS.coins['sbBTC.BEP20'].test.address;
 

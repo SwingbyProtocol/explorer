@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import { mode, MODE } from '../../modules/env';
+import { mode } from '../../modules/env';
 import { Developers, Links, Media, Terms, URL } from '../../modules/links';
 import { Atag } from '../../modules/scenes/Common';
 
@@ -41,12 +41,12 @@ export const Footer = () => {
             ))}
             <LiLink>
               <ALink
-                href={mode === MODE.PRODUCTION ? URL.SkybridgeTestnet : URL.SkybridgeMainnet}
+                href={mode === 'production' ? URL.SkybridgeTestnet : URL.SkybridgeMainnet}
                 rel="noopener noreferrer"
                 target="_blank"
               >
                 <FormattedMessage
-                  id={mode === MODE.PRODUCTION ? 'footer.testnet' : 'footer.mainnet'}
+                  id={mode === 'production' ? 'footer.testnet' : 'footer.mainnet'}
                 />
               </ALink>
             </LiLink>
