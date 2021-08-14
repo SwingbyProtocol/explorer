@@ -46,7 +46,6 @@ export const buildChaosNodeContext = async <M extends SkybridgeMode>({
   };
 
   const getRandomSwapNode = ({ bridge }: { bridge: SkybridgeBridge }) => {
-    const from = 'swapNodes';
     const index = SKYBRIDGE_BRIDGES.findIndex((it) => it === bridge);
     try {
       const nodes =
@@ -56,8 +55,7 @@ export const buildChaosNodeContext = async <M extends SkybridgeMode>({
               .filter((it) => getChaosNode(bridge).includes(it.restUri))
               .map((it) => it.restUri);
 
-      const url = nodes && nodes[randomInt(0, results[index][from].length - 1)];
-
+      const url = nodes && nodes[randomInt(0, nodes.length - 1)];
       return url;
     } catch (e) {
       return null;
