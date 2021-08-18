@@ -108,24 +108,6 @@ export const AccountSummary = () => {
         {/* Memo: Show number at 3 decimal */}
         <TextRoom variant="accent">{orgFloor(balanceSbBTC, 3)}</TextRoom>
       </RowEarning>
-      <RowEarning>
-        <TextRoom variant="label">
-          <FormattedMessage id="pool.total-earnings" />
-        </TextRoom>
-        <TextRoom variant="accent">
-          {/* {totalEarnings} {currency} */}
-          <FormattedMessage id="common.coming-soon" />
-        </TextRoom>
-      </RowEarning>
-      <RowEarning>
-        <TextRoom variant="label">
-          <FormattedMessage id="pool.usd" />
-        </TextRoom>
-        <TextRoom variant="accent">
-          {/* {usdTotalEarnings} */}
-          <FormattedMessage id="common.coming-soon" />
-        </TextRoom>
-      </RowEarning>
     </AccountSummaryContainer>
   );
 };

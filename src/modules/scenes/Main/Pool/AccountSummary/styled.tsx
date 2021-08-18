@@ -22,7 +22,8 @@ export const AccountSummaryContainer = styled.div`
   @media (min-width: ${rem(media.lg)}) {
     margin-bottom: 0;
     width: ${rem(280)};
-    height: ${rem(190)};
+    /* height: ${rem(190)}; */
+    height: ${rem(160)};
     padding-top: ${({ theme }) => rem(theme.pulsar.size.house)};
     padding-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
     padding-left: ${({ theme }) => rem(theme.pulsar.size.street)};
