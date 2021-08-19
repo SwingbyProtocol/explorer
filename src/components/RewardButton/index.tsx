@@ -11,7 +11,7 @@ import { useToggleBridge } from '../../modules/hooks';
 import { showConnectNetwork, useOnboard } from '../../modules/onboard';
 import { ButtonScale } from '../../modules/scenes/Common';
 import { StylingConstants } from '../../modules/styles';
-import { calculateGasMargin } from '../../modules/web3';
+import { calculateGasMargin, generateSendParams } from '../../modules/web3';
 
 import { RewardButtonContainer } from './styled';
 
@@ -30,6 +30,7 @@ export const RewardButton = () => {
 
     const wallet = onboard.getState().wallet;
     const address = onboard.getState().address;
+    const network = onboard.getState().network;
 
     try {
       const web3 = new Web3(wallet.provider);
@@ -46,8 +47,9 @@ export const RewardButton = () => {
           .distributeNodeRewards()
           .estimateGas({ from: address });
         const gasLimit = calculateGasMargin(estimatedGas);
+        const params = await generateSendParams({ from: address, network, gasLimit });
 
-        return await contract.methods.distributeNodeRewards().send({ from: address, gasLimit });
+        return await contract.methods.distributeNodeRewards().send(params);
       } else {
         createToast({
           content: <FormattedMessage id="metanodes.distribute-rewards.rewards-not-enough" />,
