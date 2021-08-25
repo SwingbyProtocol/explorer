@@ -110,12 +110,6 @@ export const Withdraw = (props: Props) => {
 
   const maxAmount = balanceSbBTC;
 
-  const withdrawMaxAmount = () => {
-    if (maxAmount) {
-      setAmount(String(maxAmount));
-    }
-  };
-
   const [transactionFee, setTransactionFee] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -219,7 +213,7 @@ export const Withdraw = (props: Props) => {
                   toCurrency,
                 })}
               <AllButtonDiv>
-                <TextAll variant="accent" onClick={() => withdrawMaxAmount()}>
+                <TextAll variant="accent" onClick={() => setAmount(String(maxAmount))}>
                   <FormattedMessage id="pool.withdraw.max" />
                 </TextAll>
               </AllButtonDiv>

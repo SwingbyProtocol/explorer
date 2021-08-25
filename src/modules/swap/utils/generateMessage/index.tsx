@@ -14,6 +14,7 @@ const {
   REFUNDED,
   WAITING,
   EXPIRED,
+  SENDING_REFUND,
 } = TxStatus;
 
 export const generateMessage = (status: string) => {
@@ -35,6 +36,8 @@ export const generateMessage = (status: string) => {
     case REFUNDING:
       return <FormattedMessage id="swap.message.refunded" />;
     case SIGNING_REFUND:
+      return <FormattedMessage id="swap.message.refunded" />;
+    case SENDING_REFUND:
       return <FormattedMessage id="swap.message.refunded" />;
     case REJECTED:
       return <FormattedMessage id="swap.message.refunded" />;

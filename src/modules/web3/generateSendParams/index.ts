@@ -41,7 +41,7 @@ export const generateSendParams = async ({
 
       const gweiDecimals = 9;
       const maxPriorityFeePerGasGwei =
-        result.blockPrices[0].estimatedPrices.find((it) => it.confidence === 95)
+        result.blockPrices[0].estimatedPrices.find((it) => it.confidence === 80)
           .maxPriorityFeePerGas ?? 5;
       const maxPriorityFeePerGas = Number(
         ethers.utils.parseUnits(maxPriorityFeePerGasGwei.toString(), gweiDecimals),
