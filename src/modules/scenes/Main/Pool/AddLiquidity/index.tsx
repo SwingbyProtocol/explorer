@@ -44,6 +44,8 @@ import {
   TextFee,
   TextLabel,
   Top,
+  AllButtonDiv,
+  TextAll,
 } from './styled';
 
 interface Props {
@@ -70,6 +72,7 @@ export const AddLiquidity = (props: Props) => {
     setCurrency,
     isValidAddress,
     isValidAmount,
+    peggedBtcUserBal,
   } = usePoolWithdrawCoin(address, 'pool');
 
   const currencyItems = (
@@ -172,6 +175,11 @@ export const AddLiquidity = (props: Props) => {
             </RowTop>
             <AmountValidation>
               {!isValidAmount && amount && amountValidationResult({ isValidAmount })}
+              <AllButtonDiv currency={currency}>
+                <TextAll variant="accent" onClick={() => setAmount(String(peggedBtcUserBal))}>
+                  <FormattedMessage id="pool.withdraw.max" />
+                </TextAll>
+              </AllButtonDiv>
             </AmountValidation>
           </Top>
           <Bottom>

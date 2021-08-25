@@ -2,6 +2,7 @@ import { CoinIcon, Dropdown, Text, TextInput } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
 import styled from 'styled-components';
 
+import { CoinSymbol } from '../../../../coins';
 import { StylingConstants } from '../../../../styles';
 
 const { media } = StylingConstants;
@@ -11,6 +12,9 @@ interface DropDownProps {
 }
 interface ReceivingAddressProps {
   isEthAddress: boolean;
+}
+interface CurrencyProps {
+  currency: string;
 }
 
 export const AddLiquidityContainer = styled.div`
@@ -171,7 +175,23 @@ export const ButtonRow = styled.div`
 export const AmountValidation = styled.div`
   margin-top: ${({ theme }) => rem(theme.pulsar.size.box / 2)};
   margin-left: ${rem(130)};
+  display: grid;
+  justify-content: end;
   @media (min-width: ${rem(media.sm)}) {
     margin-left: ${rem(168)};
   }
+`;
+
+export const AllButtonDiv = styled.div<CurrencyProps>`
+  display: ${(props) => (props.currency === CoinSymbol.BTC ? 'none' : 'block')};
+  padding-right: ${({ theme }) => rem(theme.pulsar.size.street)};
+  @media (min-width: ${rem(media.sm)}) {
+    padding-right: ${({ theme }) => rem(theme.pulsar.size.room)};
+  }
+`;
+
+export const TextAll = styled(Text)`
+  cursor: pointer;
+  color: ${({ theme }) => theme.pulsar.color.primary.active};
+  text-decoration: underline;
 `;
