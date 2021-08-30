@@ -1,14 +1,13 @@
-import { getFiatAssetFormatter, Text, Tooltip } from '@swingby-protocol/pulsar';
+import { Text } from '@swingby-protocol/pulsar';
 import { CONTRACTS } from '@swingby-protocol/sdk';
 import React from 'react';
-import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
+import { FormattedMessage, FormattedNumber } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { PulseLoader } from 'react-spinners';
 import { useTheme } from 'styled-components';
 
 import { CoinSymbol } from '../../../../coins';
 import { mode, URL_BSCSCAN, URL_ETHERSCAN } from '../../../../env';
-import { useGetTvlSummary } from '../../../../hooks';
 
 import {
   Atag,
@@ -20,15 +19,9 @@ import {
   DataDiv,
   FloatSpan,
   IconExternalLink,
-  IconInfo,
-  NetworkBridgeContainer,
+  FloatVolumeContainer,
   Row,
   RowBridgeTitle,
-  RowLoader,
-  RowTitelText,
-  RowTvlText,
-  TextTvl,
-  TitleText,
   VolSpan,
 } from './styled';
 
@@ -38,31 +31,7 @@ interface IBridgeData {
   vol: number;
 }
 
-export const NetworkBridges = () => {
-  const { tvl, isLoading: isLoadingTvl } = useGetTvlSummary();
-  const { locale } = useIntl();
-
-  const tvlUsd = getFiatAssetFormatter({
-    locale,
-    currency: 'USD',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(tvl.tvlUsd);
-
-  const tvlFloatBal = getFiatAssetFormatter({
-    locale,
-    currency: 'USD',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(tvl.floatUsd);
-
-  const tvlMetanodeLockedUsd = getFiatAssetFormatter({
-    locale,
-    currency: 'USD',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(tvl.lockedSwingbyUsd);
-
+export const FloatVolume = () => {
   const theme = useTheme();
   const isLoading = useSelector((state) => state.explorer.isLoading);
   const networkInfos = useSelector((state) => state.explorer.networkInfos);
@@ -91,12 +60,7 @@ export const NetworkBridges = () => {
   );
 
   // Memo: Show 'loading' animation if backend api is broken
-  const isLoadingAll = isLoadingTvl || isLoading || floatBalances.btcEth === 0;
-  const placeholderLoaderTvl = (
-    <RowLoader>
-      <PulseLoader margin={3} size={2} color={theme.pulsar.color.text.masked} />
-    </RowLoader>
-  );
+  const isLoadingAll = isLoading || floatBalances.btcEth === 0;
 
   const bridgeInfo = (bridgeData: IBridgeData[]) => {
     return (
@@ -172,36 +136,7 @@ export const NetworkBridges = () => {
   };
 
   return (
-    <NetworkBridgeContainer>
-      <RowTitelText>
-        <TitleText variant="section-title">
-          <FormattedMessage id="home.network.network-bridges" />
-        </TitleText>
-        <RowTvlText>
-          <TextTvl variant="label">
-            <FormattedMessage id="common.tvl" /> {isLoadingAll ? placeholderLoaderTvl : tvlUsd}
-          </TextTvl>
-          <Tooltip
-            content={
-              <Tooltip.Content>
-                <Text variant="masked">
-                  <FormattedMessage id="home.network.tvl.float" values={{ value: tvlFloatBal }} />
-                </Text>
-                <br />
-                <Text variant="masked">
-                  <FormattedMessage
-                    id="home.network.tvl.swingby"
-                    values={{ value: tvlMetanodeLockedUsd }}
-                  />
-                </Text>
-              </Tooltip.Content>
-            }
-            data-testid="tooltip"
-          >
-            <IconInfo />
-          </Tooltip>
-        </RowTvlText>
-      </RowTitelText>
+    <FloatVolumeContainer>
       <BridgeInfos>
         <BridgeContainer>
           <RowBridgeTitle>
@@ -222,6 +157,6 @@ export const NetworkBridges = () => {
           <CoinContainer>{bridgeInfo(dataBscBridge)}</CoinContainer>
         </BridgeContainer>
       </BridgeInfos>
-    </NetworkBridgeContainer>
+    </FloatVolumeContainer>
   );
 };
