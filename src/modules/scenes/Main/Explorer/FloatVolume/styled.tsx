@@ -1,14 +1,14 @@
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { CoinIcon, Icon, Text } from '@swingby-protocol/pulsar';
+import { CoinIcon, Icon } from '@swingby-protocol/pulsar';
 
 import { StylingConstants } from '../../../../styles';
 
 const { media } = StylingConstants;
 
-export const NetworkBridgeContainer = styled.div`
+export const FloatVolumeContainer = styled.div`
   grid-area: network;
-  padding-top: ${({ theme }) => rem(theme.pulsar.size.house)};
+  padding-top: ${({ theme }) => rem(theme.pulsar.size.drawer)};
   padding-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
   padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
   padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
@@ -19,7 +19,6 @@ export const NetworkBridgeContainer = styled.div`
     flex-direction: column;
   }
   @media (min-width: ${rem(media.sm)}) {
-    padding-top: ${({ theme }) => rem(theme.pulsar.size.street)};
     margin-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
   }
   @media (min-width: ${rem(media.lg)}) {
@@ -32,15 +31,6 @@ export const NetworkBridgeContainer = styled.div`
   @media (min-width: ${rem(media.xl)}) {
     padding-left: 0;
     margin-bottom: 0;
-  }
-`;
-
-export const TitleText = styled(Text)`
-  @media (min-width: ${rem(media.xs)}) {
-    text-align: center;
-  }
-  @media (min-width: ${rem(media.md)}) {
-    text-align: left;
   }
 `;
 
@@ -108,7 +98,6 @@ export const BridgeContainer = styled.div`
 `;
 
 export const BridgeInfos = styled.div`
-  margin-top: ${({ theme }) => rem(theme.pulsar.size.street)};
   display: grid;
   justify-content: center;
   @media (min-width: ${rem(media.lg)}) {
@@ -138,47 +127,4 @@ export const Atag = styled.a`
   display: flex;
   align-items: center;
   margin-right: ${({ theme }) => rem(theme.pulsar.size.closet)};
-`;
-
-export const RowTitelText = styled.div`
-  display: flex;
-  justify-content: space-between;
-  @media (min-width: ${rem(media.xs)}) {
-    flex-direction: column;
-    align-items: center;
-  }
-  @media (min-width: ${rem(media.md)}) {
-    flex-direction: row;
-    align-items: center;
-  }
-`;
-
-export const RowTvlText = styled.div`
-  display: flex;
-`;
-
-export const RowLoader = styled.div`
-  margin-left: ${({ theme }) => rem(theme.pulsar.size.drawer)};
-`;
-
-export const TextTvl = styled(Text)`
-  display: flex;
-  align-items: center;
-  margin-right: ${({ theme }) => rem(theme.pulsar.size.drawer)};
-  margin-top: ${({ theme }) => rem(theme.pulsar.size.box / 2)};
-  @media (min-width: ${rem(media.xs)}) {
-    margin-top: ${({ theme }) => rem(theme.pulsar.size.box)};
-    margin-bottom: ${({ theme }) => rem(-theme.pulsar.size.box)};
-  }
-  @media (min-width: ${rem(media.md)}) {
-    margin-top: ${({ theme }) => rem(theme.pulsar.size.box / 2)};
-  }
-`;
-
-export const IconInfo = styled(Icon.InfoCircle)`
-  margin-bottom: ${({ theme }) => rem(-theme.pulsar.size.box / 2)};
-  margin-right: ${({ theme }) => rem(theme.pulsar.size.closet)};
-  font-size: ${({ theme }) => rem(theme.pulsar.size.closet)};
-  color: ${({ theme }) => theme.pulsar.color.text.masked};
-  cursor: pointer;
 `;

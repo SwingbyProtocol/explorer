@@ -14,14 +14,17 @@ import {
 } from './../../../modules/explorer';
 
 const getFloatUsd = (bridge: SkybridgeBridge, usdBtc: number, floatBalances: IFloat) => {
+  const sumFloatUsd = (floatBtc: number, floatPeggedBtc: number, usdBtc: number) =>
+    (floatBtc + floatPeggedBtc) * usdBtc;
+
   switch (bridge) {
     case 'btc_erc':
-      return (floatBalances.btcEth + floatBalances.wbtc) * usdBtc;
+      return sumFloatUsd(floatBalances.btcEth, floatBalances.wbtc, usdBtc);
     case 'btc_bep20':
-      return (floatBalances.btcBsc + floatBalances.btcb) * usdBtc;
+      return sumFloatUsd(floatBalances.btcBsc, floatBalances.btcb, usdBtc);
 
     default:
-      return (floatBalances.btcEth + floatBalances.wbtc) * usdBtc;
+      return sumFloatUsd(floatBalances.btcEth, floatBalances.wbtc, usdBtc);
   }
 };
 
