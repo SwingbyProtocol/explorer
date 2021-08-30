@@ -159,6 +159,7 @@ export const AllButtonDiv = styled.div`
 export const TextAll = styled(Text)`
   cursor: pointer;
   color: ${({ theme }) => theme.pulsar.color.primary.active};
+  text-decoration: underline;
 `;
 
 export const RowBottom = styled(RowTop)`
