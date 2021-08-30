@@ -14,9 +14,8 @@ import {
 } from './../../../modules/explorer';
 
 const getFloatUsd = (bridge: SkybridgeBridge, usdBtc: number, floatBalances: IFloat) => {
-  // Memo: return value only when float API works
   const sumFloatUsd = (floatBtc: number, floatPeggedBtc: number, usdBtc: number) =>
-    floatBtc && floatPeggedBtc ? (floatBtc + floatPeggedBtc) * usdBtc : 0;
+    (floatBtc + floatPeggedBtc) * usdBtc;
 
   switch (bridge) {
     case 'btc_erc':
@@ -55,6 +54,7 @@ export default async function handler(
     const floatBalances = results[2].floats;
 
     const filledMonth = network1mSwapVolume.filter((it: number) => it !== 0).length;
+    console.log('filledMonth', filledMonth);
     const yearlyVolume = sumArray(network1mSwapVolume);
     const averageVolume = yearlyVolume / filledMonth;
     const estimatedYearlyVolumeUsd = averageVolume * usdBtc * 12;
@@ -62,6 +62,7 @@ export default async function handler(
 
     if (floatUsd > 0) {
       // Eg: ((32,356,354 * 0.002 * 0.33) / 470,438) * 100 = 4.5
+      // 9,324,447
       const estApr =
         ((estimatedYearlyVolumeUsd * bridgeFeePercent * feeGoesLiquidityProvider) / floatUsd) * 100;
 
