@@ -24,7 +24,7 @@ export const useToggleMetanode = (path: PATH) => {
   const [liquidity, setLiquidity] = useState<ILiquidity | null>(null);
   const [churnTime, setChurnTime] = useState<IChurn | null>(null);
   const [bondHistories, setBondHistories] = useState<IChartDate[] | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [liquidityRatio, setLiquidityRatio] = useState<ILiquidityRatio[] | null>(null);
 
   const { data } = useNodesDetailsQuery({
