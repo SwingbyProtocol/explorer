@@ -81,7 +81,7 @@ export const TotalNodes = ({ metanodes: metanodesParam, isLoading }: Props) => {
           <FormattedMessage id="metanodes.total-nodes" />
         </Text>
       </RowTitle>
-      {!isLoading ? (
+      {!isLoading && metanodes.length > 0 ? (
         <>
           <DoughnutWrapper>
             <TextNodeNum variant="title-s">
