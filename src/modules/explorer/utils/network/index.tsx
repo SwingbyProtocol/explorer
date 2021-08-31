@@ -11,7 +11,7 @@ import {
   mode,
 } from '../../../env';
 import { fetch, fetcher } from '../../../fetch';
-import { INodeListResponse, IReward } from '../../../metanodes';
+import { IReward } from '../../../metanodes';
 import { IChartDate, IFloat, IFloatAmount, IFloatBalances } from '../../index';
 
 // Memo: get active node endpoint
@@ -220,24 +220,6 @@ const getVolume1wksBTC = (arg: getVolume1wksBTCArg): number => {
       return volume1wksWBTC + volume1wksBTCB;
   }
 };
-interface getMetanodesLengthArg {
-  bridge: SkybridgeBridge;
-  ethNodeLength: number;
-  bscNodeLength: number;
-}
-
-const getMetanodesLength = (arg: getMetanodesLengthArg): number => {
-  const { bridge, ethNodeLength, bscNodeLength } = arg;
-  switch (bridge) {
-    case 'btc_erc':
-      return ethNodeLength;
-    case 'btc_bep20':
-      return bscNodeLength;
-
-    default:
-      return ethNodeLength + bscNodeLength;
-  }
-};
 
 interface getRewards1wksArg {
   bridge: SkybridgeBridge;
@@ -372,28 +354,6 @@ export const fetch1wksRewards = async (bridge: SkybridgeBridge): Promise<number>
     const rewards1wksUSD = getRewards1wks({ bridge, ethRewards1wksUSD, bscRewards1wksUSD });
 
     return rewards1wksUSD;
-  } catch (err) {
-    console.log(err);
-    return 0;
-  }
-};
-
-export const fetchNodeLength = async (bridge: SkybridgeBridge): Promise<number> => {
-  const getbridgePeersUrl = (bridge: SkybridgeBridge) =>
-    `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/nodes`;
-
-  try {
-    const results = await Promise.all([
-      fetch<INodeListResponse[]>(getbridgePeersUrl('btc_erc')),
-      fetch<INodeListResponse[]>(getbridgePeersUrl('btc_bep20')),
-    ]);
-
-    const ethNodeLength = results[0].ok ? results[0].response.length : 0;
-    const bscNodeLength = results[1].ok ? results[1].response.length : 0;
-
-    const metanodesLength = getMetanodesLength({ bridge, ethNodeLength, bscNodeLength });
-
-    return metanodesLength;
   } catch (err) {
     console.log(err);
     return 0;

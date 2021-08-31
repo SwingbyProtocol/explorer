@@ -2,34 +2,37 @@ import { Text } from '@swingby-protocol/pulsar';
 import React from 'react';
 import CountUp from 'react-countup';
 import { FormattedMessage } from 'react-intl';
-import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip } from 'recharts';
+import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
 import { useTheme } from 'styled-components';
 
 import { Loader } from '../../../../../components/Loader';
-import { INodeListResponse } from '../../../../metanodes';
+import { Node, NodeStatus } from '../../../../../generated/graphql';
 import { TextRoom } from '../../../Common';
 
 import {
+  CustomTooltipContainer,
   DoughnutWrapper,
   Row,
   RowTitle,
   StatusContainer,
   StatusIcon,
+  StatusIconWithWarningHalf,
   TextNodeNum,
   TotalNodesContainer,
-  StatusIconWithWarningHalf,
-  CustomTooltipContainer,
 } from './styled';
 
 interface Props {
-  metanodes: INodeListResponse[] | null;
+  metanodes: Node[] | null;
   isLoading: boolean;
 }
 
 const MAX_CHURNED_IN = 50;
 
-const CHURNED_IN_STATUSES = ['churned-in'];
-const MAY_CHURNED_OUT_STATUSES = ['may-churn-out--bond-too-low', 'may-churn-out--bond-expiring'];
+const CHURNED_IN_STATUSES = [NodeStatus.ChurnedIn];
+const MAY_CHURNED_OUT_STATUSES = [
+  NodeStatus.MayChurnOutBondTooLow,
+  NodeStatus.MayChurnOutBondExpiring,
+];
 
 export const TotalNodes = ({ metanodes: metanodesParam, isLoading }: Props) => {
   const theme = useTheme();

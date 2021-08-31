@@ -24,7 +24,6 @@ export {
   fetchFloatBalances,
   fetchVolumeInfo,
   fetch1wksRewards,
-  fetchNodeLength,
   getUsdPrice,
   fetchVwap,
   getEndpoint,

@@ -2,7 +2,7 @@ query NodesDetails(
   $mode: Mode!,
   $bridge: Bridge!
 ) {
-    nodes(mode: production, bridge: btc_erc) {
+    nodes(mode: $mode, bridge: $bridge) {
       id
       mode
       bridge
@@ -18,5 +18,6 @@ query NodesDetails(
       lastSeenAt
       bondAmount
       bondExpiresAt
+      bondFraction
     }
   }

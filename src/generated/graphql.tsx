@@ -92,6 +92,7 @@ export type Node = {
   lastSeenAt: Scalars['DateTime'];
   bondAddress: Scalars['String'];
   bondAmount: Scalars['Decimal'];
+  bondFraction: Scalars['Decimal'];
   bondExpiresAt: Scalars['DateTime'];
 };
 
@@ -266,7 +267,7 @@ export type NodesDetailsQuery = (
   { __typename?: 'Query' }
   & { nodes: Array<(
     { __typename?: 'Node' }
-    & Pick<Node, 'id' | 'mode' | 'bridge' | 'status' | 'ip' | 'ipRegionCode' | 'version' | 'moniker' | 'restUri' | 'p2pHost' | 'address1' | 'address2' | 'lastSeenAt' | 'bondAmount' | 'bondExpiresAt'>
+    & Pick<Node, 'id' | 'mode' | 'bridge' | 'status' | 'ip' | 'ipRegionCode' | 'version' | 'moniker' | 'restUri' | 'p2pHost' | 'address1' | 'address2' | 'lastSeenAt' | 'bondAmount' | 'bondExpiresAt' | 'bondFraction'>
   )> }
 );
 
@@ -314,7 +315,7 @@ export type TransactionsHistoryQuery = (
 
 export const NodesDetailsDocument = gql`
     query NodesDetails($mode: Mode!, $bridge: Bridge!) {
-  nodes(mode: production, bridge: btc_erc) {
+  nodes(mode: $mode, bridge: $bridge) {
     id
     mode
     bridge
@@ -330,6 +331,7 @@ export const NodesDetailsDocument = gql`
     lastSeenAt
     bondAmount
     bondExpiresAt
+    bondFraction
   }
 }
     `;

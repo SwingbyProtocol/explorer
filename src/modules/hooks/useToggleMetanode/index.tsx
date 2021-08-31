@@ -1,18 +1,15 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 
-import { Bridge, Mode, useNodesDetailsQuery } from '../../../generated/graphql';
+import { Bridge, Mode, Node, useNodesDetailsQuery } from '../../../generated/graphql';
 import { ENDPOINT_SKYBRIDGE_EXCHANGE, mode, PATH } from '../../env';
 import { IChartDate } from '../../explorer';
 import { fetcher } from '../../fetch';
 import {
-  fetchNodeList,
   IBondHistories,
   IChurn,
   ILiquidity,
   ILiquidityRatio,
   ILiquidityRatios,
-  INodeListResponse,
   IReward,
   listHistory,
 } from '../../metanodes';
@@ -21,9 +18,8 @@ import { useToggleBridge } from '../useToggleBridge';
 
 export const useToggleMetanode = (path: PATH) => {
   const { bridge } = useToggleBridge(path);
-  const usdSwingby = useSelector((state) => state.explorer.usd.SWINGBY);
 
-  const [metanodes, setMetanodes] = useState<INodeListResponse[] | null>(null);
+  const [metanodes, setMetanodes] = useState<Node[] | null>(null);
   const [reward, setReward] = useState<IReward | null>(null);
   const [liquidity, setLiquidity] = useState<ILiquidity | null>(null);
   const [churnTime, setChurnTime] = useState<IChurn | null>(null);
@@ -31,14 +27,18 @@ export const useToggleMetanode = (path: PATH) => {
   const [isLoading, setIsLoading] = useState(false);
   const [liquidityRatio, setLiquidityRatio] = useState<ILiquidityRatio[] | null>(null);
 
-  const { data, loading } = useNodesDetailsQuery({
+  const { data } = useNodesDetailsQuery({
     variables: {
       mode: mode as Mode,
       bridge: bridge as Bridge,
     },
   });
-  console.log('loading', loading);
-  console.log('data', data);
+
+  const getNodes = useCallback(async () => {
+    if (bridge && path === PATH.METANODES) {
+      setMetanodes(data.nodes as Node[]);
+    }
+  }, [bridge, path, data]);
 
   const getRewards = useCallback(async () => {
     if (bridge && path === PATH.METANODES) {
@@ -110,21 +110,6 @@ export const useToggleMetanode = (path: PATH) => {
       setChurnTime(result);
     }
   }, [bridge, path]);
-
-  const getNodes = useCallback(async () => {
-    if (bridge && path === PATH.METANODES) {
-      const nodes = await fetchNodeList(bridge);
-      let tvlSwingby = 0;
-      nodes.forEach((node) => {
-        tvlSwingby = tvlSwingby + Number(node.bondAmount);
-      });
-
-      console.log('usdSwingby', usdSwingby);
-      console.log('tvlSwingby', tvlSwingby);
-      console.log('tvlSwingby * usdSwingby', tvlSwingby * usdSwingby);
-      setMetanodes(nodes);
-    }
-  }, [bridge, path, usdSwingby]);
 
   useEffect(() => {
     (async () => {

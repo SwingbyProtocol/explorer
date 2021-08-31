@@ -1,50 +1,15 @@
 import { SKYBRIDGE_BRIDGES, SkybridgeBridge } from '@swingby-protocol/sdk';
 
+import { NodeStatus } from '../../generated/graphql';
 import { TStatus } from '../explorer';
 
 export {
   fetchNodeEarningsList,
-  fetchNodeList,
   listNodeStatus,
-  calTvl,
   listFloatAmountHistories,
   getLockedHistory,
   listHistory,
 } from './utils';
-
-export interface INodeListResponse {
-  addresses: string[];
-  bondAddress: string;
-  bondAmount: string;
-  bondExpiresAt: string;
-  id: string;
-  ip: string;
-  lastSeenAt: string;
-  moniker: string;
-  p2pHost: string;
-  regionCode: string;
-  regionName: string;
-  restUri: string;
-  status: TChurnStatus;
-  version: string;
-}
-
-export interface INodeEarningsResponse {
-  moniker: string;
-  bond: number;
-  earnings1W: number;
-  earnings1M: number;
-}
-
-export enum NodeStatus {
-  DISCOVERY = 'Discovery',
-  SIGNING = 'Signing',
-  IDLE = 'Idle',
-}
-export enum NodeActiveStatus {
-  ACTIVE = 'Active',
-  NON_ACTIVE = 'nonActive',
-}
 
 export interface IReward {
   currency: string;
@@ -94,7 +59,7 @@ export interface ILiquidityRatio {
 }
 
 export interface INodeStatusTable {
-  status: TChurnStatus;
+  status: NodeStatus;
   nodes: string[];
   nodeQty: number;
 }
@@ -113,76 +78,59 @@ export const BRIDGES = [
   },
 ];
 
-type TChurnStatus =
-  | 'churned-in'
-  | 'may-churn-out--bond-too-low'
-  | 'may-churn-out--bond-expiring'
-  | 'may-churn-in'
-  | 'inactive--bond-expired'
-  | 'inactive--bond-too-low'
-  | 'unreachable';
+export const {
+  ChurnedIn,
+  MayChurnOutBondTooLow,
+  MayChurnOutBondExpiring,
+  MayChurnIn,
+  InactiveBondExpired,
+  InactiveBondTooLow,
+  Unreachable,
+} = NodeStatus;
 
-export const churnedIn = 'churned-in';
-export const bondLow = 'may-churn-out--bond-too-low';
-export const bondExpiring = 'may-churn-out--bond-expiring';
-export const mayChurnIn = 'may-churn-in';
-export const inactiveBondExpired = 'inactive--bond-expired';
-export const inactiveBondTooLow = 'inactive--bond-too-low';
-export const unreachable = 'unreachable';
-
-export const toggleStatusBg = (status: TChurnStatus, i: number): string | boolean => {
+export const toggleStatusBg = (status: NodeStatus, i: number): string | boolean => {
   switch (status) {
-    case churnedIn:
+    case ChurnedIn:
       return i % 2 !== 0;
-    case bondLow:
-      return bondLow;
-    case bondExpiring:
-      return bondExpiring;
-    case inactiveBondExpired:
-      return inactiveBondExpired;
-    case inactiveBondTooLow:
-      return inactiveBondTooLow;
-    case unreachable:
-      return unreachable;
-
-    default:
-      return mayChurnIn;
-  }
-};
-
-export const toggleStatusWord = (status: TChurnStatus): string | boolean => {
-  switch (status) {
-    case churnedIn:
-      return 'metanodes.metanode-status.churned-in';
-    case bondLow:
-      return 'metanodes.metanode-status.may-churn-out-bond-low';
-    case bondExpiring:
-      return 'metanodes.metanode-status.may-churn-out-bond-expiring';
-    case mayChurnIn:
-      return 'metanodes.metanode-status.may-churn-in';
-    case inactiveBondExpired:
-      return 'metanodes.metanode-status.inactive-bond-expired';
-    case inactiveBondTooLow:
-      return 'metanodes.metanode-status.inactive-bond-too-low';
-    case unreachable:
-      return 'metanodes.metanode-status.unreachable';
 
     default:
       return status;
   }
 };
 
-export const toggleStatusIconColor = (status: TChurnStatus): TStatus => {
+export const toggleStatusWord = (status: NodeStatus): string | boolean => {
   switch (status) {
-    case churnedIn:
+    case ChurnedIn:
+      return 'metanodes.metanode-status.churned-in';
+    case MayChurnOutBondTooLow:
+      return 'metanodes.metanode-status.may-churn-out-bond-low';
+    case MayChurnOutBondExpiring:
+      return 'metanodes.metanode-status.may-churn-out-bond-expiring';
+    case MayChurnIn:
+      return 'metanodes.metanode-status.may-churn-in';
+    case InactiveBondExpired:
+      return 'metanodes.metanode-status.inactive-bond-expired';
+    case InactiveBondTooLow:
+      return 'metanodes.metanode-status.inactive-bond-too-low';
+    case Unreachable:
+      return 'metanodes.metanode-status.Unreachable';
+
+    default:
+      return status;
+  }
+};
+
+export const toggleStatusIconColor = (status: NodeStatus): TStatus => {
+  switch (status) {
+    case ChurnedIn:
       return 'COMPLETED';
-    case bondLow:
+    case MayChurnOutBondTooLow:
       return 'SIGNING';
-    case bondExpiring:
+    case MayChurnOutBondExpiring:
       return 'SIGNING';
-    case inactiveBondTooLow:
+    case InactiveBondTooLow:
       return 'PENDING';
-    case inactiveBondExpired:
+    case InactiveBondExpired:
       return 'PENDING';
 
     default:

@@ -2,18 +2,18 @@ import { Text, Tooltip } from '@swingby-protocol/pulsar';
 import { FormattedMessage } from 'react-intl';
 
 import { Loader } from '../../../../../components/Loader';
+import { Node } from '../../../../../generated/graphql';
 import {
-  churnedIn,
-  INodeListResponse,
+  ChurnedIn,
   listNodeStatus,
-  bondLow,
-  bondExpiring,
-  mayChurnIn,
-  inactiveBondExpired,
-  inactiveBondTooLow,
   toggleStatusIconColor,
-  unreachable,
   INodeStatusTable,
+  InactiveBondExpired,
+  InactiveBondTooLow,
+  MayChurnIn,
+  MayChurnOutBondExpiring,
+  MayChurnOutBondTooLow,
+  Unreachable,
 } from '../../../../metanodes';
 import { TextRoom } from '../../../Common';
 
@@ -29,7 +29,7 @@ import {
 } from './styled';
 
 interface Props {
-  metanodes: INodeListResponse[] | null;
+  metanodes: Node[] | null;
   isLoading: boolean;
 }
 
@@ -38,27 +38,29 @@ export const NodeStatus = (props: Props) => {
   const nodeStatusTable = metanodes && listNodeStatus(metanodes);
 
   const churnedInStatus =
-    nodeStatusTable && nodeStatusTable.find((it: INodeStatusTable) => it.status === churnedIn);
+    nodeStatusTable && nodeStatusTable.find((it: INodeStatusTable) => it.status === ChurnedIn);
 
   const bondLowStatus =
-    nodeStatusTable && nodeStatusTable.find((it: INodeStatusTable) => it.status === bondLow);
+    nodeStatusTable &&
+    nodeStatusTable.find((it: INodeStatusTable) => it.status === MayChurnOutBondTooLow);
 
   const bondExpiringStatus =
-    nodeStatusTable && nodeStatusTable.find((it: INodeStatusTable) => it.status === bondExpiring);
+    nodeStatusTable &&
+    nodeStatusTable.find((it: INodeStatusTable) => it.status === MayChurnOutBondExpiring);
 
   const mayChurnInStatus =
-    nodeStatusTable && nodeStatusTable.find((it: INodeStatusTable) => it.status === mayChurnIn);
+    nodeStatusTable && nodeStatusTable.find((it: INodeStatusTable) => it.status === MayChurnIn);
 
   const inactiveBondExpiredStatus =
     nodeStatusTable &&
-    nodeStatusTable.find((it: INodeStatusTable) => it.status === inactiveBondExpired);
+    nodeStatusTable.find((it: INodeStatusTable) => it.status === InactiveBondExpired);
 
   const inactiveBondTooLowStatus =
     nodeStatusTable &&
-    nodeStatusTable.find((it: INodeStatusTable) => it.status === inactiveBondTooLow);
+    nodeStatusTable.find((it: INodeStatusTable) => it.status === InactiveBondTooLow);
 
   const unreachableStatus =
-    nodeStatusTable && nodeStatusTable.find((it: INodeStatusTable) => it.status === unreachable);
+    nodeStatusTable && nodeStatusTable.find((it: INodeStatusTable) => it.status === Unreachable);
 
   const showNodeStatus = (nodeTable: INodeStatusTable) => (
     <Tooltip

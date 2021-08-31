@@ -785,6 +785,22 @@
             "deprecationReason": null
           },
           {
+            "name": "bondFraction",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Decimal",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "bondExpiresAt",
             "description": null,
             "args": [],
