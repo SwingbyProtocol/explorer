@@ -1,0 +1,22 @@
+query NodesDetails(
+  $mode: Mode!,
+  $bridge: Bridge!
+) {
+    nodes(mode: production, bridge: btc_erc) {
+      id
+      mode
+      bridge
+      status
+      ip
+      ipRegionCode
+      version
+      moniker
+      restUri
+      p2pHost
+      address1
+      address2
+      lastSeenAt
+      bondAmount
+      bondExpiresAt
+    }
+  }

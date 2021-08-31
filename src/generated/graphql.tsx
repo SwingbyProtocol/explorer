@@ -256,6 +256,20 @@ export type TransactionsConnectionEdges = {
   cursor: Scalars['String'];
 };
 
+export type NodesDetailsQueryVariables = Exact<{
+  mode: Mode;
+  bridge: Bridge;
+}>;
+
+
+export type NodesDetailsQuery = (
+  { __typename?: 'Query' }
+  & { nodes: Array<(
+    { __typename?: 'Node' }
+    & Pick<Node, 'id' | 'mode' | 'bridge' | 'status' | 'ip' | 'ipRegionCode' | 'version' | 'moniker' | 'restUri' | 'p2pHost' | 'address1' | 'address2' | 'lastSeenAt' | 'bondAmount' | 'bondExpiresAt'>
+  )> }
+);
+
 export type TransactionDetailsQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -298,6 +312,56 @@ export type TransactionsHistoryQuery = (
 );
 
 
+export const NodesDetailsDocument = gql`
+    query NodesDetails($mode: Mode!, $bridge: Bridge!) {
+  nodes(mode: production, bridge: btc_erc) {
+    id
+    mode
+    bridge
+    status
+    ip
+    ipRegionCode
+    version
+    moniker
+    restUri
+    p2pHost
+    address1
+    address2
+    lastSeenAt
+    bondAmount
+    bondExpiresAt
+  }
+}
+    `;
+
+/**
+ * __useNodesDetailsQuery__
+ *
+ * To run a query within a React component, call `useNodesDetailsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useNodesDetailsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useNodesDetailsQuery({
+ *   variables: {
+ *      mode: // value for 'mode'
+ *      bridge: // value for 'bridge'
+ *   },
+ * });
+ */
+export function useNodesDetailsQuery(baseOptions: Apollo.QueryHookOptions<NodesDetailsQuery, NodesDetailsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<NodesDetailsQuery, NodesDetailsQueryVariables>(NodesDetailsDocument, options);
+      }
+export function useNodesDetailsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<NodesDetailsQuery, NodesDetailsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<NodesDetailsQuery, NodesDetailsQueryVariables>(NodesDetailsDocument, options);
+        }
+export type NodesDetailsQueryHookResult = ReturnType<typeof useNodesDetailsQuery>;
+export type NodesDetailsLazyQueryHookResult = ReturnType<typeof useNodesDetailsLazyQuery>;
+export type NodesDetailsQueryResult = Apollo.QueryResult<NodesDetailsQuery, NodesDetailsQueryVariables>;
 export const TransactionDetailsDocument = gql`
     query TransactionDetails($id: ID!) {
   transaction(id: $id) {
