@@ -132,7 +132,6 @@ export const useToggleMetanode = (path: PATH) => {
   }, [getBondHistory, getLiquidityRation, getChurnTime, getLiquidity, getRewards, getNodes]);
 
   useEffect(() => {
-    setMetanodes(null);
     setReward(null);
     setLiquidity(null);
     setChurnTime(null);
