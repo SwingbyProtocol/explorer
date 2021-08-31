@@ -3,12 +3,12 @@ import { rem } from 'polished';
 import styled from 'styled-components';
 
 import {
-  bondExpiring,
-  bondLow,
-  inactiveBondExpired,
-  inactiveBondTooLow,
-  mayChurnIn,
-  unreachable,
+  MayChurnOutBondTooLow,
+  MayChurnOutBondExpiring,
+  InactiveBondExpired,
+  InactiveBondTooLow,
+  Unreachable,
+  MayChurnIn,
 } from '../../../../metanodes';
 import { StylingConstants } from '../../../../styles';
 import { AddressLinkP, TextBlock, TextRoom } from '../../../Common';
@@ -64,17 +64,17 @@ export const StakeInfos = styled.div`
 
 export const Row = styled.div<BgProps>`
   background: ${(props) =>
-    props.bg === bondLow
+    props.bg === MayChurnOutBondTooLow
       ? 'rgba(235, 65, 65, 0.2)'
-      : props.bg === bondExpiring
+      : props.bg === MayChurnOutBondExpiring
       ? 'rgba(235, 65, 65, 0.2)'
-      : props.bg === inactiveBondExpired
+      : props.bg === InactiveBondExpired
       ? 'rgba(235, 65, 65, 0.2)'
-      : props.bg === inactiveBondTooLow
+      : props.bg === InactiveBondTooLow
       ? 'rgba(235, 65, 65, 0.2)'
-      : props.bg === unreachable
+      : props.bg === Unreachable
       ? 'rgba(235, 65, 65, 0.2)'
-      : props.bg === mayChurnIn
+      : props.bg === MayChurnIn
       ? 'rgba(143, 231, 217, 0.2)'
       : !props.bg && props.theme.pulsar.color.bg.hover};
   display: grid;

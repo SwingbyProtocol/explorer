@@ -1,24 +1,13 @@
 import { SkybridgeBridge } from '@swingby-protocol/sdk';
 
-import { IBondHistories, INodeListResponse, INodeStatusTable, TBondHistory } from '..';
+import { IBondHistories, INodeStatusTable, TBondHistory } from '..';
+import { Node } from '../../../generated/graphql';
 import { getShortDate } from '../../common';
 import { ENDPOINT_SKYBRIDGE_EXCHANGE, mode } from '../../env';
 import { IChartDate } from '../../explorer';
-import { camelize, fetch, fetcher } from '../../fetch';
+import { fetch, fetcher } from '../../fetch';
 import { IFloatHistoryObject } from '../../hooks';
 import { initialVolumes } from '../../store';
-
-export const fetchNodeList = async (bridge: SkybridgeBridge) => {
-  const url = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/nodes`;
-
-  try {
-    const result = await fetch<INodeListResponse[]>(url);
-    const metanodes = result.ok && camelize(result.response);
-    return metanodes;
-  } catch (e) {
-    console.log(e);
-  }
-};
 
 export const fetchNodeEarningsList = async () => {
   const url = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/rewards/ranking`;
@@ -41,10 +30,10 @@ export const fetchNodeEarningsList = async () => {
   return result.response;
 };
 
-export const listNodeStatus = (nodes: INodeListResponse[]): INodeStatusTable[] => {
+export const listNodeStatus = (nodes: Node[]): INodeStatusTable[] => {
   let statusLookUpTable: string[] = [];
   let statusTable: INodeStatusTable[] = [];
-  nodes.forEach((node: INodeListResponse) => {
+  nodes.forEach((node: Node) => {
     if (statusLookUpTable.includes(node.status)) {
       statusTable = statusTable.map((item) => {
         if (item.status === node.status) {
@@ -76,14 +65,6 @@ export const listNodeStatus = (nodes: INodeListResponse[]): INodeStatusTable[] =
     }
   });
   return statusTable;
-};
-
-export const calTvl = (metanodes: INodeListResponse[]) => {
-  let tvl = 0;
-  metanodes.forEach((metanode) => {
-    tvl += Number(metanode.bondAmount);
-  });
-  return tvl;
 };
 
 export const listFloatAmountHistories = (histories: IFloatHistoryObject[]): IChartDate[] => {

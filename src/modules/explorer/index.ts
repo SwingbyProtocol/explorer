@@ -17,7 +17,6 @@ export {
   fetchFloatBalances,
   fetchVolumeInfo,
   fetch1wksRewards,
-  fetchNodeLength,
   getBorderColor,
   getDiffDays,
   getTransactionFees,
@@ -70,7 +69,6 @@ export const selectableTxType = [
   },
 ];
 
-// Memo: interface
 export interface FloatRawObject {
   addressDeposit: string;
   addressIn: string;

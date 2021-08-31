@@ -1,0 +1,23 @@
+query NodesDetails(
+  $mode: Mode!,
+  $bridge: Bridge!
+) {
+    nodes(mode: $mode, bridge: $bridge) {
+      id
+      mode
+      bridge
+      status
+      ip
+      ipRegionCode
+      version
+      moniker
+      restUri
+      p2pHost
+      address1
+      address2
+      lastSeenAt
+      bondAmount
+      bondExpiresAt
+      bondFraction
+    }
+  }

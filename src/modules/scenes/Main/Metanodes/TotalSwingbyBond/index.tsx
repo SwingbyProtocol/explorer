@@ -29,7 +29,7 @@ export const TotalSwingbyBond = (props: Props) => {
         <Box>
           <GenerateChart
             chart={chart}
-            isLoading={!isLoading && bondHistories ? false : true}
+            isLoading={!isLoading && bondHistories && chart ? false : true}
             minHeight={130}
             loader={loader}
             isAxis={true}

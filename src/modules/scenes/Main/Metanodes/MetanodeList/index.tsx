@@ -3,15 +3,12 @@ import { SkybridgeBridge } from '@swingby-protocol/sdk';
 import { hasFlag } from 'country-flag-icons';
 import { DateTime } from 'luxon';
 import { rem } from 'polished';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { useSelector } from 'react-redux';
+import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
 
-import { PATH } from '../../../../env';
+import { Node } from '../../../../../generated/graphql';
 import { convertDateTime, getDiffDays } from '../../../../explorer';
-import { useGetBridgesTvl } from '../../../../hooks';
 import {
   getSbBtcRewardCurrency,
-  INodeListResponse,
   toggleStatusBg,
   toggleStatusIconColor,
   toggleStatusWord,
@@ -45,7 +42,7 @@ import {
 } from './styled';
 
 interface Props {
-  metanodes: INodeListResponse[] | null;
+  metanodes: Node[] | null;
   bridge: SkybridgeBridge;
   isLoading: boolean;
 }
@@ -53,8 +50,6 @@ interface Props {
 export const MetanodeList = (props: Props) => {
   const { locale } = useIntl();
   const { metanodes, bridge, isLoading } = props;
-  const { tvl } = useGetBridgesTvl(PATH.METANODES, bridge);
-  const usd = useSelector((state) => state.explorer.usd);
   const swingbyRewardCurrency = 'BEP2';
   const sbBTCRewardCurrency = bridge && getSbBtcRewardCurrency(bridge);
 
@@ -91,9 +86,9 @@ export const MetanodeList = (props: Props) => {
         </Row>
         {!isLoading &&
           metanodes &&
-          metanodes.map((node: INodeListResponse, i: number) => {
-            const bnbAddress = node.addresses[0];
-            const ethAddress = node.addresses[1];
+          metanodes.map((node: Node, i: number) => {
+            const bnbAddress = node.address1;
+            const ethAddress = node.address2;
             const bondAmount = getCryptoAssetFormatter({
               locale,
               displaySymbol: '',
@@ -101,24 +96,29 @@ export const MetanodeList = (props: Props) => {
               maximumFractionDigits: 0,
             }).format(Number(node.bondAmount));
 
+            const lockedPortion = (
+              <FormattedNumber
+                value={Number(node.bondFraction) * 100}
+                maximumFractionDigits={2}
+                minimumFractionDigits={2}
+              />
+            );
+
             const dt = DateTime.fromISO(node.bondExpiresAt);
             const expireTimestamp = dt.toSeconds();
             const expireTime = convertDateTime(expireTimestamp);
-            const lockedUsdValue = Number(node.bondAmount) * usd.SWINGBY;
-            const lockedPortion = Number((lockedUsdValue / tvl) * 100).toFixed(2);
-
             const isNoRequiredTooltip =
-              xl || node.status === 'churned-in' || node.status === 'may-churn-in';
+              xl || node.status === 'CHURNED_IN' || node.status === 'MAY_CHURN_IN';
 
             return (
               <Row key={node.id} bg={toggleStatusBg(node.status, i)}>
                 <ColumnLeft>
                   <Location>
                     <ImgFlag
-                      alt={node.regionCode}
+                      alt={node.ipRegionCode}
                       src={
-                        hasFlag(node.regionCode)
-                          ? `https://purecatamphetamine.github.io/country-flag-icons/3x2/${node.regionCode}.svg`
+                        hasFlag(node.ipRegionCode)
+                          ? `https://purecatamphetamine.github.io/country-flag-icons/3x2/${node.ipRegionCode}.svg`
                           : 'https://cdn3.iconfinder.com/data/icons/seo-and-internet-marketing-12/512/52-512.png'
                       }
                     />
@@ -156,7 +156,7 @@ export const MetanodeList = (props: Props) => {
                 </SizeL>
                 <div>
                   <TextRoom>{bondAmount}</TextRoom>{' '}
-                  {tvl > 0 && <TextRoom variant="label">({lockedPortion}%)</TextRoom>}
+                  <TextRoom variant="label">({lockedPortion}%)</TextRoom>
                 </div>
                 <ColumnExpiry>
                   <Column>

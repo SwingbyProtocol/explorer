@@ -6,25 +6,31 @@ import { sumArray } from '../common';
 import { ENDPOINT_BSC_BRIDGE, ENDPOINT_ETHEREUM_BRIDGE, ENDPOINT_SKYBRIDGE_EXCHANGE } from '../env';
 import { castToBackendVariable, getFloatBalance, getUsdPrice, IFloatAmount } from '../explorer';
 import { fetcher } from '../fetch';
-import { IBondHistories, INodeListResponse } from '../metanodes';
+import { IBondHistories } from '../metanodes';
 
-export const getNodeQty = async (): Promise<string> => {
-  const getbridgePeersUrl = (bridge: SkybridgeBridge) =>
-    `${ENDPOINT_SKYBRIDGE_EXCHANGE}/production/${bridge}/nodes`;
+export const getNodeQty = async ({
+  bridge,
+  mode,
+}: {
+  bridge: SkybridgeBridge | undefined;
+  mode: 'production' | 'test';
+}): Promise<number> => {
+  const getBridgePeersUrl = (bridge: SkybridgeBridge) =>
+    `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/nodes`;
 
   try {
+    if (bridge) {
+      const result = await fetcher<Array<any>>(getBridgePeersUrl(bridge));
+      return result.length;
+    }
     const results = await Promise.all([
-      fetcher<INodeListResponse[]>(getbridgePeersUrl('btc_erc')),
-      fetcher<INodeListResponse[]>(getbridgePeersUrl('btc_bep20')),
+      fetcher<Array<any>>(getBridgePeersUrl('btc_erc')),
+      fetcher<Array<any>>(getBridgePeersUrl('btc_bep20')),
     ]);
-
-    const ethNodeLength = results[0].length;
-    const bscNodeLength = results[1].length;
-    const total = String(ethNodeLength + bscNodeLength);
-
+    const total = results[0].length + results[1].length;
     return total;
   } catch (e) {
-    return 'N/A';
+    return 0;
   }
 };
 

@@ -8,7 +8,6 @@ export { useLoadHistories } from './useLoadHistories';
 export { useLoadTransaction } from './useLoadTransaction';
 export { useToggleMetanode } from './useToggleMetanode';
 export { useGetNetworkData } from './useGetNetworkData';
-export { useGetBridgesTvl } from './useGetBridgesTvl';
 export { useGetStatsChartData } from './useGetStatsChartData';
 export { useGetLiquidityApr } from './useGetLiquidityApr';
 export { useGetTvlSummary } from './useGetTvlSummary';

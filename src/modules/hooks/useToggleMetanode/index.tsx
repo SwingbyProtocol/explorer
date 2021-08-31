@@ -1,16 +1,15 @@
 import { useCallback, useEffect, useState } from 'react';
 
+import { Bridge, Mode, Node, useNodesDetailsQuery } from '../../../generated/graphql';
 import { ENDPOINT_SKYBRIDGE_EXCHANGE, mode, PATH } from '../../env';
 import { IChartDate } from '../../explorer';
 import { fetcher } from '../../fetch';
 import {
-  fetchNodeList,
   IBondHistories,
   IChurn,
   ILiquidity,
   ILiquidityRatio,
   ILiquidityRatios,
-  INodeListResponse,
   IReward,
   listHistory,
 } from '../../metanodes';
@@ -20,13 +19,26 @@ import { useToggleBridge } from '../useToggleBridge';
 export const useToggleMetanode = (path: PATH) => {
   const { bridge } = useToggleBridge(path);
 
-  const [metanodes, setMetanodes] = useState<INodeListResponse[] | null>(null);
+  const [metanodes, setMetanodes] = useState<Node[] | null>(null);
   const [reward, setReward] = useState<IReward | null>(null);
   const [liquidity, setLiquidity] = useState<ILiquidity | null>(null);
   const [churnTime, setChurnTime] = useState<IChurn | null>(null);
   const [bondHistories, setBondHistories] = useState<IChartDate[] | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [liquidityRatio, setLiquidityRatio] = useState<ILiquidityRatio[] | null>(null);
+
+  const { data } = useNodesDetailsQuery({
+    variables: {
+      mode: mode as Mode,
+      bridge: bridge as Bridge,
+    },
+  });
+
+  const getNodes = useCallback(async () => {
+    if (bridge && path === PATH.METANODES) {
+      setMetanodes(data.nodes as Node[]);
+    }
+  }, [bridge, path, data]);
 
   const getRewards = useCallback(async () => {
     if (bridge && path === PATH.METANODES) {
@@ -99,17 +111,9 @@ export const useToggleMetanode = (path: PATH) => {
     }
   }, [bridge, path]);
 
-  const getNodes = useCallback(async () => {
-    if (bridge && path === PATH.METANODES) {
-      const nodes = await fetchNodeList(bridge);
-      setMetanodes(nodes);
-    }
-  }, [bridge, path]);
-
   useEffect(() => {
     (async () => {
       try {
-        setIsLoading(true);
         await Promise.all([
           getRewards(),
           getLiquidity(),
@@ -127,7 +131,6 @@ export const useToggleMetanode = (path: PATH) => {
   }, [getBondHistory, getLiquidityRation, getChurnTime, getLiquidity, getRewards, getNodes]);
 
   useEffect(() => {
-    setMetanodes(null);
     setReward(null);
     setLiquidity(null);
     setChurnTime(null);
