@@ -114,7 +114,6 @@ export const useToggleMetanode = (path: PATH) => {
   useEffect(() => {
     (async () => {
       try {
-        setIsLoading(true);
         await Promise.all([
           getRewards(),
           getLiquidity(),
