@@ -113,7 +113,7 @@ export const toggleStatusWord = (status: NodeStatus): string | boolean => {
     case InactiveBondTooLow:
       return 'metanodes.metanode-status.inactive-bond-too-low';
     case Unreachable:
-      return 'metanodes.metanode-status.Unreachable';
+      return 'metanodes.metanode-status.unreachable';
 
     default:
       return status;
