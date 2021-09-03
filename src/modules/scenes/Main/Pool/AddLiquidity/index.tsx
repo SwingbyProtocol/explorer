@@ -205,7 +205,7 @@ export const AddLiquidity = (props: Props) => {
             <RowBottom>
               <div>
                 <TextDescription variant="masked">
-                  <FormattedMessage id="pool.withdraw.transaction-fee" />
+                  <FormattedMessage id="pool.pool.deposit-fee" />
                   &nbsp;
                   <Tooltip
                     content={
