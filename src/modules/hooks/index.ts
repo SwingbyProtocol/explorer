@@ -11,6 +11,7 @@ export { useGetNetworkData } from './useGetNetworkData';
 export { useGetStatsChartData } from './useGetStatsChartData';
 export { useGetLiquidityApr } from './useGetLiquidityApr';
 export { useGetTvlSummary } from './useGetTvlSummary';
+export { useGetPoolApr } from './useGetPoolApr';
 
 export interface ICountdown {
   days: number;

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { CoinIcon, Icon } from '@swingby-protocol/pulsar';
+import { CoinIcon, Icon, Text } from '@swingby-protocol/pulsar';
 
 import { StylingConstants } from '../../../../styles';
 
@@ -94,7 +94,11 @@ export const VolSpan = styled.div`
 `;
 
 export const BridgeContainer = styled.div`
-  margin-top: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  margin-top: ${({ theme }) => rem(theme.pulsar.size.box)};
+`;
+
+export const TextBridge = styled(Text)`
+  font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
 `;
 
 export const BridgeInfos = styled.div`
@@ -105,9 +109,10 @@ export const BridgeInfos = styled.div`
   }
 `;
 
-export const RowBridgeTitle = styled.div`
+export const RowBridge = styled.div`
   display: flex;
   justify-content: space-between;
+  margin-top: ${({ theme }) => rem(theme.pulsar.size.box / 2)};
   @media (min-width: ${rem(media.md)}) {
     margin-left: ${({ theme }) => rem(theme.pulsar.size.street)};
   }
@@ -127,4 +132,8 @@ export const Atag = styled.a`
   display: flex;
   align-items: center;
   margin-right: ${({ theme }) => rem(theme.pulsar.size.closet)};
+`;
+
+export const TextLink = styled(Text)`
+  border-bottom: 1px solid ${({ theme }) => theme.pulsar.color.text.masked};
 `;

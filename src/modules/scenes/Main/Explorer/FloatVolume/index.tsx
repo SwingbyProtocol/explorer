@@ -1,5 +1,5 @@
-import { Text } from '@swingby-protocol/pulsar';
-import { CONTRACTS } from '@swingby-protocol/sdk';
+import { Text, Tooltip } from '@swingby-protocol/pulsar';
+import { CONTRACTS, SkybridgeBridge } from '@swingby-protocol/sdk';
 import React from 'react';
 import { FormattedMessage, FormattedNumber } from 'react-intl';
 import { useSelector } from 'react-redux';
@@ -8,6 +8,7 @@ import { useTheme } from 'styled-components';
 
 import { CoinSymbol } from '../../../../coins';
 import { mode, URL_BSCSCAN, URL_ETHERSCAN } from '../../../../env';
+import { useGetPoolApr } from '../../../../hooks';
 
 import {
   Atag,
@@ -21,8 +22,10 @@ import {
   IconExternalLink,
   FloatVolumeContainer,
   Row,
-  RowBridgeTitle,
+  RowBridge,
   VolSpan,
+  TextBridge,
+  TextLink,
 } from './styled';
 
 interface IBridgeData {
@@ -33,6 +36,7 @@ interface IBridgeData {
 
 export const FloatVolume = () => {
   const theme = useTheme();
+  const { apr } = useGetPoolApr();
   const isLoading = useSelector((state) => state.explorer.isLoading);
   const networkInfos = useSelector((state) => state.explorer.networkInfos);
   const { floatBalances, stats } = networkInfos;
@@ -135,27 +139,90 @@ export const FloatVolume = () => {
     );
   };
 
+  const poolLink = (bridge: SkybridgeBridge) => {
+    return (
+      <Tooltip
+        content={
+          <Tooltip.Content>
+            <Text variant="normal">
+              <FormattedMessage
+                id="home.network.apr.sbbtc"
+                values={{
+                  value: (
+                    <FormattedNumber
+                      value={apr[bridge].sbBtc}
+                      maximumFractionDigits={2}
+                      minimumFractionDigits={2}
+                    />
+                  ),
+                }}
+              />
+            </Text>
+            <br />
+            <Text variant="normal">
+              <FormattedMessage
+                id="home.network.apr.farm"
+                values={{
+                  value: (
+                    <FormattedNumber
+                      value={apr[bridge].farm}
+                      maximumFractionDigits={2}
+                      minimumFractionDigits={2}
+                    />
+                  ),
+                }}
+              />
+            </Text>
+          </Tooltip.Content>
+        }
+        targetHtmlTag="span"
+      >
+        <Atag href={`/pool?bridge=${bridge}`} rel="noopener noreferrer" target="_blank">
+          <TextLink variant="label">
+            <FormattedMessage
+              id="home.network.add-liquidity"
+              values={{
+                value: apr[bridge].total ? (
+                  <FormattedNumber
+                    value={apr[bridge].total}
+                    maximumFractionDigits={2}
+                    minimumFractionDigits={2}
+                  />
+                ) : (
+                  '...'
+                ),
+              }}
+            />
+          </TextLink>
+        </Atag>
+      </Tooltip>
+    );
+  };
+
+  const rowBridgeInfo = (bridge: SkybridgeBridge) => {
+    return (
+      <BridgeContainer>
+        <TextBridge variant="label">
+          <FormattedMessage
+            id={bridge === 'btc_erc' ? 'home.network.bitcoin-ethereum' : 'home.network.bitcoin-bsc'}
+          />
+        </TextBridge>
+        <RowBridge>
+          {networkScan(bridge === 'btc_erc' ? URL_ETHERSCAN : URL_BSCSCAN)}
+          {poolLink(bridge)}
+        </RowBridge>
+        <CoinContainer>
+          {bridgeInfo(bridge === 'btc_erc' ? dataEthBridge : dataBscBridge)}
+        </CoinContainer>
+      </BridgeContainer>
+    );
+  };
+
   return (
     <FloatVolumeContainer>
       <BridgeInfos>
-        <BridgeContainer>
-          <RowBridgeTitle>
-            <Text variant="label">
-              <FormattedMessage id="home.network.bitcoin-ethereum" />
-            </Text>
-            {networkScan(URL_ETHERSCAN)}
-          </RowBridgeTitle>
-          <CoinContainer>{bridgeInfo(dataEthBridge)}</CoinContainer>
-        </BridgeContainer>
-        <BridgeContainer>
-          <RowBridgeTitle>
-            <Text variant="label">
-              <FormattedMessage id="home.network.bitcoin-bsc" />
-            </Text>
-            {networkScan(URL_BSCSCAN)}
-          </RowBridgeTitle>
-          <CoinContainer>{bridgeInfo(dataBscBridge)}</CoinContainer>
-        </BridgeContainer>
+        {rowBridgeInfo('btc_erc')}
+        {rowBridgeInfo('btc_bep20')}
       </BridgeInfos>
     </FloatVolumeContainer>
   );
