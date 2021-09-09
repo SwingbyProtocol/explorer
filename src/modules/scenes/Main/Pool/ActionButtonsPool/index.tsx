@@ -1,25 +1,28 @@
-import { useMatchMedia } from '@swingby-protocol/pulsar';
+import { Text, useMatchMedia } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, FormattedNumber } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { PulseLoader } from 'react-spinners';
 import { useTheme } from 'styled-components';
 
-import { useGetLiquidityApr } from '../../../../hooks';
+import { PATH } from '../../../../env';
+import { useGetPoolApr, useToggleBridge } from '../../../../hooks';
 import { PoolMode } from '../../../../pool';
 import { togglePoolMode } from '../../../../store';
 import { StylingConstants } from '../../../../styles';
 import { ButtonScale, IconArrowLeft } from '../../../Common';
 
-import { ActionButtonsPoolContainer, Buttons, RowText, TextAPR, TextTitle } from './styled';
+import { ActionButtonsPoolContainer, Buttons, ColumnApr, RowText, TextAPR } from './styled';
 
 export const ActionButtonsPool = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const mode = useSelector((state) => state.pool.mode);
 
-  const { estimateApr, isLoading } = useGetLiquidityApr();
+  // const { estimateApr, isLoading } = useGetLiquidityApr();
+  const { apr, isLoading } = useGetPoolApr();
+  const { bridge } = useToggleBridge(PATH.POOL);
 
   const { media } = StylingConstants;
   const sm = useMatchMedia({ query: `(min-width: ${rem(media.sm)})` });
@@ -28,15 +31,61 @@ export const ActionButtonsPool = () => {
     <PulseLoader margin={3} size={4} color={theme.pulsar.color.text.normal} />
   );
 
+  const aprInfo = (
+    <ColumnApr>
+      <RowText>
+        <Text variant="accent">
+          <FormattedMessage id="pool.sbBtc" />
+        </Text>
+        <TextAPR variant="accent">
+          {isLoading ? (
+            placeholderLoader
+          ) : (
+            <FormattedMessage
+              id="common.percent"
+              values={{
+                value: (
+                  <FormattedNumber
+                    value={apr[bridge].sbBtc}
+                    maximumFractionDigits={2}
+                    minimumFractionDigits={2}
+                  />
+                ),
+              }}
+            />
+          )}
+        </TextAPR>
+      </RowText>
+      <RowText>
+        <Text variant="accent">
+          <FormattedMessage id="pool.farm" />
+        </Text>
+        <TextAPR variant="accent">
+          {isLoading ? (
+            placeholderLoader
+          ) : (
+            <FormattedMessage
+              id="common.percent"
+              values={{
+                value: (
+                  <FormattedNumber
+                    value={apr[bridge].farm}
+                    maximumFractionDigits={2}
+                    minimumFractionDigits={2}
+                  />
+                ),
+              }}
+            />
+          )}
+        </TextAPR>
+      </RowText>
+    </ColumnApr>
+  );
+
   return (
     <ActionButtonsPoolContainer>
       {mode === PoolMode.Summary ? (
-        <RowText>
-          <TextTitle variant="accent">
-            <FormattedMessage id="pool.apr" />
-          </TextTitle>
-          <TextAPR variant="accent">{isLoading ? placeholderLoader : estimateApr}</TextAPR>
-        </RowText>
+        aprInfo
       ) : (
         <IconArrowLeft onClick={() => dispatch(togglePoolMode(PoolMode.Summary))} />
       )}
