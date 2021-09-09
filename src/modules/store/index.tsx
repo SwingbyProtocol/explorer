@@ -14,10 +14,4 @@ export {
   floatHistoryObjectInitialValue,
 } from './explorer';
 
-export {
-  togglePoolMode,
-  setBalanceSbBTC,
-  getRecentTxs,
-  resetPoolState,
-  getMinimumWithdrawAmount,
-} from './pool';
+export { togglePoolMode, getRecentTxs, resetPoolState, getMinimumWithdrawAmount } from './pool';

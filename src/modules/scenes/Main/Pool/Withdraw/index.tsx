@@ -10,7 +10,7 @@ import { useTheme } from 'styled-components';
 
 import { useAffiliateCode } from '../../../../affiliate-code';
 import { getBridgeSbBtc, TBtcCurrency } from '../../../../coins';
-import { usePoolWithdrawCoin, useToggleBridge } from '../../../../hooks';
+import { useGetSbBtcBal, usePoolWithdrawCoin, useToggleBridge } from '../../../../hooks';
 import { IWithdrawAmountValidation } from '../../../../pool';
 import { useSdkContext } from '../../../../sdk-context';
 import { getMinimumWithdrawAmount } from '../../../../store';
@@ -54,7 +54,7 @@ export const Withdraw = (props: Props) => {
   const theme = useTheme();
   const [themeMode] = useThemeSettings();
 
-  const balanceSbBTC = useSelector((state) => state.pool.balanceSbBTC);
+  const { balance } = useGetSbBtcBal();
   const minimumWithdrawAmount = useSelector((state) => state.pool.minimumWithdrawAmount);
   const transactionFees = useSelector((state) => state.explorer.transactionFees);
   const { locale } = useRouter();
@@ -63,6 +63,7 @@ export const Withdraw = (props: Props) => {
 
   const { poolCurrencies, bridge } = useToggleBridge(PATH.POOL);
   const context = useSdkContext();
+  const maxAmount = bridge && balance[bridge].wallet;
 
   const {
     receivingAddress,
@@ -107,8 +108,6 @@ export const Withdraw = (props: Props) => {
       })();
     }
   }, [dispatch, toCurrency, transactionFees, context, amount, currency, bridge]);
-
-  const maxAmount = balanceSbBTC;
 
   const [transactionFee, setTransactionFee] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -169,8 +168,8 @@ export const Withdraw = (props: Props) => {
     0 >= Number(amount) ||
     !isValidAddress ||
     !receivingAddress ||
-    amount > maxAmount ||
-    minimumWithdrawAmount > amount;
+    Number(amount) > Number(maxAmount) ||
+    minimumWithdrawAmount > Number(amount);
 
   return (
     <WithdrawContainer>

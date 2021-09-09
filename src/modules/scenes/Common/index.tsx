@@ -18,4 +18,5 @@ export {
   TextChosenFilter,
   AddressLinkP,
   TextRoom,
+  IconExternalLink,
 } from './Styled';

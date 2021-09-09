@@ -1,85 +1,50 @@
-import { getCryptoAssetFormatter, getFiatAssetFormatter, Text } from '@swingby-protocol/pulsar';
-import { getSbbtcPrice } from '@swingby-protocol/sdk';
-import React, { useEffect, useState } from 'react';
+import { getCryptoAssetFormatter, Text } from '@swingby-protocol/pulsar';
+import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
 
 import { CoinSymbol } from '../../../../coins';
-import { ENDPOINT_EARNINGS, PATH } from '../../../../env';
-import { fetcher } from '../../../../fetch';
-import { useToggleBridge } from '../../../../hooks';
-import { useOnboard } from '../../../../onboard';
-import { fetchSbBTCBalance, orgFloor } from '../../../../pool';
-import { useSdkContext } from '../../../../sdk-context';
-import { setBalanceSbBTC } from '../../../../store';
-import { TextRoom } from '../../../Common';
+import { ENDPOINT_YIELD_FARMING, PATH } from '../../../../env';
+import { useGetSbBtcBal, useToggleBridge } from '../../../../hooks';
+import { TextRoom, IconExternalLink } from '../../../Common';
 
 import {
   AccountSummaryContainer,
   Bottom,
   Coin,
+  CoinMini,
   Column,
+  RowBalance,
   RowEarning,
   RowTitle,
   TextAmount,
   Top,
+  Atag,
 } from './styled';
 
 export const AccountSummary = () => {
   const { bridge } = useToggleBridge(PATH.POOL);
-  const dispatch = useDispatch();
-  const usd = useSelector((state) => state.explorer.usd);
-  const balanceSbBTC = useSelector((state) => state.pool.balanceSbBTC);
-  const { address } = useOnboard();
-
-  const [claimableAmount, setClaimableAmount] = useState(0);
-  const [totalEarnings, setTotalEarnings] = useState(0);
-
   const { locale } = useIntl();
-  const currency = CoinSymbol.BTC;
-  const context = useSdkContext();
-
-  // Todo: Remove `disable-next-line` after 'earnings API' works
-  // eslint-disable-next-line
-  const usdTotalEarnings = getFiatAssetFormatter({
-    locale,
-    currency: 'USD',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(totalEarnings * usd[currency]);
+  const { balance } = useGetSbBtcBal();
 
   const formattedClaimableAmount = getCryptoAssetFormatter({
     locale,
     displaySymbol: CoinSymbol.BTC,
-  }).format(Number(claimableAmount));
+    maximumFractionDigits: 8,
+  }).format(bridge && balance[bridge].total * balance[bridge].priceSbBTC);
 
-  // Todo: Add toggle bridge logic from SDK
-  useEffect(() => {
-    if (address) {
-      (async () => {
-        const urlEarning = ENDPOINT_EARNINGS;
+  const formattedSbBtcWalletBal = getCryptoAssetFormatter({
+    locale,
+    displaySymbol: CoinSymbol.ERC20_SB_BTC,
+    maximumFractionDigits: 8,
+    minimumFractionDigits: 0,
+  }).format(bridge && balance[bridge].wallet);
 
-        const results = await Promise.all([
-          fetchSbBTCBalance(address, bridge),
-          getSbbtcPrice({ context, bridge }),
-          fetcher<{ total: string }>(urlEarning),
-        ]);
-
-        const balanceSbBTC = results[0];
-        dispatch(setBalanceSbBTC(balanceSbBTC));
-
-        const priceSbBTC = Number(results[1]);
-
-        // Memo: Decimal <= 8
-        const totalClaimableAmount = orgFloor(priceSbBTC * balanceSbBTC, 8);
-        setClaimableAmount(totalClaimableAmount);
-
-        // Memo: Earings API has not deployed yet. This is the mocked response.
-        const totalEarnings = results[2].total;
-        setTotalEarnings(Number(totalEarnings));
-      })();
-    }
-  }, [dispatch, address, context, bridge]);
+  const formattedSbBtcStakedBal = getCryptoAssetFormatter({
+    locale,
+    displaySymbol: CoinSymbol.ERC20_SB_BTC,
+    maximumFractionDigits: 8,
+    minimumFractionDigits: 0,
+  }).format(bridge && balance[bridge].farm);
 
   return (
     <AccountSummaryContainer>
@@ -89,11 +54,11 @@ export const AccountSummary = () => {
         </Text>
       </RowTitle>
       <Column>
-        <Coin symbol={currency} />
+        <Coin symbol={CoinSymbol.BTC} />
         <div>
           <Top>
             <TextRoom variant="label">
-              {currency} <FormattedMessage id="pool.claim" />
+              {CoinSymbol.BTC} <FormattedMessage id="pool.claim" />
             </TextRoom>
           </Top>
           <Bottom>
@@ -101,12 +66,33 @@ export const AccountSummary = () => {
           </Bottom>
         </div>
       </Column>
-      <RowEarning>
+      <RowBalance>
+        <CoinMini symbol={CoinSymbol.ERC20_SB_BTC} />
         <TextRoom variant="label">
           <FormattedMessage id="pool.balance" />
         </TextRoom>
-        {/* Memo: Show number at 3 decimal */}
-        <TextRoom variant="accent">{orgFloor(balanceSbBTC, 3)}</TextRoom>
+      </RowBalance>
+      <RowEarning>
+        <TextRoom variant="label">
+          <FormattedMessage id="pool.balance.wallet" />
+        </TextRoom>
+        <TextRoom variant="accent">{formattedSbBtcWalletBal}</TextRoom>
+      </RowEarning>
+      <RowEarning>
+        <Atag href={ENDPOINT_YIELD_FARMING} rel="noopener noreferrer" target="_blank">
+          <TextRoom variant="label">
+            <FormattedMessage id="pool.balance.staking" />
+          </TextRoom>
+          <IconExternalLink />
+        </Atag>
+        {/* Todo: Remove 'coming soon' once sbBTC pool (BSC) has been deployed */}
+        <TextRoom variant="accent">
+          {bridge === 'btc_erc' ? (
+            formattedSbBtcStakedBal
+          ) : (
+            <FormattedMessage id="common.coming-soon" />
+          )}
+        </TextRoom>
       </RowEarning>
     </AccountSummaryContainer>
   );

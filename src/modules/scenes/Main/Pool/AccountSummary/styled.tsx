@@ -22,9 +22,8 @@ export const AccountSummaryContainer = styled.div`
   @media (min-width: ${rem(media.lg)}) {
     margin-bottom: 0;
     width: ${rem(280)};
-    /* height: ${rem(190)}; */
-    height: ${rem(160)};
-    padding-top: ${({ theme }) => rem(theme.pulsar.size.house)};
+    height: ${rem(190)};
+    padding-top: ${({ theme }) => rem(theme.pulsar.size.closet)};
     padding-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
     padding-left: ${({ theme }) => rem(theme.pulsar.size.street)};
     padding-right: ${({ theme }) => rem(theme.pulsar.size.street)};
@@ -41,8 +40,19 @@ export const Top = styled.div``;
 
 export const Bottom = styled.div``;
 
+export const RowBalance = styled.div`
+  display: flex;
+  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.box)};
+`;
+
 export const Coin = styled(CoinIcon)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.town)};
+`;
+
+export const CoinMini = styled(CoinIcon)`
+  font-size: ${({ theme }) => rem(theme.pulsar.size.street)};
+  margin-top: ${({ theme }) => rem(-theme.pulsar.size.box / 2)};
+  margin-right: ${({ theme }) => rem(theme.pulsar.size.box / 2)};
 `;
 
 export const Column = styled.div`
@@ -50,7 +60,7 @@ export const Column = styled.div`
   display: grid;
   grid-template-columns: ${({ theme }) => rem(theme.pulsar.size.state)} auto;
   align-items: center;
-  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.box * 5)};
+  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
 `;
 
 export const TextAmount = styled(Text)`
@@ -66,4 +76,10 @@ export const RowEarning = styled.div`
   grid-template-columns: auto auto;
   align-items: center;
   justify-content: space-between;
+`;
+
+export const Atag = styled.a`
+  text-decoration: none;
+  display: flex;
+  align-items: center;
 `;
