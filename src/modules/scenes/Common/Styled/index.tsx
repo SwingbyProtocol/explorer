@@ -109,3 +109,9 @@ export const AddressLinkP = styled.p`
   white-space: nowrap;
   cursor: pointer;
 `;
+
+export const IconExternalLink = styled(Icon.ExternalLink)`
+  margin-left: ${({ theme }) => rem(theme.pulsar.size.box)};
+  width: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  color: ${({ theme }) => theme.pulsar.color.text.masked};
+`;

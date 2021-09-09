@@ -9,6 +9,7 @@ import { useTheme } from 'styled-components';
 import { CoinSymbol } from '../../../../coins';
 import { mode, URL_BSCSCAN, URL_ETHERSCAN } from '../../../../env';
 import { useGetPoolApr } from '../../../../hooks';
+import { IconExternalLink } from '../../../Common';
 
 import {
   Atag,
@@ -19,7 +20,6 @@ import {
   CoinInfo,
   DataDiv,
   FloatSpan,
-  IconExternalLink,
   FloatVolumeContainer,
   Row,
   RowBridge,

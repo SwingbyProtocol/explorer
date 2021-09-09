@@ -20,7 +20,6 @@ export const ActionButtonsPool = () => {
   const theme = useTheme();
   const mode = useSelector((state) => state.pool.mode);
 
-  // const { estimateApr, isLoading } = useGetLiquidityApr();
   const { apr, isLoading } = useGetPoolApr();
   const { bridge } = useToggleBridge(PATH.POOL);
 
@@ -46,7 +45,7 @@ export const ActionButtonsPool = () => {
               values={{
                 value: (
                   <FormattedNumber
-                    value={apr[bridge].sbBtc}
+                    value={bridge && apr[bridge].sbBtc}
                     maximumFractionDigits={2}
                     minimumFractionDigits={2}
                   />
@@ -60,22 +59,25 @@ export const ActionButtonsPool = () => {
         <Text variant="accent">
           <FormattedMessage id="pool.farm" />
         </Text>
+        {/* Todo: Remove 'coming soon' once sbBTC pool (BSC) has been deployed */}
         <TextAPR variant="accent">
           {isLoading ? (
             placeholderLoader
-          ) : (
+          ) : bridge === 'btc_erc' ? (
             <FormattedMessage
               id="common.percent"
               values={{
                 value: (
                   <FormattedNumber
-                    value={apr[bridge].farm}
+                    value={bridge && apr[bridge].farm}
                     maximumFractionDigits={2}
                     minimumFractionDigits={2}
                   />
                 ),
               }}
             />
+          ) : (
+            <FormattedMessage id="common.coming-soon" />
           )}
         </TextAPR>
       </RowText>

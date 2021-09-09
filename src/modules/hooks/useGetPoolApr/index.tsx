@@ -34,12 +34,12 @@ export const useGetPoolApr = () => {
       });
 
       const farmErc = stringifyUrl({
-        url: `${ENDPOINT_YIELD_FARMING}/farm-info`,
+        url: `${ENDPOINT_YIELD_FARMING}/api/v1/farm-info`,
         query: { farm: 'sbBTC-ERC20' },
       });
 
       const farmBsc = stringifyUrl({
-        url: `${ENDPOINT_YIELD_FARMING}/farm-info`,
+        url: `${ENDPOINT_YIELD_FARMING}/api/v1/farm-info`,
         query: { farm: 'sbBTC-BEP20' },
       });
 

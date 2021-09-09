@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { CoinIcon, Icon, Text } from '@swingby-protocol/pulsar';
+import { CoinIcon, Text } from '@swingby-protocol/pulsar';
 
 import { StylingConstants } from '../../../../styles';
 
@@ -119,12 +119,6 @@ export const RowBridge = styled.div`
   @media (min-width: ${rem(media.lg)}) {
     margin-left: 0;
   }
-`;
-
-export const IconExternalLink = styled(Icon.ExternalLink)`
-  margin-left: ${({ theme }) => rem(theme.pulsar.size.box)};
-  width: ${({ theme }) => rem(theme.pulsar.size.closet)};
-  color: ${({ theme }) => theme.pulsar.color.text.masked};
 `;
 
 export const Atag = styled.a`

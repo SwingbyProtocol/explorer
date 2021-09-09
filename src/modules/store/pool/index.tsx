@@ -13,17 +13,12 @@ enum Actions {
 const initialState = {
   mode: PoolMode.Summary,
   recentTxs: null,
-  balanceSbBTC: null,
   minimumWithdrawAmount: null,
 };
 
 type State = typeof initialState;
 
 export const pool: Reducer<State, Action> = (state = initialState, action) => {
-  if (action.type === Actions.SetBalanceLP) {
-    return { ...state, balanceSbBTC: action.data };
-  }
-
   if (action.type === Actions.TogglePoolMode) {
     return { ...state, mode: action.data };
   }
@@ -44,8 +39,6 @@ export const pool: Reducer<State, Action> = (state = initialState, action) => {
 
 export const resetPoolState = () => ({ type: Actions.ResetPoolState } as const);
 
-export const setBalanceSbBTC = (data: number) => ({ type: Actions.SetBalanceLP, data } as const);
-
 export const togglePoolMode = (data: PoolMode) => ({ type: Actions.TogglePoolMode, data } as const);
 
 export const getRecentTxs = (data) => ({ type: Actions.GetRecentTxs, data } as const);
@@ -55,7 +48,6 @@ export const getMinimumWithdrawAmount = (data) =>
 
 type Action =
   | ReturnType<typeof resetPoolState>
-  | ReturnType<typeof setBalanceSbBTC>
   | ReturnType<typeof togglePoolMode>
   | ReturnType<typeof getRecentTxs>
   | ReturnType<typeof getMinimumWithdrawAmount>;
