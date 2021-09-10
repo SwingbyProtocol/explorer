@@ -1,4 +1,4 @@
-import { CoinIcon, Text } from '@swingby-protocol/pulsar';
+import { CoinIcon } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
 import styled from 'styled-components';
 
@@ -40,35 +40,30 @@ export const Top = styled.div``;
 
 export const Bottom = styled.div``;
 
-export const RowBalance = styled.div`
-  display: flex;
-  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.box)};
-`;
-
 export const Coin = styled(CoinIcon)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.town)};
 `;
 
 export const CoinMini = styled(CoinIcon)`
-  font-size: ${({ theme }) => rem(theme.pulsar.size.street)};
-  margin-top: ${({ theme }) => rem(-theme.pulsar.size.box / 2)};
-  margin-right: ${({ theme }) => rem(theme.pulsar.size.box / 2)};
+  font-size: ${rem(28)};
+`;
+
+export const Box = styled.div`
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-row-gap: ${({ theme }) => rem(theme.pulsar.size.house)};
 `;
 
 export const Column = styled.div`
   height: ${({ theme }) => rem(theme.pulsar.size.state)};
   display: grid;
-  grid-template-columns: ${({ theme }) => rem(theme.pulsar.size.state)} auto;
+  grid-template-columns: ${({ theme }) => rem(theme.pulsar.size.city)} auto;
   align-items: center;
-  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
-`;
-
-export const TextAmount = styled(Text)`
-  font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
+  /* margin-bottom: ${({ theme }) => rem(theme.pulsar.size.house)}; */
 `;
 
 export const RowTitle = styled.div`
-  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.room)};
+  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.box * 5)};
 `;
 
 export const RowEarning = styled.div`
