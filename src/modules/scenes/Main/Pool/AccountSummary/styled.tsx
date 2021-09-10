@@ -73,4 +73,5 @@ export const Atag = styled.a`
   text-decoration: none;
   display: flex;
   align-items: center;
+  /* border-bottom: 1px solid ${({ theme }) => theme.pulsar.color.text.placeholder}; */
 `;
