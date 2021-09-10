@@ -12,6 +12,7 @@ export { useGetStatsChartData } from './useGetStatsChartData';
 export { useGetTvlSummary } from './useGetTvlSummary';
 export { useGetPoolApr } from './useGetPoolApr';
 export { useGetSbBtcBal } from './useGetSbBtcBal';
+export { useGetLatestPrice } from './useGetLatestPrice';
 
 export interface ICountdown {
   days: number;

@@ -36,10 +36,6 @@ export const AccountSummaryContainer = styled.div`
   }
 `;
 
-export const Top = styled.div``;
-
-export const Bottom = styled.div``;
-
 export const Coin = styled(CoinIcon)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.town)};
 `;

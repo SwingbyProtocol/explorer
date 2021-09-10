@@ -1,57 +1,69 @@
-import { getCryptoAssetFormatter, Text, useMatchMedia } from '@swingby-protocol/pulsar';
+import {
+  getCryptoAssetFormatter,
+  getFiatAssetFormatter,
+  Text,
+  useMatchMedia,
+} from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import { CoinSymbol } from '../../../../coins';
 import { ENDPOINT_YIELD_FARMING, PATH } from '../../../../env';
-import { useGetSbBtcBal, useToggleBridge } from '../../../../hooks';
+import { useGetLatestPrice, useGetSbBtcBal, useToggleBridge } from '../../../../hooks';
 import { StylingConstants } from '../../../../styles';
 import { IconExternalLink, TextRoom } from '../../../Common';
 
 import {
   AccountSummaryContainer,
   Atag,
-  Bottom,
+  Box,
   Coin,
   CoinMini,
   Column,
   RowEarning,
   RowTitle,
-  Top,
-  Box,
 } from './styled';
 
 export const AccountSummary = () => {
   const { bridge } = useToggleBridge(PATH.POOL);
   const { locale } = useIntl();
   const { balance } = useGetSbBtcBal();
+  const { price: btcUsd } = useGetLatestPrice('bitcoin');
 
   const { media } = StylingConstants;
   const lg = useMatchMedia({ query: `(min-width: ${rem(media.lg)})` });
   const maxDecimals = lg ? 5 : 8;
   const minDecimals = 0;
+  const claimableBtc = bridge ? balance[bridge].total * balance[bridge].priceSbBTC : 0;
 
   const formattedClaimableAmount = getCryptoAssetFormatter({
     locale,
     displaySymbol: CoinSymbol.BTC,
-    maximumFractionDigits: 8,
+    maximumFractionDigits: maxDecimals,
     minimumFractionDigits: minDecimals,
-  }).format(bridge && balance[bridge].total * balance[bridge].priceSbBTC);
+  }).format(claimableBtc);
+
+  const formattedClaimableAmountUsd = getFiatAssetFormatter({
+    locale,
+    currency: 'USD',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(claimableBtc && btcUsd ? claimableBtc * btcUsd : 0);
 
   const formattedSbBtcWalletBal = getCryptoAssetFormatter({
     locale,
     displaySymbol: CoinSymbol.ERC20_SB_BTC,
     maximumFractionDigits: maxDecimals,
     minimumFractionDigits: minDecimals,
-  }).format(bridge && balance[bridge].wallet);
+  }).format(balance[bridge].wallet ?? 0);
 
   const formattedSbBtcStakedBal = getCryptoAssetFormatter({
     locale,
     displaySymbol: CoinSymbol.ERC20_SB_BTC,
     maximumFractionDigits: maxDecimals,
     minimumFractionDigits: minDecimals,
-  }).format(bridge && balance[bridge].farm);
+  }).format(balance[bridge].farm ?? 0);
 
   return (
     <AccountSummaryContainer>
@@ -92,14 +104,18 @@ export const AccountSummary = () => {
         <Column>
           <CoinMini symbol={CoinSymbol.BTC} />
           <div>
-            <Top>
+            <RowEarning>
               <TextRoom variant="label">
-                {CoinSymbol.BTC} <FormattedMessage id="pool.claim" />
+                <FormattedMessage id="pool.claim" />
               </TextRoom>
-            </Top>
-            <Bottom>
               <TextRoom variant="accent">{formattedClaimableAmount}</TextRoom>
-            </Bottom>
+            </RowEarning>
+            <RowEarning>
+              <TextRoom variant="label">
+                <FormattedMessage id="pool.usd" />
+              </TextRoom>
+              <TextRoom variant="accent">{formattedClaimableAmountUsd}</TextRoom>
+            </RowEarning>
           </div>
         </Column>
       </Box>
