@@ -19,7 +19,9 @@ export const ActionButtonMetanodes = () => {
         <TextTitle variant="accent">
           <FormattedMessage id="pool.apr" />
         </TextTitle>
-        <TextAPR variant="accent">{apr}%</TextAPR>
+        <TextAPR variant="accent">
+          <FormattedMessage id="common.percent" values={{ value: ' ' + apr }} />
+        </TextAPR>
       </RowText>
       <ButtonContainer>
         <RewardButton />
