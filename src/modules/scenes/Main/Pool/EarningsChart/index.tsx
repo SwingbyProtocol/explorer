@@ -96,7 +96,7 @@ export const EarningsChart = () => {
           <GenerateChart
             chart={earnings}
             isLoading={isLoading}
-            minHeight={130}
+            minHeight={130 + 60}
             loader={loader}
             isAxis={true}
           />

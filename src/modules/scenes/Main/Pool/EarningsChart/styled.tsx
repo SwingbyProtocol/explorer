@@ -36,7 +36,8 @@ export const EarningsChartContainer = styled.div`
   @media (min-width: ${rem(media.lg)}) {
     margin-top: 0;
     width: ${rem(375)};
-    height: ${rem(190)};
+    /* height: ${rem(190)}; */
+    height: ${rem(250)};
     grid-area: auto;
     padding-top: ${({ theme }) => rem(theme.pulsar.size.closet)};
     padding-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};

@@ -87,7 +87,8 @@ export const ActionButtonsPool = () => {
   return (
     <ActionButtonsPoolContainer>
       {mode === PoolMode.Summary ? (
-        aprInfo
+        // aprInfo
+        <div />
       ) : (
         <IconArrowLeft onClick={() => dispatch(togglePoolMode(PoolMode.Summary))} />
       )}

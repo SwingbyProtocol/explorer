@@ -9,11 +9,13 @@ const initialState = {
     sbBtc: 0,
     farm: 0,
     total: 0,
+    swingbyPerBlock: 0,
   },
   btc_bep20: {
     sbBtc: 0,
     farm: 0,
     total: 0,
+    swingbyPerBlock: 0,
   },
 };
 
@@ -45,20 +47,22 @@ export const useGetPoolApr = () => {
 
       const results = await Promise.all([
         fetcher<{ apr: number }>(sbBtcErcUrl),
-        fetcher<{ apr: number }>(farmErc),
+        fetcher<{ apr: number; swingbyPerBlock: number }>(farmErc),
         fetcher<{ apr: number }>(sbBtcBsc20Url),
-        fetcher<{ apr: number }>(farmBsc),
+        fetcher<{ apr: number; swingbyPerBlock: number }>(farmBsc),
       ]);
       setApr({
         btc_erc: {
           sbBtc: results[0].apr,
           farm: results[1].apr,
           total: results[0].apr + results[1].apr,
+          swingbyPerBlock: results[1].swingbyPerBlock,
         },
         btc_bep20: {
           sbBtc: results[2].apr,
           farm: results[3].apr,
           total: results[2].apr + results[3].apr,
+          swingbyPerBlock: results[3].swingbyPerBlock,
         },
       });
     } catch (error) {
