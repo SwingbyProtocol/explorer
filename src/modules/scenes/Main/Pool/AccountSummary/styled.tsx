@@ -59,7 +59,6 @@ export const Column = styled.div`
   display: grid;
   grid-template-columns: ${({ theme }) => rem(theme.pulsar.size.city)} auto;
   align-items: center;
-  /* margin-bottom: ${({ theme }) => rem(theme.pulsar.size.house)}; */
 `;
 
 export const RowTitle = styled.div`
@@ -77,4 +76,5 @@ export const Atag = styled.a`
   text-decoration: none;
   display: flex;
   align-items: center;
+  border-bottom: 2px solid ${({ theme }) => theme.pulsar.color.border.danger};
 `;
