@@ -11,11 +11,12 @@ export const TotalSwingbyBondContainer = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  padding-top: ${({ theme }) => rem(theme.pulsar.size.town)};
+  padding-top: ${({ theme }) => rem(theme.pulsar.size.house)};
   padding-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
   background-color: ${({ theme }) => theme.pulsar.color.bg.hover};
   width: 100%;
   @media (min-width: ${rem(media.sm)}) {
+    padding-top: ${({ theme }) => rem(theme.pulsar.size.street)};
     padding-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
   }
 
@@ -32,6 +33,7 @@ export const TotalSwingbyBondContainer = styled.div`
 `;
 
 export const Box = styled.div`
+  width: ${rem(320)};
   @media (min-width: ${rem(media.xs)}) {
     width: ${rem(330)};
   }
@@ -74,12 +76,12 @@ export const TitleDiv = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
   @media (min-width: ${rem(media.sm)}) {
     padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
   }
-  @media (min-width: ${rem(media.md)}) {
-  }
   @media (min-width: ${rem(media.lg)}) {
+    margin-bottom: 0;
     padding-bottom: 0;
     margin-left: 0;
   }
