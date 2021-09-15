@@ -29,6 +29,13 @@ export const TitleRow = styled.div`
 
 export const Left = styled.div`
   padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.street)};
+  align-items: center;
+  @media (min-width: ${rem(media.sm)}) {
+    grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.town)};
+  }
   @media (min-width: ${rem(media.xl)}) {
     padding-right: 0;
   }
