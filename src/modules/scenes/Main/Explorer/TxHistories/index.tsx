@@ -1,4 +1,5 @@
 import { Dropdown, Text } from '@swingby-protocol/pulsar';
+import { createWidget, openPopup } from '@swingby-protocol/widget';
 import { useRouter } from 'next/router';
 import React, { useCallback, useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -9,7 +10,8 @@ import InfiniteLoader from 'react-window-infinite-loader';
 import { LinkToWidgetModal } from '../../../../../components/LinkToWidgetModal';
 import { Loader } from '../../../../../components/Loader';
 import { Bridge, Transaction, TransactionType } from '../../../../../generated/graphql';
-import { TXS_COUNT } from '../../../../env';
+import { useAffiliateCode } from '../../../../affiliate-code';
+import { mode, TXS_COUNT } from '../../../../env';
 import {
   castGraphQlType,
   ISwapQueryPrams,
@@ -17,6 +19,8 @@ import {
   selectableTxType,
 } from '../../../../explorer';
 import { useLinkToWidget, useLoadHistories } from '../../../../hooks';
+import { useThemeSettings } from '../../../../store/settings';
+import { ButtonScale } from '../../../Common';
 
 import { TxHistoriesItem } from './Item';
 import {
@@ -33,10 +37,11 @@ const ROW_HEIGHT = 90;
 const TABLE_ROW_COUNT = 10;
 
 export const TxHistories = () => {
-  const { push, query } = useRouter();
+  const { push, query, locale } = useRouter();
+  const [themeMode] = useThemeSettings();
+  const affiliateCode = useAffiliateCode();
 
   const params = query;
-
   const q = String(params.q || '');
   const chainBridge = String(params.bridge || '') as Bridge;
   const type = String(params.type || '') as TransactionType;
@@ -155,6 +160,15 @@ export const TxHistories = () => {
   });
   const isFloatTx = type === TransactionType.Deposit || type === TransactionType.Withdrawal;
 
+  const widget = createWidget({
+    resource: 'swap',
+    mode,
+    size: 'big',
+    theme: themeMode,
+    locale,
+    affiliateCode,
+  });
+
   return (
     <>
       <LinkToWidgetModal
@@ -169,6 +183,9 @@ export const TxHistories = () => {
             <Text variant="section-title">
               <FormattedMessage id="home.recent-swaps.recent-swaps" />
             </Text>
+            <ButtonScale variant="tertiary" size="street" onClick={() => openPopup({ widget })}>
+              <FormattedMessage id="home.recent-swaps.new-swap" />
+            </ButtonScale>
           </Left>
           <Right isFloats={isFloatTx}>
             <TextFee variant="section-title">
