@@ -2,7 +2,7 @@ import { getSbbtcPrice } from '@swingby-protocol/sdk';
 import { stringifyUrl } from 'query-string';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { ENDPOINT_YIELD_FARMING } from '../../env';
+import { ENDPOINT_YIELD_FARMING, mode } from '../../env';
 import { fetcher } from '../../fetch';
 import { useOnboard } from '../../onboard';
 import { fetchSbBTCBalance } from '../../pool';
@@ -35,11 +35,11 @@ export const useGetSbBtcBal = () => {
 
       const sbBtcStakedErcUrl = stringifyUrl({
         url: `${ENDPOINT_YIELD_FARMING}/api/v1/user-lp-bal`,
-        query: { farm: 'sbBTC-ERC20', address },
+        query: { farm: 'sbBTC-ERC20', address, network: mode === 'production' ? '1' : '5' },
       });
       const sbBtcStakedBscUrl = stringifyUrl({
         url: `${ENDPOINT_YIELD_FARMING}/api/v1/user-lp-bal`,
-        query: { farm: 'sbBTC-BEP20', address },
+        query: { farm: 'sbBTC-BEP20', address, network: mode === 'production' ? '56' : '97' },
       });
 
       const results = await Promise.all([
