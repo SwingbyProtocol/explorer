@@ -4,8 +4,6 @@ export {
   fetchRecentTransaction,
   fetchSbBTCBalance,
   getHexValue,
-  makeEarningsData,
-  makeTimeLabels,
   orgFloor,
   getScanApiBaseEndpoint,
   getScanApiKey,
@@ -51,8 +49,6 @@ export interface IEarning {
   timestamp: number;
   value: string;
 }
-
-export type TEarningPeriod = '1d' | '14d' | 'All';
 
 export interface IFetchFee {
   bridgeFeePercent: string;

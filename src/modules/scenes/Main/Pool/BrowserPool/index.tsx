@@ -10,7 +10,7 @@ import { AddLiquidity } from '../AddLiquidity';
 import { Bridges } from '../Bridges';
 import { BridgesMobile } from '../BridgesMobile';
 import { ConnectWallet } from '../ConnectWallet';
-import { EarningsChart } from '../EarningsChart';
+import { EarningStats } from '../EarningStats';
 import { FarmCard } from '../FarmCard';
 import { TransactionsPool } from '../TransactionsPool';
 import { Withdraw } from '../Withdraw';
@@ -67,9 +67,8 @@ export const BrowserPool = () => {
       <>
         <Row>
           <FarmCard />
-          {/* <AccountSummary /> */}
           <div />
-          <EarningsChart />
+          <EarningStats />
         </Row>
         <TransactionsPool />
       </>

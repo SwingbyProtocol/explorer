@@ -25,6 +25,7 @@ import {
   Box,
 } from './styled';
 
+// Todo: Delete this file
 export const AccountSummary = () => {
   const { bridge } = useToggleBridge(PATH.POOL);
   const { locale } = useIntl();

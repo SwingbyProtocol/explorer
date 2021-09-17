@@ -11,6 +11,8 @@ export const FarmCardContainer = styled.div`
   background-color: ${({ theme }) => theme.pulsar.color.bg.hover};
   padding: ${({ theme }) => rem(theme.pulsar.size.house)};
   margin-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
+  display: flex;
+  flex-direction: column;
   @media (min-width: ${rem(media.xs)}) {
     padding: ${({ theme }) => rem(theme.pulsar.size.street)};
   }
@@ -23,18 +25,22 @@ export const FarmCardContainer = styled.div`
   @media (min-width: ${rem(media.lg)}) {
     margin-bottom: 0;
     width: ${rem(280)};
-    /* height: ${rem(190)}; */
-    height: ${rem(250)};
-    padding-top: ${({ theme }) => rem(theme.pulsar.size.closet)};
+    height: ${rem(286)};
+    padding-top: ${({ theme }) => rem(theme.pulsar.size.street)};
     padding-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
     padding-left: ${({ theme }) => rem(theme.pulsar.size.street)};
     padding-right: ${({ theme }) => rem(theme.pulsar.size.street)};
   }
-  @media (min-width: ${rem((media.lg + media.xl) / 2)}) {
-    width: ${rem(280 * 1.4)};
-  }
   @media (min-width: ${rem(media.xl)}) {
     width: ${rem(280)};
+  }
+`;
+
+export const Box = styled.div`
+  align-self: center;
+  width: ${rem(280)};
+  @media (min-width: ${rem(media.lg)}) {
+    width: 100%;
   }
 `;
 
@@ -44,7 +50,7 @@ export const Coin = styled(CoinIcon)`
 `;
 
 export const RowTitle = styled.div`
-  /* margin-bottom: ${({ theme }) => rem(theme.pulsar.size.box)}; */
+  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.drawer)};
 `;
 
 export const AprBox = styled.div`
@@ -62,8 +68,8 @@ export const TextTvl = styled(Text)`
 `;
 
 export const FeaturesBox = styled.div`
-  margin-top: ${({ theme }) => rem(theme.pulsar.size.house)};
-  padding-top: ${({ theme }) => rem(theme.pulsar.size.room)};
+  margin-top: ${({ theme }) => rem(theme.pulsar.size.street)};
+  padding-top: ${({ theme }) => rem(theme.pulsar.size.house)};
   border-top: 1px solid ${({ theme }) => theme.pulsar.color.text.placeholder};
 `;
 
@@ -76,7 +82,7 @@ export const RowFeatures = styled.div`
 export const Buttons = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-top: ${({ theme }) => rem(theme.pulsar.size.house)};
+  margin-top: ${({ theme }) => rem(theme.pulsar.size.box * 5)};
 `;
 
 export const ButtonLink = styled(ButtonScale)`
