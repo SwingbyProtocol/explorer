@@ -46,6 +46,8 @@ export const BackDrop = styled.div`
     width: 100%;
     height: 100%;
     z-index: 10;
-    background-color: ${({ theme }) => theme.pulsar.color.bg.transparent};
+    /* Ref: As per request from Senga, make background more transparent than default to check the APR value without connecting wallet */
+    background-color: ${({ theme }) =>
+      theme.pulsar.id === 'PulsarLight' ? 'rgba(255,255,255,0.75)' : 'rgba(15,22,34,0.85)'};
   }
 `;

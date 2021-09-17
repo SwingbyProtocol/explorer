@@ -1,93 +1,26 @@
-import { Text, useMatchMedia } from '@swingby-protocol/pulsar';
+import { useMatchMedia } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
 import React from 'react';
-import { FormattedMessage, FormattedNumber } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { PulseLoader } from 'react-spinners';
-import { useTheme } from 'styled-components';
 
-import { PATH } from '../../../../env';
-import { useGetPoolApr, useToggleBridge } from '../../../../hooks';
 import { PoolMode } from '../../../../pool';
 import { togglePoolMode } from '../../../../store';
 import { StylingConstants } from '../../../../styles';
 import { ButtonScale, IconArrowLeft } from '../../../Common';
 
-import { ActionButtonsPoolContainer, Buttons, ColumnApr, RowText, TextAPR } from './styled';
+import { ActionButtonsPoolContainer, Buttons } from './styled';
 
 export const ActionButtonsPool = () => {
   const dispatch = useDispatch();
-  const theme = useTheme();
   const mode = useSelector((state) => state.pool.mode);
-
-  const { apr, isLoading } = useGetPoolApr();
-  const { bridge } = useToggleBridge(PATH.POOL);
 
   const { media } = StylingConstants;
   const sm = useMatchMedia({ query: `(min-width: ${rem(media.sm)})` });
 
-  const placeholderLoader = (
-    <PulseLoader margin={3} size={4} color={theme.pulsar.color.text.normal} />
-  );
-
-  const aprInfo = (
-    <ColumnApr>
-      <RowText>
-        <Text variant="accent">
-          <FormattedMessage id="pool.sbBtc" />
-        </Text>
-        <TextAPR variant="accent">
-          {isLoading ? (
-            placeholderLoader
-          ) : (
-            <FormattedMessage
-              id="common.percent"
-              values={{
-                value: (
-                  <FormattedNumber
-                    value={bridge && apr[bridge].sbBtc}
-                    maximumFractionDigits={2}
-                    minimumFractionDigits={2}
-                  />
-                ),
-              }}
-            />
-          )}
-        </TextAPR>
-      </RowText>
-      <RowText>
-        <Text variant="accent">
-          <FormattedMessage id="pool.farm" />
-        </Text>
-        {/* Todo: Remove 'coming soon' once sbBTC pool (BSC) has been deployed */}
-        <TextAPR variant="accent">
-          {isLoading ? (
-            placeholderLoader
-          ) : bridge === 'btc_erc' ? (
-            <FormattedMessage
-              id="common.percent"
-              values={{
-                value: (
-                  <FormattedNumber
-                    value={bridge && apr[bridge].farm}
-                    maximumFractionDigits={2}
-                    minimumFractionDigits={2}
-                  />
-                ),
-              }}
-            />
-          ) : (
-            <FormattedMessage id="common.coming-soon" />
-          )}
-        </TextAPR>
-      </RowText>
-    </ColumnApr>
-  );
-
   return (
     <ActionButtonsPoolContainer>
       {mode === PoolMode.Summary ? (
-        // aprInfo
         <div />
       ) : (
         <IconArrowLeft onClick={() => dispatch(togglePoolMode(PoolMode.Summary))} />

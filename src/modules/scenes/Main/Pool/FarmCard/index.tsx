@@ -1,69 +1,31 @@
-import {
-  getCryptoAssetFormatter,
-  getFiatAssetFormatter,
-  Text,
-  useMatchMedia,
-} from '@swingby-protocol/pulsar';
-import { rem } from 'polished';
+import { getFiatAssetFormatter, Text } from '@swingby-protocol/pulsar';
 import React from 'react';
 import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
 
 import { CoinSymbol } from '../../../../coins';
-import { ENDPOINT_YIELD_FARMING, PATH } from '../../../../env';
-import {
-  useGetLatestPrice,
-  useGetPoolApr,
-  useGetSbBtcBal,
-  useToggleBridge,
-} from '../../../../hooks';
-import { StylingConstants } from '../../../../styles';
-import { ButtonScale, IconExternalLink, TextRoom } from '../../../Common';
+import { PATH } from '../../../../env';
+import { useGetPoolApr, useToggleBridge } from '../../../../hooks';
 
 import {
-  FarmCardContainer,
-  // Atag,
-  Coin,
-  // CoinMini,
-  // Column,
-  // RowEarning,
-  RowTitle,
-  // Box,
   AprBox,
+  ButtonLink,
+  Buttons,
+  Coin,
+  FarmCardContainer,
+  FeaturesBox,
+  IconTick,
+  RowFeatures,
+  RowTitle,
   TextTitle,
   TextTvl,
-  FeaturesBox,
-  RowFeatures,
-  IconTick,
-  Buttons,
-  ButtonLink,
 } from './styled';
 
 export const FarmCard = () => {
   const { bridge } = useToggleBridge(PATH.POOL);
   const { locale } = useIntl();
-  const { balance } = useGetSbBtcBal();
-  const { price } = useGetLatestPrice('bitcoin');
-  const { apr, isLoading } = useGetPoolApr();
-
-  const { media } = StylingConstants;
-  const lg = useMatchMedia({ query: `(min-width: ${rem(media.lg)})` });
-  const maxDecimals = lg ? 5 : 8;
-  const minDecimals = 0;
-  const claimableBtc = bridge ? balance[bridge].total * balance[bridge].priceSbBTC : 0;
-
-  const formattedClaimableAmount = getCryptoAssetFormatter({
-    locale,
-    displaySymbol: CoinSymbol.BTC,
-    maximumFractionDigits: maxDecimals,
-    minimumFractionDigits: minDecimals,
-  }).format(claimableBtc);
-
-  const formattedClaimableAmountUsd = getFiatAssetFormatter({
-    locale,
-    currency: 'USD',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(claimableBtc && price ? claimableBtc * price : 0);
+  // const { balance } = useGetSbBtcBal();
+  // const { price } = useGetLatestPrice('bitcoin');
+  const { apr } = useGetPoolApr();
 
   const formattedTvlAmountUsd = getFiatAssetFormatter({
     locale,
@@ -71,20 +33,6 @@ export const FarmCard = () => {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(1465327);
-
-  const formattedSbBtcWalletBal = getCryptoAssetFormatter({
-    locale,
-    displaySymbol: CoinSymbol.ERC20_SB_BTC,
-    maximumFractionDigits: maxDecimals,
-    minimumFractionDigits: minDecimals,
-  }).format(bridge ? balance[bridge].wallet : 0);
-
-  const formattedSbBtcStakedBal = getCryptoAssetFormatter({
-    locale,
-    displaySymbol: CoinSymbol.ERC20_SB_BTC,
-    maximumFractionDigits: maxDecimals,
-    minimumFractionDigits: minDecimals,
-  }).format(bridge ? balance[bridge].farm : 0);
 
   const swingbyPerBlock = bridge ? (60 / 13) * 60 * 24 * apr[bridge].swingbyPerBlock : 0;
 
@@ -182,53 +130,6 @@ export const FarmCard = () => {
           </ButtonLink>
         </Buttons>
       </FeaturesBox>
-
-      {/* <Box>
-        <Column>
-          <Coin symbol={CoinSymbol.ERC20_SB_BTC} />
-          <div>
-            <RowEarning>
-              <TextRoom variant="label">
-                <FormattedMessage id="pool.balance.wallet" />
-              </TextRoom>
-              <TextRoom variant="accent">{formattedSbBtcWalletBal}</TextRoom>
-            </RowEarning>
-            <RowEarning>
-              <Atag href={ENDPOINT_YIELD_FARMING} rel="noopener noreferrer" target="_blank">
-                <TextRoom variant="label">
-                  <FormattedMessage id="pool.balance.staking" />
-                </TextRoom>
-                <IconExternalLink />
-              </Atag>
-              <TextRoom variant="accent">
-                {bridge === 'btc_erc' ? (
-                  formattedSbBtcStakedBal
-                ) : (
-                  <FormattedMessage id="common.coming-soon" />
-                )}
-              </TextRoom>
-            </RowEarning>
-          </div>
-        </Column>
-
-        <Column>
-          <CoinMini symbol={CoinSymbol.BTC} />
-          <div>
-            <RowEarning>
-              <TextRoom variant="label">
-                <FormattedMessage id="pool.claim" />
-              </TextRoom>
-              <TextRoom variant="accent">{formattedClaimableAmount}</TextRoom>
-            </RowEarning>
-            <RowEarning>
-              <TextRoom variant="label">
-                <FormattedMessage id="pool.usd" />
-              </TextRoom>
-              <TextRoom variant="accent">{formattedClaimableAmountUsd}</TextRoom>
-            </RowEarning>
-          </div>
-        </Column>
-      </Box> */}
     </FarmCardContainer>
   );
 };

@@ -34,7 +34,8 @@ export const BackDrop = styled.div`
   width: 100%;
   height: 100%;
   z-index: 10;
-  background-color: ${({ theme }) => theme.pulsar.color.bg.transparent};
+  background-color: ${({ theme }) =>
+    theme.pulsar.id === 'PulsarLight' ? 'rgba(255,255,255,0.75)' : 'rgba(15,22,34,0.85)'};
   border-radius: ${({ theme }) => rem(theme.pulsar.size.closet)};
   @media (min-width: ${rem(media.md)}) {
     display: none;

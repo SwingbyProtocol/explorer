@@ -43,40 +43,8 @@ export const Coin = styled(CoinIcon)`
   align-self: center;
 `;
 
-export const CoinMini = styled(CoinIcon)`
-  font-size: ${rem(28)};
-`;
-
-export const Box = styled.div`
-  display: grid;
-  grid-template-rows: 1fr 1fr;
-  grid-row-gap: ${({ theme }) => rem(theme.pulsar.size.house)};
-`;
-
-export const Column = styled.div`
-  height: ${({ theme }) => rem(theme.pulsar.size.state)};
-  display: grid;
-  grid-template-columns: ${({ theme }) => rem(theme.pulsar.size.city)} auto;
-  align-items: center;
-  /* margin-bottom: ${({ theme }) => rem(theme.pulsar.size.house)}; */
-`;
-
 export const RowTitle = styled.div`
   /* margin-bottom: ${({ theme }) => rem(theme.pulsar.size.box)}; */
-`;
-
-export const RowEarning = styled.div`
-  display: grid;
-  grid-template-columns: auto auto;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-export const Atag = styled.a`
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  /* border-bottom: 1px solid ${({ theme }) => theme.pulsar.color.text.placeholder}; */
 `;
 
 export const AprBox = styled.div`
@@ -94,8 +62,6 @@ export const TextTvl = styled(Text)`
 `;
 
 export const FeaturesBox = styled.div`
-  /* display: flex; */
-  /* justify-content: space-between; */
   margin-top: ${({ theme }) => rem(theme.pulsar.size.house)};
   padding-top: ${({ theme }) => rem(theme.pulsar.size.room)};
   border-top: 1px solid ${({ theme }) => theme.pulsar.color.text.placeholder};
