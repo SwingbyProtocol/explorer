@@ -4,7 +4,7 @@ import { SkybridgeBridge } from '@swingby-protocol/sdk';
 import { CoinSymbol } from '../coins';
 import { sumArray } from '../common';
 import { ENDPOINT_BSC_BRIDGE, ENDPOINT_ETHEREUM_BRIDGE, ENDPOINT_SKYBRIDGE_EXCHANGE } from '../env';
-import { castToBackendVariable, getFloatBalance, getUsdPrice, IFloatAmount } from '../explorer';
+import { castToBackendVariable, fetchVwap, getFloatBalance, IFloatAmount } from '../explorer';
 import { fetcher } from '../fetch';
 import { IBondHistories } from '../metanodes';
 
@@ -41,7 +41,7 @@ export const get7daysVolume = async (): Promise<string> => {
     const results = await Promise.all([
       fetcher<{ network24hrSwapsVolume: number[] }>(getBridgeUrl(ENDPOINT_ETHEREUM_BRIDGE)),
       fetcher<{ network24hrSwapsVolume: number[] }>(getBridgeUrl(ENDPOINT_BSC_BRIDGE)),
-      getUsdPrice('bitcoin'),
+      fetchVwap('btcUsd'),
     ]);
     const ethNetwork24hrSwapVolume = results[0].network24hrSwapsVolume;
 
@@ -79,7 +79,7 @@ export const getTVL = async (): Promise<string> => {
       fetcher<IFloatAmount[]>(getFloatBalUrl(ENDPOINT_BSC_BRIDGE)),
       fetcher<IBondHistories>(getBondBalUrl('btc_erc')),
       fetcher<IBondHistories>(getBondBalUrl('btc_bep20')),
-      getUsdPrice('bitcoin'),
+      fetchVwap('btcUsd'),
     ]);
 
     const resEth = results[0];
