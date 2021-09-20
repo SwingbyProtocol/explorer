@@ -1,57 +1,11 @@
 import { stringifyUrl } from 'query-string';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { useToggleBridge } from '..';
+import { IEarningHistorical, useToggleBridge } from '..';
 import { ENDPOINT_YIELD_FARMING, mode, PATH } from '../../env';
 import { fetcher } from '../../fetch';
 import { logger } from '../../logger';
 import { useOnboard } from '../../onboard';
-
-interface IEarningHistorical {
-  total: Total;
-  network: number;
-  sbBtcFarm: IFarmEarning;
-  thirdPartyFarm: IThirdPartyFarm;
-}
-
-interface Total {
-  pendingSwingby: number;
-  claimedSwingby: number;
-}
-
-interface IFarmEarning {
-  stakedLp: number;
-  pendingSwingby: number;
-  claimedSwingby: number;
-  claimedTxs: IClaimedTx[];
-}
-
-interface IClaimedTx {
-  blockNumber: string;
-  timeStamp: string;
-  hash: string;
-  nonce: string;
-  blockHash: string;
-  from: string;
-  contractAddress: string;
-  to: string;
-  value: string;
-  tokenName: string;
-  tokenSymbol: string;
-  tokenDecimal: string;
-  transactionIndex: string;
-  gas: string;
-  gasPrice: string;
-  gasUsed: string;
-  cumulativeGasUsed: string;
-  input: string;
-  confirmations: string;
-}
-
-interface IThirdPartyFarm {
-  pancake?: IFarmEarning;
-  combinedUniSushi?: IFarmEarning;
-}
 
 const initialState = {
   total: {

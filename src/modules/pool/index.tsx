@@ -9,6 +9,7 @@ export {
   getScanApiKey,
   getSbBtcContract,
   getScanDetailBaseEndpoint,
+  mergeSameDateEarningsData,
 } from './utils';
 
 export enum PoolMode {
@@ -66,4 +67,10 @@ export interface IWithdrawAmountValidation {
   maxAmount?: number;
   minimumWithdrawAmount?: number;
   toCurrency?: string;
+}
+
+export interface IEarningsChartData {
+  name: string;
+  timestamp: number;
+  SWINGBY: number;
 }

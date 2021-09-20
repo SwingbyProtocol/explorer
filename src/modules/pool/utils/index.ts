@@ -11,3 +11,5 @@ export {
   getSbBtcContract,
   getScanDetailBaseEndpoint,
 } from './sbBtcTransactions';
+
+export { mergeSameDateEarningsData } from './earnings';

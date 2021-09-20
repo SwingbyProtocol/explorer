@@ -1,5 +1,4 @@
 import { Text, useMatchMedia } from '@swingby-protocol/pulsar';
-import { DateTime } from 'luxon';
 import { nanoid } from 'nanoid';
 import { rem } from 'polished';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -8,6 +7,7 @@ import { Area, AreaChart, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } f
 import { useTheme } from 'styled-components';
 
 import { formatNum } from '../../../../../common';
+import { IEarningsChartData, mergeSameDateEarningsData } from '../../../../../pool';
 import { StylingConstants } from '../../../../../styles';
 
 import { CustomTooltip } from './CustomTooltip';
@@ -19,14 +19,6 @@ import {
   TextDate,
   TitleDiv,
 } from './styled';
-
-const initialChartState = [
-  {
-    name: '',
-    timestamp: 0,
-    SWINGBY: 0,
-  },
-];
 
 type TPool = 'sbBTC' | 'thirdPartyFarm';
 
@@ -46,7 +38,13 @@ export const EarningsChart = ({ farming, bridge }) => {
 
   const gradientId = useMemo(() => nanoid(), []);
   const { pulsar } = useTheme();
-  const [chartData, setChartData] = useState<typeof initialChartState>(initialChartState);
+  const [chartData, setChartData] = useState<IEarningsChartData[]>([
+    {
+      name: '',
+      timestamp: 0,
+      SWINGBY: 0,
+    },
+  ]);
 
   const { media } = StylingConstants;
   const xl = useMatchMedia({ query: `(min-width: ${rem(media.xl)})` });
@@ -73,31 +71,7 @@ export const EarningsChart = ({ farming, bridge }) => {
   const earnedSwingby = pendingSwingby + claimedSwingby;
 
   useEffect(() => {
-    const data = claimedTxs
-      .map((tx) => {
-        const SWINGBY = Number(tx.value);
-        const dt = DateTime.fromSeconds(Number(tx.timeStamp));
-        const name = dt.toLocaleString({
-          month: 'short',
-          day: 'numeric',
-        });
-        if (SWINGBY > 0) {
-          return {
-            name,
-            timestamp: Number(tx.timeStamp),
-            SWINGBY,
-          };
-        }
-        return {};
-      })
-      .concat([
-        {
-          name: 'Pending',
-          timestamp: Number(Date.now() / 1000),
-          SWINGBY: pendingSwingby,
-        },
-      ]);
-
+    const data = mergeSameDateEarningsData({ claimedTxs, pendingSwingby });
     setChartData(data);
   }, [claimedTxs, pendingSwingby]);
 
