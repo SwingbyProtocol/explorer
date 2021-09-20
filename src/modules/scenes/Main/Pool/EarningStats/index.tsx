@@ -1,7 +1,10 @@
 import { Text } from '@swingby-protocol/pulsar';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 
+import { useGetEarningHistorical } from '../../../../hooks';
+
+import { EarningsChart } from './EarningsChart';
 import { Box, Column, EarningStatsContainer, TextDate, TitleDiv } from './styled';
 import { SummaryContent } from './SummaryContent';
 
@@ -9,32 +12,31 @@ type TContent = 'summary' | 'earning' | 'apr';
 
 export const EarningStats = () => {
   const [active, setActive] = useState<TContent>('summary');
-
-  const earningContent = (
-    <div>
-      <span>Earning</span>
-    </div>
-  );
+  const { farming, bridge } = useGetEarningHistorical();
 
   const aprContent = (
     <div>
-      <span>Apr</span>
+      <span>Coming soon</span>
     </div>
   );
 
   const switchContent = (active: TContent) => {
     switch (active) {
       case 'summary':
-        return <SummaryContent />;
+        return <SummaryContent farming={farming} bridge={bridge} />;
       case 'earning':
-        return earningContent;
+        return <EarningsChart farming={farming} bridge={bridge} />;
       case 'apr':
         return aprContent;
 
       default:
-        return <SummaryContent />;
+        return <SummaryContent farming={farming} bridge={bridge} />;
     }
   };
+
+  useEffect(() => {
+    setActive('summary');
+  }, [bridge]);
 
   return (
     <EarningStatsContainer>
@@ -44,9 +46,10 @@ export const EarningStats = () => {
             <FormattedMessage id="pool.earnings" />
           </Text>
           <Column>
-            <TextDate variant="label" onClick={() => setActive('apr')} isActive={'apr' === active}>
+            {/* Todo: Add once cached APR DB worked */}
+            {/* <TextDate variant="label" onClick={() => setActive('apr')} isActive={'apr' === active}>
               <FormattedMessage id="pool.apr" />
-            </TextDate>
+            </TextDate> */}
             <TextDate
               variant="label"
               onClick={() => setActive('earning')}

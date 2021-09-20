@@ -4,13 +4,7 @@ import React from 'react';
 import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
 
 import { CoinSymbol } from '../../../../../coins';
-import { PATH } from '../../../../../env';
-import {
-  useGetEarningHistorical,
-  useGetLatestPrice,
-  useGetSbBtcBal,
-  useToggleBridge,
-} from '../../../../../hooks';
+import { useGetLatestPrice, useGetSbBtcBal } from '../../../../../hooks';
 import { StylingConstants } from '../../../../../styles';
 import { TextRoom } from '../../../../Common';
 
@@ -33,9 +27,7 @@ import {
   UnitSwingby,
 } from './styled';
 
-export const SummaryContent = () => {
-  const { farming } = useGetEarningHistorical();
-  const { bridge } = useToggleBridge(PATH.POOL);
+export const SummaryContent = ({ farming, bridge }) => {
   const { locale } = useIntl();
   const { balance } = useGetSbBtcBal();
   const { price: btcUsd } = useGetLatestPrice('bitcoin');
@@ -61,6 +53,16 @@ export const SummaryContent = () => {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(earnedSwingbyTotal * swingbyUsd);
+
+  const thirdPartyLogo =
+    bridge === 'btc_bep20' ? (
+      <IconCoinLogoMini src={logos.PancakeSwapCircled} />
+    ) : (
+      <ColumMultiIcons>
+        <IconCoinLogoMini src={logos.UniswapCircled} />
+        <IconCoinLogoMini src={logos.SushiSwapCircled} />
+      </ColumMultiIcons>
+    );
 
   return (
     <SummaryContentContainer>
@@ -117,12 +119,11 @@ export const SummaryContent = () => {
             </ColumnFarm>
             <ColumnMultiFarm>
               <RowFarmNameMulti>
-                <ColumMultiIcons>
-                  <IconCoinLogoMini src={logos.UniswapCircled} />
-                  <IconCoinLogoMini src={logos.SushiSwapCircled} />
-                </ColumMultiIcons>
+                {thirdPartyLogo}
                 <Text variant="menu">
-                  <FormattedMessage id="pool.earning.sushi-uni" />
+                  <FormattedMessage
+                    id={bridge === 'btc_bep20' ? 'pool.earning.pancake' : 'pool.earning.sushi-uni'}
+                  />
                 </Text>
               </RowFarmNameMulti>
               <div>

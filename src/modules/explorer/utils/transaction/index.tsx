@@ -5,7 +5,7 @@ import { FormattedDate, FormattedRelativeTime, FormattedTime } from 'react-intl'
 
 import { TransactionStatus } from '../../../../generated/graphql';
 import { CoinSymbol } from '../../../coins';
-import { TStatus, TTxRawObject } from '../../index';
+import { TStatus } from '../../index';
 
 export const TxStatus = {
   COMPLETED: 'COMPLETED',
@@ -50,21 +50,6 @@ export const currencyNetwork = (currency: string): string => {
 
     default:
       return currency;
-  }
-};
-
-export const removeDuplicatedTxs = (txArray: TTxRawObject[], filterBy?: string): TTxRawObject[] => {
-  if (filterBy === 'txId') {
-    return txArray.filter(
-      (tx, idx, self) => !tx.txIdIn || self.findIndex((_tx) => _tx.txIdIn === tx.txIdIn) === idx,
-    );
-  } else {
-    return txArray.filter(
-      (tx, index, self) =>
-        self.findIndex(
-          (t: TTxRawObject) => t.timestamp === tx.timestamp && t.addressIn === tx.addressIn,
-        ) === index,
-    );
   }
 };
 

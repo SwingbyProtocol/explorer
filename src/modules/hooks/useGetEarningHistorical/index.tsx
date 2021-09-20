@@ -1,7 +1,8 @@
 import { stringifyUrl } from 'query-string';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { ENDPOINT_YIELD_FARMING } from '../../env';
+import { useToggleBridge } from '..';
+import { ENDPOINT_YIELD_FARMING, mode, PATH } from '../../env';
 import { fetcher } from '../../fetch';
 import { logger } from '../../logger';
 import { useOnboard } from '../../onboard';
@@ -73,7 +74,10 @@ const initialState = {
 export const useGetEarningHistorical = () => {
   const [farming, setFarming] = useState<typeof initialState>(initialState);
   const [isLoading, setIsLoading] = useState<Boolean>(false);
-  const { network, address } = useOnboard();
+  const { address } = useOnboard();
+  const { bridge } = useToggleBridge(PATH.POOL);
+  const network =
+    bridge === 'btc_bep20' ? (mode === 'production' ? 56 : 97) : mode === 'production' ? 1 : 5;
 
   const getData = useCallback(async () => {
     try {
@@ -116,5 +120,5 @@ export const useGetEarningHistorical = () => {
     getData();
   }, [getData]);
 
-  return useMemo(() => ({ farming, isLoading }), [farming, isLoading]);
+  return useMemo(() => ({ farming, isLoading, bridge }), [farming, isLoading, bridge]);
 };

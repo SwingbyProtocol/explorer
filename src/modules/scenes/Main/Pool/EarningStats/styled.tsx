@@ -65,7 +65,7 @@ export const Box = styled.div`
     width: ${rem(420)};
   }
   @media (min-width: ${rem((media.sm + media.md) / 2)}) {
-    width: ${rem(420 * 1.4)};
+    width: ${rem(420 * 1.2)};
     padding-left: ${({ theme }) => rem(theme.pulsar.size.street)};
     padding-right: ${({ theme }) => rem(theme.pulsar.size.street)};
   }

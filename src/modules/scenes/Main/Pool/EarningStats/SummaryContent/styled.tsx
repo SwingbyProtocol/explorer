@@ -48,7 +48,7 @@ export const RowFarmName = styled.div`
 `;
 
 export const RowFarmNameMulti = styled(RowFarmName)`
-  grid-template-columns: ${({ theme }) => rem(theme.pulsar.size.country)} auto;
+  grid-template-columns: auto auto;
   grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.drawer)};
 `;
 
