@@ -24,7 +24,10 @@ type TPool = 'sbBTC' | 'thirdPartyFarm';
 
 export const EarningsChart = ({ farming, bridge }) => {
   const initialActiveState =
-    bridge && farming.sbBtcFarm.claimedSwingby > 0
+    //  Todo: remove condition once published sbBTC pool on BSC
+    bridge === 'btc_bep20'
+      ? 'thirdPartyFarm'
+      : bridge && farming.sbBtcFarm.claimedSwingby > 0
       ? 'sbBTC'
       : bridge && farming.thirdPartyFarm.claimedSwingby > 0
       ? 'thirdPartyFarm'
@@ -106,13 +109,16 @@ export const EarningsChart = ({ farming, bridge }) => {
           >
             {bridge === 'btc_erc' ? 'Uni / Sushi' : 'Pancake'}
           </TextDate>
-          <TextDate
-            variant="label"
-            onClick={() => setActive('sbBTC')}
-            isActive={'sbBTC' === active}
-          >
-            <FormattedMessage id="common.sbbtc" />
-          </TextDate>
+          {/* Todo: remove condition once published sbBTC pool on BSC */}
+          {bridge === 'btc_erc' && (
+            <TextDate
+              variant="label"
+              onClick={() => setActive('sbBTC')}
+              isActive={'sbBTC' === active}
+            >
+              <FormattedMessage id="common.sbbtc" />
+            </TextDate>
+          )}
         </Column>
       </TitleDiv>
       {pendingSwingby > 0 || claimedSwingby > 0 ? (
@@ -120,7 +126,7 @@ export const EarningsChart = ({ farming, bridge }) => {
           <AreaChart
             data={chartData}
             margin={{
-              top: 20,
+              top: 24,
               right: 6,
               left: -30,
               bottom: 4,

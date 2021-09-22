@@ -98,22 +98,32 @@ export const SummaryContent = ({ farming, bridge }) => {
                   <FormattedMessage id="common.sbbtc" />
                 </Text>
               </RowFarmName>
+              {/* Todo: remove condition once published sbBTC pool on BSC */}
               <div>
                 <TextRoom variant="accent">
-                  <FormattedNumber
-                    value={farming.sbBtcFarm.claimedSwingby}
-                    maximumFractionDigits={0}
-                    minimumFractionDigits={0}
-                  />
+                  {bridge === 'btc_bep20' ? (
+                    <FormattedMessage id="common.coming-soon" />
+                  ) : (
+                    <FormattedNumber
+                      value={farming.sbBtcFarm.claimedSwingby}
+                      maximumFractionDigits={0}
+                      minimumFractionDigits={0}
+                    />
+                  )}
                 </TextRoom>
               </div>
+              {/* Todo: remove condition once published sbBTC pool on BSC */}
               <div>
                 <TextRoom variant="accent">
-                  <FormattedNumber
-                    value={farming.sbBtcFarm.pendingSwingby}
-                    maximumFractionDigits={0}
-                    minimumFractionDigits={0}
-                  />
+                  {bridge === 'btc_bep20' ? (
+                    <FormattedMessage id="common.coming-soon" />
+                  ) : (
+                    <FormattedNumber
+                      value={farming.sbBtcFarm.pendingSwingby}
+                      maximumFractionDigits={0}
+                      minimumFractionDigits={0}
+                    />
+                  )}
                 </TextRoom>
               </div>
             </ColumnFarm>

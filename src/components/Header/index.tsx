@@ -23,7 +23,11 @@ export const Header = () => {
         target: '_blank',
         rel: 'noopener noreferrer',
       },
-      { key: 'stake', render: 'Stake and Earn BTC', href: `/${locale}${PATH.POOL}` },
+      {
+        key: 'stake',
+        render: 'Stake and Earn BTC',
+        href: `/${locale}${PATH.POOL}/?bridge=btc_erc`,
+      },
       { key: 'metanodes', render: 'Metanodes', href: `/${locale}${PATH.METANODES}` },
     ],
     [locale],

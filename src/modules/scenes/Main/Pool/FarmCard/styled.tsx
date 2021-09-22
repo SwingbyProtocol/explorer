@@ -7,6 +7,10 @@ import { ButtonScale } from '../../../Common';
 
 const { media } = StylingConstants;
 
+interface isMultiButtonProps {
+  isMultiButton: boolean;
+}
+
 export const FarmCardContainer = styled.div`
   background-color: ${({ theme }) => theme.pulsar.color.bg.hover};
   padding: ${({ theme }) => rem(theme.pulsar.size.house)};
@@ -85,8 +89,11 @@ export const Buttons = styled.div`
   margin-top: ${({ theme }) => rem(theme.pulsar.size.box * 5)};
 `;
 
-export const ButtonLink = styled(ButtonScale)`
-  width: ${rem(108)};
+//  Todo: remove condition once published sbBTC pool on BSC
+export const ButtonLink = styled(ButtonScale)<isMultiButtonProps>`
+  /* width: rem(108); */
+  width: ${(props) => (props.isMultiButton ? rem(108) : '100%')};
+  margin-top: ${(props) => !props.isMultiButton && rem(14)};
 `;
 
 export const IconTick = styled(Icon.TickCircle)`

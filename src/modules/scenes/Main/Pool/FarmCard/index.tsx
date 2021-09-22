@@ -1,4 +1,4 @@
-import { getFiatAssetFormatter, Text } from '@swingby-protocol/pulsar';
+import { getFiatAssetFormatter, Text, Tooltip } from '@swingby-protocol/pulsar';
 import React from 'react';
 import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
@@ -51,29 +51,69 @@ export const FarmCard = () => {
               <FormattedMessage id="common.sbbtc" />
             </TextTitle>
             <div>
-              <Text variant="title-xs">
-                <FormattedMessage
-                  id="pool.stake-card.stake-on-farm-apr"
-                  values={{
-                    value: (
-                      <FormattedNumber
-                        value={bridge && apr[bridge].total}
-                        maximumFractionDigits={2}
-                        minimumFractionDigits={2}
+              <Tooltip
+                content={
+                  <Tooltip.Content>
+                    <Text variant="normal">
+                      <FormattedMessage
+                        id="home.network.apr.sbbtc"
+                        values={{
+                          value: (
+                            <FormattedNumber
+                              value={apr[bridge].sbBtc}
+                              maximumFractionDigits={2}
+                              minimumFractionDigits={2}
+                            />
+                          ),
+                        }}
                       />
-                    ),
-                  }}
-                />
-              </Text>
+                    </Text>
+                    <br />
+                    <Text variant="normal">
+                      <FormattedMessage
+                        id="home.network.apr.farm"
+                        values={{
+                          value: (
+                            <FormattedNumber
+                              value={apr[bridge].farm}
+                              maximumFractionDigits={2}
+                              minimumFractionDigits={2}
+                            />
+                          ),
+                        }}
+                      />
+                    </Text>
+                  </Tooltip.Content>
+                }
+                targetHtmlTag="span"
+              >
+                <Text variant="title-xs">
+                  <FormattedMessage
+                    id="pool.stake-card.stake-on-farm-apr"
+                    values={{
+                      value: (
+                        <FormattedNumber
+                          value={bridge && apr[bridge].total}
+                          maximumFractionDigits={2}
+                          minimumFractionDigits={2}
+                        />
+                      ),
+                    }}
+                  />
+                </Text>
+              </Tooltip>
             </div>
             <div>
               <TextTvl variant="label">
-                <FormattedMessage
-                  id="pool.stake-card.stake-on-farm-tvl"
-                  values={{
-                    value: formattedTvlAmountUsd,
-                  }}
-                />
+                {/* Todo: remove condition once published sbBTC pool on BSC */}
+                {bridge !== 'btc_bep20' && (
+                  <FormattedMessage
+                    id="pool.stake-card.stake-on-farm-tvl"
+                    values={{
+                      value: formattedTvlAmountUsd,
+                    }}
+                  />
+                )}
               </TextTvl>
             </div>
           </div>
@@ -105,34 +145,43 @@ export const FarmCard = () => {
           <RowFeatures>
             <IconTick />
             <TextTitle variant="normal">
-              <FormattedMessage
-                id="pool.stake-card.stake-apr"
-                values={{
-                  apr: (
-                    <FormattedNumber
-                      value={bridge && apr[bridge].farm}
-                      maximumFractionDigits={2}
-                      minimumFractionDigits={2}
-                    />
-                  ),
-                  swingbyPerDay: (
-                    <FormattedNumber
-                      value={swingbyPerBlock}
-                      maximumFractionDigits={0}
-                      minimumFractionDigits={0}
-                    />
-                  ),
-                }}
-              />
+              {bridge !== 'btc_bep20' ? (
+                <FormattedMessage
+                  id="pool.stake-card.stake-apr"
+                  values={{
+                    apr: (
+                      <FormattedNumber
+                        value={bridge && apr[bridge].farm}
+                        maximumFractionDigits={2}
+                        minimumFractionDigits={2}
+                      />
+                    ),
+                    swingbyPerDay: (
+                      <FormattedNumber
+                        value={swingbyPerBlock}
+                        maximumFractionDigits={0}
+                        minimumFractionDigits={0}
+                      />
+                    ),
+                  }}
+                />
+              ) : (
+                'Yield farming is coming soon'
+              )}
             </TextTitle>
           </RowFeatures>
+          {/* Todo: remove condition once published sbBTC pool on BSC */}
           <Buttons>
-            <Atag href={URL.YieldFarming} rel="noopener noreferrer" target="_blank">
-              <ButtonLink variant="primary" size="town" shape="fill">
-                <FormattedMessage id="pool.stake-card.stake" />
-              </ButtonLink>
-            </Atag>
+            {bridge !== 'btc_bep20' && (
+              <Atag href={URL.YieldFarming} rel="noopener noreferrer" target="_blank">
+                <ButtonLink variant="primary" size="town" shape="fill" isMultiButton={true}>
+                  <FormattedMessage id="pool.stake-card.stake" />
+                </ButtonLink>
+              </Atag>
+            )}
+            {/* Todo: remove condition once published sbBTC pool on BSC */}
             <ButtonLink
+              isMultiButton={bridge === 'btc_erc' ? true : false}
               variant="secondary"
               size="town"
               shape="fill"
