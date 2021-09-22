@@ -9,7 +9,7 @@ import { togglePoolMode } from '../../../../store';
 import { StylingConstants } from '../../../../styles';
 import { ButtonScale, IconArrowLeft } from '../../../Common';
 
-import { ActionButtonsPoolContainer, Buttons } from './styled';
+import { ActionButtonsPoolContainer, Buttons, ColumnIcon } from './styled';
 
 export const ActionButtonsPool = () => {
   const dispatch = useDispatch();
@@ -23,7 +23,9 @@ export const ActionButtonsPool = () => {
       {mode === PoolMode.Summary ? (
         <div />
       ) : (
-        <IconArrowLeft onClick={() => dispatch(togglePoolMode(PoolMode.Summary))} />
+        <ColumnIcon>
+          <IconArrowLeft onClick={() => dispatch(togglePoolMode(PoolMode.Summary))} />
+        </ColumnIcon>
       )}
       <Buttons>
         <ButtonScale

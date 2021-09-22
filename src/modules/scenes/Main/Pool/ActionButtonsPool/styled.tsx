@@ -24,6 +24,17 @@ export const ActionButtonsPoolContainer = styled.div`
   }
 `;
 
+export const ColumnIcon = styled.div`
+  align-self: flex-start;
+  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
+  margin-left: ${({ theme }) => rem(theme.pulsar.size.box)};
+  @media (min-width: ${rem(media.sm)}) {
+    align-self: auto;
+    margin-bottom: 0;
+    margin-left: 0;
+  }
+`;
+
 export const Buttons = styled.div`
   display: grid;
   grid-template-columns: auto auto;
