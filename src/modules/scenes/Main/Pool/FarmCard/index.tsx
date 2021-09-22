@@ -2,6 +2,8 @@ import { getFiatAssetFormatter, Text, Tooltip } from '@swingby-protocol/pulsar';
 import React from 'react';
 import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
+import { PulseLoader } from 'react-spinners';
+import { useTheme } from 'styled-components';
 
 import { PoolMode } from '../../../../pool';
 import { togglePoolMode } from '../../../../store';
@@ -9,7 +11,7 @@ import { CoinSymbol } from '../../../../coins';
 import { PATH } from '../../../../env';
 import { useGetPoolApr, useToggleBridge } from '../../../../hooks';
 import { URL } from '../../../../links';
-import { Atag } from '../../../Common';
+import { Atag, ColumnInlineBlock } from '../../../Common';
 
 import {
   AprBox,
@@ -30,6 +32,7 @@ export const FarmCard = () => {
   const { bridge } = useToggleBridge(PATH.POOL);
   const { locale } = useIntl();
   const dispatch = useDispatch();
+  const theme = useTheme();
 
   const { apr } = useGetPoolApr();
 
@@ -38,7 +41,7 @@ export const FarmCard = () => {
     currency: 'USD',
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
-  }).format(bridge && apr[bridge].farmTvl);
+  }).format(bridge ? apr[bridge].farmTvl : 0);
 
   const swingbyPerBlock = bridge ? (60 / 13) * 60 * 24 * apr[bridge].swingbyPerBlock : 0;
 
@@ -60,7 +63,7 @@ export const FarmCard = () => {
                         values={{
                           value: (
                             <FormattedNumber
-                              value={bridge && apr[bridge].sbBtc}
+                              value={bridge ? apr[bridge].sbBtc : 0}
                               maximumFractionDigits={2}
                               minimumFractionDigits={2}
                             />
@@ -75,7 +78,7 @@ export const FarmCard = () => {
                         values={{
                           value: (
                             <FormattedNumber
-                              value={bridge && apr[bridge].farm}
+                              value={bridge ? apr[bridge].farm : 0}
                               maximumFractionDigits={2}
                               minimumFractionDigits={2}
                             />
@@ -91,13 +94,22 @@ export const FarmCard = () => {
                   <FormattedMessage
                     id="pool.stake-card.stake-on-farm-apr"
                     values={{
-                      value: (
-                        <FormattedNumber
-                          value={bridge && apr[bridge].total}
-                          maximumFractionDigits={2}
-                          minimumFractionDigits={2}
-                        />
-                      ),
+                      value:
+                        bridge && apr[bridge].total ? (
+                          <FormattedNumber
+                            value={bridge && apr[bridge].total}
+                            maximumFractionDigits={2}
+                            minimumFractionDigits={2}
+                          />
+                        ) : (
+                          <ColumnInlineBlock>
+                            <PulseLoader
+                              margin={7}
+                              size={4}
+                              color={theme.pulsar.color.text.normal}
+                            />
+                          </ColumnInlineBlock>
+                        ),
                     }}
                   />
                 </Text>
@@ -110,7 +122,18 @@ export const FarmCard = () => {
                   <FormattedMessage
                     id="pool.stake-card.stake-on-farm-tvl"
                     values={{
-                      value: formattedTvlAmountUsd,
+                      value:
+                        bridge && apr[bridge].farmTvl > 0 ? (
+                          formattedTvlAmountUsd
+                        ) : (
+                          <ColumnInlineBlock>
+                            <PulseLoader
+                              margin={3}
+                              size={3}
+                              color={theme.pulsar.color.text.normal}
+                            />
+                          </ColumnInlineBlock>
+                        ),
                     }}
                   />
                 )}
@@ -128,18 +151,7 @@ export const FarmCard = () => {
           <RowFeatures>
             <IconTick />
             <TextTitle variant="normal">
-              <FormattedMessage
-                id="pool.stake-card.trading-fee"
-                values={{
-                  value: (
-                    <FormattedNumber
-                      value={bridge && apr[bridge].sbBtc}
-                      maximumFractionDigits={2}
-                      minimumFractionDigits={2}
-                    />
-                  ),
-                }}
-              />
+              <FormattedMessage id="pool.stake-card.trading-fee" />
             </TextTitle>
           </RowFeatures>
           <RowFeatures>
@@ -149,20 +161,18 @@ export const FarmCard = () => {
                 <FormattedMessage
                   id="pool.stake-card.stake-apr"
                   values={{
-                    apr: (
-                      <FormattedNumber
-                        value={bridge && apr[bridge].farm}
-                        maximumFractionDigits={2}
-                        minimumFractionDigits={2}
-                      />
-                    ),
-                    swingbyPerDay: (
-                      <FormattedNumber
-                        value={swingbyPerBlock}
-                        maximumFractionDigits={0}
-                        minimumFractionDigits={0}
-                      />
-                    ),
+                    swingbyPerDay:
+                      bridge && apr[bridge].swingbyPerBlock > 0 ? (
+                        <FormattedNumber
+                          value={swingbyPerBlock}
+                          maximumFractionDigits={0}
+                          minimumFractionDigits={0}
+                        />
+                      ) : (
+                        <ColumnInlineBlock>
+                          <PulseLoader margin={3} size={2} color={theme.pulsar.color.text.normal} />
+                        </ColumnInlineBlock>
+                      ),
                   }}
                 />
               ) : (
@@ -181,7 +191,7 @@ export const FarmCard = () => {
             )}
             {/* Todo: remove condition once published sbBTC pool on BSC */}
             <ButtonLink
-              isMultiButton={bridge === 'btc_erc' ? true : false}
+              isMultiButton={bridge !== 'btc_bep20' ? true : false}
               variant="secondary"
               size="town"
               shape="fill"

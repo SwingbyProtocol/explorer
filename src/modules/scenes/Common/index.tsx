@@ -19,4 +19,5 @@ export {
   AddressLinkP,
   TextRoom,
   IconExternalLink,
+  ColumnInlineBlock,
 } from './Styled';
