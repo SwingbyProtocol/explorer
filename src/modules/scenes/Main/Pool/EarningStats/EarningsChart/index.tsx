@@ -122,11 +122,11 @@ export const EarningsChart = ({ farming, bridge }) => {
         </Column>
       </TitleDiv>
       {pendingSwingby > 0 || claimedSwingby > 0 ? (
-        <ResponsiveContainer width={chartWidth} height="100%">
+        <ResponsiveContainer width={chartWidth} height={182}>
           <AreaChart
             data={chartData}
             margin={{
-              top: 24,
+              top: 20,
               right: 6,
               left: -30,
               bottom: 4,
