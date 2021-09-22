@@ -5,14 +5,12 @@ import { FormattedMessage } from 'react-intl';
 import { PATH } from '../../../../env';
 import { useToggleBridge } from '../../../../hooks';
 import { BRIDGES, IBridge } from '../../../../metanodes';
-import { useOnboard } from '../../../../onboard';
 import { TextChosenFilter } from '../../../Common';
 
-import { BackDrop, BridgesMobileContainer, DropTargetBridges, TextTitle } from './styled';
+import { BridgesMobileContainer, DropTargetBridges, TextTitle } from './styled';
 
 export const BridgesMobile = () => {
   const { bridge, setBridge } = useToggleBridge(PATH.POOL);
-  const { address } = useOnboard();
   const bridgesItems = (
     <>
       {BRIDGES.map((b: IBridge) => (
@@ -31,7 +29,6 @@ export const BridgesMobile = () => {
 
   return (
     <BridgesMobileContainer>
-      {!address && <BackDrop />}
       <TextTitle variant="accent">
         <FormattedMessage id="pool.bridges" />
       </TextTitle>

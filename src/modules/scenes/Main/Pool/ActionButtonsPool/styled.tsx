@@ -10,6 +10,7 @@ export const ActionButtonsPoolContainer = styled.div`
   flex-direction: column;
   margin-top: ${({ theme }) => rem(theme.pulsar.size.house)};
   margin-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
+  padding-top: ${({ theme }) => rem(theme.pulsar.size.box)};
   padding-left: ${({ theme }) => rem(theme.pulsar.size.box)};
   padding-right: ${({ theme }) => rem(theme.pulsar.size.box)};
   @media (min-width: ${rem(media.sm)}) {
@@ -21,6 +22,17 @@ export const ActionButtonsPoolContainer = styled.div`
     margin-top: 0;
     padding-left: 0;
     padding-right: 0;
+  }
+`;
+
+export const ColumnIcon = styled.div`
+  align-self: flex-start;
+  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
+  margin-left: ${({ theme }) => rem(theme.pulsar.size.box)};
+  @media (min-width: ${rem(media.sm)}) {
+    align-self: auto;
+    margin-bottom: 0;
+    margin-left: 0;
   }
 `;
 

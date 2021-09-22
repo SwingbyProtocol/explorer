@@ -39,10 +39,12 @@ export const ColumnForm = styled.div`
     width: ${rem(460)};
   }
   @media (min-width: ${rem(media.md)}) {
+    width: ${rem(360)};
     margin-left: ${({ theme }) => rem(theme.pulsar.size.house)};
     margin-right: ${({ theme }) => rem(theme.pulsar.size.house)};
   }
   @media (min-width: ${rem(media.lg)}) {
+    width: ${rem(460)};
     margin-left: ${({ theme }) => rem(theme.pulsar.size.state)};
     margin-right: ${({ theme }) => rem(theme.pulsar.size.state)};
   }

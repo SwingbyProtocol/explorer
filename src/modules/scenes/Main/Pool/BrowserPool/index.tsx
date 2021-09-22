@@ -23,6 +23,7 @@ import {
   Row,
   TextValidationResult,
   ValidationResult,
+  BackDropMobile,
 } from './styled';
 
 export const BrowserPool = () => {
@@ -110,6 +111,7 @@ export const BrowserPool = () => {
           </Left>
           <Right>
             {!address && <ConnectWallet />}
+            {!address && <BackDropMobile />}
             <ActionButtonsPool />
             {switchRightComponent(mode)}
           </Right>
