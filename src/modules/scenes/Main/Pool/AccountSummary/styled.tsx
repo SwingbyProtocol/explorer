@@ -36,10 +36,6 @@ export const AccountSummaryContainer = styled.div`
   }
 `;
 
-export const Top = styled.div``;
-
-export const Bottom = styled.div``;
-
 export const Coin = styled(CoinIcon)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.town)};
 `;
@@ -76,5 +72,6 @@ export const Atag = styled.a`
   text-decoration: none;
   display: flex;
   align-items: center;
+  /* border-bottom: 1px solid ${({ theme }) => theme.pulsar.color.text.placeholder}; */
   border-bottom: 2px solid ${({ theme }) => theme.pulsar.color.border.danger};
 `;

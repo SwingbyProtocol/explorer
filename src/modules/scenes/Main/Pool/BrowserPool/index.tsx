@@ -5,13 +5,13 @@ import { useSelector } from 'react-redux';
 
 import { useOnboard } from '../../../../onboard';
 import { IWithdrawAmountValidation, PoolMode } from '../../../../pool';
-import { AccountSummary } from '../AccountSummary';
 import { ActionButtonsPool } from '../ActionButtonsPool';
 import { AddLiquidity } from '../AddLiquidity';
 import { Bridges } from '../Bridges';
 import { BridgesMobile } from '../BridgesMobile';
 import { ConnectWallet } from '../ConnectWallet';
-import { EarningsChart } from '../EarningsChart';
+import { EarningStats } from '../EarningStats';
+import { FarmCard } from '../FarmCard';
 import { TransactionsPool } from '../TransactionsPool';
 import { Withdraw } from '../Withdraw';
 
@@ -66,9 +66,9 @@ export const BrowserPool = () => {
     const summary = (
       <>
         <Row>
-          <AccountSummary />
+          <FarmCard />
           <div />
-          <EarningsChart />
+          <EarningStats />
         </Row>
         <TransactionsPool />
       </>

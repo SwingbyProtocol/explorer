@@ -24,10 +24,6 @@ export const RewardButton = () => {
 
   const distributeRewards = async () => {
     await onboard.walletSelect();
-    if (!(await onboard.walletCheck())) {
-      return;
-    }
-
     const wallet = onboard.getState().wallet;
     const address = onboard.getState().address;
     const network = onboard.getState().network;
@@ -48,6 +44,10 @@ export const RewardButton = () => {
           .estimateGas({ from: address });
         const gasLimit = calculateGasMargin(estimatedGas);
         const params = await generateSendParams({ from: address, network, gasLimit });
+
+        if (!(await onboard.walletCheck())) {
+          throw Error('Wallet check result is invalid');
+        }
 
         return await contract.methods.distributeNodeRewards().send(params);
       } else {

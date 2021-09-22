@@ -25,7 +25,6 @@ export {
   isBinanceAddress,
   isBitcoinAddress,
   isEtherAddress,
-  removeDuplicatedTxs,
   toBTC,
   toSatoshi,
   TxStatus,

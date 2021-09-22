@@ -1,6 +1,6 @@
-import styled from 'styled-components';
-import { rem } from 'polished';
 import { Text } from '@swingby-protocol/pulsar';
+import { rem } from 'polished';
+import styled from 'styled-components';
 
 import { StylingConstants } from '../../../../styles';
 
@@ -8,18 +8,22 @@ const { media } = StylingConstants;
 
 interface DateProps {
   isActive: boolean;
-  isAll: boolean;
 }
 
-export const EarningsChartContainer = styled.div`
+export const EarningStatsContainer = styled.div`
   grid-area: volume;
   display: flex;
   align-items: center;
   flex-direction: column;
+  background-color: ${({ theme }) => theme.pulsar.color.bg.hover};
   padding-top: ${({ theme }) => rem(theme.pulsar.size.town)};
   padding-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
-  background-color: ${({ theme }) => theme.pulsar.color.bg.hover};
+  padding-left: ${({ theme }) => rem(theme.pulsar.size.drawer)};
+  padding-right: ${({ theme }) => rem(theme.pulsar.size.drawer)};
+
   @media (min-width: ${rem(media.sm)}) {
+    padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
+    padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
     padding-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
   }
   @media (min-width: ${rem((media.sm + media.md) / 2)}) {
@@ -36,14 +40,15 @@ export const EarningsChartContainer = styled.div`
   @media (min-width: ${rem(media.lg)}) {
     margin-top: 0;
     width: ${rem(375)};
-    height: ${rem(190)};
+    height: ${rem(286)};
     grid-area: auto;
-    padding-top: ${({ theme }) => rem(theme.pulsar.size.closet)};
+    padding-top: ${({ theme }) => rem(theme.pulsar.size.street)};
     padding-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
     padding-left: ${({ theme }) => rem(theme.pulsar.size.street)};
     padding-right: ${({ theme }) => rem(theme.pulsar.size.street)};
     justify-self: center;
   }
+
   @media (min-width: ${rem(media.xl)}) {
     width: ${rem(430)};
   }
@@ -60,7 +65,7 @@ export const Box = styled.div`
     width: ${rem(420)};
   }
   @media (min-width: ${rem((media.sm + media.md) / 2)}) {
-    width: ${rem(420 * 1.4)};
+    width: ${rem(420 * 1.2)};
     padding-left: ${({ theme }) => rem(theme.pulsar.size.street)};
     padding-right: ${({ theme }) => rem(theme.pulsar.size.street)};
   }
@@ -76,17 +81,10 @@ export const Box = styled.div`
     width: 100%;
   }
 `;
-export const ChartContainer = styled.div`
-  text-align: center;
-  position: relative;
-  @media (min-width: ${rem(media.lg)}) {
-    padding-top: ${({ theme }) => rem(theme.pulsar.size.drawer)};
-  }
-`;
 
 export const TitleDiv = styled.div`
   align-self: flex-start;
-  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -97,18 +95,16 @@ export const TitleDiv = styled.div`
 `;
 
 export const Column = styled.div`
-  width: ${rem(80)};
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.drawer)};
 `;
 
 export const TextDate = styled(Text)<DateProps>`
   cursor: pointer;
   color: ${(props) => props.isActive && props.theme.pulsar.color.primary.normal};
   border-bottom: ${(props) =>
-    props.isAll
-      ? props.isActive
-        ? `1px solid ${props.theme.pulsar.color.primary.normal}`
-        : `1px solid ${props.theme.pulsar.color.text.masked}`
+    props.isActive
+      ? `1px solid ${props.theme.pulsar.color.primary.normal}`
       : `1px solid transparent`};
 `;

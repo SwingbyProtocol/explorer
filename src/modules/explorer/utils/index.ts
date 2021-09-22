@@ -2,7 +2,6 @@ export {
   currencyNetwork,
   TxStatus,
   convertDateTime,
-  removeDuplicatedTxs,
   convertTxTime,
   capitalize,
   getDiffDays,

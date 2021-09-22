@@ -2750,10 +2750,10 @@
   resolved "https://registry.yarnpkg.com/@swingby-protocol/prettier-config/-/prettier-config-1.0.2.tgz#ff4c03ac7ad3dab1d02a914d31debcf9441fa3e8"
   integrity sha512-ROirdMQDD6PxHTC+4J7pFH4ik8Yf3frLwf6XDBjuFKKfKCqvpqkHWHnYCJG1PS5uODmMCiH+m1JoIYr/vDfnAA==
 
-"@swingby-protocol/pulsar@^3.10.1":
-  version "3.14.0"
-  resolved "https://registry.yarnpkg.com/@swingby-protocol/pulsar/-/pulsar-3.14.0.tgz#b2f3634f92a3ed14afcbc485ccbd35d5d207c31e"
-  integrity sha512-EgBKkHkQAcpGZ0hBTGH6ILieAL839Mm20aM72rxDqIzn3tdqWTBDV9tVhN9dFpyYLyfyLaPaV1mUmiaGy5INNA==
+"@swingby-protocol/pulsar@^3.15.0":
+  version "3.15.0"
+  resolved "https://registry.yarnpkg.com/@swingby-protocol/pulsar/-/pulsar-3.15.0.tgz#a2d52a2bf3175e48b59ad04e1318f239a61372e2"
+  integrity sha512-GowCNAChvTi5NSZ3frmVttiBEj6TnDA4vHdVPBZpGGXC7VJmcboUFPYkmzD4E7GrWA4BYfeOpcBRdH5W+7zhFQ==
   dependencies:
     "@tippyjs/react" "^4.2.0"
     crypto-js "^4.0.0"

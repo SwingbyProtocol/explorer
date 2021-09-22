@@ -4,13 +4,12 @@ export {
   fetchRecentTransaction,
   fetchSbBTCBalance,
   getHexValue,
-  makeEarningsData,
-  makeTimeLabels,
   orgFloor,
   getScanApiBaseEndpoint,
   getScanApiKey,
   getSbBtcContract,
   getScanDetailBaseEndpoint,
+  mergeSameDateEarningsData,
 } from './utils';
 
 export enum PoolMode {
@@ -52,8 +51,6 @@ export interface IEarning {
   value: string;
 }
 
-export type TEarningPeriod = '1d' | '14d' | 'All';
-
 export interface IFetchFee {
   bridgeFeePercent: string;
   currency: string;
@@ -70,4 +67,10 @@ export interface IWithdrawAmountValidation {
   maxAmount?: number;
   minimumWithdrawAmount?: number;
   toCurrency?: string;
+}
+
+export interface IEarningsChartData {
+  name: string;
+  timestamp: number;
+  SWINGBY: number;
 }
