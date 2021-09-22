@@ -60,7 +60,7 @@ export const FarmCard = () => {
                         values={{
                           value: (
                             <FormattedNumber
-                              value={apr[bridge].sbBtc}
+                              value={bridge && apr[bridge].sbBtc}
                               maximumFractionDigits={2}
                               minimumFractionDigits={2}
                             />
@@ -75,7 +75,7 @@ export const FarmCard = () => {
                         values={{
                           value: (
                             <FormattedNumber
-                              value={apr[bridge].farm}
+                              value={bridge && apr[bridge].farm}
                               maximumFractionDigits={2}
                               minimumFractionDigits={2}
                             />
