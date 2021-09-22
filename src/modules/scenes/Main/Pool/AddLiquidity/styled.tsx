@@ -48,10 +48,12 @@ export const ColumnForm = styled.div`
   }
   margin-right: ${({ theme }) => rem(theme.pulsar.size.street)};
   @media (min-width: ${rem(media.md)}) {
+    width: ${rem(360)};
     margin-left: ${({ theme }) => rem(theme.pulsar.size.street)};
     margin-right: ${({ theme }) => rem(theme.pulsar.size.street)};
   }
   @media (min-width: ${rem(media.lg)}) {
+    width: ${rem(460)};
     margin-left: ${({ theme }) => rem(theme.pulsar.size.city)};
     margin-right: ${({ theme }) => rem(theme.pulsar.size.city)};
   }

@@ -10,6 +10,7 @@ export const ActionButtonsPoolContainer = styled.div`
   flex-direction: column;
   margin-top: ${({ theme }) => rem(theme.pulsar.size.house)};
   margin-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
+  padding-top: ${({ theme }) => rem(theme.pulsar.size.box)};
   padding-left: ${({ theme }) => rem(theme.pulsar.size.box)};
   padding-right: ${({ theme }) => rem(theme.pulsar.size.box)};
   @media (min-width: ${rem(media.sm)}) {
