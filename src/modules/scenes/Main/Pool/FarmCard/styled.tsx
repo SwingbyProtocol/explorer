@@ -79,7 +79,7 @@ export const FeaturesBox = styled.div`
 
 export const RowFeatures = styled.div`
   display: flex;
-  align-content: center;
+  align-items: center;
   margin-top: ${({ theme }) => rem(theme.pulsar.size.box)};
 `;
 
