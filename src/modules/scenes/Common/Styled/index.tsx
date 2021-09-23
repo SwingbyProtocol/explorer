@@ -115,3 +115,7 @@ export const IconExternalLink = styled(Icon.ExternalLink)`
   width: ${({ theme }) => rem(theme.pulsar.size.closet)};
   color: ${({ theme }) => theme.pulsar.color.text.masked};
 `;
+
+export const ColumnInlineBlock = styled.div`
+  display: inline-block;
+`;

@@ -9,7 +9,7 @@ import { useTheme } from 'styled-components';
 import { CoinSymbol } from '../../../../coins';
 import { mode, URL_BSCSCAN, URL_ETHERSCAN } from '../../../../env';
 import { useGetPoolApr } from '../../../../hooks';
-import { IconExternalLink } from '../../../Common';
+import { ColumnInlineBlock, IconExternalLink } from '../../../Common';
 
 import {
   Atag,
@@ -189,7 +189,9 @@ export const FloatVolume = () => {
                     minimumFractionDigits={2}
                   />
                 ) : (
-                  '...'
+                  <ColumnInlineBlock>
+                    <PulseLoader margin={3} size={2} color={theme.pulsar.color.text.normal} />
+                  </ColumnInlineBlock>
                 ),
               }}
             />
