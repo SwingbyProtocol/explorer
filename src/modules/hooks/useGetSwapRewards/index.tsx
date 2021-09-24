@@ -2,26 +2,39 @@ import { createToast } from '@swingby-protocol/pulsar';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useSelector } from 'react-redux';
+import Web3 from 'web3';
+import { AbiItem } from 'web3-utils';
+import { ethers } from 'ethers';
 
-import { ExplorerToast } from '../../../components/ExplorerToast';
+import abi from '../../swap-rewards/abi/trade-mining.json'; // eslint-disable-line
+
+import { ExplorerToast } from '../../../components/Toast';
 import { logger } from '../../logger';
 import { useOnboard } from '../../onboard';
+import { SWINGBY_DECIMALS, tradeMiningContract } from '../../swap-rewards';
+import { calculateGasMargin, generateSendParams, generateWeb3ErrorToast } from '../../web3';
+import { fetchFloatBalances } from '../../explorer';
 
-const initialState = {
-  pending: 0,
-  claimed: 0,
-  swapFrom: 'WBTC',
-  swapTo: 'BTC',
+const initialUserState = {
+  pending: '0',
+  claimed: '0',
+};
+
+const initialCoinState = {
+  swapFrom: 'BTC',
+  swapTo: 'WBTC',
 };
 
 export const useGetSwapRewards = () => {
-  const [rewards, setRewards] = useState<typeof initialState>(initialState);
+  const [user, setUser] = useState<typeof initialUserState>(initialUserState);
+  const [rewards, setRewards] = useState<typeof initialCoinState>(initialCoinState);
   const [isLoading, setIsLoading] = useState<Boolean>(false);
-  const floatBalances = useSelector((state) => state.explorer.networkInfos.floatBalances);
-  const { address, network } = useOnboard();
+  const usdBtc = useSelector((state) => state.explorer.usd.BTC);
+  const { network, wallet, onboard, address } = useOnboard();
   const bridge = network === 56 || network === 97 ? 'btc_bep20' : 'btc_erc';
+  const isValidCondition = network === 5;
 
-  const claimRewards = useCallback(async () => {
+  useEffect(() => {
     if (bridge === 'btc_bep20') {
       createToast({
         content: (
@@ -32,58 +45,89 @@ export const useGetSwapRewards = () => {
         ),
         type: 'warning',
       });
-      return;
     }
+  }, [bridge]);
+
+  const claimRewards = useCallback(async () => {
     try {
-      const hash = '0xcfdc127c9759498040e0c631c0bcf09dd4375422c4ffacea1518f1e43e328b1f';
-      createToast({
-        content: <ExplorerToast network={network} hash={hash} isPending={true} />,
-        type: 'success',
-        toastId: `${hash}`,
-        autoClose: true,
-      });
+      const web3 = new Web3(wallet.provider);
+      const contract = new web3.eth.Contract(abi as AbiItem[], tradeMiningContract[network]);
+      const estimatedGas = await contract.methods.claim().estimateGas({ from: address });
+      const gasLimit = calculateGasMargin(estimatedGas);
+      const sendParams = await generateSendParams({ from: address, network, gasLimit });
+
+      if (!(await onboard.walletCheck())) {
+        throw Error('Wallet check result is invalid');
+      }
+
+      return await contract.methods
+        .claim()
+        .send(sendParams)
+        .on('transactionHash', (hash: string) => {
+          createToast({
+            content: <ExplorerToast network={network} hash={hash} isPending={true} />,
+            type: 'success',
+            toastId: `${hash}`,
+            autoClose: true,
+          });
+        });
     } catch (e) {
-      createToast({ content: e?.message || 'Failed to send transaction', type: 'danger' });
+      generateWeb3ErrorToast({ e, toastId: 'claimRewards' });
     }
-  }, [bridge, network]);
+  }, [network, onboard, wallet, address]);
 
-  const getCurrency = useCallback(() => {
-    if (bridge === 'btc_bep20') {
-      setRewards({
-        ...rewards,
-        swapFrom: floatBalances.btcBsc > floatBalances.btcb ? 'BTCB' : 'BTC',
-        swapTo: floatBalances.btcBsc > floatBalances.btcb ? 'BTC' : 'BTCB',
-      });
-      return;
-    }
-    setRewards({
-      ...rewards,
-      swapFrom: floatBalances.btcEth > floatBalances.wbtc ? 'WBTC' : 'BTC',
-      swapTo: floatBalances.btcEth > floatBalances.wbtc ? 'BTC' : 'WBTC',
-    });
-    return;
-  }, [bridge, floatBalances, rewards]);
-
-  const getData = useCallback(async () => {
+  const getCurrency = useCallback(async () => {
     try {
       setIsLoading(true);
-
-      // Todo
+      const { floats } = await fetchFloatBalances(usdBtc, bridge);
+      if (bridge === 'btc_bep20') {
+        setRewards({
+          swapFrom: floats.btcBsc > floats.btcb ? 'BTCB' : 'BTC',
+          swapTo: floats.btcBsc > floats.btcb ? 'BTC' : 'BTCB',
+        });
+        return;
+      }
+      setRewards({
+        swapFrom: floats.btcEth > floats.wbtc ? 'WBTC' : 'BTC',
+        swapTo: floats.btcEth > floats.wbtc ? 'BTC' : 'WBTC',
+      });
     } catch (error) {
       logger.error(error);
-      // setApr(initialState);
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [bridge, usdBtc]);
+
+  const getUserData = useCallback(async () => {
+    try {
+      if (isValidCondition) {
+        const web3 = new Web3(wallet.provider);
+        const contract = new web3.eth.Contract(abi as AbiItem[], tradeMiningContract[network]);
+        const results = await Promise.all([
+          contract.methods.getPendings(address).call(),
+          contract.methods.getClaimed(address).call(),
+        ]);
+        setUser({
+          pending: ethers.utils.formatUnits(results[0], SWINGBY_DECIMALS),
+          claimed: ethers.utils.formatUnits(results[1], SWINGBY_DECIMALS),
+        });
+        return;
+      }
+      setUser(initialUserState);
+    } catch (error) {
+      logger.error(error);
+      setUser(initialUserState);
+    }
+  }, [wallet, network, isValidCondition, address]);
 
   useEffect(() => {
-    getData();
+    getUserData();
     getCurrency();
-  }, [getData, getCurrency]);
+  }, [getUserData, getCurrency]);
 
-  return useMemo(() => ({ rewards, isLoading, claimRewards, network }), [
+  return useMemo(() => ({ rewards, user, isLoading, claimRewards, network }), [
     rewards,
+    user,
     isLoading,
     claimRewards,
     network,

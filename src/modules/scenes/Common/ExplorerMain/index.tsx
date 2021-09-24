@@ -1,6 +1,7 @@
 import { PulsarThemeProvider } from '@swingby-protocol/pulsar';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
+import { useTheme } from 'styled-components';
 
 import { AccountId } from '../../../../components/AccountId';
 import { Footer } from '../../../../components/Footer';
@@ -15,6 +16,7 @@ import {
   BrowserFees,
   BrowserMetanodes,
   BrowserPool,
+  BrowserSwapRewards,
 } from '../../Main';
 
 import { ExplorerMainContainer, HeadLine, TitleH1 } from './styled';
@@ -27,6 +29,8 @@ export const ExplorerMain = () => {
   }, [currentPath]);
 
   const [theme] = useThemeSettings();
+  const { pulsar } = useTheme();
+  const themeId = pulsar.id;
 
   const switchBrowser = (path: string): JSX.Element => {
     switch (path) {
@@ -40,6 +44,8 @@ export const ExplorerMain = () => {
         return <BrowserPool />;
       case PATH.METANODES:
         return <BrowserMetanodes />;
+      case PATH.SWAP_REWARDS:
+        return <BrowserSwapRewards />;
       case PATH.FEES:
         return <BrowserFees />;
       case PATH.ASSET_BTC:
@@ -64,6 +70,8 @@ export const ExplorerMain = () => {
         return <AccountId />;
       case PATH.METANODES:
         return <></>;
+      case PATH.SWAP_REWARDS:
+        return <></>;
       case PATH.FEES:
         return <></>;
       case PATH.ASSET_BTC:
@@ -78,7 +86,7 @@ export const ExplorerMain = () => {
 
   return (
     <PulsarThemeProvider theme="accent">
-      <ExplorerMainContainer>
+      <ExplorerMainContainer isLightTheme={themeId === 'PulsarLight'}>
         <HeadLine>
           <TitleH1>{titleGenerator(currentPath)}</TitleH1>
           <PulsarThemeProvider theme={theme}>

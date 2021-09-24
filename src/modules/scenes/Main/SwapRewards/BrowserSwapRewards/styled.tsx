@@ -1,12 +1,35 @@
-import { CoinIcon, Icon, Text, Modal, logos } from '@swingby-protocol/pulsar';
+import { Card, CoinIcon, Icon, logos, Text } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
 import styled from 'styled-components';
 
-export const RewardModal = styled(Modal)`
-  max-width: ${rem(350)};
+import { StylingConstants } from '../../../../styles';
+
+const { media } = StylingConstants;
+
+export const BrowserSwapRewardsContainer = styled.div`
+  display: grid;
+  padding-top: ${({ theme }) => rem(theme.pulsar.size.drawer)};
+  padding-bottom: ${({ theme }) => rem(theme.pulsar.size.room)};
+  padding-left: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  padding-right: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  margin-top: ${({ theme }) => rem(theme.pulsar.size.house)};
+  @media (min-width: ${rem(media.sm)}) {
+    padding-top: 0;
+    padding-left: 0;
+    padding-right: 0;
+    margin-top: 0;
+  }
+  @media (min-width: ${rem(media.md)}) {
+    padding-bottom: ${({ theme }) => rem(theme.pulsar.size.state)};
+  }
+  @media (min-width: ${rem(media.xl)}) {
+    width: ${rem(1188)};
+  }
 `;
 
-export const ModalContent = styled(Modal.Content)`
+export const BrowserSwapRewardsDiv = styled(Card)`
+  justify-self: center;
+  width: ${rem(344)};
   border-radius: ${({ theme }) => rem(theme.pulsar.size.closet)};
   padding-left: 0;
   padding-right: 0;
@@ -14,8 +37,14 @@ export const ModalContent = styled(Modal.Content)`
   background: ${(props) =>
     props.theme.pulsar.id === 'PulsarLight'
       ? props.theme.pulsar.color.bg.normal
-      : props.theme.pulsar.color.bg.hover};
+      : props.theme.pulsar.color.bg.accent};
+
+  @media (min-width: ${rem(media.xs)}) {
+    width: ${rem(350)};
+  }
 `;
+
+export const BackIconBox = styled.div``;
 
 export const BgContainer = styled.div`
   background-image: url(${logos.StarsBgAnimated});
@@ -23,17 +52,22 @@ export const BgContainer = styled.div`
   background-repeat: repeat;
 `;
 
-export const SwapRewardsModalContainer = styled.div`
+export const Top = styled.div`
+  padding-top: ${({ theme }) => rem(theme.pulsar.size.street)};
+  padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
+  padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
 `;
 
-export const Top = styled.div`
+export const Middle = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
+  padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
+  padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
 `;
 
 export const Bottom = styled.div`
@@ -45,10 +79,6 @@ export const Bottom = styled.div`
   align-items: center;
   border-bottom-left-radius: ${({ theme }) => rem(theme.pulsar.size.closet)};
   border-bottom-right-radius: ${({ theme }) => rem(theme.pulsar.size.closet)};
-`;
-
-export const RowConnectWallet = styled.div`
-  padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
 `;
 
 export const RowCoins = styled.div`
@@ -69,6 +99,12 @@ export const IconArrow = styled(Icon.ArrowRight)`
 `;
 
 export const RowFeatures = styled.div`
+  display: grid;
+  grid-template-rows: auto auto;
+  grid-row-gap: ${({ theme }) => rem(theme.pulsar.size.box)};
+`;
+
+export const RowFeature = styled.div`
   display: flex;
   align-items: center;
 `;

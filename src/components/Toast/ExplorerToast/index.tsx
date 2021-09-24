@@ -2,7 +2,7 @@ import { Text } from '@swingby-protocol/pulsar';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import { Atag } from '../../modules/scenes/Common';
+import { Atag } from '../../../modules/scenes/Common';
 
 import { ColumnLink, ExplorerToastContainer, IconLink } from './styled';
 

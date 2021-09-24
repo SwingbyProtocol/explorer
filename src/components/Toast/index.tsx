@@ -1,6 +1,8 @@
 import { FormattedMessage } from 'react-intl';
 import { createToast } from '@swingby-protocol/pulsar';
 
+export { ExplorerToast } from './ExplorerToast';
+
 export const copyToClipboard = (copy: () => void, toast: (arg?) => void, role?: string) => {
   copy();
   if (role) {

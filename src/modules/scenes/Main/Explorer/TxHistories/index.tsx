@@ -9,10 +9,9 @@ import InfiniteLoader from 'react-window-infinite-loader';
 
 import { LinkToWidgetModal } from '../../../../../components/LinkToWidgetModal';
 import { Loader } from '../../../../../components/Loader';
-import { SwapRewardsButton } from '../../../../../components/SwapRewardsButton';
 import { Bridge, Transaction, TransactionType } from '../../../../../generated/graphql';
 import { useAffiliateCode } from '../../../../affiliate-code';
-import { mode, TXS_COUNT } from '../../../../env';
+import { mode, PATH, TXS_COUNT } from '../../../../env';
 import {
   castGraphQlType,
   ISwapQueryPrams,
@@ -21,10 +20,11 @@ import {
 } from '../../../../explorer';
 import { useLinkToWidget, useLoadHistories } from '../../../../hooks';
 import { useThemeSettings } from '../../../../store/settings';
-import { ButtonScaleNarrow } from '../../../Common';
+import { Atag, ButtonScaleNarrow } from '../../../Common';
 
 import { TxHistoriesItem } from './Item';
 import {
+  Buttons,
   Filter,
   Left,
   NoResultsFound,
@@ -32,7 +32,6 @@ import {
   TextFee,
   TitleRow,
   TxHistoriesContainer,
-  Buttons,
 } from './styled';
 
 const ROW_HEIGHT = 90;
@@ -194,8 +193,15 @@ export const TxHistories = () => {
               >
                 <FormattedMessage id="home.recent-swaps.new-swap" />
               </ButtonScaleNarrow>
-              {/* {mode === 'test' ? <SwapRewardsButton /> : <div />} */}
-              <SwapRewardsButton />
+              {mode === 'test' ? (
+                <Atag href={PATH.SWAP_REWARDS} rel="noopener noreferrer" target="_blank">
+                  <ButtonScaleNarrow variant="primary" size="street" shape="fill">
+                    <FormattedMessage id="home.recent-swaps.swap-rewards" />
+                  </ButtonScaleNarrow>
+                </Atag>
+              ) : (
+                <div />
+              )}
             </Buttons>
           </Left>
           <Right isFloats={isFloatTx}>

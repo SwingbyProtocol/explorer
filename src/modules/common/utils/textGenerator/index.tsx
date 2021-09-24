@@ -15,6 +15,8 @@ export const titleGenerator = (path: string): JSX.Element => {
       return <FormattedMessage id="metanodes.metanodes" />;
     case PATH.FEES:
       return <FormattedMessage id="fees.fees" />;
+    case PATH.SWAP_REWARDS:
+      return <FormattedMessage id="swap-rewards.title" />;
     case PATH.ASSET_BTC:
       return <AssetTitle />;
     case PATH.ASSET_WBTC:
