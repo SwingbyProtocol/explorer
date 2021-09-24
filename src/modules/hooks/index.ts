@@ -14,6 +14,7 @@ export { useGetPoolApr } from './useGetPoolApr';
 export { useGetSbBtcBal } from './useGetSbBtcBal';
 export { useGetLatestPrice } from './useGetLatestPrice';
 export { useGetEarningHistorical } from './useGetEarningHistorical';
+export { useGetSwapRewards } from './useGetSwapRewards';
 
 export interface ICountdown {
   days: number;

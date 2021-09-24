@@ -2757,13 +2757,14 @@
   resolved "https://registry.yarnpkg.com/@swingby-protocol/prettier-config/-/prettier-config-1.0.2.tgz#ff4c03ac7ad3dab1d02a914d31debcf9441fa3e8"
   integrity sha512-ROirdMQDD6PxHTC+4J7pFH4ik8Yf3frLwf6XDBjuFKKfKCqvpqkHWHnYCJG1PS5uODmMCiH+m1JoIYr/vDfnAA==
 
-"@swingby-protocol/pulsar@^3.15.0":
-  version "3.15.0"
-  resolved "https://registry.yarnpkg.com/@swingby-protocol/pulsar/-/pulsar-3.15.0.tgz#a2d52a2bf3175e48b59ad04e1318f239a61372e2"
-  integrity sha512-GowCNAChvTi5NSZ3frmVttiBEj6TnDA4vHdVPBZpGGXC7VJmcboUFPYkmzD4E7GrWA4BYfeOpcBRdH5W+7zhFQ==
+"@swingby-protocol/pulsar@^3.15.2":
+  version "3.15.2"
+  resolved "https://registry.yarnpkg.com/@swingby-protocol/pulsar/-/pulsar-3.15.2.tgz#f99a15f3bc3338e60660347c5543f400c1aa8eb5"
+  integrity sha512-boqTCdsQE5hFiohA2nMt52wzQmVQOrCKI5vlOnSkCkNE0BWabyVx9EO+VbYZ/HmMq1mveeq4qfe+9jQZo4PTNA==
   dependencies:
     "@tippyjs/react" "^4.2.0"
     crypto-js "^4.0.0"
+    debug "^4.3.2"
     nanoid "3.1.18"
     qrcode.react "^1.0.0"
     react-toastify "^6.2.0"
@@ -5859,6 +5860,13 @@ debug@^3.1.0:
   integrity sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==
   dependencies:
     ms "^2.1.1"
+
+debug@^4.3.2:
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.2.tgz#f0a49c18ac8779e31d4a0c6029dfb76873c7428b"
+  integrity sha512-mOp8wKcvj7XxC78zLgw/ZA+6TSgkoE2C/ienthhRD298T7UNwAg9diBpLRxC0mOezLl4B0xV7M0cCO6P/O0Xhw==
+  dependencies:
+    ms "2.1.2"
 
 decamelize-keys@^1.0.0:
   version "1.1.0"

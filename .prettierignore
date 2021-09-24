@@ -1,6 +1,6 @@
 /.next
 /src/generated/**/*
-/**/*.json
 /**/*.md
+/**/*.json
 /**/*.yaml
 /**/*.graphql

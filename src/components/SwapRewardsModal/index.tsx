@@ -2,28 +2,28 @@ import { Text } from '@swingby-protocol/pulsar';
 import React from 'react';
 import { FormattedMessage, FormattedNumber } from 'react-intl';
 
-import { CoinSymbol } from '../../modules/coins';
+import { useGetSwapRewards } from '../../modules/hooks';
 import { ButtonScale } from '../../modules/scenes/Common';
 import { ConnectWalletMini } from '../ConnectWalletMini';
 
 import {
-  IconCoin,
-  RowCoins,
-  SwapRewardsModalContainer,
-  IconArrow,
-  IconTick,
-  RowFeatures,
-  TextFeature,
-  RowTitle,
-  RowAmounts,
-  RowAmount,
-  RowClaim,
-  RewardModal,
-  Bottom,
-  Top,
   BgContainer,
+  Bottom,
+  IconArrow,
+  IconCoin,
+  IconTick,
   ModalContent,
+  RewardModal,
+  RowAmount,
+  RowAmounts,
+  RowClaim,
+  RowCoins,
   RowConnectWallet,
+  RowFeatures,
+  RowTitle,
+  SwapRewardsModalContainer,
+  TextFeature,
+  Top,
 } from './styled';
 
 interface Props {
@@ -33,10 +33,8 @@ interface Props {
 
 export const SwapRewardsModal = (props: Props) => {
   const { open, onClose } = props;
-  const rewardsCoinFrom = CoinSymbol.WBTC;
-  const rewardsCoinTo = CoinSymbol.BTC;
-  const pendingRewards = 2291;
-  const claimedRewards = 5000;
+  const { rewards, claimRewards, network } = useGetSwapRewards();
+  const { swapFrom, swapTo, pending, claimed } = rewards;
 
   return (
     <RewardModal open={open} onClose={onClose}>
@@ -48,17 +46,17 @@ export const SwapRewardsModal = (props: Props) => {
           <SwapRewardsModalContainer>
             <Top>
               <RowCoins>
-                <IconCoin symbol={rewardsCoinFrom} />
+                <IconCoin symbol={swapFrom} />
                 <IconArrow />
-                <IconCoin symbol={rewardsCoinTo} />
+                <IconCoin symbol={swapTo} />
               </RowCoins>
               <RowTitle>
                 <Text variant="section-title">
                   <FormattedMessage
                     id="swap-rewards.earn-your-rewards"
                     values={{
-                      swapFrom: rewardsCoinFrom,
-                      swapTo: rewardsCoinTo,
+                      swapFrom,
+                      swapTo,
                     }}
                   />
                 </Text>
@@ -82,7 +80,7 @@ export const SwapRewardsModal = (props: Props) => {
                       values={{
                         value: (
                           <FormattedNumber
-                            value={pendingRewards}
+                            value={pending}
                             maximumFractionDigits={0}
                             minimumFractionDigits={0}
                           />
@@ -101,7 +99,7 @@ export const SwapRewardsModal = (props: Props) => {
                       values={{
                         value: (
                           <FormattedNumber
-                            value={claimedRewards}
+                            value={claimed}
                             maximumFractionDigits={0}
                             minimumFractionDigits={0}
                           />
@@ -112,7 +110,13 @@ export const SwapRewardsModal = (props: Props) => {
                 </RowAmount>
               </RowAmounts>
               <RowClaim>
-                <ButtonScale variant="primary" size="city" shape="fill">
+                <ButtonScale
+                  variant="primary"
+                  size="city"
+                  shape="fill"
+                  onClick={claimRewards}
+                  disabled={!network || pending === 0}
+                >
                   <FormattedMessage id="common.claim" />
                 </ButtonScale>
               </RowClaim>

@@ -194,6 +194,7 @@ export const TxHistories = () => {
               >
                 <FormattedMessage id="home.recent-swaps.new-swap" />
               </ButtonScaleNarrow>
+              {/* {mode === 'test' ? <SwapRewardsButton /> : <div />} */}
               <SwapRewardsButton />
             </Buttons>
           </Left>

@@ -9,7 +9,13 @@ export const SwapRewardsButton = () => {
 
   return (
     <>
-      <SwapRewardsModal open={isRewardsModel} onClose={() => setIsRewardsModel(false)} />
+      <SwapRewardsModal
+        open={isRewardsModel}
+        onClose={() => {
+          console.log('called onClose!!');
+          setIsRewardsModel(false);
+        }}
+      />
       <ButtonScaleNarrow
         variant="primary"
         size="street"
