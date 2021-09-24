@@ -9,7 +9,7 @@ import InfiniteLoader from 'react-window-infinite-loader';
 
 import { LinkToWidgetModal } from '../../../../../components/LinkToWidgetModal';
 import { Loader } from '../../../../../components/Loader';
-import { SwapRewardsModal } from '../../../../../components/SwapRewardsModal';
+import { SwapRewardsButton } from '../../../../../components/SwapRewardsButton';
 import { Bridge, Transaction, TransactionType } from '../../../../../generated/graphql';
 import { useAffiliateCode } from '../../../../affiliate-code';
 import { mode, TXS_COUNT } from '../../../../env';
@@ -21,6 +21,7 @@ import {
 } from '../../../../explorer';
 import { useLinkToWidget, useLoadHistories } from '../../../../hooks';
 import { useThemeSettings } from '../../../../store/settings';
+import { ButtonScaleNarrow } from '../../../Common';
 
 import { TxHistoriesItem } from './Item';
 import {
@@ -31,7 +32,7 @@ import {
   TextFee,
   TitleRow,
   TxHistoriesContainer,
-  CustomScaleButton,
+  Buttons,
 } from './styled';
 
 const ROW_HEIGHT = 90;
@@ -41,7 +42,6 @@ export const TxHistories = () => {
   const { push, query, locale } = useRouter();
   const [themeMode] = useThemeSettings();
   const affiliateCode = useAffiliateCode();
-  const [isRewardsModel, setIsRewardsModel] = useState<boolean>(false);
 
   const params = query;
   const q = String(params.q || '');
@@ -173,7 +173,6 @@ export const TxHistories = () => {
 
   return (
     <>
-      <SwapRewardsModal open={isRewardsModel} onClose={() => setIsRewardsModel(false)} />
       <LinkToWidgetModal
         isWidgetModalOpen={isClaimWidgetModalOpen}
         setIsWidgetModalOpen={setIsClaimWidgetModalOpen}
@@ -186,22 +185,17 @@ export const TxHistories = () => {
             <Text variant="section-title">
               <FormattedMessage id="home.recent-swaps.recent-swaps" />
             </Text>
-            <CustomScaleButton
-              variant="tertiary"
-              size="street"
-              shape="fill"
-              onClick={() => openPopup({ widget })}
-            >
-              <FormattedMessage id="home.recent-swaps.new-swap" />
-            </CustomScaleButton>
-            <CustomScaleButton
-              variant="primary"
-              size="street"
-              shape="fill"
-              onClick={() => setIsRewardsModel(true)}
-            >
-              <FormattedMessage id="home.recent-swaps.swap-rewards" />
-            </CustomScaleButton>
+            <Buttons>
+              <ButtonScaleNarrow
+                variant="tertiary"
+                size="street"
+                shape="fill"
+                onClick={() => openPopup({ widget })}
+              >
+                <FormattedMessage id="home.recent-swaps.new-swap" />
+              </ButtonScaleNarrow>
+              <SwapRewardsButton />
+            </Buttons>
           </Left>
           <Right isFloats={isFloatTx}>
             <TextFee variant="section-title">

@@ -119,3 +119,8 @@ export const IconExternalLink = styled(Icon.ExternalLink)`
 export const ColumnInlineBlock = styled.div`
   display: inline-block;
 `;
+
+export const ButtonScaleNarrow = styled(ButtonScale)`
+  padding-left: ${({ theme }) => rem(theme.pulsar.size.drawer)};
+  padding-right: ${({ theme }) => rem(theme.pulsar.size.drawer)};
+`;

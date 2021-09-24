@@ -1,4 +1,4 @@
-import { Button, Icon, Text } from '@swingby-protocol/pulsar';
+import { Icon, Text } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
 import styled from 'styled-components';
 
@@ -30,8 +30,8 @@ export const TitleRow = styled.div`
 export const Left = styled.div`
   padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
   display: grid;
-  grid-template-columns: auto auto auto;
-  grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.box)};
+  grid-template-columns: auto auto;
+  grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.drawer)};
   align-items: center;
   @media (min-width: ${rem(media.sm)}) {
     grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.town)};
@@ -41,8 +41,23 @@ export const Left = styled.div`
   }
 `;
 
+export const Buttons = styled.div`
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.drawer)};
+  @media (min-width: ${rem(media.xs)}) {
+    padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
+  }
+  @media (min-width: ${rem(media.sm)}) {
+    grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.house)};
+  }
+`;
+
 export const Right = styled.div<BridgeProps>`
-  padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
+  padding-right: ${({ theme }) => rem(theme.pulsar.size.drawer)};
+  @media (min-width: ${rem(media.xs)}) {
+    padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
+  }
   @media (min-width: ${rem(media.lg)}) {
     display: grid;
     grid-template-columns: ${rem(100)} 1fr;
@@ -82,9 +97,4 @@ export const NoResultsFound = styled.div`
     margin-top: ${rem(150)};
     margin-bottom: 0;
   }
-`;
-
-export const CustomScaleButton = styled(Button)`
-  padding-left: ${({ theme }) => rem(theme.pulsar.size.drawer)};
-  padding-right: ${({ theme }) => rem(theme.pulsar.size.drawer)};
 `;

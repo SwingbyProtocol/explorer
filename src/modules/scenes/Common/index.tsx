@@ -20,4 +20,5 @@ export {
   TextRoom,
   IconExternalLink,
   ColumnInlineBlock,
+  ButtonScaleNarrow,
 } from './Styled';

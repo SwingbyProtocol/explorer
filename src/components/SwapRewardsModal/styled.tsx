@@ -38,7 +38,7 @@ export const Top = styled.div`
 
 export const Bottom = styled.div`
   width: 100%;
-  padding-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
+  padding-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
   background: ${({ theme }) => theme.pulsar.color.bg.masked};
   display: flex;
   flex-direction: column;
@@ -65,7 +65,7 @@ export const IconCoin = styled(CoinIcon)`
 `;
 
 export const IconArrow = styled(Icon.ArrowRight)`
-  font-size: ${({ theme }) => rem(theme.pulsar.size.town)};
+  font-size: ${({ theme }) => rem(theme.pulsar.size.street)};
 `;
 
 export const RowFeatures = styled.div`

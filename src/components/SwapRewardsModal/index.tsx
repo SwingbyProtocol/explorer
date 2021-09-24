@@ -33,9 +33,13 @@ interface Props {
 
 export const SwapRewardsModal = (props: Props) => {
   const { open, onClose } = props;
+  const rewardsCoinFrom = CoinSymbol.WBTC;
+  const rewardsCoinTo = CoinSymbol.BTC;
+  const pendingRewards = 2291;
+  const claimedRewards = 5000;
 
   return (
-    <RewardModal open={open} className="test" onClose={onClose}>
+    <RewardModal open={open} onClose={onClose}>
       <ModalContent>
         <BgContainer>
           <RowConnectWallet>
@@ -44,29 +48,27 @@ export const SwapRewardsModal = (props: Props) => {
           <SwapRewardsModalContainer>
             <Top>
               <RowCoins>
-                <IconCoin symbol={CoinSymbol.BTC} />
+                <IconCoin symbol={rewardsCoinFrom} />
                 <IconArrow />
-                <IconCoin symbol={CoinSymbol.WBTC} />
+                <IconCoin symbol={rewardsCoinTo} />
               </RowCoins>
               <RowTitle>
                 <Text variant="section-title">
                   <FormattedMessage
                     id="swap-rewards.earn-your-rewards"
                     values={{
-                      swapFrom: 'WBTC',
-                      swapTo: 'BTC',
+                      swapFrom: rewardsCoinFrom,
+                      swapTo: rewardsCoinTo,
                     }}
                   />
                 </Text>
               </RowTitle>
-              <div>
-                <RowFeatures>
-                  <IconTick />
-                  <TextFeature variant="normal">
-                    <FormattedMessage id="swap-rewards.rewards-amount" />
-                  </TextFeature>
-                </RowFeatures>
-              </div>
+              <RowFeatures>
+                <IconTick />
+                <TextFeature variant="normal">
+                  <FormattedMessage id="swap-rewards.rewards-amount" />
+                </TextFeature>
+              </RowFeatures>
             </Top>
             <Bottom>
               <RowAmounts>
@@ -80,7 +82,7 @@ export const SwapRewardsModal = (props: Props) => {
                       values={{
                         value: (
                           <FormattedNumber
-                            value={2291}
+                            value={pendingRewards}
                             maximumFractionDigits={0}
                             minimumFractionDigits={0}
                           />
@@ -99,7 +101,7 @@ export const SwapRewardsModal = (props: Props) => {
                       values={{
                         value: (
                           <FormattedNumber
-                            value={5000}
+                            value={claimedRewards}
                             maximumFractionDigits={0}
                             minimumFractionDigits={0}
                           />
