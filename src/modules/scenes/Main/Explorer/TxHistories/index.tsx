@@ -193,15 +193,11 @@ export const TxHistories = () => {
               >
                 <FormattedMessage id="home.recent-swaps.new-swap" />
               </ButtonScaleNarrow>
-              {mode === 'test' ? (
-                <Atag href={PATH.SWAP_REWARDS} rel="noopener noreferrer" target="_blank">
-                  <ButtonScaleNarrow variant="primary" size="street" shape="fill">
-                    <FormattedMessage id="home.recent-swaps.swap-rewards" />
-                  </ButtonScaleNarrow>
-                </Atag>
-              ) : (
-                <div />
-              )}
+              <Atag href={PATH.SWAP_REWARDS} rel="noopener noreferrer" target="_blank">
+                <ButtonScaleNarrow variant="primary" size="street" shape="fill">
+                  <FormattedMessage id="home.recent-swaps.swap-rewards" />
+                </ButtonScaleNarrow>
+              </Atag>
             </Buttons>
           </Left>
           <Right isFloats={isFloatTx}>

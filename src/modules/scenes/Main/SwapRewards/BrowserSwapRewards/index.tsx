@@ -87,7 +87,7 @@ export const BrowserSwapRewards = () => {
                     <Text variant="section-title">
                       <FormattedMessage
                         id={
-                          network === 1 || network === 56 || network === 97
+                          network === 56 || network === 97
                             ? 'swap-rewards.preparing-contract'
                             : 'swap-rewards.earn-your-rewards'
                         }
