@@ -11,7 +11,7 @@ import { fetchUsdPrice } from '../modules/store';
 
 type Props = { shouldBlockIp: boolean; initialPriceUSD: IFetchUsd };
 
-export default function Home({ shouldBlockIp, initialPriceUSD }: Props) {
+export default function Fees({ shouldBlockIp, initialPriceUSD }: Props) {
   const dispatch = useDispatch();
   const [isNoServiceToUSModalOpen, setIsNoServiceToUSModalOpen] = useState(shouldBlockIp);
 
@@ -33,10 +33,10 @@ export default function Home({ shouldBlockIp, initialPriceUSD }: Props) {
 export const getServerSideProps: GetServerSideProps<Props> = async ({ req }) => {
   const initialPriceUSD = await (async (): Promise<IFetchUsd> => {
     try {
-      const result = await fetchVwap('btcUsd');
+      const results = await Promise.all([fetchVwap('btcUsd'), fetchVwap('swingbyUsd')]);
       const priceUSD = {
-        BTC: result,
-        SWINGBY: 0,
+        BTC: results[0],
+        SWINGBY: results[1],
       };
 
       return priceUSD;

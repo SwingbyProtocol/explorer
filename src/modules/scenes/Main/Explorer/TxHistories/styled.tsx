@@ -31,7 +31,7 @@ export const Left = styled.div`
   padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
   display: grid;
   grid-template-columns: auto auto;
-  grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.street)};
+  grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.drawer)};
   align-items: center;
   @media (min-width: ${rem(media.sm)}) {
     grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.town)};
@@ -41,8 +41,23 @@ export const Left = styled.div`
   }
 `;
 
+export const Buttons = styled.div`
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.drawer)};
+  @media (min-width: ${rem(media.xs)}) {
+    padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
+  }
+  @media (min-width: ${rem(media.sm)}) {
+    grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.house)};
+  }
+`;
+
 export const Right = styled.div<BridgeProps>`
-  padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
+  padding-right: ${({ theme }) => rem(theme.pulsar.size.drawer)};
+  @media (min-width: ${rem(media.xs)}) {
+    padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
+  }
   @media (min-width: ${rem(media.lg)}) {
     display: grid;
     grid-template-columns: ${rem(100)} 1fr;

@@ -8,6 +8,7 @@ export { BrowserPool } from './Pool';
 export { BrowserMetanodes } from './Metanodes';
 export { BrowserFees } from './Fees/';
 export { BrowserAsset } from './Asset';
+export { BrowserSwapRewards } from './SwapRewards';
 export { MetanodeEarners } from './MetanodeEarners';
 
 export const Main = () => {

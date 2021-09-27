@@ -4,13 +4,18 @@ import styled from 'styled-components';
 
 import { StylingConstants } from '../../../styles';
 
+interface ThemeProps {
+  isLightTheme: boolean;
+}
+
 const { media } = StylingConstants;
-export const ExplorerMainContainer = styled.div`
+export const ExplorerMainContainer = styled.div<ThemeProps>`
   position: relative;
   height: ${rem(250)};
   background: ${({ theme }) => theme.pulsar.color.bg.normal};
   background-image: url(${logos.StarsBgAnimated});
   z-index: 0;
+  background-size: ${(props) => (props.isLightTheme ? '80%' : '55%')};
   @media (min-width: ${rem(media.xs)}) {
     height: ${rem(240)};
     display: grid;

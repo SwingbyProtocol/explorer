@@ -1,0 +1,1 @@
+export { BrowserSwapRewards } from './BrowserSwapRewards';

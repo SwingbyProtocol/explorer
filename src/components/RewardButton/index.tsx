@@ -11,7 +11,8 @@ import { useToggleBridge } from '../../modules/hooks';
 import { showConnectNetwork, useOnboard } from '../../modules/onboard';
 import { ButtonScale } from '../../modules/scenes/Common';
 import { StylingConstants } from '../../modules/styles';
-import { calculateGasMargin, generateSendParams } from '../../modules/web3';
+import { calculateGasMargin, generateSendParams, generateWeb3ErrorToast } from '../../modules/web3';
+import { ExplorerToast } from '../Toast';
 
 import { RewardButtonContainer } from './styled';
 
@@ -49,7 +50,17 @@ export const RewardButton = () => {
           throw Error('Wallet check result is invalid');
         }
 
-        return await contract.methods.distributeNodeRewards().send(params);
+        return await contract.methods
+          .distributeNodeRewards()
+          .send(params)
+          .on('transactionHash', (hash: string) => {
+            createToast({
+              content: <ExplorerToast network={network} hash={hash} isPending={true} />,
+              type: 'success',
+              toastId: `${hash}`,
+              autoClose: true,
+            });
+          });
       } else {
         createToast({
           content: <FormattedMessage id="metanodes.distribute-rewards.rewards-not-enough" />,
@@ -58,7 +69,7 @@ export const RewardButton = () => {
       }
     } catch (e) {
       console.error('Error trying to distribute rewards', e);
-      createToast({ content: e?.message || 'Failed to send transaction', type: 'danger' });
+      generateWeb3ErrorToast({ e, toastId: 'distributeRewards' });
     } finally {
       try {
         await onboard.walletReset();

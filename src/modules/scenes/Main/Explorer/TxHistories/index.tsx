@@ -11,7 +11,7 @@ import { LinkToWidgetModal } from '../../../../../components/LinkToWidgetModal';
 import { Loader } from '../../../../../components/Loader';
 import { Bridge, Transaction, TransactionType } from '../../../../../generated/graphql';
 import { useAffiliateCode } from '../../../../affiliate-code';
-import { mode, TXS_COUNT } from '../../../../env';
+import { mode, PATH, TXS_COUNT } from '../../../../env';
 import {
   castGraphQlType,
   ISwapQueryPrams,
@@ -20,10 +20,11 @@ import {
 } from '../../../../explorer';
 import { useLinkToWidget, useLoadHistories } from '../../../../hooks';
 import { useThemeSettings } from '../../../../store/settings';
-import { ButtonScale } from '../../../Common';
+import { Atag, ButtonScaleNarrow } from '../../../Common';
 
 import { TxHistoriesItem } from './Item';
 import {
+  Buttons,
   Filter,
   Left,
   NoResultsFound,
@@ -183,9 +184,21 @@ export const TxHistories = () => {
             <Text variant="section-title">
               <FormattedMessage id="home.recent-swaps.recent-swaps" />
             </Text>
-            <ButtonScale variant="tertiary" size="street" onClick={() => openPopup({ widget })}>
-              <FormattedMessage id="home.recent-swaps.new-swap" />
-            </ButtonScale>
+            <Buttons>
+              <ButtonScaleNarrow
+                variant="tertiary"
+                size="street"
+                shape="fill"
+                onClick={() => openPopup({ widget })}
+              >
+                <FormattedMessage id="home.recent-swaps.new-swap" />
+              </ButtonScaleNarrow>
+              <Atag href={PATH.SWAP_REWARDS} rel="noopener noreferrer" target="_blank">
+                <ButtonScaleNarrow variant="primary" size="street" shape="fill">
+                  <FormattedMessage id="home.recent-swaps.swap-rewards" />
+                </ButtonScaleNarrow>
+              </Atag>
+            </Buttons>
           </Left>
           <Right isFloats={isFloatTx}>
             <TextFee variant="section-title">
