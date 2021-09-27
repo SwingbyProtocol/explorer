@@ -1,19 +1,17 @@
 import { createToast } from '@swingby-protocol/pulsar';
+import { ethers } from 'ethers';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { FormattedMessage } from 'react-intl';
 import { useSelector } from 'react-redux';
 import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
-import { ethers } from 'ethers';
-
-import abi from '../../swap-rewards/abi/trade-mining.json'; // eslint-disable-line
 
 import { ExplorerToast } from '../../../components/Toast';
+import { fetchFloatBalances } from '../../explorer';
 import { logger } from '../../logger';
 import { useOnboard } from '../../onboard';
 import { SWINGBY_DECIMALS, tradeMiningContract } from '../../swap-rewards';
+import abi from '../../swap-rewards/abi/trade-mining.json'; // eslint-disable-line
 import { calculateGasMargin, generateSendParams, generateWeb3ErrorToast } from '../../web3';
-import { fetchFloatBalances } from '../../explorer';
 
 const initialUserState = {
   pending: '0',
@@ -33,20 +31,6 @@ export const useGetSwapRewards = () => {
   const { network, wallet, onboard, address } = useOnboard();
   const bridge = network === 56 || network === 97 ? 'btc_bep20' : 'btc_erc';
   const isValidCondition = network === 5;
-
-  useEffect(() => {
-    if (bridge === 'btc_bep20') {
-      createToast({
-        content: (
-          <FormattedMessage
-            id="swap-rewards.bridge-coming-soon"
-            values={{ bridge: 'BSC network' }}
-          />
-        ),
-        type: 'warning',
-      });
-    }
-  }, [bridge]);
 
   const claimRewards = useCallback(async () => {
     try {
@@ -125,11 +109,12 @@ export const useGetSwapRewards = () => {
     getCurrency();
   }, [getUserData, getCurrency]);
 
-  return useMemo(() => ({ rewards, user, isLoading, claimRewards, network }), [
+  return useMemo(() => ({ rewards, user, isLoading, claimRewards, bridge, network }), [
     rewards,
+    network,
     user,
     isLoading,
     claimRewards,
-    network,
+    bridge,
   ]);
 };

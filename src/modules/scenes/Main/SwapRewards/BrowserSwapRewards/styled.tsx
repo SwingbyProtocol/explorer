@@ -6,6 +6,10 @@ import { StylingConstants } from '../../../../styles';
 
 const { media } = StylingConstants;
 
+interface WidthProps {
+  width: number;
+}
+
 export const BrowserSwapRewardsContainer = styled.div`
   display: grid;
   padding-top: ${({ theme }) => rem(theme.pulsar.size.drawer)};
@@ -110,6 +114,7 @@ export const RowFeature = styled.div`
 `;
 
 export const RowTitle = styled.div`
+  text-align: center;
   margin-bottom: ${({ theme }) => rem(theme.pulsar.size.room)};
 `;
 
@@ -135,6 +140,15 @@ export const RowAmount = styled.div`
   display: flex;
   justify-content: space-evenly;
   width: 100%;
+`;
+
+export const AmountLeft = styled.div`
+  width: ${rem(90)};
+`;
+
+export const AmountRight = styled.div<WidthProps>`
+  width: ${(props) => rem(props.width)};
+  white-space: nowrap;
 `;
 
 export const RowClaim = styled.div`
