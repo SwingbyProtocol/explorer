@@ -33,10 +33,10 @@ export default function Home({ shouldBlockIp, initialPriceUSD }: Props) {
 export const getServerSideProps: GetServerSideProps<Props> = async ({ req }) => {
   const initialPriceUSD = await (async (): Promise<IFetchUsd> => {
     try {
-      const results = await Promise.all([fetchVwap('btcUsd'), fetchVwap('swingbyUsd')]);
+      const result = await fetchVwap('btcUsd');
       const priceUSD = {
-        BTC: results[0],
-        SWINGBY: results[1],
+        BTC: result,
+        SWINGBY: 0,
       };
 
       return priceUSD;
