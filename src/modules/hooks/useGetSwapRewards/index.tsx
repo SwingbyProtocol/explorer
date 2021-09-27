@@ -40,11 +40,12 @@ export const useGetSwapRewards = () => {
     btcFloat: number;
     peggedBtcFloat: number;
   }): number => {
-    const rewardableFloat = btcFloat > peggedBtcFloat ? peggedBtcFloat : btcFloat;
+    const difference = Math.abs(btcFloat - peggedBtcFloat);
     const ttlFloat = btcFloat + peggedBtcFloat;
+    const differenceRatio = difference / ttlFloat;
 
     // Ref: 20% is the line for judgement whether float difference is bigger or smaller
-    const isBiggerRewards = rewardableFloat / ttlFloat > 0.2;
+    const isBiggerRewards = differenceRatio > 0.2;
     if (isBiggerRewards) {
       return 0.4;
     }
