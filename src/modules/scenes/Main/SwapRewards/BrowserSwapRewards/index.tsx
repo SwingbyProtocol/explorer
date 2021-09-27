@@ -45,6 +45,7 @@ export const BrowserSwapRewards = () => {
   const { pending, claimed } = user;
   const { swapFrom, swapTo } = rewards;
   const rewardsCurrency = bridge === 'btc_bep20' ? 'BEP20 SWINGBY' : 'ERC20 SWINGBY';
+  const peggedBtc = bridge === 'btc_bep20' ? 'BTCB' : 'WBTC';
 
   const widthAmountRight = useMemo(() => {
     const amount = Number(pending) > Number(claimed) ? Number(pending) : Number(claimed);
@@ -75,7 +76,7 @@ export const BrowserSwapRewards = () => {
             </Top>
             <Middle>
               {isLoading ? (
-                <Loader minHeight={180} />
+                <Loader minHeight={201} />
               ) : (
                 <>
                   <RowCoins>
@@ -99,6 +100,12 @@ export const BrowserSwapRewards = () => {
                     </Text>
                   </RowTitle>
                   <RowFeatures>
+                    <RowFeature>
+                      <IconTick />
+                      <TextFeature variant="normal">
+                        <FormattedMessage id="swap-rewards.minimum" values={{ value: peggedBtc }} />
+                      </TextFeature>
+                    </RowFeature>
                     <RowFeature>
                       <IconTick />
                       <TextFeature variant="normal">
