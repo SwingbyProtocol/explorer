@@ -33,7 +33,15 @@ import {
 } from './styled';
 
 export const BrowserSwapRewards = () => {
-  const { user, rewards, claimRewards, bridge, isLoading, network } = useGetSwapRewards();
+  const {
+    user,
+    rewards,
+    claimRewards,
+    bridge,
+    isLoading,
+    network,
+    rewardsPercent,
+  } = useGetSwapRewards();
   const { pending, claimed } = user;
   const { swapFrom, swapTo } = rewards;
   const rewardsCurrency = bridge === 'btc_bep20' ? 'BEP20 SWINGBY' : 'ERC20 SWINGBY';
@@ -94,7 +102,18 @@ export const BrowserSwapRewards = () => {
                     <RowFeature>
                       <IconTick />
                       <TextFeature variant="normal">
-                        <FormattedMessage id="swap-rewards.rewards-amount" />
+                        <FormattedMessage
+                          id="swap-rewards.rewards-amount"
+                          values={{
+                            value: (
+                              <FormattedNumber
+                                value={Number(rewardsPercent)}
+                                maximumFractionDigits={1}
+                                minimumFractionDigits={1}
+                              />
+                            ),
+                          }}
+                        />
                       </TextFeature>
                     </RowFeature>
                     <RowFeature>
