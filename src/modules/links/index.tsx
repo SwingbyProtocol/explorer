@@ -28,11 +28,11 @@ export const URL = {
 export const Links = [
   { link: URL.WhatIsSwingby, description: 'footer.what-is-swingby' },
   { link: URL.Earn, description: 'footer.earn' },
-  { link: PATH.SWAP_REWARDS, description: 'footer.swap-rewards' },
   { link: PATH.FEES, description: 'footer.transaction-fees' },
   { link: URL.Erc20Bridge, description: 'footer.erc20' },
   { link: URL.YieldFarming, description: 'footer.yield-farming' },
 ];
+
 export const Developers = [
   { link: URL.WhitePaper, description: 'footer.white-paper' },
   { link: URL.SwingbyDocs, description: 'footer.documentation' },
