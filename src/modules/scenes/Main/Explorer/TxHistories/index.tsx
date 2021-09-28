@@ -11,7 +11,7 @@ import { LinkToWidgetModal } from '../../../../../components/LinkToWidgetModal';
 import { Loader } from '../../../../../components/Loader';
 import { Bridge, Transaction, TransactionType } from '../../../../../generated/graphql';
 import { useAffiliateCode } from '../../../../affiliate-code';
-import { mode, PATH, TXS_COUNT } from '../../../../env';
+import { mode, TXS_COUNT } from '../../../../env';
 import {
   castGraphQlType,
   ISwapQueryPrams,
@@ -20,7 +20,7 @@ import {
 } from '../../../../explorer';
 import { useLinkToWidget, useLoadHistories } from '../../../../hooks';
 import { useThemeSettings } from '../../../../store/settings';
-import { Atag, ButtonScaleNarrow } from '../../../Common';
+import { ButtonScaleNarrow } from '../../../Common';
 
 import { TxHistoriesItem } from './Item';
 import {
@@ -193,11 +193,6 @@ export const TxHistories = () => {
               >
                 <FormattedMessage id="home.recent-swaps.new-swap" />
               </ButtonScaleNarrow>
-              <Atag href={PATH.SWAP_REWARDS} rel="noopener noreferrer" target="_blank">
-                <ButtonScaleNarrow variant="primary" size="street" shape="fill">
-                  <FormattedMessage id="home.recent-swaps.swap-rewards" />
-                </ButtonScaleNarrow>
-              </Atag>
             </Buttons>
           </Left>
           <Right isFloats={isFloatTx}>

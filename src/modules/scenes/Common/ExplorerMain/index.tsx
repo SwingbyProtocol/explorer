@@ -16,7 +16,6 @@ import {
   BrowserFees,
   BrowserMetanodes,
   BrowserPool,
-  BrowserSwapRewards,
 } from '../../Main';
 
 import { ExplorerMainContainer, HeadLine, TitleH1 } from './styled';
@@ -44,8 +43,6 @@ export const ExplorerMain = () => {
         return <BrowserPool />;
       case PATH.METANODES:
         return <BrowserMetanodes />;
-      case PATH.SWAP_REWARDS:
-        return <BrowserSwapRewards />;
       case PATH.FEES:
         return <BrowserFees />;
       case PATH.ASSET_BTC:
@@ -69,8 +66,6 @@ export const ExplorerMain = () => {
       case PATH.POOL:
         return <AccountId />;
       case PATH.METANODES:
-        return <></>;
-      case PATH.SWAP_REWARDS:
         return <></>;
       case PATH.FEES:
         return <></>;
