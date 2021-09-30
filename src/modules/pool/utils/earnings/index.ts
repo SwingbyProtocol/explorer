@@ -55,6 +55,7 @@ export const formatAprData = (histories: IAprHistoric[]): IAprChartData[] => {
       month: 'short',
       day: 'numeric',
     });
-    return { APR, name };
+    const timestamp = dt.toSeconds();
+    return { APR, name, timestamp };
   });
 };

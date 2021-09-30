@@ -31,6 +31,7 @@ export const AprHistoricalChart = ({ aprHistoric, bridge }) => {
   const [chartData, setChartData] = useState<IAprChartData[]>([
     {
       name: '',
+      timestamp: 0,
       APR: 0,
     },
   ]);

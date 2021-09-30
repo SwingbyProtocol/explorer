@@ -1,13 +1,20 @@
 import { Text } from '@swingby-protocol/pulsar';
 import React from 'react';
-import { FormattedMessage, FormattedNumber } from 'react-intl';
+import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
 
 import { CustomTooltipContainer } from './styled';
 
 export const CustomTooltip = ({ payload }) => {
+  const intl = useIntl();
   const data = payload?.[0];
   const amount = data && data.value;
-  const at = data && data.payload.name;
+  const at =
+    data &&
+    intl.formatDate(data.payload.timestamp * 1000, {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+    });
   if (!data) return <></>;
 
   return (

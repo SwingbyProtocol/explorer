@@ -78,5 +78,6 @@ export interface IEarningsChartData {
 
 export interface IAprChartData {
   name: string;
+  timestamp: number;
   APR: number;
 }
