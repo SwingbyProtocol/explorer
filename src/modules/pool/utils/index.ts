@@ -12,4 +12,4 @@ export {
   getScanDetailBaseEndpoint,
 } from './sbBtcTransactions';
 
-export { mergeSameDateEarningsData } from './earnings';
+export { mergeSameDateEarningsData, formatAprData } from './earnings';

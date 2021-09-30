@@ -61,6 +61,21 @@ export enum Currency {
   Wbtc = 'WBTC',
 }
 
+export interface IAprHistoric {
+  farm: 'string';
+  sbBtc: 'string';
+  pool: 'string';
+  createdAt: 'string';
+}
+
+export interface IAprHistoricalPool {
+  sbBtcErc20: IAprHistoric[] | [];
+  uni: IAprHistoric[] | [];
+  sushi: IAprHistoric[] | [];
+  pancake: IAprHistoric[] | [];
+  sbBtcBep20: IAprHistoric[] | [];
+}
+
 export interface IEarningHistorical {
   total: ITotal;
   network: number;
