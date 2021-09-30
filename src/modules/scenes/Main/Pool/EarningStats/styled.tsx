@@ -97,7 +97,7 @@ export const TitleDiv = styled.div`
 export const Column = styled.div`
   display: grid;
   grid-template-columns: auto auto auto;
-  grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.drawer)};
+  grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.closet)};
 `;
 
 export const TextDate = styled(Text)<DateProps>`

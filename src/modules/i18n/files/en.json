@@ -163,6 +163,8 @@
   "pool.earning.farm": "Farm",
   "pool.earning.sushi-uni": "Uni/Sushi",
   "pool.earning.pancake": "Pancake",
+  "pool.earning.sushi": "Sushi",
+  "pool.earning.uni": "Uni",
   "pool.earning.claimed": "Claimed",
   "pool.earning.claimable": "Claimable",
   "pool.earning.pending": "Pending",

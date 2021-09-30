@@ -3,7 +3,9 @@ import React, { useState, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import { useGetEarningHistorical } from '../../../../hooks';
+import { useOnboard } from '../../../../onboard';
 
+import { AprHistoricalChart } from './AprHistoricalChart';
 import { EarningsChart } from './EarningsChart';
 import { Box, Column, EarningStatsContainer, TextDate, TitleDiv } from './styled';
 import { SummaryContent } from './SummaryContent';
@@ -12,13 +14,8 @@ type TContent = 'summary' | 'earning' | 'apr';
 
 export const EarningStats = () => {
   const [active, setActive] = useState<TContent>('summary');
-  const { farming, bridge } = useGetEarningHistorical();
-
-  const aprContent = (
-    <div>
-      <span>Coming soon</span>
-    </div>
-  );
+  const { farming, bridge, aprHistoric } = useGetEarningHistorical();
+  const { network } = useOnboard();
 
   const switchContent = (active: TContent) => {
     switch (active) {
@@ -27,7 +24,7 @@ export const EarningStats = () => {
       case 'earning':
         return <EarningsChart farming={farming} bridge={bridge} />;
       case 'apr':
-        return aprContent;
+        return <AprHistoricalChart aprHistoric={aprHistoric} bridge={bridge} />;
 
       default:
         return <SummaryContent farming={farming} bridge={bridge} />;
@@ -38,6 +35,8 @@ export const EarningStats = () => {
     setActive('summary');
   }, [bridge]);
 
+  const isMainnet = network === 1 || network === 56;
+
   return (
     <EarningStatsContainer>
       <Box>
@@ -46,10 +45,15 @@ export const EarningStats = () => {
             <FormattedMessage id="pool.earnings" />
           </Text>
           <Column>
-            {/* Todo: Add once cached APR DB worked */}
-            {/* <TextDate variant="label" onClick={() => setActive('apr')} isActive={'apr' === active}>
-              <FormattedMessage id="pool.apr" />
-            </TextDate> */}
+            {isMainnet && (
+              <TextDate
+                variant="label"
+                onClick={() => setActive('apr')}
+                isActive={'apr' === active}
+              >
+                <FormattedMessage id="pool.apr" />
+              </TextDate>
+            )}
             <TextDate
               variant="label"
               onClick={() => setActive('earning')}

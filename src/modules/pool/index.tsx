@@ -10,6 +10,7 @@ export {
   getSbBtcContract,
   getScanDetailBaseEndpoint,
   mergeSameDateEarningsData,
+  formatAprData,
 } from './utils';
 
 export enum PoolMode {
@@ -73,4 +74,10 @@ export interface IEarningsChartData {
   name: string;
   timestamp: number;
   SWINGBY: number;
+}
+
+export interface IAprChartData {
+  name: string;
+  timestamp: number;
+  APR: number;
 }
