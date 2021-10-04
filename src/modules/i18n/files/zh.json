@@ -16,6 +16,7 @@
   "common.click": "点按",
   "common.cookies": "为了便于网站分析并改进网站性能，我们使用 cookies。请点击“同意”接受 cookies 并前往我们的网站。更多信息请见我们的",
   "common.cookies.continue": "同意",
+  "common.latest-24hrs": "最近24小时",
   "validation.insufficient-balance": "余额不足",
   "validation.invalid-address": "地址格式错误",
   "validation.pls-input-number-only": "格式错误",

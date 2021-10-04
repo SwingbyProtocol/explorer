@@ -1,6 +1,6 @@
 import { Text } from '@swingby-protocol/pulsar';
 import React from 'react';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import { CustomTooltipContainer } from './styled';
 
@@ -22,12 +22,26 @@ export const CustomTooltip = ({ payload }) => {
       day: 'numeric',
     });
 
+  const today = intl.formatDate(new Date(), {
+    month: 'short',
+    day: 'numeric',
+  });
+
+  const count = data && data.count && data.count;
+
   if (!data) return <></>;
 
   return (
     <CustomTooltipContainer>
-      <Text variant="label">{at}</Text>
+      <Text variant="label">
+        {at === today ? <FormattedMessage id="common.latest-24hrs" /> : at}
+      </Text>
       <Text variant="label">{amount}</Text>
+      {count && (
+        <Text variant="label">
+          <FormattedMessage id="common.txs" values={{ value: count }} />
+        </Text>
+      )}
     </CustomTooltipContainer>
   );
 };
