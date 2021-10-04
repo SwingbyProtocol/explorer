@@ -23,6 +23,8 @@
   "common.btc": "BTC",
   "common.total": "Total",
   "common.value.swingby": "{value} SWINGBY",
+  "common.latest-24hrs": "Latest 24h",
+  "common.txs": "{value} transactions",
   "wallet.connect": "Connect",
   "network.short.1": "ETH",
   "network.short.5": "GÖR (T)",

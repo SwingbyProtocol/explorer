@@ -16,6 +16,7 @@
   "common.click": "クリック",
   "common.cookies": "このサイトでは快適な閲覧の為に Cookie(クッキー) を利用しています。Cookieの使用に同意頂ける場合は「同意します」をクリック下さい。詳細はこちらよりご確認ください。",
   "common.cookies.continue": "同意します",
+  "common.latest-24hrs": "24時間内",
   "validation.insufficient-balance": "余額が不足しております",
   "validation.invalid-address": "アドレスを確認下さい",
   "validation.pls-input-number-only": "半角数字で入力下さい",

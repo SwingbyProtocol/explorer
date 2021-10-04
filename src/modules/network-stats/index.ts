@@ -43,12 +43,12 @@ export const get7daysVolume = async (): Promise<string> => {
       fetcher<{ network24hrSwapsVolume: number[] }>(getBridgeUrl(ENDPOINT_BSC_BRIDGE)),
       fetchVwap('btcUsd'),
     ]);
-    const ethNetwork24hrSwapVolume = results[0].network24hrSwapsVolume;
+    const ethNetwork24hrSwapsVolume = results[0].network24hrSwapsVolume;
 
-    const bscNetwork24hrSwapVolume = results[1].network24hrSwapsVolume;
+    const bscNetwork24hrSwapsVolume = results[1].network24hrSwapsVolume;
 
-    const volume1wksWBTC: number = sumArray(ethNetwork24hrSwapVolume.slice(0, 7));
-    const volume1wksBTCB: number = sumArray(bscNetwork24hrSwapVolume.slice(0, 7));
+    const volume1wksWBTC: number = sumArray(ethNetwork24hrSwapsVolume.slice(0, 7));
+    const volume1wksBTCB: number = sumArray(bscNetwork24hrSwapsVolume.slice(0, 7));
     const usdBtc = results[2];
     const total = (volume1wksWBTC + volume1wksBTCB) * usdBtc;
 

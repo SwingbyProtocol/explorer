@@ -261,4 +261,5 @@ export interface ISwapQueryPrams {
 export interface IChartDate {
   at: string;
   amount: string;
+  count?: string;
 }

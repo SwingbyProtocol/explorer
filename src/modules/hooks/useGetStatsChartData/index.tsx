@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 
 import { IFloatHistoryObject } from '..';
 import { ENDPOINT_SKYBRIDGE_EXCHANGE, PATH } from '../../env';
+import { IChartDate } from '../../explorer';
 import { fetcher } from '../../fetch';
 import { getLockedHistory, listFloatAmountHistories } from '../../metanodes';
 import { floatHistoryObjectInitialValue, initialVolumes } from '../../store';
@@ -12,8 +13,8 @@ import { useToggleBridge } from '../useToggleBridge';
 export const useGetStatsChartData = () => {
   const { bridge } = useToggleBridge(PATH.ROOT);
   const volumes = useSelector((state) => state.explorer.networkInfos.stats.volumes);
-  const [floatHistories, setFloatHistories] = useState(initialVolumes);
-  const [lockHistories, setLockHistories] = useState(initialVolumes);
+  const [floatHistories, setFloatHistories] = useState<IChartDate[]>(initialVolumes);
+  const [lockHistories, setLockHistories] = useState<IChartDate[]>(initialVolumes);
   const [isLoading, setIsLoading] = useState(false);
 
   const getFloatHistory = async (bridge: SkybridgeBridge) => {
