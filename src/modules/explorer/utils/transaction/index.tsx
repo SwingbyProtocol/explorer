@@ -119,7 +119,7 @@ export const convertDateTime = (unixTimestamp: number) => {
       year="numeric"
       month="short"
       day="2-digit"
-      hour12={false}
+      hourCycle="h23"
     />
   );
 };
