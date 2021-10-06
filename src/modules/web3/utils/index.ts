@@ -1,12 +1,11 @@
 import { ethers } from 'ethers';
-import { Contract } from 'web3-eth-contract';
 
 export const getUserBal = async ({
   address,
   contract,
 }: {
   address: string;
-  contract: Contract;
+  contract: any;
 }): Promise<string> => {
   try {
     const decimals = await contract.methods.decimals().call();
