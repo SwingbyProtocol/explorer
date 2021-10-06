@@ -28,45 +28,57 @@ export const RewardButton = () => {
     const wallet = onboard.getState().wallet;
     const address = onboard.getState().address;
     const network = onboard.getState().network;
-
+    console.log('address', address);
     try {
-      const web3 = new Web3(wallet.provider);
-      const contract = new web3.eth.Contract(
-        CONTRACTS.bridges[bridge][mode].abi as AbiItem[],
-        CONTRACTS.bridges[bridge][mode].address,
-      );
+      if (address) {
+        const msg = 'hello world';
+        const web3 = new Web3(wallet.provider);
+        const signature = await web3.eth.personal.sign(msg, address, 'swingby');
+        const value = await web3.eth.personal.ecRecover(msg, signature);
+        console.log('signature', signature);
+        console.log('value', value);
+        // const wcMessage = ethers.utils.hexlify(ethers.utils.toUtf8Bytes(msg));
+        // const signature = await provider.provider?.wc.signPersonalMessage([wcMessage, address]);
 
-      // Ref: https://swingby-workspace.slack.com/archives/C0183MH2S1W/p1627280984014500?thread_ts=1627278882.009000&cid=C0183MH2S1W
-      const distributableRewards = await contract.methods.lockedLPTokensForNode().call();
+        const contract = new web3.eth.Contract(
+          CONTRACTS.bridges[bridge][mode].abi as AbiItem[],
+          CONTRACTS.bridges[bridge][mode].address,
+        );
 
-      if (distributableRewards > 0) {
-        const estimatedGas = await contract.methods
-          .distributeNodeRewards()
-          .estimateGas({ from: address });
-        const gasLimit = calculateGasMargin(estimatedGas);
-        const params = await generateSendParams({ from: address, network, gasLimit });
+        // Ref: https://swingby-workspace.slack.com/archives/C0183MH2S1W/p1627280984014500?thread_ts=1627278882.009000&cid=C0183MH2S1W
+        const distributableRewards = await contract.methods.lockedLPTokensForNode().call();
 
-        if (!(await onboard.walletCheck())) {
-          throw Error('Wallet check result is invalid');
-        }
+        if (distributableRewards > 0) {
+          const estimatedGas = await contract.methods
+            .distributeNodeRewards()
+            .estimateGas({ from: address });
+          const gasLimit = calculateGasMargin(estimatedGas);
+          const params = await generateSendParams({ from: address, network, gasLimit });
 
-        return await contract.methods
-          .distributeNodeRewards()
-          .send(params)
-          .on('transactionHash', (hash: string) => {
-            createToast({
-              content: <ExplorerToast network={network} hash={hash} isPending={true} />,
-              type: 'success',
-              toastId: `${hash}`,
-              autoClose: true,
+          if (!(await onboard.walletCheck())) {
+            throw Error('Wallet check result is invalid');
+          }
+
+          return await contract.methods
+            .distributeNodeRewards()
+            .send(params)
+            .on('transactionHash', (hash: string) => {
+              createToast({
+                content: <ExplorerToast network={network} hash={hash} isPending={true} />,
+                type: 'success',
+                toastId: `${hash}`,
+                autoClose: true,
+              });
             });
+        } else {
+          createToast({
+            content: <FormattedMessage id="metanodes.distribute-rewards.rewards-not-enough" />,
+            type: 'danger',
           });
-      } else {
-        createToast({
-          content: <FormattedMessage id="metanodes.distribute-rewards.rewards-not-enough" />,
-          type: 'danger',
-        });
+        }
       }
+
+      return;
     } catch (e) {
       console.error('Error trying to distribute rewards', e);
       generateWeb3ErrorToast({ e, toastId: 'distributeRewards' });
