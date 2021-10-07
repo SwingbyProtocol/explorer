@@ -1,11 +1,12 @@
 import { Text, Tooltip, useMatchMedia } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import { PATH } from '../../modules/env';
-import { useDistributeRewards, useToggleBridge } from '../../modules/hooks';
-import { showConnectNetwork } from '../../modules/onboard';
+import { useDistributeRewards, useGetSignature, useToggleBridge } from '../../modules/hooks';
+import { logger } from '../../modules/logger';
+import { showConnectNetwork, useOnboard } from '../../modules/onboard';
 import { ButtonScale } from '../../modules/scenes/Common';
 import { StylingConstants } from '../../modules/styles';
 
@@ -16,7 +17,18 @@ export const RewardButton = () => {
   const lg = useMatchMedia({ query: `(min-width: ${rem(media.lg)})` });
   const sm = useMatchMedia({ query: `(min-width: ${rem(media.sm)})` });
   const { bridge } = useToggleBridge(PATH.METANODES);
-  const { handleDistribute } = useDistributeRewards();
+  const { handleGetSignature, signature } = useGetSignature();
+  const { distributeRewards } = useDistributeRewards();
+  console.log('RewardButton, signature', signature);
+  const { onboard } = useOnboard();
+
+  useEffect(() => {
+    (async () => {
+      if (signature) {
+        await distributeRewards();
+      }
+    })();
+  }, [signature, distributeRewards]);
 
   return (
     <RewardButtonContainer>
@@ -37,7 +49,14 @@ export const RewardButton = () => {
           size={lg ? 'country' : 'state'}
           shape={sm ? 'fit' : 'fill'}
           variant="primary"
-          onClick={handleDistribute}
+          onClick={() => {
+            (async () => {
+              await onboard.walletReset();
+              setTimeout(async () => {
+                await handleGetSignature();
+              }, 500);
+            })();
+          }}
         >
           <FormattedMessage id="metanodes.distribute-rewards" />
         </ButtonScale>

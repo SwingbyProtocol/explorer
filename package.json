@@ -45,7 +45,7 @@
     "abortcontroller-polyfill": "^1.7.1",
     "bignumber.js": "^9.0.1",
     "blockies-ts": "^1.0.0",
-    "bnc-onboard": "^1.35.1",
+    "bnc-onboard": "^1.27.0",
     "cors": "^2.8.5",
     "country-flag-icons": "^1.2.10",
     "ethers": "^5.4.5",

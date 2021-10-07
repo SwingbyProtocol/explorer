@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
 
-import { useToggleBridge } from '..';
+import { useGetSignature, useToggleBridge } from '..';
 import { ExplorerToast } from '../../../components/Toast';
 import { mode, PATH, SIGNATURE_MESSAGE, SIGNATURE_SEED } from '../../env';
 import { logger } from '../../logger';
@@ -25,6 +25,7 @@ import { calculateGasMargin, generateSendParams, generateWeb3ErrorToast } from '
 export const useDistributeRewards = () => {
   const { onboard, wallet, address, network } = useOnboard();
   const { bridge } = useToggleBridge(PATH.METANODES);
+  // const { signature } = useGetSignature();
 
   const distributeRewards = useCallback(async () => {
     try {
@@ -73,64 +74,71 @@ export const useDistributeRewards = () => {
     }
   }, [address, bridge, network, onboard, wallet]);
 
-  const getSignature = useCallback(async () => {
-    try {
-      const web3 = new Web3(wallet.provider);
-      const signature = await web3.eth.personal.sign(
-        SIGNATURE_MESSAGE,
-        address.toLowerCase(),
-        SIGNATURE_SEED,
-      );
-      console.log('signature', signature);
-      // Todo: POST the 'wallet address', 'Signature (Hex)' and 'SIGNATURE_MESSAGE'?? into DB
+  // const getSignature = useCallback(async () => {
+  //   try {
+  //     const web3 = new Web3(wallet.provider);
+  //     const signature = await web3.eth.personal.sign(
+  //       SIGNATURE_MESSAGE,
+  //       address.toLowerCase(),
+  //       SIGNATURE_SEED,
+  //     );
+  //     console.log('signature', signature);
+  //     // Todo: POST the 'wallet address', 'Signature (Hex)' and 'SIGNATURE_MESSAGE'?? into DB
 
-      return true;
-    } catch (e) {
-      logger.error('Error trying to get signature', e);
-      generateWeb3ErrorToast({ e, toastId: 'getSignature' });
-      await onboard.walletReset();
-      return false;
-    }
-  }, [address, wallet, onboard]);
+  //     await distributeRewards();
+  //     return true;
+  //   } catch (e) {
+  //     logger.error('Error trying to get signature', e);
+  //     generateWeb3ErrorToast({ e, toastId: 'getSignature' });
+  //     await onboard.walletReset();
+  //     return false;
+  //   }
+  // }, [address, wallet, onboard, distributeRewards]);
 
-  const handleDistribute = useCallback(async () => {
-    try {
-      if (wallet) {
-        await onboard.walletReset();
-      }
-      await onboard.walletSelect();
-      if (!(await onboard.walletCheck())) {
-        throw Error('Wallet check result is invalid');
-      }
-      console.log('wallet selected');
-      return;
-    } catch (error) {
-      logger.error(error);
-    }
-  }, [onboard, wallet]);
+  // const connectWallet = useCallback(async () => {
+  //   try {
+  //     await onboard.walletSelect();
+  //     if (!(await onboard.walletCheck())) {
+  //       throw Error('Wallet check result is invalid');
+  //     }
+  //     console.log('wallet selected');
+  //     return;
+  //   } catch (error) {
+  //     logger.error(error);
+  //   }
+  // }, [onboard]);
 
-  useEffect(() => {
-    (async () => {
-      console.log('wallet', wallet);
-      console.log('address', address);
-      if (wallet && address) {
-        // Todo: check the address is signed before.(get DB data from API)
-        // run `getSignature()` if address has never signed.
-        let signature = null; // Placeholder
+  // const handleDistribute = useCallback(async () => {
+  //   if (!wallet && !address) {
+  //     await connectWallet();
+  //   }
+  //   if (signature) {
+  //     await distributeRewards();
+  //   }
+  // }, [connectWallet, distributeRewards, signature, wallet, address]);
 
-        if (signature) {
-          await distributeRewards();
-          return;
-        }
-        console.log('go to getSignature');
-        const isSigned = await getSignature();
-        console.log('isSigned', isSigned);
-        if (isSigned) {
-          distributeRewards();
-        }
-      }
-    })();
-  }, [getSignature, distributeRewards, address, wallet]);
+  // useEffect(() => {
+  //   (async () => {
+  //     console.log('wallet', wallet);
+  //     console.log('address', address);
+  //     if (wallet && address) {
+  //       // Todo: check the address is signed before.(get DB data from API)
+  //       // run `getSignature()` if address has never signed.
+  //       let signature = null; // Placeholder
 
-  return useMemo(() => ({ handleDistribute }), [handleDistribute]);
+  //       if (signature) {
+  //         await distributeRewards();
+  //         return;
+  //       }
+  //       console.log('go to getSignature');
+  //       const isSigned = await getSignature();
+  //       console.log('isSigned', isSigned);
+  //       // if (isSigned) {
+  //       //   distributeRewards();
+  //       // }
+  //     }
+  //   })();
+  // }, [getSignature, distributeRewards, address, wallet]);
+
+  return useMemo(() => ({ distributeRewards }), [distributeRewards]);
 };

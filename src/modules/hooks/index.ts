@@ -16,6 +16,7 @@ export { useGetLatestPrice } from './useGetLatestPrice';
 export { useGetEarningHistorical } from './useGetEarningHistorical';
 export { useGetSwapRewards } from './useGetSwapRewards';
 export { useDistributeRewards } from './useDistributeRewards';
+export { useGetSignature } from './useGetSignature';
 
 export interface ICountdown {
   days: number;
