@@ -1,16 +1,10 @@
-import { createToast } from '@swingby-protocol/pulsar';
-import { CONTRACTS } from '@swingby-protocol/sdk';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import Web3 from 'web3';
-import { AbiItem } from 'web3-utils';
 
-import { useToggleBridge } from '..';
-import { ExplorerToast } from '../../../components/Toast';
-import { mode, PATH, SIGNATURE_MESSAGE, SIGNATURE_SEED } from '../../env';
+import { SIGNATURE_MESSAGE, SIGNATURE_SEED } from '../../env';
 import { logger } from '../../logger';
 import { useOnboard } from '../../onboard';
-import { calculateGasMargin, generateSendParams, generateWeb3ErrorToast } from '../../web3';
+import { generateWeb3ErrorToast } from '../../web3';
 
 /*
  * Store the signature data who signed on Terms of Use.
@@ -23,8 +17,7 @@ import { calculateGasMargin, generateSendParams, generateWeb3ErrorToast } from '
  */
 
 export const useGetSignature = () => {
-  const { onboard, wallet, address, network } = useOnboard();
-  // const { bridge } = useToggleBridge(PATH.METANODES);
+  const { onboard, wallet, address } = useOnboard();
   const [signature, setSignature] = useState<string>('');
 
   const getSignature = useCallback(async () => {
@@ -38,16 +31,14 @@ export const useGetSignature = () => {
       console.log('sign', sign);
       // Todo: POST the 'wallet address', 'Signature (Hex)' and 'SIGNATURE_MESSAGE'?? into DB
       setSignature(sign);
-      return true;
     } catch (e) {
       logger.error('Error trying to get signature', e);
       generateWeb3ErrorToast({ e, toastId: 'getSignature' });
       await onboard.walletReset();
-      return false;
     }
   }, [address, wallet, onboard]);
 
-  const handleGetSignature = useCallback(async () => {
+  const connectWallet = useCallback(async () => {
     try {
       await onboard.walletSelect();
       if (!(await onboard.walletCheck())) {
@@ -66,40 +57,12 @@ export const useGetSignature = () => {
         setSignature(signatureInDB);
         return;
       }
-      console.log('wallet', wallet);
-      console.log('address', address);
-      console.log('signature', signature);
-
       if (wallet && address && signature === '') {
-        console.log('go to getSignature');
-        getSignature();
+        await getSignature();
         return;
       }
     })();
   }, [getSignature, wallet, address, signature]);
 
-  // useEffect(() => {
-  //   (async () => {
-  //     console.log('wallet', wallet);
-  //     console.log('address', address);
-  //     if (wallet && address) {
-  //       // Todo: check the address is signed before.(get DB data from API)
-  //       // run `getSignature()` if address has never signed.
-  //       let signature = null; // Placeholder
-
-  //       if (signature) {
-  //         await distributeRewards();
-  //         return;
-  //       }
-  //       console.log('go to getSignature');
-  //       const isSigned = await getSignature();
-  //       console.log('isSigned', isSigned);
-  //       // if (isSigned) {
-  //       //   distributeRewards();
-  //       // }
-  //     }
-  //   })();
-  // }, [getSignature, distributeRewards, address, wallet]);
-
-  return useMemo(() => ({ handleGetSignature, signature }), [handleGetSignature, signature]);
+  return useMemo(() => ({ connectWallet, signature }), [connectWallet, signature]);
 };

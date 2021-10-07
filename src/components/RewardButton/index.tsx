@@ -5,7 +5,6 @@ import { FormattedMessage } from 'react-intl';
 
 import { PATH } from '../../modules/env';
 import { useDistributeRewards, useGetSignature, useToggleBridge } from '../../modules/hooks';
-import { logger } from '../../modules/logger';
 import { showConnectNetwork, useOnboard } from '../../modules/onboard';
 import { ButtonScale } from '../../modules/scenes/Common';
 import { StylingConstants } from '../../modules/styles';
@@ -17,9 +16,8 @@ export const RewardButton = () => {
   const lg = useMatchMedia({ query: `(min-width: ${rem(media.lg)})` });
   const sm = useMatchMedia({ query: `(min-width: ${rem(media.sm)})` });
   const { bridge } = useToggleBridge(PATH.METANODES);
-  const { handleGetSignature, signature } = useGetSignature();
+  const { connectWallet, signature } = useGetSignature();
   const { distributeRewards } = useDistributeRewards();
-  console.log('RewardButton, signature', signature);
   const { onboard } = useOnboard();
 
   useEffect(() => {
@@ -51,9 +49,10 @@ export const RewardButton = () => {
           variant="primary"
           onClick={() => {
             (async () => {
+              // Memo: Reset 'address' for connectWallet.
               await onboard.walletReset();
               setTimeout(async () => {
-                await handleGetSignature();
+                await connectWallet();
               }, 500);
             })();
           }}
