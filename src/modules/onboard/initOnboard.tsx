@@ -32,13 +32,11 @@ export const initOnboard = ({
     customWalletConnect({
       walletName: 'WalletConnect',
       isMobile: true,
-      preferred: true,
       networkId,
     }),
     {
       walletName: 'ledger',
       rpcUrl,
-      preferred: true,
     },
     { walletName: 'walletLink', rpcUrl, appName },
     { walletName: 'authereum' },
