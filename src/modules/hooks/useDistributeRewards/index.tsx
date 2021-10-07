@@ -12,35 +12,19 @@ import { logger } from '../../logger';
 import { useOnboard } from '../../onboard';
 import { calculateGasMargin, generateSendParams, generateWeb3ErrorToast } from '../../web3';
 
+/*
+ * Store the signature data who signed on Terms of Use.
+ * To recover from signature(hex) -> await web3.eth.personal.ecRecover(SIGNATURE_MESSAGE, signature)
+ *  >> returns signed `wallet address`.
+ *
+ * Fixme: Getting error when use 'Ledger' option with `Ethereum Ledger Live -m/44'/60'` derivation path
+ * name: "TransportError", message: "Ledger Device is busy (lock getAddress)
+ * Could be an error on 'Ledger Live App'.
+ */
+
 export const useDistributeRewards = () => {
   const { onboard, wallet, address, network } = useOnboard();
   const { bridge } = useToggleBridge(PATH.METANODES);
-
-  // Memo: To recover from signature(hex) -> await web3.eth.personal.ecRecover(SIGNATURE_MESSAGE, signature)
-  // >> returns wallet address who signed
-  const getSignature = useCallback(async () => {
-    try {
-      const web3 = new Web3(wallet.provider);
-      const signature = await web3.eth.personal.sign(
-        SIGNATURE_MESSAGE,
-        address.toLowerCase(),
-        SIGNATURE_SEED,
-      );
-
-      alert(signature);
-      const waddress = await web3.eth.personal.ecRecover(SIGNATURE_MESSAGE, signature);
-      console.log('waddress', waddress);
-    } catch (e) {
-      console.error('Error trying to get signature', e);
-      generateWeb3ErrorToast({ e, toastId: 'getSignature' });
-    } finally {
-      try {
-        await onboard.walletReset();
-      } catch (e) {
-        console.log(e);
-      }
-    }
-  }, [address, wallet, onboard]);
 
   const distributeRewards = useCallback(async () => {
     try {
@@ -82,35 +66,64 @@ export const useDistributeRewards = () => {
         });
       }
     } catch (e) {
-      console.error('Error trying to distribute rewards', e);
+      logger.error('Error trying to distribute rewards', e);
       generateWeb3ErrorToast({ e, toastId: 'distributeRewards' });
     } finally {
       try {
         await onboard.walletReset();
       } catch (e) {
-        console.log(e);
+        logger.error(e);
       }
     }
   }, [address, bridge, network, onboard, wallet]);
 
+  const getSignature = useCallback(async () => {
+    try {
+      const web3 = new Web3(wallet.provider);
+      const signature = await web3.eth.personal.sign(
+        SIGNATURE_MESSAGE,
+        address.toLowerCase(),
+        SIGNATURE_SEED,
+      );
+      console.log('signature', signature);
+      signature && distributeRewards();
+
+      // Todo: POST the 'wallet address', 'Signature (Hex)' and 'SIGNATURE_MESSAGE'?? into DB
+    } catch (e) {
+      logger.error('Error trying to get signature', e);
+      generateWeb3ErrorToast({ e, toastId: 'getSignature' });
+    } finally {
+      try {
+        await onboard.walletReset();
+      } catch (e) {
+        logger.error(e);
+      }
+    }
+  }, [address, wallet, onboard, distributeRewards]);
+
   const handleDistribute = useCallback(async () => {
     try {
-      if (!wallet) {
-        await onboard.walletSelect();
-        return;
-      }
-      getSignature();
+      await onboard.walletSelect();
+      return;
     } catch (error) {
       logger.error(error);
     }
-  }, [wallet, onboard, getSignature]);
+  }, [onboard]);
 
   useEffect(() => {
     if (wallet && address) {
-      // distributeRewards();
+      // Todo: check the address is signed before. run `getSignature()` if address has never signed.
+      // Placeholder
+      let isSigned;
+
+      if (isSigned) {
+        distributeRewards();
+        return;
+      }
+
       getSignature();
     }
-  }, [getSignature, address, wallet]);
+  }, [getSignature, distributeRewards, address, wallet]);
 
   return useMemo(() => ({ handleDistribute }), [handleDistribute]);
 };
