@@ -27,6 +27,7 @@ export const initOnboard = ({
   }
   const networkName = getNetworkFromId(networkId);
 
+  // Onboard bug: metamask's `preferred` becomes 'false' if gives 'preferred: true' to other wallets
   const wallets = [
     { walletName: 'metamask', preferred: true },
     customWalletConnect({

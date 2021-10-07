@@ -44,10 +44,6 @@ export const useDistributeRewards = () => {
         const gasLimit = calculateGasMargin(estimatedGas);
         const params = await generateSendParams({ from: address, network, gasLimit });
 
-        if (!(await onboard.walletCheck())) {
-          throw Error('Wallet check result is invalid');
-        }
-
         return await contract.methods
           .distributeNodeRewards()
           .send(params)
@@ -86,24 +82,23 @@ export const useDistributeRewards = () => {
         SIGNATURE_SEED,
       );
       console.log('signature', signature);
-      signature && distributeRewards();
-
       // Todo: POST the 'wallet address', 'Signature (Hex)' and 'SIGNATURE_MESSAGE'?? into DB
+
+      return true;
     } catch (e) {
       logger.error('Error trying to get signature', e);
       generateWeb3ErrorToast({ e, toastId: 'getSignature' });
-    } finally {
-      try {
-        await onboard.walletReset();
-      } catch (e) {
-        logger.error(e);
-      }
+      await onboard.walletReset();
+      return false;
     }
-  }, [address, wallet, onboard, distributeRewards]);
+  }, [address, wallet, onboard]);
 
   const handleDistribute = useCallback(async () => {
     try {
       await onboard.walletSelect();
+      if (!(await onboard.walletCheck())) {
+        throw Error('Wallet check result is invalid');
+      }
       return;
     } catch (error) {
       logger.error(error);
@@ -111,18 +106,23 @@ export const useDistributeRewards = () => {
   }, [onboard]);
 
   useEffect(() => {
-    if (wallet && address) {
-      // Todo: check the address is signed before. run `getSignature()` if address has never signed.
-      // Placeholder
-      let isSigned;
+    (async () => {
+      if (wallet && address) {
+        // Todo: check the address is signed before.(get DB data from API)
+        // run `getSignature()` if address has never signed.
+        let signature = null; // Placeholder
 
-      if (isSigned) {
-        distributeRewards();
-        return;
+        if (signature) {
+          await distributeRewards();
+          return;
+        }
+        const isSigned = await getSignature();
+        console.log('isSigned', isSigned);
+        if (isSigned) {
+          distributeRewards();
+        }
       }
-
-      getSignature();
-    }
+    })();
   }, [getSignature, distributeRewards, address, wallet]);
 
   return useMemo(() => ({ handleDistribute }), [handleDistribute]);
