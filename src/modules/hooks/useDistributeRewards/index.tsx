@@ -19,21 +19,7 @@ export const useDistributeRewards = () => {
   // Memo: To recover from signature(hex) -> await web3.eth.personal.ecRecover(SIGNATURE_MESSAGE, signature)
   // >> returns wallet address who signed
   const getSignature = useCallback(async () => {
-    console.log('wallet', wallet);
     try {
-      // Ref: https://docs.binance.org/smart-chain/wallet/wallet_api.html#binancechainbnbsignaddress-string-message-string-promisepublickey-string-signature-string
-      if (
-        typeof window !== 'undefined' &&
-        window.BinanceChain &&
-        wallet.name === 'Binance Chain Wallet'
-      ) {
-        const { signature } = await window.BinanceChain.bnbSign(
-          address.toLowerCase(),
-          SIGNATURE_MESSAGE,
-        );
-        console.log('signature', signature);
-        return signature;
-      }
       const web3 = new Web3(wallet.provider);
       const signature = await web3.eth.personal.sign(
         SIGNATURE_MESSAGE,
@@ -41,7 +27,7 @@ export const useDistributeRewards = () => {
         SIGNATURE_SEED,
       );
 
-      console.log('signature', signature);
+      alert(signature);
       const waddress = await web3.eth.personal.ecRecover(SIGNATURE_MESSAGE, signature);
       console.log('waddress', waddress);
     } catch (e) {

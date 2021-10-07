@@ -3,7 +3,7 @@ import type { Subscriptions } from 'bnc-onboard/dist/src/interfaces'; // eslint-
 
 import { appName, blocknativeApiKey, infuraApiKey } from '../env';
 
-import { binanceChainWallet, customWalletConnect } from './customWallet';
+import { customWalletConnect } from './customWallet';
 
 import { getNetworkFromId } from '.';
 
@@ -29,11 +29,6 @@ export const initOnboard = ({
 
   const wallets = [
     { walletName: 'metamask', preferred: true },
-    binanceChainWallet({
-      walletName: 'Binance Chain Wallet',
-      isMobile: false,
-      preferred: true,
-    }),
     customWalletConnect({
       walletName: 'WalletConnect',
       isMobile: true,
