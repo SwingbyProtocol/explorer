@@ -95,18 +95,24 @@ export const useDistributeRewards = () => {
 
   const handleDistribute = useCallback(async () => {
     try {
+      if (wallet) {
+        await onboard.walletReset();
+      }
       await onboard.walletSelect();
       if (!(await onboard.walletCheck())) {
         throw Error('Wallet check result is invalid');
       }
+      console.log('wallet selected');
       return;
     } catch (error) {
       logger.error(error);
     }
-  }, [onboard]);
+  }, [onboard, wallet]);
 
   useEffect(() => {
     (async () => {
+      console.log('wallet', wallet);
+      console.log('address', address);
       if (wallet && address) {
         // Todo: check the address is signed before.(get DB data from API)
         // run `getSignature()` if address has never signed.
@@ -116,6 +122,7 @@ export const useDistributeRewards = () => {
           await distributeRewards();
           return;
         }
+        console.log('go to getSignature');
         const isSigned = await getSignature();
         console.log('isSigned', isSigned);
         if (isSigned) {
