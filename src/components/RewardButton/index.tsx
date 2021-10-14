@@ -54,7 +54,7 @@ export const RewardButton = () => {
               await onboard.walletReset();
               setTimeout(async () => {
                 await connectWallet();
-              }, 1000);
+              }, 500);
             })();
           }}
         >

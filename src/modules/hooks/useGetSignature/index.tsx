@@ -51,11 +51,10 @@ export const useGetSignature = () => {
 
   const connectWallet = useCallback(async () => {
     try {
-      onboard.walletSelect().then(async () => {
-        if (!(await onboard.walletCheck())) {
-          throw Error('Wallet check result is invalid');
-        }
-      });
+      await onboard.walletSelect();
+      if (!(await onboard.walletCheck())) {
+        throw Error('Wallet check result is invalid');
+      }
     } catch (error) {
       console.log('error wallet connect');
       logger.error(error);
@@ -64,7 +63,10 @@ export const useGetSignature = () => {
 
   useEffect(() => {
     (async () => {
-      if (!loading && addressTerms !== undefined && wallet && address) {
+      console.log('loading', loading);
+      console.log('addressTerms !== undefined', addressTerms !== undefined);
+      console.log('address', address);
+      if (!loading && addressTerms !== undefined && address) {
         if (addressTerms.hasSignedTerms) {
           setIsSigned(true);
           return;
@@ -75,7 +77,7 @@ export const useGetSignature = () => {
         }
       }
     })();
-  }, [getSignature, wallet, address, addressTerms, isSigned, loading]);
+  }, [getSignature, address, addressTerms, isSigned, loading]);
 
   return useMemo(() => ({ connectWallet, isSigned }), [connectWallet, isSigned]);
 };
