@@ -19,7 +19,6 @@ export const RewardButton = () => {
   const { connectWallet, isSigned } = useGetSignature();
   const { distributeRewards } = useDistributeRewards();
   const { onboard, address } = useOnboard();
-  console.log('isSigned RewardButton', isSigned);
 
   useEffect(() => {
     (async () => {

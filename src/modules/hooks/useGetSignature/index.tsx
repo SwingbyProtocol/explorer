@@ -51,11 +51,11 @@ export const useGetSignature = () => {
 
   const connectWallet = useCallback(async () => {
     try {
+      setIsSigned(false);
       await onboard.walletSelect();
       if (!(await onboard.walletCheck())) {
         throw Error('Wallet check result is invalid');
       }
-      setIsSigned(false);
     } catch (error) {
       console.log('error wallet connect');
       logger.error(error);
@@ -64,10 +64,6 @@ export const useGetSignature = () => {
 
   useEffect(() => {
     (async () => {
-      console.log('loading', loading);
-      console.log('addressTerms !== undefined', addressTerms !== undefined);
-      console.log('address', address);
-      console.log('isSigned', isSigned);
       if (!loading && addressTerms !== undefined && address) {
         if (addressTerms.hasSignedTerms) {
           setIsSigned(true);
