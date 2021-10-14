@@ -55,6 +55,7 @@ export const useGetSignature = () => {
       if (!(await onboard.walletCheck())) {
         throw Error('Wallet check result is invalid');
       }
+      setIsSigned(false);
     } catch (error) {
       console.log('error wallet connect');
       logger.error(error);
@@ -68,11 +69,11 @@ export const useGetSignature = () => {
       console.log('address', address);
       console.log('isSigned', isSigned);
       if (!loading && addressTerms !== undefined && address) {
-        if (addressTerms.hasSignedTerms && !isSigned) {
+        if (addressTerms.hasSignedTerms) {
           setIsSigned(true);
           return;
         }
-        if (!addressTerms.hasSignedTerms) {
+        if (!addressTerms.hasSignedTerms && !isSigned) {
           await getSignature();
           return;
         }
