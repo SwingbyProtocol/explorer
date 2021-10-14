@@ -66,8 +66,9 @@ export const useGetSignature = () => {
       console.log('loading', loading);
       console.log('addressTerms !== undefined', addressTerms !== undefined);
       console.log('address', address);
+      console.log('isSigned', isSigned);
       if (!loading && addressTerms !== undefined && address) {
-        if (addressTerms.hasSignedTerms) {
+        if (addressTerms.hasSignedTerms && !isSigned) {
           setIsSigned(true);
           return;
         }
