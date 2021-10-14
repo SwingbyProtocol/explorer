@@ -64,12 +64,12 @@ export const useGetSignature = () => {
 
   useEffect(() => {
     (async () => {
-      if (!loading) {
-        if (addressTerms && addressTerms.hasSignedTerms && !isSigned) {
+      if (!loading && addressTerms !== undefined && wallet && address) {
+        if (addressTerms.hasSignedTerms) {
           setIsSigned(true);
           return;
         }
-        if (wallet && !isSigned && address && addressTerms && !addressTerms.hasSignedTerms) {
+        if (!addressTerms.hasSignedTerms) {
           await getSignature();
           return;
         }

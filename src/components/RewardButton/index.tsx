@@ -18,16 +18,16 @@ export const RewardButton = () => {
   const { bridge } = useToggleBridge(PATH.METANODES);
   const { connectWallet, isSigned } = useGetSignature();
   const { distributeRewards } = useDistributeRewards();
-  const { onboard } = useOnboard();
+  const { onboard, address } = useOnboard();
   console.log('isSigned RewardButton', isSigned);
 
   useEffect(() => {
     (async () => {
-      if (isSigned) {
+      if (isSigned && address) {
         await distributeRewards();
       }
     })();
-  }, [isSigned, distributeRewards]);
+  }, [isSigned, distributeRewards, address]);
 
   return (
     <RewardButtonContainer>
