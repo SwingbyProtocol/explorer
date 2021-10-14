@@ -20,7 +20,6 @@ export const Header = () => {
   return (
     <HeaderContainer>
       <SwingbyHeader
-        productName="Explorer"
         logoHref={`/${locale}`}
         barItems={
           <>
