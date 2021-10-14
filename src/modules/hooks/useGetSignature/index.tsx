@@ -25,7 +25,7 @@ export const useGetSignature = () => {
   const [isSigned, setIsSigned] = useState<Boolean>(false);
   const { onboard, wallet, address } = useOnboard();
   const { data: msgData } = useTermsMessageQuery();
-  const { data: addressTerms } = useHasSignedTermsQuery({
+  const { data: addressTerms, loading } = useHasSignedTermsQuery({
     variables: {
       address,
     },
@@ -51,27 +51,31 @@ export const useGetSignature = () => {
 
   const connectWallet = useCallback(async () => {
     try {
-      await onboard.walletSelect();
-      if (!(await onboard.walletCheck())) {
-        throw Error('Wallet check result is invalid');
-      }
+      onboard.walletSelect().then(async () => {
+        if (!(await onboard.walletCheck())) {
+          throw Error('Wallet check result is invalid');
+        }
+      });
     } catch (error) {
+      console.log('error wallet connect');
       logger.error(error);
     }
   }, [onboard]);
 
   useEffect(() => {
     (async () => {
-      if (addressTerms && addressTerms.hasSignedTerms && !isSigned) {
-        setIsSigned(true);
-        return;
-      }
-      if (wallet && !isSigned && address && addressTerms && !addressTerms.hasSignedTerms) {
-        await getSignature();
-        return;
+      if (!loading) {
+        if (addressTerms && addressTerms.hasSignedTerms && !isSigned) {
+          setIsSigned(true);
+          return;
+        }
+        if (wallet && !isSigned && address && addressTerms && !addressTerms.hasSignedTerms) {
+          await getSignature();
+          return;
+        }
       }
     })();
-  }, [getSignature, wallet, address, addressTerms, isSigned]);
+  }, [getSignature, wallet, address, addressTerms, isSigned, loading]);
 
   return useMemo(() => ({ connectWallet, isSigned }), [connectWallet, isSigned]);
 };
