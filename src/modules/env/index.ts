@@ -101,14 +101,5 @@ export const WC_BRIDGE = process.env.NEXT_PUBLIC_WC_BRIDGE;
 
 export const SIGNATURE_SEED = 'swingby';
 
-export const SIGNATURE_MESSAGE = `
-I am not the person or entities who reside in, are citizens of, are incorporated in, or have a registered office in the United States of America or any prohibited localities, as defined in the Terms of Use. (https://docs.swingby.network/terms.pdf)
-
-I will not in the future access this site or use Swingby dApps while located within the United States any prohibited localities, as defined in the Terms of Use.
-
-I am not using, and will not in the future use, a VPN to mask my physical location from a restricted territory.
-
-I am legally permitted to access this site and use Swingby dApps under the laws of the jurisdiction in which I reside and where I am located.
-
-I understand the risks related to using Swingby Network protocols.
-`;
+export const SIGNATURE_MESSAGE =
+  'I am not the person or entities who reside in, are citizens of, are incorporated in, or have a registered office in the United States of America or any prohibited localities, as defined in the Terms of Use. (https://docs.swingby.network/terms.pdf)\n\nI will not in the future access this site or use Swingby dApps while located within the United States any prohibited localities, as defined in the Terms of Use.\n\nI am not using, and will not in the future use, a VPN to mask my physical location from a restricted territory.\n\nI am legally permitted to access this site and use Swingby dApps under the laws of the jurisdiction in which I reside and where I am located.\n\nI understand the risks related to using Swingby Network protocols.';

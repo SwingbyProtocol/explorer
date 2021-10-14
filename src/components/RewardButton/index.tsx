@@ -16,17 +16,18 @@ export const RewardButton = () => {
   const lg = useMatchMedia({ query: `(min-width: ${rem(media.lg)})` });
   const sm = useMatchMedia({ query: `(min-width: ${rem(media.sm)})` });
   const { bridge } = useToggleBridge(PATH.METANODES);
-  const { connectWallet, signature } = useGetSignature();
+  const { connectWallet, isSigned } = useGetSignature();
   const { distributeRewards } = useDistributeRewards();
   const { onboard } = useOnboard();
+  console.log('isSigned RewardButton', isSigned);
 
   useEffect(() => {
     (async () => {
-      if (signature) {
+      if (isSigned) {
         await distributeRewards();
       }
     })();
-  }, [signature, distributeRewards]);
+  }, [isSigned, distributeRewards]);
 
   return (
     <RewardButtonContainer>
