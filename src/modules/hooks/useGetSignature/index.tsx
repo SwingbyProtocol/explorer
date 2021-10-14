@@ -62,16 +62,16 @@ export const useGetSignature = () => {
 
   useEffect(() => {
     (async () => {
-      if (addressTerms && addressTerms.hasSignedTerms) {
+      if (addressTerms && addressTerms.hasSignedTerms && !isSigned) {
         setIsSigned(true);
         return;
       }
-      if (wallet && address && addressTerms && !addressTerms.hasSignedTerms) {
+      if (wallet && !isSigned && address && addressTerms && !addressTerms.hasSignedTerms) {
         await getSignature();
         return;
       }
     })();
-  }, [getSignature, wallet, address, addressTerms]);
+  }, [getSignature, wallet, address, addressTerms, isSigned]);
 
   return useMemo(() => ({ connectWallet, isSigned }), [connectWallet, isSigned]);
 };
