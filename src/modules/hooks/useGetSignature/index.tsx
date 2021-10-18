@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import Web3 from 'web3';
 
 import {
@@ -22,36 +22,33 @@ import { generateWeb3ErrorToast } from '../../web3';
  */
 
 export const useGetSignature = () => {
-  const [isSigned, setIsSigned] = useState<Boolean>(false);
   const { onboard, wallet, address } = useOnboard();
   const { data: msgData } = useTermsMessageQuery();
-  const { data: addressTerms, loading } = useHasSignedTermsQuery({
+  const [signTerms] = useSignTermsMutation();
+  const { data: addressTerms, loading, refetch } = useHasSignedTermsQuery({
     variables: {
       address,
     },
   });
-  const [signTerms] = useSignTermsMutation();
 
   const getSignature = useCallback(async () => {
-    if (msgData) {
-      const message = msgData && msgData.termsMessage.message;
-      const seed = msgData && msgData.termsMessage.seed;
-      try {
-        const web3 = new Web3(wallet.provider);
-        const signature = await web3.eth.personal.sign(message, address, seed);
-        signTerms({ variables: { address, signature } });
-        setIsSigned(true);
-      } catch (e) {
-        logger.error('Error trying to get signature', e);
-        generateWeb3ErrorToast({ e, toastId: 'getSignature' });
-        await onboard.walletReset();
-      }
+    if (!msgData) return;
+
+    const message = msgData && msgData.termsMessage.message;
+    const seed = msgData && msgData.termsMessage.seed;
+    try {
+      const web3 = new Web3(wallet.provider);
+      const signature = await web3.eth.personal.sign(message, address, seed);
+      await signTerms({ variables: { address, signature } });
+    } catch (e) {
+      logger.error('Error trying to get signature', e);
+      generateWeb3ErrorToast({ e, toastId: 'getSignature' });
+      await onboard.walletReset();
     }
   }, [address, wallet, onboard, msgData, signTerms]);
 
   const connectWallet = useCallback(async () => {
     try {
-      setIsSigned(false);
       await onboard.walletSelect();
       if (!(await onboard.walletCheck())) {
         throw Error('Wallet check result is invalid');
@@ -63,19 +60,17 @@ export const useGetSignature = () => {
   }, [onboard]);
 
   useEffect(() => {
+    if (loading || !address || !addressTerms) {
+      return;
+    }
+
     (async () => {
-      if (!loading && addressTerms !== undefined && address) {
-        if (addressTerms.hasSignedTerms) {
-          setIsSigned(true);
-          return;
-        }
-        if (!addressTerms.hasSignedTerms && !isSigned) {
-          await getSignature();
-          return;
-        }
+      if (!addressTerms.hasSignedTerms) {
+        await getSignature();
+        await refetch();
       }
     })();
-  }, [getSignature, address, addressTerms, isSigned, loading]);
+  }, [getSignature, address, addressTerms, loading, refetch]);
 
-  return useMemo(() => ({ connectWallet, isSigned }), [connectWallet, isSigned]);
+  return useMemo(() => ({ connectWallet, addressTerms }), [connectWallet, addressTerms]);
 };

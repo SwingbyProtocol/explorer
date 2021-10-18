@@ -16,17 +16,18 @@ export const RewardButton = () => {
   const lg = useMatchMedia({ query: `(min-width: ${rem(media.lg)})` });
   const sm = useMatchMedia({ query: `(min-width: ${rem(media.sm)})` });
   const { bridge } = useToggleBridge(PATH.METANODES);
-  const { connectWallet, isSigned } = useGetSignature();
+  const { connectWallet, addressTerms } = useGetSignature();
   const { distributeRewards } = useDistributeRewards();
   const { onboard, address } = useOnboard();
 
   useEffect(() => {
     (async () => {
-      if (isSigned && address) {
-        await distributeRewards();
+      if (!addressTerms || !addressTerms.hasSignedTerms || !address) {
+        return;
       }
+      await distributeRewards();
     })();
-  }, [isSigned, distributeRewards, address]);
+  }, [distributeRewards, address, addressTerms]);
 
   return (
     <RewardButtonContainer>
@@ -51,9 +52,7 @@ export const RewardButton = () => {
             (async () => {
               // Memo: Reset 'address' for connectWallet.
               await onboard.walletReset();
-              setTimeout(async () => {
-                await connectWallet();
-              }, 500);
+              await connectWallet();
             })();
           }}
         >
