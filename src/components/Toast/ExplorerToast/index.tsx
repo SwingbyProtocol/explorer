@@ -19,7 +19,7 @@ export const ExplorerToast = ({
     if (network === 5) {
       return {
         scan: 'Etherscan',
-        url: `https://goerli.etherscan.io/tx/${hash}`,
+        url: `https://ropsten.etherscan.io/tx/${hash}`,
       };
     }
     if (network === 56) {

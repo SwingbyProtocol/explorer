@@ -53,7 +53,7 @@ export const generateSendParams = async ({
     }
   }
 
-  if (network === 5) {
+  if (network === 3) {
     return { ...params, maxPriorityFeePerGas: 5000000000 };
   }
 

@@ -31,7 +31,7 @@ export const useGetSwapRewards = () => {
   const usdBtc = useSelector((state) => state.explorer.usd.BTC);
   const { network, wallet, onboard, address } = useOnboard();
   const bridge = network === 56 || network === 97 ? 'btc_bep20' : 'btc_erc';
-  const isValidCondition = network === 1 || network === 5;
+  const isValidCondition = network === 1 || network === 3;
 
   const getRewardsPercentage = ({
     btcFloat,

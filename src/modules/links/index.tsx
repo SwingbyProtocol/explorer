@@ -18,7 +18,7 @@ export const URL = {
   GitHub: 'https://github.com/SwingbyProtocol/',
   Support: 'support@swingby.network',
   HowItWorks: 'https://skybridge-docs.swingby.network/how-it-works',
-  SwapFees: 'https://tbtc-goerli-node-1.swingby.network/api/v1/swaps/fees',
+  SwapFees: 'https://tbtc-ropsten-node-1.swingby.network/api/v1/swaps/fees',
   SkybridgeMainnet: 'https://skybridge.info/',
   SkybridgeTestnet: 'https://testnet.skybridge.info/',
   Erc20Bridge: 'https://bridge.swingby.network/',

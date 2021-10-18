@@ -35,7 +35,7 @@ export const useGetSbBtcBal = () => {
 
       const sbBtcStakedErcUrl = stringifyUrl({
         url: `${ENDPOINT_YIELD_FARMING}/api/v1/user-lp-bal`,
-        query: { farm: 'sbBTC-ERC20', address, network: mode === 'production' ? '1' : '5' },
+        query: { farm: 'sbBTC-ERC20', address, network: mode === 'production' ? '1' : '3' },
       });
       const sbBtcStakedBscUrl = stringifyUrl({
         url: `${ENDPOINT_YIELD_FARMING}/api/v1/user-lp-bal`,

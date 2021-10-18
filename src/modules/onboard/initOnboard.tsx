@@ -9,7 +9,7 @@ import { getNetworkFromId } from '.';
 
 const RPC_URLS = {
   1: `https://mainnet.infura.io/v3/${infuraApiKey}`,
-  5: `https://goerli.infura.io/v3/${infuraApiKey}`,
+  3: `https://ropsten.infura.io/v3/${infuraApiKey}`,
   56: 'https://bsc-dataseed1.binance.org:443',
   97: 'https://data-seed-prebsc-1-s1.binance.org:8545',
 } as const;

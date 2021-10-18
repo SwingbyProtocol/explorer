@@ -38,7 +38,7 @@ export const useGetEarningHistorical = () => {
   const { address } = useOnboard();
   const { bridge } = useToggleBridge(PATH.POOL);
   const network =
-    bridge === 'btc_bep20' ? (mode === 'production' ? 56 : 97) : mode === 'production' ? 1 : 5;
+    bridge === 'btc_bep20' ? (mode === 'production' ? 56 : 97) : mode === 'production' ? 1 : 3;
 
   const getData = useCallback(async () => {
     try {
@@ -49,7 +49,7 @@ export const useGetEarningHistorical = () => {
         });
 
         const { total, sbBtcFarm, thirdPartyFarm } = await fetcher<IEarningHistorical>(url);
-        const thirdParty = network === 1 || network === 5 ? 'combinedUniSushi' : 'pancake';
+        const thirdParty = network === 1 || network === 3 ? 'combinedUniSushi' : 'pancake';
         setFarming({
           total: {
             pendingSwingby: total.pendingSwingby,

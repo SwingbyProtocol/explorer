@@ -11,7 +11,7 @@ const eth = css`
   color: ${({ theme }) => theme.pulsar.color.danger.text};
 `;
 
-const goerli = css`
+const ropsten = css`
   background: ${transparentize(0.5, COLOR_ETH)};
   background-image: repeating-linear-gradient(
     -45deg,
@@ -57,7 +57,7 @@ export const Container = styled.div<{ value: NetworkId | null }>`
   white-space: nowrap;
   ${({ theme }) => transitions(['color', 'background'], theme.pulsar.duration.normal)};
   ${({ value }) => value === 1 && eth};
-  ${({ value }) => value === 5 && goerli};
+  ${({ value }) => value === 3 && ropsten};
   ${({ value }) => value === 56 && bsc};
   ${({ value }) => value === 97 && bsct};
 `;
