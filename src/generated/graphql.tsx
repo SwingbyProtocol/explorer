@@ -18,6 +18,11 @@ export type Scalars = {
   Decimal: string;
 };
 
+export type BooleanFilter = {
+  equals?: Maybe<Scalars['Boolean']>;
+  not?: Maybe<BooleanFilter>;
+};
+
 export enum Bridge {
   BtcErc = 'btc_erc',
   BtcBep20 = 'btc_bep20'
@@ -62,6 +67,12 @@ export type ForwardPaginationPageInfo = {
   hasPreviousPage: Scalars['Boolean'];
 };
 
+export type Message = {
+  __typename?: 'Message';
+  message: Scalars['String'];
+  seed: Scalars['String'];
+};
+
 export enum Mode {
   Test = 'test',
   Production = 'production'
@@ -72,6 +83,17 @@ export type ModeEnumFilter = {
   in?: Maybe<Array<Maybe<Mode>>>;
   not?: Maybe<ModeEnumFilter>;
   notIn?: Maybe<Array<Maybe<Mode>>>;
+};
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  signTerms?: Maybe<Scalars['Boolean']>;
+};
+
+
+export type MutationSignTermsArgs = {
+  address: Scalars['String'];
+  signature: Scalars['String'];
 };
 
 export type Node = {
@@ -85,7 +107,7 @@ export type Node = {
   ipRegionName?: Maybe<Scalars['String']>;
   version: Scalars['String'];
   moniker: Scalars['String'];
-  restUri: Scalars['String'];
+  restUri?: Maybe<Scalars['String']>;
   p2pHost: Scalars['String'];
   address1: Scalars['String'];
   address2: Scalars['String'];
@@ -111,6 +133,8 @@ export type Query = {
   transaction: Transaction;
   transactions: TransactionsConnection;
   nodes: Array<Node>;
+  hasSignedTerms?: Maybe<Scalars['Boolean']>;
+  termsMessage: Message;
 };
 
 
@@ -131,6 +155,11 @@ export type QueryTransactionsArgs = {
 export type QueryNodesArgs = {
   mode: Mode;
   bridge: Bridge;
+};
+
+
+export type QueryHasSignedTermsArgs = {
+  address: Scalars['String'];
 };
 
 export type StringFilter = {
@@ -158,6 +187,7 @@ export type Transaction = {
   id: Scalars['ID'];
   at: Scalars['DateTime'];
   type: TransactionType;
+  isSkypoolsSwap: Scalars['Boolean'];
   status: TransactionStatus;
   bridge: Bridge;
   mode: Mode;
@@ -227,6 +257,7 @@ export type TransactionWhereInput = {
   OR?: Maybe<Array<Maybe<TransactionWhereInput>>>;
   id?: Maybe<StringFilter>;
   type?: Maybe<TransactionTypeEnumFilter>;
+  isSkypoolsSwap?: Maybe<BooleanFilter>;
   status?: Maybe<TransactionStatusEnumFilter>;
   bridge?: Maybe<BridgeEnumFilter>;
   mode?: Maybe<ModeEnumFilter>;
@@ -310,6 +341,38 @@ export type TransactionsHistoryQuery = (
       & Pick<ForwardPaginationPageInfo, 'startCursor' | 'endCursor' | 'hasNextPage' | 'hasPreviousPage'>
     ) }
   ) }
+);
+
+export type TermsMessageQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type TermsMessageQuery = (
+  { __typename?: 'Query' }
+  & { termsMessage: (
+    { __typename?: 'Message' }
+    & Pick<Message, 'message' | 'seed'>
+  ) }
+);
+
+export type HasSignedTermsQueryVariables = Exact<{
+  address: Scalars['String'];
+}>;
+
+
+export type HasSignedTermsQuery = (
+  { __typename?: 'Query' }
+  & Pick<Query, 'hasSignedTerms'>
+);
+
+export type SignTermsMutationVariables = Exact<{
+  address: Scalars['String'];
+  signature: Scalars['String'];
+}>;
+
+
+export type SignTermsMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'signTerms'>
 );
 
 
@@ -482,3 +545,103 @@ export function useTransactionsHistoryLazyQuery(baseOptions?: Apollo.LazyQueryHo
 export type TransactionsHistoryQueryHookResult = ReturnType<typeof useTransactionsHistoryQuery>;
 export type TransactionsHistoryLazyQueryHookResult = ReturnType<typeof useTransactionsHistoryLazyQuery>;
 export type TransactionsHistoryQueryResult = Apollo.QueryResult<TransactionsHistoryQuery, TransactionsHistoryQueryVariables>;
+export const TermsMessageDocument = gql`
+    query TermsMessage {
+  termsMessage {
+    message
+    seed
+  }
+}
+    `;
+
+/**
+ * __useTermsMessageQuery__
+ *
+ * To run a query within a React component, call `useTermsMessageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTermsMessageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTermsMessageQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useTermsMessageQuery(baseOptions?: Apollo.QueryHookOptions<TermsMessageQuery, TermsMessageQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<TermsMessageQuery, TermsMessageQueryVariables>(TermsMessageDocument, options);
+      }
+export function useTermsMessageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TermsMessageQuery, TermsMessageQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<TermsMessageQuery, TermsMessageQueryVariables>(TermsMessageDocument, options);
+        }
+export type TermsMessageQueryHookResult = ReturnType<typeof useTermsMessageQuery>;
+export type TermsMessageLazyQueryHookResult = ReturnType<typeof useTermsMessageLazyQuery>;
+export type TermsMessageQueryResult = Apollo.QueryResult<TermsMessageQuery, TermsMessageQueryVariables>;
+export const HasSignedTermsDocument = gql`
+    query HasSignedTerms($address: String!) {
+  hasSignedTerms(address: $address)
+}
+    `;
+
+/**
+ * __useHasSignedTermsQuery__
+ *
+ * To run a query within a React component, call `useHasSignedTermsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useHasSignedTermsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useHasSignedTermsQuery({
+ *   variables: {
+ *      address: // value for 'address'
+ *   },
+ * });
+ */
+export function useHasSignedTermsQuery(baseOptions: Apollo.QueryHookOptions<HasSignedTermsQuery, HasSignedTermsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<HasSignedTermsQuery, HasSignedTermsQueryVariables>(HasSignedTermsDocument, options);
+      }
+export function useHasSignedTermsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HasSignedTermsQuery, HasSignedTermsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<HasSignedTermsQuery, HasSignedTermsQueryVariables>(HasSignedTermsDocument, options);
+        }
+export type HasSignedTermsQueryHookResult = ReturnType<typeof useHasSignedTermsQuery>;
+export type HasSignedTermsLazyQueryHookResult = ReturnType<typeof useHasSignedTermsLazyQuery>;
+export type HasSignedTermsQueryResult = Apollo.QueryResult<HasSignedTermsQuery, HasSignedTermsQueryVariables>;
+export const SignTermsDocument = gql`
+    mutation SignTerms($address: String!, $signature: String!) {
+  signTerms(address: $address, signature: $signature)
+}
+    `;
+export type SignTermsMutationFn = Apollo.MutationFunction<SignTermsMutation, SignTermsMutationVariables>;
+
+/**
+ * __useSignTermsMutation__
+ *
+ * To run a mutation, you first call `useSignTermsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSignTermsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [signTermsMutation, { data, loading, error }] = useSignTermsMutation({
+ *   variables: {
+ *      address: // value for 'address'
+ *      signature: // value for 'signature'
+ *   },
+ * });
+ */
+export function useSignTermsMutation(baseOptions?: Apollo.MutationHookOptions<SignTermsMutation, SignTermsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SignTermsMutation, SignTermsMutationVariables>(SignTermsDocument, options);
+      }
+export type SignTermsMutationHookResult = ReturnType<typeof useSignTermsMutation>;
+export type SignTermsMutationResult = Apollo.MutationResult<SignTermsMutation>;
+export type SignTermsMutationOptions = Apollo.BaseMutationOptions<SignTermsMutation, SignTermsMutationVariables>;
