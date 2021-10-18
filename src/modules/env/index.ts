@@ -34,7 +34,8 @@ export const TXS_COUNT = 10;
 
 export const NODES_PER_PAGE = 10;
 
-export const graphEndpoint = 'https://network.skybridge.exchange/api/v3/graphql';
+export const graphEndpoint = 'http://localhost:3001/api/v3/graphql';
+// export const graphEndpoint = 'https://network.skybridge.exchange/api/v3/graphql';
 
 export const appName = 'Swingby Explorer';
 

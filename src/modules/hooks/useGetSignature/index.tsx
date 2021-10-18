@@ -60,6 +60,7 @@ export const useGetSignature = () => {
   }, [onboard]);
 
   useEffect(() => {
+    console.log('addressTerms', addressTerms);
     if (loading || !address || !addressTerms) {
       return;
     }
