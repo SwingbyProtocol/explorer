@@ -3,7 +3,7 @@ import type { Subscriptions } from 'bnc-onboard/dist/src/interfaces'; // eslint-
 
 import { appName, blocknativeApiKey, infuraApiKey } from '../env';
 
-import { binanceChainWallet, customWalletConnect } from './customWallet';
+import { customWalletConnect } from './customWallet';
 
 import { getNetworkFromId } from '.';
 
@@ -27,25 +27,21 @@ export const initOnboard = ({
   }
   const networkName = getNetworkFromId(networkId);
 
+  // Onboard bug: metamask's `preferred` becomes 'false' if gives 'preferred: true' to other wallets
   const wallets = [
     { walletName: 'metamask', preferred: true },
-    binanceChainWallet({
-      walletName: 'Binance Chain Wallet',
-      isMobile: false,
-      preferred: true,
-    }),
     customWalletConnect({
       walletName: 'WalletConnect',
       isMobile: true,
-      preferred: true,
       networkId,
+      preferred: true,
     }),
     {
       walletName: 'ledger',
       rpcUrl,
       preferred: true,
     },
-    { walletName: 'walletLink', rpcUrl, appName },
+    { walletName: 'walletLink', rpcUrl, appName, preferred: true },
     { walletName: 'authereum' },
     { walletName: 'lattice', rpcUrl, appName },
     { walletName: 'torus' },
