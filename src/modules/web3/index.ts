@@ -18,7 +18,7 @@ export const createWeb3Instance = ({
   if (bridge === 'btc_erc') {
     const web3 = new Web3(
       new Web3.providers.HttpProvider(
-        `https://${mode === 'production' ? 'mainnet' : 'goerli'}.infura.io/v3/${infuraApiKey}`,
+        `https://${mode === 'production' ? 'mainnet' : 'ropsten'}.infura.io/v3/${infuraApiKey}`,
       ),
     );
     return web3;

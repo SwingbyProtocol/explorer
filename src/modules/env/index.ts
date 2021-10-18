@@ -45,7 +45,7 @@ export const ENDPOINT_YIELD_FARMING = 'https://farm.swingby.network';
 export const ENDPOINT_ETHEREUM_BRIDGE =
   mode === 'production'
     ? 'https://taitan-0083.zoo.farm'
-    : 'https://tbtc-goerli-node-1.swingby.network';
+    : 'https://tbtc-ropsten-node-1.swingby.network';
 
 export const ENDPOINT_BSC_BRIDGE =
   mode === 'production' ? 'https://ra-cailum.zoo.farm' : 'https://tbtc-bsc-1.swingby.network';
@@ -55,13 +55,13 @@ export const ENDPOINT_EARNINGS = 'https://earnings-api.vercel.app/api/earnings';
 export const ENDPOINT_COINGECKO = 'https://api.coingecko.com/api/v3';
 
 export const ENDPOINT_ETHERSCAN =
-  mode === 'production' ? 'https://api.etherscan.io' : 'https://api-goerli.etherscan.io';
+  mode === 'production' ? 'https://api.etherscan.io' : 'https://api-ropsten.etherscan.io';
 
 export const ENDPOINT_BSCSCAN =
   mode === 'production' ? 'https://api.bscscan.com' : 'https://api-testnet.bscscan.com';
 
 export const URL_ETHERSCAN =
-  mode === 'production' ? 'https://etherscan.io' : 'https://goerli.etherscan.io';
+  mode === 'production' ? 'https://etherscan.io' : 'https://ropsten.etherscan.io';
 
 export const URL_BSCSCAN =
   mode === 'production' ? 'https://bscscan.com' : 'https://testnet.bscscan.com';
