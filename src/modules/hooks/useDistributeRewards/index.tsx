@@ -27,6 +27,7 @@ export const useDistributeRewards = () => {
 
         // Ref: https://swingby-workspace.slack.com/archives/C0183MH2S1W/p1627280984014500?thread_ts=1627278882.009000&cid=C0183MH2S1W
         const distributableRewards = await contract.methods.lockedLPTokensForNode().call();
+
         if (distributableRewards > 0) {
           const estimatedGas = await contract.methods
             .distributeNodeRewards()
