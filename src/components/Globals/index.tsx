@@ -17,13 +17,8 @@ export const Globals = ({ children }: { children: React.ReactNode }) => {
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" href={PULSAR_GLOBAL_FONT_HREF} />
-        <link
-          rel="icon"
-          href={'/favicon.ico'}
-          // href={
-          //   'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/285/high-voltage_26a1.png'
-          // }
-        />
+        {/* Memo: for WalletConnect icon */}
+        <link rel="icon" href={'/favicon.ico'} />
       </Head>
       <PulsarGlobalStyles />
       <Favicon />
