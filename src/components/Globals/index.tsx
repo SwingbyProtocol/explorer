@@ -19,9 +19,10 @@ export const Globals = ({ children }: { children: React.ReactNode }) => {
         <link rel="stylesheet" href={PULSAR_GLOBAL_FONT_HREF} />
         <link
           rel="icon"
-          href={
-            'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/285/high-voltage_26a1.png'
-          }
+          href={'/favicon.ico'}
+          // href={
+          //   'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/285/high-voltage_26a1.png'
+          // }
         />
       </Head>
       <PulsarGlobalStyles />
