@@ -21,9 +21,7 @@ export const initOnboard = ({
   networkId?: keyof typeof RPC_URLS;
   subscriptions: Subscriptions;
 }) => {
-  console.log('networkId', networkId);
   const rpcUrl = RPC_URLS[networkId];
-  console.log('rpcUrl', rpcUrl);
   if (!rpcUrl) {
     throw new Error(`Could not find RPC URL for network ID: "${networkId}"`);
   }
@@ -37,11 +35,6 @@ export const initOnboard = ({
       isMobile: true,
       networkId,
     }),
-    // {
-    //   walletName: 'walletConnect',
-    //   infuraKey: infuraApiKey,
-    //   bridge: WC_BRIDGE,
-    // },
     {
       walletName: 'ledger',
       rpcUrl,
