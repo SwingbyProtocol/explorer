@@ -39,10 +39,6 @@ export const initOnboard = ({
       walletName: 'ledger',
       rpcUrl,
     },
-    {
-      walletName: 'ledger',
-      rpcUrl,
-    },
     { walletName: 'walletLink', rpcUrl, appName },
     { walletName: 'authereum' },
     { walletName: 'lattice', rpcUrl, appName },
