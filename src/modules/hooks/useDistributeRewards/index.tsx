@@ -18,7 +18,9 @@ export const useDistributeRewards = () => {
 
   const distributeRewards = useCallback(async () => {
     try {
+      console.log('wallet?');
       if (wallet) {
+        console.log('wallet');
         const web3 = new Web3(wallet.provider);
         const contract = new web3.eth.Contract(
           CONTRACTS.bridges[bridge][mode].abi as AbiItem[],
@@ -27,7 +29,7 @@ export const useDistributeRewards = () => {
 
         // Ref: https://swingby-workspace.slack.com/archives/C0183MH2S1W/p1627280984014500?thread_ts=1627278882.009000&cid=C0183MH2S1W
         const distributableRewards = await contract.methods.lockedLPTokensForNode().call();
-
+        console.log('hello');
         if (distributableRewards > 0) {
           const estimatedGas = await contract.methods
             .distributeNodeRewards()
@@ -35,6 +37,7 @@ export const useDistributeRewards = () => {
           const gasLimit = calculateGasMargin(estimatedGas);
           const params = await generateSendParams({ from: address, network, gasLimit });
 
+          console.log('world');
           return await contract.methods
             .distributeNodeRewards()
             .send(params)
