@@ -1,7 +1,7 @@
 import Onboard from 'bnc-onboard';
 import type { Subscriptions } from 'bnc-onboard/dist/src/interfaces'; // eslint-disable-line import/no-internal-modules
 
-import { appName, blocknativeApiKey, infuraApiKey, WC_BRIDGE } from '../env';
+import { appName, blocknativeApiKey, infuraApiKey } from '../env';
 
 import { customWalletConnect } from './customWallet';
 
@@ -21,7 +21,9 @@ export const initOnboard = ({
   networkId?: keyof typeof RPC_URLS;
   subscriptions: Subscriptions;
 }) => {
+  console.log('networkId', networkId);
   const rpcUrl = RPC_URLS[networkId];
+  console.log('rpcUrl', rpcUrl);
   if (!rpcUrl) {
     throw new Error(`Could not find RPC URL for network ID: "${networkId}"`);
   }
@@ -30,16 +32,16 @@ export const initOnboard = ({
   // Onboard bug: metamask's `preferred` becomes 'false' if gives 'preferred: true' to other wallets
   const wallets = [
     { walletName: 'metamask' },
-    // customWalletConnect({
-    //   walletName: 'WalletConnect',
-    //   isMobile: true,
-    //   networkId,
-    // }),
-    {
-      walletName: 'walletConnect',
-      infuraKey: infuraApiKey,
-      bridge: WC_BRIDGE,
-    },
+    customWalletConnect({
+      walletName: 'WalletConnect',
+      isMobile: true,
+      networkId,
+    }),
+    // {
+    //   walletName: 'walletConnect',
+    //   infuraKey: infuraApiKey,
+    //   bridge: WC_BRIDGE,
+    // },
     {
       walletName: 'ledger',
       rpcUrl,
