@@ -17,7 +17,6 @@ export const Globals = ({ children }: { children: React.ReactNode }) => {
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" href={PULSAR_GLOBAL_FONT_HREF} />
-        {/* Memo: for WalletConnect icon */}
         <link rel="icon" href={'/favicon.ico'} />
       </Head>
       <PulsarGlobalStyles />
