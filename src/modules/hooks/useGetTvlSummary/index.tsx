@@ -2,7 +2,12 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { ITvl, ITvlResponses } from '..';
-import { ENDPOINT_SKYBRIDGE_EXCHANGE, ENDPOINT_YIELD_FARMING, mode } from '../../env';
+import {
+  ENDPOINT_PRESTAKING,
+  ENDPOINT_SKYBRIDGE_EXCHANGE,
+  ENDPOINT_YIELD_FARMING,
+  mode,
+} from '../../env';
 import { fetcher } from '../../fetch';
 
 // Memo: TVL data for Top page
@@ -21,7 +26,7 @@ export const useGetTvlSummary = () => {
     (async () => {
       setIsLoading(true);
       const skybridgeUrl = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/tvl`;
-      const preStakingUrl = 'https://pre-staking-swingby.swingby.network/v1/stakes/leaderboard';
+      const preStakingUrl = `${ENDPOINT_PRESTAKING}/v1/stakes/leaderboard`;
       const uniFarmUrl = `${ENDPOINT_YIELD_FARMING}/api/v1/farm-info?farm=Uni-V2`;
       const sushiFarmUrl = `${ENDPOINT_YIELD_FARMING}/api/v1/farm-info?farm=Sushi-V2`;
       const pancakeFarmUrl = `${ENDPOINT_YIELD_FARMING}/api/v1/farm-info?farm=Pancake-V2`;
