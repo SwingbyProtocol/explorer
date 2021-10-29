@@ -42,6 +42,8 @@ export const ENDPOINT_SKYBRIDGE_EXCHANGE = 'https://network.skybridge.exchange/a
 
 export const ENDPOINT_YIELD_FARMING = 'https://farm.swingby.network';
 
+export const ENDPOINT_PRESTAKING = 'https://pre-staking-swingby.swingby.network';
+
 export const ENDPOINT_ETHEREUM_BRIDGE =
   mode === 'production'
     ? 'https://taitan-0083.zoo.farm'

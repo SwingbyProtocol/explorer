@@ -3,7 +3,13 @@ import { SkybridgeBridge } from '@swingby-protocol/sdk';
 
 import { CoinSymbol } from '../coins';
 import { sumArray } from '../common';
-import { ENDPOINT_BSC_BRIDGE, ENDPOINT_ETHEREUM_BRIDGE, ENDPOINT_SKYBRIDGE_EXCHANGE } from '../env';
+import {
+  ENDPOINT_BSC_BRIDGE,
+  ENDPOINT_ETHEREUM_BRIDGE,
+  ENDPOINT_PRESTAKING,
+  ENDPOINT_SKYBRIDGE_EXCHANGE,
+  ENDPOINT_YIELD_FARMING,
+} from '../env';
 import { castToBackendVariable, fetchVwap, getFloatBalance, IFloatAmount } from '../explorer';
 import { fetcher } from '../fetch';
 import { IBondHistories } from '../metanodes';
@@ -73,6 +79,11 @@ export const getTVL = async (): Promise<string> => {
   const getBondBalUrl = (bridge: SkybridgeBridge) =>
     ENDPOINT_SKYBRIDGE_EXCHANGE + `/production/${bridge}/bonded-historic`;
 
+  const preStakingUrl = `${ENDPOINT_PRESTAKING}/v1/stakes/leaderboard`;
+  const uniFarmUrl = `${ENDPOINT_YIELD_FARMING}/api/v1/farm-info?farm=Uni-V2`;
+  const sushiFarmUrl = `${ENDPOINT_YIELD_FARMING}/api/v1/farm-info?farm=Sushi-V2`;
+  const pancakeFarmUrl = `${ENDPOINT_YIELD_FARMING}/api/v1/farm-info?farm=Pancake-V2`;
+
   try {
     const results = await Promise.all([
       fetcher<IFloatAmount[]>(getFloatBalUrl(ENDPOINT_ETHEREUM_BRIDGE)),
@@ -80,6 +91,11 @@ export const getTVL = async (): Promise<string> => {
       fetcher<IBondHistories>(getBondBalUrl('btc_erc')),
       fetcher<IBondHistories>(getBondBalUrl('btc_bep20')),
       fetchVwap('btcUsd'),
+      fetchVwap('swingbyUsd'),
+      fetcher<{ totalStaked: number }>(preStakingUrl),
+      fetcher<{ farmTvl: number }>(uniFarmUrl),
+      fetcher<{ farmTvl: number }>(sushiFarmUrl),
+      fetcher<{ farmTvl: number }>(pancakeFarmUrl),
     ]);
 
     const resEth = results[0];
@@ -89,6 +105,13 @@ export const getTVL = async (): Promise<string> => {
     const tvlSwingbyBsc = Number(results[3].data[0].bond);
 
     const usdBtc = results[4];
+    const usdSwingby = results[5];
+    const preStakingUsd = results[6].totalStaked * usdSwingby ?? 0;
+
+    const tvlUniUsd = results[7].farmTvl ?? 0;
+    const tvlSushiUsd = results[8].farmTvl ?? 0;
+    const tvlPancakeUsd = results[9].farmTvl ?? 0;
+    const farmTvlUsd = tvlUniUsd + tvlSushiUsd + tvlPancakeUsd;
 
     const formattedBTCB = castToBackendVariable(CoinSymbol.BTC_B);
 
@@ -101,16 +124,18 @@ export const getTVL = async (): Promise<string> => {
 
     const tvlSwingbyUsd = tvlSwingbyEth + tvlSwingbyBsc;
 
-    const tvl = String(
+    const tvl = floatTtl + tvlSwingbyUsd + preStakingUsd + farmTvlUsd;
+
+    const formattedTvl = String(
       getFiatAssetFormatter({
         locale: 'en',
         currency: 'USD',
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
-      }).format(floatTtl + tvlSwingbyUsd),
+      }).format(tvl),
     );
 
-    return tvl;
+    return formattedTvl;
   } catch (e) {
     return 'N/A';
   }
