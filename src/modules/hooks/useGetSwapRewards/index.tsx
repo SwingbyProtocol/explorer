@@ -61,8 +61,6 @@ export const useGetSwapRewards = () => {
       const sendParams = await generateSendParams({ from: address, network, gasLimit });
 
       if (!(await onboard.walletCheck())) {
-        console.log('b');
-        await onboard.walletReset();
         throw Error('Wallet check result is invalid');
       }
 

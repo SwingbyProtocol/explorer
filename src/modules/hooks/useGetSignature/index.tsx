@@ -51,8 +51,6 @@ export const useGetSignature = () => {
     try {
       await onboard.walletSelect();
       if (!(await onboard.walletCheck())) {
-        await onboard.walletReset();
-        console.log('a');
         throw Error('Wallet check result is invalid');
       }
     } catch (error) {
