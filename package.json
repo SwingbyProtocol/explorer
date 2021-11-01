@@ -17,6 +17,22 @@
     "test-all": "yarn check-format && yarn check-lint && yarn check-types && yarn build && yarn pretty-quick --staged",
     "prepare": "husky install"
   },
+  "prettier": {
+    "arrowParens": "always",
+    "printWidth": 100,
+    "proseWrap": "always",
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "all"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx}": "yarn lint --fix"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
   "dependencies": {
     "@apollo/client": "^3.3.11",
     "@moxy/next-router-scroll": "^2.0.3",
@@ -60,7 +76,8 @@
     "redux-devtools-extension": "^2.13.8",
     "styled-components": "^5.2.1",
     "swr": "^0.4.2",
-    "web3": "^1.6.0"
+    "web3": "^1.5.2",
+    "web3-eth-contract": "^1.6.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
