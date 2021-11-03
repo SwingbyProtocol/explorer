@@ -1,8 +1,10 @@
 import Head from 'next/head';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useSelector } from 'react-redux';
 
+import { LOCAL_STORAGE, PATH } from '../../../../env';
+import { useToggleBridge } from '../../../../hooks';
 import { useOnboard } from '../../../../onboard';
 import { IWithdrawAmountValidation, PoolMode } from '../../../../pool';
 import { ActionButtonsPool } from '../ActionButtonsPool';
@@ -28,7 +30,27 @@ import {
 
 export const BrowserPool = () => {
   const mode = useSelector((state) => state.pool.mode);
-  const { address } = useOnboard();
+  const { address, wallet, onboard } = useOnboard();
+  const storedWallet = localStorage.getItem(LOCAL_STORAGE.Wallet);
+  const { bridge } = useToggleBridge(PATH.POOL);
+
+  useEffect(() => {
+    const unableStoreWallets = ['WalletConnect'];
+    if (!wallet || unableStoreWallets.find((name) => name === wallet.name)) {
+      return;
+    }
+    localStorage.setItem(LOCAL_STORAGE.Wallet, wallet.name);
+  }, [wallet]);
+
+  useEffect(() => {
+    if (!onboard || !storedWallet || !bridge) return;
+    (async () => {
+      await onboard.walletSelect(storedWallet);
+      if (!(await onboard.walletCheck())) {
+        throw Error('Wallet check result is invalid');
+      }
+    })();
+  }, [onboard, storedWallet, bridge]);
 
   const addressValidationResult = (
     <ValidationResult>

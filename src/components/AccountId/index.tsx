@@ -4,6 +4,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 
 import { ellipseAddress } from '../../modules/common';
+import { LOCAL_STORAGE } from '../../modules/env';
 import { useOnboard } from '../../modules/onboard';
 import { resetPoolState } from '../../modules/store';
 import { copyToClipboard, toastCopyAddress } from '../Toast';
@@ -37,6 +38,7 @@ export const AccountId = () => {
           <IconClose
             onClick={() => {
               onboard && onboard.walletReset();
+              localStorage.setItem(LOCAL_STORAGE.Wallet, '');
               dispatch(resetPoolState());
             }}
           />

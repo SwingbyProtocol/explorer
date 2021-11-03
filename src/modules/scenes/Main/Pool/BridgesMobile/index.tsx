@@ -10,13 +10,13 @@ import { TextChosenFilter } from '../../../Common';
 import { BridgesMobileContainer, DropTargetBridges, TextTitle } from './styled';
 
 export const BridgesMobile = () => {
-  const { bridge, setBridge } = useToggleBridge(PATH.POOL);
+  const { bridge } = useToggleBridge(PATH.POOL);
   const bridgesItems = (
     <>
       {BRIDGES.map((b: IBridge) => (
         <Dropdown.Item
           selected={b.bridge === bridge}
-          onClick={() => setBridge(b.bridge)}
+          onClick={() => b.bridge !== bridge && window.open(`/pool?bridge=${b.bridge}`, '_self')}
           key={b.bridge}
         >
           {b.tabMenu}
