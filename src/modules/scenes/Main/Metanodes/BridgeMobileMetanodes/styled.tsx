@@ -11,6 +11,12 @@ export const BridgeMobileMetanodesContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: ${({ theme }) => rem(theme.pulsar.size.drawer)};
+  padding-left: ${({ theme }) => rem(theme.pulsar.size.box)};
+  padding-right: ${({ theme }) => rem(theme.pulsar.size.box)};
+  @media (min-width: ${rem(media.sm)}) {
+    padding-left: 0;
+    padding-right: 0;
+  }
   @media (min-width: ${rem(media.md)}) {
     display: none;
   }
