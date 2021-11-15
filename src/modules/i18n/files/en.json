@@ -226,6 +226,8 @@
   "metanodes.metanode-status": "Metanode Status",
   "metanodes.swingby": "SWINGBY: {value}",
   "metanodes.sbBTC": "sbBTC: {value}",
+  "metanodes.swap-fee":"+ Swap Fee Share",
+  "metanodes.swap-fee.detail":"Nodes get 66% of swap fees",
   "fees.fees": "Transaction Fees",
   "fees.currency": "Currency",
   "fees.live": "Status",
