@@ -1,4 +1,5 @@
 import { SkybridgeBridge } from '@swingby-protocol/sdk';
+import { aprToApy } from 'apr-tools';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { corsMiddleware, getParam } from '../../../modules/api';
@@ -30,11 +31,12 @@ const getFloatUsd = (bridge: SkybridgeBridge, usdBtc: number, floatBalances: IFl
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<{ apr: number; e?: string }>,
+  res: NextApiResponse<{ apr: number; apy: number; e?: string }>,
 ) {
   await corsMiddleware({ req, res });
   const bridge = getParam({ req, name: 'bridge' }) as SkybridgeBridge;
   let apr = 0;
+  let apy = 0;
 
   try {
     const usdBtc = await fetchVwap('btcUsd');
@@ -65,11 +67,12 @@ export default async function handler(
         ((estimatedYearlyVolumeUsd * bridgeFeePercent * feeGoesLiquidityProvider) / floatUsd) * 100;
 
       apr = Number(estApr.toFixed(1));
+      apy = Number(aprToApy(apr).toFixed(1));
     }
 
-    res.status(200).json({ apr });
+    res.status(200).json({ apr, apy });
   } catch (e) {
     console.log(e);
-    res.status(500).json({ apr, e: e.message });
+    res.status(500).json({ apr, apy, e: e.message });
   }
 }

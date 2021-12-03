@@ -80,7 +80,7 @@
   "home.network.float": "Float",
   "home.network.vol": "Vol.",
   "home.network.add-liquidity": "Add Liquidity (APR: {value}%)",
-  "home.network.apr.sbbtc": "sbBTC APR: {value}%",
+  "home.network.apy.sbbtc": "sbBTC APY: {value}%",
   "home.network.apr.farm": "farm APR: {value}%",
   "home.network.tvl.float": "Float BTC: {value}",
   "home.network.tvl.swingby": "Locked SWINGBY: {value}",

@@ -59,7 +59,7 @@ export const FarmCard = () => {
                   <Tooltip.Content>
                     <Text variant="normal">
                       <FormattedMessage
-                        id="home.network.apr.sbbtc"
+                        id="home.network.apy.sbbtc"
                         values={{
                           value: (
                             <FormattedNumber
