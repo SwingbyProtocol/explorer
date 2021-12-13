@@ -112,7 +112,7 @@ export const listHistory = (histories: TBondHistory[]) => {
 
 const formatHistoriesArray = (rawData: TBondHistory[]) => {
   const historiesTable = listHistory(rawData);
-  return historiesTable.reverse();
+  return historiesTable;
 };
 
 export const mergeLockedArray = (

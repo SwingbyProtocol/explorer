@@ -89,7 +89,7 @@ export const useToggleMetanode = (path: PATH) => {
       const url = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/bonded-historic`;
       const result = await fetcher<IBondHistories>(url);
       const bondHistoriesData = result.data;
-      const listBondHistory = listHistory(bondHistoriesData).reverse();
+      const listBondHistory = listHistory(bondHistoriesData);
       setBondHistories(listBondHistory);
     }
   }, [bridge, path]);
