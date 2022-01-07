@@ -10,28 +10,31 @@ import {
   ENDPOINT_SKYBRIDGE_EXCHANGE,
   ENDPOINT_YIELD_FARMING,
 } from '../env';
-import { castToBackendVariable, fetchVwap, getFloatBalance, IFloatAmount } from '../explorer';
+import {
+  castToBackendVariable,
+  fetchVwap,
+  getFloatBalance,
+  IFloatAmount,
+  getEndpoint,
+} from '../explorer';
 import { fetcher } from '../fetch';
 import { IBondHistories } from '../metanodes';
 
 export const getNodeQty = async ({
   bridge,
-  mode,
 }: {
   bridge: SkybridgeBridge | undefined;
-  mode: 'production' | 'test';
 }): Promise<number> => {
-  const getBridgePeersUrl = (bridge: SkybridgeBridge) =>
-    `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/nodes`;
-
+  const { urlEth, urlBsc } = await getEndpoint();
   try {
     if (bridge) {
-      const result = await fetcher<Array<any>>(getBridgePeersUrl(bridge));
+      const url = bridge === 'btc_erc' ? `${urlEth}/api/v1/peers` : `${urlBsc}/api/v1/peers`;
+      const result = await fetcher<Array<any>>(url);
       return result.length;
     }
     const results = await Promise.all([
-      fetcher<Array<any>>(getBridgePeersUrl('btc_erc')),
-      fetcher<Array<any>>(getBridgePeersUrl('btc_bep20')),
+      fetcher<Array<any>>(`${urlEth}/api/v1/peers`),
+      fetcher<Array<any>>(`${urlBsc}/api/v1/peers`),
     ]);
     const total = results[0].length + results[1].length;
     return total;

@@ -21,7 +21,7 @@ export const useGetNetworkData = () => {
             fetchFloatBalances(usd.BTC, bridge),
             fetchVolumeInfo(bridge, usd.BTC),
             fetch1wksRewards(bridge),
-            getNodeQty({ bridge, mode }),
+            getNodeQty({ bridge }),
           ]);
 
           const data = results[0];
