@@ -5,7 +5,6 @@ import { CoinSymbol } from '../../../coins';
 import { getShortDate, sumArray } from '../../../common';
 import {
   ENDPOINT_BSC_BRIDGE,
-  ENDPOINT_COINGECKO,
   ENDPOINT_ETHEREUM_BRIDGE,
   ENDPOINT_SKYBRIDGE_EXCHANGE,
   mode,
@@ -93,33 +92,6 @@ export const castToBackendVariable = (frontVariable: string) => {
 
     default:
       return frontVariable;
-  }
-};
-
-export const getUsdPrice = async (currency: string): Promise<number> => {
-  const url = ENDPOINT_COINGECKO + `/simple/price?ids=${currency}&vs_currencies=usd`;
-
-  const result = await fetch<{ currency: { usd } }>(url);
-  const price = result.ok && result.response[currency].usd;
-
-  return Number(price);
-};
-
-export const fetchVwap = async (currency: 'btcUsd' | 'swingbyUsd'): Promise<number> => {
-  const url = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/vwap-prices`;
-  try {
-    const res = await fetcher<{
-      btcUsd: string;
-      swingbyUsd: string;
-    }>(url);
-
-    const vwap = Number(res[currency]);
-
-    const formattedVwap = Number(vwap.toFixed(4));
-    return formattedVwap;
-  } catch (error) {
-    console.log('error', error);
-    return 0;
   }
 };
 

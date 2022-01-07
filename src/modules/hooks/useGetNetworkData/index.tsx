@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useToggleBridge } from '..';
-import { mode, PATH } from '../../env';
+import { PATH } from '../../env';
 import { fetch1wksRewards, fetchFloatBalances, fetchVolumeInfo } from '../../explorer';
 import { getNodeQty } from '../../network-stats';
 import { toggleIsLoading, updateNetworkInfos } from '../../store';
