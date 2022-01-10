@@ -17,7 +17,7 @@ export const Earnings = (props: Props) => {
   const { reward, isLoading } = props;
   const rewardsTotal = reward ? reward.total : 0;
   const rewardsSwingby = reward ? reward.stakingRewards : 0;
-  const rewardsSbBtcUsd = reward ? reward.networkRewards : 0;
+  // const rewardsSbBtcUsd = reward ? reward.networkRewards : 0;
   const rewardsAvgPerNode = reward ? reward.avgPerNode : 0;
 
   const earningTotal = getFiatAssetFormatter({
@@ -34,12 +34,12 @@ export const Earnings = (props: Props) => {
     maximumFractionDigits: 0,
   }).format(Number(rewardsSwingby));
 
-  const earningSbBtcUsd = getFiatAssetFormatter({
-    locale,
-    currency: 'USD',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(Number(rewardsSbBtcUsd));
+  // const earningSbBtcUsd = getFiatAssetFormatter({
+  //   locale,
+  //   currency: 'USD',
+  //   minimumFractionDigits: 0,
+  //   maximumFractionDigits: 0,
+  // }).format(Number(rewardsSbBtcUsd));
 
   const earningAvr = getFiatAssetFormatter({
     locale,
@@ -63,9 +63,9 @@ export const Earnings = (props: Props) => {
                 <FormattedMessage id="metanodes.swingby" values={{ value: earningSwingbyUsd }} />
               </Text>
               <br />
-              <Text variant="accent">
+              {/* <Text variant="accent">
                 <FormattedMessage id="metanodes.sbBTC" values={{ value: earningSbBtcUsd }} />
-              </Text>
+              </Text> */}
             </Tooltip.Content>
           }
           data-testid="tooltip"
