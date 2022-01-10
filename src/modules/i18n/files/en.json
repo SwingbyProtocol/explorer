@@ -215,6 +215,7 @@
   "metanodes.bond-low": "Bond low",
   "metanodes.inactive-bond-expired": "Bond expired",
   "metanodes.inactive-bond-too-low": "Bond too low",
+  "metanodes.metanode-status.bond-expiring-preparing-for-migration":"Migrating",
   "metanodes.unreachable": "Unreachable",
   "metanodes.metanode-status.churned-in": "Churned in",
   "metanodes.metanode-status.may-churn-out-bond-low": "Not eligible: Bond low",
