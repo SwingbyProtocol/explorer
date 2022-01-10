@@ -31,8 +31,10 @@ const MAX_CHURNED_IN = 50;
 const CHURNED_IN_STATUSES = [NodeStatus.ChurnedIn];
 const MAY_CHURNED_OUT_STATUSES = [
   NodeStatus.MayChurnOutBondTooLow,
-  NodeStatus.MayChurnOutBondExpiring,
+  // NodeStatus.MayChurnOutBondExpiring,
 ];
+
+const MIGRATING_STATUS = [NodeStatus.MayChurnOutBondExpiring];
 
 export const TotalNodes = ({ metanodes: metanodesParam, isLoading }: Props) => {
   const theme = useTheme();
@@ -41,24 +43,33 @@ export const TotalNodes = ({ metanodes: metanodesParam, isLoading }: Props) => {
   const totalNodeCount = metanodes && metanodes.length;
   const activeNodeCount =
     metanodes && metanodes.filter((it) => CHURNED_IN_STATUSES.includes(it.status)).length;
+  const migratingNodeCount =
+    metanodes && metanodes.filter((it) => MIGRATING_STATUS.includes(it.status)).length;
   const mayChurnOutNodeCount =
     metanodes && metanodes.filter((it) => MAY_CHURNED_OUT_STATUSES.includes(it.status)).length;
   const notActiveNodeCount =
     metanodes &&
     metanodes.filter(
-      (it) => ![...CHURNED_IN_STATUSES, ...MAY_CHURNED_OUT_STATUSES].includes(it.status),
+      (it) =>
+        ![...CHURNED_IN_STATUSES, ...MIGRATING_STATUS, ...MAY_CHURNED_OUT_STATUSES].includes(
+          it.status,
+        ),
     ).length;
 
   const loader = <Loader marginTop={0} minHeight={288} />;
+
   const data = [
     { name: 'Not Churned In', value: notActiveNodeCount },
     { name: 'May Churn Out', value: mayChurnOutNodeCount },
     { name: 'Churned In', value: activeNodeCount },
+    { name: 'Migrating', value: migratingNodeCount },
   ];
+
   const COLORS = [
     theme.pulsar.color.text.masked,
     theme.pulsar.color.warning.normal,
     theme.pulsar.color.primary.normal,
+    theme.pulsar.color.warning.normal,
   ];
 
   const CustomTooltipPie = ({ payload }) => {
@@ -114,7 +125,7 @@ export const TotalNodes = ({ metanodes: metanodesParam, isLoading }: Props) => {
                 <FormattedMessage
                   id="metanodes.churned-metanodes"
                   values={{
-                    activeNodes: activeNodeCount + mayChurnOutNodeCount,
+                    activeNodes: activeNodeCount + mayChurnOutNodeCount + migratingNodeCount,
                     nodeLimits: MAX_CHURNED_IN,
                   }}
                 />
