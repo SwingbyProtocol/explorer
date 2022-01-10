@@ -100,7 +100,7 @@ export const NodeStatus = (props: Props) => {
     {
       table: bondExpiringStatus,
       status: bondExpiringStatus?.status,
-      text: 'metanodes.bond-expiring',
+      text: 'metanodes.metanode-status.bond-expiring-preparing-for-migration',
     },
     {
       table: inactiveBondExpiredStatus,
