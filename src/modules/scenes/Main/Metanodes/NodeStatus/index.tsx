@@ -2,18 +2,12 @@ import { Text, Tooltip } from '@swingby-protocol/pulsar';
 import { FormattedMessage } from 'react-intl';
 
 import { Loader } from '../../../../../components/Loader';
-import { Node } from '../../../../../generated/graphql';
 import {
-  ChurnedIn,
+  IPeer,
+  IPeerStatusTable,
   listNodeStatus,
+  PeerStatus,
   toggleStatusIconColor,
-  INodeStatusTable,
-  InactiveBondExpired,
-  InactiveBondTooLow,
-  MayChurnIn,
-  MayChurnOutBondExpiring,
-  MayChurnOutBondTooLow,
-  Unreachable,
 } from '../../../../metanodes';
 import { TextRoom } from '../../../Common';
 
@@ -29,40 +23,29 @@ import {
 } from './styled';
 
 interface Props {
-  metanodes: Node[] | null;
+  nodes: IPeer[] | [];
   isLoading: boolean;
 }
 
 export const NodeStatus = (props: Props) => {
-  const { metanodes, isLoading } = props;
-  const nodeStatusTable = metanodes && listNodeStatus(metanodes);
+  const { nodes, isLoading } = props;
+  const nodeStatusTable = nodes && listNodeStatus(nodes);
+  const { ChurnedIn, MayChurnIn, MayChurnOutBondTooLow, Migrating } = PeerStatus;
 
   const churnedInStatus =
-    nodeStatusTable && nodeStatusTable.find((it: INodeStatusTable) => it.status === ChurnedIn);
+    nodeStatusTable && nodeStatusTable.find((it: IPeerStatusTable) => it.status === ChurnedIn);
 
   const bondLowStatus =
     nodeStatusTable &&
-    nodeStatusTable.find((it: INodeStatusTable) => it.status === MayChurnOutBondTooLow);
-
-  const bondExpiringStatus =
-    nodeStatusTable &&
-    nodeStatusTable.find((it: INodeStatusTable) => it.status === MayChurnOutBondExpiring);
+    nodeStatusTable.find((it: IPeerStatusTable) => it.status === MayChurnOutBondTooLow);
 
   const mayChurnInStatus =
-    nodeStatusTable && nodeStatusTable.find((it: INodeStatusTable) => it.status === MayChurnIn);
+    nodeStatusTable && nodeStatusTable.find((it: IPeerStatusTable) => it.status === MayChurnIn);
 
-  const inactiveBondExpiredStatus =
-    nodeStatusTable &&
-    nodeStatusTable.find((it: INodeStatusTable) => it.status === InactiveBondExpired);
+  const migratingStatus =
+    nodeStatusTable && nodeStatusTable.find((it: IPeerStatusTable) => it.status === Migrating);
 
-  const inactiveBondTooLowStatus =
-    nodeStatusTable &&
-    nodeStatusTable.find((it: INodeStatusTable) => it.status === InactiveBondTooLow);
-
-  const unreachableStatus =
-    nodeStatusTable && nodeStatusTable.find((it: INodeStatusTable) => it.status === Unreachable);
-
-  const showNodeStatus = (nodeTable: INodeStatusTable) => (
+  const showNodeStatus = (nodeTable: IPeerStatusTable) => (
     <Tooltip
       content={
         <Tooltip.Content>
@@ -98,24 +81,9 @@ export const NodeStatus = (props: Props) => {
       text: 'metanodes.bond-low',
     },
     {
-      table: bondExpiringStatus,
-      status: bondExpiringStatus?.status,
-      text: 'metanodes.metanode-status.bond-expiring-preparing-for-migration',
-    },
-    {
-      table: inactiveBondExpiredStatus,
-      status: inactiveBondExpiredStatus?.status,
-      text: 'metanodes.inactive-bond-expired',
-    },
-    {
-      table: inactiveBondTooLowStatus,
-      status: inactiveBondTooLowStatus?.status,
-      text: 'metanodes.inactive-bond-too-low',
-    },
-    {
-      table: unreachableStatus,
-      status: unreachableStatus?.status,
-      text: 'metanodes.unreachable',
+      table: migratingStatus,
+      status: migratingStatus?.status,
+      text: 'metanodes.migrating',
     },
   ];
   return (

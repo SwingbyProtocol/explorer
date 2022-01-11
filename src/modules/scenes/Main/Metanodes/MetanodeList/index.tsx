@@ -1,14 +1,12 @@
 import { getCryptoAssetFormatter, Tooltip, useMatchMedia } from '@swingby-protocol/pulsar';
 import { SkybridgeBridge } from '@swingby-protocol/sdk';
 import { hasFlag } from 'country-flag-icons';
-import { DateTime } from 'luxon';
 import { rem } from 'polished';
 import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
 
-import { Node } from '../../../../../generated/graphql';
 import { convertDateTime, getDiffDays } from '../../../../explorer';
 import {
-  getSbBtcRewardCurrency,
+  IPeer,
   toggleStatusBg,
   toggleStatusIconColor,
   toggleStatusWord,
@@ -25,8 +23,8 @@ import {
   ColumnExpiry,
   ColumnLeft,
   ColumnNodeName,
-  CurrencyBox,
-  CurrencyColumn,
+  // CurrencyBox,
+  // CurrencyColumn,
   ImgFlag,
   Location,
   MetanodeListContainer,
@@ -42,16 +40,18 @@ import {
 } from './styled';
 
 interface Props {
-  metanodes: Node[] | null;
+  nodes: IPeer[] | [];
   bridge: SkybridgeBridge;
   isLoading: boolean;
+  nodeTvl: number;
 }
 
 export const MetanodeList = (props: Props) => {
   const { locale } = useIntl();
-  const { metanodes, bridge, isLoading } = props;
-  const swingbyRewardCurrency = 'BEP2';
-  const sbBTCRewardCurrency = bridge && getSbBtcRewardCurrency(bridge);
+  const { isLoading, nodes, nodeTvl } = props;
+
+  // const swingbyRewardCurrency = 'BEP2';
+  // const sbBTCRewardCurrency = bridge && getSbBtcRewardCurrency(bridge);
 
   const { media } = StylingConstants;
   const xl = useMatchMedia({ query: `(min-width: ${rem(media.xl)})` });
@@ -85,28 +85,28 @@ export const MetanodeList = (props: Props) => {
           </SizeL>
         </Row>
         {!isLoading &&
-          metanodes &&
-          metanodes.map((node: Node, i: number) => {
-            const bnbAddress = node.address1;
-            const ethAddress = node.address2;
+          nodes &&
+          nodes.map((node: IPeer, i: number) => {
+            // Todo: remove
+            // const bnbAddress = node.rewardsAddress1;
+            // const ethAddress = node.rewardsAddress2;
+
             const bondAmount = getCryptoAssetFormatter({
               locale,
               displaySymbol: '',
               minimumFractionDigits: 0,
               maximumFractionDigits: 0,
-            }).format(Number(node.bondAmount));
+            }).format(Number(node.stake.amount));
 
             const lockedPortion = (
               <FormattedNumber
-                value={Number(node.bondFraction) * 100}
+                value={(Number(node.stake.amount) / nodeTvl) * 100}
                 maximumFractionDigits={2}
                 minimumFractionDigits={2}
               />
             );
 
-            const dt = DateTime.fromISO(node.bondExpiresAt);
-            const expireTimestamp = dt.toSeconds();
-            const expireTime = convertDateTime(expireTimestamp);
+            const expireTime = convertDateTime(node.stake.stakeTime);
             const isNoRequiredTooltip =
               xl || node.status === 'CHURNED_IN' || node.status === 'MAY_CHURN_IN';
 
@@ -115,10 +115,10 @@ export const MetanodeList = (props: Props) => {
                 <ColumnLeft>
                   <Location>
                     <ImgFlag
-                      alt={node.ipRegionCode}
+                      alt={node.regionCode}
                       src={
-                        hasFlag(node.ipRegionCode)
-                          ? `https://purecatamphetamine.github.io/country-flag-icons/3x2/${node.ipRegionCode}.svg`
+                        hasFlag(node.regionCode)
+                          ? `https://purecatamphetamine.github.io/country-flag-icons/3x2/${node.regionCode}.svg`
                           : 'https://cdn3.iconfinder.com/data/icons/seo-and-internet-marketing-12/512/52-512.png'
                       }
                     />
@@ -161,12 +161,13 @@ export const MetanodeList = (props: Props) => {
                 <ColumnExpiry>
                   <Column>
                     <TextNowrap>{expireTime}</TextNowrap>
-                    <TextNowrap variant="label">({getDiffDays(expireTimestamp)})</TextNowrap>
+                    <TextNowrap variant="label">({getDiffDays(node.stake.stakeTime)})</TextNowrap>
                   </Column>
                 </ColumnExpiry>
                 <SizeL>
                   <BoxAddress>
-                    <RowAddress>
+                    {/* Todo: remove */}
+                    {/* <RowAddress>
                       <CurrencyColumn>
                         <CurrencyBox>
                           <TextRoom variant="label">{swingbyRewardCurrency}</TextRoom>
@@ -176,16 +177,16 @@ export const MetanodeList = (props: Props) => {
                       <ColumnAddress>
                         <AddressP>{bnbAddress}</AddressP>
                       </ColumnAddress>
-                    </RowAddress>
+                    </RowAddress> */}
                     <RowAddress>
-                      <CurrencyColumn>
+                      {/* <CurrencyColumn>
                         <CurrencyBox>
                           <TextRoom variant="label">{sbBTCRewardCurrency}</TextRoom>
                         </CurrencyBox>
                         <TextRoom variant="label">:</TextRoom>
-                      </CurrencyColumn>
+                      </CurrencyColumn> */}
                       <ColumnAddress>
-                        <AddressP>{ethAddress}</AddressP>
+                        <AddressP>{node.stake.address}</AddressP>
                       </ColumnAddress>
                     </RowAddress>
                   </BoxAddress>

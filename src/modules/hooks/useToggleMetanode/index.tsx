@@ -1,16 +1,17 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import { Bridge, Mode, Node, useNodesDetailsQuery } from '../../../generated/graphql';
+import { useLoadMetanodes } from '..';
 import { ENDPOINT_SKYBRIDGE_EXCHANGE, mode, PATH } from '../../env';
 import { IChartDate } from '../../explorer';
 import { fetcher } from '../../fetch';
 import {
+  getActiveNodeList,
   IBondHistories,
   IChurn,
   ILiquidity,
   ILiquidityRatio,
   ILiquidityRatios,
-  IReward,
+  IRewards,
   listHistory,
 } from '../../metanodes';
 import { useInterval } from '../useInterval';
@@ -19,60 +20,33 @@ import { useToggleBridge } from '../useToggleBridge';
 export const useToggleMetanode = (path: PATH) => {
   const { bridge } = useToggleBridge(path);
 
-  const [metanodes, setMetanodes] = useState<Node[] | null>(null);
-  const [reward, setReward] = useState<IReward | null>(null);
+  const [rewards, setRewards] = useState<IRewards | null>(null);
   const [liquidity, setLiquidity] = useState<ILiquidity | null>(null);
   const [churnTime, setChurnTime] = useState<IChurn | null>(null);
   const [bondHistories, setBondHistories] = useState<IChartDate[] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [liquidityRatio, setLiquidityRatio] = useState<ILiquidityRatio[] | null>(null);
 
-  const { data } = useNodesDetailsQuery({
-    variables: {
-      mode: mode as Mode,
-      bridge: bridge as Bridge,
-    },
-  });
-
-  const getNodes = useCallback(async () => {
-    if (bridge && path === PATH.METANODES) {
-      setMetanodes(data.nodes as Node[]);
-    }
-  }, [bridge, path, data]);
+  const { nodes, nodeTvl } = useLoadMetanodes({ bridge });
 
   const getRewards = useCallback(async () => {
-    if (bridge && path === PATH.METANODES) {
-      const rewardsUrl = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/rewards-last-week`;
-      const result = await fetcher<IReward>(rewardsUrl);
-      setReward(result);
-    } else if (bridge && path === PATH.ROOT) {
-      const rewardsUrl = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/rewards-last-week`;
-      const rewardData = await fetcher<IReward>(rewardsUrl);
-      setReward(rewardData);
+    if ((bridge && path === PATH.METANODES) || (bridge && path === PATH.ROOT)) {
+      const { rewards } = await getActiveNodeList({ bridge, isRewardsCheck: true });
+      setRewards(rewards);
     } else {
       // Memo: path === Root && bridge === '' (Multi-bridge)
-      const ercRewardsUrl = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/btc_erc/rewards-last-week`;
-      const bscRewardsUrl = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/btc_bep20/rewards-last-week`;
       const results = await Promise.all([
-        fetcher<IReward>(ercRewardsUrl),
-        fetcher<IReward>(bscRewardsUrl),
+        getActiveNodeList({ bridge: 'btc_erc', isRewardsCheck: true }),
+        getActiveNodeList({ bridge: 'btc_bep20', isRewardsCheck: true }),
       ]);
 
-      const ercRewardData = results[0];
-      const bscRewardData = results[1];
+      const ercRewards = results[0];
+      const bscRewards = results[1];
 
-      const rewardData = {
-        currency: 'USD',
-        networkRewards: (
-          Number(ercRewardData.networkRewards) + Number(bscRewardData.networkRewards)
-        ).toFixed(0),
-        stakingRewards: (
-          Number(ercRewardData.stakingRewards) + Number(bscRewardData.stakingRewards)
-        ).toFixed(0),
-        total: (Number(ercRewardData.total) + Number(bscRewardData.total)).toFixed(0),
-        avgPerNode: '0',
-      };
-      setReward(rewardData);
+      setRewards({
+        weeklyRewardsUsd: ercRewards.rewards.weeklyRewardsUsd + bscRewards.rewards.weeklyRewardsUsd,
+        average: 0,
+      });
     }
   }, [bridge, path]);
 
@@ -120,7 +94,6 @@ export const useToggleMetanode = (path: PATH) => {
           getBondHistory(),
           getLiquidityRation(),
           getChurnTime(),
-          getNodes(),
         ]);
       } catch (error) {
         console.log('error', error);
@@ -128,10 +101,10 @@ export const useToggleMetanode = (path: PATH) => {
         setIsLoading(false);
       }
     })();
-  }, [getBondHistory, getLiquidityRation, getChurnTime, getLiquidity, getRewards, getNodes]);
+  }, [getBondHistory, getLiquidityRation, getChurnTime, getLiquidity, getRewards]);
 
   useEffect(() => {
-    setReward(null);
+    setRewards(null);
     setLiquidity(null);
     setChurnTime(null);
     setBondHistories(null);
@@ -144,13 +117,14 @@ export const useToggleMetanode = (path: PATH) => {
   }, [1000 * 60]);
 
   return {
+    nodes,
+    nodeTvl,
     bridge,
-    metanodes,
     bondHistories,
     liquidity,
     liquidityRatio,
     churnTime,
-    reward,
+    rewards,
     isLoading,
   };
 };

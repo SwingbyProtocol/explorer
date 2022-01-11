@@ -8,6 +8,12 @@ export const initialVolumes = [
   intialVolume,
   intialVolume,
 ];
+
+export const nodeEndpoint = {
+  btc_erc: 'https://btc-wbtc-mainnet.quantexe.com',
+  btc_bep20: 'https://ra-cailum.zoo.farm',
+};
+
 export const networkInfos = {
   capacity: 0,
   floatBalances: { btcEth: 0, btcBsc: 0, wbtc: 0, btcb: 0 },

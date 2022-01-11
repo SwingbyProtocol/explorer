@@ -156,16 +156,15 @@ export const TextNowrap = styled(TextRoom)`
 
 export const BoxAddress = styled.div``;
 export const RowAddress = styled.div`
-  display: grid;
-  grid-template-columns: ${({ theme }) => rem(theme.pulsar.size.country)} auto;
-  grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.box)};
-  align-items: center;
+  display: flex;
+  justify-content: center;
 `;
 
 export const ColumnAddress = styled.div`
   width: ${rem(100)};
   @media (min-width: ${rem(media.xl)}) {
-    width: ${rem(126)};
+    /* width: ${rem(126)}; */
+    width: ${rem(150)};
   }
 `;
 

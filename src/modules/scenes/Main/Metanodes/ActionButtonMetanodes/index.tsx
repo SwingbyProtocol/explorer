@@ -3,6 +3,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import { RewardButton } from '../../../../../components/RewardButton';
+import { NODE_APR } from '../../../../metanodes';
 
 import {
   ActionButtonMetanodesContainer,
@@ -15,7 +16,6 @@ import {
 } from './styled';
 
 export const ActionButtonMetanodes = () => {
-  const apr = 30;
   return (
     <ActionButtonMetanodesContainer>
       <RowText>
@@ -24,7 +24,7 @@ export const ActionButtonMetanodes = () => {
             <FormattedMessage id="pool.apr" />
           </TextTitle>
           <TextAPR variant="accent">
-            <FormattedMessage id="common.percent" values={{ value: ' ' + apr }} />
+            <FormattedMessage id="common.percent" values={{ value: ' ' + NODE_APR }} />
           </TextAPR>
         </div>
         <div>
