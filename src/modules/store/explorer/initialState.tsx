@@ -1,3 +1,5 @@
+import { ENDPOINT_BSC_BRIDGE, ENDPOINT_ETHEREUM_BRIDGE } from '../../env';
+
 const intialVolume = { at: '1-Jan', amount: '1' };
 export const initialVolumes = [
   intialVolume,
@@ -10,8 +12,8 @@ export const initialVolumes = [
 ];
 
 export const nodeEndpoint = {
-  btc_erc: 'https://btc-wbtc-mainnet.quantexe.com',
-  btc_bep20: 'https://ra-cailum.zoo.farm',
+  btc_erc: ENDPOINT_ETHEREUM_BRIDGE,
+  btc_bep20: ENDPOINT_BSC_BRIDGE,
 };
 
 export const networkInfos = {
