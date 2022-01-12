@@ -1,6 +1,13 @@
 import { Reducer } from 'redux';
 
-import { IFee, IFetchUsd, INetworkInfos, ITransactions, TTxRawObject } from '../../explorer';
+import {
+  IFee,
+  IFetchUsd,
+  INetworkInfos,
+  INodeEndpoint,
+  ITransactions,
+  TTxRawObject,
+} from '../../explorer';
 
 import * as initial from './initialState';
 
@@ -15,6 +22,7 @@ enum Actions {
   FetchUsdPrice = 'Explorer/FETCH_USD_PRICE',
   FetchTransactionFees = 'Explorer/FETCH_TRANSACTION_FEES',
   UpdateNetworkInfos = 'Explorer/UPDATE_NETWORK_INFOS',
+  BuildNodeEndpoint = 'Explorer/BUILD_NODE_ENDPOINT',
 }
 
 const initialState = {
@@ -25,6 +33,7 @@ const initialState = {
   networkInfos: initial.networkInfos,
   transactionFees: null,
   isExistPreviousPage: false,
+  nodeEndpoint: initial.nodeEndpoint,
 };
 
 type State = typeof initialState;
@@ -62,6 +71,10 @@ export const explorer: Reducer<State, Action> = (state = initialState, action) =
     return { ...state, networkInfos: action.data };
   }
 
+  if (action.type === Actions.BuildNodeEndpoint) {
+    return { ...state, nodeEndpoint: action.data };
+  }
+
   return state;
 };
 
@@ -86,6 +99,9 @@ export const fetchTransactionFees = (data: IFee[]) =>
 export const updateNetworkInfos = (data: INetworkInfos) =>
   ({ type: Actions.UpdateNetworkInfos, data } as const);
 
+export const buildNodeEndpoint = (data: INodeEndpoint) =>
+  ({ type: Actions.BuildNodeEndpoint, data } as const);
+
 type Action =
   | ReturnType<typeof toggleIsLoading>
   | ReturnType<typeof toggleIsExistPreviousPage>
@@ -94,4 +110,5 @@ type Action =
   | ReturnType<typeof updateSwapHistoryTemp>
   | ReturnType<typeof fetchUsdPrice>
   | ReturnType<typeof fetchTransactionFees>
+  | ReturnType<typeof buildNodeEndpoint>
   | ReturnType<typeof updateNetworkInfos>;

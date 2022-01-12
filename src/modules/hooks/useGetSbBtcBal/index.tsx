@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ENDPOINT_YIELD_FARMING, mode } from '../../env';
 import { fetcher } from '../../fetch';
 import { useOnboard } from '../../onboard';
-import { fetchSbBTCBalance } from '../../pool';
+import { getSbBTCBalance } from '../../pool';
 import { useSdkContext } from '../../sdk-context';
 
 const initialState = {
@@ -44,10 +44,10 @@ export const useGetSbBtcBal = () => {
 
       const results = await Promise.all([
         getSbbtcPrice({ context, bridge: 'btc_erc' }),
-        fetchSbBTCBalance(address, 'btc_erc'),
+        getSbBTCBalance(address, 'btc_erc'),
         fetcher<{ stakedLp: number }>(sbBtcStakedErcUrl),
         getSbbtcPrice({ context, bridge: 'btc_bep20' }),
-        fetchSbBTCBalance(address, 'btc_bep20'),
+        getSbBTCBalance(address, 'btc_bep20'),
         fetcher<{ stakedLp: number }>(sbBtcStakedBscUrl),
       ]);
 

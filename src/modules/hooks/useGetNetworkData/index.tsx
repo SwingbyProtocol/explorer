@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useToggleBridge } from '..';
-import { mode, PATH } from '../../env';
+import { PATH } from '../../env';
 import { fetch1wksRewards, fetchFloatBalances, fetchVolumeInfo } from '../../explorer';
 import { getNodeQty } from '../../network-stats';
 import { toggleIsLoading, updateNetworkInfos } from '../../store';
@@ -21,7 +21,7 @@ export const useGetNetworkData = () => {
             fetchFloatBalances(usd.BTC, bridge),
             fetchVolumeInfo(bridge, usd.BTC),
             fetch1wksRewards(bridge),
-            getNodeQty({ bridge, mode }),
+            getNodeQty({ bridge }),
           ]);
 
           const data = results[0];

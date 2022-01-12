@@ -8,6 +8,7 @@ export {
   getRequiredBlockConfirmations,
   getBorderColor,
   castUiStatus,
+  calDiffDays,
 } from './transaction';
 
 export {
@@ -23,14 +24,14 @@ export {
   fetchFloatBalances,
   fetchVolumeInfo,
   fetch1wksRewards,
-  getUsdPrice,
-  fetchVwap,
   getEndpoint,
   getFixedBaseEndpoint,
   castToBackendVariable,
   getFloatBalance,
   getBaseEndpoint,
 } from './network';
+
+export { getUsdPrice, fetchVwap } from './price';
 
 export {
   isEtherAddress,

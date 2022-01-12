@@ -18,12 +18,13 @@ import { Bottom, Left, MetanodeInfoContainer, Right, Row, Top } from './styled';
 export const MetanodeInfo = () => {
   const {
     bridge,
-    metanodes,
+    nodes,
+    nodeTvl,
     bondHistories,
     liquidity,
     liquidityRatio,
     churnTime,
-    reward,
+    rewards,
     isLoading,
   } = useToggleMetanode(PATH.METANODES);
   return (
@@ -32,8 +33,8 @@ export const MetanodeInfo = () => {
       <Top>
         <Left>
           <GeneralInfo />
-          <TotalNodes metanodes={metanodes} isLoading={isLoading} />
-          <NodeStatus metanodes={metanodes} isLoading={isLoading} />
+          <TotalNodes nodes={nodes} isLoading={isLoading} />
+          <NodeStatus nodes={nodes} isLoading={isLoading} />
         </Left>
         <Right>
           <TotalSwingbyBond bondHistories={bondHistories} isLoading={isLoading} />
@@ -41,12 +42,12 @@ export const MetanodeInfo = () => {
           <LiquidityRatio liquidityRatio={liquidityRatio} isLoading={isLoading} />
           <Row>
             <Churning churnTime={churnTime} isLoading={isLoading} />
-            <Earnings reward={reward} isLoading={isLoading} />
+            <Earnings rewards={rewards} isLoading={isLoading} />
           </Row>
         </Right>
       </Top>
       <Bottom>
-        <MetanodeList metanodes={metanodes} bridge={bridge} isLoading={isLoading} />
+        <MetanodeList nodeTvl={nodeTvl} nodes={nodes} bridge={bridge} isLoading={isLoading} />
       </Bottom>
     </MetanodeInfoContainer>
   );

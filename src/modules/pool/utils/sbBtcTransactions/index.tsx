@@ -1,6 +1,9 @@
-import { SkybridgeBridge } from '@swingby-protocol/sdk';
+import { CONTRACTS, SkybridgeBridge } from '@swingby-protocol/sdk';
+import { AbiItem } from 'web3-utils';
 
+import { CoinSymbol } from '../../../coins';
 import {
+  mode,
   ENDPOINT_BSCSCAN,
   ENDPOINT_ETHERSCAN,
   etherscanApiKey,
@@ -10,6 +13,7 @@ import {
   URL_ETHERSCAN,
   URL_BSCSCAN,
 } from '../../../env';
+import { createWeb3Instance, getUserBal } from '../../../web3';
 
 export const getScanApiBaseEndpoint = (bridge: SkybridgeBridge) => {
   switch (bridge) {
@@ -60,5 +64,23 @@ export const getSbBtcContract = (bridge: SkybridgeBridge) => {
 
     default:
       return CONTRACT_SB_BTC;
+  }
+};
+
+export const getSbBTCBalance = async (
+  userAddress: string,
+  bridge: SkybridgeBridge,
+): Promise<number> => {
+  try {
+    const web3 = createWeb3Instance({ mode, bridge });
+    const currency = bridge === 'btc_erc' ? CoinSymbol.ERC20_SB_BTC : CoinSymbol.BEP20_SB_BTC;
+    const contract = new web3.eth.Contract(
+      CONTRACTS.coins[currency].production.abi as AbiItem[],
+      CONTRACTS.coins[currency][mode].address,
+    );
+    const bal = await getUserBal({ address: userAddress, contract });
+    return Number(bal);
+  } catch (error) {
+    return 0;
   }
 };

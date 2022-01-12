@@ -2,7 +2,7 @@ export {
   calculateDepositFee,
   calculateSwapFee,
   fetchRecentTransaction,
-  fetchSbBTCBalance,
+  getSbBTCBalance,
   getHexValue,
   orgFloor,
   getScanApiBaseEndpoint,

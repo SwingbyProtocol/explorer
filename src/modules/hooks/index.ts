@@ -17,6 +17,7 @@ export { useGetEarningHistorical } from './useGetEarningHistorical';
 export { useGetSwapRewards } from './useGetSwapRewards';
 export { useDistributeRewards } from './useDistributeRewards';
 export { useGetSignature } from './useGetSignature';
+export { useLoadMetanodes } from './useLoadMetanodes';
 
 export interface ICountdown {
   days: number;

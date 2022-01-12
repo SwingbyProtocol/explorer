@@ -1,3 +1,5 @@
+import { ENDPOINT_BSC_BRIDGE, ENDPOINT_ETHEREUM_BRIDGE } from '../../env';
+
 const intialVolume = { at: '1-Jan', amount: '1' };
 export const initialVolumes = [
   intialVolume,
@@ -8,6 +10,12 @@ export const initialVolumes = [
   intialVolume,
   intialVolume,
 ];
+
+export const nodeEndpoint = {
+  btc_erc: ENDPOINT_ETHEREUM_BRIDGE,
+  btc_bep20: ENDPOINT_BSC_BRIDGE,
+};
+
 export const networkInfos = {
   capacity: 0,
   floatBalances: { btcEth: 0, btcBsc: 0, wbtc: 0, btcb: 0 },

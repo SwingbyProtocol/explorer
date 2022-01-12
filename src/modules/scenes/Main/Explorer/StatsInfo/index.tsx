@@ -1,4 +1,4 @@
-import { getFiatAssetFormatter, Text, Tooltip } from '@swingby-protocol/pulsar';
+import { getFiatAssetFormatter, Text } from '@swingby-protocol/pulsar';
 import { SKYBRIDGE_BRIDGES } from '@swingby-protocol/sdk';
 import { useRouter } from 'next/router';
 import React from 'react';
@@ -16,7 +16,6 @@ import {
   ChartBox,
   DataDiv,
   DataRow,
-  IconInfo,
   InfoContainer,
   InfosContainer,
   Left,
@@ -27,12 +26,12 @@ import {
   NetworkRewards,
   Right,
   Row,
+  RowReward,
   RowValidator,
   StatsInfoContainer,
   StatsWithoutChart,
   TextValue,
   ValidatorLinkSpan,
-  RowReward,
 } from './styled';
 
 export const StatsInfo = () => {
@@ -48,7 +47,7 @@ export const StatsInfo = () => {
   const usd = useSelector((state) => state.explorer.usd);
   const isLoading = useSelector((state) => state.explorer.isLoading);
 
-  const { bridge, reward, isLoading: isLoadingMetanode } = useToggleMetanode(PATH.ROOT);
+  const { bridge, rewards, isLoading: isLoadingMetanode } = useToggleMetanode(PATH.ROOT);
   const {
     volumes,
     floatHistories,
@@ -65,9 +64,7 @@ export const StatsInfo = () => {
   const lockedAmount = Number(lockHistories[lockHistories.length - 1].amount);
   const floatAmount = Number(floatHistories[floatHistories.length - 1].amount);
 
-  const rewardsTotal = reward ? reward.total : 0;
-  const rewardsSwingby = reward ? reward.stakingRewards : 0;
-  const rewardsSbBtcUsd = reward ? reward.networkRewards : 0;
+  const rewardsSwingbyUsd = rewards ? rewards.weeklyRewardsUsd : 0;
 
   const dataChart = usd && [
     {
@@ -121,7 +118,7 @@ export const StatsInfo = () => {
     },
     {
       key: 'rewards',
-      isLoading: isLoadingAll ? isLoadingAll : Number(rewardsTotal) > 1 ? false : true,
+      isLoading: isLoadingAll ? isLoadingAll : Number(rewardsSwingbyUsd) > 1 ? false : true,
       icon: <NetworkRewards />,
       description: formattedRewards,
       value: getFiatAssetFormatter({
@@ -129,23 +126,9 @@ export const StatsInfo = () => {
         currency: 'USD',
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
-      }).format(Number(rewardsTotal)),
+      }).format(Number(rewardsSwingbyUsd)),
     },
   ];
-
-  const earningSwingbyUsd = getFiatAssetFormatter({
-    locale,
-    currency: 'USD',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(Number(rewardsSwingby));
-
-  const earningSbBtcUsd = getFiatAssetFormatter({
-    locale,
-    currency: 'USD',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(Number(rewardsSbBtcUsd));
 
   const loader = <LoaderComingSoon isPlaceholder={false} isSmallWindow={true} />;
 
@@ -212,28 +195,6 @@ export const StatsInfo = () => {
                       ) : (
                         <RowReward>
                           <Text variant="label">{info.description}</Text>
-                          <Tooltip
-                            content={
-                              <Tooltip.Content>
-                                <Text variant="accent">
-                                  <FormattedMessage
-                                    id="metanodes.swingby"
-                                    values={{ value: earningSwingbyUsd }}
-                                  />
-                                </Text>
-                                <br />
-                                <Text variant="accent">
-                                  <FormattedMessage
-                                    id="metanodes.sbBTC"
-                                    values={{ value: earningSbBtcUsd }}
-                                  />
-                                </Text>
-                              </Tooltip.Content>
-                            }
-                            data-testid="tooltip"
-                          >
-                            <IconInfo />
-                          </Tooltip>
                         </RowReward>
                       )}
                       {info.isLoading ? (

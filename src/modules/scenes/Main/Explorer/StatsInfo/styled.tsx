@@ -183,11 +183,3 @@ export const DataRow = styled.div`
   display: flex;
   align-items: center;
 `;
-
-export const IconInfo = styled(Icon.InfoCircle)`
-  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.box / 2)};
-  margin-left: ${({ theme }) => rem(theme.pulsar.size.closet)};
-  font-size: ${({ theme }) => rem(theme.pulsar.size.closet)};
-  color: ${({ theme }) => theme.pulsar.color.text.masked};
-  cursor: pointer;
-`;

@@ -36,6 +36,7 @@ export {
   getRequiredBlockConfirmations,
   fetchVwap,
   castUiStatus,
+  calDiffDays,
 } from './utils';
 
 export const selectableBridge = [
@@ -231,6 +232,11 @@ export interface IMetanode {
   stateName: string;
   stake: IStake;
   version: string;
+}
+
+export interface INodeEndpoint {
+  btc_erc: string;
+  btc_bep20: string;
 }
 
 export const castGraphQlType = (tx: Transaction): TTxRawObject => {

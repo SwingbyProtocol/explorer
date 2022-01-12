@@ -3,13 +3,22 @@ import { SKYBRIDGE_BRIDGES, SkybridgeBridge } from '@swingby-protocol/sdk';
 import { NodeStatus } from '../../generated/graphql';
 import { TStatus } from '../explorer';
 
+export { formatPeers } from './utils';
+
 export {
   fetchNodeEarningsList,
   listNodeStatus,
   listFloatAmountHistories,
   getLockedHistory,
   listHistory,
+  getActiveNodeList,
 } from './utils';
+
+export const NODE_APR = 30;
+
+export const DAYS_CHURNED_IN = 30;
+// Todo: Confirm with backend
+export const RANK_CHURNED_IN = 50;
 
 export interface IReward {
   currency: string;
@@ -58,10 +67,66 @@ export interface ILiquidityRatio {
   fraction: string;
 }
 
-export interface INodeStatusTable {
-  status: NodeStatus;
+export interface IPeerStatusTable {
+  status: PeerStatus;
   nodes: string[];
   nodeQty: number;
+}
+
+export interface IPeer {
+  active: boolean;
+  id: string;
+  moniker: string;
+  p2pListener: string;
+  rank: number;
+  restUri: string;
+  rewardsAddress1?: string;
+  rewardsAddress2?: string;
+  stake: IStake;
+  state: number;
+  state_name: string;
+  version: string;
+  thisNode?: boolean;
+  regionCode?: string;
+  status?: PeerStatus;
+}
+
+export interface IStake {
+  address: string;
+  amount: string;
+  stakeTime: number;
+  stakeValid: boolean;
+}
+
+export enum StateName {
+  SignGen = 'SignGen',
+}
+
+export enum Version {
+  The012 = '0.1.2',
+  The012Migration = '0.1.2-migration',
+}
+
+export interface IActiveNode {
+  address: string;
+  lockedAmount: number;
+  rank: number;
+}
+
+export interface IRewards {
+  weeklyRewardsUsd: number;
+  average: number;
+}
+
+export enum PeerStatus {
+  ChurnedIn = 'CHURNED_IN',
+  MayChurnIn = 'MAY_CHURN_IN',
+  Migrating = 'MIGRATING',
+  MayChurnOutBondTooLow = 'MAY_CHURN_OUT__BOND_TOO_LOW',
+  MayChurnOutBondExpiring = 'MAY_CHURN_OUT__BOND_EXPIRING',
+  InactiveBondTooLow = 'INACTIVE__BOND_TOO_LOW',
+  InactiveBondExpired = 'INACTIVE__BOND_EXPIRED',
+  Unreachable = 'UNREACHABLE',
 }
 
 const btcErc = SKYBRIDGE_BRIDGES.find((bridge) => bridge === 'btc_erc');
@@ -88,9 +153,9 @@ export const {
   Unreachable,
 } = NodeStatus;
 
-export const toggleStatusBg = (status: NodeStatus, i: number): string | boolean => {
+export const toggleStatusBg = (status: PeerStatus, i: number): string | boolean => {
   switch (status) {
-    case ChurnedIn:
+    case PeerStatus.ChurnedIn:
       return i % 2 !== 0;
 
     default:
@@ -98,40 +163,35 @@ export const toggleStatusBg = (status: NodeStatus, i: number): string | boolean 
   }
 };
 
-export const toggleStatusWord = (status: NodeStatus): string | boolean => {
+export const toggleStatusWord = (status: PeerStatus): string | boolean => {
   switch (status) {
-    case ChurnedIn:
+    case PeerStatus.ChurnedIn:
       return 'metanodes.metanode-status.churned-in';
-    case MayChurnOutBondTooLow:
+    case PeerStatus.MayChurnOutBondTooLow:
       return 'metanodes.metanode-status.may-churn-out-bond-low';
-    case MayChurnOutBondExpiring:
-      return 'metanodes.metanode-status.bond-expiring-preparing-for-migration';
-    case MayChurnIn:
+    case PeerStatus.MayChurnIn:
       return 'metanodes.metanode-status.may-churn-in';
-    case InactiveBondExpired:
-      return 'metanodes.metanode-status.bond-expiring-preparing-for-migration';
-    case InactiveBondTooLow:
-      return 'metanodes.metanode-status.inactive-bond-too-low';
-    case Unreachable:
-      return 'metanodes.metanode-status.unreachable';
+    case PeerStatus.Migrating:
+      return 'metanodes.migrating';
 
     default:
       return status;
   }
 };
 
-export const toggleStatusIconColor = (status: NodeStatus): TStatus => {
+export const toggleStatusIconColor = (status: PeerStatus): TStatus => {
   switch (status) {
-    case ChurnedIn:
+    case PeerStatus.ChurnedIn:
       return 'COMPLETED';
-    case MayChurnOutBondTooLow:
+    case PeerStatus.MayChurnOutBondTooLow:
       return 'SIGNING';
-    case MayChurnOutBondExpiring:
+
+    case PeerStatus.Migrating:
       return 'EXPIRED';
-    case InactiveBondTooLow:
-      return 'PENDING';
-    case InactiveBondExpired:
-      return 'EXPIRED';
+
+    // Todo (after migration): 1 day before expire
+    // case MayChurnOutBondExpiring:
+    //   return 'EXPIRED';
 
     default:
       return 'WAITING';

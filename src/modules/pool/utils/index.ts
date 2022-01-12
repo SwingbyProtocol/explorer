@@ -3,13 +3,12 @@ export { getHexValue } from './web3';
 
 export { calculateDepositFee, calculateSwapFee } from './fees/';
 
-export { fetchSbBTCBalance } from './seedAPI';
-
 export {
   getScanApiBaseEndpoint,
   getScanApiKey,
   getSbBtcContract,
   getScanDetailBaseEndpoint,
+  getSbBTCBalance,
 } from './sbBtcTransactions';
 
 export { mergeSameDateEarningsData, formatAprData } from './earnings';

@@ -1,7 +1,8 @@
 import { CONTRACTS, SkybridgeMode } from '@swingby-protocol/sdk';
 
-export const logLevel =
-  process.env.NEXT_PUBLIC_LOG_LEVEL || (process.env.NODE_ENV === 'production' ? 'debug' : 'trace');
+export const logLevel = process.env.NEXT_PUBLIC_LOG_LEVEL || 'debug';
+// export const logLevel =
+//   process.env.NEXT_PUBLIC_LOG_LEVEL || (process.env.NODE_ENV === 'production' ? 'debug' : 'trace');
 
 export const DEPLOYED_URL =
   process.env.NEXT_PUBLIC_DEPLOYED_URL || 'https://testnet.skybridge.info/';
@@ -51,7 +52,7 @@ export const ENDPOINT_ETHEREUM_BRIDGE =
     : 'https://tbtc-ropsten-node-1.swingby.network';
 
 export const ENDPOINT_BSC_BRIDGE =
-  mode === 'production' ? 'https://ra-cailum.zoo.farm' : 'https://tbtc-bsc-1.swingby.network';
+  mode === 'production' ? 'https://ra-cailum.zoo.farm' : 'https://tbtc-bsc-2.swingby.network';
 
 export const ENDPOINT_EARNINGS = 'https://earnings-api.vercel.app/api/earnings';
 

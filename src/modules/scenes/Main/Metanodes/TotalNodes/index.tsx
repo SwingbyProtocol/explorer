@@ -6,7 +6,7 @@ import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
 import { useTheme } from 'styled-components';
 
 import { Loader } from '../../../../../components/Loader';
-import { Node, NodeStatus } from '../../../../../generated/graphql';
+import { IPeer, PeerStatus } from '../../../../metanodes';
 import { TextRoom } from '../../../Common';
 
 import {
@@ -22,34 +22,30 @@ import {
 } from './styled';
 
 interface Props {
-  metanodes: Node[] | null;
+  nodes: IPeer[];
   isLoading: boolean;
 }
 
 const MAX_CHURNED_IN = 50;
 
-const CHURNED_IN_STATUSES = [NodeStatus.ChurnedIn];
-const MAY_CHURNED_OUT_STATUSES = [
-  NodeStatus.MayChurnOutBondTooLow,
-  // NodeStatus.MayChurnOutBondExpiring,
-];
+const CHURNED_IN_STATUSES = [PeerStatus.ChurnedIn];
+const MAY_CHURNED_OUT_STATUSES = [PeerStatus.MayChurnOutBondTooLow];
 
-const MIGRATING_STATUS = [NodeStatus.MayChurnOutBondExpiring];
+const MIGRATING_STATUS = [PeerStatus.Migrating];
 
-export const TotalNodes = ({ metanodes: metanodesParam, isLoading }: Props) => {
+export const TotalNodes = ({ nodes, isLoading }: Props) => {
   const theme = useTheme();
-  const metanodes = metanodesParam ?? [];
 
-  const totalNodeCount = metanodes && metanodes.length;
+  const totalNodeCount = nodes && nodes.length;
   const activeNodeCount =
-    metanodes && metanodes.filter((it) => CHURNED_IN_STATUSES.includes(it.status)).length;
+    nodes && nodes.filter((it) => CHURNED_IN_STATUSES.includes(it.status)).length;
   const migratingNodeCount =
-    metanodes && metanodes.filter((it) => MIGRATING_STATUS.includes(it.status)).length;
+    nodes && nodes.filter((it) => MIGRATING_STATUS.includes(it.status)).length;
   const mayChurnOutNodeCount =
-    metanodes && metanodes.filter((it) => MAY_CHURNED_OUT_STATUSES.includes(it.status)).length;
+    nodes && nodes.filter((it) => MAY_CHURNED_OUT_STATUSES.includes(it.status)).length;
   const notActiveNodeCount =
-    metanodes &&
-    metanodes.filter(
+    nodes &&
+    nodes.filter(
       (it) =>
         ![...CHURNED_IN_STATUSES, ...MIGRATING_STATUS, ...MAY_CHURNED_OUT_STATUSES].includes(
           it.status,
@@ -92,7 +88,7 @@ export const TotalNodes = ({ metanodes: metanodesParam, isLoading }: Props) => {
           <FormattedMessage id="metanodes.total-nodes" />
         </Text>
       </RowTitle>
-      {!isLoading && metanodes.length > 0 ? (
+      {!isLoading && nodes.length > 0 ? (
         <>
           <DoughnutWrapper>
             <TextNodeNum variant="title-s">

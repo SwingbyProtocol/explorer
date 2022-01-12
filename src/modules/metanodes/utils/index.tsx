@@ -1,13 +1,27 @@
-import { SkybridgeBridge } from '@swingby-protocol/sdk';
+import { CONTRACTS, SkybridgeBridge } from '@swingby-protocol/sdk';
+import { BigNumber } from 'bignumber.js';
+import ip2country from 'ip2country';
+import { AbiItem } from 'web3-utils';
 
-import { IBondHistories, INodeStatusTable, TBondHistory } from '..';
-import { Node } from '../../../generated/graphql';
+import {
+  DAYS_CHURNED_IN,
+  IActiveNode,
+  IBondHistories,
+  IPeer,
+  IPeerStatusTable,
+  IRewards,
+  NODE_APR,
+  PeerStatus,
+  RANK_CHURNED_IN,
+  TBondHistory,
+} from '..';
 import { getShortDate } from '../../common';
 import { ENDPOINT_SKYBRIDGE_EXCHANGE, mode } from '../../env';
-import { IChartDate } from '../../explorer';
+import { calDiffDays, fetchVwap, IChartDate } from '../../explorer';
 import { fetch, fetcher } from '../../fetch';
 import { IFloatHistoryObject } from '../../hooks';
 import { initialVolumes } from '../../store';
+import { createWeb3Instance } from '../../web3';
 
 export const fetchNodeEarningsList = async () => {
   const url = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/rewards/ranking`;
@@ -30,10 +44,10 @@ export const fetchNodeEarningsList = async () => {
   return result.response;
 };
 
-export const listNodeStatus = (nodes: Node[]): INodeStatusTable[] => {
+export const listNodeStatus = (nodes: IPeer[]): IPeerStatusTable[] => {
   let statusLookUpTable: string[] = [];
-  let statusTable: INodeStatusTable[] = [];
-  nodes.forEach((node: Node) => {
+  let statusTable: IPeerStatusTable[] = [];
+  nodes.forEach((node: IPeer) => {
     if (statusLookUpTable.includes(node.status)) {
       statusTable = statusTable.map((item) => {
         if (item.status === node.status) {
@@ -47,7 +61,7 @@ export const listNodeStatus = (nodes: Node[]): INodeStatusTable[] => {
         }
       });
     } else {
-      const item: INodeStatusTable = {
+      const item: IPeerStatusTable = {
         nodes: [node.moniker],
         nodeQty: 1,
         status: node.status,
@@ -57,7 +71,7 @@ export const listNodeStatus = (nodes: Node[]): INodeStatusTable[] => {
     }
   });
 
-  statusTable.sort((a: INodeStatusTable, b: INodeStatusTable) => {
+  statusTable.sort((a: IPeerStatusTable, b: IPeerStatusTable) => {
     if (a.nodeQty > b.nodeQty) {
       return -1;
     } else {
@@ -183,4 +197,125 @@ export const getLockedHistory = async (bridge: SkybridgeBridge) => {
     console.log('error', error);
     return initialVolumes;
   }
+};
+
+const getChurnedStatus = ({
+  onchainNodes,
+  expireTs,
+  address,
+}: {
+  onchainNodes: IActiveNode[];
+  expireTs: number;
+  address: string;
+}) => {
+  const daysLeft = calDiffDays(expireTs);
+  const account = onchainNodes.find((it) => it.address === address.toLowerCase());
+  if (account) {
+    if (DAYS_CHURNED_IN > daysLeft) {
+      return PeerStatus.Migrating;
+    }
+    if (account.rank > RANK_CHURNED_IN) {
+      return PeerStatus.MayChurnOutBondTooLow;
+    }
+    return PeerStatus.ChurnedIn;
+  }
+  return PeerStatus.MayChurnIn;
+};
+
+export const getActiveNodeList = async ({
+  bridge,
+  isRewardsCheck,
+}: {
+  bridge: SkybridgeBridge;
+  isRewardsCheck: boolean;
+}): Promise<{
+  nodeList: IActiveNode[] | [];
+  rewards: IRewards;
+}> => {
+  let rewards = { weeklyRewardsUsd: 0, average: 0 };
+  let table: { address: string; lockedAmount: number }[] = [];
+  let rewardableTvl = 0;
+
+  try {
+    const web3 = createWeb3Instance({ mode, bridge });
+    const contract = new web3.eth.Contract(
+      CONTRACTS.bridges[bridge][mode].abi as AbiItem[],
+      CONTRACTS.bridges[bridge][mode].address,
+    );
+
+    const activeNodes = await contract.methods.getActiveNodes().call();
+
+    activeNodes.forEach((it, i) => {
+      const address = `0x${it.substr(it.length - 40, 40)}`;
+      const lockedAmount = new BigNumber(it.substr(0, it.length - 40)).div('1e8').toFixed();
+      const data = {
+        address: address.toLowerCase(),
+        lockedAmount: Number(lockedAmount),
+      };
+      table.push(data);
+      if (RANK_CHURNED_IN > i) {
+        rewardableTvl += data.lockedAmount;
+      }
+    });
+    table.sort((a, b) => b.lockedAmount - a.lockedAmount);
+
+    const nodeList = table.map((it, i: number) => {
+      return {
+        ...it,
+        rank: i + 1,
+      };
+    });
+
+    if (isRewardsCheck) {
+      const swingbyUsd = await fetchVwap('swingbyUsd');
+      const rewardableTvlUsd = swingbyUsd * rewardableTvl;
+      const nodeQty = RANK_CHURNED_IN > activeNodes.length ? activeNodes.length : RANK_CHURNED_IN;
+      const weeklyApr = NODE_APR / 52;
+      const weeklyRewardsUsd = rewardableTvlUsd * weeklyApr * 0.01;
+      rewards = {
+        weeklyRewardsUsd,
+        average: weeklyRewardsUsd / nodeQty,
+      };
+    }
+
+    return { nodeList, rewards };
+  } catch (error) {
+    console.log(error);
+    return { nodeList: [], rewards };
+  }
+};
+
+export const formatPeers = async ({
+  peers,
+  bridge,
+}: {
+  peers: IPeer[];
+  bridge: SkybridgeBridge;
+}): Promise<{ nodes: IPeer[]; nodeTvl: number }> => {
+  const { nodeList } = await getActiveNodeList({ bridge, isRewardsCheck: false });
+  let nodeTvl = 0;
+  const nodes = peers.map((peer) => {
+    nodeTvl += Number(peer.stake.amount);
+    const regionCode = ip2country(peer.p2pListener) ?? '';
+    // Todo: rewardsAddress1 and rewardsAddress2 will be retried soon
+    const address = peer.rewardsAddress2 ?? peer.stake.address;
+    const stake = {
+      ...peer.stake,
+      address: address.toLowerCase(),
+    };
+
+    const status = getChurnedStatus({
+      onchainNodes: nodeList,
+      expireTs: peer.stake.stakeTime,
+      address,
+    });
+    return {
+      ...peer,
+      regionCode,
+      status,
+      stake,
+    };
+  });
+
+  return { nodes, nodeTvl };
 };
