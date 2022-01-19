@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl';
 
 import { useAffiliateCode } from '../../modules/affiliate-code';
 import { mode } from '../../modules/env';
-import { TTxRawObject } from '../../modules/explorer';
+import { getBridge, TTxRawObject } from '../../modules/explorer';
 import { ButtonScale } from '../../modules/scenes/Common';
 import { useThemeSettings } from '../../modules/store/settings';
 
@@ -26,6 +26,7 @@ export const LinkToWidgetModal = (props: Props) => {
   const [theme] = useThemeSettings();
 
   const address = tx && tx.addressOut;
+
   const widget =
     tx &&
     createWidget({
@@ -36,6 +37,7 @@ export const LinkToWidgetModal = (props: Props) => {
       theme,
       locale,
       affiliateCode,
+      bridge: getBridge({ currencyIn: props.tx.currencyIn, currencyOut: props.tx.currencyOut }),
     });
 
   return (

@@ -3363,10 +3363,10 @@
     qrcode.react "^1.0.0"
     react-toastify "^6.2.0"
 
-"@swingby-protocol/sdk@^1.0.0-alpha.116":
-  version "1.0.0-alpha.116"
-  resolved "https://registry.yarnpkg.com/@swingby-protocol/sdk/-/sdk-1.0.0-alpha.116.tgz#c7d578125b1feb5169cb596659129d7c195aea7e"
-  integrity sha512-TNRezSehM9JZCVZfoNmkF4h9aSJsEW9No7tAbH7qTXgtg2ok/XyERKtNoiZDq4ZOE68bCP3DSzzeSRmLFxwa+Q==
+"@swingby-protocol/sdk@^1.0.0-alpha.119":
+  version "1.0.0-alpha.119"
+  resolved "https://registry.yarnpkg.com/@swingby-protocol/sdk/-/sdk-1.0.0-alpha.119.tgz#69736759293a73d7836036ba3e22b31e01e60612"
+  integrity sha512-3fbS0dKO/zWOrquLMb+F6QyhlDx4MMUuN5gV5fF/9O1N2kCL/ADrRyrNYZBkx3yltbMTTf9mTKUiQ8Sx9czlKg==
   dependencies:
     "@typescript-eslint/eslint-plugin" "4.18.0"
     bech32 "^2.0.0"
@@ -3379,10 +3379,10 @@
     luxon "^1.26.0"
     web3-utils "^1.3.4"
 
-"@swingby-protocol/widget@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@swingby-protocol/widget/-/widget-1.1.0.tgz#4a8ac2d8e772a0e46c687d2e95a4c4102263e59e"
-  integrity sha512-mim2bCJ/6Tyl6yR65+FQJMFK0Dh9iCIFzJMFYsFBAock6dU/+OlFiTVBMIXGLh5IqUgKnBc2+MfuJIlw0jjP4g==
+"@swingby-protocol/widget@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@swingby-protocol/widget/-/widget-1.1.1.tgz#b93d90f89093394c4ebb07d7a37554409be6f4ff"
+  integrity sha512-It2LdIfp/mT5MCHMvA4hSW/zIlo8dUgLoG5lXSrvy120IPi27k3M/Yjx9kY1gNg3SxyKdOukCkECqy8XLmJdLg==
   dependencies:
     query-string "^6.13.7"
 

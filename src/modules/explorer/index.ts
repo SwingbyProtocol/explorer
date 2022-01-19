@@ -37,6 +37,7 @@ export {
   fetchVwap,
   castUiStatus,
   calDiffDays,
+  getBridge,
 } from './utils';
 
 export const selectableBridge = [
