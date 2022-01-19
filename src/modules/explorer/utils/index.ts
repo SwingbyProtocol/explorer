@@ -40,3 +40,5 @@ export {
   checkIsValidAddress,
   checkIsValidAmount,
 } from './validator';
+
+export { getBridge } from './bridge/';

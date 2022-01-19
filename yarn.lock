@@ -3379,10 +3379,10 @@
     luxon "^1.26.0"
     web3-utils "^1.3.4"
 
-"@swingby-protocol/widget@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@swingby-protocol/widget/-/widget-1.1.0.tgz#4a8ac2d8e772a0e46c687d2e95a4c4102263e59e"
-  integrity sha512-mim2bCJ/6Tyl6yR65+FQJMFK0Dh9iCIFzJMFYsFBAock6dU/+OlFiTVBMIXGLh5IqUgKnBc2+MfuJIlw0jjP4g==
+"@swingby-protocol/widget@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@swingby-protocol/widget/-/widget-1.1.1.tgz#b93d90f89093394c4ebb07d7a37554409be6f4ff"
+  integrity sha512-It2LdIfp/mT5MCHMvA4hSW/zIlo8dUgLoG5lXSrvy120IPi27k3M/Yjx9kY1gNg3SxyKdOukCkECqy8XLmJdLg==
   dependencies:
     query-string "^6.13.7"
 
