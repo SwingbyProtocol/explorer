@@ -19,10 +19,10 @@ jobs:
       - name: Test
         run: yarn test --ci --coverage --maxWorkers=2
 
-      - name: UI tests
-        run: |
-          yarn build
-          yarn start & yarn wait-on http://localhost:3000
-          yarn percy exec -- cypress run -e CI=true
-        env:
-          PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
+      # - name: UI tests
+      #   run: |
+      #     yarn build
+      #     yarn start & yarn wait-on http://localhost:3000
+      #     yarn percy exec -- cypress run -e CI=true
+      #   env:
+      #     PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
