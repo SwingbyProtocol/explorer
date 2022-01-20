@@ -203,16 +203,18 @@ const getChurnedStatus = ({
   onchainNodes,
   expireTs,
   address,
+  bridge,
 }: {
   onchainNodes: IActiveNode[];
   expireTs: number;
   address: string;
+  bridge: SkybridgeBridge;
 }) => {
   const daysLeft = calDiffDays(expireTs);
   const account = onchainNodes.find((it) => it.address === address.toLowerCase());
   if (account) {
     if (DAYS_CHURNED_IN > daysLeft) {
-      return PeerStatus.Migrating;
+      return bridge === 'btc_bep20' ? PeerStatus.MayChurnOutBondExpiring : PeerStatus.Migrating;
     }
     if (account.rank > RANK_CHURNED_IN) {
       return PeerStatus.MayChurnOutBondTooLow;
@@ -308,6 +310,7 @@ export const formatPeers = async ({
       onchainNodes: nodeList,
       expireTs: peer.stake.stakeTime,
       address,
+      bridge,
     });
     return {
       ...peer,

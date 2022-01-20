@@ -23,8 +23,6 @@ import {
   ColumnExpiry,
   ColumnLeft,
   ColumnNodeName,
-  // CurrencyBox,
-  // CurrencyColumn,
   ImgFlag,
   Location,
   MetanodeListContainer,
@@ -49,9 +47,6 @@ interface Props {
 export const MetanodeList = (props: Props) => {
   const { locale } = useIntl();
   const { isLoading, nodes, nodeTvl } = props;
-
-  // const swingbyRewardCurrency = 'BEP2';
-  // const sbBTCRewardCurrency = bridge && getSbBtcRewardCurrency(bridge);
 
   const { media } = StylingConstants;
   const xl = useMatchMedia({ query: `(min-width: ${rem(media.xl)})` });
@@ -87,9 +82,9 @@ export const MetanodeList = (props: Props) => {
         {!isLoading &&
           nodes &&
           nodes.map((node: IPeer, i: number) => {
-            // Todo: remove
-            // const bnbAddress = node.rewardsAddress1;
-            // const ethAddress = node.rewardsAddress2;
+            // Todo: Migrate to BEP20 address instead of BEP2 for BSC nodes in the future
+            const rewardAddress =
+              props.bridge === 'btc_bep20' ? node.rewardsAddress1 : node.stake.address;
 
             const bondAmount = getCryptoAssetFormatter({
               locale,
@@ -109,9 +104,10 @@ export const MetanodeList = (props: Props) => {
             const expireTime = convertDateTime(node.stake.stakeTime);
             const isNoRequiredTooltip =
               xl || node.status === 'CHURNED_IN' || node.status === 'MAY_CHURN_IN';
+            const key = `${i}: ${node.rank}: ${node.id}`;
 
             return (
-              <Row key={node.id} bg={toggleStatusBg(node.status, i)}>
+              <Row key={key} bg={toggleStatusBg(node.status, i)}>
                 <ColumnLeft>
                   <Location>
                     <ImgFlag
@@ -166,27 +162,9 @@ export const MetanodeList = (props: Props) => {
                 </ColumnExpiry>
                 <SizeL>
                   <BoxAddress>
-                    {/* Todo: remove */}
-                    {/* <RowAddress>
-                      <CurrencyColumn>
-                        <CurrencyBox>
-                          <TextRoom variant="label">{swingbyRewardCurrency}</TextRoom>
-                        </CurrencyBox>
-                        <TextRoom variant="label">:</TextRoom>
-                      </CurrencyColumn>
-                      <ColumnAddress>
-                        <AddressP>{bnbAddress}</AddressP>
-                      </ColumnAddress>
-                    </RowAddress> */}
                     <RowAddress>
-                      {/* <CurrencyColumn>
-                        <CurrencyBox>
-                          <TextRoom variant="label">{sbBTCRewardCurrency}</TextRoom>
-                        </CurrencyBox>
-                        <TextRoom variant="label">:</TextRoom>
-                      </CurrencyColumn> */}
                       <ColumnAddress>
-                        <AddressP>{node.stake.address}</AddressP>
+                        <AddressP>{rewardAddress}</AddressP>
                       </ColumnAddress>
                     </RowAddress>
                   </BoxAddress>

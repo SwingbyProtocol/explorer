@@ -30,7 +30,13 @@ interface Props {
 export const NodeStatus = (props: Props) => {
   const { nodes, isLoading } = props;
   const nodeStatusTable = nodes && listNodeStatus(nodes);
-  const { ChurnedIn, MayChurnIn, MayChurnOutBondTooLow, Migrating } = PeerStatus;
+  const {
+    ChurnedIn,
+    MayChurnIn,
+    MayChurnOutBondTooLow,
+    Migrating,
+    MayChurnOutBondExpiring,
+  } = PeerStatus;
 
   const churnedInStatus =
     nodeStatusTable && nodeStatusTable.find((it: IPeerStatusTable) => it.status === ChurnedIn);
@@ -42,6 +48,10 @@ export const NodeStatus = (props: Props) => {
   const mayChurnInStatus =
     nodeStatusTable && nodeStatusTable.find((it: IPeerStatusTable) => it.status === MayChurnIn);
 
+  const mayChurnOutBondExpiringStatus =
+    nodeStatusTable &&
+    nodeStatusTable.find((it: IPeerStatusTable) => it.status === MayChurnOutBondExpiring);
+
   const migratingStatus =
     nodeStatusTable && nodeStatusTable.find((it: IPeerStatusTable) => it.status === Migrating);
 
@@ -49,8 +59,8 @@ export const NodeStatus = (props: Props) => {
     <Tooltip
       content={
         <Tooltip.Content>
-          {nodeTable.nodes.map((node: string) => (
-            <div key={node}>
+          {nodeTable.nodes.map((node: string, i: number) => (
+            <div key={`${i}: ${node}`}>
               <TextRoom variant="label">{node},</TextRoom>{' '}
             </div>
           ))}
@@ -79,6 +89,11 @@ export const NodeStatus = (props: Props) => {
       table: bondLowStatus,
       status: bondLowStatus?.status,
       text: 'metanodes.bond-low',
+    },
+    {
+      table: mayChurnOutBondExpiringStatus,
+      status: mayChurnOutBondExpiringStatus?.status,
+      text: 'metanodes.bond-expiring',
     },
     {
       table: migratingStatus,

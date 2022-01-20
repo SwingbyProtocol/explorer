@@ -29,7 +29,10 @@ interface Props {
 const MAX_CHURNED_IN = 50;
 
 const CHURNED_IN_STATUSES = [PeerStatus.ChurnedIn];
-const MAY_CHURNED_OUT_STATUSES = [PeerStatus.MayChurnOutBondTooLow];
+const MAY_CHURNED_OUT_STATUSES = [
+  PeerStatus.MayChurnOutBondTooLow,
+  PeerStatus.MayChurnOutBondExpiring,
+];
 
 const MIGRATING_STATUS = [PeerStatus.Migrating];
 

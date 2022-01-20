@@ -218,10 +218,3 @@ export const TextNodeStatus = styled(TextNodeName)`
 export const AddressP = styled(AddressLinkP)`
   cursor: text;
 `;
-
-export const CurrencyBox = styled.div`
-  width: ${({ theme }) => rem(theme.pulsar.size.state)};
-`;
-export const CurrencyColumn = styled.div`
-  display: flex;
-`;

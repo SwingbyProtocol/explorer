@@ -169,6 +169,8 @@ export const toggleStatusWord = (status: PeerStatus): string | boolean => {
       return 'metanodes.metanode-status.churned-in';
     case PeerStatus.MayChurnOutBondTooLow:
       return 'metanodes.metanode-status.may-churn-out-bond-low';
+    case PeerStatus.MayChurnOutBondExpiring:
+      return 'metanodes.metanode-status.may-churn-out-bond-expiring';
     case PeerStatus.MayChurnIn:
       return 'metanodes.metanode-status.may-churn-in';
     case PeerStatus.Migrating:

@@ -13,6 +13,8 @@ export const useLoadMetanodes = ({ bridge }: { bridge: SkybridgeBridge }) => {
 
   const getData = useCallback(async () => {
     try {
+      if (!endpoint[bridge]) return;
+
       const url = `${endpoint[bridge]}/api/v1/peers`;
       const result = await fetcher<IPeer[]>(url);
       const { nodes, nodeTvl } = await formatPeers({ peers: result, bridge });
