@@ -10,6 +10,7 @@ import ip2country from 'ip2country';
 import { AbiItem } from 'web3-utils';
 import { DateTime } from 'luxon';
 import { stringifyUrl } from 'query-string';
+import { Big } from 'big.js';
 
 import {
   DAYS_CHURNED_IN,
@@ -380,4 +381,39 @@ export const getNextChurnedTx = async (bridge: SkybridgeBridge) => {
   const blocks = { ...latestTxBlocks, [bridge]: newData };
   localStorage.setItem(LOCAL_STORAGE.LastChurnedBlock, JSON.stringify(blocks));
   return { nextAt, lastTxHash };
+};
+
+export const getLiquidityRatio = async (bridge: SkybridgeBridge) => {
+  const btcUsdtPrice = await fetchVwap('btcUsd');
+
+  const web3 = createWeb3Instance({ mode, bridge });
+  const contract = new web3.eth.Contract(
+    CONTRACTS.bridges[bridge][mode].abi,
+    CONTRACTS.bridges[bridge][mode].address,
+  );
+
+  const coins = ['BTC', bridge === 'btc_erc' ? 'WBTC' : 'BTCB.BEP20'] as const;
+
+  const floatReserves = await contract.methods
+    .getFloatReserve(
+      CONTRACTS.coins[coins[0]][mode].address,
+      CONTRACTS.coins[coins[1]][mode].address,
+    )
+    .call();
+  const btcReserve = new Big(floatReserves[0]).div('1e8').times(btcUsdtPrice);
+  const wbtcReserve = new Big(floatReserves[1]).div('1e8').times(btcUsdtPrice);
+  const liquidityTotal = btcReserve.add(wbtcReserve);
+  const data = [
+    {
+      currency: coins[0],
+      liquidity: btcReserve.toString(),
+      fraction: new Big(liquidityTotal.eq(0) ? '0' : btcReserve.div(liquidityTotal)).toString(),
+    },
+    {
+      currency: coins[1],
+      liquidity: wbtcReserve.toString(),
+      fraction: new Big(liquidityTotal.eq(0) ? '0' : wbtcReserve.div(liquidityTotal)).toString(),
+    },
+  ];
+  return { currency: 'USD', data };
 };

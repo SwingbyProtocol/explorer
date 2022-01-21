@@ -6,14 +6,14 @@ import { IChartDate } from '../../explorer';
 import { fetcher } from '../../fetch';
 import {
   getActiveNodeList,
+  getLiquidityRatio,
+  getNextChurnedTx,
   IBondHistories,
   IChurn,
   ILiquidity,
   ILiquidityRatio,
-  ILiquidityRatios,
   IRewards,
   listHistory,
-  getNextChurnedTx,
 } from '../../metanodes';
 import { useInterval } from '../useInterval';
 import { useToggleBridge } from '../useToggleBridge';
@@ -55,6 +55,7 @@ export const useToggleMetanode = (path: PATH) => {
     if (bridge && path === PATH.METANODES) {
       const url = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/bond-to-liquidity`;
       const result = await fetcher<ILiquidity>(url);
+      // console.log('getLiquidity', result);
       setLiquidity(result);
     }
   }, [bridge, path]);
@@ -71,10 +72,8 @@ export const useToggleMetanode = (path: PATH) => {
 
   const getLiquidityRation = useCallback(async () => {
     if (bridge && path === PATH.METANODES) {
-      const url = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/liquidity-ratio`;
-      const result = await fetcher<ILiquidityRatios>(url);
-      const liquidityRationData = result.data;
-      setLiquidityRatio(liquidityRationData);
+      const { data } = await getLiquidityRatio(bridge);
+      setLiquidityRatio(data);
     }
   }, [bridge, path]);
 
