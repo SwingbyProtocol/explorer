@@ -14,6 +14,7 @@ export {
   getActiveNodeList,
   getNextChurnedTx,
   getLiquidityRatio,
+  getBondToLiquidity,
 } from './utils';
 
 export const NODE_APR = 30;

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import { useLoadMetanodes } from '..';
 import { ENDPOINT_SKYBRIDGE_EXCHANGE, mode, PATH } from '../../env';
@@ -14,6 +15,7 @@ import {
   ILiquidityRatio,
   IRewards,
   listHistory,
+  getBondToLiquidity,
 } from '../../metanodes';
 import { useInterval } from '../useInterval';
 import { useToggleBridge } from '../useToggleBridge';
@@ -29,6 +31,7 @@ export const useToggleMetanode = (path: PATH) => {
   const [liquidityRatio, setLiquidityRatio] = useState<ILiquidityRatio[] | null>(null);
 
   const { nodes, nodeTvl } = useLoadMetanodes({ bridge });
+  const usd = useSelector((state) => state.explorer.usd);
 
   const getRewards = useCallback(async () => {
     if ((bridge && path === PATH.METANODES) || (bridge && path === PATH.ROOT)) {
@@ -52,13 +55,14 @@ export const useToggleMetanode = (path: PATH) => {
   }, [bridge, path]);
 
   const getLiquidity = useCallback(async () => {
-    if (bridge && path === PATH.METANODES) {
-      const url = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/bond-to-liquidity`;
-      const result = await fetcher<ILiquidity>(url);
-      // console.log('getLiquidity', result);
+    if (bridge && path === PATH.METANODES && usd && nodeTvl) {
+      const swingbyUsdtPrice = usd.SWINGBY;
+      const btcUsdtPrice = usd.BTC;
+      const tvl = nodeTvl;
+      const result = await getBondToLiquidity({ bridge, tvl, swingbyUsdtPrice, btcUsdtPrice });
       setLiquidity(result);
     }
-  }, [bridge, path]);
+  }, [bridge, path, usd, nodeTvl]);
 
   const getBondHistory = useCallback(async () => {
     if (bridge && path === PATH.METANODES) {
@@ -71,11 +75,12 @@ export const useToggleMetanode = (path: PATH) => {
   }, [bridge, path]);
 
   const getLiquidityRation = useCallback(async () => {
-    if (bridge && path === PATH.METANODES) {
-      const { data } = await getLiquidityRatio(bridge);
+    if (bridge && path === PATH.METANODES && usd) {
+      const btcUsdtPrice = usd.BTC;
+      const { data } = await getLiquidityRatio({ bridge, btcUsdtPrice });
       setLiquidityRatio(data);
     }
-  }, [bridge, path]);
+  }, [bridge, path, usd]);
 
   const getChurnTime = useCallback(async () => {
     if (bridge && path === PATH.METANODES) {

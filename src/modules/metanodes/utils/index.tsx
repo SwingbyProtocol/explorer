@@ -5,12 +5,12 @@ import {
   getPowEpoch,
   SkybridgeBridge,
 } from '@swingby-protocol/sdk';
+import { Big } from 'big.js';
 import { BigNumber } from 'bignumber.js';
 import ip2country from 'ip2country';
-import { AbiItem } from 'web3-utils';
 import { DateTime } from 'luxon';
 import { stringifyUrl } from 'query-string';
-import { Big } from 'big.js';
+import { AbiItem } from 'web3-utils';
 
 import {
   DAYS_CHURNED_IN,
@@ -29,9 +29,9 @@ import { ENDPOINT_SKYBRIDGE_EXCHANGE, LOCAL_STORAGE, mode } from '../../env';
 import { calDiffDays, fetchVwap, IChartDate } from '../../explorer';
 import { fetch, fetcher } from '../../fetch';
 import { IFloatHistoryObject } from '../../hooks';
+import { logger } from '../../logger';
 import { initialVolumes } from '../../store';
 import { createWeb3Instance } from '../../web3';
-import { EtherscanResult, getScanApiBaseEndpoint } from '../../etherscan';
 
 export const fetchNodeEarningsList = async () => {
   const url = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/rewards/ranking`;
@@ -354,28 +354,20 @@ export const getNextChurnedTx = async (bridge: SkybridgeBridge) => {
     .toJSDate()
     .toISOString();
 
-  const url = getScanApiBaseEndpoint(bridge) + '/api';
-  const result = (
-    await fetcher<EtherscanResult>(
-      stringifyUrl({
-        url,
-        query: {
-          module: 'account',
-          action: 'txlist',
-          endblock: 'latest',
-          address: CONTRACTS.bridges[bridge][mode].address,
-          sort: 'desc',
-          startblock: latestTxBlocks[bridge]
-            ? latestTxBlocks[bridge][mode]
-              ? latestTxBlocks[bridge][mode]
-              : undefined
-            : undefined,
-        },
-      }),
-    )
-  ).result.filter((it) => /^0x4e54cee0/i.test(it.input) || /^0x7c747cf9/i.test(it.input));
-  const lastTxHash = result[0].hash;
-  const lastTxBlock = result[0].blockNumber;
+  const startblock = latestTxBlocks[bridge]
+    ? latestTxBlocks[bridge][mode]
+      ? latestTxBlocks[bridge][mode]
+      : '0'
+    : '0';
+
+  const url = stringifyUrl({
+    url: `/api/v1/etherscan/get-churned`,
+    query: { bridge, startblock },
+  });
+
+  const { lastTxBlock, lastTxHash } = await fetcher<{ lastTxBlock: string; lastTxHash: string }>(
+    url,
+  );
 
   const newData = { ...latestTxBlocks[bridge], [mode]: lastTxBlock };
   const blocks = { ...latestTxBlocks, [bridge]: newData };
@@ -383,9 +375,13 @@ export const getNextChurnedTx = async (bridge: SkybridgeBridge) => {
   return { nextAt, lastTxHash };
 };
 
-export const getLiquidityRatio = async (bridge: SkybridgeBridge) => {
-  const btcUsdtPrice = await fetchVwap('btcUsd');
-
+export const getLiquidityRatio = async ({
+  bridge,
+  btcUsdtPrice,
+}: {
+  bridge: SkybridgeBridge;
+  btcUsdtPrice: number;
+}) => {
   const web3 = createWeb3Instance({ mode, bridge });
   const contract = new web3.eth.Contract(
     CONTRACTS.bridges[bridge][mode].abi,
@@ -416,4 +412,84 @@ export const getLiquidityRatio = async (bridge: SkybridgeBridge) => {
     },
   ];
   return { currency: 'USD', data };
+};
+
+type Data = {
+  currency: 'USD';
+  status: 'overbonded' | 'underbonded' | 'optimal';
+  bond: string;
+  liquidity: string;
+  optimalBondFraction: string;
+  overbondedBondFraction: string;
+  optimalBondRatio: string;
+  overbondedBondRatio: string;
+};
+
+export const getBondToLiquidity = async ({
+  bridge,
+  tvl,
+  swingbyUsdtPrice,
+  btcUsdtPrice,
+}: {
+  bridge: SkybridgeBridge;
+  tvl: number;
+  swingbyUsdtPrice: number;
+  btcUsdtPrice: number;
+}) => {
+  const OPTIMAL_BOND_TO_LIQUIDITY_RATIO = new Big('1.5');
+  const OVERBONDED_BOND_TO_LIQUIDITY_RATIO = new Big('2');
+
+  const bonded = new Big(tvl).times(swingbyUsdtPrice);
+
+  const liquidity = await (async () => {
+    const web3 = createWeb3Instance({ mode, bridge });
+    const contract = new web3.eth.Contract(
+      CONTRACTS.bridges[bridge][mode].abi,
+      CONTRACTS.bridges[bridge][mode].address,
+    );
+
+    try {
+      const floatReserves = await contract.methods
+        .getFloatReserve(
+          CONTRACTS.coins.BTC[mode].address,
+          CONTRACTS.coins[bridge === 'btc_erc' ? 'WBTC' : 'BTCB.BEP20'][mode].address,
+        )
+        .call();
+      const btcReserve = new Big(floatReserves[0] || 0).div('1e8').times(btcUsdtPrice);
+      const wbtcReserve = new Big(floatReserves[1] || 0).div('1e8').times(btcUsdtPrice);
+      return btcReserve.add(wbtcReserve);
+    } catch (err) {
+      logger.error({ err }, 'Could not calculate liquidity');
+      return new Big(0);
+    }
+  })();
+  const data = {
+    currency: 'USD',
+    status: ((): Data['status'] => {
+      if (liquidity.eq(0)) {
+        return 'overbonded';
+      }
+
+      if (bonded.div(liquidity).lt(OPTIMAL_BOND_TO_LIQUIDITY_RATIO)) {
+        return 'underbonded';
+      }
+
+      if (bonded.div(liquidity).gte(OVERBONDED_BOND_TO_LIQUIDITY_RATIO)) {
+        return 'overbonded';
+      }
+
+      return 'optimal';
+    })(),
+    bond: bonded.toFixed(2),
+    liquidity: liquidity.toFixed(2),
+    optimalBondFraction: new Big(1)
+      .minus(new Big(1).div(OPTIMAL_BOND_TO_LIQUIDITY_RATIO.add(1)))
+      .toString(),
+    overbondedBondFraction: new Big(1)
+      .minus(new Big(1).div(OVERBONDED_BOND_TO_LIQUIDITY_RATIO.add(1)))
+      .toString(),
+    optimalBondRatio: OPTIMAL_BOND_TO_LIQUIDITY_RATIO.toString(),
+    overbondedBondRatio: OVERBONDED_BOND_TO_LIQUIDITY_RATIO.toString(),
+  };
+  return data;
 };
