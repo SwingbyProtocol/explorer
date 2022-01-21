@@ -6,15 +6,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Loader } from '../../../../../components/Loader';
 import { Pagination } from '../../../../../components/Pagination';
 import { PATH, TXS_COUNT } from '../../../../env';
+import { getScanDetailBaseEndpoint } from '../../../../etherscan';
 import { convertTxTime, toBTC } from '../../../../explorer';
 import { useToggleBridge } from '../../../../hooks';
 import { useOnboard } from '../../../../onboard';
-import {
-  fetchRecentTransaction,
-  getScanDetailBaseEndpoint,
-  IRecentTx,
-  PoolMode,
-} from '../../../../pool';
+import { fetchRecentTransaction, IRecentTx, PoolMode } from '../../../../pool';
 import { getRecentTxs, togglePoolMode } from '../../../../store';
 import { TextBlock } from '../../../Common';
 

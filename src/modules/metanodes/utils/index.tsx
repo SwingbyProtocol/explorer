@@ -1,6 +1,15 @@
-import { CONTRACTS, SkybridgeBridge } from '@swingby-protocol/sdk';
+import {
+  buildContext,
+  CONTRACTS,
+  getBlockHeight,
+  getPowEpoch,
+  SkybridgeBridge,
+} from '@swingby-protocol/sdk';
+import { Big } from 'big.js';
 import { BigNumber } from 'bignumber.js';
 import ip2country from 'ip2country';
+import { DateTime } from 'luxon';
+import { stringifyUrl } from 'query-string';
 import { AbiItem } from 'web3-utils';
 
 import {
@@ -16,10 +25,11 @@ import {
   TBondHistory,
 } from '..';
 import { getShortDate } from '../../common';
-import { ENDPOINT_SKYBRIDGE_EXCHANGE, mode } from '../../env';
+import { ENDPOINT_SKYBRIDGE_EXCHANGE, LOCAL_STORAGE, mode } from '../../env';
 import { calDiffDays, fetchVwap, IChartDate } from '../../explorer';
 import { fetch, fetcher } from '../../fetch';
 import { IFloatHistoryObject } from '../../hooks';
+import { logger } from '../../logger';
 import { initialVolumes } from '../../store';
 import { createWeb3Instance } from '../../web3';
 
@@ -321,4 +331,165 @@ export const formatPeers = async ({
   });
 
   return { nodes, nodeTvl };
+};
+
+export const getNextChurnedTx = async (bridge: SkybridgeBridge) => {
+  const localData = localStorage.getItem(LOCAL_STORAGE.LastChurnedBlock);
+  const latestTxBlocks = localData ? JSON.parse(localData) : {};
+
+  const SECONDS_PER_EPOCH: { [k in SkybridgeBridge]: number } = {
+    btc_bep20: 45,
+    btc_erc: 45,
+  };
+
+  const context = await buildContext({ mode });
+  const blockHeight = await getBlockHeight({ context, bridge });
+  const epoch = getPowEpoch({ bridge, blockHeight });
+
+  const nextChurnEpoch = epoch + (1000 - (epoch % 1000));
+  const remainingEpochs = nextChurnEpoch - epoch;
+  const nextAt = DateTime.local()
+    .toUTC()
+    .plus({ seconds: remainingEpochs * SECONDS_PER_EPOCH[bridge] })
+    .toJSDate()
+    .toISOString();
+
+  const startblock = latestTxBlocks[bridge]
+    ? latestTxBlocks[bridge][mode]
+      ? latestTxBlocks[bridge][mode]
+      : '0'
+    : '0';
+
+  const url = stringifyUrl({
+    url: `/api/v1/etherscan/get-churned`,
+    query: { bridge, startblock },
+  });
+
+  const { lastTxBlock, lastTxHash } = await fetcher<{ lastTxBlock: string; lastTxHash: string }>(
+    url,
+  );
+
+  const newData = { ...latestTxBlocks[bridge], [mode]: lastTxBlock };
+  const blocks = { ...latestTxBlocks, [bridge]: newData };
+  localStorage.setItem(LOCAL_STORAGE.LastChurnedBlock, JSON.stringify(blocks));
+  return { nextAt, lastTxHash };
+};
+
+export const getLiquidityRatio = async ({
+  bridge,
+  btcUsdtPrice,
+}: {
+  bridge: SkybridgeBridge;
+  btcUsdtPrice: number;
+}) => {
+  const web3 = createWeb3Instance({ mode, bridge });
+  const contract = new web3.eth.Contract(
+    CONTRACTS.bridges[bridge][mode].abi,
+    CONTRACTS.bridges[bridge][mode].address,
+  );
+
+  const coins = ['BTC', bridge === 'btc_erc' ? 'WBTC' : 'BTCB.BEP20'] as const;
+
+  const floatReserves = await contract.methods
+    .getFloatReserve(
+      CONTRACTS.coins[coins[0]][mode].address,
+      CONTRACTS.coins[coins[1]][mode].address,
+    )
+    .call();
+  const btcReserve = new Big(floatReserves[0]).div('1e8').times(btcUsdtPrice);
+  const wbtcReserve = new Big(floatReserves[1]).div('1e8').times(btcUsdtPrice);
+  const liquidityTotal = btcReserve.add(wbtcReserve);
+  const data = [
+    {
+      currency: coins[0],
+      liquidity: btcReserve.toString(),
+      fraction: new Big(liquidityTotal.eq(0) ? '0' : btcReserve.div(liquidityTotal)).toString(),
+    },
+    {
+      currency: coins[1],
+      liquidity: wbtcReserve.toString(),
+      fraction: new Big(liquidityTotal.eq(0) ? '0' : wbtcReserve.div(liquidityTotal)).toString(),
+    },
+  ];
+  return { currency: 'USD', data };
+};
+
+type Data = {
+  currency: 'USD';
+  status: 'overbonded' | 'underbonded' | 'optimal';
+  bond: string;
+  liquidity: string;
+  optimalBondFraction: string;
+  overbondedBondFraction: string;
+  optimalBondRatio: string;
+  overbondedBondRatio: string;
+};
+
+export const getBondToLiquidity = async ({
+  bridge,
+  tvl,
+  swingbyUsdtPrice,
+  btcUsdtPrice,
+}: {
+  bridge: SkybridgeBridge;
+  tvl: number;
+  swingbyUsdtPrice: number;
+  btcUsdtPrice: number;
+}) => {
+  const OPTIMAL_BOND_TO_LIQUIDITY_RATIO = new Big('1.5');
+  const OVERBONDED_BOND_TO_LIQUIDITY_RATIO = new Big('2');
+
+  const bonded = new Big(tvl).times(swingbyUsdtPrice);
+
+  const liquidity = await (async () => {
+    const web3 = createWeb3Instance({ mode, bridge });
+    const contract = new web3.eth.Contract(
+      CONTRACTS.bridges[bridge][mode].abi,
+      CONTRACTS.bridges[bridge][mode].address,
+    );
+
+    try {
+      const floatReserves = await contract.methods
+        .getFloatReserve(
+          CONTRACTS.coins.BTC[mode].address,
+          CONTRACTS.coins[bridge === 'btc_erc' ? 'WBTC' : 'BTCB.BEP20'][mode].address,
+        )
+        .call();
+      const btcReserve = new Big(floatReserves[0] || 0).div('1e8').times(btcUsdtPrice);
+      const wbtcReserve = new Big(floatReserves[1] || 0).div('1e8').times(btcUsdtPrice);
+      return btcReserve.add(wbtcReserve);
+    } catch (err) {
+      logger.error({ err }, 'Could not calculate liquidity');
+      return new Big(0);
+    }
+  })();
+  const data = {
+    currency: 'USD',
+    status: ((): Data['status'] => {
+      if (liquidity.eq(0)) {
+        return 'overbonded';
+      }
+
+      if (bonded.div(liquidity).lt(OPTIMAL_BOND_TO_LIQUIDITY_RATIO)) {
+        return 'underbonded';
+      }
+
+      if (bonded.div(liquidity).gte(OVERBONDED_BOND_TO_LIQUIDITY_RATIO)) {
+        return 'overbonded';
+      }
+
+      return 'optimal';
+    })(),
+    bond: bonded.toFixed(2),
+    liquidity: liquidity.toFixed(2),
+    optimalBondFraction: new Big(1)
+      .minus(new Big(1).div(OPTIMAL_BOND_TO_LIQUIDITY_RATIO.add(1)))
+      .toString(),
+    overbondedBondFraction: new Big(1)
+      .minus(new Big(1).div(OVERBONDED_BOND_TO_LIQUIDITY_RATIO.add(1)))
+      .toString(),
+    optimalBondRatio: OPTIMAL_BOND_TO_LIQUIDITY_RATIO.toString(),
+    overbondedBondRatio: OVERBONDED_BOND_TO_LIQUIDITY_RATIO.toString(),
+  };
+  return data;
 };

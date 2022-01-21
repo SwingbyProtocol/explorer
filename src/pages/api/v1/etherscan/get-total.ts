@@ -2,13 +2,9 @@ import { SkybridgeBridge } from '@swingby-protocol/sdk';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { corsMiddleware, getParam } from '../../../../modules/api';
+import { getScanApiBaseEndpoint, getScanApiKey } from '../../../../modules/etherscan';
 import { fetch } from '../../../../modules/fetch';
-import {
-  getSbBtcContract,
-  getScanApiKey,
-  getScanApiBaseEndpoint,
-  IEtherscanTransaction,
-} from '../../../../modules/pool';
+import { getSbBtcContract, IEtherscanTransaction } from '../../../../modules/pool';
 
 const generateUrl = (
   page: number,

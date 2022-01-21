@@ -25,6 +25,7 @@ export enum PATH {
 export enum LOCAL_STORAGE {
   Theme = 'themeMode',
   Wallet = 'wallet',
+  LastChurnedBlock = 'lastChurnedBlock',
 }
 
 export const mode: SkybridgeMode =

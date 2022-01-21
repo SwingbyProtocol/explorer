@@ -12,6 +12,9 @@ export {
   getLockedHistory,
   listHistory,
   getActiveNodeList,
+  getNextChurnedTx,
+  getLiquidityRatio,
+  getBondToLiquidity,
 } from './utils';
 
 export const NODE_APR = 30;
@@ -44,7 +47,6 @@ export interface ILiquidity {
 export interface IChurn {
   nextAt: string;
   lastTxHash: string;
-  lastAt: string;
 }
 
 export type TBondHistory = {
@@ -54,11 +56,6 @@ export type TBondHistory = {
 export interface IBondHistories {
   currency: string;
   data: TBondHistory[];
-}
-
-export interface ILiquidityRatios {
-  currency: string;
-  data: ILiquidityRatio[];
 }
 
 export interface ILiquidityRatio {
