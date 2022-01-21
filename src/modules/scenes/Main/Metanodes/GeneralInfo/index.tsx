@@ -3,8 +3,9 @@ import { CONTRACTS, SKYBRIDGE_BRIDGES } from '@swingby-protocol/sdk';
 import { FormattedMessage } from 'react-intl';
 
 import { mode, PATH } from '../../../../env';
+import { getScanDetailBaseEndpoint } from '../../../../etherscan';
 import { useToggleBridge } from '../../../../hooks';
-import { getSbBtcContract, getScanDetailBaseEndpoint } from '../../../../pool';
+import { getSbBtcContract } from '../../../../pool';
 import { Atag, TextRoom } from '../../../Common';
 
 import { AddressP, GeneralInfoContainer, Left, Right, Row, RowTitle } from './styled';

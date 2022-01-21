@@ -5,10 +5,7 @@ export {
   getSbBTCBalance,
   getHexValue,
   orgFloor,
-  getScanApiBaseEndpoint,
-  getScanApiKey,
   getSbBtcContract,
-  getScanDetailBaseEndpoint,
   mergeSameDateEarningsData,
   formatAprData,
 } from './utils';

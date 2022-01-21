@@ -12,6 +12,7 @@ export {
   getLockedHistory,
   listHistory,
   getActiveNodeList,
+  getNextChurnedTx,
 } from './utils';
 
 export const NODE_APR = 30;
@@ -44,7 +45,6 @@ export interface ILiquidity {
 export interface IChurn {
   nextAt: string;
   lastTxHash: string;
-  lastAt: string;
 }
 
 export type TBondHistory = {

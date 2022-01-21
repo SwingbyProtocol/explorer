@@ -1,7 +1,15 @@
-import { CONTRACTS, SkybridgeBridge } from '@swingby-protocol/sdk';
+import {
+  buildContext,
+  CONTRACTS,
+  getBlockHeight,
+  getPowEpoch,
+  SkybridgeBridge,
+} from '@swingby-protocol/sdk';
 import { BigNumber } from 'bignumber.js';
 import ip2country from 'ip2country';
 import { AbiItem } from 'web3-utils';
+import { DateTime } from 'luxon';
+import { stringifyUrl } from 'query-string';
 
 import {
   DAYS_CHURNED_IN,
@@ -16,12 +24,13 @@ import {
   TBondHistory,
 } from '..';
 import { getShortDate } from '../../common';
-import { ENDPOINT_SKYBRIDGE_EXCHANGE, mode } from '../../env';
+import { ENDPOINT_SKYBRIDGE_EXCHANGE, LOCAL_STORAGE, mode } from '../../env';
 import { calDiffDays, fetchVwap, IChartDate } from '../../explorer';
 import { fetch, fetcher } from '../../fetch';
 import { IFloatHistoryObject } from '../../hooks';
 import { initialVolumes } from '../../store';
 import { createWeb3Instance } from '../../web3';
+import { EtherscanResult, getScanApiBaseEndpoint } from '../../etherscan';
 
 export const fetchNodeEarningsList = async () => {
   const url = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/rewards/ranking`;
@@ -321,4 +330,54 @@ export const formatPeers = async ({
   });
 
   return { nodes, nodeTvl };
+};
+
+export const getNextChurnedTx = async (bridge: SkybridgeBridge) => {
+  const localData = localStorage.getItem(LOCAL_STORAGE.LastChurnedBlock);
+  const latestTxBlocks = localData ? JSON.parse(localData) : {};
+
+  const SECONDS_PER_EPOCH: { [k in SkybridgeBridge]: number } = {
+    btc_bep20: 45,
+    btc_erc: 45,
+  };
+
+  const context = await buildContext({ mode });
+  const blockHeight = await getBlockHeight({ context, bridge });
+  const epoch = getPowEpoch({ bridge, blockHeight });
+
+  const nextChurnEpoch = epoch + (1000 - (epoch % 1000));
+  const remainingEpochs = nextChurnEpoch - epoch;
+  const nextAt = DateTime.local()
+    .toUTC()
+    .plus({ seconds: remainingEpochs * SECONDS_PER_EPOCH[bridge] })
+    .toJSDate()
+    .toISOString();
+
+  const url = getScanApiBaseEndpoint(bridge) + '/api';
+  const result = (
+    await fetcher<EtherscanResult>(
+      stringifyUrl({
+        url,
+        query: {
+          module: 'account',
+          action: 'txlist',
+          endblock: 'latest',
+          address: CONTRACTS.bridges[bridge][mode].address,
+          sort: 'desc',
+          startblock: latestTxBlocks[bridge]
+            ? latestTxBlocks[bridge][mode]
+              ? latestTxBlocks[bridge][mode]
+              : undefined
+            : undefined,
+        },
+      }),
+    )
+  ).result.filter((it) => /^0x4e54cee0/i.test(it.input) || /^0x7c747cf9/i.test(it.input));
+  const lastTxHash = result[0].hash;
+  const lastTxBlock = result[0].blockNumber;
+
+  const newData = { ...latestTxBlocks[bridge], [mode]: lastTxBlock };
+  const blocks = { ...latestTxBlocks, [bridge]: newData };
+  localStorage.setItem(LOCAL_STORAGE.LastChurnedBlock, JSON.stringify(blocks));
+  return { nextAt, lastTxHash };
 };

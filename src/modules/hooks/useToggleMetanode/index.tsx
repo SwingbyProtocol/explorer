@@ -13,6 +13,7 @@ import {
   ILiquidityRatios,
   IRewards,
   listHistory,
+  getNextChurnedTx,
 } from '../../metanodes';
 import { useInterval } from '../useInterval';
 import { useToggleBridge } from '../useToggleBridge';
@@ -79,9 +80,8 @@ export const useToggleMetanode = (path: PATH) => {
 
   const getChurnTime = useCallback(async () => {
     if (bridge && path === PATH.METANODES) {
-      const churnUrl = bridge && `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/churn-info`;
-      const result = await fetcher<IChurn>(churnUrl);
-      setChurnTime(result);
+      const { lastTxHash, nextAt } = await getNextChurnedTx(bridge);
+      setChurnTime({ lastTxHash, nextAt });
     }
   }, [bridge, path]);
 

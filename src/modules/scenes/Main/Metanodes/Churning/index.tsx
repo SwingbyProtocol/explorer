@@ -4,9 +4,9 @@ import { FormattedMessage } from 'react-intl';
 
 import { Loader } from '../../../../../components/Loader';
 import { PATH } from '../../../../env';
+import { getScanDetailBaseEndpoint } from '../../../../etherscan';
 import { useRunCountDown, useToggleBridge } from '../../../../hooks';
 import { IChurn } from '../../../../metanodes';
-import { getScanDetailBaseEndpoint } from '../../../../pool';
 import { Atag, TextRoom } from '../../../Common';
 
 import { AddressP, ChurningContainer, Left, Right, Row, RowTitle } from './styled';
