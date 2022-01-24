@@ -1,20 +1,16 @@
 /* eslint-disable import/no-internal-modules */
 
 import { Dropdown, getCryptoAssetFormatter, Text } from '@swingby-protocol/pulsar';
+import { SkybridgeQuery } from '@swingby-protocol/sdk';
 import { DateTime } from 'luxon';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useMemo } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useTheme } from 'styled-components';
 
-import type {
-  Transaction,
-  TransactionsHistoryQueryHookResult,
-} from '../../../../../../generated/graphql';
+import { CoinSymbol } from '../../../../../coins';
 import { PATH } from '../../../../../env';
 import {
-  castGraphQlType,
   castUiStatus,
   convertTxTime,
   currencyNetwork,
@@ -51,22 +47,18 @@ import {
   TxHistoryRow,
 } from './styled';
 
-type QueriedTransaction = TransactionsHistoryQueryHookResult['data']['transactions']['edges'][number]['node'];
-
 export const TxHistoriesItem = ({
   tx,
   bgKey,
-  style,
   setToggleOpenLink,
   setTxDetail,
   toggleOpenLink,
 }: {
-  tx: QueriedTransaction;
+  tx: SkybridgeQuery;
   bgKey: number;
-  style: any;
   toggleOpenLink: number;
   setToggleOpenLink: (arg: number) => void;
-  setTxDetail: (tx: Transaction) => void;
+  setTxDetail: (tx: SkybridgeQuery) => void;
 }) => {
   const { locale } = useIntl();
   const theme = useTheme();
@@ -74,18 +66,19 @@ export const TxHistoriesItem = ({
   const params = query;
   const chainBridge = String(params.bridge || '');
   const borderColor = getBorderColor({ status: tx.status, theme });
-  const oldTxType = useMemo(() => castGraphQlType(tx as Transaction), [tx]);
 
   return (
-    <Link href={`${chainBridge === 'floats' ? PATH.FLOAT : PATH.SWAP}/${tx.id}`}>
-      <TxHistoryRow key={tx.id} bg={bgKey % 2 !== 0} borderColor={borderColor} style={style}>
+    <Link href={`${chainBridge === 'floats' ? PATH.FLOAT : PATH.SWAP}/${tx.hash}`}>
+      <TxHistoryRow key={tx.hash} bg={bgKey % 2 !== 0} borderColor={borderColor}>
         <Column>
           <Status>
             <StatusCircle status={tx.status} />
             <StatusText variant="accent">{castUiStatus(tx.status)}</StatusText>
           </Status>
           <Row>
-            <TextTime variant="label">{convertTxTime(DateTime.fromISO(tx.at))}</TextTime>
+            <TextTime variant="label">
+              {convertTxTime(DateTime.fromMillis(tx.timestamp * 1000))}
+            </TextTime>
           </Row>
           {tx.status === TxStatus.PENDING && (
             <RowAbsolute>
@@ -93,7 +86,7 @@ export const TxHistoriesItem = ({
                 <FormattedMessage
                   id="home.recent-swaps.confirmation"
                   values={{
-                    confirmations: getRequiredBlockConfirmations(oldTxType.currencyIn),
+                    confirmations: getRequiredBlockConfirmations(tx.currencyIn as CoinSymbol),
                   }}
                 />
               </TextConfirmation>
@@ -105,23 +98,23 @@ export const TxHistoriesItem = ({
             <Text variant="label">
               <FormattedMessage id="common.from" />
             </Text>
-            <AddressLinkP>{tx.sendingAddress && tx.sendingAddress.toLowerCase()}</AddressLinkP>
+            <AddressLinkP>{tx.addressOut && tx.addressOut.toLowerCase()}</AddressLinkP>
           </RowAddress>
           <RowAddress>
             <Text variant="label">
               <FormattedMessage id="common.to" />
             </Text>
-            <AddressLinkP>{tx.receivingAddress.toLowerCase()}</AddressLinkP>
+            <AddressLinkP>{tx.addressIn.toLowerCase()}</AddressLinkP>
           </RowAddress>
         </ColumnM>
         <ColumnAmount>
-          <Coin symbol={tx.depositCurrency} />
+          <Coin symbol={tx.currencyIn} />
           <div>
             <Top>
-              <NetworkText variant="label">{currencyNetwork(oldTxType.currencyIn)}</NetworkText>
+              <NetworkText variant="label">{currencyNetwork(tx.currencyIn)}</NetworkText>
             </Top>
             <RowAmount>
-              <AmountSpan variant="accent">{tx.depositAmount}</AmountSpan>
+              <AmountSpan variant="accent">{tx.amountIn}</AmountSpan>
             </RowAmount>
           </div>
         </ColumnAmount>
@@ -129,13 +122,13 @@ export const TxHistoriesItem = ({
           <IconArrowRight />
         </Column>
         <ColumnAmount>
-          <Coin symbol={tx.receivingCurrency} />
+          <Coin symbol={tx.currencyOut} />
           <div>
             <Top>
-              <NetworkText variant="label">{currencyNetwork(oldTxType.currencyOut)}</NetworkText>
+              <NetworkText variant="label">{currencyNetwork(tx.currencyOut)}</NetworkText>
             </Top>
             <RowAmount>
-              <AmountSpan variant="accent">{tx.receivingAmount}</AmountSpan>
+              <AmountSpan variant="accent">{tx.amountOut}</AmountSpan>
             </RowAmount>
           </div>
         </ColumnAmount>
@@ -143,8 +136,8 @@ export const TxHistoriesItem = ({
           <Text variant="section-title">
             {getCryptoAssetFormatter({
               locale,
-              displaySymbol: oldTxType.feeCurrency,
-            }).format(Number(tx.feeTotal))}
+              displaySymbol: tx.feeCurrency,
+            }).format(Number(tx.fee))}
           </Text>
         </ColumnFee>
         <ColumnMobile>
@@ -160,16 +153,16 @@ export const TxHistoriesItem = ({
               <Dropdown.Item
                 onClick={() => {
                   setToggleOpenLink(toggleOpenLink + 1);
-                  setTxDetail(tx as Transaction);
+                  setTxDetail(tx);
                 }}
               >
                 <FormattedMessage id="home.recent-swaps.check-swap-progress" />
               </Dropdown.Item>
-              {tx.receivingTxHash && (
+              {tx.txIdOut && (
                 <Dropdown.Item
                   onClick={() => {
                     window.open(
-                      transactionDetailByTxId(oldTxType.currencyOut, tx.receivingTxHash),
+                      transactionDetailByTxId(tx.currencyOut as CoinSymbol, tx.txIdOut),
                       '_blank',
                       'noopener',
                     );

@@ -18,6 +18,7 @@ export { useGetSwapRewards } from './useGetSwapRewards';
 export { useDistributeRewards } from './useDistributeRewards';
 export { useGetSignature } from './useGetSignature';
 export { useLoadMetanodes } from './useLoadMetanodes';
+export { useTxsQuery } from './useTxsQuery';
 
 export interface ICountdown {
   days: number;

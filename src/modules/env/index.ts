@@ -31,7 +31,7 @@ export enum LOCAL_STORAGE {
 export const mode: SkybridgeMode =
   process.env.NEXT_PUBLIC_MODE === 'production' ? 'production' : 'test';
 
-export const PAGE_COUNT = 25;
+export const PAGE_COUNT = 12;
 
 export const TXS_COUNT = 10;
 

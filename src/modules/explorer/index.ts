@@ -1,3 +1,4 @@
+import { SkybridgeBridge } from '@swingby-protocol/sdk';
 import { DateTime } from 'luxon';
 
 import { Bridge, Transaction, TransactionStatus, TransactionType } from '../../generated/graphql';
@@ -38,6 +39,9 @@ export {
   castUiStatus,
   calDiffDays,
   getBridge,
+  generateQueryEndpoint,
+  castSkyPoolsCurrency,
+  castTxForSkyPools,
 } from './utils';
 
 export const selectableBridge = [
@@ -259,10 +263,11 @@ export const castGraphQlType = (tx: Transaction): TTxRawObject => {
 };
 
 export interface ISwapQueryPrams {
-  bridge: Bridge | '';
-  type: TransactionType | '';
+  bridge: SkybridgeBridge;
+  type: string;
   q: string | '';
   rejected: string | '';
+  page: number;
 }
 
 export interface IChartDate {
