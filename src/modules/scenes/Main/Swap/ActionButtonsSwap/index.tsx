@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl';
 import { DuplicateSwapWidgetModal } from '../../../../../components/DuplicateSwapWidgetModal';
 import { LinkToWidgetModal } from '../../../../../components/LinkToWidgetModal';
 import { copyToClipboard, toastCopyURL } from '../../../../../components/Toast';
-import { TStatus, TSwapWidget, TTxRawObject, TxStatus } from '../../../../explorer';
+import { SkyPoolsQuery, TStatus, TSwapWidget, TxStatus } from '../../../../explorer';
 import { useLinkToWidget } from '../../../../hooks';
 import { ButtonScale } from '../../../Common';
 
@@ -19,7 +19,7 @@ import {
 } from './styled';
 
 interface Props {
-  tx: TTxRawObject;
+  tx: SkyPoolsQuery;
 }
 
 export const ActionButtons = (props: Props) => {

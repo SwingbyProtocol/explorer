@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 
 import { GoBackArrow } from '../../../../../components/GoBackArrow';
 import { Loader } from '../../../../../components/Loader';
-import { castUiStatus, convertTxTime, TStatus, TTxRawObject } from '../../../../explorer';
+import { castUiStatus, convertTxTime, SkyPoolsQuery } from '../../../../explorer';
 import { generateMessage } from '../../../../swap';
 
 import {
@@ -18,7 +18,7 @@ import {
 } from './styled';
 
 interface Props {
-  tx: TTxRawObject;
+  tx: SkyPoolsQuery | null;
 }
 
 export const StatusCard = (props: Props) => {
@@ -35,7 +35,7 @@ export const StatusCard = (props: Props) => {
             <StatusText variant="accent">{castUiStatus(tx.status)}</StatusText>
           </Row>
           <SwapStatus
-            status={tx.status as TStatus}
+            status={tx.status}
             currencyIn={tx.currencyIn}
             currencyOut={tx.currencyOut}
             messages={SwapProgress.defaultMessages({ locale })}

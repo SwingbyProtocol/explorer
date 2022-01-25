@@ -1,7 +1,6 @@
 /* eslint-disable import/no-internal-modules */
 
 import { Dropdown, getCryptoAssetFormatter, Text } from '@swingby-protocol/pulsar';
-import { SkybridgeQuery } from '@swingby-protocol/sdk';
 import { DateTime } from 'luxon';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -16,6 +15,7 @@ import {
   currencyNetwork,
   getBorderColor,
   getRequiredBlockConfirmations,
+  SkyPoolsQuery,
   TxStatus,
 } from '../../../../../explorer';
 import { transactionDetailByTxId } from '../../../../../swap';
@@ -54,11 +54,11 @@ export const TxHistoriesItem = ({
   setTxDetail,
   toggleOpenLink,
 }: {
-  tx: SkybridgeQuery;
+  tx: SkyPoolsQuery;
   bgKey: number;
   toggleOpenLink: number;
   setToggleOpenLink: (arg: number) => void;
-  setTxDetail: (tx: SkybridgeQuery) => void;
+  setTxDetail: (tx: SkyPoolsQuery) => void;
 }) => {
   const { locale } = useIntl();
   const theme = useTheme();
@@ -104,7 +104,7 @@ export const TxHistoriesItem = ({
             <Text variant="label">
               <FormattedMessage id="common.to" />
             </Text>
-            <AddressLinkP>{tx.addressIn.toLowerCase()}</AddressLinkP>
+            <AddressLinkP>{tx.addressIn?.toLowerCase()}</AddressLinkP>
           </RowAddress>
         </ColumnM>
         <ColumnAmount>

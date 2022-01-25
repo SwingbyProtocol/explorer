@@ -2,9 +2,6 @@ export { useStore } from './store';
 
 export {
   toggleIsLoading,
-  getHistory,
-  clearHistory,
-  updateSwapHistoryTemp,
   fetchUsdPrice,
   fetchTransactionFees,
   updateNetworkInfos,

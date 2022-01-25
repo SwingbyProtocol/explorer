@@ -1,7 +1,5 @@
-import { useRouter } from 'next/router';
-
 import { Loader } from '../../../../../components/Loader';
-import { useLoadTransaction } from '../../../../hooks';
+import { useTxsQuery } from '../../../../hooks';
 import { ActionButtons } from '../ActionButtonsSwap';
 import { DetailCard } from '../DetailCard';
 import { StatusCard } from '../StatusCard';
@@ -10,16 +8,14 @@ import { SwapFees } from '../SwapFees';
 import { BrowserDetailContainer, BrowserDetailDiv, IconSwap, Row } from './styled';
 
 export const BrowserDetail = () => {
-  const router = useRouter();
-  const params = router.query;
-  const hash = String(params.hash);
-  const { tx } = useLoadTransaction(hash);
+  const { tx } = useTxsQuery();
 
   return (
     <BrowserDetailContainer>
       <StatusCard tx={tx} />
       <BrowserDetailDiv size="bare">
-        {tx && router.pathname !== undefined ? (
+        {!tx && <Loader minHeight={686} />}
+        {tx && (
           <>
             <ActionButtons tx={tx} />
             <Row isTxId={tx.txIdIn !== undefined}>
@@ -41,8 +37,6 @@ export const BrowserDetail = () => {
             </Row>
             <SwapFees tx={tx} />
           </>
-        ) : (
-          <Loader minHeight={686} />
         )}
       </BrowserDetailDiv>
     </BrowserDetailContainer>

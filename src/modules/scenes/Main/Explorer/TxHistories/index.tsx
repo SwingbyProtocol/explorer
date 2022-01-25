@@ -2,21 +2,20 @@ import { Dropdown, Text } from '@swingby-protocol/pulsar';
 import { SkybridgeBridge } from '@swingby-protocol/sdk';
 import { createWidget, openPopup } from '@swingby-protocol/widget';
 import { useRouter } from 'next/router';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { scroller } from 'react-scroll';
 
 import { LinkToWidgetModal } from '../../../../../components/LinkToWidgetModal';
 import { Loader } from '../../../../../components/Loader';
 import { Pagination } from '../../../../../components/Pagination';
-import { Transaction, TransactionType } from '../../../../../generated/graphql';
 import { useAffiliateCode } from '../../../../affiliate-code';
-import { mode, TXS_COUNT } from '../../../../env';
+import { mode, PAGE_COUNT, TXS_COUNT } from '../../../../env';
 import {
-  castGraphQlType,
   ISwapQueryPrams,
   selectableBridge,
   selectableTxType,
+  SkyPoolsQuery,
 } from '../../../../explorer';
 import { useLinkToWidget, useTxsQuery } from '../../../../hooks';
 import { useThemeSettings } from '../../../../store/settings';
@@ -36,13 +35,12 @@ import {
 } from './styled';
 
 const ROW_HEIGHT = 90;
-const TABLE_ROW_COUNT = 10;
 
 export const TxHistories = () => {
   const { push, locale } = useRouter();
   const [themeMode] = useThemeSettings();
   const affiliateCode = useAffiliateCode();
-  const { txs, isLoading, page, bridge, type, rejected, q } = useTxsQuery();
+  const { txs, isLoading, page, bridge, type, rejected, q, total } = useTxsQuery();
   const chainBridge = bridge ? (bridge as SkybridgeBridge) : 'btc_erc';
 
   const scrollUp = () => {
@@ -142,7 +140,13 @@ export const TxHistories = () => {
           <Dropdown.Item
             selected={chainBridge === chain.bridge}
             onClick={() =>
-              routerPush({ bridge: chain.bridge, type, q, rejected: String(rejected), page: 0 })
+              routerPush({
+                bridge: chain.bridge as SkybridgeBridge,
+                type,
+                q,
+                rejected: String(rejected),
+                page: 0,
+              })
             }
             key={chain.menu}
           >
@@ -183,17 +187,17 @@ export const TxHistories = () => {
 
   // Memo: 1: Close the modal, More than 1: Open the modal
   const [toggleOpenLink, setToggleOpenLink] = useState<number>(1);
-  const [txDetail, setTxDetail] = useState(null);
-  const oldTxType = useMemo(() => txDetail && castGraphQlType(txDetail as Transaction), [txDetail]);
+  const [txDetail, setTxDetail] = useState<SkyPoolsQuery | null>(null);
+  // const oldTxType = useMemo(() => txDetail && castGraphQlType(txDetail as Transaction), [txDetail]);
 
   const { isClaimWidgetModalOpen, setIsClaimWidgetModalOpen } = useLinkToWidget({
     toggleOpenLink,
-    tx: oldTxType,
+    tx: txDetail,
     action: 'claim',
     setToggleOpenLink,
   });
 
-  const isFloatTx = type === TransactionType.Deposit || type === TransactionType.Withdrawal;
+  const isFloatTx = type === 'floats';
 
   const widget = createWidget({
     resource: 'swap',
@@ -210,9 +214,9 @@ export const TxHistories = () => {
         isWidgetModalOpen={isClaimWidgetModalOpen}
         setIsWidgetModalOpen={setIsClaimWidgetModalOpen}
         setToggleOpenLink={setToggleOpenLink}
-        tx={oldTxType}
+        tx={txDetail}
       />
-      <TxHistoriesContainer txsHeight={TABLE_ROW_COUNT * ROW_HEIGHT} id="recent-swaps">
+      <TxHistoriesContainer txsHeight={txs?.length * ROW_HEIGHT} id="recent-swaps">
         <TitleRow>
           <Left>
             <Text variant="section-title">
@@ -267,7 +271,7 @@ export const TxHistories = () => {
             goBackPage();
           }}
           page={page + 1}
-          maximumPage={txs?.length === 0 ? page + 1 : page + 2}
+          maximumPage={Math.floor(total / PAGE_COUNT)}
           isSimple={true}
         />
       </BrowserFooter>

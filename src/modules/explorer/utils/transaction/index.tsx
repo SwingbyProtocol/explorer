@@ -10,7 +10,7 @@ import { FormattedDate, FormattedRelativeTime, FormattedTime } from 'react-intl'
 
 import { CoinSymbol } from '../../../coins';
 import { PAGE_COUNT } from '../../../env';
-import { TStatus } from '../../index';
+import { SkyPoolsQuery, TStatus } from '../../index';
 import { isAddress } from '../validator';
 
 export const TxStatus = {
@@ -191,6 +191,10 @@ export const generateQueryEndpoint = ({
     return `${baseUrl}?page=${page}&page_size=${PAGE_COUNT}&hash=${hash}&sort=0`;
   }
 
+  if (query && query[query.length - 1] === '=') {
+    return `${baseUrl}?page=${page}&page_size=${PAGE_COUNT}&hash=${query}&sort=0`;
+  }
+
   if (query === '') {
     if (!isRejectedTx) {
       // Memo: Showing success txs only
@@ -198,7 +202,6 @@ export const generateQueryEndpoint = ({
       return `${baseUrl}?page=${page}&page_size=${PAGE_COUNT}&status=${COMPLETED},${SENDING},${PENDING},${SIGNING}&sort=0`;
     } else {
       const url = `${baseUrl}?page=${page}&page_size=${PAGE_COUNT}&status=${REJECTED},${CANCELED},${REFUNDING},${SIGNING_REFUND},${REFUNDED}&sort=0`;
-      console.log('url', url);
       return url;
     }
     // Memo: Search the query
@@ -206,7 +209,6 @@ export const generateQueryEndpoint = ({
     const isAddr = isAddress(query);
     const f = isAddr ? 'address' : 'hash';
     const url = `${baseUrl}?page=${page}&page_size=${PAGE_COUNT}&OR_in_${f}=${query}&OR_out_${f}=${query}&sort=0`;
-    console.log('url', url);
     return url;
   }
 };
@@ -217,13 +219,17 @@ export const castSkyPoolsCurrency = ({
 }: {
   currency: SkybridgeCurrency;
   bridge: SkybridgeBridge;
-}): SkybridgeCurrency => {
+}): CoinSymbol => {
   switch (currency) {
+    case 'BTCB':
+      return CoinSymbol.BTC_B;
+    case 'sbBTC':
+      return bridge === 'btc_erc' ? CoinSymbol.ERC20_SB_BTC : CoinSymbol.BEP20_SB_BTC;
     case 'SKYPOOL':
-      return bridge === 'btc_erc' ? 'WBTC' : 'BTCB';
+      return bridge === 'btc_erc' ? CoinSymbol.WBTC : CoinSymbol.BTC_B;
 
     default:
-      return currency;
+      return currency as CoinSymbol;
   }
 };
 
@@ -233,7 +239,7 @@ export const castTxForSkyPools = ({
 }: {
   bridge: SkybridgeBridge;
   tx: SkybridgeQuery;
-}): SkybridgeQuery => {
+}): SkyPoolsQuery => {
   return {
     ...tx,
     currencyIn: castSkyPoolsCurrency({ bridge, currency: tx.currencyIn }),

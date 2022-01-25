@@ -6,14 +6,14 @@ import { FormattedMessage } from 'react-intl';
 
 import { useAffiliateCode } from '../../modules/affiliate-code';
 import { mode } from '../../modules/env';
-import { TTxRawObject } from '../../modules/explorer';
+import { SkyPoolsQuery } from '../../modules/explorer';
 import { ButtonScale } from '../../modules/scenes/Common';
 import { useThemeSettings } from '../../modules/store/settings';
 
 import { Buttons, ModalContainer, TextAddress } from './styled';
 
 interface Props {
-  tx: TTxRawObject;
+  tx: SkyPoolsQuery;
   isWidgetModalOpen: boolean;
   setIsWidgetModalOpen: (arg: boolean) => void;
 }
