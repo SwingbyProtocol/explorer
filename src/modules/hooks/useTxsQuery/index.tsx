@@ -54,6 +54,7 @@ export const useTxsQuery = () => {
   );
 
   const updateQuery = useCallback(async () => {
+    if (!endpoint.btc_bep20 || !endpoint.btc_erc) return;
     try {
       if (hash || type === 'search') {
         const urlErcSwaps = `${endpoint['btc_erc']}/api/v1/swaps/query`;
