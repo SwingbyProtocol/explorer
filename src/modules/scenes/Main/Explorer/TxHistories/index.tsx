@@ -4,13 +4,12 @@ import { createWidget, openPopup } from '@swingby-protocol/widget';
 import { useRouter } from 'next/router';
 import React, { useCallback, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { scroller } from 'react-scroll';
 
 import { LinkToWidgetModal } from '../../../../../components/LinkToWidgetModal';
 import { Loader } from '../../../../../components/Loader';
 import { Pagination } from '../../../../../components/Pagination';
 import { useAffiliateCode } from '../../../../affiliate-code';
-import { mode, PAGE_COUNT, TXS_COUNT } from '../../../../env';
+import { mode, PAGE_COUNT } from '../../../../env';
 import {
   ISwapQueryPrams,
   selectableBridge,
@@ -42,16 +41,6 @@ export const TxHistories = () => {
   const affiliateCode = useAffiliateCode();
   const { txs, isLoading, page, bridge, type, rejected, q, total } = useTxsQuery();
   const chainBridge = bridge ? (bridge as SkybridgeBridge) : 'btc_erc';
-
-  const scrollUp = () => {
-    scroller.scrollTo('recent-swaps', {
-      duration: page === 1 ? 1000 : 700,
-      delay: 0,
-      offset: -120,
-      smooth: 'linear',
-      to: 'recent-swaps',
-    });
-  };
 
   const routerPush = useCallback(
     (params: ISwapQueryPrams): void => {
@@ -170,9 +159,7 @@ export const TxHistories = () => {
     </Dropdown>
   );
 
-  const loader = (
-    <Loader marginTop={100} minHeight={92 * TXS_COUNT} testId="main.loading-container" />
-  );
+  const loader = <Loader marginTop={100} minHeight={92} testId="main.loading-container" />;
 
   const noResultFound = (
     <NoResultsFound>
@@ -215,7 +202,10 @@ export const TxHistories = () => {
         setToggleOpenLink={setToggleOpenLink}
         tx={txDetail}
       />
-      <TxHistoriesContainer txsHeight={txs?.length * ROW_HEIGHT} id="recent-swaps">
+      <TxHistoriesContainer
+        txsHeight={isLoading ? ROW_HEIGHT : txs?.length * ROW_HEIGHT}
+        id="recent-swaps"
+      >
         <TitleRow>
           <Left>
             <Text variant="section-title">
@@ -261,14 +251,8 @@ export const TxHistories = () => {
       </TxHistoriesContainer>
       <BrowserFooter>
         <Pagination
-          goNextPage={() => {
-            scrollUp();
-            goNextPage();
-          }}
-          goBackPage={() => {
-            scrollUp();
-            goBackPage();
-          }}
+          goNextPage={goNextPage}
+          goBackPage={goBackPage}
           page={page + 1}
           maximumPage={Math.floor(total / PAGE_COUNT)}
           isSimple={true}
