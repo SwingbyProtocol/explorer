@@ -1,6 +1,5 @@
 import { SKYBRIDGE_BRIDGES, SkybridgeBridge } from '@swingby-protocol/sdk';
 
-import { NodeStatus } from '../../generated/graphql';
 import { TStatus } from '../explorer';
 
 export { formatPeers } from './utils';
@@ -139,16 +138,6 @@ export const BRIDGES = [
     tabMenu: 'Bitcoin to BSC',
   },
 ];
-
-export const {
-  ChurnedIn,
-  MayChurnOutBondTooLow,
-  MayChurnOutBondExpiring,
-  MayChurnIn,
-  InactiveBondExpired,
-  InactiveBondTooLow,
-  Unreachable,
-} = NodeStatus;
 
 export const toggleStatusBg = (status: PeerStatus, i: number): string | boolean => {
   switch (status) {

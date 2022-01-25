@@ -1,4 +1,5 @@
 import {
+  FIXED_NODE_ENDPOINT,
   getNetworkDetails,
   SkybridgeBridge,
   SkybridgeContext,
@@ -50,7 +51,9 @@ export const buildChaosNodeContext = async <M extends SkybridgeMode>({
     try {
       const nodes =
         mode === 'test'
-          ? results[index]['swapNodes'].map((it) => it.restUri)
+          ? // Memo: Almost all of the testnet nodes doesn't accept HTTP request atm
+            //  results[index]['swapNodes'].map((it) => it.restUri)
+            FIXED_NODE_ENDPOINT[bridge][mode]
           : results[index]['swapNodes']
               .filter((it) => getChaosNode(bridge).includes(it.restUri))
               .map((it) => it.restUri);

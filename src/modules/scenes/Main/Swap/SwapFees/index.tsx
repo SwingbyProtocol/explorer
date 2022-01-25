@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch } from 'react-redux';
 
-import { TTxRawObject } from '../../../../explorer';
+import { SkyPoolsQuery } from '../../../../explorer';
 import { useSdkContext } from '../../../../sdk-context';
 import { toggleIsExistPreviousPage } from '../../../../store';
 import { TextPrimary } from '../../../Common';
@@ -23,7 +23,7 @@ import {
 } from './styled';
 
 interface Props {
-  tx: TTxRawObject;
+  tx: SkyPoolsQuery;
 }
 
 export const SwapFees = (props: Props) => {

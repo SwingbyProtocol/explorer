@@ -4,8 +4,6 @@ export { useRunCountDown } from './useRunCountDown';
 export { useLinkToWidget } from './useLinkToWidget';
 export { useToggleBridge } from './useToggleBridge';
 export { usePoolWithdrawCoin } from './usePoolWithdrawCoin';
-export { useLoadHistories } from './useLoadHistories';
-export { useLoadTransaction } from './useLoadTransaction';
 export { useToggleMetanode } from './useToggleMetanode';
 export { useGetNetworkData } from './useGetNetworkData';
 export { useGetStatsChartData } from './useGetStatsChartData';
@@ -18,6 +16,7 @@ export { useGetSwapRewards } from './useGetSwapRewards';
 export { useDistributeRewards } from './useDistributeRewards';
 export { useGetSignature } from './useGetSignature';
 export { useLoadMetanodes } from './useLoadMetanodes';
+export { useTxsQuery } from './useTxsQuery';
 
 export interface ICountdown {
   days: number;

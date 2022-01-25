@@ -1,17 +1,10 @@
 import { Reducer } from 'redux';
 
-import {
-  IFee,
-  IFetchUsd,
-  INetworkInfos,
-  INodeEndpoint,
-  ITransactions,
-  TTxRawObject,
-} from '../../explorer';
+import { IFee, IFetchUsd, INetworkInfos, INodeEndpoint } from '../../explorer';
 
 import * as initial from './initialState';
 
-export { networkInfos, initialVolumes, floatHistoryObjectInitialValue } from './initialState';
+export { floatHistoryObjectInitialValue, initialVolumes, networkInfos } from './initialState';
 
 enum Actions {
   ToggleIsLoading = 'Explorer/TOGGLE_IS_LOADING',
@@ -27,8 +20,6 @@ enum Actions {
 
 const initialState = {
   isLoading: false,
-  swapHistory: null,
-  swapHistoryTemp: null,
   usd: initial.usd,
   networkInfos: initial.networkInfos,
   transactionFees: null,
@@ -45,18 +36,6 @@ export const explorer: Reducer<State, Action> = (state = initialState, action) =
 
   if (action.type === Actions.ToggleIsExistPreviousPage) {
     return { ...state, isExistPreviousPage: action.data };
-  }
-
-  if (action.type === Actions.FetchHistory) {
-    return { ...state, swapHistory: action.data };
-  }
-
-  if (action.type === Actions.ClearHistory) {
-    return { ...state, swapHistory: null };
-  }
-
-  if (action.type === Actions.UpdateSwapHistoryTemp) {
-    return { ...state, swapHistoryTemp: action.data };
   }
 
   if (action.type === Actions.FetchUsdPrice) {
@@ -84,13 +63,6 @@ export const toggleIsLoading = (data: boolean) =>
 export const toggleIsExistPreviousPage = (data: boolean) =>
   ({ type: Actions.ToggleIsExistPreviousPage, data } as const);
 
-export const getHistory = (data: ITransactions) => ({ type: Actions.FetchHistory, data } as const);
-
-export const clearHistory = () => ({ type: Actions.ClearHistory } as const);
-
-export const updateSwapHistoryTemp = (data: TTxRawObject[]) =>
-  ({ type: Actions.UpdateSwapHistoryTemp, data } as const);
-
 export const fetchUsdPrice = (data: IFetchUsd) => ({ type: Actions.FetchUsdPrice, data } as const);
 
 export const fetchTransactionFees = (data: IFee[]) =>
@@ -105,9 +77,6 @@ export const buildNodeEndpoint = (data: INodeEndpoint) =>
 type Action =
   | ReturnType<typeof toggleIsLoading>
   | ReturnType<typeof toggleIsExistPreviousPage>
-  | ReturnType<typeof getHistory>
-  | ReturnType<typeof clearHistory>
-  | ReturnType<typeof updateSwapHistoryTemp>
   | ReturnType<typeof fetchUsdPrice>
   | ReturnType<typeof fetchTransactionFees>
   | ReturnType<typeof buildNodeEndpoint>

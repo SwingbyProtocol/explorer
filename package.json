@@ -40,7 +40,7 @@
     "@swingby-protocol/header": "^2.1.1",
     "@swingby-protocol/ip-check": "^2.1.0",
     "@swingby-protocol/pulsar": "^3.15.2",
-    "@swingby-protocol/sdk": "1.0.0-alpha.120",
+    "@swingby-protocol/sdk": "^1.0.0-alpha.121",
     "@swingby-protocol/widget": "^1.1.1",
     "abortcontroller-polyfill": "^1.7.1",
     "apr-tools": "^0.1.3",

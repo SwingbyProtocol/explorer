@@ -6,14 +6,14 @@ import { toastWrongAddress } from '../../../components/Toast';
 import { useAffiliateCode } from '../../affiliate-code';
 import { CoinSymbol, EthereumWalletAddressCoins } from '../../coins';
 import { mode } from '../../env';
-import { TSwapWidget, TTxRawObject } from '../../explorer';
+import { SkyPoolsQuery, TSwapWidget } from '../../explorer';
 import { useOnboard } from '../../onboard';
 import { useThemeSettings } from '../../store/settings';
 
 interface IData {
   action: TSwapWidget | null;
   toggleOpenLink: number;
-  tx: TTxRawObject;
+  tx: SkyPoolsQuery;
   setToggleOpenLink: (arg: number) => void;
 }
 

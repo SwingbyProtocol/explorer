@@ -2,18 +2,18 @@ import { SwapStatusIcon, Text, Tooltip } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
 import styled from 'styled-components';
 
-import {
-  MayChurnOutBondTooLow,
-  MayChurnOutBondExpiring,
-  InactiveBondExpired,
-  InactiveBondTooLow,
-  Unreachable,
-  MayChurnIn,
-} from '../../../../metanodes';
+import { PeerStatus } from '../../../../metanodes';
 import { StylingConstants } from '../../../../styles';
 import { AddressLinkP, TextBlock, TextRoom } from '../../../Common';
 
 const { media } = StylingConstants;
+const {
+  MayChurnOutBondTooLow,
+  MayChurnOutBondExpiring,
+  InactiveBondExpired,
+  MayChurnIn,
+  InactiveBondTooLow,
+} = PeerStatus;
 
 interface BgProps {
   bg: boolean | string;
@@ -71,8 +71,6 @@ export const Row = styled.div<BgProps>`
       : props.bg === InactiveBondExpired
       ? 'rgba(143, 231, 217, 0.2)'
       : props.bg === InactiveBondTooLow
-      ? 'rgba(235, 65, 65, 0.2)'
-      : props.bg === Unreachable
       ? 'rgba(235, 65, 65, 0.2)'
       : props.bg === MayChurnIn
       ? 'rgba(143, 231, 217, 0.2)'

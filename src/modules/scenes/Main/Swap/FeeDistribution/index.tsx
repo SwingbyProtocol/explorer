@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 
 import { SeeMore } from '../../../../../components/SeeMore';
 import { TXS_COUNT } from '../../../../env';
-import { exponentialToNumber, Reward, TTxRawObject } from '../../../../explorer';
+import { exponentialToNumber, Reward, SkyPoolsQuery } from '../../../../explorer';
 import { transactionDetailByAddress, transactionDetailByTxId } from '../../../../swap';
 import { Atag, IconInfo } from '../../../Common';
 
@@ -21,7 +21,7 @@ import {
 } from './styled';
 
 interface Props {
-  tx: TTxRawObject;
+  tx: SkyPoolsQuery;
 }
 
 export const FeeDistribution = (props: Props) => {

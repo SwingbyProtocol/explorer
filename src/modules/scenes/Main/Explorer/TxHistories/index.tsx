@@ -1,29 +1,28 @@
 import { Dropdown, Text } from '@swingby-protocol/pulsar';
+import { SkybridgeBridge } from '@swingby-protocol/sdk';
 import { createWidget, openPopup } from '@swingby-protocol/widget';
 import { useRouter } from 'next/router';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import AutoSizer from 'react-virtualized-auto-sizer';
-import { FixedSizeList as List } from 'react-window';
-import InfiniteLoader from 'react-window-infinite-loader';
 
 import { LinkToWidgetModal } from '../../../../../components/LinkToWidgetModal';
 import { Loader } from '../../../../../components/Loader';
-import { Bridge, Transaction, TransactionType } from '../../../../../generated/graphql';
+import { Pagination } from '../../../../../components/Pagination';
 import { useAffiliateCode } from '../../../../affiliate-code';
-import { mode, TXS_COUNT } from '../../../../env';
+import { mode, PAGE_COUNT } from '../../../../env';
 import {
-  castGraphQlType,
   ISwapQueryPrams,
   selectableBridge,
   selectableTxType,
+  SkyPoolsQuery,
 } from '../../../../explorer';
-import { useLinkToWidget, useLoadHistories } from '../../../../hooks';
+import { useLinkToWidget, useTxsQuery } from '../../../../hooks';
 import { useThemeSettings } from '../../../../store/settings';
 import { ButtonScaleNarrow } from '../../../Common';
 
 import { TxHistoriesItem } from './Item';
 import {
+  BrowserFooter,
   Buttons,
   Filter,
   Left,
@@ -35,29 +34,23 @@ import {
 } from './styled';
 
 const ROW_HEIGHT = 90;
-const TABLE_ROW_COUNT = 10;
 
 export const TxHistories = () => {
-  const { push, query, locale } = useRouter();
+  const { push, locale } = useRouter();
   const [themeMode] = useThemeSettings();
   const affiliateCode = useAffiliateCode();
-
-  const params = query;
-  const q = String(params.q || '');
-  const chainBridge = String(params.bridge || '') as Bridge;
-  const type = String(params.type || '') as TransactionType;
-  const rejected = String(params.rejected || '');
+  const { txs, isLoading, page, bridge, type, rejected, q, total } = useTxsQuery();
+  const chainBridge = bridge ? (bridge as SkybridgeBridge) : 'btc_erc';
 
   const routerPush = useCallback(
     (params: ISwapQueryPrams): void => {
-      const { bridge, type, rejected, q } = params;
-
+      const { bridge, type, rejected, q, page } = params;
       // Memo: Shallow routing make URL faster update and page won't get replaced. Only the state of the route is changed.
       // Ref: https://nextjs.org/docs/routing/shallow-routing
       push(
         {
           pathname: '/',
-          query: { bridge, type, rejected, q },
+          query: { bridge, type, rejected, q, page },
         },
         undefined,
         { shallow: true, scroll: false },
@@ -66,7 +59,25 @@ export const TxHistories = () => {
     [push],
   );
 
-  const { data, loading, fetchMoreQuery } = useLoadHistories();
+  const goNextPage = () =>
+    routerPush({
+      bridge: chainBridge ? chainBridge : 'btc_erc',
+      q,
+      page: page + 1,
+      type,
+      rejected: rejected ? 'true' : 'false',
+    });
+
+  const goBackPage = () => {
+    if (page === 0) return;
+    routerPush({
+      bridge: chainBridge ? chainBridge : 'btc_erc',
+      q,
+      page: page - 1,
+      type,
+      rejected: rejected ? 'true' : 'false',
+    });
+  };
 
   const statusFilter = (
     <>
@@ -75,11 +86,11 @@ export const TxHistories = () => {
         <FormattedMessage id="home.recent-swaps.filter.hide-waiting" />
       </Dropdown.Item>
       <Dropdown.Item
-        selected={rejected === 'true'}
+        selected={rejected}
         onClick={() => {
-          rejected === 'true'
-            ? routerPush({ bridge: chainBridge, q, type, rejected: 'false' })
-            : routerPush({ bridge: chainBridge, q, type, rejected: 'true' });
+          rejected
+            ? routerPush({ bridge: chainBridge, q, type, rejected: 'false', page: 0 })
+            : routerPush({ bridge: chainBridge, q, type, rejected: 'true', page: 0 });
         }}
       >
         <FormattedMessage id="home.recent-swaps.filter.rejected-tx" />
@@ -94,7 +105,13 @@ export const TxHistories = () => {
           <Dropdown.Item
             selected={type === txType.type}
             onClick={() => {
-              routerPush({ bridge: chainBridge, type: txType.type, q, rejected });
+              routerPush({
+                bridge: chainBridge,
+                type: txType.type,
+                q,
+                rejected: String(rejected),
+                page: 0,
+              });
             }}
             key={txType.type}
           >
@@ -110,8 +127,16 @@ export const TxHistories = () => {
       {selectableBridge.map((chain) => {
         return (
           <Dropdown.Item
-            selected={chainBridge === chain.bridge}
-            onClick={() => routerPush({ bridge: chain.bridge, type, q, rejected })}
+            selected={bridge === chain.bridge}
+            onClick={() =>
+              routerPush({
+                bridge: chain.bridge as SkybridgeBridge,
+                type,
+                q,
+                rejected: String(rejected),
+                page: 0,
+              })
+            }
             key={chain.menu}
           >
             <FormattedMessage
@@ -134,9 +159,7 @@ export const TxHistories = () => {
     </Dropdown>
   );
 
-  const loader = (
-    <Loader marginTop={100} minHeight={92 * TXS_COUNT} testId="main.loading-container" />
-  );
+  const loader = <Loader marginTop={100} minHeight={92} testId="main.loading-container" />;
 
   const noResultFound = (
     <NoResultsFound>
@@ -151,15 +174,16 @@ export const TxHistories = () => {
 
   // Memo: 1: Close the modal, More than 1: Open the modal
   const [toggleOpenLink, setToggleOpenLink] = useState<number>(1);
-  const [txDetail, setTxDetail] = useState(null);
-  const oldTxType = useMemo(() => txDetail && castGraphQlType(txDetail as Transaction), [txDetail]);
+  const [txDetail, setTxDetail] = useState<SkyPoolsQuery | null>(null);
+
   const { isClaimWidgetModalOpen, setIsClaimWidgetModalOpen } = useLinkToWidget({
     toggleOpenLink,
-    tx: oldTxType,
+    tx: txDetail,
     action: 'claim',
     setToggleOpenLink,
   });
-  const isFloatTx = type === TransactionType.Deposit || type === TransactionType.Withdrawal;
+
+  const isFloatTx = type === 'floats';
 
   const widget = createWidget({
     resource: 'swap',
@@ -176,9 +200,12 @@ export const TxHistories = () => {
         isWidgetModalOpen={isClaimWidgetModalOpen}
         setIsWidgetModalOpen={setIsClaimWidgetModalOpen}
         setToggleOpenLink={setToggleOpenLink}
-        tx={oldTxType}
+        tx={txDetail}
       />
-      <TxHistoriesContainer txsHeight={TABLE_ROW_COUNT * ROW_HEIGHT}>
+      <TxHistoriesContainer
+        txsHeight={isLoading ? ROW_HEIGHT : txs?.length * ROW_HEIGHT}
+        id="recent-swaps"
+      >
         <TitleRow>
           <Left>
             <Text variant="section-title">
@@ -206,49 +233,31 @@ export const TxHistories = () => {
             {filter}
           </Right>
         </TitleRow>
-        {!!data && data.transactions.totalCount < 1 && noResultFound}
-        {loading && loader}
+        {!isLoading && !txs && noResultFound}
+        {isLoading && loader}
 
-        <AutoSizer disableHeight>
-          {({ width }) => (
-            <InfiniteLoader
-              itemCount={data?.transactions.totalCount ?? Infinity}
-              isItemLoaded={(index: number) =>
-                !!data?.transactions.edges[index] || !data?.transactions.pageInfo.hasNextPage
-              }
-              loadMoreItems={fetchMoreQuery}
-            >
-              {({ onItemsRendered, ref }) => (
-                <List
-                  initialScrollOffset={0}
-                  onItemsRendered={onItemsRendered}
-                  ref={ref}
-                  height={ROW_HEIGHT * TABLE_ROW_COUNT}
-                  width={width}
-                  itemCount={data?.transactions.edges.length ?? 0}
-                  itemSize={ROW_HEIGHT}
-                  itemKey={(index: number) => data?.transactions.edges[index].node.id}
-                >
-                  {({ index, style }) => {
-                    const tx = data.transactions.edges[index].node;
-                    return (
-                      <TxHistoriesItem
-                        key={tx.id}
-                        bgKey={index}
-                        tx={tx}
-                        style={style}
-                        toggleOpenLink={toggleOpenLink}
-                        setToggleOpenLink={setToggleOpenLink}
-                        setTxDetail={setTxDetail}
-                      />
-                    );
-                  }}
-                </List>
-              )}
-            </InfiniteLoader>
-          )}
-        </AutoSizer>
+        {!isLoading &&
+          txs &&
+          txs.map((tx, index) => (
+            <TxHistoriesItem
+              key={tx.hash}
+              bgKey={index}
+              tx={tx}
+              toggleOpenLink={toggleOpenLink}
+              setToggleOpenLink={setToggleOpenLink}
+              setTxDetail={setTxDetail}
+            />
+          ))}
       </TxHistoriesContainer>
+      <BrowserFooter>
+        <Pagination
+          goNextPage={goNextPage}
+          goBackPage={goBackPage}
+          page={page + 1}
+          maximumPage={Math.floor(total / PAGE_COUNT)}
+          isSimple={true}
+        />
+      </BrowserFooter>
     </>
   );
 };

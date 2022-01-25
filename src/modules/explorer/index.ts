@@ -1,26 +1,37 @@
-import { DateTime } from 'luxon';
+import { SkybridgeBridge, SkybridgeQuery } from '@swingby-protocol/sdk';
 
-import { Bridge, Transaction, TransactionStatus, TransactionType } from '../../generated/graphql';
-
-import { castCurrencyName, CoinSymbol } from './../coins';
+import { CoinSymbol } from './../coins';
 
 export { TxRowTransition, TxRowVariants } from './animation';
 export {
   calculateFixedFee,
+  calDiffDays,
   capitalize,
+  castSkyPoolsCurrency,
+  castToBackendVariable,
+  castTxForSkyPools,
+  castUiStatus,
   checkIsValidAddress,
   checkIsValidAmount,
   convertDateTime,
   convertTxTime,
   currencyNetwork,
   exponentialToNumber,
+  fetch1wksRewards,
   fetchFloatBalances,
   fetchVolumeInfo,
-  fetch1wksRewards,
+  fetchVwap,
+  generateQueryEndpoint,
+  getBaseEndpoint,
   getBorderColor,
+  getBridge,
   getDiffDays,
-  getTransactionFees,
+  getEndpoint,
+  getFixedBaseEndpoint,
+  getFloatBalance,
+  getRequiredBlockConfirmations,
   getTransactionFee,
+  getTransactionFees,
   getUsdPrice,
   isBinanceAddress,
   isBitcoinAddress,
@@ -28,96 +39,33 @@ export {
   toBTC,
   toSatoshi,
   TxStatus,
-  getEndpoint,
-  castToBackendVariable,
-  getFloatBalance,
-  getBaseEndpoint,
-  getFixedBaseEndpoint,
-  getRequiredBlockConfirmations,
-  fetchVwap,
-  castUiStatus,
-  calDiffDays,
-  getBridge,
 } from './utils';
 
 export const selectableBridge = [
   {
     menu: 'Multiple Bridges',
-    bridge: '' as Bridge,
+    bridge: '',
   },
   {
     menu: 'Ethereum',
-    bridge: Bridge.BtcErc as Bridge,
+    bridge: 'btc_erc',
   },
   {
     menu: 'BSC',
-    bridge: Bridge.BtcBep20 as Bridge,
+    bridge: 'btc_bep20',
   },
 ];
 
 export const selectableTxType = [
   {
     menu: 'home.recent-swaps.filter.swap',
-    type: '' as TransactionType,
+    type: 'swaps',
   },
   {
     menu: 'home.recent-swaps.filter.deposit',
-    type: TransactionType.Deposit as TransactionType,
-  },
-  {
-    menu: 'home.recent-swaps.filter.withdrawal',
-    type: TransactionType.Withdrawal as TransactionType,
+    type: 'floats',
   },
 ];
-
-export interface FloatRawObject {
-  addressDeposit: string;
-  addressIn: string;
-  addressOut: string;
-  amountIn: string;
-  amountOut: string;
-  currencyIn: CoinSymbol;
-  currencyOut: CoinSymbol;
-  hash: string;
-  status: TransactionStatus;
-  timestamp: number;
-  txIdIn?: string;
-  fee?: string;
-  txIdOut?: string;
-  rewards?: Reward[];
-  feeCurrency?: CoinSymbol;
-}
-
-export interface SwapRawObject {
-  addressIn: string;
-  addressOut: string;
-  amountIn: string;
-  amountOut: string;
-  currencyIn: CoinSymbol;
-  currencyOut: CoinSymbol;
-  fee?: string;
-  hash?: string;
-  status: TransactionStatus;
-  feeCurrency: CoinSymbol;
-  timestamp?: number;
-  txIdIn?: string;
-  txIdOut?: string;
-  rewards?: Reward[];
-}
-
-export type TTxRawObject = SwapRawObject | FloatRawObject;
-
-export interface IFetchSwapHistoryResponse {
-  items: TTxRawObject[];
-  total: number;
-}
-
-export interface ITransactions {
-  data: {
-    [page: number]: TTxRawObject[];
-  };
-  total: number;
-}
 
 export interface Reward {
   address: string;
@@ -142,12 +90,8 @@ export interface IStats {
 }
 
 export interface IFetchHistory {
-  txs: TTxRawObject[];
+  txs: SkyPoolsQuery[];
   total: number;
-}
-export interface ILoadHistory {
-  txsWithPage: ITransactions;
-  tempMixedHistories: TTxRawObject[];
 }
 export interface IFloatBalances {
   floats: IFloat;
@@ -162,16 +106,6 @@ export interface IFee {
   bridgeFeePercent: string;
   currency: string;
   minerFee: string;
-}
-
-export interface ILoadHistoryArgs {
-  page: number;
-  query: string;
-  hash: string;
-  isRejectedTx: boolean;
-  bridge: string;
-  prevTxsWithPage: ITransactions | null;
-  swapHistoryTemp: TTxRawObject[] | null;
 }
 
 export interface INetworkInfos {
@@ -210,15 +144,6 @@ export type TStatus =
 
 export type TSwapWidget = 'claim' | 'duplicate';
 
-export interface IloadHistoryArgs {
-  page: number;
-  query: string;
-  hash: string;
-  isRejectedTx: boolean;
-  bridge: string;
-  prevTxsWithPage: ITransactions;
-}
-
 interface IStake {
   address: string;
   amount: string;
@@ -240,29 +165,12 @@ export interface INodeEndpoint {
   btc_bep20: string;
 }
 
-export const castGraphQlType = (tx: Transaction): TTxRawObject => {
-  return {
-    addressIn: tx.sendingAddress ? tx.sendingAddress : '',
-    addressOut: tx.receivingAddress,
-    amountIn: tx.depositAmount,
-    amountOut: tx.receivingAmount,
-    currencyIn: castCurrencyName(tx.depositCurrency),
-    currencyOut: castCurrencyName(tx.receivingCurrency),
-    fee: tx.feeTotal,
-    hash: tx.id,
-    feeCurrency: castCurrencyName(tx.feeCurrency),
-    status: tx.status,
-    timestamp: DateTime.fromISO(tx.at).toSeconds(),
-    txIdIn: tx.depositTxHash,
-    txIdOut: tx.receivingTxHash,
-  };
-};
-
 export interface ISwapQueryPrams {
-  bridge: Bridge | '';
-  type: TransactionType | '';
+  bridge: SkybridgeBridge | '';
+  type: string;
   q: string | '';
   rejected: string | '';
+  page: number;
 }
 
 export interface IChartDate {
@@ -270,3 +178,14 @@ export interface IChartDate {
   amount: string;
   count?: string;
 }
+
+// Ref: https://stackoverflow.com/questions/41285211/overriding-interface-property-type-defined-in-typescript-d-ts-file
+type Modify<T, R> = Omit<T, keyof R> & R;
+export type SkyPoolsQuery = Modify<
+  SkybridgeQuery,
+  {
+    currencyIn: CoinSymbol;
+    currencyOut: CoinSymbol;
+    feeCurrency: CoinSymbol;
+  }
+>;

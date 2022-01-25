@@ -1,8 +1,6 @@
-import { CONTRACTS, SkybridgeMode } from '@swingby-protocol/sdk';
+import { CONTRACTS, FIXED_NODE_ENDPOINT, SkybridgeMode } from '@swingby-protocol/sdk';
 
 export const logLevel = process.env.NEXT_PUBLIC_LOG_LEVEL || 'debug';
-// export const logLevel =
-//   process.env.NEXT_PUBLIC_LOG_LEVEL || (process.env.NODE_ENV === 'production' ? 'debug' : 'trace');
 
 export const DEPLOYED_URL =
   process.env.NEXT_PUBLIC_DEPLOYED_URL || 'https://testnet.skybridge.info/';
@@ -31,11 +29,9 @@ export enum LOCAL_STORAGE {
 export const mode: SkybridgeMode =
   process.env.NEXT_PUBLIC_MODE === 'production' ? 'production' : 'test';
 
-export const PAGE_COUNT = 25;
+export const PAGE_COUNT = 12;
 
 export const TXS_COUNT = 10;
-
-export const NODES_PER_PAGE = 10;
 
 export const graphEndpoint = 'https://network.skybridge.exchange/api/v3/graphql';
 
@@ -47,13 +43,9 @@ export const ENDPOINT_YIELD_FARMING = 'https://farm.swingby.network';
 
 export const ENDPOINT_PRESTAKING = 'https://pre-staking-swingby.swingby.network';
 
-export const ENDPOINT_ETHEREUM_BRIDGE =
-  mode === 'production'
-    ? 'https://taitan-0083.zoo.farm'
-    : 'https://tbtc-ropsten-node-1.swingby.network';
+export const ENDPOINT_ETHEREUM_BRIDGE = FIXED_NODE_ENDPOINT['btc_erc'][mode][0];
 
-export const ENDPOINT_BSC_BRIDGE =
-  mode === 'production' ? 'https://ra-cailum.zoo.farm' : 'https://tbtc-bsc-2.swingby.network';
+export const ENDPOINT_BSC_BRIDGE = FIXED_NODE_ENDPOINT['btc_bep20'][mode][0];
 
 export const ENDPOINT_EARNINGS = 'https://earnings-api.vercel.app/api/earnings';
 
@@ -86,7 +78,7 @@ export const CONTRACT_BEP20_SB_BTC =
     ? CONTRACTS.coins['sbBTC.BEP20'].production.address
     : CONTRACTS.coins['sbBTC.BEP20'].test.address;
 
-// Memo: BTC is not on Ethereum, it doesn’t have an address, so the contract uses this one to represent BTC
+// Memo: Fake BTC contract address that used on smart contract
 export const ZERO_ADDRESS = CONTRACTS.coins.BTC.production.address;
 
 export const isEnableBscSupport =

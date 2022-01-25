@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl';
 
 import { useAffiliateCode } from '../../modules/affiliate-code';
 import { mode } from '../../modules/env';
-import { getBridge, TTxRawObject } from '../../modules/explorer';
+import { getBridge, SkyPoolsQuery } from '../../modules/explorer';
 import { ButtonScale } from '../../modules/scenes/Common';
 import { useThemeSettings } from '../../modules/store/settings';
 
@@ -16,7 +16,7 @@ interface Props {
   isWidgetModalOpen: boolean;
   setIsWidgetModalOpen: (arg: boolean) => void;
   setToggleOpenLink: (arg: number) => void;
-  tx: TTxRawObject;
+  tx: SkyPoolsQuery;
 }
 
 export const LinkToWidgetModal = (props: Props) => {
