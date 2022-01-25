@@ -1,29 +1,45 @@
 import { SkybridgeBridge, SkybridgeQuery } from '@swingby-protocol/sdk';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useSelector } from 'react-redux';
 
-import { castTxForSkyPools, generateQueryEndpoint, SkyPoolsQuery } from '../../explorer';
+import {
+  castTxForSkyPools,
+  generateQueryEndpoint,
+  getEndpoint,
+  SkyPoolsQuery,
+} from '../../explorer';
 import { fetcher } from '../../fetch';
 import { logger } from '../../logger';
 
 export const useTxsQuery = () => {
   const [txs, setTxs] = useState<SkyPoolsQuery[] | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [urlEth, setUrlEth] = useState<string | null>(null);
+  const [urlBsc, setUrlBsc] = useState<string | null>(null);
 
   // Memo: initial state is the placeholder
   const [total, setTotal] = useState<number>(99);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const endpoint = useSelector((state) => state.explorer.nodeEndpoint);
   const router = useRouter();
   const params = router.query;
   const bridge = (params.bridge as SkybridgeBridge) ?? '';
   const hash = (params.hash as string) ?? '';
   const page = params.page ?? '0';
   const q = (params.q as string) ?? '';
-
   const type = (params.type as 'search' | 'swaps' | 'floats') ?? '';
   const isRejected = params.rejected === 'true' ? true : false;
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const { urlEth, urlBsc } = await getEndpoint();
+        setUrlEth(urlEth);
+        setUrlBsc(urlBsc);
+      } catch (error) {
+        logger.error({ error });
+      }
+    })();
+  }, []);
 
   const fetchQuery = useCallback(
     async ({
@@ -56,10 +72,10 @@ export const useTxsQuery = () => {
   const updateQuery = useCallback(async () => {
     try {
       if (hash || type === 'search') {
-        const urlErcSwaps = `${endpoint['btc_erc']}/api/v1/swaps/query`;
-        const urlBep20Swaps = `${endpoint['btc_bep20']}/api/v1/swaps/query`;
-        const urlErcFloats = `${endpoint['btc_erc']}/api/v1/floats/query`;
-        const urlBep20Floats = `${endpoint['btc_bep20']}/api/v1/floats/query`;
+        const urlErcSwaps = `${urlEth}/api/v1/swaps/query`;
+        const urlBep20Swaps = `${urlBsc}/api/v1/swaps/query`;
+        const urlErcFloats = `${urlEth}/api/v1/floats/query`;
+        const urlBep20Floats = `${urlBsc}/api/v1/floats/query`;
 
         const results = await Promise.all([
           fetchQuery({ baseUrl: urlErcSwaps, bridge: 'btc_erc' }),
@@ -86,7 +102,7 @@ export const useTxsQuery = () => {
       const txType = type ? type : 'swaps';
 
       if (bridge) {
-        const baseUrl = `${endpoint[bridge]}/api/v1/${txType}/query`;
+        const baseUrl = `${bridge === 'btc_bep20' ? urlBsc : urlEth}/api/v1/${txType}/query`;
         const { transactions, total } = await fetchQuery({ baseUrl, bridge });
         setTxs(transactions);
         setTotal(total);
@@ -97,8 +113,8 @@ export const useTxsQuery = () => {
       const isMultiBridge = page === '0' && bridge === '';
 
       if (isMultiBridge) {
-        const urlErc = `${endpoint['btc_erc']}/api/v1/${txType}/query`;
-        const urlBep20 = `${endpoint['btc_bep20']}/api/v1/${txType}/query`;
+        const urlErc = `${urlEth}/api/v1/${txType}/query`;
+        const urlBep20 = `${urlBsc}/api/v1/${txType}/query`;
         const results = await Promise.all([
           fetchQuery({ baseUrl: urlErc, bridge: 'btc_erc' }),
           fetchQuery({ baseUrl: urlBep20, bridge: 'btc_bep20' }),
@@ -112,7 +128,7 @@ export const useTxsQuery = () => {
     } catch (error) {
       logger.error({ error });
     }
-  }, [page, endpoint, fetchQuery, type, bridge, hash]);
+  }, [page, fetchQuery, type, bridge, hash, urlEth, urlBsc]);
 
   useEffect(() => {
     (async () => {
@@ -122,6 +138,7 @@ export const useTxsQuery = () => {
       } catch (error) {
         logger.error({ error });
       } finally {
+        if (!urlEth || !urlBsc) return;
         setIsLoading(false);
       }
     })();
@@ -130,7 +147,7 @@ export const useTxsQuery = () => {
     }, 1000 * 60);
 
     return () => clearInterval(interval);
-  }, [updateQuery]);
+  }, [updateQuery, urlEth, urlBsc]);
 
   return useMemo(
     () => ({
