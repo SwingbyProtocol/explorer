@@ -29,7 +29,6 @@ export const getEndpoint = async (): Promise<{ urlEth: string; urlBsc: string }>
       }
 
       const getFloatBalUrl = (base: string) => base + '/api/v1/floats/balances';
-
       const results = await Promise.all([
         fetcher<IFloatAmount[]>(getFloatBalUrl(urlEth)),
         fetcher<IFloatAmount[]>(getFloatBalUrl(urlBsc)),

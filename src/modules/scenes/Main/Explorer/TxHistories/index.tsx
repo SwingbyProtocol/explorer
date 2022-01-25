@@ -138,7 +138,7 @@ export const TxHistories = () => {
       {selectableBridge.map((chain) => {
         return (
           <Dropdown.Item
-            selected={chainBridge === chain.bridge}
+            selected={bridge === chain.bridge}
             onClick={() =>
               routerPush({
                 bridge: chain.bridge as SkybridgeBridge,

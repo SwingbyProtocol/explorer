@@ -28,8 +28,10 @@ export const useTxsQuery = () => {
   const fetchQuery = useCallback(
     async ({
       baseUrl,
+      bridge,
     }: {
       baseUrl: string;
+      bridge: SkybridgeBridge;
     }): Promise<{ transactions: SkyPoolsQuery[]; total: number }> => {
       const numPage = Number(page) ?? 0;
       const validPage = numPage > 0 ? numPage : 0;
@@ -44,7 +46,7 @@ export const useTxsQuery = () => {
       const items = result.items;
       const total = result.total;
       const transactions = items.map((tx) => {
-        return castTxForSkyPools({ tx, bridge: 'btc_bep20' });
+        return castTxForSkyPools({ tx, bridge });
       });
       return { transactions, total };
     },
@@ -60,10 +62,10 @@ export const useTxsQuery = () => {
         const urlBep20Floats = `${endpoint['btc_bep20']}/api/v1/floats/query`;
 
         const results = await Promise.all([
-          fetchQuery({ baseUrl: urlErcSwaps }),
-          fetchQuery({ baseUrl: urlBep20Swaps }),
-          fetchQuery({ baseUrl: urlErcFloats }),
-          fetchQuery({ baseUrl: urlBep20Floats }),
+          fetchQuery({ baseUrl: urlErcSwaps, bridge: 'btc_erc' }),
+          fetchQuery({ baseUrl: urlBep20Swaps, bridge: 'btc_bep20' }),
+          fetchQuery({ baseUrl: urlErcFloats, bridge: 'btc_erc' }),
+          fetchQuery({ baseUrl: urlBep20Floats, bridge: 'btc_bep20' }),
         ]);
         const { transactions: ethSwaps } = results[0];
         const { transactions: bscSwaps } = results[1];
@@ -85,7 +87,7 @@ export const useTxsQuery = () => {
 
       if (bridge) {
         const baseUrl = `${endpoint[bridge]}/api/v1/${txType}/query`;
-        const { transactions, total } = await fetchQuery({ baseUrl });
+        const { transactions, total } = await fetchQuery({ baseUrl, bridge });
         setTxs(transactions);
         setTotal(total);
         return;
@@ -98,8 +100,8 @@ export const useTxsQuery = () => {
         const urlErc = `${endpoint['btc_erc']}/api/v1/${txType}/query`;
         const urlBep20 = `${endpoint['btc_bep20']}/api/v1/${txType}/query`;
         const results = await Promise.all([
-          fetchQuery({ baseUrl: urlErc }),
-          fetchQuery({ baseUrl: urlBep20 }),
+          fetchQuery({ baseUrl: urlErc, bridge: 'btc_erc' }),
+          fetchQuery({ baseUrl: urlBep20, bridge: 'btc_bep20' }),
         ]);
         const { transactions: ethTxs } = results[0];
         const { transactions: bscTxs } = results[1];
@@ -116,7 +118,6 @@ export const useTxsQuery = () => {
     (async () => {
       try {
         setIsLoading(true);
-
         await updateQuery();
       } catch (error) {
         logger.error({ error });
