@@ -188,7 +188,6 @@ export const TxHistories = () => {
   // Memo: 1: Close the modal, More than 1: Open the modal
   const [toggleOpenLink, setToggleOpenLink] = useState<number>(1);
   const [txDetail, setTxDetail] = useState<SkyPoolsQuery | null>(null);
-  // const oldTxType = useMemo(() => txDetail && castGraphQlType(txDetail as Transaction), [txDetail]);
 
   const { isClaimWidgetModalOpen, setIsClaimWidgetModalOpen } = useLinkToWidget({
     toggleOpenLink,

@@ -116,8 +116,6 @@ export const useTxsQuery = () => {
     (async () => {
       try {
         setIsLoading(true);
-        // setTxs(null);
-        // setTotal(0);
 
         await updateQuery();
       } catch (error) {
