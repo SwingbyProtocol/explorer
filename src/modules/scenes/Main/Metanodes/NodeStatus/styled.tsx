@@ -21,7 +21,7 @@ export const NodeStatusContainer = styled.div`
   @media (min-width: ${rem(media.lg)}) {
     margin-bottom: ${({ theme }) => rem(theme.pulsar.size.town)};
     padding-top: ${({ theme }) => rem(theme.pulsar.size.house)};
-    padding-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
+    padding-bottom: 0;
     padding-left: ${({ theme }) => rem(theme.pulsar.size.street)};
     padding-right: ${({ theme }) => rem(theme.pulsar.size.street)};
   }
@@ -38,7 +38,7 @@ export const Left = styled.div``;
 export const Right = styled.div``;
 
 export const RowTitle = styled.div`
-  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.room)};
+  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
 `;
 
 export const AddressP = styled(AddressLinkP)`

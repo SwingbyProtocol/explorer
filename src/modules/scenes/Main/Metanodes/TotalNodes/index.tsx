@@ -1,7 +1,8 @@
-import { Text } from '@swingby-protocol/pulsar';
+import { getFiatAssetFormatter, Text } from '@swingby-protocol/pulsar';
 import React from 'react';
 import CountUp from 'react-countup';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
+import { useSelector } from 'react-redux';
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
 import { useTheme } from 'styled-components';
 
@@ -19,11 +20,15 @@ import {
   StatusIconWithWarningHalf,
   TextNodeNum,
   TotalNodesContainer,
+  ColumnTvl,
+  NodeTvl,
+  ValueUsd,
 } from './styled';
 
 interface Props {
   nodes: IPeer[];
   isLoading: boolean;
+  nodeTvl: number;
 }
 
 const MAX_CHURNED_IN = 50;
@@ -36,8 +41,18 @@ const MAY_CHURNED_OUT_STATUSES = [
 
 const MIGRATING_STATUS = [PeerStatus.Migrating];
 
-export const TotalNodes = ({ nodes, isLoading }: Props) => {
+export const TotalNodes = ({ nodes, isLoading, nodeTvl }: Props) => {
   const theme = useTheme();
+
+  const { locale } = useIntl();
+  const usd = useSelector((state) => state.explorer.usd);
+
+  const formattedTvlUsd = getFiatAssetFormatter({
+    locale,
+    currency: 'USD',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(usd.SWINGBY * nodeTvl);
 
   const totalNodeCount = nodes && nodes.length;
   const activeNodeCount =
@@ -55,7 +70,7 @@ export const TotalNodes = ({ nodes, isLoading }: Props) => {
         ),
     ).length;
 
-  const loader = <Loader marginTop={0} minHeight={288} />;
+  const loader = <Loader marginTop={0} minHeight={290} />;
 
   const data = [
     { name: 'Not Churned In', value: notActiveNodeCount },
@@ -98,8 +113,8 @@ export const TotalNodes = ({ nodes, isLoading }: Props) => {
               <CountUp delay={1} end={totalNodeCount} duration={7} />
             </TextNodeNum>
 
-            <ResponsiveContainer width="100%" height="100%" minHeight={190}>
-              <PieChart width={190} height={190}>
+            <ResponsiveContainer width="100%" height="100%" minHeight={210}>
+              <PieChart width={210} height={210}>
                 <Pie
                   data={data}
                   cx="50%"
@@ -142,6 +157,30 @@ export const TotalNodes = ({ nodes, isLoading }: Props) => {
               </Row>
             )}
           </StatusContainer>
+          <NodeTvl>
+            <TextRoom variant="label">
+              <FormattedMessage id="metanodes.total-nodes-metanodes-tvl" />
+            </TextRoom>
+            <ColumnTvl>
+              <TextRoom variant="label">
+                <FormattedMessage
+                  id="common.value.swingby"
+                  values={{
+                    value: (
+                      <FormattedNumber
+                        value={Number(nodeTvl)}
+                        maximumFractionDigits={0}
+                        minimumFractionDigits={0}
+                      />
+                    ),
+                  }}
+                />
+              </TextRoom>
+              <ValueUsd>
+                <TextRoom variant="label">({formattedTvlUsd})</TextRoom>
+              </ValueUsd>
+            </ColumnTvl>
+          </NodeTvl>
         </>
       ) : (
         loader

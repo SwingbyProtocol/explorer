@@ -74,6 +74,7 @@ export const StatusContainer = styled.div`
   display: grid;
   grid-row-gap: ${({ theme }) => rem(theme.pulsar.size.closet)};
   margin-top: ${({ theme }) => rem(theme.pulsar.size.town)};
+  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.drawer)};
 `;
 
 export const Row = styled.div`
@@ -88,4 +89,19 @@ export const CustomTooltipContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: ${rem(4)} ${rem(12)};
+`;
+
+export const NodeTvl = styled.div`
+  display: flex;
+  justify-contents: space-between;
+  column-gap: ${({ theme }) => rem(theme.pulsar.size.street)};
+`;
+
+export const ColumnTvl = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const ValueUsd = styled.div`
+  align-self: flex-end;
 `;

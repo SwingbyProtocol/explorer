@@ -186,6 +186,7 @@
   "metanodes.bridge-contract": "Bridge Contract:",
   "metanodes.lp-contract": "LP Token Contract:",
   "metanodes.total-nodes": "Total Nodes",
+  "metanodes.total-nodes-metanodes-tvl": "Bond TVL",
   "metanodes.churned-metanodes": "{activeNodes}/{nodeLimits} Churned Metanodes",
   "metanodes.not-active-metanodes": "{notActiveNodes} Inactive Metanodes",
   "metanodes.bond-to-liquidity.bonded": "Swingby Bond",

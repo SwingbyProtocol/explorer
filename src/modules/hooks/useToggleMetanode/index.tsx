@@ -2,20 +2,16 @@ import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { useLoadMetanodes } from '..';
-import { ENDPOINT_SKYBRIDGE_EXCHANGE, mode, PATH } from '../../env';
-import { IChartDate } from '../../explorer';
-import { fetcher } from '../../fetch';
+import { PATH } from '../../env';
 import {
   getActiveNodeList,
+  getBondToLiquidity,
   getLiquidityRatio,
   getNextChurnedTx,
-  IBondHistories,
   IChurn,
   ILiquidity,
   ILiquidityRatio,
   IRewards,
-  listHistory,
-  getBondToLiquidity,
 } from '../../metanodes';
 import { useInterval } from '../useInterval';
 import { useToggleBridge } from '../useToggleBridge';
@@ -26,7 +22,6 @@ export const useToggleMetanode = (path: PATH) => {
   const [rewards, setRewards] = useState<IRewards | null>(null);
   const [liquidity, setLiquidity] = useState<ILiquidity | null>(null);
   const [churnTime, setChurnTime] = useState<IChurn | null>(null);
-  const [bondHistories, setBondHistories] = useState<IChartDate[] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [liquidityRatio, setLiquidityRatio] = useState<ILiquidityRatio[] | null>(null);
 
@@ -64,16 +59,6 @@ export const useToggleMetanode = (path: PATH) => {
     }
   }, [bridge, path, usd, nodeTvl]);
 
-  const getBondHistory = useCallback(async () => {
-    if (bridge && path === PATH.METANODES) {
-      const url = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/bonded-historic`;
-      const result = await fetcher<IBondHistories>(url);
-      const bondHistoriesData = result.data;
-      const listBondHistory = listHistory(bondHistoriesData);
-      setBondHistories(listBondHistory);
-    }
-  }, [bridge, path]);
-
   const getLiquidityRation = useCallback(async () => {
     if (bridge && path === PATH.METANODES && usd) {
       const btcUsdtPrice = usd.BTC;
@@ -92,26 +77,19 @@ export const useToggleMetanode = (path: PATH) => {
   useEffect(() => {
     (async () => {
       try {
-        await Promise.all([
-          getRewards(),
-          getLiquidity(),
-          getBondHistory(),
-          getLiquidityRation(),
-          getChurnTime(),
-        ]);
+        await Promise.all([getRewards(), getLiquidity(), getLiquidityRation(), getChurnTime()]);
       } catch (error) {
         console.log('error', error);
       } finally {
         setIsLoading(false);
       }
     })();
-  }, [getBondHistory, getLiquidityRation, getChurnTime, getLiquidity, getRewards]);
+  }, [getLiquidityRation, getChurnTime, getLiquidity, getRewards]);
 
   useEffect(() => {
     setRewards(null);
     setLiquidity(null);
     setChurnTime(null);
-    setBondHistories(null);
     setLiquidityRatio(null);
     setIsLoading(true);
   }, [bridge]);
@@ -124,7 +102,6 @@ export const useToggleMetanode = (path: PATH) => {
     nodes,
     nodeTvl,
     bridge,
-    bondHistories,
     liquidity,
     liquidityRatio,
     churnTime,
