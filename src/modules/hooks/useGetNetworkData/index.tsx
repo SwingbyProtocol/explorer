@@ -1,9 +1,14 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { useToggleBridge } from '..';
+import { useToggleBridge } from '../index';
 import { PATH } from '../../env';
-import { fetch1wksRewards, fetchFloatBalances, fetchVolumeInfo } from '../../explorer';
+import {
+  fetch1wksRewards,
+  fetchFloatBalances,
+  fetchDayVolumeInfo,
+  fetchMonthlyVolumeInfo,
+} from '../../explorer';
 import { getNodeQty } from '../../network-stats';
 import { toggleIsLoading, updateNetworkInfos } from '../../store';
 
@@ -19,9 +24,10 @@ export const useGetNetworkData = () => {
         try {
           const results = await Promise.all([
             fetchFloatBalances(usd.BTC, bridge),
-            fetchVolumeInfo(bridge, usd.BTC),
+            fetchDayVolumeInfo(bridge, usd.BTC),
             fetch1wksRewards(bridge),
             getNodeQty({ bridge }),
+            fetchMonthlyVolumeInfo(bridge, usd.BTC),
           ]);
 
           const data = results[0];
@@ -32,6 +38,10 @@ export const useGetNetworkData = () => {
             volumes: results[1].volumes,
             rewards1wksUSD: results[2],
             metanodes: results[3],
+            volume1yrWBTC: results[4].volume1yrWBTC,
+            volume1yrBTCB: results[4].volume1yrBTCB,
+            volume1yrBTC: results[4].volume1yrBTC,
+            volumesYear: results[4].volumes,
           };
 
           const updateStates = () => {

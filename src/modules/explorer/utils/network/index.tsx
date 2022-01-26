@@ -2,7 +2,7 @@ import { SkybridgeBridge } from '@swingby-protocol/sdk';
 
 import { buildChaosNodeContext } from '../../../build-node-context';
 import { CoinSymbol } from '../../../coins';
-import { getShortDate, sumArray } from '../../../common';
+import { getMonthYear, sumArray } from '../../../common';
 import {
   ENDPOINT_BSC_BRIDGE,
   ENDPOINT_ETHEREUM_BRIDGE,
@@ -173,22 +173,22 @@ export const fetchFloatBalances = async (
   }
 };
 
-interface getVolume1wksBTCArg {
+interface getVolumeBTCArg {
   bridge: SkybridgeBridge;
-  volume1wksWBTC: number;
-  volume1wksBTCB: number;
+  volumeWBTC: number;
+  volumeBTCB: number;
 }
 
-const getVolume1wksBTC = (arg: getVolume1wksBTCArg): number => {
-  const { bridge, volume1wksWBTC, volume1wksBTCB } = arg;
+const getVolumeBTC = (arg: getVolumeBTCArg): number => {
+  const { bridge, volumeWBTC, volumeBTCB } = arg;
   switch (bridge) {
     case 'btc_erc':
-      return volume1wksWBTC;
+      return volumeWBTC;
     case 'btc_bep20':
-      return volume1wksBTCB;
+      return volumeBTCB;
 
     default:
-      return volume1wksWBTC + volume1wksBTCB;
+      return volumeWBTC + volumeBTCB;
   }
 };
 
@@ -214,20 +214,22 @@ const getRewards1wks = (arg: getRewards1wksArg): number => {
 interface getVolumesArg {
   bridge: SkybridgeBridge;
   usdBtc: number;
-  ethNetwork24hrSwaps: number[];
-  bscNetwork24hrSwaps: number[];
-  ethNetwork24hrSwapsVolume: number[];
-  bscNetwork24hrSwapsVolume: number[];
+  ethNetworkSwaps: number[];
+  bscNetworkSwaps: number[];
+  ethNetworkSwapsVolume: number[];
+  bscNetworkSwapsVolume: number[];
+  time: 'date' | 'month';
 }
 
 const getVolumes = (arg: getVolumesArg): IChartDate[] => {
   const {
     bridge,
     usdBtc,
-    ethNetwork24hrSwaps,
-    bscNetwork24hrSwaps,
-    ethNetwork24hrSwapsVolume,
-    bscNetwork24hrSwapsVolume,
+    ethNetworkSwaps,
+    bscNetworkSwaps,
+    ethNetworkSwapsVolume,
+    bscNetworkSwapsVolume,
+    time,
   } = arg;
 
   const mergeBridgeStats = ({
@@ -244,31 +246,39 @@ const getVolumes = (arg: getVolumesArg): IChartDate[] => {
   };
 
   const totalSwaps: number[] = mergeBridgeStats({
-    ethStats: ethNetwork24hrSwaps,
-    bscStats: bscNetwork24hrSwaps,
+    ethStats: ethNetworkSwaps,
+    bscStats: bscNetworkSwaps,
   });
 
   const totalVolumes: number[] = mergeBridgeStats({
-    ethStats: ethNetwork24hrSwapsVolume,
-    bscStats: bscNetwork24hrSwapsVolume,
+    ethStats: ethNetworkSwapsVolume,
+    bscStats: bscNetworkSwapsVolume,
   });
 
   const buildVolumesArray = ({
     swapsVolume,
     swapsCount,
     usdBtc,
+    time,
   }: {
     swapsVolume: number[];
     swapsCount: number[];
     usdBtc: number;
+    time: 'date' | 'month';
   }) => {
     return swapsVolume.map((vol: number, i: number) => {
+      let at = '';
       const d = new Date();
-      d.setDate(d.getDate() - i);
-      const dt = getShortDate(String(d));
+      if (time === 'date') {
+        d.setDate(d.getDate() - i);
+        at = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' }).format(d);
+      } else {
+        const monthDate = new Date(d.getFullYear(), d.getMonth() - i, d.getDate());
+        at = getMonthYear(String(monthDate));
+      }
 
       return {
-        at: String(dt),
+        at,
         amount: String(vol * usdBtc),
         count: String(swapsCount[i]),
       };
@@ -278,23 +288,25 @@ const getVolumes = (arg: getVolumesArg): IChartDate[] => {
   switch (bridge) {
     case 'btc_erc':
       return buildVolumesArray({
-        swapsVolume: ethNetwork24hrSwapsVolume,
-        swapsCount: ethNetwork24hrSwaps,
+        swapsVolume: ethNetworkSwapsVolume,
+        swapsCount: ethNetworkSwaps,
         usdBtc,
+        time,
       });
     case 'btc_bep20':
       return buildVolumesArray({
-        swapsVolume: bscNetwork24hrSwapsVolume,
-        swapsCount: bscNetwork24hrSwaps,
+        swapsVolume: bscNetworkSwapsVolume,
+        swapsCount: bscNetworkSwaps,
         usdBtc,
+        time,
       });
 
     default:
-      return buildVolumesArray({ swapsVolume: totalVolumes, swapsCount: totalSwaps, usdBtc });
+      return buildVolumesArray({ swapsVolume: totalVolumes, swapsCount: totalSwaps, usdBtc, time });
   }
 };
 
-export const fetchVolumeInfo = async (
+export const fetchDayVolumeInfo = async (
   bridge: SkybridgeBridge,
   usdBtc: number,
 ): Promise<{
@@ -333,15 +345,20 @@ export const fetchVolumeInfo = async (
     const volume1wksWBTC: number = sumArray(ethNetwork24hrSwapsVolume.slice(0, 7));
     const volume1wksBTCB: number = sumArray(bscNetwork24hrSwapsVolume.slice(0, 7));
 
-    const volume1wksBTC: number = getVolume1wksBTC({ bridge, volume1wksWBTC, volume1wksBTCB });
+    const volume1wksBTC: number = getVolumeBTC({
+      bridge,
+      volumeWBTC: volume1wksWBTC,
+      volumeBTCB: volume1wksBTCB,
+    });
 
     const volumes: IChartDate[] = getVolumes({
       bridge,
       usdBtc,
-      ethNetwork24hrSwaps,
-      bscNetwork24hrSwaps,
-      ethNetwork24hrSwapsVolume,
-      bscNetwork24hrSwapsVolume,
+      ethNetworkSwaps: ethNetwork24hrSwaps,
+      bscNetworkSwaps: bscNetwork24hrSwaps,
+      ethNetworkSwapsVolume: ethNetwork24hrSwapsVolume,
+      bscNetworkSwapsVolume: bscNetwork24hrSwapsVolume,
+      time: 'date',
     })
       .slice(0, 7)
       .reverse();
@@ -358,6 +375,71 @@ export const fetchVolumeInfo = async (
       volume1wksWBTC: 0,
       volume1wksBTCB: 0,
       volume1wksBTC: 0,
+      volumes: null,
+    };
+  }
+};
+
+export const fetchMonthlyVolumeInfo = async (
+  bridge: SkybridgeBridge,
+  usdBtc: number,
+): Promise<{
+  volume1yrWBTC: number;
+  volume1yrBTCB: number;
+  volume1yrBTC: number;
+  volumes: IChartDate[] | null;
+}> => {
+  const getBridgeUrl = (endpoint: string) => endpoint + '/api/v1/swaps/stats';
+
+  try {
+    const { urlEth, urlBsc } = await getEndpoint();
+    const results = await Promise.all([
+      fetch<{ network1mSwapsVolume: number[]; network1mSwaps: number[] }>(getBridgeUrl(urlEth)),
+      fetch<{ network1mSwapsVolume: number[]; network1mSwaps: number[] }>(getBridgeUrl(urlBsc)),
+    ]);
+
+    const swaps1mFallback = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    const ethNetwork1mSwaps = results[0].ok ? results[0].response.network1mSwaps : swaps1mFallback;
+    const bscNetwork1mSwaps = results[1].ok ? results[1].response.network1mSwaps : swaps1mFallback;
+
+    const ethNetwork1mSwapsVolume = results[0].ok
+      ? results[0].response.network1mSwapsVolume
+      : swaps1mFallback;
+
+    const bscNetwork1mSwapsVolume = results[1].ok
+      ? results[1].response.network1mSwapsVolume
+      : swaps1mFallback;
+
+    const volume1yrWBTC: number = sumArray(ethNetwork1mSwapsVolume);
+    const volume1yrBTCB: number = sumArray(bscNetwork1mSwapsVolume);
+    const volume1yrBTC: number = getVolumeBTC({
+      bridge,
+      volumeWBTC: volume1yrWBTC,
+      volumeBTCB: volume1yrBTCB,
+    });
+
+    const volumes: IChartDate[] = getVolumes({
+      bridge,
+      usdBtc,
+      ethNetworkSwaps: ethNetwork1mSwaps,
+      bscNetworkSwaps: bscNetwork1mSwaps,
+      ethNetworkSwapsVolume: ethNetwork1mSwapsVolume,
+      bscNetworkSwapsVolume: bscNetwork1mSwapsVolume,
+      time: 'month',
+    }).reverse();
+
+    return {
+      volume1yrWBTC,
+      volume1yrBTCB,
+      volume1yrBTC,
+      volumes,
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      volume1yrWBTC: 0,
+      volume1yrBTCB: 0,
+      volume1yrBTC: 0,
       volumes: null,
     };
   }

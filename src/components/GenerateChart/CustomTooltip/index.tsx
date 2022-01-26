@@ -7,6 +7,7 @@ import { CustomTooltipContainer } from './styled';
 export const CustomTooltip = ({ payload }) => {
   const intl = useIntl();
   const data = payload?.[0]?.payload;
+  console.log('data', data && data);
 
   const amount =
     data &&
@@ -15,12 +16,7 @@ export const CustomTooltip = ({ payload }) => {
       currency: 'USD',
     });
 
-  const at =
-    data &&
-    intl.formatDate(data.at, {
-      month: 'short',
-      day: 'numeric',
-    });
+  const at = data && data.at;
 
   const today = intl.formatDate(new Date(), {
     month: 'short',

@@ -1,4 +1,5 @@
 const intialVolume = { at: '1-Jan', amount: '1' };
+const intialVolumeYear = { at: 'Jan 2022', amount: '1' };
 export const initialVolumes = [
   intialVolume,
   intialVolume,
@@ -7,6 +8,21 @@ export const initialVolumes = [
   intialVolume,
   intialVolume,
   intialVolume,
+];
+
+export const initialVolumesYear = [
+  intialVolumeYear,
+  intialVolumeYear,
+  intialVolumeYear,
+  intialVolumeYear,
+  intialVolumeYear,
+  intialVolumeYear,
+  intialVolumeYear,
+  intialVolumeYear,
+  intialVolumeYear,
+  intialVolumeYear,
+  intialVolumeYear,
+  intialVolumeYear,
 ];
 
 export const nodeEndpoint = {
@@ -23,6 +39,10 @@ export const networkInfos = {
     volume1wksBTC: 0,
     rewards1wksUSD: 0,
     volumes: initialVolumes,
+    volume1yrWBTC: 0,
+    volume1yrBTCB: 0,
+    volume1yrBTC: 0,
+    volumesYear: initialVolumesYear,
     metanodes: 0,
   },
 };

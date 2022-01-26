@@ -10,7 +10,7 @@ import { useTheme } from 'styled-components';
 import { GenerateChart } from '../../../../../components/GenerateChart';
 import { LoaderComingSoon } from '../../../../../components/LoaderComingSoon';
 import { PATH } from '../../../../env';
-import { useGetStatsChartData, useToggleMetanode } from '../../../../hooks';
+import { useToggleMetanode } from '../../../../hooks';
 
 import {
   ChartBox,
@@ -20,8 +20,6 @@ import {
   InfosContainer,
   Left,
   Network,
-  NetworkCapacity,
-  NetworkLock,
   NetworkMetanodes,
   NetworkRewards,
   Right,
@@ -48,21 +46,11 @@ export const StatsInfo = () => {
   const isLoading = useSelector((state) => state.explorer.isLoading);
 
   const { bridge, rewards, isLoading: isLoadingMetanode } = useToggleMetanode(PATH.ROOT);
-  const {
-    volumes,
-    floatHistories,
-    lockHistories,
-    isLoading: isLoadingGetChart,
-  } = useGetStatsChartData();
 
-  const isLoadingAll =
-    isLoading || isLoadingMetanode || isLoadingGetChart || stats.volume1wksBTC === 0;
+  const isLoadingAll = isLoading || isLoadingMetanode || stats.volume1wksBTC === 0;
   const placeholderLoader = (
     <PulseLoader margin={3} size={4} color={theme.pulsar.color.text.normal} />
   );
-
-  const lockedAmount = Number(lockHistories[lockHistories.length - 1].amount);
-  const floatAmount = Number(floatHistories[floatHistories.length - 1].amount);
 
   const rewardsSwingbyUsd = rewards ? rewards.weeklyRewardsUsd : 0;
 
@@ -72,7 +60,7 @@ export const StatsInfo = () => {
       isLoading: isLoadingAll,
       icon: <Network />,
       description: <FormattedMessage id="home.network.volume" />,
-      chart: volumes,
+      chart: stats.volumes,
       value: getFiatAssetFormatter({
         locale,
         currency: 'USD',
@@ -81,30 +69,17 @@ export const StatsInfo = () => {
       }).format(Number(stats.volume1wksBTC) * usd.BTC),
     },
     {
-      key: 'swingbyLocked',
-      isLoading: isLoadingAll ? isLoadingAll : lockedAmount > 1 ? false : true,
-      icon: <NetworkLock />,
-      description: 'Swingby Locked',
-      chart: lockHistories,
+      key: 'volumeYear',
+      isLoading: isLoadingAll,
+      icon: <Network />,
+      description: <FormattedMessage id="home.network.volume-year" />,
+      chart: stats.volumesYear,
       value: getFiatAssetFormatter({
         locale,
         currency: 'USD',
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
-      }).format(lockedAmount),
-    },
-    {
-      key: 'capacity',
-      isLoading: isLoadingAll ? isLoadingAll : floatAmount > 1 ? false : true,
-      icon: <NetworkCapacity />,
-      description: <FormattedMessage id="home.network.capacity" />,
-      chart: floatHistories,
-      value: getFiatAssetFormatter({
-        locale,
-        currency: 'USD',
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-      }).format(floatAmount),
+      }).format(Number(stats.volume1yrBTC) * usd.BTC),
     },
   ];
 

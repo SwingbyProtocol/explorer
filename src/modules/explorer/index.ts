@@ -19,7 +19,7 @@ export {
   exponentialToNumber,
   fetch1wksRewards,
   fetchFloatBalances,
-  fetchVolumeInfo,
+  fetchDayVolumeInfo,
   fetchVwap,
   generateQueryEndpoint,
   getBaseEndpoint,
@@ -39,6 +39,7 @@ export {
   toBTC,
   toSatoshi,
   TxStatus,
+  fetchMonthlyVolumeInfo,
 } from './utils';
 
 export const selectableBridge = [
@@ -122,6 +123,10 @@ export interface INetworkInfos {
     volume1wksBTC: number;
     rewards1wksUSD: number;
     volumes: IChartDate[];
+    volume1yrWBTC: number;
+    volume1yrBTCB: number;
+    volume1yrBTC: number;
+    volumesYear: IChartDate[];
     metanodes: number;
   };
 }

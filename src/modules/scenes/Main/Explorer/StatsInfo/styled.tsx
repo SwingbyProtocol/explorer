@@ -125,16 +125,6 @@ export const NetworkRewards = styled(Icon.NetworkRewards)`
   color: ${({ theme }) => theme.pulsar.color.text.masked};
 `;
 
-export const NetworkCapacity = styled(Icon.NetworkCapacity)`
-  font-size: ${({ theme }) => rem(theme.pulsar.size.street)};
-  color: ${({ theme }) => theme.pulsar.color.text.masked};
-`;
-
-export const NetworkLock = styled(Icon.Lock)`
-  font-size: ${({ theme }) => rem(theme.pulsar.size.street)};
-  color: ${({ theme }) => theme.pulsar.color.text.masked};
-`;
-
 export const NetworkMetanodes = styled(Icon.NetworkValidators)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.street)};
   color: ${({ theme }) => theme.pulsar.color.text.masked};
