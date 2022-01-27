@@ -15,7 +15,6 @@ import { AbiItem } from 'web3-utils';
 import {
   DAYS_CHURNED_IN,
   IActiveNode,
-  IBondHistories,
   IPeer,
   IPeerStatusTable,
   IRewards,
@@ -30,7 +29,6 @@ import { calDiffDays, fetchVwap, IChartDate } from '../../explorer';
 import { fetch, fetcher } from '../../fetch';
 import { IFloatHistoryObject } from '../../hooks';
 import { logger } from '../../logger';
-import { initialVolumes } from '../../store';
 import { createWeb3Instance } from '../../web3';
 
 export const fetchNodeEarningsList = async () => {
@@ -134,11 +132,6 @@ export const listHistory = (histories: TBondHistory[]) => {
   return historiesTable;
 };
 
-const formatHistoriesArray = (rawData: TBondHistory[]) => {
-  const historiesTable = listHistory(rawData);
-  return historiesTable;
-};
-
 export const mergeLockedArray = (
   lockedHistoryEth: IChartDate[],
   lockedHistoryBsc: IChartDate[],
@@ -177,36 +170,6 @@ export const mergeLockedArray = (
     }
   });
   return mergedArray;
-};
-
-export const getLockedHistory = async (bridge: SkybridgeBridge) => {
-  try {
-    const urlBtcEth = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/production/btc_erc/bonded-historic`;
-    const urlBtcBsc = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/production/btc_bep20/bonded-historic`;
-
-    if (bridge === 'btc_erc') {
-      const result = await fetcher<IBondHistories>(urlBtcEth);
-      return formatHistoriesArray(result.data);
-    } else if (bridge === 'btc_bep20') {
-      const result = await fetcher<IBondHistories>(urlBtcBsc);
-      return formatHistoriesArray(result.data);
-    } else {
-      const results = await Promise.all([
-        fetcher<IBondHistories>(urlBtcEth),
-        fetcher<IBondHistories>(urlBtcBsc),
-      ]);
-      const lockedHistoryEth = formatHistoriesArray(results[0].data);
-      const lockedHistoryBsc = formatHistoriesArray(results[1].data);
-      const mergedArray = mergeLockedArray(lockedHistoryEth, lockedHistoryBsc);
-
-      // Memo: Remove duplicated 'at'
-      const listedLockHistories = removeDuplicatedAt(mergedArray);
-      return listedLockHistories;
-    }
-  } catch (error) {
-    console.log('error', error);
-    return initialVolumes;
-  }
 };
 
 const getChurnedStatus = ({

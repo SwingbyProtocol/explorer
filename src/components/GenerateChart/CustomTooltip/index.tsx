@@ -7,7 +7,6 @@ import { CustomTooltipContainer } from './styled';
 export const CustomTooltip = ({ payload }) => {
   const intl = useIntl();
   const data = payload?.[0]?.payload;
-  console.log('data', data && data);
 
   const amount =
     data &&

@@ -27,7 +27,6 @@ export {
   fetchFloatBalances,
   fetchDayVolumeInfo,
   fetchMonthlyVolumeInfo,
-  fetch1wksRewards,
   getEndpoint,
   getFixedBaseEndpoint,
   castToBackendVariable,

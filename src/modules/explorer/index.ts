@@ -17,7 +17,6 @@ export {
   convertTxTime,
   currencyNetwork,
   exponentialToNumber,
-  fetch1wksRewards,
   fetchFloatBalances,
   fetchDayVolumeInfo,
   fetchVwap,
@@ -121,7 +120,6 @@ export interface INetworkInfos {
     volume1wksWBTC: number;
     volume1wksBTCB: number;
     volume1wksBTC: number;
-    rewards1wksUSD: number;
     volumes: IChartDate[];
     volume1yrWBTC: number;
     volume1yrBTCB: number;

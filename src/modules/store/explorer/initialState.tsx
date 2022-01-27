@@ -37,7 +37,6 @@ export const networkInfos = {
     volume1wksWBTC: 0,
     volume1wksBTCB: 0,
     volume1wksBTC: 0,
-    rewards1wksUSD: 0,
     volumes: initialVolumes,
     volume1yrWBTC: 0,
     volume1yrBTCB: 0,

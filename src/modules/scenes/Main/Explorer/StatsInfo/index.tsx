@@ -54,34 +54,33 @@ export const StatsInfo = () => {
 
   const rewardsSwingbyUsd = rewards ? rewards.weeklyRewardsUsd : 0;
 
-  const dataChart = usd && [
-    {
-      key: 'volume',
-      isLoading: isLoadingAll,
-      icon: <Network />,
-      description: <FormattedMessage id="home.network.volume" />,
-      chart: stats.volumes,
-      value: getFiatAssetFormatter({
-        locale,
-        currency: 'USD',
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-      }).format(Number(stats.volume1wksBTC) * usd.BTC),
-    },
-    {
-      key: 'volumeYear',
-      isLoading: isLoadingAll,
-      icon: <Network />,
-      description: <FormattedMessage id="home.network.volume-year" />,
-      chart: stats.volumesYear,
-      value: getFiatAssetFormatter({
-        locale,
-        currency: 'USD',
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-      }).format(Number(stats.volume1yrBTC) * usd.BTC),
-    },
-  ];
+  const volumeWeekly = usd && {
+    key: 'volume',
+    isLoading: isLoadingAll,
+    icon: <Network />,
+    description: <FormattedMessage id="home.network.volume" />,
+    chart: stats.volumes,
+    value: getFiatAssetFormatter({
+      locale,
+      currency: 'USD',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(Number(stats.volume1wksBTC) * usd.BTC),
+  };
+
+  const volumeYearly = usd && {
+    key: 'volumeYear',
+    isLoading: isLoadingAll,
+    icon: <Network />,
+    description: <FormattedMessage id="home.network.volume-year" />,
+    chart: stats.volumesYear,
+    value: getFiatAssetFormatter({
+      locale,
+      currency: 'USD',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(Number(stats.volume1yrBTC) * usd.BTC),
+  };
 
   const data = [
     {
@@ -110,39 +109,34 @@ export const StatsInfo = () => {
   return (
     <StatsInfoContainer>
       <InfosContainer>
-        {usd &&
-          dataChart.map((info) => {
-            return (
-              <InfoContainer key={info.key}>
-                <Left>
-                  {info.icon}
-                  <DataDiv>
-                    <Row>
-                      <Text variant="label">{info.description}</Text>
-                    </Row>
-                    {info.isLoading ? (
-                      placeholderLoader
-                    ) : (
-                      <Row>
-                        <TextValue variant="accent">{info.value}</TextValue>
-                      </Row>
-                    )}
-                  </DataDiv>
-                </Left>
-                <Right>
-                  <ChartBox>
-                    <GenerateChart
-                      chart={info.chart}
-                      isLoading={info.isLoading}
-                      minHeight={76}
-                      loader={loader}
-                      isAxis={false}
-                    />
-                  </ChartBox>
-                </Right>
-              </InfoContainer>
-            );
-          })}
+        <InfoContainer>
+          <Left>
+            {volumeWeekly.icon}
+            <DataDiv>
+              <Row>
+                <Text variant="label">{volumeWeekly.description}</Text>
+              </Row>
+              {volumeWeekly.isLoading ? (
+                placeholderLoader
+              ) : (
+                <Row>
+                  <TextValue variant="accent">{volumeWeekly.value}</TextValue>
+                </Row>
+              )}
+            </DataDiv>
+          </Left>
+          <Right>
+            <ChartBox>
+              <GenerateChart
+                chart={volumeWeekly.chart}
+                isLoading={volumeWeekly.isLoading}
+                minHeight={76}
+                loader={loader}
+                isAxis={false}
+              />
+            </ChartBox>
+          </Right>
+        </InfoContainer>
 
         <StatsWithoutChart>
           {usd &&
@@ -185,6 +179,35 @@ export const StatsInfo = () => {
               );
             })}
         </StatsWithoutChart>
+
+        <InfoContainer>
+          <Left>
+            {volumeYearly.icon}
+            <DataDiv>
+              <Row>
+                <Text variant="label">{volumeYearly.description}</Text>
+              </Row>
+              {volumeYearly.isLoading ? (
+                placeholderLoader
+              ) : (
+                <Row>
+                  <TextValue variant="accent">{volumeYearly.value}</TextValue>
+                </Row>
+              )}
+            </DataDiv>
+          </Left>
+          <Right>
+            <ChartBox>
+              <GenerateChart
+                chart={volumeYearly.chart}
+                isLoading={volumeYearly.isLoading}
+                minHeight={76}
+                loader={loader}
+                isAxis={false}
+              />
+            </ChartBox>
+          </Right>
+        </InfoContainer>
       </InfosContainer>
     </StatsInfoContainer>
   );

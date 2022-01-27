@@ -3,14 +3,8 @@ import { SkybridgeBridge } from '@swingby-protocol/sdk';
 import { buildChaosNodeContext } from '../../../build-node-context';
 import { CoinSymbol } from '../../../coins';
 import { getMonthYear, sumArray } from '../../../common';
-import {
-  ENDPOINT_BSC_BRIDGE,
-  ENDPOINT_ETHEREUM_BRIDGE,
-  ENDPOINT_SKYBRIDGE_EXCHANGE,
-  mode,
-} from '../../../env';
+import { ENDPOINT_BSC_BRIDGE, ENDPOINT_ETHEREUM_BRIDGE, mode } from '../../../env';
 import { fetch, fetcher } from '../../../fetch';
-import { IReward } from '../../../metanodes';
 import { IChartDate, IFloat, IFloatAmount, IFloatBalances } from '../../index';
 
 // Memo: get active node endpoint
@@ -442,27 +436,5 @@ export const fetchMonthlyVolumeInfo = async (
       volume1yrBTC: 0,
       volumes: null,
     };
-  }
-};
-
-export const fetch1wksRewards = async (bridge: SkybridgeBridge): Promise<number> => {
-  const getRewardsUrl = (bridge: SkybridgeBridge) =>
-    `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/rewards-last-week`;
-  try {
-    const results = await Promise.all([
-      fetch<IReward>(getRewardsUrl('btc_erc')),
-      fetch<IReward>(getRewardsUrl('btc_bep20')),
-    ]);
-
-    const ethRewards1wksUSD = results[0].ok ? Number(results[0].response.total) : 0;
-
-    const bscRewards1wksUSD = results[1].ok ? Number(results[1].response.total) : 0;
-
-    const rewards1wksUSD = getRewards1wks({ bridge, ethRewards1wksUSD, bscRewards1wksUSD });
-
-    return rewards1wksUSD;
-  } catch (err) {
-    console.log(err);
-    return 0;
   }
 };
