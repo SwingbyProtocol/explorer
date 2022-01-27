@@ -24,33 +24,12 @@ import {
   TBondHistory,
 } from '..';
 import { getShortDate } from '../../common';
-import { ENDPOINT_SKYBRIDGE_EXCHANGE, LOCAL_STORAGE, mode } from '../../env';
+import { LOCAL_STORAGE, mode } from '../../env';
 import { calDiffDays, fetchVwap, IChartDate } from '../../explorer';
-import { fetch, fetcher } from '../../fetch';
+import { fetcher } from '../../fetch';
 import { IFloatHistoryObject } from '../../hooks';
 import { logger } from '../../logger';
 import { createWeb3Instance } from '../../web3';
-
-export const fetchNodeEarningsList = async () => {
-  const url = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/rewards/ranking`;
-  const result = await fetch<
-    Array<{
-      address: string;
-      reward1mBtc: string;
-      reward1wBtc: string;
-      reward1mUsdt: string;
-      reward1wUsdt: string;
-      amountStaked: string;
-      monikers: string[];
-    }>
-  >(url);
-
-  if (!result.ok) {
-    throw new Error(`${result.status}: ${result.response}`);
-  }
-
-  return result.response;
-};
 
 export const listNodeStatus = (nodes: IPeer[]): IPeerStatusTable[] => {
   let statusLookUpTable: string[] = [];

@@ -186,25 +186,6 @@ const getVolumeBTC = (arg: getVolumeBTCArg): number => {
   }
 };
 
-interface getRewards1wksArg {
-  bridge: SkybridgeBridge;
-  ethRewards1wksUSD: number;
-  bscRewards1wksUSD: number;
-}
-
-const getRewards1wks = (arg: getRewards1wksArg): number => {
-  const { bridge, ethRewards1wksUSD, bscRewards1wksUSD } = arg;
-  switch (bridge) {
-    case 'btc_erc':
-      return ethRewards1wksUSD;
-    case 'btc_bep20':
-      return bscRewards1wksUSD;
-
-    default:
-      return ethRewards1wksUSD + bscRewards1wksUSD;
-  }
-};
-
 interface getVolumesArg {
   bridge: SkybridgeBridge;
   usdBtc: number;

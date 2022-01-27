@@ -5,7 +5,6 @@ import { TStatus } from '../explorer';
 export { formatPeers } from './utils';
 
 export {
-  fetchNodeEarningsList,
   listNodeStatus,
   listFloatAmountHistories,
   listHistory,
