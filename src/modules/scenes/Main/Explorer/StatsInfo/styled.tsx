@@ -12,6 +12,13 @@ export const StatsInfoContainer = styled.div`
   @media (min-width: ${rem(media.xs)}) {
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  @media (min-width: ${rem(media.md)}) {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-evenly;
   }
   @media (min-width: ${rem(media.lg)}) {
     grid-area: auto;
@@ -25,11 +32,12 @@ export const StatsInfoContainer = styled.div`
   }
 `;
 
-export const InfosContainer = styled.div`
+export const ChartsContainer = styled.div`
   border-top: 1px solid #cecddc;
   padding-top: ${({ theme }) => rem(theme.pulsar.size.town)};
   padding-bottom: ${({ theme }) => rem(theme.pulsar.size.town)};
   display: grid;
+  grid-template-rows: 1fr 1fr;
   align-self: center;
   grid-template-columns: 1fr;
   grid-gap: ${({ theme }) => rem(theme.pulsar.size.street)};
@@ -44,10 +52,6 @@ export const InfosContainer = styled.div`
     padding-top: 0;
     padding-left: 0;
     border-top: 0px solid transparent;
-    grid-gap: ${({ theme }) => rem(theme.pulsar.size.room)};
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    width: 100%;
   }
   ${({ theme }) => rem(theme.pulsar.size.house)};
   @media (min-width: ${rem(media.lg)}) {
@@ -59,14 +63,23 @@ export const InfosContainer = styled.div`
   }
   @media (min-width: ${rem(media.xl)}) {
     padding-right: ${({ theme }) => rem(theme.pulsar.size.box)};
+    width: ${rem(360)};
   }
 `;
 
-export const InfoContainer = styled.div`
+export const ChartContainer = styled.div`
   min-width: ${({ theme }) => rem(theme.pulsar.size.house)};
   display: flex;
   justify-content: space-between;
   align-items: center;
+`;
+
+export const StatsContainer = styled.div`
+  min-width: ${({ theme }) => rem(theme.pulsar.size.house)};
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
   @media (min-width: ${rem(media.lg)}) {
     align-items: center;
   }
@@ -165,8 +178,17 @@ export const ChartBox = styled.div`
 `;
 
 export const StatsWithoutChart = styled.div`
-  display: flex;
-  justify-content: space-around;
+  display: grid;
+  grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.street)};
+  grid-template-columns: 1fr 1fr;
+
+  @media (min-width: ${rem(media.xs)}) {
+    grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.street)};
+  }
+  @media (min-width: ${rem(media.lg)}) {
+    margin-top: ${({ theme }) => rem(theme.pulsar.size.box)};
+    margin-left: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  }
 `;
 
 export const DataRow = styled.div`

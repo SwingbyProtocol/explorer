@@ -16,8 +16,8 @@ import {
   ChartBox,
   DataDiv,
   DataRow,
-  InfoContainer,
-  InfosContainer,
+  ChartContainer,
+  ChartsContainer,
   Left,
   Network,
   NetworkMetanodes,
@@ -30,6 +30,7 @@ import {
   StatsWithoutChart,
   TextValue,
   ValidatorLinkSpan,
+  StatsContainer,
 } from './styled';
 
 export const StatsInfo = () => {
@@ -82,6 +83,8 @@ export const StatsInfo = () => {
     }).format(Number(stats.volume1yrBTC) * usd.BTC),
   };
 
+  const chartData = [volumeWeekly, volumeYearly];
+
   const data = [
     {
       key: 'metanodes',
@@ -108,107 +111,80 @@ export const StatsInfo = () => {
 
   return (
     <StatsInfoContainer>
-      <InfosContainer>
-        <InfoContainer>
-          <Left>
-            {volumeWeekly.icon}
-            <DataDiv>
-              <Row>
-                <Text variant="label">{volumeWeekly.description}</Text>
-              </Row>
-              {volumeWeekly.isLoading ? (
-                placeholderLoader
-              ) : (
-                <Row>
-                  <TextValue variant="accent">{volumeWeekly.value}</TextValue>
-                </Row>
-              )}
-            </DataDiv>
-          </Left>
-          <Right>
-            <ChartBox>
-              <GenerateChart
-                chart={volumeWeekly.chart}
-                isLoading={volumeWeekly.isLoading}
-                minHeight={76}
-                loader={loader}
-                isAxis={false}
-              />
-            </ChartBox>
-          </Right>
-        </InfoContainer>
-
-        <StatsWithoutChart>
-          {usd &&
-            data.map((info) => {
-              return (
-                <InfoContainer key={info.key}>
-                  <DataRow>
-                    {info.icon}
-                    <DataDiv>
-                      {info.description === formattedMetanodes ? (
-                        <RowValidator>
-                          <Text variant="label">{info.description}</Text>
-                          <ValidatorLinkSpan
-                            variant="accent"
-                            onClick={() =>
-                              router.push({
-                                pathname: PATH.METANODES,
-                                query: { bridge: bridge ? bridge : SKYBRIDGE_BRIDGES[0] },
-                              })
-                            }
-                          >
-                            <FormattedMessage id="common.all" />
-                          </ValidatorLinkSpan>
-                        </RowValidator>
-                      ) : (
-                        <RowReward>
-                          <Text variant="label">{info.description}</Text>
-                        </RowReward>
-                      )}
-                      {info.isLoading ? (
-                        placeholderLoader
-                      ) : (
-                        <Row>
-                          <TextValue variant="accent">{info.value}</TextValue>
-                        </Row>
-                      )}
-                    </DataDiv>
-                  </DataRow>
-                </InfoContainer>
-              );
-            })}
-        </StatsWithoutChart>
-
-        <InfoContainer>
-          <Left>
-            {volumeYearly.icon}
-            <DataDiv>
-              <Row>
-                <Text variant="label">{volumeYearly.description}</Text>
-              </Row>
-              {volumeYearly.isLoading ? (
-                placeholderLoader
-              ) : (
-                <Row>
-                  <TextValue variant="accent">{volumeYearly.value}</TextValue>
-                </Row>
-              )}
-            </DataDiv>
-          </Left>
-          <Right>
-            <ChartBox>
-              <GenerateChart
-                chart={volumeYearly.chart}
-                isLoading={volumeYearly.isLoading}
-                minHeight={76}
-                loader={loader}
-                isAxis={false}
-              />
-            </ChartBox>
-          </Right>
-        </InfoContainer>
-      </InfosContainer>
+      <ChartsContainer>
+        {usd &&
+          chartData.map((data) => (
+            <ChartContainer>
+              <Left>
+                {data.icon}
+                <DataDiv>
+                  <Row>
+                    <Text variant="label">{data.description}</Text>
+                  </Row>
+                  {data.isLoading ? (
+                    placeholderLoader
+                  ) : (
+                    <Row>
+                      <TextValue variant="accent">{data.value}</TextValue>
+                    </Row>
+                  )}
+                </DataDiv>
+              </Left>
+              <Right>
+                <ChartBox>
+                  <GenerateChart
+                    chart={data.chart}
+                    isLoading={data.isLoading}
+                    minHeight={76}
+                    loader={loader}
+                    isAxis={false}
+                  />
+                </ChartBox>
+              </Right>
+            </ChartContainer>
+          ))}
+      </ChartsContainer>
+      <StatsWithoutChart>
+        {usd &&
+          data.map((info) => {
+            return (
+              <StatsContainer key={info.key}>
+                <DataRow>
+                  {info.icon}
+                  <DataDiv>
+                    {info.description === formattedMetanodes ? (
+                      <RowValidator>
+                        <Text variant="label">{info.description}</Text>
+                        <ValidatorLinkSpan
+                          variant="accent"
+                          onClick={() =>
+                            router.push({
+                              pathname: PATH.METANODES,
+                              query: { bridge: bridge ? bridge : SKYBRIDGE_BRIDGES[0] },
+                            })
+                          }
+                        >
+                          <FormattedMessage id="common.all" />
+                        </ValidatorLinkSpan>
+                      </RowValidator>
+                    ) : (
+                      <RowReward>
+                        <Text variant="label">{info.description}</Text>
+                      </RowReward>
+                    )}
+                    {info.isLoading ? (
+                      placeholderLoader
+                    ) : (
+                      <Row>
+                        <TextValue variant="accent">{info.value}</TextValue>
+                      </Row>
+                    )}
+                  </DataDiv>
+                </DataRow>
+              </StatsContainer>
+            );
+          })}
+      </StatsWithoutChart>
     </StatsInfoContainer>
   );
 };
