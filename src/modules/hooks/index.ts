@@ -1,20 +1,19 @@
-import { SkybridgeBridge } from '@swingby-protocol/sdk';
-export { useInterval } from './useInterval';
-export { useRunCountDown } from './useRunCountDown';
-export { useLinkToWidget } from './useLinkToWidget';
-export { useToggleBridge } from './useToggleBridge';
-export { usePoolWithdrawCoin } from './usePoolWithdrawCoin';
-export { useToggleMetanode } from './useToggleMetanode';
+export { useDistributeRewards } from './useDistributeRewards';
+export { useGetEarningHistorical } from './useGetEarningHistorical';
+export { useGetLatestPrice } from './useGetLatestPrice';
 export { useGetNetworkData } from './useGetNetworkData';
-export { useGetTvlSummary } from './useGetTvlSummary';
 export { useGetPoolApr } from './useGetPoolApr';
 export { useGetSbBtcBal } from './useGetSbBtcBal';
-export { useGetLatestPrice } from './useGetLatestPrice';
-export { useGetEarningHistorical } from './useGetEarningHistorical';
-export { useGetSwapRewards } from './useGetSwapRewards';
-export { useDistributeRewards } from './useDistributeRewards';
 export { useGetSignature } from './useGetSignature';
+export { useGetSwapRewards } from './useGetSwapRewards';
+export { useGetTvlSummary } from './useGetTvlSummary';
+export { useInterval } from './useInterval';
+export { useLinkToWidget } from './useLinkToWidget';
 export { useLoadMetanodes } from './useLoadMetanodes';
+export { usePoolWithdrawCoin } from './usePoolWithdrawCoin';
+export { useRunCountDown } from './useRunCountDown';
+export { useToggleBridge } from './useToggleBridge';
+export { useToggleMetanode } from './useToggleMetanode';
 export { useTxsQuery } from './useTxsQuery';
 
 export interface ICountdown {
@@ -30,51 +29,6 @@ export interface ITvl {
   lockedSwingbyUsd: number;
   preStakingUsd: number;
   farmTvlUsd: number;
-}
-
-export interface ITvlResponses {
-  tvl: ITvlObject;
-  bonded: ITvlObject;
-  liquidity: ITvlObject;
-}
-
-export interface ITvlObject {
-  usd: string;
-  btc: string;
-  swingby: string;
-}
-
-export interface IFloatHistoryObject {
-  at: Date;
-  data: IFloatHistory[];
-  totalUsd: string;
-}
-
-export interface IFloatHistory {
-  amount: string;
-  bridge: SkybridgeBridge;
-  currency: Currency;
-}
-
-export enum Currency {
-  Btc = 'BTC',
-  Btcb = 'BTCB',
-  Wbtc = 'WBTC',
-}
-
-export interface IAprHistoric {
-  farm: 'string';
-  sbBtc: 'string';
-  pool: 'string';
-  createdAt: 'string';
-}
-
-export interface IAprHistoricalPool {
-  sbBtcErc20: IAprHistoric[] | [];
-  uni: IAprHistoric[] | [];
-  sushi: IAprHistoric[] | [];
-  pancake: IAprHistoric[] | [];
-  sbBtcBep20: IAprHistoric[] | [];
 }
 
 export interface IEarningHistorical {

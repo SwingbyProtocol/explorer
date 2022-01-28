@@ -27,7 +27,6 @@ import { getShortDate } from '../../common';
 import { LOCAL_STORAGE, mode } from '../../env';
 import { calDiffDays, fetchVwap, IChartDate } from '../../explorer';
 import { fetcher } from '../../fetch';
-import { IFloatHistoryObject } from '../../hooks';
 import { logger } from '../../logger';
 import { createWeb3Instance } from '../../web3';
 
@@ -66,26 +65,6 @@ export const listNodeStatus = (nodes: IPeer[]): IPeerStatusTable[] => {
     }
   });
   return statusTable;
-};
-
-export const listFloatAmountHistories = (histories: IFloatHistoryObject[]): IChartDate[] => {
-  let dateLookUpTable: string[] = [];
-  let historiesTable: IChartDate[] = [];
-
-  histories.forEach((history: IFloatHistoryObject) => {
-    const date = getShortDate(String(history.at));
-
-    if (!dateLookUpTable.includes(date)) {
-      const item: IChartDate = {
-        at: date,
-        amount: history.totalUsd,
-      };
-      dateLookUpTable.push(date);
-      historiesTable.push(item);
-    }
-  });
-
-  return historiesTable.reverse();
 };
 
 export const removeDuplicatedAt = (locks: IChartDate[]): IChartDate[] => {

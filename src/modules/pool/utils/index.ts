@@ -5,4 +5,4 @@ export { calculateDepositFee, calculateSwapFee } from './fees/';
 
 export { getSbBtcContract, getSbBTCBalance } from './sbBtcTransactions';
 
-export { mergeSameDateEarningsData, formatAprData } from './earnings';
+export { mergeSameDateEarningsData } from './earnings';

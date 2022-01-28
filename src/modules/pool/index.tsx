@@ -7,7 +7,6 @@ export {
   orgFloor,
   getSbBtcContract,
   mergeSameDateEarningsData,
-  formatAprData,
 } from './utils';
 
 export enum PoolMode {

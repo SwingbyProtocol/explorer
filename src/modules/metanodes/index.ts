@@ -6,7 +6,6 @@ export { formatPeers } from './utils';
 
 export {
   listNodeStatus,
-  listFloatAmountHistories,
   listHistory,
   getActiveNodeList,
   getNextChurnedTx,
