@@ -15,12 +15,7 @@ export const CustomTooltip = ({ payload }) => {
       currency: 'USD',
     });
 
-  const at =
-    data &&
-    intl.formatDate(data.at, {
-      month: 'short',
-      day: 'numeric',
-    });
+  const at = data && data.at;
 
   const today = intl.formatDate(new Date(), {
     month: 'short',

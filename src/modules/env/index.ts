@@ -37,8 +37,6 @@ export const graphEndpoint = 'https://network.skybridge.exchange/api/v3/graphql'
 
 export const appName = 'Swingby Explorer';
 
-export const ENDPOINT_SKYBRIDGE_EXCHANGE = 'https://network.skybridge.exchange/api/v3';
-
 export const ENDPOINT_YIELD_FARMING = 'https://farm.swingby.network';
 
 export const ENDPOINT_PRESTAKING = 'https://pre-staking-swingby.swingby.network';

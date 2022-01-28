@@ -5,10 +5,7 @@ import { TStatus } from '../explorer';
 export { formatPeers } from './utils';
 
 export {
-  fetchNodeEarningsList,
   listNodeStatus,
-  listFloatAmountHistories,
-  getLockedHistory,
   listHistory,
   getActiveNodeList,
   getNextChurnedTx,
@@ -21,14 +18,6 @@ export const NODE_APR = 30;
 export const DAYS_CHURNED_IN = 30;
 // Todo: Confirm with backend
 export const RANK_CHURNED_IN = 50;
-
-export interface IReward {
-  currency: string;
-  total: string;
-  avgPerNode: string;
-  networkRewards: string;
-  stakingRewards: string;
-}
 
 export interface IBridge {
   bridge: SkybridgeBridge;
@@ -52,10 +41,6 @@ export type TBondHistory = {
   since: string;
   bond: string;
 };
-export interface IBondHistories {
-  currency: string;
-  data: TBondHistory[];
-}
 
 export interface ILiquidityRatio {
   currency: string;
@@ -108,12 +93,10 @@ export interface IActiveNode {
   lockedAmount: number;
   rank: number;
 }
-
 export interface IRewards {
   weeklyRewardsUsd: number;
   average: number;
 }
-
 export enum PeerStatus {
   ChurnedIn = 'CHURNED_IN',
   MayChurnIn = 'MAY_CHURN_IN',

@@ -7,18 +7,17 @@ import {
   ENDPOINT_BSC_BRIDGE,
   ENDPOINT_ETHEREUM_BRIDGE,
   ENDPOINT_PRESTAKING,
-  ENDPOINT_SKYBRIDGE_EXCHANGE,
   ENDPOINT_YIELD_FARMING,
 } from '../env';
 import {
   castToBackendVariable,
   fetchVwap,
+  getEndpoint,
   getFloatBalance,
   IFloatAmount,
-  getEndpoint,
 } from '../explorer';
 import { fetcher } from '../fetch';
-import { IBondHistories } from '../metanodes';
+import { formatPeers, IPeer } from '../metanodes';
 
 export const getNodeQty = async ({
   bridge,
@@ -79,8 +78,8 @@ export const get7daysVolume = async (): Promise<string> => {
 export const getTVL = async (): Promise<string> => {
   const getFloatBalUrl = (base: string) => base + '/api/v1/floats/balances';
 
-  const getBondBalUrl = (bridge: SkybridgeBridge) =>
-    ENDPOINT_SKYBRIDGE_EXCHANGE + `/production/${bridge}/bonded-historic`;
+  const urlPeerErc = `${ENDPOINT_ETHEREUM_BRIDGE}/api/v1/peers`;
+  const urlPeerBsc = `${ENDPOINT_BSC_BRIDGE}/api/v1/peers`;
 
   const preStakingUrl = `${ENDPOINT_PRESTAKING}/v1/stakes/leaderboard`;
   const uniFarmUrl = `${ENDPOINT_YIELD_FARMING}/api/v1/farm-info?farm=Uni-V2`;
@@ -91,8 +90,9 @@ export const getTVL = async (): Promise<string> => {
     const results = await Promise.all([
       fetcher<IFloatAmount[]>(getFloatBalUrl(ENDPOINT_ETHEREUM_BRIDGE)),
       fetcher<IFloatAmount[]>(getFloatBalUrl(ENDPOINT_BSC_BRIDGE)),
-      fetcher<IBondHistories>(getBondBalUrl('btc_erc')),
-      fetcher<IBondHistories>(getBondBalUrl('btc_bep20')),
+      fetcher<IPeer[]>(urlPeerErc),
+      fetcher<IPeer[]>(urlPeerBsc),
+
       fetchVwap('btcUsd'),
       fetchVwap('swingbyUsd'),
       fetcher<{ totalStaked: number }>(preStakingUrl),
@@ -104,8 +104,10 @@ export const getTVL = async (): Promise<string> => {
     const resEth = results[0];
     const resBsc = results[1];
 
-    const tvlSwingbyEth = Number(results[2].data[0].bond);
-    const tvlSwingbyBsc = Number(results[3].data[0].bond);
+    const resultNodes = await Promise.all([
+      formatPeers({ peers: results[2], bridge: 'btc_erc' }),
+      formatPeers({ peers: results[3], bridge: 'btc_bep20' }),
+    ]);
 
     const usdBtc = results[4];
     const usdSwingby = results[5];
@@ -125,7 +127,7 @@ export const getTVL = async (): Promise<string> => {
 
     const floatTtl = usdBtc * (btcEth + btcBsc + wbtc + btcb);
 
-    const tvlSwingbyUsd = tvlSwingbyEth + tvlSwingbyBsc;
+    const tvlSwingbyUsd = resultNodes[0].nodeTvl * usdSwingby + resultNodes[1].nodeTvl * usdSwingby;
 
     const tvl = floatTtl + tvlSwingbyUsd + preStakingUsd + farmTvlUsd;
 

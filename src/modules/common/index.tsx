@@ -8,4 +8,5 @@ export {
   formatNum,
   sumArray,
   getShortDate,
+  getMonthYear,
 } from './utils';

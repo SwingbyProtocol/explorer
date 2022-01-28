@@ -47,8 +47,8 @@ export const AddressP = styled(AddressLinkP)`
     margin-top: 0;
     max-width: ${rem(200)};
   }
-  @media (min-width: ${rem(media.lg)}) {
+  @media (min-width: ${rem(media.xl)}) {
     margin-top: 0;
-    max-width: ${rem(112)};
+    max-width: ${rem(300)};
   }
 `;

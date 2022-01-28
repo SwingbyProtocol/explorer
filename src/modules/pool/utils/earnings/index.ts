@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon';
 
-import { IAprChartData, IEarningsChartData } from '../..';
-import { IClaimedTx, IAprHistoric } from '../../../hooks';
+import { IEarningsChartData } from '../..';
+import { IClaimedTx } from '../../../hooks';
 
 export const mergeSameDateEarningsData = ({
   claimedTxs,
@@ -45,17 +45,4 @@ export const mergeSameDateEarningsData = ({
       SWINGBY: pendingSwingby,
     },
   ]);
-};
-
-export const formatAprData = (histories: IAprHistoric[]): IAprChartData[] => {
-  return histories.map((history) => {
-    const APR = Number(history.farm) + Number(history.sbBtc);
-    const dt = DateTime.fromISO(history.createdAt);
-    const name = dt.toLocaleString({
-      month: 'short',
-      day: 'numeric',
-    });
-    const timestamp = dt.toSeconds();
-    return { APR, name, timestamp };
-  });
 };

@@ -15,7 +15,6 @@ import { AbiItem } from 'web3-utils';
 import {
   DAYS_CHURNED_IN,
   IActiveNode,
-  IBondHistories,
   IPeer,
   IPeerStatusTable,
   IRewards,
@@ -25,34 +24,11 @@ import {
   TBondHistory,
 } from '..';
 import { getShortDate } from '../../common';
-import { ENDPOINT_SKYBRIDGE_EXCHANGE, LOCAL_STORAGE, mode } from '../../env';
+import { LOCAL_STORAGE, mode } from '../../env';
 import { calDiffDays, fetchVwap, IChartDate } from '../../explorer';
-import { fetch, fetcher } from '../../fetch';
-import { IFloatHistoryObject } from '../../hooks';
+import { fetcher } from '../../fetch';
 import { logger } from '../../logger';
-import { initialVolumes } from '../../store';
 import { createWeb3Instance } from '../../web3';
-
-export const fetchNodeEarningsList = async () => {
-  const url = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/rewards/ranking`;
-  const result = await fetch<
-    Array<{
-      address: string;
-      reward1mBtc: string;
-      reward1wBtc: string;
-      reward1mUsdt: string;
-      reward1wUsdt: string;
-      amountStaked: string;
-      monikers: string[];
-    }>
-  >(url);
-
-  if (!result.ok) {
-    throw new Error(`${result.status}: ${result.response}`);
-  }
-
-  return result.response;
-};
 
 export const listNodeStatus = (nodes: IPeer[]): IPeerStatusTable[] => {
   let statusLookUpTable: string[] = [];
@@ -91,26 +67,6 @@ export const listNodeStatus = (nodes: IPeer[]): IPeerStatusTable[] => {
   return statusTable;
 };
 
-export const listFloatAmountHistories = (histories: IFloatHistoryObject[]): IChartDate[] => {
-  let dateLookUpTable: string[] = [];
-  let historiesTable: IChartDate[] = [];
-
-  histories.forEach((history: IFloatHistoryObject) => {
-    const date = getShortDate(String(history.at));
-
-    if (!dateLookUpTable.includes(date)) {
-      const item: IChartDate = {
-        at: date,
-        amount: history.totalUsd,
-      };
-      dateLookUpTable.push(date);
-      historiesTable.push(item);
-    }
-  });
-
-  return historiesTable.reverse();
-};
-
 export const removeDuplicatedAt = (locks: IChartDate[]): IChartDate[] => {
   // Memo: Remove duplicated 'at'
   return locks.filter((v, i, a) => a.findIndex((t) => t.at === v.at) === i);
@@ -131,11 +87,6 @@ export const listHistory = (histories: TBondHistory[]) => {
       historiesTable.push(item);
     }
   });
-  return historiesTable;
-};
-
-const formatHistoriesArray = (rawData: TBondHistory[]) => {
-  const historiesTable = listHistory(rawData);
   return historiesTable;
 };
 
@@ -177,36 +128,6 @@ export const mergeLockedArray = (
     }
   });
   return mergedArray;
-};
-
-export const getLockedHistory = async (bridge: SkybridgeBridge) => {
-  try {
-    const urlBtcEth = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/production/btc_erc/bonded-historic`;
-    const urlBtcBsc = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/production/btc_bep20/bonded-historic`;
-
-    if (bridge === 'btc_erc') {
-      const result = await fetcher<IBondHistories>(urlBtcEth);
-      return formatHistoriesArray(result.data);
-    } else if (bridge === 'btc_bep20') {
-      const result = await fetcher<IBondHistories>(urlBtcBsc);
-      return formatHistoriesArray(result.data);
-    } else {
-      const results = await Promise.all([
-        fetcher<IBondHistories>(urlBtcEth),
-        fetcher<IBondHistories>(urlBtcBsc),
-      ]);
-      const lockedHistoryEth = formatHistoriesArray(results[0].data);
-      const lockedHistoryBsc = formatHistoriesArray(results[1].data);
-      const mergedArray = mergeLockedArray(lockedHistoryEth, lockedHistoryBsc);
-
-      // Memo: Remove duplicated 'at'
-      const listedLockHistories = removeDuplicatedAt(mergedArray);
-      return listedLockHistories;
-    }
-  } catch (error) {
-    console.log('error', error);
-    return initialVolumes;
-  }
 };
 
 const getChurnedStatus = ({

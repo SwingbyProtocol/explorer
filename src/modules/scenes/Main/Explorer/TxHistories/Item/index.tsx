@@ -32,7 +32,7 @@ import {
   IconDetail,
   NetworkText,
   Row,
-  RowAbsolute,
+  RowOnBottom,
   RowAddress,
   RowAmount,
   Status,
@@ -88,7 +88,7 @@ export const TxHistoriesItem = ({
           </TextTime>
         </Row>
         {tx.status === TxStatus.PENDING && (
-          <RowAbsolute>
+          <RowOnBottom>
             <TextConfirmation variant="label">
               <FormattedMessage
                 id="home.recent-swaps.confirmation"
@@ -97,7 +97,7 @@ export const TxHistoriesItem = ({
                 }}
               />
             </TextConfirmation>
-          </RowAbsolute>
+          </RowOnBottom>
         )}
       </Column>
       <ColumnM>

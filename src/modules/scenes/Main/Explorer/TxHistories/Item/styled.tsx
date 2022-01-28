@@ -101,8 +101,8 @@ export const Top = styled.div`
 
 export const Row = styled.div``;
 
-export const RowAbsolute = styled.div`
-  position: absolute;
+export const RowOnBottom = styled.div`
+  /* position: absolute; */
   bottom: ${({ theme }) => rem(theme.pulsar.size.closet)};
   @media (min-width: ${rem(media.md)}) {
     bottom: ${rem(0)};
