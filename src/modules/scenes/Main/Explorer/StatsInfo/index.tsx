@@ -74,7 +74,7 @@ export const StatsInfo = () => {
     isLoading: isLoadingAll,
     icon: <Network />,
     description: <FormattedMessage id="home.network.volume-year" />,
-    chart: stats.volumesYear,
+    chart: stats.volumesYear.filter((it) => it.amount !== '0'),
     value: getFiatAssetFormatter({
       locale,
       currency: 'USD',
