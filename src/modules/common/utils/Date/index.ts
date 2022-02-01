@@ -7,6 +7,6 @@ export const getShortDate = (d: string) => {
 
 export const getMonthYear = (d: string) => {
   const date = new Date(d);
-  const dt = DateTime.fromJSDate(date).toUTC();
+  const dt = DateTime.fromJSDate(date).toLocal();
   return dt.toFormat('MMM yyyy');
 };
