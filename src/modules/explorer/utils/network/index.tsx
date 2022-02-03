@@ -1,4 +1,4 @@
-import { SkybridgeBridge } from '@swingby-protocol/sdk';
+import { FIXED_NODE_ENDPOINT, SkybridgeBridge } from '@swingby-protocol/sdk';
 
 import { buildChaosNodeContext } from '../../../build-node-context';
 import { CoinSymbol } from '../../../coins';
@@ -241,14 +241,14 @@ const getVolumes = (arg: getVolumesArg): IChartDate[] => {
     usdBtc: number;
     time: 'date' | 'month';
   }) => {
-    const volumes = swapsVolume.map((vol: number, i: number) => {
+    return swapsVolume.map((vol: number, i: number) => {
       let at = '';
       const d = new Date();
       if (time === 'date') {
         d.setDate(d.getDate() - i);
         at = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' }).format(d);
       } else {
-        const monthDate = new Date(d.getFullYear(), d.getMonth() - i, d.getDate());
+        const monthDate = new Date(d.getFullYear(), d.getMonth() - i - 1, d.getDate());
         at = getMonthYear(String(monthDate));
       }
 
@@ -258,8 +258,6 @@ const getVolumes = (arg: getVolumesArg): IChartDate[] => {
         count: String(swapsCount[i]),
       };
     });
-    // Memo: Remove the current month data
-    return volumes.slice(1);
   };
 
   switch (bridge) {
@@ -357,6 +355,8 @@ export const fetchDayVolumeInfo = async (
   }
 };
 
+// Memo: Remove the current month
+// Memo: Use fixed endpoint to unify the volume data
 export const fetchMonthlyVolumeInfo = async (
   bridge: SkybridgeBridge,
   usdBtc: number,
@@ -369,22 +369,27 @@ export const fetchMonthlyVolumeInfo = async (
   const getBridgeUrl = (endpoint: string) => endpoint + '/api/v1/swaps/stats';
 
   try {
-    const { urlEth, urlBsc } = await getEndpoint();
+    const urlEth = FIXED_NODE_ENDPOINT['btc_erc'][mode][0];
+    const urlBsc = FIXED_NODE_ENDPOINT['btc_bep20'][mode][0];
     const results = await Promise.all([
       fetch<{ network1mSwapsVolume: number[]; network1mSwaps: number[] }>(getBridgeUrl(urlEth)),
       fetch<{ network1mSwapsVolume: number[]; network1mSwaps: number[] }>(getBridgeUrl(urlBsc)),
     ]);
 
-    const swaps1mFallback = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    const ethNetwork1mSwaps = results[0].ok ? results[0].response.network1mSwaps : swaps1mFallback;
-    const bscNetwork1mSwaps = results[1].ok ? results[1].response.network1mSwaps : swaps1mFallback;
+    const swaps1mFallback = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    const ethNetwork1mSwaps = results[0].ok
+      ? results[0].response.network1mSwaps.slice(1)
+      : swaps1mFallback;
+    const bscNetwork1mSwaps = results[1].ok
+      ? results[1].response.network1mSwaps.slice(1)
+      : swaps1mFallback;
 
     const ethNetwork1mSwapsVolume = results[0].ok
-      ? results[0].response.network1mSwapsVolume
+      ? results[0].response.network1mSwapsVolume.slice(1)
       : swaps1mFallback;
 
     const bscNetwork1mSwapsVolume = results[1].ok
-      ? results[1].response.network1mSwapsVolume
+      ? results[1].response.network1mSwapsVolume.slice(1)
       : swaps1mFallback;
 
     const volume1yrWBTC: number = sumArray(ethNetwork1mSwapsVolume);
