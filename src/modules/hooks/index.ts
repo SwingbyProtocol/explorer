@@ -4,7 +4,6 @@ export { useGetLatestPrice } from './useGetLatestPrice';
 export { useGetNetworkData } from './useGetNetworkData';
 export { useGetPoolApr } from './useGetPoolApr';
 export { useGetSbBtcBal } from './useGetSbBtcBal';
-export { useGetSignature } from './useGetSignature';
 export { useGetSwapRewards } from './useGetSwapRewards';
 export { useGetTvlSummary } from './useGetTvlSummary';
 export { useInterval } from './useInterval';
@@ -15,6 +14,7 @@ export { useRunCountDown } from './useRunCountDown';
 export { useToggleBridge } from './useToggleBridge';
 export { useToggleMetanode } from './useToggleMetanode';
 export { useTxsQuery } from './useTxsQuery';
+export { useAssertTermsSignature } from './useAssertTermsSignature';
 
 export interface ICountdown {
   days: number;

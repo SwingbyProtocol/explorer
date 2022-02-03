@@ -4,7 +4,12 @@ import React, { useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import { PATH } from '../../modules/env';
-import { useDistributeRewards, useGetSignature, useToggleBridge } from '../../modules/hooks';
+import {
+  // useGetSignature,
+  useToggleBridge,
+  useAssertTermsSignature,
+  useDistributeRewards,
+} from '../../modules/hooks';
 import { showConnectNetwork, useOnboard } from '../../modules/onboard';
 import { ButtonScale } from '../../modules/scenes/Common';
 import { StylingConstants } from '../../modules/styles';
@@ -16,18 +21,18 @@ export const RewardButton = () => {
   const lg = useMatchMedia({ query: `(min-width: ${rem(media.lg)})` });
   const sm = useMatchMedia({ query: `(min-width: ${rem(media.sm)})` });
   const { bridge } = useToggleBridge(PATH.METANODES);
-  const { connectWallet, addressTerms } = useGetSignature();
   const { distributeRewards } = useDistributeRewards();
   const { onboard, address } = useOnboard();
+  const { isSigned, connectWallet } = useAssertTermsSignature();
 
   useEffect(() => {
     (async () => {
-      if (!addressTerms || !addressTerms.hasSignedTerms || !address) {
+      if (!address || !isSigned) {
         return;
       }
       await distributeRewards();
     })();
-  }, [distributeRewards, address, addressTerms]);
+  }, [distributeRewards, address, isSigned]);
 
   return (
     <RewardButtonContainer>
@@ -53,6 +58,12 @@ export const RewardButton = () => {
               // Memo: Reset 'address' for connectWallet.
               await onboard.walletReset();
               await connectWallet();
+              // setTimeout(async () => {
+              //   await onboard.walletSelect();
+              // }, 500);
+              // if (!(await onboard.walletCheck())) {
+              //   throw Error('Wallet check result is invalid');
+              // }
             })();
           }}
         >
