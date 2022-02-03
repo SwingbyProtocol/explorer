@@ -241,7 +241,7 @@ const getVolumes = (arg: getVolumesArg): IChartDate[] => {
     usdBtc: number;
     time: 'date' | 'month';
   }) => {
-    return swapsVolume.map((vol: number, i: number) => {
+    const volumes = swapsVolume.map((vol: number, i: number) => {
       let at = '';
       const d = new Date();
       if (time === 'date') {
@@ -258,6 +258,8 @@ const getVolumes = (arg: getVolumesArg): IChartDate[] => {
         count: String(swapsCount[i]),
       };
     });
+    // Memo: Remove the current month data
+    return volumes.slice(1);
   };
 
   switch (bridge) {
