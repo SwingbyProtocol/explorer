@@ -5,7 +5,6 @@ import { FormattedMessage } from 'react-intl';
 
 import { PATH } from '../../modules/env';
 import {
-  // useGetSignature,
   useToggleBridge,
   useAssertTermsSignature,
   useDistributeRewards,
@@ -30,7 +29,7 @@ export const RewardButton = () => {
       if (!address || !isSigned) {
         return;
       }
-      await distributeRewards();
+      await distributeRewards().catch((error) => console.log(error.message));
     })();
   }, [distributeRewards, address, isSigned]);
 
@@ -58,12 +57,6 @@ export const RewardButton = () => {
               // Memo: Reset 'address' for connectWallet.
               await onboard.walletReset();
               await connectWallet();
-              // setTimeout(async () => {
-              //   await onboard.walletSelect();
-              // }, 500);
-              // if (!(await onboard.walletCheck())) {
-              //   throw Error('Wallet check result is invalid');
-              // }
             })();
           }}
         >
