@@ -29,6 +29,7 @@ export const RewardButton = () => {
       if (!address || !isSigned) {
         return;
       }
+      console.log('run');
       await distributeRewards().catch((error) => console.log(error.message));
     })();
   }, [distributeRewards, address, isSigned]);
@@ -56,7 +57,9 @@ export const RewardButton = () => {
             (async () => {
               // Memo: Reset 'address' for connectWallet.
               await onboard.walletReset();
-              await connectWallet();
+              setTimeout(async () => {
+                await connectWallet();
+              }, 1000);
             })();
           }}
         >
