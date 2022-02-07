@@ -30,7 +30,6 @@ export const useAssertTermsSignature = () => {
     }
 
     const signed = await hasSignedTerms({ address });
-    console.log('signed', signed);
     if (signed) {
       return true;
     }
@@ -44,15 +43,9 @@ export const useAssertTermsSignature = () => {
       return new Promise((resolve) => setTimeout(resolve, time));
     }
 
-    console.log('1');
     const web3 = new Web3(wallet.provider);
-    console.log('2');
     await delay(1000);
-    // const accounts = await web3.eth.personal.getAccounts();
-    // console.log('accounts', accounts);
-    console.log('before sign');
     const signature = await web3.eth.personal.sign(message, address, seed);
-    console.log('3');
     localStorage.setItem(LOCAL_STORAGE.Terms, signature);
     return true;
   }, [address, wallet]);

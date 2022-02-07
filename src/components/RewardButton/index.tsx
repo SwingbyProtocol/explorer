@@ -24,22 +24,25 @@ export const RewardButton = () => {
   const { distributeRewards } = useDistributeRewards();
   const { onboard, address } = useOnboard();
   const { isSigned, connectWallet } = useAssertTermsSignature();
+  const [isSending, setIsSending] = useState<boolean>(false);
 
   useEffect(() => {
     (async () => {
-      if (!address || !isSigned) {
+      if (!address || !isSigned || isSending) {
         return;
       }
-      console.log('run');
-      try {
-        await distributeRewards().catch((error) => console.log(error.message));
-      } catch (error) {
-        console.log(error.message);
-      } finally {
-        await onboard.walletReset();
+      if (!isSending) {
+        try {
+          setIsSending(true);
+          await distributeRewards().catch((error) => console.log(error.message));
+        } catch (error) {
+          console.log(error.message);
+        } finally {
+          await onboard.walletReset();
+        }
       }
     })();
-  }, [distributeRewards, address, isSigned, onboard]);
+  }, [distributeRewards, address, isSigned, onboard, isSending, setIsSending]);
 
   return (
     <RewardButtonContainer>
@@ -62,12 +65,13 @@ export const RewardButton = () => {
           variant="primary"
           onClick={() => {
             (async () => {
+              if (isSending) {
+                setIsSending(false);
+              }
               // Memo: Reset 'address' for connectWallet.
               await onboard.walletReset();
               await delay(1000);
-              // setTimeout(async () => {
               await connectWallet();
-              // }, 1000);
             })();
           }}
         >
