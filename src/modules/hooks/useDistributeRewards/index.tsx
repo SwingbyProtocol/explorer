@@ -53,11 +53,11 @@ export const useDistributeRewards = () => {
           });
         }
       }
+      await onboard.walletReset();
     } catch (e) {
+      await onboard.walletReset();
       logger.error('Error trying to distribute rewards', e);
       generateWeb3ErrorToast({ e, toastId: 'distributeRewards' });
-    } finally {
-      await onboard.walletReset();
     }
   }, [address, bridge, network, onboard, wallet]);
 

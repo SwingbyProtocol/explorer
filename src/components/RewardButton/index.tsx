@@ -1,10 +1,15 @@
 import { Text, Tooltip, useMatchMedia } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
+import { delay } from '../../modules/common';
 import { PATH } from '../../modules/env';
-import { useDistributeRewards, useGetSignature, useToggleBridge } from '../../modules/hooks';
+import {
+  useToggleBridge,
+  useAssertTermsSignature,
+  useDistributeRewards,
+} from '../../modules/hooks';
 import { showConnectNetwork, useOnboard } from '../../modules/onboard';
 import { ButtonScale } from '../../modules/scenes/Common';
 import { StylingConstants } from '../../modules/styles';
@@ -16,18 +21,28 @@ export const RewardButton = () => {
   const lg = useMatchMedia({ query: `(min-width: ${rem(media.lg)})` });
   const sm = useMatchMedia({ query: `(min-width: ${rem(media.sm)})` });
   const { bridge } = useToggleBridge(PATH.METANODES);
-  const { connectWallet, addressTerms } = useGetSignature();
   const { distributeRewards } = useDistributeRewards();
   const { onboard, address } = useOnboard();
+  const { isSigned, connectWallet } = useAssertTermsSignature();
+  const [isSending, setIsSending] = useState<boolean>(false);
 
   useEffect(() => {
     (async () => {
-      if (!addressTerms || !addressTerms.hasSignedTerms || !address) {
+      if (!address || !isSigned || isSending) {
         return;
       }
-      await distributeRewards();
+      if (!isSending) {
+        try {
+          setIsSending(true);
+          await distributeRewards().catch((error) => console.log(error.message));
+        } catch (error) {
+          console.log(error.message);
+        } finally {
+          await onboard.walletReset();
+        }
+      }
     })();
-  }, [distributeRewards, address, addressTerms]);
+  }, [distributeRewards, address, isSigned, onboard, isSending, setIsSending]);
 
   return (
     <RewardButtonContainer>
@@ -50,8 +65,12 @@ export const RewardButton = () => {
           variant="primary"
           onClick={() => {
             (async () => {
+              if (isSending) {
+                setIsSending(false);
+              }
               // Memo: Reset 'address' for connectWallet.
               await onboard.walletReset();
+              await delay(1000);
               await connectWallet();
             })();
           }}

@@ -1,9 +1,7 @@
 import Onboard from 'bnc-onboard';
 import type { Subscriptions } from 'bnc-onboard/dist/src/interfaces'; // eslint-disable-line import/no-internal-modules
 
-import { appName, blocknativeApiKey, infuraApiKey } from '../env';
-
-import { customWalletConnect } from './customWallet';
+import { appName, blocknativeApiKey, infuraApiKey, WC_BRIDGE } from '../env';
 
 import { getNetworkFromId } from '.';
 
@@ -29,17 +27,24 @@ export const initOnboard = ({
 
   // Onboard bug: metamask's `preferred` becomes 'false' if gives 'preferred: true' to other wallets
   const wallets = [
-    { walletName: 'metamask' },
-    customWalletConnect({
-      walletName: 'WalletConnect',
-      isMobile: true,
-      networkId,
-    }),
+    { walletName: 'metamask', preferred: true },
+    // customWalletConnect({
+    //   walletName: 'WalletConnect',
+    //   isMobile: true,
+    //   networkId,
+    // }),
+    {
+      walletName: 'walletConnect',
+      bridge: WC_BRIDGE,
+      preferred: true,
+      rpc: RPC_URLS,
+    },
     {
       walletName: 'ledger',
       rpcUrl,
+      preferred: true,
     },
-    { walletName: 'walletLink', rpcUrl, appName },
+    { walletName: 'walletLink', rpcUrl, appName, preferred: true },
     { walletName: 'authereum' },
     { walletName: 'lattice', rpcUrl, appName },
     { walletName: 'torus' },

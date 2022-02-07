@@ -24,6 +24,7 @@ export enum LOCAL_STORAGE {
   Theme = 'themeMode',
   Wallet = 'wallet',
   LastChurnedBlock = 'lastChurnedBlock',
+  Terms = 'swingby-explorer.terms',
 }
 
 export const mode: SkybridgeMode =
@@ -32,8 +33,6 @@ export const mode: SkybridgeMode =
 export const PAGE_COUNT = 12;
 
 export const TXS_COUNT = 10;
-
-export const graphEndpoint = 'https://network.skybridge.exchange/api/v3/graphql';
 
 export const appName = 'Swingby Explorer';
 
