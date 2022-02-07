@@ -1,8 +1,9 @@
 import { Text, Tooltip, useMatchMedia } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
+import { delay } from '../../modules/common';
 import { PATH } from '../../modules/env';
 import {
   useToggleBridge,
@@ -30,9 +31,15 @@ export const RewardButton = () => {
         return;
       }
       console.log('run');
-      await distributeRewards().catch((error) => console.log(error.message));
+      try {
+        await distributeRewards().catch((error) => console.log(error.message));
+      } catch (error) {
+        console.log(error.message);
+      } finally {
+        await onboard.walletReset();
+      }
     })();
-  }, [distributeRewards, address, isSigned]);
+  }, [distributeRewards, address, isSigned, onboard]);
 
   return (
     <RewardButtonContainer>
@@ -57,9 +64,10 @@ export const RewardButton = () => {
             (async () => {
               // Memo: Reset 'address' for connectWallet.
               await onboard.walletReset();
-              setTimeout(async () => {
-                await connectWallet();
-              }, 1000);
+              await delay(1000);
+              // setTimeout(async () => {
+              await connectWallet();
+              // }, 1000);
             })();
           }}
         >

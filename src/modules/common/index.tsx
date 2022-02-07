@@ -9,4 +9,5 @@ export {
   sumArray,
   getShortDate,
   getMonthYear,
+  delay,
 } from './utils';
