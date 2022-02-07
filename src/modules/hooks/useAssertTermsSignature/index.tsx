@@ -40,8 +40,11 @@ export const useAssertTermsSignature = () => {
       throw new Error('No Terms of Service message found');
     }
 
+    console.log('1');
     const web3 = new Web3(wallet.provider);
+    console.log('2');
     const signature = await web3.eth.personal.sign(message, address, seed);
+    console.log('3');
     localStorage.setItem(LOCAL_STORAGE.Terms, signature);
     return true;
   }, [address, wallet]);
