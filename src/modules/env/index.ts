@@ -92,3 +92,4 @@ export const blocknativeApiKey = process.env.NEXT_PUBLIC_BLOCKNATIVE_KEY;
 export const infuraApiKey = process.env.NEXT_PUBLIC_INFURA_KEY;
 
 export const WC_BRIDGE = process.env.NEXT_PUBLIC_WC_BRIDGE;
+export const isSupportBsc = mode === 'production';

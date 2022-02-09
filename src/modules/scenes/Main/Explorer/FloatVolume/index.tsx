@@ -7,7 +7,7 @@ import { PulseLoader } from 'react-spinners';
 import { useTheme } from 'styled-components';
 
 import { CoinSymbol } from '../../../../coins';
-import { mode, URL_BSCSCAN, URL_ETHERSCAN } from '../../../../env';
+import { isSupportBsc, mode, URL_BSCSCAN, URL_ETHERSCAN } from '../../../../env';
 import { useGetPoolApr } from '../../../../hooks';
 import { ColumnInlineBlock, IconExternalLink } from '../../../Common';
 
@@ -190,7 +190,11 @@ export const FloatVolume = () => {
                   />
                 ) : (
                   <ColumnInlineBlock>
-                    <PulseLoader margin={3} size={2} color={theme.pulsar.color.text.normal} />
+                    {isSupportBsc ? (
+                      <PulseLoader margin={3} size={2} color={theme.pulsar.color.text.normal} />
+                    ) : (
+                      0
+                    )}
                   </ColumnInlineBlock>
                 ),
               }}
