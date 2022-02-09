@@ -8,6 +8,7 @@ import {
   ENDPOINT_ETHEREUM_BRIDGE,
   ENDPOINT_PRESTAKING,
   ENDPOINT_YIELD_FARMING,
+  isSupportBsc,
 } from '../env';
 import {
   castToBackendVariable,
@@ -31,11 +32,17 @@ export const getNodeQty = async ({
       const result = await fetcher<Array<any>>(url);
       return result.length;
     }
-    const results = await Promise.all([
-      fetcher<Array<any>>(`${urlEth}/api/v1/peers`),
-      fetcher<Array<any>>(`${urlBsc}/api/v1/peers`),
-    ]);
-    const total = results[0].length + results[1].length;
+    let total: number;
+    if (isSupportBsc) {
+      const results = await Promise.all([
+        fetcher<Array<any>>(`${urlEth}/api/v1/peers`),
+        fetcher<Array<any>>(`${urlBsc}/api/v1/peers`),
+      ]);
+      total = results[0].length + results[1].length;
+    } else {
+      const results = await Promise.all([fetcher<Array<any>>(`${urlEth}/api/v1/peers`)]);
+      total = results[0].length;
+    }
     return total;
   } catch (e) {
     return 0;

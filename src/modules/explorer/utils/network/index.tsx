@@ -3,7 +3,7 @@ import { FIXED_NODE_ENDPOINT, SkybridgeBridge } from '@swingby-protocol/sdk';
 import { buildChaosNodeContext } from '../../../build-node-context';
 import { CoinSymbol } from '../../../coins';
 import { getMonthYear, sumArray } from '../../../common';
-import { ENDPOINT_BSC_BRIDGE, ENDPOINT_ETHEREUM_BRIDGE, mode } from '../../../env';
+import { ENDPOINT_BSC_BRIDGE, ENDPOINT_ETHEREUM_BRIDGE, isSupportBsc, mode } from '../../../env';
 import { fetch, fetcher } from '../../../fetch';
 import { IChartDate, IFloat, IFloatAmount, IFloatBalances } from '../../index';
 
@@ -23,6 +23,17 @@ export const getEndpoint = async (): Promise<{ urlEth: string; urlBsc: string }>
       }
 
       const getFloatBalUrl = (base: string) => base + '/api/v1/floats/balances';
+      if (!isSupportBsc) {
+        try {
+          const result = await fetcher<IFloatAmount[]>(getFloatBalUrl(urlEth));
+          if (result) {
+            return { urlEth, urlBsc };
+          }
+        } catch (error) {
+          return { urlEth: ENDPOINT_ETHEREUM_BRIDGE, urlBsc: ENDPOINT_BSC_BRIDGE };
+        }
+      }
+
       const results = await Promise.all([
         fetcher<IFloatAmount[]>(getFloatBalUrl(urlEth)),
         fetcher<IFloatAmount[]>(getFloatBalUrl(urlBsc)),
@@ -135,19 +146,24 @@ export const fetchFloatBalances = async (
 
   try {
     const { urlEth, urlBsc } = await getEndpoint();
-    const results = await Promise.all([
-      fetcher<IFloatAmount[]>(getFloatBalUrl(urlEth)),
-      fetcher<IFloatAmount[]>(getFloatBalUrl(urlBsc)),
-    ]);
+    let results;
+    if (isSupportBsc) {
+      results = await Promise.all([
+        fetcher<IFloatAmount[]>(getFloatBalUrl(urlEth)),
+        fetcher<IFloatAmount[]>(getFloatBalUrl(urlBsc)),
+      ]);
+    } else {
+      results = await Promise.all([fetcher<IFloatAmount[]>(getFloatBalUrl(urlEth))]);
+    }
     const resEth = results[0];
-    const resBsc = results[1];
+    const resBsc = isSupportBsc ? results[1] : null;
     const formattedBTCB = castToBackendVariable(CoinSymbol.BTC_B);
 
     const floats: IFloat = {
       btcEth: Number(getFloatBalance(CoinSymbol.BTC, resEth)),
-      btcBsc: Number(getFloatBalance(CoinSymbol.BTC, resBsc)),
+      btcBsc: isSupportBsc ? Number(getFloatBalance(CoinSymbol.BTC, resBsc)) : 0,
       wbtc: Number(getFloatBalance(CoinSymbol.WBTC, resEth)),
-      btcb: Number(getFloatBalance(formattedBTCB, resBsc)),
+      btcb: isSupportBsc ? Number(getFloatBalance(formattedBTCB, resBsc)) : 0,
     };
     const { btcEth, btcBsc, wbtc, btcb } = floats;
     const capacity: number = usdBtc * getCapacity({ bridge, btcEth, btcBsc, wbtc, btcb });
@@ -294,10 +310,23 @@ export const fetchDayVolumeInfo = async (
 
   try {
     const { urlEth, urlBsc } = await getEndpoint();
-    const results = await Promise.all([
-      fetch<{ network24hrSwapsVolume: number[]; network24hrSwaps: number[] }>(getBridgeUrl(urlEth)),
-      fetch<{ network24hrSwapsVolume: number[]; network24hrSwaps: number[] }>(getBridgeUrl(urlBsc)),
-    ]);
+    let results;
+    if (isSupportBsc) {
+      results = await Promise.all([
+        fetch<{ network24hrSwapsVolume: number[]; network24hrSwaps: number[] }>(
+          getBridgeUrl(urlEth),
+        ),
+        fetch<{ network24hrSwapsVolume: number[]; network24hrSwaps: number[] }>(
+          getBridgeUrl(urlBsc),
+        ),
+      ]);
+    } else {
+      results = await Promise.all([
+        fetch<{ network24hrSwapsVolume: number[]; network24hrSwaps: number[] }>(
+          getBridgeUrl(urlEth),
+        ),
+      ]);
+    }
 
     const swaps24hrsFallback = [0, 0, 0, 0, 0, 0, 0];
 
@@ -305,16 +334,20 @@ export const fetchDayVolumeInfo = async (
       ? results[0].response.network24hrSwaps
       : swaps24hrsFallback;
 
-    const bscNetwork24hrSwaps = results[1].ok
-      ? results[1].response.network24hrSwaps
+    const bscNetwork24hrSwaps = isSupportBsc
+      ? results[1].ok
+        ? results[1].response.network24hrSwaps
+        : swaps24hrsFallback
       : swaps24hrsFallback;
 
     const ethNetwork24hrSwapsVolume = results[0].ok
       ? results[0].response.network24hrSwapsVolume
       : swaps24hrsFallback;
 
-    const bscNetwork24hrSwapsVolume = results[1].ok
-      ? results[1].response.network24hrSwapsVolume
+    const bscNetwork24hrSwapsVolume = isSupportBsc
+      ? results[1].ok
+        ? results[1].response.network24hrSwapsVolume
+        : swaps24hrsFallback
       : swaps24hrsFallback;
 
     const volume1wksWBTC: number = sumArray(ethNetwork24hrSwapsVolume.slice(0, 7));
@@ -371,25 +404,36 @@ export const fetchMonthlyVolumeInfo = async (
   try {
     const urlEth = FIXED_NODE_ENDPOINT['btc_erc'][mode][0];
     const urlBsc = FIXED_NODE_ENDPOINT['btc_bep20'][mode][0];
-    const results = await Promise.all([
-      fetch<{ network1mSwapsVolume: number[]; network1mSwaps: number[] }>(getBridgeUrl(urlEth)),
-      fetch<{ network1mSwapsVolume: number[]; network1mSwaps: number[] }>(getBridgeUrl(urlBsc)),
-    ]);
+    let results;
+    if (isSupportBsc) {
+      results = await Promise.all([
+        fetch<{ network1mSwapsVolume: number[]; network1mSwaps: number[] }>(getBridgeUrl(urlEth)),
+        fetch<{ network1mSwapsVolume: number[]; network1mSwaps: number[] }>(getBridgeUrl(urlBsc)),
+      ]);
+    } else {
+      results = await Promise.all([
+        fetch<{ network1mSwapsVolume: number[]; network1mSwaps: number[] }>(getBridgeUrl(urlEth)),
+      ]);
+    }
 
     const swaps1mFallback = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     const ethNetwork1mSwaps = results[0].ok
       ? results[0].response.network1mSwaps.slice(1)
       : swaps1mFallback;
-    const bscNetwork1mSwaps = results[1].ok
-      ? results[1].response.network1mSwaps.slice(1)
+    const bscNetwork1mSwaps = isSupportBsc
+      ? results[1].ok
+        ? results[1].response.network1mSwaps.slice(1)
+        : swaps1mFallback
       : swaps1mFallback;
 
     const ethNetwork1mSwapsVolume = results[0].ok
       ? results[0].response.network1mSwapsVolume.slice(1)
       : swaps1mFallback;
 
-    const bscNetwork1mSwapsVolume = results[1].ok
-      ? results[1].response.network1mSwapsVolume.slice(1)
+    const bscNetwork1mSwapsVolume = isSupportBsc
+      ? results[1].ok
+        ? results[1].response.network1mSwapsVolume.slice(1)
+        : swaps1mFallback
       : swaps1mFallback;
 
     const volume1yrWBTC: number = sumArray(ethNetwork1mSwapsVolume);
