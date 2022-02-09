@@ -105,13 +105,13 @@ export const TxHistoriesItem = ({
           <Text variant="label">
             <FormattedMessage id="common.from" />
           </Text>
-          <AddressLinkP>{tx.addressOut && tx.addressOut.toLowerCase()}</AddressLinkP>
+          <AddressLinkP>{tx.addressIn && tx.addressIn.toLowerCase()}</AddressLinkP>
         </RowAddress>
         <RowAddress>
           <Text variant="label">
             <FormattedMessage id="common.to" />
           </Text>
-          <AddressLinkP>{tx.addressIn?.toLowerCase()}</AddressLinkP>
+          <AddressLinkP>{tx.addressOut?.toLowerCase()}</AddressLinkP>
         </RowAddress>
       </ColumnM>
       <ColumnAmount>
