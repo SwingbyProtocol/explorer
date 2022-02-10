@@ -42,13 +42,26 @@ export const useGetSbBtcBal = () => {
         query: { farm: 'sbBTC-BEP20', address, network: mode === 'production' ? '56' : '97' },
       });
 
+      const fetchStaked = async (url: string) => {
+        try {
+          return await fetcher<{ stakedLp: number }>(url);
+        } catch (error) {
+          return {
+            swingby: null,
+            pairedToken: null,
+            stakedLp: 0,
+            pendingSwingby: 0,
+          };
+        }
+      };
+
       const results = await Promise.all([
         getSbbtcPrice({ context, bridge: 'btc_erc' }),
         getSbBTCBalance(address, 'btc_erc'),
-        fetcher<{ stakedLp: number }>(sbBtcStakedErcUrl),
+        fetchStaked(sbBtcStakedErcUrl),
         getSbbtcPrice({ context, bridge: 'btc_bep20' }),
         getSbBTCBalance(address, 'btc_bep20'),
-        fetcher<{ stakedLp: number }>(sbBtcStakedBscUrl),
+        fetchStaked(sbBtcStakedBscUrl),
       ]);
 
       setBalance({
@@ -66,7 +79,7 @@ export const useGetSbBtcBal = () => {
         },
       });
     } catch (error) {
-      console.log('error:', error);
+      console.error('error:', error);
       setBalance(initialState);
     } finally {
       setIsLoading(false);
