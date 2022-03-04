@@ -47,6 +47,7 @@ export const getEndpoint = async (): Promise<{ urlEth: string; urlBsc: string }>
   };
 
   // Memo: Recursion
+  // @todo (agustin) add re-fetch with library
   try {
     await getContext();
   } catch (error) {
@@ -56,7 +57,7 @@ export const getEndpoint = async (): Promise<{ urlEth: string; urlBsc: string }>
       try {
         await getContext();
       } catch (error) {
-        console.log('Error:', error);
+        console.error('getContext errored:', error);
         return { urlEth: ENDPOINT_ETHEREUM_BRIDGE, urlBsc: ENDPOINT_BSC_BRIDGE };
       }
     }

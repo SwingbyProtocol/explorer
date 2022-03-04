@@ -11,7 +11,7 @@ export const getTransactionFees = async (): Promise<IFee[]> => {
     const result = await fetch<IFee[]>(urlEth + '/api/v1/swaps/fees');
     return result.ok && result.response;
   } catch (err) {
-    console.log(err);
+    console.error(`getTransactionFees errored: `, err);
     return [
       {
         bridgeFeePercent: '0',
