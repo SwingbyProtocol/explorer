@@ -38,12 +38,10 @@ export const useToggleMetanode = (path: PATH) => {
         // Memo: path === Root && bridge === '' (Multi-bridge)
         const results = await Promise.all([
           getActiveNodeList({ bridge: 'btc_erc', isRewardsCheck: true }),
-          getActiveNodeList({ bridge: 'btc_bep20', isRewardsCheck: true }),
         ]);
 
         const ercRewardsWeekly = results[0].rewards.weeklyRewardsUsd;
-        const bscRewardsWeekly = results[1].rewards.weeklyRewardsUsd;
-        weeklyRewardsUsd = ercRewardsWeekly + bscRewardsWeekly;
+        weeklyRewardsUsd = ercRewardsWeekly;
       } else {
         const results = await Promise.all([
           getActiveNodeList({ bridge: 'btc_erc', isRewardsCheck: true }),
@@ -88,7 +86,7 @@ export const useToggleMetanode = (path: PATH) => {
       try {
         await Promise.all([getRewards(), getLiquidity(), getLiquidityRation(), getChurnTime()]);
       } catch (error) {
-        console.log('error', error);
+        console.error('Error on useToggleMetanode...', error);
       } finally {
         setIsLoading(false);
       }

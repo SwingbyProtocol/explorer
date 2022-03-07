@@ -1,8 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { get7daysVolume, getNodeQty, getTVL } from '../../../modules/network-stats';
-
-import { corsMiddleware } from './../../../modules/api';
+import { corsMiddleware } from '../../../modules/api';
 
 export default async function handler(
   req: NextApiRequest,
@@ -17,15 +16,14 @@ export default async function handler(
   try {
     const results = await Promise.all([
       getNodeQty({ bridge: 'btc_erc' }),
-      getNodeQty({ bridge: 'btc_bep20' }),
       get7daysVolume(),
       getTVL(),
     ]);
 
     const data = {
       nodes: String(results[0] + results[1]),
-      volume: results[2],
-      tvl: results[3],
+      volume: results[1],
+      tvl: results[2],
     };
 
     res.status(200).json(data);

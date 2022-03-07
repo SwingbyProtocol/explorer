@@ -42,17 +42,12 @@ export const ENDPOINT_PRESTAKING = 'https://pre-staking-swingby.swingby.network'
 
 export const ENDPOINT_ETHEREUM_BRIDGE = FIXED_NODE_ENDPOINT['btc_erc'][mode][0];
 
-export const ENDPOINT_BSC_BRIDGE = FIXED_NODE_ENDPOINT['btc_bep20'][mode][0];
-
 export const ENDPOINT_EARNINGS = 'https://earnings-api.vercel.app/api/earnings';
 
 export const ENDPOINT_COINGECKO = 'https://api.coingecko.com/api/v3';
 
 export const ENDPOINT_ETHERSCAN =
   mode === 'production' ? 'https://api.etherscan.io' : 'https://api-ropsten.etherscan.io';
-
-export const ENDPOINT_BSCSCAN =
-  mode === 'production' ? 'https://api.bscscan.com' : 'https://api-testnet.bscscan.com';
 
 export const URL_ETHERSCAN =
   mode === 'production' ? 'https://etherscan.io' : 'https://ropsten.etherscan.io';
@@ -65,21 +60,13 @@ export const BTC_EXPLORER =
     ? 'https://www.blockchain.com/btc'
     : 'https://www.blockchain.com/btc-testnet';
 
-export const CONTRACT_SB_BTC =
-  mode === 'production'
-    ? CONTRACTS.coins.sbBTC.production.address
-    : CONTRACTS.coins.sbBTC.test.address;
-
-export const CONTRACT_BEP20_SB_BTC =
-  mode === 'production'
-    ? CONTRACTS.coins['sbBTC.BEP20'].production.address
-    : CONTRACTS.coins['sbBTC.BEP20'].test.address;
+// export const CONTRACT_SB_BTC =
+//   mode === 'production'
+//     ? CONTRACTS.coins.sbBTC.production.address
+//     : CONTRACTS.coins.sbBTC.test.address;
 
 // Memo: Fake BTC contract address that used on smart contract
 export const ZERO_ADDRESS = CONTRACTS.coins.BTC.production.address;
-
-export const isEnableBscSupport =
-  process.env.NEXT_PUBLIC_IS_BSC_SUPPORT === 'true' ? true : mode === 'test' ? true : false;
 
 export const GA_TAG = process.env.NEXT_PUBLIC_GA_TAG;
 

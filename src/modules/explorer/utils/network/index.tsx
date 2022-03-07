@@ -3,12 +3,12 @@ import { FIXED_NODE_ENDPOINT, SkybridgeBridge } from '@swingby-protocol/sdk';
 import { buildChaosNodeContext } from '../../../build-node-context';
 import { CoinSymbol } from '../../../coins';
 import { getMonthYear, sumArray } from '../../../common';
-import { ENDPOINT_BSC_BRIDGE, ENDPOINT_ETHEREUM_BRIDGE, isSupportBsc, mode } from '../../../env';
+import { ENDPOINT_ETHEREUM_BRIDGE, isSupportBsc, mode } from '../../../env';
 import { fetch, fetcher } from '../../../fetch';
 import { IChartDate, IFloat, IFloatAmount, IFloatBalances } from '../../index';
 
 // Memo: get active node endpoint
-export const getEndpoint = async (): Promise<{ urlEth: string; urlBsc: string }> => {
+export const getEndpoint = async (): Promise<{ urlEth: string }> => {
   let urlEth = '';
   let urlBsc = '';
 
@@ -16,9 +16,8 @@ export const getEndpoint = async (): Promise<{ urlEth: string; urlBsc: string }>
     try {
       const context = await buildChaosNodeContext({ mode });
       urlEth = context && context.servers.swapNode.btc_erc;
-      urlBsc = context && context.servers.swapNode.btc_bep20;
 
-      if (!urlEth || !urlBsc) {
+      if (!urlEth) {
         throw Error('retry for getting context');
       }
 
@@ -27,10 +26,10 @@ export const getEndpoint = async (): Promise<{ urlEth: string; urlBsc: string }>
         try {
           const result = await fetcher<IFloatAmount[]>(getFloatBalUrl(urlEth));
           if (result) {
-            return { urlEth, urlBsc };
+            return { urlEth };
           }
         } catch (error) {
-          return { urlEth: ENDPOINT_ETHEREUM_BRIDGE, urlBsc: ENDPOINT_BSC_BRIDGE };
+          return { urlEth: ENDPOINT_ETHEREUM_BRIDGE };
         }
       }
 
@@ -58,20 +57,18 @@ export const getEndpoint = async (): Promise<{ urlEth: string; urlBsc: string }>
         await getContext();
       } catch (error) {
         console.error('getContext errored:', error);
-        return { urlEth: ENDPOINT_ETHEREUM_BRIDGE, urlBsc: ENDPOINT_BSC_BRIDGE };
+        return { urlEth: ENDPOINT_ETHEREUM_BRIDGE };
       }
     }
   }
-  return { urlEth, urlBsc };
+  return { urlEth };
 };
 
 export const getBaseEndpoint = async (bridge: SkybridgeBridge) => {
-  const { urlEth, urlBsc } = await getEndpoint();
+  const { urlEth } = await getEndpoint();
   switch (bridge) {
     case 'btc_erc':
       return urlEth;
-    case 'btc_bep20':
-      return urlBsc;
 
     default:
       return urlEth;
@@ -82,8 +79,6 @@ export const getFixedBaseEndpoint = (bridge: SkybridgeBridge) => {
   switch (bridge) {
     case 'btc_erc':
       return ENDPOINT_ETHEREUM_BRIDGE;
-    case 'btc_bep20':
-      return ENDPOINT_BSC_BRIDGE;
 
     default:
       return ENDPOINT_ETHEREUM_BRIDGE;
@@ -92,9 +87,6 @@ export const getFixedBaseEndpoint = (bridge: SkybridgeBridge) => {
 
 export const castToBackendVariable = (frontVariable: string) => {
   switch (frontVariable) {
-    case CoinSymbol.BTC_B:
-      return 'BTCB';
-
     default:
       return frontVariable;
   }
@@ -119,20 +111,17 @@ interface getCapacityArg {
   btcEth: number;
   btcBsc: number;
   wbtc: number;
-  btcb: number;
 }
 
 const getCapacity = (arg: getCapacityArg): number => {
-  const { bridge, btcEth, btcBsc, wbtc, btcb } = arg;
+  const { bridge, btcEth, btcBsc, wbtc } = arg;
 
   const capacityEthBridge = btcEth + wbtc;
-  const capacityBscBridge = btcBsc + btcb;
+  const capacityBscBridge = btcBsc;
 
   switch (bridge) {
     case 'btc_erc':
       return capacityEthBridge;
-    case 'btc_bep20':
-      return capacityBscBridge;
 
     default:
       return capacityEthBridge + capacityBscBridge;
@@ -146,28 +135,23 @@ export const fetchFloatBalances = async (
   const getFloatBalUrl = (base: string) => base + '/api/v1/floats/balances';
 
   try {
-    const { urlEth, urlBsc } = await getEndpoint();
+    const { urlEth } = await getEndpoint();
     let results;
     if (isSupportBsc) {
-      results = await Promise.all([
-        fetcher<IFloatAmount[]>(getFloatBalUrl(urlEth)),
-        fetcher<IFloatAmount[]>(getFloatBalUrl(urlBsc)),
-      ]);
+      results = await Promise.all([fetcher<IFloatAmount[]>(getFloatBalUrl(urlEth))]);
     } else {
       results = await Promise.all([fetcher<IFloatAmount[]>(getFloatBalUrl(urlEth))]);
     }
     const resEth = results[0];
     const resBsc = isSupportBsc ? results[1] : null;
-    const formattedBTCB = castToBackendVariable(CoinSymbol.BTC_B);
 
     const floats: IFloat = {
       btcEth: Number(getFloatBalance(CoinSymbol.BTC, resEth)),
       btcBsc: isSupportBsc ? Number(getFloatBalance(CoinSymbol.BTC, resBsc)) : 0,
       wbtc: Number(getFloatBalance(CoinSymbol.WBTC, resEth)),
-      btcb: isSupportBsc ? Number(getFloatBalance(formattedBTCB, resBsc)) : 0,
     };
-    const { btcEth, btcBsc, wbtc, btcb } = floats;
-    const capacity: number = usdBtc * getCapacity({ bridge, btcEth, btcBsc, wbtc, btcb });
+    const { btcEth, btcBsc, wbtc } = floats;
+    const capacity: number = usdBtc * getCapacity({ bridge, btcEth, btcBsc, wbtc });
 
     return { floats, capacity };
   } catch (err) {
@@ -177,7 +161,6 @@ export const fetchFloatBalances = async (
         btcEth: 0,
         btcBsc: 0,
         wbtc: 0,
-        btcb: 0,
       },
       capacity: 0,
     };
@@ -195,8 +178,6 @@ const getVolumeBTC = (arg: getVolumeBTCArg): number => {
   switch (bridge) {
     case 'btc_erc':
       return volumeWBTC;
-    case 'btc_bep20':
-      return volumeBTCB;
 
     default:
       return volumeWBTC + volumeBTCB;
@@ -285,13 +266,6 @@ const getVolumes = (arg: getVolumesArg): IChartDate[] => {
         usdBtc,
         time,
       });
-    case 'btc_bep20':
-      return buildVolumesArray({
-        swapsVolume: bscNetworkSwapsVolume,
-        swapsCount: bscNetworkSwaps,
-        usdBtc,
-        time,
-      });
 
     default:
       return buildVolumesArray({ swapsVolume: totalVolumes, swapsCount: totalSwaps, usdBtc, time });
@@ -310,15 +284,12 @@ export const fetchDayVolumeInfo = async (
   const getBridgeUrl = (endpoint: string) => endpoint + '/api/v1/swaps/stats';
 
   try {
-    const { urlEth, urlBsc } = await getEndpoint();
+    const { urlEth } = await getEndpoint();
     let results;
     if (isSupportBsc) {
       results = await Promise.all([
         fetch<{ network24hrSwapsVolume: number[]; network24hrSwaps: number[] }>(
           getBridgeUrl(urlEth),
-        ),
-        fetch<{ network24hrSwapsVolume: number[]; network24hrSwaps: number[] }>(
-          getBridgeUrl(urlBsc),
         ),
       ]);
     } else {
@@ -404,12 +375,10 @@ export const fetchMonthlyVolumeInfo = async (
 
   try {
     const urlEth = FIXED_NODE_ENDPOINT['btc_erc'][mode][0];
-    const urlBsc = FIXED_NODE_ENDPOINT['btc_bep20'][mode][0];
     let results;
     if (isSupportBsc) {
       results = await Promise.all([
         fetch<{ network1mSwapsVolume: number[]; network1mSwaps: number[] }>(getBridgeUrl(urlEth)),
-        fetch<{ network1mSwapsVolume: number[]; network1mSwaps: number[] }>(getBridgeUrl(urlBsc)),
       ]);
     } else {
       results = await Promise.all([

@@ -45,7 +45,7 @@ export const useGetNetworkData = () => {
 
           data && stats && updateStates();
         } catch (error) {
-          console.log('error', error);
+          console.error('Error on useGetNetworkData...', error);
         } finally {
           dispatch(toggleIsLoading(false));
         }

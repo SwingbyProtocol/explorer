@@ -55,30 +55,21 @@ export const useTxsQuery = () => {
   );
 
   const updateQuery = useCallback(async () => {
-    if (!endpoint.btc_bep20 || !endpoint.btc_erc) return;
+    if (!endpoint.btc_erc) return;
     try {
       if (hash || type === 'search') {
         const urlErcSwaps = `${endpoint['btc_erc']}/api/v1/swaps/query`;
-        const urlBep20Swaps = `${endpoint['btc_bep20']}/api/v1/swaps/query`;
         const urlErcFloats = `${endpoint['btc_erc']}/api/v1/floats/query`;
-        const urlBep20Floats = `${endpoint['btc_bep20']}/api/v1/floats/query`;
 
         const results = await Promise.all([
           fetchQuery({ baseUrl: urlErcSwaps, bridge: 'btc_erc' }),
-          fetchQuery({ baseUrl: urlBep20Swaps, bridge: 'btc_bep20' }),
           fetchQuery({ baseUrl: urlErcFloats, bridge: 'btc_erc' }),
-          fetchQuery({ baseUrl: urlBep20Floats, bridge: 'btc_bep20' }),
         ]);
         const { transactions: ethSwaps } = results[0];
-        const { transactions: bscSwaps } = results[1];
-        const { transactions: ethFloats } = results[2];
-        const { transactions: bscFloats } = results[3];
+        const { transactions: ethFloats } = results[1];
 
         const ethTransactions = ethSwaps.concat(ethFloats);
-        const bscTransactions = bscSwaps.concat(bscFloats);
-        const transactions = ethTransactions
-          .concat(bscTransactions)
-          .sort((a, b) => b.timestamp - a.timestamp);
+        const transactions = ethTransactions.sort((a, b) => b.timestamp - a.timestamp);
         setTxs(transactions);
         setTotal(transactions.length);
         return;
@@ -100,15 +91,10 @@ export const useTxsQuery = () => {
 
       if (isMultiBridge) {
         const urlErc = `${endpoint['btc_erc']}/api/v1/${txType}/query`;
-        const urlBep20 = `${endpoint['btc_bep20']}/api/v1/${txType}/query`;
         if (isSupportBsc) {
-          const results = await Promise.all([
-            fetchQuery({ baseUrl: urlErc, bridge: 'btc_erc' }),
-            fetchQuery({ baseUrl: urlBep20, bridge: 'btc_bep20' }),
-          ]);
+          const results = await Promise.all([fetchQuery({ baseUrl: urlErc, bridge: 'btc_erc' })]);
           const { transactions: ethTxs } = results[0];
-          const { transactions: bscTxs } = results[1];
-          const transactions = ethTxs.concat(bscTxs).sort((a, b) => b.timestamp - a.timestamp);
+          const transactions = ethTxs.sort((a, b) => b.timestamp - a.timestamp);
           setTxs(transactions);
           return;
         } else {
@@ -131,7 +117,7 @@ export const useTxsQuery = () => {
       } catch (error) {
         logger.error({ error });
       } finally {
-        if (!endpoint.btc_bep20 || !endpoint.btc_erc) return;
+        if (!endpoint.btc_erc) return;
         setIsLoading(false);
       }
     })();

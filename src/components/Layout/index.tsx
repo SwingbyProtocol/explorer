@@ -33,8 +33,8 @@ export const Layout = ({ children }: Props) => {
   useEffect(() => {
     (async () => {
       try {
-        const { urlEth, urlBsc } = await getEndpoint();
-        dispatch(buildNodeEndpoint({ btc_erc: urlEth, btc_bep20: urlBsc }));
+        const { urlEth } = await getEndpoint();
+        dispatch(buildNodeEndpoint({ btc_erc: urlEth }));
       } catch (error) {
         logger.error(error);
       }

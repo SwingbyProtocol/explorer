@@ -30,8 +30,7 @@ export const useGetEarningHistorical = () => {
   const [isLoading, setIsLoading] = useState<Boolean>(false);
   const { address } = useOnboard();
   const { bridge } = useToggleBridge(PATH.POOL);
-  const network =
-    bridge === 'btc_bep20' ? (mode === 'production' ? 56 : 97) : mode === 'production' ? 1 : 3;
+  const network = mode === 'production' ? 1 : 3;
 
   const getData = useCallback(async () => {
     try {

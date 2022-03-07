@@ -30,7 +30,7 @@ export const useGetSwapRewards = () => {
   const [isLoading, setIsLoading] = useState<Boolean>(false);
   const usdBtc = useSelector((state) => state.explorer.usd.BTC);
   const { network, wallet, onboard, address } = useOnboard();
-  const bridge = network === 56 || network === 97 ? 'btc_bep20' : 'btc_erc';
+  const bridge = 'btc_erc';
   const isValidCondition = network === 1 || network === 3;
 
   const getRewardsPercentage = ({
@@ -84,19 +84,6 @@ export const useGetSwapRewards = () => {
     try {
       setIsLoading(true);
       const { floats } = await fetchFloatBalances(usdBtc, bridge);
-
-      if (bridge === 'btc_bep20') {
-        setRewards({
-          swapFrom: floats.btcBsc > floats.btcb ? 'BTCB' : 'BTC',
-          swapTo: floats.btcBsc > floats.btcb ? 'BTC' : 'BTCB',
-        });
-        const rewardsPercentage = getRewardsPercentage({
-          btcFloat: floats.btcBsc,
-          peggedBtcFloat: floats.btcb,
-        });
-        setRewardsPercent(rewardsPercentage);
-        return;
-      }
 
       setRewards({
         swapFrom: floats.btcEth > floats.wbtc ? 'WBTC' : 'BTC',

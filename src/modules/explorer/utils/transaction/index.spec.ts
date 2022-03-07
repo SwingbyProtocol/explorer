@@ -4,7 +4,6 @@ import { currencyNetwork, capitalize } from './index';
 
 it('return network name', () => {
   expect(currencyNetwork(CoinSymbol.BTC)).toStrictEqual('BTC');
-  expect(currencyNetwork(CoinSymbol.BTC_B)).toStrictEqual('BTCB on BSC');
 });
 
 it('return capitalize name', () => {

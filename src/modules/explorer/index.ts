@@ -1,6 +1,6 @@
 import { SkybridgeBridge, SkybridgeQuery } from '@swingby-protocol/sdk';
 
-import { CoinSymbol } from './../coins';
+import { CoinSymbol } from '../coins';
 
 export { TxRowTransition, TxRowVariants } from './animation';
 export {
@@ -50,10 +50,6 @@ export const selectableBridge = [
     menu: 'Ethereum',
     bridge: 'btc_erc',
   },
-  {
-    menu: 'BSC',
-    bridge: 'btc_bep20',
-  },
 ];
 
 export const selectableTxType = [
@@ -77,7 +73,6 @@ export interface IFloat {
   btcEth: number;
   btcBsc: number;
   wbtc: number;
-  btcb: number;
 }
 
 export interface IStats {
@@ -112,9 +107,7 @@ export interface INetworkInfos {
   capacity: number;
   floatBalances: {
     btcEth: number;
-    btcBsc: number;
     wbtc: number;
-    btcb: number;
   };
   stats: {
     volume1wksWBTC: number;
@@ -165,7 +158,6 @@ export interface IMetanode {
 
 export interface INodeEndpoint {
   btc_erc: string;
-  btc_bep20: string;
 }
 
 export interface ISwapQueryPrams {

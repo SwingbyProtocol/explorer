@@ -114,7 +114,7 @@ export const StatsInfo = () => {
       <ChartsContainer>
         {usd &&
           chartData.map((data) => (
-            <ChartContainer>
+            <ChartContainer key={data.key}>
               <Left>
                 {data.icon}
                 <DataDiv>

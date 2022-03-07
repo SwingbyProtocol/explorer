@@ -46,19 +46,6 @@ export const FloatVolume = () => {
     { coin: CoinSymbol.WBTC, float: floatBalances.wbtc, vol: stats.volume1wksWBTC },
   ];
 
-  const dataBscBridge = [
-    {
-      coin: CoinSymbol.BTC,
-      float: floatBalances.btcBsc,
-      vol: stats.volume1wksBTCB,
-    },
-    {
-      coin: CoinSymbol.BTC_B,
-      float: floatBalances.btcb,
-      vol: stats.volume1wksBTCB,
-    },
-  ];
-
   const placeholderLoader = (
     <PulseLoader margin={3} size={4} color={theme.pulsar.color.text.normal} />
   );
@@ -119,8 +106,6 @@ export const FloatVolume = () => {
       switch (scanBaseUrl) {
         case URL_ETHERSCAN:
           return CONTRACTS.bridges.btc_erc[mode].address;
-        case URL_BSCSCAN:
-          return CONTRACTS.bridges.btc_bep20[mode].address;
 
         default:
           return CONTRACTS.bridges.btc_erc[mode].address;
@@ -217,19 +202,14 @@ export const FloatVolume = () => {
           {networkScan(bridge === 'btc_erc' ? URL_ETHERSCAN : URL_BSCSCAN)}
           {poolLink(bridge)}
         </RowBridge>
-        <CoinContainer>
-          {bridgeInfo(bridge === 'btc_erc' ? dataEthBridge : dataBscBridge)}
-        </CoinContainer>
+        <CoinContainer>{bridgeInfo(dataEthBridge)}</CoinContainer>
       </BridgeContainer>
     );
   };
 
   return (
     <FloatVolumeContainer>
-      <BridgeInfos>
-        {rowBridgeInfo('btc_erc')}
-        {rowBridgeInfo('btc_bep20')}
-      </BridgeInfos>
+      <BridgeInfos>{rowBridgeInfo('btc_erc')}</BridgeInfos>
     </FloatVolumeContainer>
   );
 };

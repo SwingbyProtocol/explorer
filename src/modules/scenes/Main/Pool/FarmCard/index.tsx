@@ -118,25 +118,19 @@ export const FarmCard = () => {
             <div>
               <TextTvl variant="label">
                 {/* Todo: remove condition once published sbBTC pool on BSC */}
-                {bridge !== 'btc_bep20' && (
-                  <FormattedMessage
-                    id="pool.stake-card.stake-on-farm-tvl"
-                    values={{
-                      value:
-                        bridge && apr[bridge].farmTvl > 0 ? (
-                          formattedTvlAmountUsd
-                        ) : (
-                          <ColumnInlineBlock>
-                            <PulseLoader
-                              margin={3}
-                              size={3}
-                              color={theme.pulsar.color.text.normal}
-                            />
-                          </ColumnInlineBlock>
-                        ),
-                    }}
-                  />
-                )}
+                <FormattedMessage
+                  id="pool.stake-card.stake-on-farm-tvl"
+                  values={{
+                    value:
+                      bridge && apr[bridge].farmTvl > 0 ? (
+                        formattedTvlAmountUsd
+                      ) : (
+                        <ColumnInlineBlock>
+                          <PulseLoader margin={3} size={3} color={theme.pulsar.color.text.normal} />
+                        </ColumnInlineBlock>
+                      ),
+                  }}
+                />
               </TextTvl>
             </div>
           </div>
@@ -157,41 +151,35 @@ export const FarmCard = () => {
           <RowFeatures>
             <IconTick />
             <TextTitle variant="normal">
-              {bridge !== 'btc_bep20' ? (
-                <FormattedMessage
-                  id="pool.stake-card.stake-apr"
-                  values={{
-                    swingbyPerDay:
-                      bridge && apr[bridge].swingbyPerBlock > 0 ? (
-                        <FormattedNumber
-                          value={swingbyPerBlock}
-                          maximumFractionDigits={0}
-                          minimumFractionDigits={0}
-                        />
-                      ) : (
-                        <ColumnInlineBlock>
-                          <PulseLoader margin={3} size={2} color={theme.pulsar.color.text.normal} />
-                        </ColumnInlineBlock>
-                      ),
-                  }}
-                />
-              ) : (
-                'Yield farming is coming soon'
-              )}
+              <FormattedMessage
+                id="pool.stake-card.stake-apr"
+                values={{
+                  swingbyPerDay:
+                    bridge && apr[bridge].swingbyPerBlock > 0 ? (
+                      <FormattedNumber
+                        value={swingbyPerBlock}
+                        maximumFractionDigits={0}
+                        minimumFractionDigits={0}
+                      />
+                    ) : (
+                      <ColumnInlineBlock>
+                        <PulseLoader margin={3} size={2} color={theme.pulsar.color.text.normal} />
+                      </ColumnInlineBlock>
+                    ),
+                }}
+              />
             </TextTitle>
           </RowFeatures>
           {/* Todo: remove condition once published sbBTC pool on BSC */}
           <Buttons>
-            {bridge !== 'btc_bep20' && (
-              <Atag href={URL.YieldFarming} rel="noopener noreferrer" target="_blank">
-                <ButtonLink variant="primary" size="town" shape="fill" isMultiButton={true}>
-                  <FormattedMessage id="pool.stake-card.stake" />
-                </ButtonLink>
-              </Atag>
-            )}
+            <Atag href={URL.YieldFarming} rel="noopener noreferrer" target="_blank">
+              <ButtonLink variant="primary" size="town" shape="fill" isMultiButton={true}>
+                <FormattedMessage id="pool.stake-card.stake" />
+              </ButtonLink>
+            </Atag>
             {/* Todo: remove condition once published sbBTC pool on BSC */}
             <ButtonLink
-              isMultiButton={bridge !== 'btc_bep20' ? true : false}
+              isMultiButton={true}
               variant="secondary"
               size="town"
               shape="fill"

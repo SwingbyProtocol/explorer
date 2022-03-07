@@ -1,7 +1,5 @@
 import { ENDPOINT_COINGECKO } from '../../../env';
-
-// import { fetch, fetcher } from '../../../fetch';
-import { fetcher, fetch } from './../../../fetch';
+import { fetcher, fetch } from '../../../fetch';
 /**
  * @see https://github.com/miguelmota/vwap/blob/master/index.js
  */
@@ -44,11 +42,11 @@ export const calculateBtcVwapPrice = async (): Promise<number> => await getUsdVw
 
 export const fetchVwap = async (currency: 'btcUsd' | 'swingbyUsd'): Promise<number> => {
   try {
-    const price =
-      currency === 'btcUsd' ? await calculateBtcVwapPrice() : await calculateSwingbyVwapPrice();
-    return price;
+    return currency === 'btcUsd'
+      ? await calculateBtcVwapPrice()
+      : await calculateSwingbyVwapPrice();
   } catch (error) {
-    console.log('error', error);
+    console.error('Error fetching btc/swingby vswap price...', error);
     return 0;
   }
 };

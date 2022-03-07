@@ -12,7 +12,7 @@ export const useGetLatestPrice = (currency: string) => {
       const result = await getUsdPrice(currency);
       setPrice(result);
     } catch (error) {
-      console.log('error:', error);
+      console.error('Error fetching gas usdPrice..:', error);
       setPrice(0);
     } finally {
       setIsLoading(false);

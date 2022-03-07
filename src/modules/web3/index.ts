@@ -16,20 +16,9 @@ export const createWeb3Instance = ({
   bridge: SkybridgeBridge;
 }) => {
   if (bridge === 'btc_erc') {
-    const web3 = new Web3(
-      new Web3.providers.HttpProvider(
-        `https://${mode === 'production' ? 'mainnet' : 'ropsten'}.infura.io/v3/${infuraApiKey}`,
-      ),
-    );
-    return web3;
-  }
-
-  if (bridge === 'btc_bep20') {
     return new Web3(
       new Web3.providers.HttpProvider(
-        mode === 'production'
-          ? 'https://bsc-dataseed1.binance.org:443'
-          : 'https://data-seed-prebsc-1-s1.binance.org:8545',
+        `https://${mode === 'production' ? 'mainnet' : 'ropsten'}.infura.io/v3/${infuraApiKey}`,
       ),
     );
   }

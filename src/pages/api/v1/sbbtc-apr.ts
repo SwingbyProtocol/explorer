@@ -5,14 +5,13 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { corsMiddleware, getParam } from '../../../modules/api';
 import { sumArray } from '../../../modules/common';
 import { fetcher } from '../../../modules/fetch';
-
 import {
   fetchFloatBalances,
   fetchVwap,
   getFixedBaseEndpoint,
   getTransactionFee,
   IFloat,
-} from './../../../modules/explorer';
+} from '../../../modules/explorer';
 
 const getFloatUsd = (bridge: SkybridgeBridge, usdBtc: number, floatBalances: IFloat) => {
   const sumFloatUsd = (floatBtc: number, floatPeggedBtc: number, usdBtc: number) =>
@@ -21,8 +20,6 @@ const getFloatUsd = (bridge: SkybridgeBridge, usdBtc: number, floatBalances: IFl
   switch (bridge) {
     case 'btc_erc':
       return sumFloatUsd(floatBalances.btcEth, floatBalances.wbtc, usdBtc);
-    case 'btc_bep20':
-      return sumFloatUsd(floatBalances.btcBsc, floatBalances.btcb, usdBtc);
 
     default:
       return sumFloatUsd(floatBalances.btcEth, floatBalances.wbtc, usdBtc);

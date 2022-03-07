@@ -54,15 +54,12 @@ export const SummaryContent = ({ farming, bridge }) => {
     maximumFractionDigits: 0,
   }).format(earnedSwingbyTotal * swingbyUsd);
 
-  const thirdPartyLogo =
-    bridge === 'btc_bep20' ? (
-      <IconCoinLogoMini src={logos.PancakeSwapCircled} />
-    ) : (
-      <ColumMultiIcons>
-        <IconCoinLogoMini src={logos.UniswapCircled} />
-        <IconCoinLogoMini src={logos.SushiSwapCircled} />
-      </ColumMultiIcons>
-    );
+  const thirdPartyLogo = (
+    <ColumMultiIcons>
+      <IconCoinLogoMini src={logos.UniswapCircled} />
+      <IconCoinLogoMini src={logos.SushiSwapCircled} />
+    </ColumMultiIcons>
+  );
 
   return (
     <SummaryContentContainer>
@@ -101,29 +98,21 @@ export const SummaryContent = ({ farming, bridge }) => {
               {/* Todo: remove condition once published sbBTC pool on BSC */}
               <div>
                 <TextRoom variant="accent">
-                  {bridge === 'btc_bep20' ? (
-                    <FormattedMessage id="common.coming-soon" />
-                  ) : (
-                    <FormattedNumber
-                      value={farming.sbBtcFarm.claimedSwingby}
-                      maximumFractionDigits={0}
-                      minimumFractionDigits={0}
-                    />
-                  )}
+                  <FormattedNumber
+                    value={farming.sbBtcFarm.claimedSwingby}
+                    maximumFractionDigits={0}
+                    minimumFractionDigits={0}
+                  />
                 </TextRoom>
               </div>
               {/* Todo: remove condition once published sbBTC pool on BSC */}
               <div>
                 <TextRoom variant="accent">
-                  {bridge === 'btc_bep20' ? (
-                    <FormattedMessage id="common.coming-soon" />
-                  ) : (
-                    <FormattedNumber
-                      value={farming.sbBtcFarm.pendingSwingby}
-                      maximumFractionDigits={0}
-                      minimumFractionDigits={0}
-                    />
-                  )}
+                  <FormattedNumber
+                    value={farming.sbBtcFarm.pendingSwingby}
+                    maximumFractionDigits={0}
+                    minimumFractionDigits={0}
+                  />
                 </TextRoom>
               </div>
             </ColumnFarm>
@@ -131,9 +120,7 @@ export const SummaryContent = ({ farming, bridge }) => {
               <RowFarmNameMulti>
                 {thirdPartyLogo}
                 <Text variant="menu">
-                  <FormattedMessage
-                    id={bridge === 'btc_bep20' ? 'pool.earning.pancake' : 'pool.earning.sushi-uni'}
-                  />
+                  <FormattedMessage id={'pool.earning.sushi-uni'} />
                 </Text>
               </RowFarmNameMulti>
               <div>
