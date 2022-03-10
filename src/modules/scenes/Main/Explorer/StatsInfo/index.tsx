@@ -11,6 +11,11 @@ import { GenerateChart } from '../../../../../components/GenerateChart';
 import { LoaderComingSoon } from '../../../../../components/LoaderComingSoon';
 import { PATH } from '../../../../env';
 import { useToggleMetanode } from '../../../../hooks';
+import {
+  explorerLoadingSelector,
+  statsSelector,
+  usdPricesSelector,
+} from '../../../../../store/selectors';
 
 import {
   ChartBox,
@@ -42,9 +47,9 @@ export const StatsInfo = () => {
   const formattedMetanodes = formatMessage({ id: 'metanodes.metanodes' });
   const formattedRewards = formatMessage({ id: 'home.network.rewards' });
 
-  const stats = useSelector((state) => state.explorer.networkInfos.stats);
-  const usd = useSelector((state) => state.explorer.usd);
-  const isLoading = useSelector((state) => state.explorer.isLoading);
+  const stats = useSelector(statsSelector);
+  const usd = useSelector(usdPricesSelector);
+  const isLoading = useSelector(explorerLoadingSelector);
 
   const { bridge, rewards, isLoading: isLoadingMetanode } = useToggleMetanode(PATH.ROOT);
 
@@ -88,14 +93,14 @@ export const StatsInfo = () => {
   const data = [
     {
       key: 'metanodes',
-      isLoading: isLoadingAll ? isLoadingAll : stats.metanodes > 1 ? false : true,
+      isLoading: isLoadingAll ? isLoadingAll : stats.metanodes <= 1,
       icon: <NetworkMetanodes />,
       description: formattedMetanodes,
       value: stats.metanodes,
     },
     {
       key: 'rewards',
-      isLoading: isLoadingAll ? isLoadingAll : Number(rewardsSwingbyUsd) > 1 ? false : true,
+      isLoading: isLoadingAll ? isLoadingAll : Number(rewardsSwingbyUsd) <= 1,
       icon: <NetworkRewards />,
       description: formattedRewards,
       value: getFiatAssetFormatter({

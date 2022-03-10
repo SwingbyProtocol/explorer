@@ -1,49 +1,52 @@
-const intialVolume = { at: '1-Jan', amount: '1' };
-const intialVolumeYear = { at: 'Jan 2022', amount: '1' };
-export const initialVolumes = [
-  intialVolume,
-  intialVolume,
-  intialVolume,
-  intialVolume,
-  intialVolume,
-  intialVolume,
-  intialVolume,
+import { NetworkInfo, NodeEndpoint, USDPrices, Volume } from '../../../store/types';
+
+const initialVolume = { at: '1-Jan', amount: '1' };
+const initialVolumeYear = { at: 'Jan 2022', amount: '1' };
+
+export const initialVolumes: Volume[] = [
+  initialVolume,
+  initialVolume,
+  initialVolume,
+  initialVolume,
+  initialVolume,
+  initialVolume,
+  initialVolume,
 ];
 
-export const initialVolumesYear = [
-  intialVolumeYear,
-  intialVolumeYear,
-  intialVolumeYear,
-  intialVolumeYear,
-  intialVolumeYear,
-  intialVolumeYear,
-  intialVolumeYear,
-  intialVolumeYear,
-  intialVolumeYear,
-  intialVolumeYear,
-  intialVolumeYear,
-  intialVolumeYear,
+export const initialVolumesYear: Volume[] = [
+  initialVolumeYear,
+  initialVolumeYear,
+  initialVolumeYear,
+  initialVolumeYear,
+  initialVolumeYear,
+  initialVolumeYear,
+  initialVolumeYear,
+  initialVolumeYear,
+  initialVolumeYear,
+  initialVolumeYear,
+  initialVolumeYear,
+  initialVolumeYear,
 ];
 
-export const nodeEndpoint = {
+export const nodeEndpoint: NodeEndpoint = {
   btc_erc: '',
 };
 
-export const networkInfos = {
+export const networkInfos: NetworkInfo = {
   capacity: 0,
   floatBalances: { btcEth: 0, wbtc: 0 },
   stats: {
     volume1wksWBTC: 0,
     volume1wksBTC: 0,
-    volumes: initialVolumes,
     volume1yrWBTC: 0,
     volume1yrBTC: 0,
+    volumes: initialVolumes,
     volumesYear: initialVolumesYear,
     metanodes: 0,
   },
 };
 
-export const usd = { BTC: 0, SWINGBY: 0 };
+export const usd: USDPrices = { BTC: 0, SWINGBY: 0 };
 
 export const floatHistoryObjectInitialValue = [
   {

@@ -1,6 +1,7 @@
 import { Reducer } from 'redux';
 
 import { IFee, IFetchUsd, INetworkInfos, INodeEndpoint } from '../../explorer';
+import { ExplorerState } from '../../../store/types';
 
 import * as initial from './initialState';
 
@@ -18,7 +19,7 @@ enum Actions {
   BuildNodeEndpoint = 'Explorer/BUILD_NODE_ENDPOINT',
 }
 
-const initialState = {
+const initialState: ExplorerState = {
   isLoading: false,
   usd: initial.usd,
   networkInfos: initial.networkInfos,
@@ -27,9 +28,7 @@ const initialState = {
   nodeEndpoint: initial.nodeEndpoint,
 };
 
-type State = typeof initialState;
-
-export const explorer: Reducer<State, Action> = (state = initialState, action) => {
+export const explorer: Reducer<ExplorerState, Action> = (state = initialState, action) => {
   if (action.type === Actions.ToggleIsLoading) {
     return { ...state, isLoading: action.data };
   }
