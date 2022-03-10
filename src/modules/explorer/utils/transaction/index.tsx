@@ -101,7 +101,6 @@ export const convertTxTime = (txTimeParam: number | DateTime) => {
   return (
     <FormattedDate
       value={ts}
-      format="auto"
       hour="numeric"
       minute="numeric"
       year="numeric"
