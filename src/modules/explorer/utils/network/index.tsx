@@ -3,17 +3,17 @@ import { FIXED_NODE_ENDPOINT, SkybridgeBridge } from '@swingby-protocol/sdk';
 import { buildChaosNodeContext } from '../../../build-node-context';
 import { CoinSymbol } from '../../../coins';
 import { getMonthYear, sumArray } from '../../../common';
-import { ENDPOINT_ETHEREUM_BRIDGE, isSupportBsc, mode } from '../../../env';
+import { ENDPOINT_ETHEREUM_BRIDGE, mode } from '../../../env';
 import { fetch, fetcher } from '../../../fetch';
 import { IChartDate, IFloat, IFloatAmount, IFloatBalances } from '../../index';
 
 // Memo: get active node endpoint
 export const getEndpoint = async (): Promise<{ urlEth: string }> => {
   let urlEth = '';
-  let urlBsc = '';
 
   const getContext = async () => {
     try {
+      // @todo (agustin) here retry 3 times to obtain the urlETH
       const context = await buildChaosNodeContext({ mode });
       urlEth = context && context.servers.swapNode.btc_erc;
 
@@ -22,23 +22,10 @@ export const getEndpoint = async (): Promise<{ urlEth: string }> => {
       }
 
       const getFloatBalUrl = (base: string) => base + '/api/v1/floats/balances';
-      if (!isSupportBsc) {
-        try {
-          const result = await fetcher<IFloatAmount[]>(getFloatBalUrl(urlEth));
-          if (result) {
-            return { urlEth };
-          }
-        } catch (error) {
-          return { urlEth: ENDPOINT_ETHEREUM_BRIDGE };
-        }
-      }
 
-      const results = await Promise.all([
-        fetcher<IFloatAmount[]>(getFloatBalUrl(urlEth)),
-        fetcher<IFloatAmount[]>(getFloatBalUrl(urlBsc)),
-      ]);
+      const results = await fetcher<IFloatAmount[]>(getFloatBalUrl(urlEth));
       if (results) {
-        return { urlEth, urlBsc };
+        return { urlEth };
       }
     } catch (error) {
       throw Error(error);
@@ -109,22 +96,20 @@ export const getFloatBalance = (currency: string, floatInfos: IFloatAmount[]): s
 interface getCapacityArg {
   bridge: SkybridgeBridge;
   btcEth: number;
-  btcBsc: number;
   wbtc: number;
 }
 
 const getCapacity = (arg: getCapacityArg): number => {
-  const { bridge, btcEth, btcBsc, wbtc } = arg;
+  const { bridge, btcEth, wbtc } = arg;
 
   const capacityEthBridge = btcEth + wbtc;
-  const capacityBscBridge = btcBsc;
 
   switch (bridge) {
     case 'btc_erc':
       return capacityEthBridge;
 
     default:
-      return capacityEthBridge + capacityBscBridge;
+      return capacityEthBridge;
   }
 };
 
@@ -136,22 +121,14 @@ export const fetchFloatBalances = async (
 
   try {
     const { urlEth } = await getEndpoint();
-    let results;
-    if (isSupportBsc) {
-      results = await Promise.all([fetcher<IFloatAmount[]>(getFloatBalUrl(urlEth))]);
-    } else {
-      results = await Promise.all([fetcher<IFloatAmount[]>(getFloatBalUrl(urlEth))]);
-    }
-    const resEth = results[0];
-    const resBsc = isSupportBsc ? results[1] : null;
+    const resEth = await fetcher<IFloatAmount[]>(getFloatBalUrl(urlEth));
 
     const floats: IFloat = {
       btcEth: Number(getFloatBalance(CoinSymbol.BTC, resEth)),
-      btcBsc: isSupportBsc ? Number(getFloatBalance(CoinSymbol.BTC, resBsc)) : 0,
       wbtc: Number(getFloatBalance(CoinSymbol.WBTC, resEth)),
     };
-    const { btcEth, btcBsc, wbtc } = floats;
-    const capacity: number = usdBtc * getCapacity({ bridge, btcEth, btcBsc, wbtc });
+    const { btcEth, wbtc } = floats;
+    const capacity: number = usdBtc * getCapacity({ bridge, btcEth, wbtc });
 
     return { floats, capacity };
   } catch (err) {
@@ -159,7 +136,6 @@ export const fetchFloatBalances = async (
     return {
       floats: {
         btcEth: 0,
-        btcBsc: 0,
         wbtc: 0,
       },
       capacity: 0,
@@ -170,17 +146,16 @@ export const fetchFloatBalances = async (
 interface getVolumeBTCArg {
   bridge: SkybridgeBridge;
   volumeWBTC: number;
-  volumeBTCB: number;
 }
 
 const getVolumeBTC = (arg: getVolumeBTCArg): number => {
-  const { bridge, volumeWBTC, volumeBTCB } = arg;
+  const { bridge, volumeWBTC } = arg;
   switch (bridge) {
     case 'btc_erc':
       return volumeWBTC;
 
     default:
-      return volumeWBTC + volumeBTCB;
+      return volumeWBTC;
   }
 };
 
@@ -188,44 +163,26 @@ interface getVolumesArg {
   bridge: SkybridgeBridge;
   usdBtc: number;
   ethNetworkSwaps: number[];
-  bscNetworkSwaps: number[];
   ethNetworkSwapsVolume: number[];
-  bscNetworkSwapsVolume: number[];
   time: 'date' | 'month';
 }
 
 const getVolumes = (arg: getVolumesArg): IChartDate[] => {
-  const {
-    bridge,
-    usdBtc,
-    ethNetworkSwaps,
-    bscNetworkSwaps,
-    ethNetworkSwapsVolume,
-    bscNetworkSwapsVolume,
-    time,
-  } = arg;
+  const { bridge, usdBtc, ethNetworkSwaps, ethNetworkSwapsVolume, time } = arg;
 
-  const mergeBridgeStats = ({
-    ethStats,
-    bscStats,
-  }: {
-    ethStats: number[];
-    bscStats: number[];
-  }): number[] => {
+  const mergeBridgeStats = ({ ethStats }: { ethStats: number[] }): number[] => {
     return ethStats.map((ethItem: number, i: number) => {
-      const statsByDate = ethItem + bscStats[i];
+      const statsByDate = ethItem;
       return Number(statsByDate.toFixed(3));
     });
   };
 
   const totalSwaps: number[] = mergeBridgeStats({
     ethStats: ethNetworkSwaps,
-    bscStats: bscNetworkSwaps,
   });
 
   const totalVolumes: number[] = mergeBridgeStats({
     ethStats: ethNetworkSwapsVolume,
-    bscStats: bscNetworkSwapsVolume,
   });
 
   const buildVolumesArray = ({
@@ -277,7 +234,6 @@ export const fetchDayVolumeInfo = async (
   usdBtc: number,
 ): Promise<{
   volume1wksWBTC: number;
-  volume1wksBTCB: number;
   volume1wksBTC: number;
   volumes: IChartDate[] | null;
 }> => {
@@ -285,59 +241,33 @@ export const fetchDayVolumeInfo = async (
 
   try {
     const { urlEth } = await getEndpoint();
-    let results;
-    if (isSupportBsc) {
-      results = await Promise.all([
-        fetch<{ network24hrSwapsVolume: number[]; network24hrSwaps: number[] }>(
-          getBridgeUrl(urlEth),
-        ),
-      ]);
-    } else {
-      results = await Promise.all([
-        fetch<{ network24hrSwapsVolume: number[]; network24hrSwaps: number[] }>(
-          getBridgeUrl(urlEth),
-        ),
-      ]);
-    }
 
+    const networkSwapsETH = await fetch<{
+      network24hrSwapsVolume: number[];
+      network24hrSwaps: number[];
+    }>(getBridgeUrl(urlEth));
     const swaps24hrsFallback = [0, 0, 0, 0, 0, 0, 0];
 
-    const ethNetwork24hrSwaps = results[0].ok
-      ? results[0].response.network24hrSwaps
+    const ethNetwork24hrSwaps = networkSwapsETH.ok
+      ? networkSwapsETH.response.network24hrSwaps
       : swaps24hrsFallback;
 
-    const bscNetwork24hrSwaps = isSupportBsc
-      ? results[1].ok
-        ? results[1].response.network24hrSwaps
-        : swaps24hrsFallback
-      : swaps24hrsFallback;
-
-    const ethNetwork24hrSwapsVolume = results[0].ok
-      ? results[0].response.network24hrSwapsVolume
-      : swaps24hrsFallback;
-
-    const bscNetwork24hrSwapsVolume = isSupportBsc
-      ? results[1].ok
-        ? results[1].response.network24hrSwapsVolume
-        : swaps24hrsFallback
+    const ethNetwork24hrSwapsVolume = networkSwapsETH.ok
+      ? networkSwapsETH.response.network24hrSwapsVolume
       : swaps24hrsFallback;
 
     const volume1wksWBTC: number = sumArray(ethNetwork24hrSwapsVolume.slice(0, 7));
-    const volume1wksBTCB: number = sumArray(bscNetwork24hrSwapsVolume.slice(0, 7));
 
     const volume1wksBTC: number = getVolumeBTC({
       bridge,
       volumeWBTC: volume1wksWBTC,
-      volumeBTCB: volume1wksBTCB,
     });
 
     const volumes: IChartDate[] = getVolumes({
       bridge,
       usdBtc,
       ethNetworkSwaps: ethNetwork24hrSwaps,
-      bscNetworkSwaps: bscNetwork24hrSwaps,
       ethNetworkSwapsVolume: ethNetwork24hrSwapsVolume,
-      bscNetworkSwapsVolume: bscNetwork24hrSwapsVolume,
       time: 'date',
     })
       .slice(0, 7)
@@ -345,7 +275,6 @@ export const fetchDayVolumeInfo = async (
 
     return {
       volume1wksWBTC,
-      volume1wksBTCB,
       volume1wksBTC,
       volumes,
     };
@@ -353,7 +282,6 @@ export const fetchDayVolumeInfo = async (
     console.log(err);
     return {
       volume1wksWBTC: 0,
-      volume1wksBTCB: 0,
       volume1wksBTC: 0,
       volumes: null,
     };
@@ -367,7 +295,6 @@ export const fetchMonthlyVolumeInfo = async (
   usdBtc: number,
 ): Promise<{
   volume1yrWBTC: number;
-  volume1yrBTCB: number;
   volume1yrBTC: number;
   volumes: IChartDate[] | null;
 }> => {
@@ -375,58 +302,37 @@ export const fetchMonthlyVolumeInfo = async (
 
   try {
     const urlEth = FIXED_NODE_ENDPOINT['btc_erc'][mode][0];
-    let results;
-    if (isSupportBsc) {
-      results = await Promise.all([
-        fetch<{ network1mSwapsVolume: number[]; network1mSwaps: number[] }>(getBridgeUrl(urlEth)),
-      ]);
-    } else {
-      results = await Promise.all([
-        fetch<{ network1mSwapsVolume: number[]; network1mSwaps: number[] }>(getBridgeUrl(urlEth)),
-      ]);
-    }
+
+    const ethNetworkSwaps = await fetch<{
+      network1mSwapsVolume: number[];
+      network1mSwaps: number[];
+    }>(getBridgeUrl(urlEth));
 
     const swaps1mFallback = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    const ethNetwork1mSwaps = results[0].ok
-      ? results[0].response.network1mSwaps.slice(1)
-      : swaps1mFallback;
-    const bscNetwork1mSwaps = isSupportBsc
-      ? results[1].ok
-        ? results[1].response.network1mSwaps.slice(1)
-        : swaps1mFallback
+    const ethNetwork1mSwaps = ethNetworkSwaps.ok
+      ? ethNetworkSwaps.response.network1mSwaps.slice(1)
       : swaps1mFallback;
 
-    const ethNetwork1mSwapsVolume = results[0].ok
-      ? results[0].response.network1mSwapsVolume.slice(1)
-      : swaps1mFallback;
-
-    const bscNetwork1mSwapsVolume = isSupportBsc
-      ? results[1].ok
-        ? results[1].response.network1mSwapsVolume.slice(1)
-        : swaps1mFallback
+    const ethNetwork1mSwapsVolume = ethNetworkSwaps.ok
+      ? ethNetworkSwaps.response.network1mSwapsVolume.slice(1)
       : swaps1mFallback;
 
     const volume1yrWBTC: number = sumArray(ethNetwork1mSwapsVolume);
-    const volume1yrBTCB: number = sumArray(bscNetwork1mSwapsVolume);
     const volume1yrBTC: number = getVolumeBTC({
       bridge,
       volumeWBTC: volume1yrWBTC,
-      volumeBTCB: volume1yrBTCB,
     });
 
     const volumes: IChartDate[] = getVolumes({
       bridge,
       usdBtc,
       ethNetworkSwaps: ethNetwork1mSwaps,
-      bscNetworkSwaps: bscNetwork1mSwaps,
       ethNetworkSwapsVolume: ethNetwork1mSwapsVolume,
-      bscNetworkSwapsVolume: bscNetwork1mSwapsVolume,
       time: 'month',
     }).reverse();
 
     return {
       volume1yrWBTC,
-      volume1yrBTCB,
       volume1yrBTC,
       volumes,
     };
@@ -434,7 +340,6 @@ export const fetchMonthlyVolumeInfo = async (
     console.log(err);
     return {
       volume1yrWBTC: 0,
-      volume1yrBTCB: 0,
       volume1yrBTC: 0,
       volumes: null,
     };

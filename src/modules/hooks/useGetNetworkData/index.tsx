@@ -27,14 +27,12 @@ export const useGetNetworkData = () => {
           const data = results[0];
           const stats = {
             volume1wksWBTC: results[1].volume1wksWBTC,
-            volume1wksBTCB: results[1].volume1wksBTCB,
             volume1wksBTC: results[1].volume1wksBTC,
-            volumes: results[1].volumes,
             metanodes: results[2],
             volume1yrWBTC: results[3].volume1yrWBTC,
-            volume1yrBTCB: results[3].volume1yrBTCB,
             volume1yrBTC: results[3].volume1yrBTC,
-            volumesYear: results[3].volumes,
+            volumesYear: results[3].volumes ?? [],
+            volumes: results[1].volumes ?? [],
           };
 
           const updateStates = () => {

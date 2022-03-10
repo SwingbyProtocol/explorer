@@ -71,7 +71,6 @@ export interface Reward {
 
 export interface IFloat {
   btcEth: number;
-  btcBsc: number;
   wbtc: number;
 }
 
@@ -111,11 +110,9 @@ export interface INetworkInfos {
   };
   stats: {
     volume1wksWBTC: number;
-    volume1wksBTCB: number;
     volume1wksBTC: number;
     volumes: IChartDate[];
     volume1yrWBTC: number;
-    volume1yrBTCB: number;
     volume1yrBTC: number;
     volumesYear: IChartDate[];
     metanodes: number;
