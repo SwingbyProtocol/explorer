@@ -28,6 +28,9 @@ export const useGetTvlSummary = () => {
   useEffect(() => {
     const fetchTVLSummary = async () => {
       setIsLoading(true);
+      if (!endpoint.btc_erc) {
+        return;
+      }
       const uniFarmUrl = `${ENDPOINT_YIELD_FARMING}/api/v1/farm-info?farm=Uni-V2`;
       const sushiFarmUrl = `${ENDPOINT_YIELD_FARMING}/api/v1/farm-info?farm=Sushi-V2`;
       const pancakeFarmUrl = `${ENDPOINT_YIELD_FARMING}/api/v1/farm-info?farm=Pancake-V2`;
