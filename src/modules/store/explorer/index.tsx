@@ -64,19 +64,19 @@ export const toggleIsExistPreviousPage = (data: boolean) =>
 
 export const fetchUsdPrice = (data: IFetchUsd) => ({ type: Actions.FetchUsdPrice, data } as const);
 
-export const fetchTransactionFees = (data: IFee[]) =>
+export const updateTransactionFees = (data: IFee[]) =>
   ({ type: Actions.FetchTransactionFees, data } as const);
 
 export const updateNetworkInfos = (data: INetworkInfos) =>
   ({ type: Actions.UpdateNetworkInfos, data } as const);
 
-export const buildNodeEndpoint = (data: INodeEndpoint) =>
+export const updateNodeEndpoint = (data: INodeEndpoint) =>
   ({ type: Actions.BuildNodeEndpoint, data } as const);
 
 type Action =
   | ReturnType<typeof toggleIsLoading>
   | ReturnType<typeof toggleIsExistPreviousPage>
   | ReturnType<typeof fetchUsdPrice>
-  | ReturnType<typeof fetchTransactionFees>
-  | ReturnType<typeof buildNodeEndpoint>
+  | ReturnType<typeof updateTransactionFees>
+  | ReturnType<typeof updateNodeEndpoint>
   | ReturnType<typeof updateNetworkInfos>;

@@ -3,7 +3,7 @@ export { useStore } from './store';
 export {
   toggleIsLoading,
   fetchUsdPrice,
-  fetchTransactionFees,
+  updateTransactionFees,
   updateNetworkInfos,
   networkInfos,
   toggleIsExistPreviousPage,

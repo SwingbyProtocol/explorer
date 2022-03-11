@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { castTxForSkyPools, generateQueryEndpoint, SkyPoolsQuery } from '../../explorer';
 import { fetcher } from '../../fetch';
 import { logger } from '../../logger';
+import { explorerNodeEndpointSelector } from '../../../store/selectors';
 
 export const useTxsQuery = () => {
   const [txs, setTxs] = useState<SkyPoolsQuery[] | null>(null);
@@ -13,8 +14,8 @@ export const useTxsQuery = () => {
 
   // Memo: initial state is the placeholder
   const [total, setTotal] = useState<number>(99);
+  const endpoint = useSelector(explorerNodeEndpointSelector);
 
-  const endpoint = useSelector((state) => state.explorer.nodeEndpoint);
   const router = useRouter();
   const params = router.query;
   const bridge = (params.bridge as SkybridgeBridge) ?? '';
