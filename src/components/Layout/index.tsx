@@ -2,44 +2,53 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { mode } from '../../modules/env';
-import { getEndpoint, getTransactionFees } from '../../modules/explorer';
-import { logger } from '../../modules/logger';
 import { OnboardProvider } from '../../modules/onboard';
 import { SdkContextProvider } from '../../modules/sdk-context';
-import { fetchTransactionFees } from '../../modules/store';
-import { buildNodeEndpoint } from '../../modules/store/explorer';
 import { Header } from '../Header';
 import { Swap } from '../Swap';
+import { getEndpoint, getTransactionFees } from '../../modules/explorer';
+import { updateTransactionFees } from '../../modules/store';
+import { logger } from '../../modules/logger';
+import { updateNodeEndpoint } from '../../modules/store/explorer';
 
-import { CookieConsentHandler } from './CookieConsentHandler';
 import { SwapContainer } from './styled';
+import { CookieConsentHandler } from './CookieConsentHandler';
 
 type Props = { children: React.ReactNode };
 
-export const Layout = ({ children }: Props) => {
+const useFetchTransactionFees = () => {
   const dispatch = useDispatch();
-
   useEffect(() => {
-    (async () => {
+    const fetchTxFees = async () => {
       try {
         const transactionFees = await getTransactionFees();
-        dispatch(fetchTransactionFees(transactionFees));
+        dispatch(updateTransactionFees(transactionFees));
       } catch (error) {
         logger.error(error);
       }
-    })();
+    };
+    fetchTxFees();
   }, [dispatch]);
+};
 
+const useFetchNodeEndpoint = () => {
+  const dispatch = useDispatch();
   useEffect(() => {
-    (async () => {
+    const fetchNodeEndpoint = async () => {
       try {
         const { urlEth } = await getEndpoint();
-        dispatch(buildNodeEndpoint({ btc_erc: urlEth }));
+        dispatch(updateNodeEndpoint({ btc_erc: urlEth }));
       } catch (error) {
         logger.error(error);
       }
-    })();
+    };
+    fetchNodeEndpoint();
   }, [dispatch]);
+};
+
+export const Layout = ({ children }: Props) => {
+  useFetchTransactionFees();
+  useFetchNodeEndpoint();
 
   return (
     <>
