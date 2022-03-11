@@ -8,12 +8,13 @@ import { PoolMode } from '../../../../pool';
 import { togglePoolMode } from '../../../../store';
 import { StylingConstants } from '../../../../styles';
 import { ButtonScale, IconArrowLeft } from '../../../Common';
+import { poolModeSelector } from '../../../../../store/selectors';
 
 import { ActionButtonsPoolContainer, Buttons, ColumnIcon } from './styled';
 
 export const ActionButtonsPool = () => {
   const dispatch = useDispatch();
-  const mode = useSelector((state) => state.pool.mode);
+  const mode = useSelector(poolModeSelector);
 
   const { media } = StylingConstants;
   const sm = useMatchMedia({ query: `(min-width: ${rem(media.sm)})` });

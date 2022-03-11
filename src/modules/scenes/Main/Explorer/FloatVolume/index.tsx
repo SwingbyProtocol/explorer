@@ -10,6 +10,7 @@ import { CoinSymbol } from '../../../../coins';
 import { mode, URL_ETHERSCAN } from '../../../../env';
 import { useGetPoolApr } from '../../../../hooks';
 import { ColumnInlineBlock, IconExternalLink } from '../../../Common';
+import { explorerLoadingSelector, networkInfoSelector } from '../../../../../store/selectors';
 
 import {
   Atag,
@@ -37,9 +38,8 @@ interface IBridgeData {
 export const FloatVolume = () => {
   const theme = useTheme();
   const { apr } = useGetPoolApr();
-  const isLoading = useSelector((state) => state.explorer.isLoading);
-  const networkInfos = useSelector((state) => state.explorer.networkInfos);
-  const { floatBalances, stats } = networkInfos;
+  const isLoading = useSelector(explorerLoadingSelector);
+  const { floatBalances, stats } = useSelector(networkInfoSelector);
 
   const dataEthBridge = [
     { coin: CoinSymbol.BTC, float: floatBalances.btcEth, vol: stats.volume1wksWBTC },

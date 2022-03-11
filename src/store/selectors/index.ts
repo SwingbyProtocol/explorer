@@ -1,14 +1,20 @@
-import { DefaultRootState } from 'react-redux';
+export {
+  poolModeSelector,
+  poolMinimumWithdrawAmountSelector,
+  poolRecentTxsSelector,
+  poolSelector,
+} from './pool';
 
-import { ExplorerState, NetworkStats, USDPrices } from '../types';
+export {
+  explorerSelector,
+  networkInfoSelector,
+  statsSelector,
+  transactionFeesSelector,
+  usdPricesSelector,
+  swingbyUSDPriceSelector,
+  explorerLoadingSelector,
+  explorerNodeEndpointSelector,
+  btcUSDPriceSelector,
+} from './explorer';
 
-export const explorerSelector = (state: DefaultRootState): ExplorerState => state.explorer;
-
-// @todo (agustin) add redux toolkit and use createSelector with explorerSelector
-export const statsSelector = (state: DefaultRootState): NetworkStats =>
-  state.explorer.networkInfos.stats;
-
-export const usdPricesSelector = (state: DefaultRootState): USDPrices => state.explorer.usd;
-
-export const explorerLoadingSelector = (state: DefaultRootState): boolean =>
-  state.explorer.isLoading;
+export { settingsSelector, themeSelector } from './settings';

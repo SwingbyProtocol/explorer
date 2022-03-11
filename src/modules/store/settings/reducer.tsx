@@ -1,12 +1,13 @@
 import { Reducer } from 'redux';
 
 import { LOCAL_STORAGE } from '../../env';
+import { SettingsState } from '../../../store/types';
 
 enum Actions {
   Set = 'Settings/SET',
 }
 
-const initialState = {
+const initialState: SettingsState = {
   theme: ((typeof window !== 'undefined' && window.localStorage.getItem(LOCAL_STORAGE.Theme)) ||
     'auto') as 'light' | 'dark' | 'auto',
 };

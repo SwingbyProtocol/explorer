@@ -1,6 +1,7 @@
 import { Reducer } from 'redux';
 
 import { PoolMode } from '../../pool';
+import { PoolState } from '../../../store/types';
 
 enum Actions {
   SetBalanceLP = 'Pool/SET_BALANCE_LP',
@@ -10,7 +11,7 @@ enum Actions {
   GetMinimumWithdrawAmount = 'Pool/GET_MINIMUM_WITHDRAW_AMOUNT',
 }
 
-const initialState = {
+const initialState: PoolState = {
   mode: PoolMode.Summary,
   recentTxs: null,
   minimumWithdrawAmount: null,

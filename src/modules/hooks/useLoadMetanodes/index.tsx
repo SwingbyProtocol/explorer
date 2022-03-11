@@ -5,11 +5,12 @@ import { useSelector } from 'react-redux';
 import { fetcher } from '../../fetch';
 import { logger } from '../../logger';
 import { formatPeers, IPeer } from '../../metanodes';
+import { explorerNodeEndpointSelector } from '../../../store/selectors';
 
 export const useLoadMetanodes = ({ bridge }: { bridge: SkybridgeBridge }) => {
   const [nodes, setNodes] = useState<IPeer[] | []>([]);
   const [nodeTvl, setNodeTvl] = useState<number>(0);
-  const endpoint = useSelector((state) => state.explorer.nodeEndpoint);
+  const endpoint = useSelector(explorerNodeEndpointSelector);
 
   const getData = useCallback(async () => {
     try {

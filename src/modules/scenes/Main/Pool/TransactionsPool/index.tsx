@@ -13,6 +13,7 @@ import { useOnboard } from '../../../../onboard';
 import { fetchRecentTransaction, IRecentTx, PoolMode } from '../../../../pool';
 import { getRecentTxs, togglePoolMode } from '../../../../store';
 import { TextBlock } from '../../../Common';
+import { poolRecentTxsSelector } from '../../../../../store/selectors';
 
 import { initialTxsData } from './initialData';
 import {
@@ -28,7 +29,7 @@ import {
 
 export const TransactionsPool = () => {
   const dispatch = useDispatch();
-  const recentTxs = useSelector((state) => state.pool.recentTxs);
+  const recentTxs = useSelector(poolRecentTxsSelector);
   const { address } = useOnboard();
   const { bridge } = useToggleBridge(PATH.POOL);
 

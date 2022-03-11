@@ -15,6 +15,7 @@ import {
 } from '../../metanodes';
 import { useInterval } from '../useInterval';
 import { useToggleBridge } from '../useToggleBridge';
+import { usdPricesSelector } from '../../../store/selectors';
 
 export const useToggleMetanode = (path: PATH) => {
   const { bridge } = useToggleBridge(path);
@@ -24,9 +25,8 @@ export const useToggleMetanode = (path: PATH) => {
   const [churnTime, setChurnTime] = useState<IChurn | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [liquidityRatio, setLiquidityRatio] = useState<ILiquidityRatio[] | null>(null);
-
   const { nodes, nodeTvl } = useLoadMetanodes({ bridge });
-  const usd = useSelector((state) => state.explorer.usd);
+  const usdPrices = useSelector(usdPricesSelector);
 
   const getRewards = useCallback(async () => {
     if ((bridge && path === PATH.METANODES) || (bridge && path === PATH.ROOT)) {
@@ -43,22 +43,22 @@ export const useToggleMetanode = (path: PATH) => {
   }, [bridge, path]);
 
   const getLiquidity = useCallback(async () => {
-    if (bridge && path === PATH.METANODES && usd && nodeTvl) {
-      const swingbyUsdtPrice = usd.SWINGBY;
-      const btcUsdtPrice = usd.BTC;
+    if (bridge && path === PATH.METANODES && usdPrices && nodeTvl) {
+      const swingbyUsdtPrice = usdPrices.SWINGBY;
+      const btcUsdtPrice = usdPrices.BTC;
       const tvl = nodeTvl;
       const result = await getBondToLiquidity({ bridge, tvl, swingbyUsdtPrice, btcUsdtPrice });
       setLiquidity(result);
     }
-  }, [bridge, path, usd, nodeTvl]);
+  }, [bridge, path, usdPrices, nodeTvl]);
 
   const getLiquidityRation = useCallback(async () => {
-    if (bridge && path === PATH.METANODES && usd) {
-      const btcUsdtPrice = usd.BTC;
+    if (bridge && path === PATH.METANODES && usdPrices) {
+      const btcUsdtPrice = usdPrices.BTC;
       const { data } = await getLiquidityRatio({ bridge, btcUsdtPrice });
       setLiquidityRatio(data);
     }
-  }, [bridge, path, usd]);
+  }, [bridge, path, usdPrices]);
 
   const getChurnTime = useCallback(async () => {
     if (bridge && path === PATH.METANODES) {

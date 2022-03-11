@@ -7,6 +7,7 @@ import { GoBackArrow } from '../../../../../components/GoBackArrow';
 import { Loader } from '../../../../../components/Loader';
 import { toBTC } from '../../../../explorer';
 import { TextBlock } from '../../../Common';
+import { transactionFeesSelector } from '../../../../../store/selectors';
 
 import {
   BackIconBox,
@@ -18,7 +19,7 @@ import {
 } from './styled';
 
 export const BrowserFees = () => {
-  const transactionFees = useSelector((state) => state.explorer.transactionFees);
+  const transactionFees = useSelector(transactionFeesSelector);
 
   return (
     <>

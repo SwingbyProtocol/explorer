@@ -9,6 +9,7 @@ import { useTheme } from 'styled-components';
 import { Loader } from '../../../../../components/Loader';
 import { IPeer, PeerStatus } from '../../../../metanodes';
 import { TextRoom } from '../../../Common';
+import { usdPricesSelector } from '../../../../../store/selectors';
 
 import {
   CustomTooltipContainer,
@@ -43,9 +44,8 @@ const MIGRATING_STATUS = [PeerStatus.Migrating];
 
 export const TotalNodes = ({ nodes, isLoading, nodeTvl }: Props) => {
   const theme = useTheme();
-
   const { locale } = useIntl();
-  const usd = useSelector((state) => state.explorer.usd);
+  const usd = useSelector(usdPricesSelector);
 
   const formattedTvlUsd = getFiatAssetFormatter({
     locale,

@@ -1,4 +1,5 @@
 import { IFee } from '../modules/explorer';
+import { PoolMode } from '../modules/pool';
 
 export type Volume = { at: string; amount: string };
 
@@ -30,6 +31,19 @@ export type NodeEndpoint = {
   btc_erc: string;
 };
 
+export type PoolRecentTx = {
+  data: unknown;
+  total: number;
+} | null;
+
+export type PoolState = {
+  mode: PoolMode;
+  recentTxs: PoolRecentTx;
+  minimumWithdrawAmount: number | null;
+};
+
+export type ThemeType = 'light' | 'dark' | 'auto';
+
 export type ExplorerState = {
   isLoading: boolean;
   usd: USDPrices;
@@ -37,4 +51,8 @@ export type ExplorerState = {
   nodeEndpoint: NodeEndpoint;
   transactionFees: IFee[];
   isExistPreviousPage: boolean;
+};
+
+export type SettingsState = {
+  theme: ThemeType;
 };

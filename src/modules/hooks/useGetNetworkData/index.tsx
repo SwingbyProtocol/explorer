@@ -6,22 +6,23 @@ import { PATH } from '../../env';
 import { fetchFloatBalances, fetchDayVolumeInfo, fetchMonthlyVolumeInfo } from '../../explorer';
 import { getNodeQty } from '../../network-stats';
 import { toggleIsLoading, updateNetworkInfos } from '../../store';
+import { usdPricesSelector } from '../../../store/selectors';
 
 export const useGetNetworkData = () => {
   const dispatch = useDispatch();
-  const usd = useSelector((state) => state.explorer.usd);
+  const usdPrices = useSelector(usdPricesSelector);
   const { bridge } = useToggleBridge(PATH.ROOT);
 
   useEffect(() => {
     dispatch(toggleIsLoading(true));
-    usd.BTC > 0 &&
+    usdPrices.BTC > 0 &&
       (async () => {
         try {
           const results = await Promise.all([
-            fetchFloatBalances(usd.BTC, bridge),
-            fetchDayVolumeInfo(bridge, usd.BTC),
+            fetchFloatBalances(usdPrices.BTC, bridge),
+            fetchDayVolumeInfo(bridge, usdPrices.BTC),
             getNodeQty(),
-            fetchMonthlyVolumeInfo(bridge, usd.BTC),
+            fetchMonthlyVolumeInfo(bridge, usdPrices.BTC),
           ]);
 
           const data = results[0];
@@ -48,5 +49,5 @@ export const useGetNetworkData = () => {
           dispatch(toggleIsLoading(false));
         }
       })();
-  }, [usd, dispatch, bridge]);
+  }, [usdPrices, dispatch, bridge]);
 };
