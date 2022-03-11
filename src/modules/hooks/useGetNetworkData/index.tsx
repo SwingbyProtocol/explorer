@@ -20,7 +20,7 @@ export const useGetNetworkData = () => {
           const results = await Promise.all([
             fetchFloatBalances(usd.BTC, bridge),
             fetchDayVolumeInfo(bridge, usd.BTC),
-            getNodeQty({ bridge }),
+            getNodeQty(),
             fetchMonthlyVolumeInfo(bridge, usd.BTC),
           ]);
 

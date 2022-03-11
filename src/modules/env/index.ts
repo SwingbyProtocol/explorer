@@ -38,8 +38,6 @@ export const appName = 'Swingby Explorer';
 
 export const ENDPOINT_YIELD_FARMING = 'https://farm.swingby.network';
 
-export const ENDPOINT_PRESTAKING = 'https://pre-staking-swingby.swingby.network';
-
 export const ENDPOINT_ETHEREUM_BRIDGE = FIXED_NODE_ENDPOINT['btc_erc'][mode][0];
 
 export const ENDPOINT_EARNINGS = 'https://earnings-api.vercel.app/api/earnings';
@@ -52,18 +50,10 @@ export const ENDPOINT_ETHERSCAN =
 export const URL_ETHERSCAN =
   mode === 'production' ? 'https://etherscan.io' : 'https://ropsten.etherscan.io';
 
-export const URL_BSCSCAN =
-  mode === 'production' ? 'https://bscscan.com' : 'https://testnet.bscscan.com';
-
 export const BTC_EXPLORER =
   mode === 'production'
     ? 'https://www.blockchain.com/btc'
     : 'https://www.blockchain.com/btc-testnet';
-
-// export const CONTRACT_SB_BTC =
-//   mode === 'production'
-//     ? CONTRACTS.coins.sbBTC.production.address
-//     : CONTRACTS.coins.sbBTC.test.address;
 
 // Memo: Fake BTC contract address that used on smart contract
 export const ZERO_ADDRESS = CONTRACTS.coins.BTC.production.address;
@@ -79,4 +69,3 @@ export const blocknativeApiKey = process.env.NEXT_PUBLIC_BLOCKNATIVE_KEY;
 export const infuraApiKey = process.env.NEXT_PUBLIC_INFURA_KEY;
 
 export const WC_BRIDGE = process.env.NEXT_PUBLIC_WC_BRIDGE;
-export const isSupportBsc = mode === 'production';

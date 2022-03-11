@@ -1,7 +1,6 @@
 import { SKYBRIDGE_BRIDGES, SkybridgeBridge } from '@swingby-protocol/sdk';
 
 import { TStatus } from '../explorer';
-import { isSupportBsc } from '../env';
 
 export { formatPeers } from './utils';
 
@@ -111,19 +110,12 @@ export enum PeerStatus {
 
 const btcErc = SKYBRIDGE_BRIDGES.find((bridge) => bridge === 'btc_erc');
 
-export const BRIDGES = isSupportBsc
-  ? [
-      {
-        bridge: btcErc,
-        tabMenu: 'Bitcoin to Ethereum',
-      },
-    ]
-  : [
-      {
-        bridge: btcErc,
-        tabMenu: 'Bitcoin to Ethereum',
-      },
-    ];
+export const BRIDGES = [
+  {
+    bridge: btcErc,
+    tabMenu: 'Bitcoin to Ethereum',
+  },
+];
 
 export const toggleStatusBg = (status: PeerStatus, i: number): string | boolean => {
   switch (status) {

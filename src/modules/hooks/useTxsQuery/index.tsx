@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { isSupportBsc } from '../../env';
 import { castTxForSkyPools, generateQueryEndpoint, SkyPoolsQuery } from '../../explorer';
 import { fetcher } from '../../fetch';
 import { logger } from '../../logger';
@@ -24,7 +23,7 @@ export const useTxsQuery = () => {
   const q = (params.q as string) ?? '';
 
   const type = (params.type as 'search' | 'swaps' | 'floats') ?? '';
-  const isRejected = params.rejected === 'true' ? true : false;
+  const isRejected = params.rejected === 'true';
 
   const fetchQuery = useCallback(
     async ({
@@ -91,18 +90,10 @@ export const useTxsQuery = () => {
 
       if (isMultiBridge) {
         const urlErc = `${endpoint['btc_erc']}/api/v1/${txType}/query`;
-        if (isSupportBsc) {
-          const results = await Promise.all([fetchQuery({ baseUrl: urlErc, bridge: 'btc_erc' })]);
-          const { transactions: ethTxs } = results[0];
-          const transactions = ethTxs.sort((a, b) => b.timestamp - a.timestamp);
-          setTxs(transactions);
-          return;
-        } else {
-          const results = await Promise.all([fetchQuery({ baseUrl: urlErc, bridge: 'btc_erc' })]);
-          const { transactions: ethTxs } = results[0];
-          setTxs(ethTxs);
-          return;
-        }
+        const results = await Promise.all([fetchQuery({ baseUrl: urlErc, bridge: 'btc_erc' })]);
+        const { transactions: ethTxs } = results[0];
+        const transactions = ethTxs.sort((a, b) => b.timestamp - a.timestamp);
+        setTxs(transactions);
       }
     } catch (error) {
       logger.error({ error });
@@ -137,7 +128,7 @@ export const useTxsQuery = () => {
       q,
       bridge,
       type,
-      rejected: params.rejected === 'true' ? true : false,
+      rejected: params.rejected === 'true',
       total,
     }),
     [txs, isLoading, page, q, bridge, type, params.rejected, total],

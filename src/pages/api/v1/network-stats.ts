@@ -14,11 +14,7 @@ export default async function handler(
   await corsMiddleware({ req, res });
 
   try {
-    const results = await Promise.all([
-      getNodeQty({ bridge: 'btc_erc' }),
-      get7daysVolume(),
-      getTVL(),
-    ]);
+    const results = await Promise.all([getNodeQty(), get7daysVolume(), getTVL()]);
 
     const data = {
       nodes: String(results[0] + results[1]),

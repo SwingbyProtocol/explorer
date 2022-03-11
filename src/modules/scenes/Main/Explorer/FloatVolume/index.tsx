@@ -7,7 +7,7 @@ import { PulseLoader } from 'react-spinners';
 import { useTheme } from 'styled-components';
 
 import { CoinSymbol } from '../../../../coins';
-import { isSupportBsc, mode, URL_BSCSCAN, URL_ETHERSCAN } from '../../../../env';
+import { mode, URL_ETHERSCAN } from '../../../../env';
 import { useGetPoolApr } from '../../../../hooks';
 import { ColumnInlineBlock, IconExternalLink } from '../../../Common';
 
@@ -94,8 +94,6 @@ export const FloatVolume = () => {
       switch (scanBaseUrl) {
         case URL_ETHERSCAN:
           return 'Etherscan';
-        case URL_BSCSCAN:
-          return 'BscScan';
 
         default:
           return 'Etherscan';
@@ -175,11 +173,7 @@ export const FloatVolume = () => {
                   />
                 ) : (
                   <ColumnInlineBlock>
-                    {isSupportBsc ? (
-                      <PulseLoader margin={3} size={2} color={theme.pulsar.color.text.normal} />
-                    ) : (
-                      0
-                    )}
+                    <PulseLoader margin={3} size={2} color={theme.pulsar.color.text.normal} />
                   </ColumnInlineBlock>
                 ),
               }}
@@ -199,7 +193,7 @@ export const FloatVolume = () => {
           />
         </TextBridge>
         <RowBridge>
-          {networkScan(bridge === 'btc_erc' ? URL_ETHERSCAN : URL_BSCSCAN)}
+          {networkScan(URL_ETHERSCAN)}
           {poolLink(bridge)}
         </RowBridge>
         <CoinContainer>{bridgeInfo(dataEthBridge)}</CoinContainer>
