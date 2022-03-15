@@ -117,7 +117,6 @@ export const convertDateTime = (unixTimestamp: number) => {
   return (
     <FormattedDate
       value={ts}
-      format="auto"
       hour="numeric"
       minute="numeric"
       year="numeric"

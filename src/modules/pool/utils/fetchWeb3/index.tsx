@@ -27,18 +27,26 @@ export const fetchRecentTransaction = async (
   }
 
   const results = await Promise.all([
-    fetch<IEtherscanTransaction[]>(
+    fetch<IEtherscanTransaction[] | string>(
       `/api/v1/etherscan/get-sbbtc-transaction?address=${address}&bridge=${bridge}&page=${page}`,
     ),
-    fetch<IEtherscanTransaction[]>(
+    fetch<IEtherscanTransaction[] | string>(
       `/api/v1/etherscan/get-sbbtc-transaction?address=${address}&bridge=${bridge}&page=${
         page + 1
       }`,
     ),
   ]);
 
-  const fetchedHistories = results[0].ok && results[0].response;
-  const nextPageFetchedHistories = results[1].ok && results[1].response;
+  let fetchedHistories = [];
+  let nextPageFetchedHistories = [];
+
+  if (!results[0].ok && typeof results[0].response !== 'string') {
+    fetchedHistories = results[0].response as IEtherscanTransaction[];
+  }
+
+  if (!results[1].ok && typeof results[1].response !== 'string') {
+    nextPageFetchedHistories = results[1].response as IEtherscanTransaction[];
+  }
 
   if (page === 1) {
     const res = await fetch<number>(
