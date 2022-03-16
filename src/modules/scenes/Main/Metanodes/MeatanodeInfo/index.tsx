@@ -15,16 +15,8 @@ import { TotalNodes } from '../TotalNodes';
 import { Bottom, Left, MetanodeInfoContainer, Right, Row, Top } from './styled';
 
 export const MetanodeInfo = () => {
-  const {
-    bridge,
-    nodes,
-    nodeTvl,
-    liquidity,
-    liquidityRatio,
-    churnTime,
-    rewards,
-    isLoading,
-  } = useToggleMetanode(PATH.METANODES);
+  const { bridge, nodes, nodeTvl, liquidity, liquidityRatio, churnTime, rewards, isLoading } =
+    useToggleMetanode(PATH.METANODES);
   return (
     <MetanodeInfoContainer>
       <ActionButtonMetanodes />

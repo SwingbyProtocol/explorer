@@ -2,7 +2,7 @@ import { getSbbtcPrice } from '@swingby-protocol/sdk';
 import { stringifyUrl } from 'query-string';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { ENDPOINT_YIELD_FARMING, mode } from '../../env';
+import { ENDPOINT_YIELD_FARMING, network } from '../../env';
 import { fetcher } from '../../fetch';
 import { useOnboard } from '../../onboard';
 import { getSbBTCBalance } from '../../pool';
@@ -29,11 +29,7 @@ export const useGetSbBtcBal = () => {
 
       const sbBtcStakedErcUrl = stringifyUrl({
         url: `${ENDPOINT_YIELD_FARMING}/api/v1/user-lp-bal`,
-        query: { farm: 'sbBTC-ERC20', address, network: mode === 'production' ? '1' : '3' },
-      });
-      const sbBtcStakedBscUrl = stringifyUrl({
-        url: `${ENDPOINT_YIELD_FARMING}/api/v1/user-lp-bal`,
-        query: { farm: 'sbBTC-BEP20', address, network: mode === 'production' ? '56' : '97' },
+        query: { farm: 'sbBTC-ERC20', address, network },
       });
 
       const fetchStaked = async (url: string) => {
@@ -53,7 +49,6 @@ export const useGetSbBtcBal = () => {
         getSbbtcPrice({ context, bridge: 'btc_erc' }),
         getSbBTCBalance(address, 'btc_erc'),
         fetchStaked(sbBtcStakedErcUrl),
-        fetchStaked(sbBtcStakedBscUrl),
       ]);
 
       setBalance({

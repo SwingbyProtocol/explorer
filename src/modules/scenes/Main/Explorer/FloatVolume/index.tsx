@@ -188,9 +188,7 @@ export const FloatVolume = () => {
     return (
       <BridgeContainer>
         <TextBridge variant="label">
-          <FormattedMessage
-            id={bridge === 'btc_erc' ? 'home.network.bitcoin-ethereum' : 'home.network.bitcoin-bsc'}
-          />
+          <FormattedMessage id={'home.network.bitcoin-ethereum'} />
         </TextBridge>
         <RowBridge>
           {networkScan(URL_ETHERSCAN)}

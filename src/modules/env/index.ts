@@ -27,8 +27,19 @@ export enum LOCAL_STORAGE {
   Terms = 'swingby-explorer.terms',
 }
 
+export enum AVAILABLE_CHAIN_IDS {
+  Mainnet = 1,
+  Ropsten = 3,
+}
+
 export const mode: SkybridgeMode =
   process.env.NEXT_PUBLIC_MODE === 'production' ? 'production' : 'test';
+
+export const isValidNetwork = (chainID: number): boolean =>
+  Object.values(AVAILABLE_CHAIN_IDS).includes(chainID);
+
+export const network: AVAILABLE_CHAIN_IDS =
+  mode === 'production' ? AVAILABLE_CHAIN_IDS.Mainnet : AVAILABLE_CHAIN_IDS.Ropsten;
 
 export const PAGE_COUNT = 12;
 
@@ -39,8 +50,6 @@ export const appName = 'Swingby Explorer';
 export const ENDPOINT_YIELD_FARMING = 'https://farm.swingby.network';
 
 export const ENDPOINT_ETHEREUM_BRIDGE = FIXED_NODE_ENDPOINT['btc_erc'][mode][0];
-
-export const ENDPOINT_EARNINGS = 'https://earnings-api.vercel.app/api/earnings';
 
 export const ENDPOINT_COINGECKO = 'https://api.coingecko.com/api/v3';
 
@@ -61,8 +70,6 @@ export const ZERO_ADDRESS = CONTRACTS.coins.BTC.production.address;
 export const GA_TAG = process.env.NEXT_PUBLIC_GA_TAG;
 
 export const etherscanApiKey = process.env.NEXT_PUBLIC_ETHER_SCAN_KEY;
-
-export const bscscanApiKey = process.env.NEXT_PUBLIC_BSC_SCAN_KEY;
 
 export const blocknativeApiKey = process.env.NEXT_PUBLIC_BLOCKNATIVE_KEY;
 

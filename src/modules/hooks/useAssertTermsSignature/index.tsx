@@ -70,9 +70,8 @@ export const useAssertTermsSignature = () => {
     })();
   }, [address, assertTermsSignature, onboard, isSigned]);
 
-  return useMemo(() => ({ assertTermsSignature, isSigned, connectWallet }), [
-    assertTermsSignature,
-    isSigned,
-    connectWallet,
-  ]);
+  return useMemo(
+    () => ({ assertTermsSignature, isSigned, connectWallet }),
+    [assertTermsSignature, isSigned, connectWallet],
+  );
 };

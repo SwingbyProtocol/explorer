@@ -32,15 +32,9 @@ export const useGetPoolApr = () => {
         query: { farm: 'sbBTC-ERC20' },
       });
 
-      const farmBsc = stringifyUrl({
-        url: `${ENDPOINT_YIELD_FARMING}/api/v1/farm-info`,
-        query: { farm: 'sbBTC-BEP20' },
-      });
-
       const results = await Promise.all([
         fetcher<{ apy: number }>(sbBtcErcUrl),
         fetcher<{ apr: number; swingbyPerBlock: number; farmTvl: number }>(farmErc),
-        fetcher<{ apr: number; swingbyPerBlock: number; farmTvl: number }>(farmBsc),
       ]);
       setApr({
         btc_erc: {

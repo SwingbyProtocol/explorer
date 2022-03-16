@@ -1,16 +1,9 @@
-import { removeDuplicatedAt, mergeLockedArray } from './../index';
+import { removeDuplicatedAt, mergeLockedArray } from '../index';
 
 const ethArray = [
   { at: '2021-02-08', amount: '1' },
   { at: '2021-02-15', amount: '2' },
   { at: '2021-02-16', amount: '3' },
-];
-
-const bscArray = [
-  { at: '2021-02-09', amount: '4' },
-  { at: '2021-02-16', amount: '5' },
-  { at: '2021-02-18', amount: '6' },
-  { at: '2021-02-20', amount: '7' },
 ];
 
 const expectedMergedArray = [
@@ -22,7 +15,7 @@ const expectedMergedArray = [
   { at: '2021-02-20', amount: '10' },
 ];
 
-const mergedArray = mergeLockedArray(ethArray, bscArray);
+const mergedArray = mergeLockedArray(ethArray, []);
 // Memo: Remove duplicated 'at'
 const listedHistories = removeDuplicatedAt(mergedArray);
 

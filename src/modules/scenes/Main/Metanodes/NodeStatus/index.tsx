@@ -30,13 +30,8 @@ interface Props {
 export const NodeStatus = (props: Props) => {
   const { nodes, isLoading } = props;
   const nodeStatusTable = nodes && listNodeStatus(nodes);
-  const {
-    ChurnedIn,
-    MayChurnIn,
-    MayChurnOutBondTooLow,
-    Migrating,
-    MayChurnOutBondExpiring,
-  } = PeerStatus;
+  const { ChurnedIn, MayChurnIn, MayChurnOutBondTooLow, Migrating, MayChurnOutBondExpiring } =
+    PeerStatus;
 
   const churnedInStatus =
     nodeStatusTable && nodeStatusTable.find((it: IPeerStatusTable) => it.status === ChurnedIn);

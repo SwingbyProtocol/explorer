@@ -24,7 +24,6 @@ export const get7daysVolume = async (): Promise<string> => {
   try {
     const results = await Promise.all([
       fetcher<{ network24hrSwapsVolume: number[] }>(getBridgeUrl(ENDPOINT_ETHEREUM_BRIDGE)),
-
       fetchVwap('btcUsd'),
     ]);
     const ethNetwork24hrSwapsVolume = results[0].network24hrSwapsVolume;
@@ -70,12 +69,9 @@ export const getTVL = async (): Promise<string> => {
     ]);
 
     const resEth = results[0];
-
-    const resultNodes = await Promise.all([formatPeers({ peers: results[1], bridge: 'btc_erc' })]);
-
+    const resultNodes = await formatPeers({ peers: results[1], bridge: 'btc_erc' });
     const usdBtc = results[2];
     const usdSwingby = results[3];
-
     const tvlUniUsd = results[4].farmTvl ?? 0;
     const tvlSushiUsd = results[5].farmTvl ?? 0;
     const tvlPancakeUsd = results[6].farmTvl ?? 0;
@@ -86,7 +82,7 @@ export const getTVL = async (): Promise<string> => {
 
     const floatTtl = usdBtc * (btcEth + wbtc);
 
-    const tvlSwingbyUsd = resultNodes[0].nodeTvl * usdSwingby + resultNodes[1].nodeTvl * usdSwingby;
+    const tvlSwingbyUsd = resultNodes.nodeTvl * usdSwingby;
 
     const tvl = floatTtl + tvlSwingbyUsd + farmTvlUsd;
 

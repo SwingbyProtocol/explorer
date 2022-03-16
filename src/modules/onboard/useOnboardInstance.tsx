@@ -10,7 +10,6 @@ import { getNetworkId } from '.';
 export const useOnboardInstance = () => {
   const [updateCount, setUpdateCount] = useState(0);
   const theme = useTheme();
-
   const id = getNetworkId();
 
   const onboard = useMemo((): OnboardInstance | null => {

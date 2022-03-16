@@ -13,6 +13,7 @@ import { SWINGBY_DECIMALS, tradeMiningContract } from '../../swap-rewards';
 import abi from '../../swap-rewards/abi/trade-mining.json'; // eslint-disable-line
 import { calculateGasMargin, generateSendParams, generateWeb3ErrorToast } from '../../web3';
 import { btcUSDPriceSelector } from '../../../store/selectors';
+import { isValidNetwork } from '../../env';
 
 const initialUserState = {
   pending: '0',
@@ -31,8 +32,7 @@ export const useGetSwapRewards = () => {
   const [isLoading, setIsLoading] = useState<Boolean>(false);
   const usdBtc = useSelector(btcUSDPriceSelector);
   const { network, wallet, onboard, address } = useOnboard();
-  const bridge = 'btc_erc';
-  const isValidCondition = network === 1 || network === 3;
+  const validNetwork = isValidNetwork(network);
 
   const getRewardsPercentage = ({
     btcFloat,
@@ -84,7 +84,7 @@ export const useGetSwapRewards = () => {
   const getCurrency = useCallback(async () => {
     try {
       setIsLoading(true);
-      const { floats } = await fetchFloatBalances(usdBtc, bridge);
+      const { floats } = await fetchFloatBalances(usdBtc, 'btc_erc');
 
       setRewards({
         swapFrom: floats.btcEth > floats.wbtc ? 'WBTC' : 'BTC',
@@ -101,11 +101,11 @@ export const useGetSwapRewards = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [bridge, usdBtc]);
+  }, [usdBtc]);
 
   const getUserData = useCallback(async () => {
     try {
-      if (isValidCondition) {
+      if (validNetwork) {
         const web3 = new Web3(wallet.provider);
         const contract = new web3.eth.Contract(abi as AbiItem[], tradeMiningContract[network]);
         const results = await Promise.all([
@@ -123,7 +123,7 @@ export const useGetSwapRewards = () => {
       logger.error(error);
       setUser(initialUserState);
     }
-  }, [wallet, network, isValidCondition, address]);
+  }, [wallet, network, validNetwork, address]);
 
   useEffect(() => {
     getUserData();
@@ -131,7 +131,7 @@ export const useGetSwapRewards = () => {
   }, [getUserData, getCurrency]);
 
   return useMemo(
-    () => ({ rewards, user, isLoading, claimRewards, bridge, network, rewardsPercent }),
-    [rewards, network, user, isLoading, claimRewards, bridge, rewardsPercent],
+    () => ({ rewards, user, isLoading, claimRewards, network, rewardsPercent }),
+    [rewards, network, user, isLoading, claimRewards, rewardsPercent],
   );
 };

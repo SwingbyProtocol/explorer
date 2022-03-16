@@ -25,7 +25,11 @@ export const getBridgeBtc = (bridge: SkybridgeBridge): CoinSymbol => {
 };
 
 export const getBridgeSbBtc = (bridge: SkybridgeBridge): TSbBTC => {
-  // @todo (agustin) check if necesary
+  switch (bridge) {
+    case 'btc_erc':
+      return CoinSymbol.ERC20_SB_BTC;
 
-  return null;
+    default:
+      return CoinSymbol.ERC20_SB_BTC;
+  }
 };
