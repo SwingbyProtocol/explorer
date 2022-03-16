@@ -64,6 +64,11 @@ export const BTC_EXPLORER =
     ? 'https://www.blockchain.com/btc'
     : 'https://www.blockchain.com/btc-testnet';
 
+export const CONTRACT_SB_BTC =
+  mode === 'production'
+    ? CONTRACTS.coins.sbBTC.production.address
+    : CONTRACTS.coins.sbBTC.test.address;
+
 // Memo: Fake BTC contract address that used on smart contract
 export const ZERO_ADDRESS = CONTRACTS.coins.BTC.production.address;
 
