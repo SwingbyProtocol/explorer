@@ -24,10 +24,9 @@ function MyApp({ Component, pageProps }) {
     return DEFAULT_LOCALE;
   }, [router.locale]);
 
-  const messages = useMemo(
-    () => ({ ...languages[DEFAULT_LOCALE], ...languages[locale] }),
-    [locale],
-  );
+  const messages = useMemo(() => ({ ...languages[DEFAULT_LOCALE], ...languages[locale] }), [
+    locale,
+  ]);
 
   return (
     <RouterScrollProvider>

@@ -130,8 +130,12 @@ export const useGetSwapRewards = () => {
     getCurrency();
   }, [getUserData, getCurrency]);
 
-  return useMemo(
-    () => ({ rewards, user, isLoading, claimRewards, network, rewardsPercent }),
-    [rewards, network, user, isLoading, claimRewards, rewardsPercent],
-  );
+  return useMemo(() => ({ rewards, user, isLoading, claimRewards, network, rewardsPercent }), [
+    rewards,
+    network,
+    user,
+    isLoading,
+    claimRewards,
+    rewardsPercent,
+  ]);
 };

@@ -12,10 +12,10 @@ export const Header = () => {
   const { locale } = useIntl();
   const [theme, setTheme] = useThemeSettings();
 
-  const changeLocale = useCallback(
-    (locale: string) => push(asPath, null, { locale }),
-    [push, asPath],
-  );
+  const changeLocale = useCallback((locale: string) => push(asPath, null, { locale }), [
+    push,
+    asPath,
+  ]);
 
   return (
     <HeaderContainer>
