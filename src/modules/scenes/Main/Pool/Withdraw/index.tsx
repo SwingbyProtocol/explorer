@@ -86,7 +86,19 @@ export const Withdraw = (props: Props) => {
     if (transactionFees && currency) {
       (async () => {
         // Memo: use `if` to avoid type error in 'currencyReceiving'
-        if (bridge === 'btc_erc') {
+        if (bridge === 'btc_erc' && toCurrency !== 'BTCB.BEP20') {
+          const minimumWithdrawData = await getMinimumWithdrawal({
+            context,
+            currencyReceiving: toCurrency as TBtcCurrency,
+            amountDesired: Number(amount) > 0 ? amount : '0',
+            bridge,
+          });
+
+          const miniWithdrawAmount = Number(minimumWithdrawData.minimumWithdrawal);
+          dispatch(getMinimumWithdrawAmount(miniWithdrawAmount));
+        }
+
+        if (bridge === 'btc_bep20' && toCurrency !== 'WBTC') {
           const minimumWithdrawData = await getMinimumWithdrawal({
             context,
             currencyReceiving: toCurrency as TBtcCurrency,

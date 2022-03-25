@@ -13,6 +13,13 @@ const initialState = {
     swingbyPerBlock: 0,
     farmTvl: 0,
   },
+  btc_bep20: {
+    sbBtc: 0,
+    farm: 0,
+    total: 0,
+    swingbyPerBlock: 0,
+    farmTvl: 0,
+  },
 };
 
 export const useGetPoolApr = () => {
@@ -26,15 +33,26 @@ export const useGetPoolApr = () => {
         url: `/api/v1/sbbtc-apr`,
         query: { bridge: 'btc_erc' },
       });
+      const sbBtcBsc20Url = stringifyUrl({
+        url: `/api/v1/sbbtc-apr`,
+        query: { bridge: 'btc_bep20' },
+      });
 
       const farmErc = stringifyUrl({
         url: `${ENDPOINT_YIELD_FARMING}/api/v1/farm-info`,
         query: { farm: 'sbBTC-ERC20' },
       });
 
+      const farmBsc = stringifyUrl({
+        url: `${ENDPOINT_YIELD_FARMING}/api/v1/farm-info`,
+        query: { farm: 'sbBTC-BEP20' },
+      });
+
       const results = await Promise.all([
         fetcher<{ apy: number }>(sbBtcErcUrl),
         fetcher<{ apr: number; swingbyPerBlock: number; farmTvl: number }>(farmErc),
+        fetcher<{ apy: number }>(sbBtcBsc20Url),
+        fetcher<{ apr: number; swingbyPerBlock: number; farmTvl: number }>(farmBsc),
       ]);
       setApr({
         btc_erc: {
@@ -43,6 +61,13 @@ export const useGetPoolApr = () => {
           total: results[0].apy + results[1].apr,
           swingbyPerBlock: results[1].swingbyPerBlock,
           farmTvl: results[1].farmTvl,
+        },
+        btc_bep20: {
+          sbBtc: results[2].apy,
+          farm: results[3].apr,
+          total: results[2].apy + results[3].apr,
+          swingbyPerBlock: results[3].swingbyPerBlock,
+          farmTvl: results[3].farmTvl,
         },
       });
     } catch (error) {

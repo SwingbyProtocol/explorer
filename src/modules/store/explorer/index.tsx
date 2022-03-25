@@ -25,7 +25,7 @@ const initialState: ExplorerState = {
   networkInfos: initial.networkInfos,
   transactionFees: null,
   isExistPreviousPage: false,
-  nodeEndpoint: initial.nodeEndpoint,
+  nodeEndpoint: null,
 };
 
 export const explorer: Reducer<ExplorerState, Action> = (state = initialState, action) => {

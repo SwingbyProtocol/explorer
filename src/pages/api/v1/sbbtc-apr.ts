@@ -20,6 +20,8 @@ const getFloatUsd = (bridge: SkybridgeBridge, usdBtc: number, floatBalances: IFl
   switch (bridge) {
     case 'btc_erc':
       return sumFloatUsd(floatBalances.btcEth, floatBalances.wbtc, usdBtc);
+    case 'btc_bep20':
+      return sumFloatUsd(floatBalances.btcBsc, floatBalances.btcb, usdBtc);
 
     default:
       return sumFloatUsd(floatBalances.btcEth, floatBalances.wbtc, usdBtc);

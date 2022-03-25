@@ -1,4 +1,6 @@
+import { SkybridgeBridge } from '@swingby-protocol/sdk';
 import { API as OnboardInstance } from 'bnc-onboard/dist/src/interfaces'; // eslint-disable-line import/no-internal-modules
+import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import { useTheme } from 'styled-components';
 
@@ -10,7 +12,9 @@ import { getNetworkId } from '.';
 export const useOnboardInstance = () => {
   const [updateCount, setUpdateCount] = useState(0);
   const theme = useTheme();
-  const id = getNetworkId();
+  const { query } = useRouter();
+  const bridge = query.bridge;
+  const id = bridge && getNetworkId(bridge as SkybridgeBridge);
 
   const onboard = useMemo((): OnboardInstance | null => {
     if (typeof window === 'undefined') {

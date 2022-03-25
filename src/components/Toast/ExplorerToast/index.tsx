@@ -22,6 +22,12 @@ export const ExplorerToast = ({
         url: `https://ropsten.etherscan.io/tx/${hash}`,
       };
     }
+    if (network === 56) {
+      return {
+        scan: 'BscScan',
+        url: `https://bscscan.com/tx/${hash}`,
+      };
+    }
 
     return {
       scan: 'Etherscan',

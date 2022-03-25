@@ -42,6 +42,13 @@ export const Browser = () => {
     maximumFractionDigits: 0,
   }).format(tvl.floatUsd);
 
+  const tvlMetanodeLockedUsd = getFiatAssetFormatter({
+    locale,
+    currency: 'USD',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(tvl.lockedSwingbyUsd);
+
   const tvlYieldFarmingUsd = getFiatAssetFormatter({
     locale,
     currency: 'USD',
@@ -69,6 +76,13 @@ export const Browser = () => {
             <Tooltip.Content>
               <Text variant="masked">
                 <FormattedMessage id="home.network.tvl.float" values={{ value: tvlFloatBal }} />
+              </Text>
+              <br />
+              <Text variant="masked">
+                <FormattedMessage
+                  id="home.network.tvl.swingby"
+                  values={{ value: tvlMetanodeLockedUsd }}
+                />
               </Text>
               <br />
               <Text variant="masked">

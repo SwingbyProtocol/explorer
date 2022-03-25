@@ -8,7 +8,7 @@ import {
 } from '@swingby-protocol/sdk';
 import { PartialDeep } from 'type-fest';
 
-import { ethChaosNodeEndpoints } from './chaosNodeList';
+import { bscChaosNodeEndpoints, ethChaosNodeEndpoints } from './chaosNodeList';
 
 const randomInt = (min: number, max: number) => Math.round(Math.random() * (max - min)) + min;
 
@@ -27,6 +27,8 @@ export const buildChaosNodeContext = async <M extends SkybridgeMode>({
     switch (bridge) {
       case 'btc_erc':
         return ethChaosNodeEndpoints;
+      case 'btc_bep20':
+        return bscChaosNodeEndpoints;
 
       default:
         return ethChaosNodeEndpoints;
@@ -70,9 +72,13 @@ export const buildChaosNodeContext = async <M extends SkybridgeMode>({
       ...servers,
       swapNode: {
         btc_erc: getRandomSwapNode({ bridge: 'btc_erc' }),
+        btc_bep20: getRandomSwapNode({ bridge: 'btc_bep20' }),
+        ...servers?.swapNode,
       },
       indexer: {
         btc_erc: getRandomIndexerNode({ bridge: 'btc_erc' }),
+        btc_bep20: getRandomIndexerNode({ bridge: 'btc_bep20' }),
+        ...servers?.indexer,
       },
     },
   };

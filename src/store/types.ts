@@ -6,8 +6,10 @@ export type Volume = { at: string; amount: string };
 export type NetworkStats = {
   volume1wksWBTC: number;
   volume1wksBTC: number;
+  volume1wksBTCB: number;
   volumes: Volume[];
   volume1yrWBTC: number;
+  volume1yrBTCB: number;
   volume1yrBTC: number;
   volumesYear: Volume[];
   metanodes: number;
@@ -18,6 +20,8 @@ export type NetworkInfo = {
   floatBalances: {
     btcEth: number;
     wbtc: number;
+    btcBsc: number;
+    btcb: number;
   };
   stats: NetworkStats;
 };
@@ -29,6 +33,7 @@ export type USDPrices = {
 
 export type NodeEndpoint = {
   btc_erc: string;
+  btc_bep20: string;
 };
 
 export type PoolRecentTx = {
@@ -48,7 +53,7 @@ export type ExplorerState = {
   isLoading: boolean;
   usd: USDPrices;
   networkInfos: NetworkInfo;
-  nodeEndpoint: NodeEndpoint;
+  nodeEndpoint: NodeEndpoint | null;
   transactionFees: IFee[];
   isExistPreviousPage: boolean;
 };

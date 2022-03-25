@@ -45,8 +45,14 @@ export const currencyNetwork = (currency: string): string => {
     case CoinSymbol.BTC:
       return CoinSymbol.BTC;
 
+    case CoinSymbol.BTC_B:
+      return 'BTCB on BSC';
+
     case CoinSymbol.WBTC:
       return 'WBTC on Ethereum';
+
+    case CoinSymbol.ERC20_SB_BTC:
+      return 'sbBTC on Ethereum';
 
     default:
       return currency;
@@ -207,13 +213,18 @@ export const generateQueryEndpoint = ({
 
 export const castSkyPoolsCurrency = ({
   currency,
+  bridge,
 }: {
   currency: SkybridgeCurrency;
   bridge: SkybridgeBridge;
 }): CoinSymbol => {
   switch (currency) {
+    case 'BTCB':
+      return CoinSymbol.BTC_B;
+    case 'sbBTC':
+      return bridge === 'btc_erc' ? CoinSymbol.ERC20_SB_BTC : CoinSymbol.BEP20_SB_BTC;
     case 'SKYPOOL':
-      return CoinSymbol.WBTC;
+      return bridge === 'btc_erc' ? CoinSymbol.WBTC : CoinSymbol.BTC_B;
 
     default:
       return currency as CoinSymbol;

@@ -16,11 +16,16 @@ export const createWeb3Instance = ({
   bridge: SkybridgeBridge;
 }) => {
   if (bridge === 'btc_erc') {
-    return new Web3(
+    const web3 = new Web3(
       new Web3.providers.HttpProvider(
         `https://${mode === 'production' ? 'mainnet' : 'ropsten'}.infura.io/v3/${infuraApiKey}`,
       ),
     );
+    return web3;
+  }
+
+  if (bridge === 'btc_bep20') {
+    return new Web3(new Web3.providers.HttpProvider('https://bsc-dataseed1.binance.org:443'));
   }
 
   throw new Error(`Could not build Web3 instance for "${bridge}"`);

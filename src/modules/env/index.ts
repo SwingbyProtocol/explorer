@@ -1,4 +1,9 @@
-import { CONTRACTS, FIXED_NODE_ENDPOINT, SkybridgeMode } from '@swingby-protocol/sdk';
+import {
+  CONTRACTS,
+  FIXED_NODE_ENDPOINT,
+  SkybridgeBridge,
+  SkybridgeMode,
+} from '@swingby-protocol/sdk';
 
 export const logLevel = process.env.NEXT_PUBLIC_LOG_LEVEL || 'debug';
 
@@ -30,6 +35,7 @@ export enum LOCAL_STORAGE {
 export enum AVAILABLE_CHAIN_IDS {
   Mainnet = 1,
   Ropsten = 3,
+  BSC = 56,
 }
 
 export const mode: SkybridgeMode =
@@ -38,8 +44,13 @@ export const mode: SkybridgeMode =
 export const isValidNetwork = (chainID: number): boolean =>
   Object.values(AVAILABLE_CHAIN_IDS).includes(chainID);
 
-export const network: AVAILABLE_CHAIN_IDS =
-  mode === 'production' ? AVAILABLE_CHAIN_IDS.Mainnet : AVAILABLE_CHAIN_IDS.Ropsten;
+export const getNetwork = (bridge: SkybridgeBridge): AVAILABLE_CHAIN_IDS => {
+  return bridge === 'btc_bep20'
+    ? AVAILABLE_CHAIN_IDS.BSC
+    : mode === 'production'
+    ? AVAILABLE_CHAIN_IDS.Mainnet
+    : AVAILABLE_CHAIN_IDS.Ropsten;
+};
 
 export const PAGE_COUNT = 12;
 
@@ -53,11 +64,17 @@ export const ENDPOINT_ETHEREUM_BRIDGE = FIXED_NODE_ENDPOINT['btc_erc'][mode][0];
 
 export const ENDPOINT_COINGECKO = 'https://api.coingecko.com/api/v3';
 
+export const ENDPOINT_BSC_BRIDGE = FIXED_NODE_ENDPOINT['btc_bep20'][mode][0];
+
 export const ENDPOINT_ETHERSCAN =
   mode === 'production' ? 'https://api.etherscan.io' : 'https://api-ropsten.etherscan.io';
 
+export const ENDPOINT_BSCSCAN = 'https://api.bscscan.com';
+
 export const URL_ETHERSCAN =
   mode === 'production' ? 'https://etherscan.io' : 'https://ropsten.etherscan.io';
+
+export const URL_BSCSCAN = 'https://bscscan.com';
 
 export const BTC_EXPLORER =
   mode === 'production'
@@ -69,15 +86,22 @@ export const CONTRACT_SB_BTC =
     ? CONTRACTS.coins.sbBTC.production.address
     : CONTRACTS.coins.sbBTC.test.address;
 
+export const CONTRACT_BEP20_SB_BTC = CONTRACTS.coins['sbBTC.BEP20'].production.address;
+
 // Memo: Fake BTC contract address that used on smart contract
 export const ZERO_ADDRESS = CONTRACTS.coins.BTC.production.address;
+
+export const isEnableBscSupport = process.env.NEXT_PUBLIC_IS_BSC_SUPPORT === 'true' ? true : false;
 
 export const GA_TAG = process.env.NEXT_PUBLIC_GA_TAG;
 
 export const etherscanApiKey = process.env.NEXT_PUBLIC_ETHER_SCAN_KEY;
+
+export const bscscanApiKey = process.env.NEXT_PUBLIC_BSC_SCAN_KEY;
 
 export const blocknativeApiKey = process.env.NEXT_PUBLIC_BLOCKNATIVE_KEY;
 
 export const infuraApiKey = process.env.NEXT_PUBLIC_INFURA_KEY;
 
 export const WC_BRIDGE = process.env.NEXT_PUBLIC_WC_BRIDGE;
+export const isSupportBsc = mode === 'production';

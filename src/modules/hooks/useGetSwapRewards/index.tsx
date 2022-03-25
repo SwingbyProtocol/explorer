@@ -33,6 +33,7 @@ export const useGetSwapRewards = () => {
   const usdBtc = useSelector(btcUSDPriceSelector);
   const { network, wallet, onboard, address } = useOnboard();
   const validNetwork = isValidNetwork(network);
+  const bridge = network === 56 ? 'btc_bep20' : 'btc_erc';
 
   const getRewardsPercentage = ({
     btcFloat,
@@ -84,7 +85,20 @@ export const useGetSwapRewards = () => {
   const getCurrency = useCallback(async () => {
     try {
       setIsLoading(true);
-      const { floats } = await fetchFloatBalances(usdBtc, 'btc_erc');
+      const { floats } = await fetchFloatBalances(usdBtc, bridge);
+
+      if (bridge === 'btc_bep20') {
+        setRewards({
+          swapFrom: floats.btcBsc > floats.btcb ? 'BTCB' : 'BTC',
+          swapTo: floats.btcBsc > floats.btcb ? 'BTC' : 'BTCB',
+        });
+        const rewardsPercentage = getRewardsPercentage({
+          btcFloat: floats.btcBsc,
+          peggedBtcFloat: floats.btcb,
+        });
+        setRewardsPercent(rewardsPercentage);
+        return;
+      }
 
       setRewards({
         swapFrom: floats.btcEth > floats.wbtc ? 'WBTC' : 'BTC',
@@ -101,7 +115,7 @@ export const useGetSwapRewards = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [usdBtc]);
+  }, [bridge, usdBtc]);
 
   const getUserData = useCallback(async () => {
     try {
@@ -130,12 +144,8 @@ export const useGetSwapRewards = () => {
     getCurrency();
   }, [getUserData, getCurrency]);
 
-  return useMemo(() => ({ rewards, user, isLoading, claimRewards, network, rewardsPercent }), [
-    rewards,
-    network,
-    user,
-    isLoading,
-    claimRewards,
-    rewardsPercent,
-  ]);
+  return useMemo(
+    () => ({ rewards, user, isLoading, claimRewards, bridge, network, rewardsPercent }),
+    [rewards, network, user, isLoading, claimRewards, bridge, rewardsPercent],
+  );
 };

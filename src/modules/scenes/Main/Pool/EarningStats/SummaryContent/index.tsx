@@ -54,12 +54,15 @@ export const SummaryContent = ({ farming, bridge }) => {
     maximumFractionDigits: 0,
   }).format(earnedSwingbyTotal * swingbyUsd);
 
-  const thirdPartyLogo = (
-    <ColumMultiIcons>
-      <IconCoinLogoMini src={logos.UniswapCircled} />
-      <IconCoinLogoMini src={logos.SushiSwapCircled} />
-    </ColumMultiIcons>
-  );
+  const thirdPartyLogo =
+    bridge === 'btc_bep20' ? (
+      <IconCoinLogoMini src={logos.PancakeSwapCircled} />
+    ) : (
+      <ColumMultiIcons>
+        <IconCoinLogoMini src={logos.UniswapCircled} />
+        <IconCoinLogoMini src={logos.SushiSwapCircled} />
+      </ColumMultiIcons>
+    );
 
   return (
     <SummaryContentContainer>

@@ -36,8 +36,8 @@ const useFetchNodeEndpoint = () => {
   useEffect(() => {
     const fetchNodeEndpoint = async () => {
       try {
-        const { urlEth } = await getEndpoint();
-        dispatch(updateNodeEndpoint({ btc_erc: urlEth }));
+        const { urlEth, urlBsc } = await getEndpoint();
+        dispatch(updateNodeEndpoint({ btc_erc: urlEth, btc_bep20: urlBsc }));
       } catch (error) {
         logger.error(error);
       }

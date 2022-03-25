@@ -28,5 +28,5 @@ export const swingbyUSDPriceSelector = (state: DefaultRootState): number => stat
 export const explorerLoadingSelector = (state: DefaultRootState): boolean =>
   state.explorer.isLoading;
 
-export const explorerNodeEndpointSelector = (state: DefaultRootState): NodeEndpoint =>
+export const explorerNodeEndpointSelector = (state: DefaultRootState): NodeEndpoint | null =>
   state.explorer.nodeEndpoint;

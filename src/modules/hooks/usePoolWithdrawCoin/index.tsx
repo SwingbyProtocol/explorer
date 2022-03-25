@@ -35,10 +35,10 @@ export const usePoolWithdrawCoin = (userAddress, role: 'pool' | 'withdrawal') =>
 
   useEffect(() => {
     (async () => {
-      if (currency === CoinSymbol.WBTC) {
+      if (currency === CoinSymbol.WBTC || currency === CoinSymbol.BTC_B) {
         try {
           const web3 = new Web3(wallet.provider);
-          const currency = 'WBTC';
+          const currency = bridge === 'btc_erc' ? 'WBTC' : 'BTCB.BEP20';
           const peggedBtcAddress = CONTRACTS.coins[currency][mode].address;
 
           const contract = new web3.eth.Contract(

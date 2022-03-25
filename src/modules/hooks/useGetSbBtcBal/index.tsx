@@ -2,7 +2,7 @@ import { getSbbtcPrice } from '@swingby-protocol/sdk';
 import { stringifyUrl } from 'query-string';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { ENDPOINT_YIELD_FARMING, network } from '../../env';
+import { ENDPOINT_YIELD_FARMING, getNetwork } from '../../env';
 import { fetcher } from '../../fetch';
 import { useOnboard } from '../../onboard';
 import { getSbBTCBalance } from '../../pool';
@@ -10,6 +10,12 @@ import { useSdkContext } from '../../sdk-context';
 
 const initialState = {
   btc_erc: {
+    priceSbBTC: 0,
+    wallet: 0,
+    farm: 0,
+    total: 0,
+  },
+  btc_bep20: {
     priceSbBTC: 0,
     wallet: 0,
     farm: 0,
@@ -29,7 +35,11 @@ export const useGetSbBtcBal = () => {
 
       const sbBtcStakedErcUrl = stringifyUrl({
         url: `${ENDPOINT_YIELD_FARMING}/api/v1/user-lp-bal`,
-        query: { farm: 'sbBTC-ERC20', address, network },
+        query: { farm: 'sbBTC-ERC20', address, network: getNetwork('btc_erc') },
+      });
+      const sbBtcStakedBscUrl = stringifyUrl({
+        url: `${ENDPOINT_YIELD_FARMING}/api/v1/user-lp-bal`,
+        query: { farm: 'sbBTC-BEP20', address, network: getNetwork('btc_bep20') },
       });
 
       const fetchStaked = async (url: string) => {
@@ -49,6 +59,9 @@ export const useGetSbBtcBal = () => {
         getSbbtcPrice({ context, bridge: 'btc_erc' }),
         getSbBTCBalance(address, 'btc_erc'),
         fetchStaked(sbBtcStakedErcUrl),
+        getSbbtcPrice({ context, bridge: 'btc_bep20' }),
+        getSbBTCBalance(address, 'btc_bep20'),
+        fetchStaked(sbBtcStakedBscUrl),
       ]);
 
       setBalance({
@@ -57,6 +70,12 @@ export const useGetSbBtcBal = () => {
           wallet: results[1],
           farm: results[2].stakedLp,
           total: results[1] + results[2].stakedLp,
+        },
+        btc_bep20: {
+          priceSbBTC: Number(results[3]),
+          wallet: results[4],
+          farm: results[5].stakedLp,
+          total: results[4] + results[5].stakedLp,
         },
       });
     } catch (error) {

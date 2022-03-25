@@ -16,9 +16,11 @@ export function customWalletConnect(
     svg: walletConnectLogo,
     wallet: async () => {
       const POLLING_INTERVAL = 12000;
+      const bscRpcUrl = 'https://bsc-dataseed1.binance.org:443';
       const provider = new WalletConnectProvider({
         rpc: {
           1: `https://mainnet.infura.io/v3/${infuraApiKey}`,
+          56: bscRpcUrl,
         },
         bridge: WC_BRIDGE,
         pollingInterval: POLLING_INTERVAL,

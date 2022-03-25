@@ -50,6 +50,10 @@ export const selectableBridge = [
     menu: 'Ethereum',
     bridge: 'btc_erc',
   },
+  {
+    menu: 'BSC',
+    bridge: 'btc_bep20',
+  },
 ];
 
 export const selectableTxType = [
@@ -71,7 +75,9 @@ export interface Reward {
 
 export interface IFloat {
   btcEth: number;
+  btcBsc: number;
   wbtc: number;
+  btcb: number;
 }
 
 export interface IStats {
@@ -106,13 +112,17 @@ export interface INetworkInfos {
   capacity: number;
   floatBalances: {
     btcEth: number;
+    btcBsc: number;
     wbtc: number;
+    btcb: number;
   };
   stats: {
     volume1wksWBTC: number;
+    volume1wksBTCB: number;
     volume1wksBTC: number;
     volumes: IChartDate[];
     volume1yrWBTC: number;
+    volume1yrBTCB: number;
     volume1yrBTC: number;
     volumesYear: IChartDate[];
     metanodes: number;
@@ -155,6 +165,7 @@ export interface IMetanode {
 
 export interface INodeEndpoint {
   btc_erc: string;
+  btc_bep20: string;
 }
 
 export interface ISwapQueryPrams {

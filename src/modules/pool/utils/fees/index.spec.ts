@@ -23,6 +23,11 @@ const fees = [
     currency: 'BNB',
     minerFee: '500',
   },
+  {
+    bridgeFeePercent: '0.2',
+    currency: 'BTCB',
+    minerFee: '500',
+  },
 ];
 
 it('return number with decimal will not more than 3', () => {
@@ -32,5 +37,6 @@ it('return number with decimal will not more than 3', () => {
 
 it('should returns estimated receiving amount', () => {
   expect(calculateSwapFee(1, CoinSymbol.BTC, fees)).toStrictEqual(0.0023);
+  expect(calculateSwapFee(1, CoinSymbol.BTC_B, fees)).toStrictEqual(0.002005);
   expect(calculateSwapFee(1, CoinSymbol.WBTC, fees)).toStrictEqual(0.00225);
 });

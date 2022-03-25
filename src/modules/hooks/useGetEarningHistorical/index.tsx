@@ -2,7 +2,7 @@ import { stringifyUrl } from 'query-string';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { IEarningHistorical, useToggleBridge } from '..';
-import { ENDPOINT_YIELD_FARMING, network, PATH } from '../../env';
+import { ENDPOINT_YIELD_FARMING, getNetwork, PATH } from '../../env';
 import { fetcher } from '../../fetch';
 import { logger } from '../../logger';
 import { useOnboard } from '../../onboard';
@@ -30,6 +30,7 @@ export const useGetEarningHistorical = () => {
   const [isLoading, setIsLoading] = useState<Boolean>(false);
   const { address } = useOnboard();
   const { bridge } = useToggleBridge(PATH.POOL);
+  const network = getNetwork(bridge);
 
   const getData = useCallback(async () => {
     try {
@@ -62,7 +63,7 @@ export const useGetEarningHistorical = () => {
     } catch (error) {
       logger.error(error);
     }
-  }, [address]);
+  }, [address, network]);
 
   useEffect(() => {
     try {
