@@ -19,6 +19,7 @@ import {
 import { useLinkToWidget, useTxsQuery } from '../../../../hooks';
 import { useThemeSettings } from '../../../../store/settings';
 import { ButtonScaleNarrow } from '../../../Common';
+import { Atag } from '../FloatVolume/styled';
 
 import { TxHistoriesItem } from './Item';
 import {
@@ -212,6 +213,7 @@ export const TxHistories = () => {
               <FormattedMessage id="home.recent-swaps.recent-swaps" />
             </Text>
             <Buttons>
+              <Atag href="https://old-widget.skybridge.exchange/en/production/swap/new" rel="noopener noreferrer" target="_blank">
               <ButtonScaleNarrow
                 variant="tertiary"
                 size="street"
@@ -220,6 +222,8 @@ export const TxHistories = () => {
               >
                 <FormattedMessage id="home.recent-swaps.new-swap" />
               </ButtonScaleNarrow>
+              </Atag>
+
             </Buttons>
           </Left>
           <Right isFloats={isFloatTx}>
