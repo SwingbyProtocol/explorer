@@ -1,6 +1,6 @@
 <p align="center"><img src="docs/logo.png" height="100" alt="Skybridge Explorer" /></p>
 
-# Swingby Skybridge Explorer
+# Swingby Skybridge Explorer [Olny for BTC-BSC network]
 
 A SPA for [Swingby Skybridge](https://new-explorer.swingby.vercel.app/)
 
