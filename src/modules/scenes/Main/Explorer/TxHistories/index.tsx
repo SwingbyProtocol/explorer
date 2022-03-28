@@ -218,7 +218,7 @@ export const TxHistories = () => {
                 variant="tertiary"
                 size="street"
                 shape="fill"
-                onClick={() => openPopup({ widget })}
+                onClick={() => {}}
               >
                 <FormattedMessage id="home.recent-swaps.new-swap" />
               </ButtonScaleNarrow>
