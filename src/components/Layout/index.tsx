@@ -48,7 +48,7 @@ export const Layout = ({ children }: Props) => {
           <Header />
 
           <SwapContainer>
-            <Swap />
+            {/* <Swap /> */}
           </SwapContainer>
 
           {children}
