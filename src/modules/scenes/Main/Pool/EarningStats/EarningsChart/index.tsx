@@ -25,7 +25,7 @@ type TPool = 'sbBTC' | 'thirdPartyFarm';
 export const EarningsChart = ({ farming, bridge }) => {
   const initialActiveState =
     //  Todo: remove condition once published sbBTC pool on BSC
-    bridge === 'btc_bep20'
+    bridge === 'btc_skypool'
       ? 'thirdPartyFarm'
       : bridge && farming.sbBtcFarm.claimedSwingby > 0
       ? 'sbBTC'

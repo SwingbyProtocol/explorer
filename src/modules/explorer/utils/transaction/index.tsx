@@ -46,7 +46,7 @@ export const currencyNetwork = (currency: string): string => {
       return CoinSymbol.BTC;
 
     case CoinSymbol.BTC_B:
-      return 'BTCB on BSC';
+      return 'BTCB on Skypools';
 
     case CoinSymbol.WBTC:
       return 'WBTC on Ethereum';
@@ -107,7 +107,6 @@ export const convertTxTime = (txTimeParam: number | DateTime) => {
   return (
     <FormattedDate
       value={ts}
-      format="auto"
       hour="numeric"
       minute="numeric"
       year="numeric"
@@ -124,7 +123,6 @@ export const convertDateTime = (unixTimestamp: number) => {
   return (
     <FormattedDate
       value={ts}
-      format="auto"
       hour="numeric"
       minute="numeric"
       year="numeric"

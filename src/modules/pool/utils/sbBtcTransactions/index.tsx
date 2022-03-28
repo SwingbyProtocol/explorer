@@ -10,7 +10,7 @@ export const getSbBtcContract = (bridge: SkybridgeBridge) => {
     case 'btc_erc':
       return CONTRACT_SB_BTC;
 
-    case 'btc_bep20':
+    case 'btc_skypool':
       return CONTRACT_BEP20_SB_BTC;
 
     default:
@@ -23,7 +23,7 @@ export const getSbBTCBalance = async (
   bridge: SkybridgeBridge,
 ): Promise<number> => {
   try {
-    const web3 = createWeb3Instance({ mode, bridge });
+    const web3 = createWeb3Instance({ mode });
     const currency = bridge === 'btc_erc' ? CoinSymbol.ERC20_SB_BTC : CoinSymbol.BEP20_SB_BTC;
     const contract = new web3.eth.Contract(
       CONTRACTS.coins[currency].production.abi as AbiItem[],

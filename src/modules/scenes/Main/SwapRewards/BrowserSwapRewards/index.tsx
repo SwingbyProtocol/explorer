@@ -44,8 +44,8 @@ export const BrowserSwapRewards = () => {
   } = useGetSwapRewards();
   const { pending, claimed } = user;
   const { swapFrom, swapTo } = rewards;
-  const rewardsCurrency = bridge === 'btc_bep20' ? 'BEP20 SWINGBY' : 'ERC20 SWINGBY';
-  const peggedBtc = bridge === 'btc_bep20' ? 'BTCB' : 'WBTC';
+  const rewardsCurrency = bridge === 'btc_skypool' ? 'BEP20 SWINGBY' : 'ERC20 SWINGBY';
+  const peggedBtc = bridge === 'btc_skypool' ? 'BTCB' : 'WBTC';
 
   const widthAmountRight = useMemo(() => {
     const amount = Number(pending) > Number(claimed) ? Number(pending) : Number(claimed);

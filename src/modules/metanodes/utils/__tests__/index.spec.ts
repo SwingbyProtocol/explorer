@@ -6,7 +6,7 @@ const ethArray = [
   { at: '2021-02-16', amount: '3' },
 ];
 
-const bscArray = [
+const skypoolsArray = [
   { at: '2021-02-09', amount: '4' },
   { at: '2021-02-16', amount: '5' },
   { at: '2021-02-18', amount: '6' },
@@ -22,7 +22,7 @@ const expectedMergedArray = [
   { at: '2021-02-20', amount: '10' },
 ];
 
-const mergedArray = mergeLockedArray(ethArray, bscArray);
+const mergedArray = mergeLockedArray(ethArray, skypoolsArray);
 // Memo: Remove duplicated 'at'
 const listedHistories = removeDuplicatedAt(mergedArray);
 

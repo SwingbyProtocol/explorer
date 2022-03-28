@@ -84,7 +84,7 @@ export const MetanodeList = (props: Props) => {
           nodes.map((node: IPeer, i: number) => {
             // Todo: Migrate to BEP20 address instead of BEP2 for BSC nodes in the future
             const rewardAddress =
-              props.bridge === 'btc_bep20' ? node.rewardsAddress1 : node.stake.address;
+              props.bridge === 'btc_skypool' ? node.rewardsAddress1 : node.stake.address;
 
             const bondAmount = getCryptoAssetFormatter({
               locale,

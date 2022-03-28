@@ -24,7 +24,7 @@ const initialState = {
   networkInfos: initial.networkInfos,
   transactionFees: null,
   isExistPreviousPage: false,
-  nodeEndpoint: initial.nodeEndpoint,
+  nodeEndpoint: null,
 };
 
 type State = typeof initialState;

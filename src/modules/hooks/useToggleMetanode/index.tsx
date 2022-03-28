@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { useLoadMetanodes } from '../index';
-import { isSupportBsc, PATH } from '../../env';
+import { PATH } from '../../env';
 import {
   getActiveNodeList,
   getBondToLiquidity,
@@ -34,22 +34,15 @@ export const useToggleMetanode = (path: PATH) => {
       setRewards(rewards);
     } else {
       let weeklyRewardsUsd: number;
-      if (isSupportBsc) {
-        // Memo: path === Root && bridge === '' (Multi-bridge)
-        const results = await Promise.all([
-          getActiveNodeList({ bridge: 'btc_erc', isRewardsCheck: true }),
-          getActiveNodeList({ bridge: 'btc_bep20', isRewardsCheck: true }),
-        ]);
+      // Memo: path === Root && bridge === '' (Multi-bridge)
+      const results = await Promise.all([
+        getActiveNodeList({ bridge: 'btc_erc', isRewardsCheck: true }),
+        getActiveNodeList({ bridge: 'btc_skypool', isRewardsCheck: true }),
+      ]);
 
-        const ercRewardsWeekly = results[0].rewards.weeklyRewardsUsd;
-        const bscRewardsWeekly = results[1].rewards.weeklyRewardsUsd;
-        weeklyRewardsUsd = ercRewardsWeekly + bscRewardsWeekly;
-      } else {
-        const results = await Promise.all([
-          getActiveNodeList({ bridge: 'btc_erc', isRewardsCheck: true }),
-        ]);
-        weeklyRewardsUsd = results[0].rewards.weeklyRewardsUsd;
-      }
+      const ercRewardsWeekly = results[0].rewards.weeklyRewardsUsd;
+      const skypoolsRewardsWeekly = results[1].rewards.weeklyRewardsUsd;
+      weeklyRewardsUsd = ercRewardsWeekly + skypoolsRewardsWeekly;
 
       setRewards({
         weeklyRewardsUsd,

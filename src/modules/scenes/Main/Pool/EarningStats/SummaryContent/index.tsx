@@ -55,7 +55,7 @@ export const SummaryContent = ({ farming, bridge }) => {
   }).format(earnedSwingbyTotal * swingbyUsd);
 
   const thirdPartyLogo =
-    bridge === 'btc_bep20' ? (
+    bridge === 'btc_skypool' ? (
       <IconCoinLogoMini src={logos.PancakeSwapCircled} />
     ) : (
       <ColumMultiIcons>
@@ -101,7 +101,7 @@ export const SummaryContent = ({ farming, bridge }) => {
               {/* Todo: remove condition once published sbBTC pool on BSC */}
               <div>
                 <TextRoom variant="accent">
-                  {bridge === 'btc_bep20' ? (
+                  {bridge === 'btc_skypool' ? (
                     <FormattedMessage id="common.coming-soon" />
                   ) : (
                     <FormattedNumber
@@ -115,7 +115,7 @@ export const SummaryContent = ({ farming, bridge }) => {
               {/* Todo: remove condition once published sbBTC pool on BSC */}
               <div>
                 <TextRoom variant="accent">
-                  {bridge === 'btc_bep20' ? (
+                  {bridge === 'btc_skypool' ? (
                     <FormattedMessage id="common.coming-soon" />
                   ) : (
                     <FormattedNumber
@@ -132,7 +132,9 @@ export const SummaryContent = ({ farming, bridge }) => {
                 {thirdPartyLogo}
                 <Text variant="menu">
                   <FormattedMessage
-                    id={bridge === 'btc_bep20' ? 'pool.earning.pancake' : 'pool.earning.sushi-uni'}
+                    id={
+                      bridge === 'btc_skypool' ? 'pool.earning.pancake' : 'pool.earning.sushi-uni'
+                    }
                   />
                 </Text>
               </RowFarmNameMulti>

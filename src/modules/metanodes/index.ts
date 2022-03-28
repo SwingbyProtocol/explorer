@@ -2,8 +2,6 @@ import { SKYBRIDGE_BRIDGES, SkybridgeBridge } from '@swingby-protocol/sdk';
 
 import { TStatus } from '../explorer';
 
-import { isSupportBsc } from './../env';
-
 export { formatPeers } from './utils';
 
 export {
@@ -111,25 +109,18 @@ export enum PeerStatus {
 }
 
 const btcErc = SKYBRIDGE_BRIDGES.find((bridge) => bridge === 'btc_erc');
-const btcBep = SKYBRIDGE_BRIDGES.find((bridge) => bridge === 'btc_bep20');
+const btcSkypools = SKYBRIDGE_BRIDGES.find((bridge) => bridge === 'btc_skypool');
 
-export const BRIDGES = isSupportBsc
-  ? [
-      {
-        bridge: btcErc,
-        tabMenu: 'Bitcoin to Ethereum',
-      },
-      {
-        bridge: btcBep,
-        tabMenu: 'Bitcoin to BSC',
-      },
-    ]
-  : [
-      {
-        bridge: btcErc,
-        tabMenu: 'Bitcoin to Ethereum',
-      },
-    ];
+export const BRIDGES = [
+  {
+    bridge: btcErc,
+    tabMenu: 'Bitcoin to Ethereum',
+  },
+  {
+    bridge: btcSkypools,
+    tabMenu: 'Bitcoin to Ethereum (Skypools)',
+  },
+];
 
 export const toggleStatusBg = (status: PeerStatus, i: number): string | boolean => {
   switch (status) {
@@ -183,7 +174,7 @@ export const getSbBtcRewardCurrency = (bridge: SkybridgeBridge) => {
     case btcErc:
       return 'ERC20';
 
-    case btcBep:
+    case btcSkypools:
       return 'BEP20';
 
     default:

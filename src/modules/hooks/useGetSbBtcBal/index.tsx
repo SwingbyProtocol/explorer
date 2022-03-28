@@ -15,7 +15,7 @@ const initialState = {
     farm: 0,
     total: 0,
   },
-  btc_bep20: {
+  btc_skypool: {
     priceSbBTC: 0,
     wallet: 0,
     farm: 0,
@@ -37,9 +37,9 @@ export const useGetSbBtcBal = () => {
         url: `${ENDPOINT_YIELD_FARMING}/api/v1/user-lp-bal`,
         query: { farm: 'sbBTC-ERC20', address, network: mode === 'production' ? '1' : '3' },
       });
-      const sbBtcStakedBscUrl = stringifyUrl({
+      const sbBtcStakedSkypoolsUrl = stringifyUrl({
         url: `${ENDPOINT_YIELD_FARMING}/api/v1/user-lp-bal`,
-        query: { farm: 'sbBTC-BEP20', address, network: mode === 'production' ? '56' : '97' },
+        query: { farm: 'sbBTC-ERC20', address, network: mode === 'production' ? '1' : '3' },
       });
 
       const fetchStaked = async (url: string) => {
@@ -59,9 +59,9 @@ export const useGetSbBtcBal = () => {
         getSbbtcPrice({ context, bridge: 'btc_erc' }),
         getSbBTCBalance(address, 'btc_erc'),
         fetchStaked(sbBtcStakedErcUrl),
-        getSbbtcPrice({ context, bridge: 'btc_bep20' }),
-        getSbBTCBalance(address, 'btc_bep20'),
-        fetchStaked(sbBtcStakedBscUrl),
+        getSbbtcPrice({ context, bridge: 'btc_skypool' }),
+        getSbBTCBalance(address, 'btc_skypool'),
+        fetchStaked(sbBtcStakedSkypoolsUrl),
       ]);
 
       setBalance({
@@ -71,7 +71,7 @@ export const useGetSbBtcBal = () => {
           farm: results[2].stakedLp,
           total: results[1] + results[2].stakedLp,
         },
-        btc_bep20: {
+        btc_skypool: {
           priceSbBTC: Number(results[3]),
           wallet: results[4],
           farm: results[5].stakedLp,

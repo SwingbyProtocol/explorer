@@ -7,7 +7,7 @@ import { PulseLoader } from 'react-spinners';
 import { useTheme } from 'styled-components';
 
 import { CoinSymbol } from '../../../../coins';
-import { isSupportBsc, mode, URL_BSCSCAN, URL_ETHERSCAN } from '../../../../env';
+import { mode, URL_ETHERSCAN } from '../../../../env';
 import { useGetPoolApr } from '../../../../hooks';
 import { ColumnInlineBlock, IconExternalLink } from '../../../Common';
 
@@ -46,10 +46,10 @@ export const FloatVolume = () => {
     { coin: CoinSymbol.WBTC, float: floatBalances.wbtc, vol: stats.volume1wksWBTC },
   ];
 
-  const dataBscBridge = [
+  const dataSkypoolsBridge = [
     {
       coin: CoinSymbol.BTC,
-      float: floatBalances.btcBsc,
+      float: floatBalances.btcSkypools,
       vol: stats.volume1wksBTCB,
     },
     {
@@ -107,8 +107,6 @@ export const FloatVolume = () => {
       switch (scanBaseUrl) {
         case URL_ETHERSCAN:
           return 'Etherscan';
-        case URL_BSCSCAN:
-          return 'BscScan';
 
         default:
           return 'Etherscan';
@@ -119,8 +117,9 @@ export const FloatVolume = () => {
       switch (scanBaseUrl) {
         case URL_ETHERSCAN:
           return CONTRACTS.bridges.btc_erc[mode].address;
-        case URL_BSCSCAN:
-          return CONTRACTS.bridges.btc_bep20[mode].address;
+
+        // case URL_ETHERSCAN:
+        //   return CONTRACTS.bridges.btc_skypool[mode].address;
 
         default:
           return CONTRACTS.bridges.btc_erc[mode].address;
@@ -190,11 +189,7 @@ export const FloatVolume = () => {
                   />
                 ) : (
                   <ColumnInlineBlock>
-                    {isSupportBsc ? (
-                      <PulseLoader margin={3} size={2} color={theme.pulsar.color.text.normal} />
-                    ) : (
-                      0
-                    )}
+                    <PulseLoader margin={3} size={2} color={theme.pulsar.color.text.normal} />
                   </ColumnInlineBlock>
                 ),
               }}
@@ -210,15 +205,19 @@ export const FloatVolume = () => {
       <BridgeContainer>
         <TextBridge variant="label">
           <FormattedMessage
-            id={bridge === 'btc_erc' ? 'home.network.bitcoin-ethereum' : 'home.network.bitcoin-bsc'}
+            id={
+              bridge === 'btc_erc'
+                ? 'home.network.bitcoin-ethereum'
+                : 'home.network.bitcoin-skypools'
+            }
           />
         </TextBridge>
         <RowBridge>
-          {networkScan(bridge === 'btc_erc' ? URL_ETHERSCAN : URL_BSCSCAN)}
+          {networkScan(URL_ETHERSCAN)}
           {poolLink(bridge)}
         </RowBridge>
         <CoinContainer>
-          {bridgeInfo(bridge === 'btc_erc' ? dataEthBridge : dataBscBridge)}
+          {bridgeInfo(bridge === 'btc_erc' ? dataEthBridge : dataSkypoolsBridge)}
         </CoinContainer>
       </BridgeContainer>
     );
@@ -228,7 +227,7 @@ export const FloatVolume = () => {
     <FloatVolumeContainer>
       <BridgeInfos>
         {rowBridgeInfo('btc_erc')}
-        {rowBridgeInfo('btc_bep20')}
+        {rowBridgeInfo('btc_skypool')}
       </BridgeInfos>
     </FloatVolumeContainer>
   );

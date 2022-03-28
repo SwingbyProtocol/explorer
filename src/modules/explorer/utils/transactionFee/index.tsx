@@ -42,7 +42,7 @@ export const getTransactionFee = async (bridge: SkybridgeBridge): Promise<IFee> 
     switch (bridge) {
       case 'btc_erc':
         return 'WBTC';
-      case 'btc_bep20':
+      case 'btc_skypool':
         return 'BTCB';
 
       default:

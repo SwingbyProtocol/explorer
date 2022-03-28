@@ -92,7 +92,7 @@ export const listHistory = (histories: TBondHistory[]) => {
 
 export const mergeLockedArray = (
   lockedHistoryEth: IChartDate[],
-  lockedHistoryBsc: IChartDate[],
+  lockedHistorySkypools: IChartDate[],
 ) => {
   let mergedArray = [];
 
@@ -117,8 +117,8 @@ export const mergeLockedArray = (
     });
   };
 
-  pushToMergedArray(lockedHistoryEth, lockedHistoryBsc);
-  pushToMergedArray(lockedHistoryBsc, lockedHistoryEth);
+  pushToMergedArray(lockedHistoryEth, lockedHistorySkypools);
+  pushToMergedArray(lockedHistorySkypools, lockedHistoryEth);
 
   mergedArray.sort((a: IChartDate, b: IChartDate) => {
     if (b.at > a.at) {
@@ -145,7 +145,7 @@ const getChurnedStatus = ({
   const account = onchainNodes.find((it) => it.address === address.toLowerCase());
   if (account) {
     if (DAYS_CHURNED_IN > daysLeft) {
-      return bridge === 'btc_bep20' ? PeerStatus.MayChurnOutBondExpiring : PeerStatus.Migrating;
+      return bridge === 'btc_skypool' ? PeerStatus.MayChurnOutBondExpiring : PeerStatus.Migrating;
     }
     if (account.rank > RANK_CHURNED_IN) {
       return PeerStatus.MayChurnOutBondTooLow;
@@ -170,7 +170,7 @@ export const getActiveNodeList = async ({
   let rewardableTvl = 0;
 
   try {
-    const web3 = createWeb3Instance({ mode, bridge });
+    const web3 = createWeb3Instance({ mode });
     const contract = new web3.eth.Contract(
       CONTRACTS.bridges[bridge][mode].abi as AbiItem[],
       CONTRACTS.bridges[bridge][mode].address,
@@ -259,7 +259,7 @@ export const getNextChurnedTx = async (bridge: SkybridgeBridge) => {
   const latestTxBlocks = localData ? JSON.parse(localData) : {};
 
   const SECONDS_PER_EPOCH: { [k in SkybridgeBridge]: number } = {
-    btc_bep20: 45,
+    btc_skypool: 45,
     btc_erc: 45,
   };
 
@@ -303,7 +303,7 @@ export const getLiquidityRatio = async ({
   bridge: SkybridgeBridge;
   btcUsdtPrice: number;
 }) => {
-  const web3 = createWeb3Instance({ mode, bridge });
+  const web3 = createWeb3Instance({ mode });
   const contract = new web3.eth.Contract(
     CONTRACTS.bridges[bridge][mode].abi,
     CONTRACTS.bridges[bridge][mode].address,
@@ -363,7 +363,7 @@ export const getBondToLiquidity = async ({
   const bonded = new Big(tvl).times(swingbyUsdtPrice);
 
   const liquidity = await (async () => {
-    const web3 = createWeb3Instance({ mode, bridge });
+    const web3 = createWeb3Instance({ mode });
     const contract = new web3.eth.Contract(
       CONTRACTS.bridges[bridge][mode].abi,
       CONTRACTS.bridges[bridge][mode].address,

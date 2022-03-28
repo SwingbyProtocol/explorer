@@ -94,7 +94,7 @@ export const Withdraw = (props: Props) => {
           dispatch(getMinimumWithdrawAmount(miniWithdrawAmount));
         }
 
-        if (bridge === 'btc_bep20' && toCurrency !== 'WBTC') {
+        if (bridge === 'btc_skypool' && toCurrency !== 'WBTC') {
           const minimumWithdrawData = await getMinimumWithdrawal({
             context,
             currencyReceiving: toCurrency as TBtcCurrency,

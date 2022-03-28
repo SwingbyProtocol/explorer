@@ -27,7 +27,6 @@ export interface ITvl {
   tvlUsd: number;
   floatUsd: number;
   lockedSwingbyUsd: number;
-  preStakingUsd: number;
   farmTvlUsd: number;
 }
 

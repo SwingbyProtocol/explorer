@@ -17,7 +17,7 @@ export default async function handler(
   try {
     const results = await Promise.all([
       getNodeQty({ bridge: 'btc_erc' }),
-      getNodeQty({ bridge: 'btc_bep20' }),
+      getNodeQty({ bridge: 'btc_skypool' }),
       get7daysVolume(),
       getTVL(),
     ]);

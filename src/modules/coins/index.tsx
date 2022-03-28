@@ -1,7 +1,5 @@
 import { SkybridgeBridge } from '@swingby-protocol/sdk';
 
-import { SkyPoolsQuery } from '../explorer';
-
 export type TBtcCurrency = 'BTC' | 'BTCB.BEP20' | 'WBTC';
 export type TSbBTC = 'sbBTC' | 'sbBTC.BEP20';
 
@@ -30,8 +28,8 @@ export const getBridgeBtc = (bridge: SkybridgeBridge): CoinSymbol => {
     case 'btc_erc':
       return CoinSymbol.WBTC;
 
-    case 'btc_bep20':
-      return CoinSymbol.BTC_B;
+    case 'btc_skypool':
+      return CoinSymbol.WBTC;
 
     default:
       return CoinSymbol.WBTC;
@@ -43,18 +41,10 @@ export const getBridgeSbBtc = (bridge: SkybridgeBridge): TSbBTC => {
     case 'btc_erc':
       return CoinSymbol.ERC20_SB_BTC;
 
-    case 'btc_bep20':
+    case 'btc_skypool':
       return CoinSymbol.BEP20_SB_BTC;
 
     default:
       return CoinSymbol.ERC20_SB_BTC;
   }
-};
-
-export const getTxBridge = (tx: SkyPoolsQuery): SkybridgeBridge => {
-  if (BTCBCoins.includes(tx.currencyIn) || BTCBCoins.includes(tx.currencyOut)) {
-    return 'btc_bep20';
-  }
-
-  return 'btc_erc';
 };

@@ -27,7 +27,7 @@ export const buildChaosNodeContext = async <M extends SkybridgeMode>({
     switch (bridge) {
       case 'btc_erc':
         return ethChaosNodeEndpoints;
-      case 'btc_bep20':
+      case 'btc_skypool':
         return bscChaosNodeEndpoints;
 
       default:
@@ -72,12 +72,12 @@ export const buildChaosNodeContext = async <M extends SkybridgeMode>({
       ...servers,
       swapNode: {
         btc_erc: getRandomSwapNode({ bridge: 'btc_erc' }),
-        btc_bep20: getRandomSwapNode({ bridge: 'btc_bep20' }),
+        btc_skypool: getRandomSwapNode({ bridge: 'btc_skypool' }),
         ...servers?.swapNode,
       },
       indexer: {
         btc_erc: getRandomIndexerNode({ bridge: 'btc_erc' }),
-        btc_bep20: getRandomIndexerNode({ bridge: 'btc_bep20' }),
+        btc_skypool: getRandomIndexerNode({ bridge: 'btc_skypool' }),
         ...servers?.indexer,
       },
     },

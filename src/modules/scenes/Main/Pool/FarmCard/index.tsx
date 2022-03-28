@@ -118,7 +118,7 @@ export const FarmCard = () => {
             <div>
               <TextTvl variant="label">
                 {/* Todo: remove condition once published sbBTC pool on BSC */}
-                {bridge !== 'btc_bep20' && (
+                {bridge !== 'btc_skypool' && (
                   <FormattedMessage
                     id="pool.stake-card.stake-on-farm-tvl"
                     values={{
@@ -157,7 +157,7 @@ export const FarmCard = () => {
           <RowFeatures>
             <IconTick />
             <TextTitle variant="normal">
-              {bridge !== 'btc_bep20' ? (
+              {bridge !== 'btc_skypool' ? (
                 <FormattedMessage
                   id="pool.stake-card.stake-apr"
                   values={{
@@ -182,7 +182,7 @@ export const FarmCard = () => {
           </RowFeatures>
           {/* Todo: remove condition once published sbBTC pool on BSC */}
           <Buttons>
-            {bridge !== 'btc_bep20' && (
+            {bridge !== 'btc_skypool' && (
               <Atag href={URL.YieldFarming} rel="noopener noreferrer" target="_blank">
                 <ButtonLink variant="primary" size="town" shape="fill" isMultiButton={true}>
                   <FormattedMessage id="pool.stake-card.stake" />
@@ -191,7 +191,7 @@ export const FarmCard = () => {
             )}
             {/* Todo: remove condition once published sbBTC pool on BSC */}
             <ButtonLink
-              isMultiButton={bridge !== 'btc_bep20' ? true : false}
+              isMultiButton={bridge !== 'btc_skypool'}
               variant="secondary"
               size="town"
               shape="fill"

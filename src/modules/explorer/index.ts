@@ -51,8 +51,8 @@ export const selectableBridge = [
     bridge: 'btc_erc',
   },
   {
-    menu: 'BSC',
-    bridge: 'btc_bep20',
+    menu: 'BTC Skypools',
+    bridge: 'btc_skypool',
   },
 ];
 
@@ -75,7 +75,7 @@ export interface Reward {
 
 export interface IFloat {
   btcEth: number;
-  btcBsc: number;
+  btcSkypools: number;
   wbtc: number;
   btcb: number;
 }
@@ -112,7 +112,7 @@ export interface INetworkInfos {
   capacity: number;
   floatBalances: {
     btcEth: number;
-    btcBsc: number;
+    btcSkypools: number;
     wbtc: number;
     btcb: number;
   };
@@ -165,7 +165,7 @@ export interface IMetanode {
 
 export interface INodeEndpoint {
   btc_erc: string;
-  btc_bep20: string;
+  btc_skypool: string;
 }
 
 export interface ISwapQueryPrams {

@@ -25,14 +25,9 @@ export const initialVolumesYear = [
   intialVolumeYear,
 ];
 
-export const nodeEndpoint = {
-  btc_erc: '',
-  btc_bep20: '',
-};
-
 export const networkInfos = {
   capacity: 0,
-  floatBalances: { btcEth: 0, btcBsc: 0, wbtc: 0, btcb: 0 },
+  floatBalances: { btcEth: 0, btcSkypools: 0, wbtc: 0, btcb: 0 },
   stats: {
     volume1wksWBTC: 0,
     volume1wksBTCB: 0,
@@ -66,13 +61,13 @@ export const floatHistoryObjectInitialValue = [
       },
       {
         amount: '0',
-        bridge: 'btc_bep20',
+        bridge: 'btc_skypool',
         currency: 'BTC',
         amountUsd: '0',
       },
       {
         amount: '0',
-        bridge: 'btc_bep20',
+        bridge: 'btc_skypool',
         currency: 'BTCB',
         amountUsd: '0',
       },

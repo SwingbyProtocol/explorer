@@ -12,18 +12,18 @@ export const getBridge = ({
   if (currencyIn === CoinSymbol.BTC) {
     switch (currencyOut) {
       case CoinSymbol.BEP20_SB_BTC:
-        return 'btc_bep20';
+        return 'btc_skypool';
       case CoinSymbol.BTC_B:
-        return 'btc_bep20';
+        return 'btc_skypool';
       default:
         return 'btc_erc';
     }
   } else {
     switch (currencyIn) {
       case CoinSymbol.BEP20_SB_BTC:
-        return 'btc_bep20';
+        return 'btc_skypool';
       case CoinSymbol.BTC_B:
-        return 'btc_bep20';
+        return 'btc_skypool';
       default:
         return 'btc_erc';
     }

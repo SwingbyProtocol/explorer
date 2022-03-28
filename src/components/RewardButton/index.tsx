@@ -4,12 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import { delay } from '../../modules/common';
-import { PATH } from '../../modules/env';
-import {
-  useToggleBridge,
-  useAssertTermsSignature,
-  useDistributeRewards,
-} from '../../modules/hooks';
+import { useAssertTermsSignature, useDistributeRewards } from '../../modules/hooks';
 import { showConnectNetwork, useOnboard } from '../../modules/onboard';
 import { ButtonScale } from '../../modules/scenes/Common';
 import { StylingConstants } from '../../modules/styles';
@@ -20,7 +15,6 @@ export const RewardButton = () => {
   const { media } = StylingConstants;
   const lg = useMatchMedia({ query: `(min-width: ${rem(media.lg)})` });
   const sm = useMatchMedia({ query: `(min-width: ${rem(media.sm)})` });
-  const { bridge } = useToggleBridge(PATH.METANODES);
   const { distributeRewards } = useDistributeRewards();
   const { onboard, address } = useOnboard();
   const { isSigned, connectWallet } = useAssertTermsSignature();
@@ -52,7 +46,7 @@ export const RewardButton = () => {
             <Text variant="normal">
               <FormattedMessage
                 id="metanodes.distribute-rewards-warning"
-                values={{ network: showConnectNetwork(bridge) }}
+                values={{ network: showConnectNetwork() }}
               />
             </Text>
           </Tooltip.Content>
