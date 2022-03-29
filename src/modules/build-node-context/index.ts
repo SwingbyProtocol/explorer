@@ -8,7 +8,7 @@ import {
 } from '@swingby-protocol/sdk';
 import { PartialDeep } from 'type-fest';
 
-import { bscChaosNodeEndpoints, ethChaosNodeEndpoints } from './chaosNodeList';
+import { skypoolsEndpoints, ethChaosNodeEndpoints } from './chaosNodeList';
 
 const randomInt = (min: number, max: number) => Math.round(Math.random() * (max - min)) + min;
 
@@ -28,7 +28,7 @@ export const buildChaosNodeContext = async <M extends SkybridgeMode>({
       case 'btc_erc':
         return ethChaosNodeEndpoints;
       case 'btc_skypool':
-        return bscChaosNodeEndpoints;
+        return skypoolsEndpoints;
 
       default:
         return ethChaosNodeEndpoints;
