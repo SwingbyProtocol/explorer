@@ -122,7 +122,7 @@ export const useTxsQuery = () => {
       } catch (error) {
         logger.error({ error });
       } finally {
-        if (!endpoint.btc_skypool || !endpoint.btc_erc) return;
+        if (!endpoint || !endpoint.btc_skypool || !endpoint.btc_erc) return;
         setIsLoading(false);
       }
     })();
