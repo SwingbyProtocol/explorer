@@ -49,13 +49,6 @@ export const Browser = () => {
     maximumFractionDigits: 0,
   }).format(tvl.lockedSwingbyUsd);
 
-  const tvlPreStakingUsd = getFiatAssetFormatter({
-    locale,
-    currency: 'USD',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(tvl.preStakingUsd);
-
   const tvlYieldFarmingUsd = getFiatAssetFormatter({
     locale,
     currency: 'USD',
@@ -89,13 +82,6 @@ export const Browser = () => {
                 <FormattedMessage
                   id="home.network.tvl.swingby"
                   values={{ value: tvlMetanodeLockedUsd }}
-                />
-              </Text>
-              <br />
-              <Text variant="masked">
-                <FormattedMessage
-                  id="home.network.tvl.pre-staking"
-                  values={{ value: tvlPreStakingUsd }}
                 />
               </Text>
               <br />
