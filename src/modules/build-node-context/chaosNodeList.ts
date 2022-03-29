@@ -11,4 +11,15 @@ export const ethChaosNodeEndpoints = [
   'https://moonfly-re-0078.yen.farm',
 ];
 
-export const skypoolsEndpoints = ['https://btc-skypool-1.swingby.network/'];
+export const skypoolsEndpoints = [
+  'https://btc-skypool-1.swingby.network/',
+  'https://btc-skypool-2.swingby.network/',
+  'https://btc-skypool-3.swingby.network/',
+  'https://btc-skypool-4.swingby.network/',
+  'https://btc-skypool-5.swingby.network/',
+  'https://btc-skypool-6.swingby.network/',
+  'https://btc-skypool-7.swingby.network/',
+  'https://btc-skypool-8.swingby.network/',
+  'https://btc-skypool-9.swingby.network/',
+  'https://btc-skypool-10.swingby.network/',
+];
