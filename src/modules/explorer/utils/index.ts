@@ -25,16 +25,13 @@ export {
   fetch1wksRewards,
   getUsdPrice,
   fetchVwap,
-  getEndpoint,
   getFixedBaseEndpoint,
   castToBackendVariable,
   getFloatBalance,
-  getBaseEndpoint,
 } from './network';
 
 export {
   isEtherAddress,
-  isBinanceAddress,
   isBitcoinAddress,
   checkIsValidAddress,
   checkIsValidAmount,

@@ -29,7 +29,7 @@ export const TitleDiv = styled.div`
 export const Column = styled.div<BridgeProps>`
   display: grid;
   /* Todo: Update once BSC sbBTC pool is deployed */
-  grid-template-columns: ${(props) => (props.bridge === 'btc_bep20' ? 'auto' : 'auto auto auto')};
+  grid-template-columns: ${(props) => (props.bridge === 'btc_skypool' ? 'auto' : 'auto auto auto')};
   grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.drawer)};
 `;
 

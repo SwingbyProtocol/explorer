@@ -1,4 +1,4 @@
-import { isAddress, isBinanceAddress, isBitcoinAddress, isEtherAddress } from '..';
+import { isAddress, isBitcoinAddress, isEtherAddress } from '..';
 
 const bitcoinAddress = 'tb1q0fzppaflhcju7emf9sh5n5st3c47mwuczwxmt7';
 const wrongBitcoinAddress = 'tb1q0fzppaflhcju7emf9sh5n5st3c47mwuczwxmt';
@@ -15,12 +15,6 @@ it('isBitcoinAddress', () => {
   expect(isBitcoinAddress(bep2Address)).toStrictEqual(false);
 });
 
-it('isBinanceAddress', () => {
-  expect(isBinanceAddress(bep2Address)).toStrictEqual(true);
-  expect(isBinanceAddress(bep2Address)).toStrictEqual(true);
-  expect(isBinanceAddress('dummyAddress')).toStrictEqual(false);
-  expect(isBinanceAddress(wrongBitcoinAddress)).toStrictEqual(false);
-});
 it('isEtherAddress', () => {
   expect(isEtherAddress(erc20Address)).toStrictEqual(true);
   expect(isEtherAddress(wrongErc20Address)).toStrictEqual(false);

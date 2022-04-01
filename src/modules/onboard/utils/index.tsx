@@ -3,16 +3,10 @@ import { SkybridgeBridge } from '@swingby-protocol/sdk';
 import { mode } from '../../env';
 
 export const showConnectNetwork = (bridge: SkybridgeBridge) => {
-  if (bridge === 'btc_bep20') {
-    return mode === 'production' ? 'BSC mainnet' : 'BSC testnet';
-  }
   return mode === 'production' ? 'Ethereum mainnet' : 'Ropsten testnet';
 };
 
 export const getNetworkId = (bridge: SkybridgeBridge) => {
-  if (bridge === 'btc_bep20') {
-    return mode === 'production' ? 56 : 97;
-  }
   return mode === 'production' ? 1 : 3;
 };
 

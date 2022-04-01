@@ -81,10 +81,10 @@ export const CONTRACT_SB_BTC =
     ? CONTRACTS.coins.sbBTC.production.address
     : CONTRACTS.coins.sbBTC.test.address;
 
-export const CONTRACT_BEP20_SB_BTC =
+export const CONTRACT_SKYPOOL_SB_BTC =
   mode === 'production'
-    ? CONTRACTS.coins['sbBTC.BEP20'].production.address
-    : CONTRACTS.coins['sbBTC.BEP20'].test.address;
+    ? CONTRACTS.coins['sbBTC.SKYPOOL'].production.address
+    : CONTRACTS.coins['sbBTC.SKYPOOL'].test.address;
 
 // Memo: BTC is not on Ethereum, it doesn’t have an address, so the contract uses this one to represent BTC
 export const ZERO_ADDRESS = CONTRACTS.coins.BTC.production.address;

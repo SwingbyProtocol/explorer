@@ -42,13 +42,13 @@ export const useLoadHistories = () => {
 
   const getBridge = (queryBridge: Bridge): { in: Bridge[] } => {
     switch (queryBridge) {
-      case Bridge.BtcBep20:
-        return { in: [Bridge.BtcBep20] };
+      case Bridge.BtcSkypool:
+        return { in: [Bridge.BtcSkypool] };
       case Bridge.BtcErc:
         return { in: [Bridge.BtcErc] };
 
       default:
-        return { in: [Bridge.BtcBep20, Bridge.BtcErc] };
+        return { in: [Bridge.BtcSkypool, Bridge.BtcErc] };
     }
   };
 

@@ -10,10 +10,10 @@ export const initialVolumes = [
 ];
 export const networkInfos = {
   capacity: 0,
-  floatBalances: { btcEth: 0, btcBsc: 0, wbtc: 0, btcb: 0 },
+  floatBalances: { btcEth: 0, btcSkypool: 0, wbtc: 0, wbtcSkypool: 0 },
   stats: {
     volume1wksWBTC: 0,
-    volume1wksBTCB: 0,
+    volume1wksWBTC_Skypool: 0,
     volume1wksBTC: 0,
     rewards1wksUSD: 0,
     volumes: initialVolumes,

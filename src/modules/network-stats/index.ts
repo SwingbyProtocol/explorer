@@ -4,10 +4,10 @@ import { SkybridgeBridge } from '@swingby-protocol/sdk';
 import { CoinSymbol } from '../coins';
 import { sumArray } from '../common';
 import {
-  ENDPOINT_BSC_BRIDGE,
   ENDPOINT_ETHEREUM_BRIDGE,
   ENDPOINT_PRESTAKING,
   ENDPOINT_SKYBRIDGE_EXCHANGE,
+  ENDPOINT_SKYPOOL_BRIDGE,
   ENDPOINT_YIELD_FARMING,
 } from '../env';
 import { castToBackendVariable, fetchVwap, getFloatBalance, IFloatAmount } from '../explorer';
@@ -31,7 +31,7 @@ export const getNodeQty = async ({
     }
     const results = await Promise.all([
       fetcher<Array<any>>(getBridgePeersUrl('btc_erc')),
-      fetcher<Array<any>>(getBridgePeersUrl('btc_bep20')),
+      fetcher<Array<any>>(getBridgePeersUrl('btc_skypool')),
     ]);
     const total = results[0].length + results[1].length;
     return total;
@@ -46,15 +46,15 @@ export const get7daysVolume = async (): Promise<string> => {
   try {
     const results = await Promise.all([
       fetcher<{ network24hrSwapsVolume: number[] }>(getBridgeUrl(ENDPOINT_ETHEREUM_BRIDGE)),
-      fetcher<{ network24hrSwapsVolume: number[] }>(getBridgeUrl(ENDPOINT_BSC_BRIDGE)),
+      fetcher<{ network24hrSwapsVolume: number[] }>(getBridgeUrl(ENDPOINT_SKYPOOL_BRIDGE)),
       fetchVwap('btcUsd'),
     ]);
     const ethNetwork24hrSwapsVolume = results[0].network24hrSwapsVolume;
 
-    const bscNetwork24hrSwapsVolume = results[1].network24hrSwapsVolume;
+    const skypoolNetwork24hrSwapsVolume = results[1].network24hrSwapsVolume;
 
     const volume1wksWBTC: number = sumArray(ethNetwork24hrSwapsVolume.slice(0, 7));
-    const volume1wksBTCB: number = sumArray(bscNetwork24hrSwapsVolume.slice(0, 7));
+    const volume1wksBTCB: number = sumArray(skypoolNetwork24hrSwapsVolume.slice(0, 7));
     const usdBtc = results[2];
     const total = (volume1wksWBTC + volume1wksBTCB) * usdBtc;
 
@@ -87,9 +87,9 @@ export const getTVL = async (): Promise<string> => {
   try {
     const results = await Promise.all([
       fetcher<IFloatAmount[]>(getFloatBalUrl(ENDPOINT_ETHEREUM_BRIDGE)),
-      fetcher<IFloatAmount[]>(getFloatBalUrl(ENDPOINT_BSC_BRIDGE)),
+      fetcher<IFloatAmount[]>(getFloatBalUrl(ENDPOINT_SKYPOOL_BRIDGE)),
       fetcher<IBondHistories>(getBondBalUrl('btc_erc')),
-      fetcher<IBondHistories>(getBondBalUrl('btc_bep20')),
+      fetcher<IBondHistories>(getBondBalUrl('btc_skypool')),
       fetchVwap('btcUsd'),
       fetchVwap('swingbyUsd'),
       fetcher<{ totalStaked: number }>(preStakingUrl),
@@ -99,7 +99,7 @@ export const getTVL = async (): Promise<string> => {
     ]);
 
     const resEth = results[0];
-    const resBsc = results[1];
+    const resSkypool = results[1];
 
     const tvlSwingbyEth = Number(results[2].data[0].bond);
     const tvlSwingbyBsc = Number(results[3].data[0].bond);
@@ -113,14 +113,14 @@ export const getTVL = async (): Promise<string> => {
     const tvlPancakeUsd = results[9].farmTvl ?? 0;
     const farmTvlUsd = tvlUniUsd + tvlSushiUsd + tvlPancakeUsd;
 
-    const formattedBTCB = castToBackendVariable(CoinSymbol.BTC_B);
+    const formattedWBTC_Skypool = castToBackendVariable(CoinSymbol.SKYPOOL_WBTC);
 
     const btcEth = Number(getFloatBalance(CoinSymbol.BTC, resEth));
-    const btcBsc = Number(getFloatBalance(CoinSymbol.BTC, resBsc));
+    const btcSkypool = Number(getFloatBalance(CoinSymbol.BTC, resSkypool));
     const wbtc = Number(getFloatBalance(CoinSymbol.WBTC, resEth));
-    const btcb = Number(getFloatBalance(formattedBTCB, resBsc));
+    const btcb = Number(getFloatBalance(formattedWBTC_Skypool, resSkypool));
 
-    const floatTtl = usdBtc * (btcEth + btcBsc + wbtc + btcb);
+    const floatTtl = usdBtc * (btcEth + btcSkypool + wbtc + btcb);
 
     const tvlSwingbyUsd = tvlSwingbyEth + tvlSwingbyBsc;
 

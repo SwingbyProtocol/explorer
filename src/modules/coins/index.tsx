@@ -4,7 +4,7 @@ import { TransactionCurrency } from '../../generated/graphql';
 import { mode } from '../env';
 import { TTxRawObject } from '../explorer';
 
-export type TBtcCurrency = 'BTC' | 'BTCB.SKYPOOL' | 'WBTC';
+export type TBtcCurrency = 'BTC' | 'WBTC.SKYPOOL' | 'WBTC';
 export type TSbBTC = 'sbBTC' | 'sbBTC.SKYPOOL';
 
 export enum CoinSymbol {

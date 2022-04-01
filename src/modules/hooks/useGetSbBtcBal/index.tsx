@@ -15,7 +15,7 @@ const initialState = {
     farm: 0,
     total: 0,
   },
-  btc_bep20: {
+  btc_skypool: {
     priceSbBTC: 0,
     wallet: 0,
     farm: 0,
@@ -46,8 +46,8 @@ export const useGetSbBtcBal = () => {
         getSbbtcPrice({ context, bridge: 'btc_erc' }),
         fetchSbBTCBalance(address, 'btc_erc'),
         fetcher<{ stakedLp: number }>(sbBtcStakedErcUrl),
-        getSbbtcPrice({ context, bridge: 'btc_bep20' }),
-        fetchSbBTCBalance(address, 'btc_bep20'),
+        getSbbtcPrice({ context, bridge: 'btc_skypool' }),
+        fetchSbBTCBalance(address, 'btc_skypool'),
         fetcher<{ stakedLp: number }>(sbBtcStakedBscUrl),
       ]);
 
@@ -58,7 +58,7 @@ export const useGetSbBtcBal = () => {
           farm: results[2].stakedLp,
           total: results[1] + results[2].stakedLp,
         },
-        btc_bep20: {
+        btc_skypool: {
           priceSbBTC: Number(results[3]),
           wallet: results[4],
           farm: results[5].stakedLp,

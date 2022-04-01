@@ -37,8 +37,7 @@ export const useGetEarningHistorical = () => {
   const [isLoading, setIsLoading] = useState<Boolean>(false);
   const { address } = useOnboard();
   const { bridge } = useToggleBridge(PATH.POOL);
-  const network =
-    bridge === 'btc_bep20' ? (mode === 'production' ? 56 : 97) : mode === 'production' ? 1 : 3;
+  const network = mode === 'production' ? 1 : 3;
 
   const getData = useCallback(async () => {
     try {
@@ -90,20 +89,6 @@ export const useGetEarningHistorical = () => {
           uni: results[1],
           sushi: results[2],
           pancake: [],
-          sbBtcBep20: [],
-        };
-        setAprHistoric(data);
-        return;
-      }
-
-      if (network === 56) {
-        const urlPancake = `${ENDPOINT_YIELD_FARMING}/api/v1/pancake/apr`;
-        const results = await Promise.all([fetcher<IAprHistoric[]>(urlPancake)]);
-        const data = {
-          sbBtcErc20: [],
-          uni: [],
-          sushi: [],
-          pancake: results[0],
           sbBtcBep20: [],
         };
         setAprHistoric(data);

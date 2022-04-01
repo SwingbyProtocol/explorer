@@ -87,8 +87,8 @@ export const MetanodeList = (props: Props) => {
         {!isLoading &&
           metanodes &&
           metanodes.map((node: Node, i: number) => {
-            const bnbAddress = node.address1;
-            const ethAddress = node.address2;
+            const bnbAddress = node.bondAddress;
+            const ethAddress = node.rewardsAddress;
             const bondAmount = getCryptoAssetFormatter({
               locale,
               displaySymbol: '',

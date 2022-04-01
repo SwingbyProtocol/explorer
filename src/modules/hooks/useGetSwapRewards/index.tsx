@@ -1,4 +1,5 @@
 import { createToast } from '@swingby-protocol/pulsar';
+import { SkybridgeBridge } from '@swingby-protocol/sdk';
 import { ethers } from 'ethers';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -30,7 +31,7 @@ export const useGetSwapRewards = () => {
   const [isLoading, setIsLoading] = useState<Boolean>(false);
   const usdBtc = useSelector((state) => state.explorer.usd.BTC);
   const { network, wallet, onboard, address } = useOnboard();
-  const bridge = network === 56 || network === 97 ? 'btc_bep20' : 'btc_erc';
+  const bridge: SkybridgeBridge = 'btc_erc' as SkybridgeBridge; // TODO: Somehow make compatible with `btc_skypool` too
   const isValidCondition = network === 1 || network === 3;
 
   const getRewardsPercentage = ({
@@ -85,14 +86,14 @@ export const useGetSwapRewards = () => {
       setIsLoading(true);
       const { floats } = await fetchFloatBalances(usdBtc, bridge);
 
-      if (bridge === 'btc_bep20') {
+      if (bridge === 'btc_skypool') {
         setRewards({
-          swapFrom: floats.btcBsc > floats.btcb ? 'BTCB' : 'BTC',
-          swapTo: floats.btcBsc > floats.btcb ? 'BTC' : 'BTCB',
+          swapFrom: floats.btcSkypool > floats.wbtcSkypool ? 'WBTC' : 'BTC',
+          swapTo: floats.btcSkypool > floats.wbtcSkypool ? 'BTC' : 'WBTC',
         });
         const rewardsPercentage = getRewardsPercentage({
-          btcFloat: floats.btcBsc,
-          peggedBtcFloat: floats.btcb,
+          btcFloat: floats.btcSkypool,
+          peggedBtcFloat: floats.wbtcSkypool,
         });
         setRewardsPercent(rewardsPercentage);
         return;

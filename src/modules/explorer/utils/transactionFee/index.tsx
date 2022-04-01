@@ -1,12 +1,13 @@
-import { SkybridgeBridge } from '@swingby-protocol/sdk';
+import { buildContext, SkybridgeBridge } from '@swingby-protocol/sdk';
 import { BigNumber } from 'bignumber.js';
 
+import { mode } from '../../../env';
 import { fetch } from '../../../fetch';
 import { IFee } from '../../index';
-import { getEndpoint } from '../network';
 
 export const getTransactionFees = async (): Promise<IFee[]> => {
-  const { urlEth } = await getEndpoint();
+  const context = await buildContext({ mode });
+  const urlEth = context.servers.swapNode.btc_erc;
   try {
     const result = await fetch<IFee[]>(urlEth + '/api/v1/swaps/fees');
     return result.ok && result.response;
@@ -42,8 +43,8 @@ export const getTransactionFee = async (bridge: SkybridgeBridge): Promise<IFee> 
     switch (bridge) {
       case 'btc_erc':
         return 'WBTC';
-      case 'btc_bep20':
-        return 'BTCB';
+      case 'btc_skypool':
+        return 'WBTC';
 
       default:
         return 'WBTC';

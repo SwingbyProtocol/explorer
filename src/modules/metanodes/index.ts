@@ -65,7 +65,7 @@ export interface INodeStatusTable {
 }
 
 const btcErc = SKYBRIDGE_BRIDGES.find((bridge) => bridge === 'btc_erc');
-const btcBep = SKYBRIDGE_BRIDGES.find((bridge) => bridge === 'btc_bep20');
+const btcSkypool = SKYBRIDGE_BRIDGES.find((bridge) => bridge === 'btc_skypool');
 
 export const BRIDGES = [
   {
@@ -73,8 +73,8 @@ export const BRIDGES = [
     tabMenu: 'Bitcoin to Ethereum',
   },
   {
-    bridge: btcBep,
-    tabMenu: 'Bitcoin to BSC',
+    bridge: btcSkypool,
+    tabMenu: 'Skypools',
   },
 ];
 
@@ -143,7 +143,7 @@ export const getSbBtcRewardCurrency = (bridge: SkybridgeBridge) => {
     case btcErc:
       return 'ERC20';
 
-    case btcBep:
+    case btcSkypool:
       return 'BEP20';
 
     default:

@@ -39,8 +39,11 @@ export const currencyNetwork = (currency: string): string => {
     case CoinSymbol.BTC:
       return CoinSymbol.BTC;
 
-    case CoinSymbol.BTC_B:
-      return 'BTCB on BSC';
+    case CoinSymbol.SKYPOOL_WBTC:
+      return 'WBTC on Skypools';
+
+    case CoinSymbol.SKYPOOL_SB_BTC:
+      return 'sbBTC on Skypools';
 
     case CoinSymbol.WBTC:
       return 'WBTC on Ethereum';

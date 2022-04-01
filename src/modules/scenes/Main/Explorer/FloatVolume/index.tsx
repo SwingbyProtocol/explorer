@@ -49,13 +49,13 @@ export const FloatVolume = () => {
   const dataBscBridge = [
     {
       coin: CoinSymbol.BTC,
-      float: floatBalances.btcBsc,
-      vol: stats.volume1wksBTCB,
+      float: floatBalances.btcSkypool,
+      vol: stats.volume1wksWBTC_Skypool,
     },
     {
-      coin: CoinSymbol.BTC_B,
-      float: floatBalances.btcb,
-      vol: stats.volume1wksBTCB,
+      coin: CoinSymbol.SKYPOOL_WBTC,
+      float: floatBalances.wbtcSkypool,
+      vol: stats.volume1wksWBTC_Skypool,
     },
   ];
 
@@ -119,8 +119,8 @@ export const FloatVolume = () => {
       switch (scanBaseUrl) {
         case URL_ETHERSCAN:
           return CONTRACTS.bridges.btc_erc[mode].address;
-        case URL_BSCSCAN:
-          return CONTRACTS.bridges.btc_bep20[mode].address;
+        case URL_BSCSCAN: // TODO: This does not work for btc_skypool
+          return CONTRACTS.bridges.btc_skypool[mode].address;
 
         default:
           return CONTRACTS.bridges.btc_erc[mode].address;
@@ -224,7 +224,7 @@ export const FloatVolume = () => {
     <FloatVolumeContainer>
       <BridgeInfos>
         {rowBridgeInfo('btc_erc')}
-        {rowBridgeInfo('btc_bep20')}
+        {rowBridgeInfo('btc_skypool')}
       </BridgeInfos>
     </FloatVolumeContainer>
   );

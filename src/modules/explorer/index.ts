@@ -22,16 +22,13 @@ export {
   getTransactionFees,
   getTransactionFee,
   getUsdPrice,
-  isBinanceAddress,
   isBitcoinAddress,
   isEtherAddress,
   toBTC,
   toSatoshi,
   TxStatus,
-  getEndpoint,
   castToBackendVariable,
   getFloatBalance,
-  getBaseEndpoint,
   getFixedBaseEndpoint,
   getRequiredBlockConfirmations,
   fetchVwap,
@@ -176,13 +173,13 @@ export interface INetworkInfos {
   capacity: number;
   floatBalances: {
     btcEth: number;
-    btcBsc: number;
+    btcSkypool: number;
     wbtc: number;
-    btcb: number;
+    wbtcSkypool: number;
   };
   stats: {
     volume1wksWBTC: number;
-    volume1wksBTCB: number;
+    volume1wksWBTC_Skypool: number;
     volume1wksBTC: number;
     rewards1wksUSD: number;
     volumes: IChartDate[];
