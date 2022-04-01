@@ -50,8 +50,10 @@ export const ENDPOINT_ETHEREUM_BRIDGE =
     ? 'https://taitan-0083.zoo.farm'
     : 'https://tbtc-ropsten-node-1.swingby.network';
 
-export const ENDPOINT_BSC_BRIDGE =
-  mode === 'production' ? 'https://ra-cailum.zoo.farm' : 'https://tbtc-bsc-1.swingby.network';
+export const ENDPOINT_SKYPOOL_BRIDGE =
+  mode === 'production'
+    ? 'https://btc-skypool-1.swingby.network'
+    : 'https://btc-skypool-1.swingby.network';
 
 export const ENDPOINT_EARNINGS = 'https://earnings-api.vercel.app/api/earnings';
 

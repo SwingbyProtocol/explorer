@@ -48,8 +48,8 @@ export const selectableBridge = [
     bridge: Bridge.BtcErc as Bridge,
   },
   {
-    menu: 'BSC',
-    bridge: Bridge.BtcBep20 as Bridge,
+    menu: 'Skypools',
+    bridge: Bridge.BtcSkypool as Bridge,
   },
 ];
 
@@ -125,9 +125,9 @@ export interface Reward {
 
 export interface IFloat {
   btcEth: number;
-  btcBsc: number;
+  btcSkypool: number;
   wbtc: number;
-  btcb: number;
+  wbtcSkypool: number;
 }
 
 export interface IStats {
