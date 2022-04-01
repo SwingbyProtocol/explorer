@@ -1,4 +1,7 @@
-version: 1
+version: 2
 snapshot:
-  widths: [445]
+  widths:
+    - 445
   min-height: 100
+discovery:
+  disable-cache: true
