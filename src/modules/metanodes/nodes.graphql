@@ -13,8 +13,7 @@ query NodesDetails(
       moniker
       restUri
       p2pHost
-      address1
-      address2
+      rewardsAddress
       lastSeenAt
       bondAmount
       bondExpiresAt

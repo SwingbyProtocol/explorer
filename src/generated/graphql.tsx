@@ -25,7 +25,7 @@ export type BooleanFilter = {
 
 export enum Bridge {
   BtcErc = 'btc_erc',
-  BtcBep20 = 'btc_bep20'
+  BtcSkypool = 'btc_skypool'
 }
 
 export type BridgeEnumFilter = {
@@ -109,8 +109,7 @@ export type Node = {
   moniker: Scalars['String'];
   restUri?: Maybe<Scalars['String']>;
   p2pHost: Scalars['String'];
-  address1: Scalars['String'];
-  address2: Scalars['String'];
+  rewardsAddress: Scalars['String'];
   lastSeenAt: Scalars['DateTime'];
   bondAddress: Scalars['String'];
   bondAmount: Scalars['Decimal'];
@@ -208,8 +207,8 @@ export enum TransactionCurrency {
   Btc = 'BTC',
   WbtcErc20 = 'WBTC__ERC20',
   SbBtcErc20 = 'sbBTC__ERC20',
-  BtcbBep20 = 'BTCB__BEP20',
-  SbBtcBep20 = 'sbBTC__BEP20'
+  WbtcSkypool = 'WBTC__SKYPOOL',
+  SbBtcSkypool = 'sbBTC__SKYPOOL'
 }
 
 export type TransactionCurrencyEnumFilter = {
@@ -298,7 +297,7 @@ export type NodesDetailsQuery = (
   { __typename?: 'Query' }
   & { nodes: Array<(
     { __typename?: 'Node' }
-    & Pick<Node, 'id' | 'mode' | 'bridge' | 'status' | 'ip' | 'ipRegionCode' | 'version' | 'moniker' | 'restUri' | 'p2pHost' | 'address1' | 'address2' | 'lastSeenAt' | 'bondAmount' | 'bondExpiresAt' | 'bondFraction'>
+    & Pick<Node, 'id' | 'mode' | 'bridge' | 'status' | 'ip' | 'ipRegionCode' | 'version' | 'moniker' | 'restUri' | 'p2pHost' | 'rewardsAddress' | 'lastSeenAt' | 'bondAmount' | 'bondExpiresAt' | 'bondFraction'>
   )> }
 );
 
@@ -389,8 +388,7 @@ export const NodesDetailsDocument = gql`
     moniker
     restUri
     p2pHost
-    address1
-    address2
+    rewardsAddress
     lastSeenAt
     bondAmount
     bondExpiresAt

@@ -68,7 +68,7 @@
             "deprecationReason": null
           },
           {
-            "name": "btc_bep20",
+            "name": "btc_skypool",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
@@ -837,23 +837,7 @@
             "deprecationReason": null
           },
           {
-            "name": "address1",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "address2",
+            "name": "rewardsAddress",
             "description": null,
             "args": [],
             "type": {
@@ -1750,13 +1734,13 @@
             "deprecationReason": null
           },
           {
-            "name": "BTCB__BEP20",
+            "name": "WBTC__SKYPOOL",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
-            "name": "sbBTC__BEP20",
+            "name": "sbBTC__SKYPOOL",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
