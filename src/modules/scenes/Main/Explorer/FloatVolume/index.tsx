@@ -7,7 +7,7 @@ import { PulseLoader } from 'react-spinners';
 import { useTheme } from 'styled-components';
 
 import { CoinSymbol } from '../../../../coins';
-import { mode, URL_BSCSCAN, URL_ETHERSCAN } from '../../../../env';
+import { mode, URL_ETHERSCAN } from '../../../../env';
 import { useGetPoolApr } from '../../../../hooks';
 import { ColumnInlineBlock, IconExternalLink } from '../../../Common';
 
@@ -102,38 +102,27 @@ export const FloatVolume = () => {
     );
   };
 
-  const networkScan = (scanBaseUrl: string) => {
-    const getScanName = (scanBaseUrl: string) => {
-      switch (scanBaseUrl) {
+  const networkScan = ({ bridge }: { bridge: SkybridgeBridge }) => {
+    const baseUrl = (() => {
+      switch (bridge) {
+        case 'btc_erc':
+        case 'btc_skypool':
+          return URL_ETHERSCAN;
+      }
+    })();
+
+    const scanName = (() => {
+      switch (baseUrl) {
         case URL_ETHERSCAN:
           return 'Etherscan';
-        case URL_BSCSCAN:
-          return 'BscScan';
-
-        default:
-          return 'Etherscan';
       }
-    };
+    })();
 
-    const getContract = (scanBaseUrl: string) => {
-      switch (scanBaseUrl) {
-        case URL_ETHERSCAN:
-          return CONTRACTS.bridges.btc_erc[mode].address;
-        case URL_BSCSCAN: // TODO: This does not work for btc_skypool
-          return CONTRACTS.bridges.btc_skypool[mode].address;
-
-        default:
-          return CONTRACTS.bridges.btc_erc[mode].address;
-      }
-    };
+    const contract = CONTRACTS.bridges[bridge][mode].address;
 
     return (
-      <Atag
-        href={`${scanBaseUrl}/address/${getContract(scanBaseUrl)}`}
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        <Text variant="label">{getScanName(scanBaseUrl)}</Text>
+      <Atag href={`${baseUrl}/address/${contract}`} rel="noopener noreferrer" target="_blank">
+        <Text variant="label">{scanName}</Text>
         <IconExternalLink />
       </Atag>
     );
@@ -210,7 +199,7 @@ export const FloatVolume = () => {
           />
         </TextBridge>
         <RowBridge>
-          {networkScan(bridge === 'btc_erc' ? URL_ETHERSCAN : URL_BSCSCAN)}
+          {networkScan({ bridge })}
           {poolLink(bridge)}
         </RowBridge>
         <CoinContainer>

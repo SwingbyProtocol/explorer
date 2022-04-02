@@ -1,6 +1,8 @@
 import { Text } from '@swingby-protocol/pulsar';
+import { SkybridgeBridge, SKYBRIDGE_BRIDGES } from '@swingby-protocol/sdk';
 import Head from 'next/head';
-import React, { useMemo } from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect, useMemo } from 'react';
 import { FormattedMessage, FormattedNumber } from 'react-intl';
 
 import { ConnectWalletMini } from '../../../../../components/ConnectWalletMini';
@@ -34,14 +36,15 @@ import {
 
 export const BrowserSwapRewards = () => {
   const {
-    user,
-    rewards,
-    claimRewards,
+    query: { bridge: bridgeParam },
+  } = useRouter();
+  const bridge = SKYBRIDGE_BRIDGES.includes(bridgeParam as any)
+    ? (bridgeParam as SkybridgeBridge)
+    : 'btc_erc';
+
+  const { user, rewards, claimRewards, isLoading, network, rewardsPercent } = useGetSwapRewards({
     bridge,
-    isLoading,
-    network,
-    rewardsPercent,
-  } = useGetSwapRewards();
+  });
   const { pending, claimed } = user;
   const { swapFrom, swapTo } = rewards;
   const rewardsCurrency = bridge === 'btc_skypool' ? 'ERC20 SWINGBY' : 'ERC20 SWINGBY';
@@ -59,6 +62,10 @@ export const BrowserSwapRewards = () => {
       ? 86
       : 80;
   }, [claimed, pending]);
+
+  if (!bridge) {
+    return <>{null}</>;
+  }
 
   return (
     <>

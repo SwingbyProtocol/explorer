@@ -24,14 +24,13 @@ const initialCoinState = {
   swapTo: 'WBTC',
 };
 
-export const useGetSwapRewards = () => {
+export const useGetSwapRewards = ({ bridge }: { bridge: SkybridgeBridge }) => {
   const [user, setUser] = useState<typeof initialUserState>(initialUserState);
   const [rewards, setRewards] = useState<typeof initialCoinState>(initialCoinState);
   const [rewardsPercent, setRewardsPercent] = useState<Number>(0);
   const [isLoading, setIsLoading] = useState<Boolean>(false);
   const usdBtc = useSelector((state) => state.explorer.usd.BTC);
   const { network, wallet, onboard, address } = useOnboard();
-  const bridge: SkybridgeBridge = 'btc_erc' as SkybridgeBridge; // TODO: Somehow make compatible with `btc_skypool` too
   const isValidCondition = network === 1 || network === 3;
 
   const getRewardsPercentage = ({
