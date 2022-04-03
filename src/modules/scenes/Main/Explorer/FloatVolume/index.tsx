@@ -46,7 +46,7 @@ export const FloatVolume = () => {
     { coin: CoinSymbol.WBTC, float: floatBalances.wbtc, vol: stats.volume1wksWBTC },
   ];
 
-  const dataBscBridge = [
+  const dataSkypoolBridge = [
     {
       coin: CoinSymbol.BTC,
       float: floatBalances.btcSkypool,
@@ -195,7 +195,14 @@ export const FloatVolume = () => {
       <BridgeContainer>
         <TextBridge variant="label">
           <FormattedMessage
-            id={bridge === 'btc_erc' ? 'home.network.bitcoin-ethereum' : 'home.network.bitcoin-bsc'}
+            id={(() => {
+              switch (bridge) {
+                case 'btc_erc':
+                  return 'home.network.bitcoin-ethereum';
+                case 'btc_skypool':
+                  return 'home.network.bitcoin-skypool';
+              }
+            })()}
           />
         </TextBridge>
         <RowBridge>
@@ -203,7 +210,7 @@ export const FloatVolume = () => {
           {poolLink(bridge)}
         </RowBridge>
         <CoinContainer>
-          {bridgeInfo(bridge === 'btc_erc' ? dataEthBridge : dataBscBridge)}
+          {bridgeInfo(bridge === 'btc_erc' ? dataEthBridge : dataSkypoolBridge)}
         </CoinContainer>
       </BridgeContainer>
     );

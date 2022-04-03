@@ -77,6 +77,7 @@
   "home.network.network-bridges": "Network Bridges",
   "home.network.bitcoin-ethereum": "Bitcoin - Ethereum",
   "home.network.bitcoin-bsc": "Bitcoin - BSC",
+  "home.network.bitcoin-skypool": "Bitcoin - Skypools",
   "home.network.float": "Float",
   "home.network.vol": "Vol.",
   "home.network.add-liquidity": "Add Liquidity (APR: {value}%)",
