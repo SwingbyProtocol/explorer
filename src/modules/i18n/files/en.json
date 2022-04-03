@@ -54,6 +54,7 @@
   "toast.transaction-submitted": "Transaction submitted",
   "toast.transaction-confirmed": "Transaction confirmed",
   "toast.view-on-scan": "View on {value}",
+  "toast.old-explorer": "If you are looking for the BTC-BSC bridge, look here: {link}.",
   "footer.what-is-swingby": "What is Swingby?",
   "footer.earn": "Earn",
   "footer.white-paper": "White Paper",
