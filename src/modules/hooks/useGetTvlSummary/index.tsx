@@ -2,11 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { ITvl, ITvlResponses } from '..';
-import {
-  ENDPOINT_SKYBRIDGE_EXCHANGE,
-  ENDPOINT_YIELD_FARMING,
-  mode,
-} from '../../env';
+import { ENDPOINT_SKYBRIDGE_EXCHANGE, ENDPOINT_YIELD_FARMING, mode } from '../../env';
 import { fetcher } from '../../fetch';
 
 // Memo: TVL data for Top page
@@ -37,8 +33,8 @@ export const useGetTvlSummary = () => {
         const skybridgeData = results[0];
         const floatUsd = Number(skybridgeData.liquidity.usd ?? 0);
         const lockedSwingbyUsd = Number(skybridgeData.bonded.usd ?? 0);
-        const tvlUniUsd = results[1].farmTvl ?? 0;
-        const tvlSushiUsd = results[2].farmTvl ?? 0;
+        const tvlUniUsd = results[2].farmTvl ?? 0;
+        const tvlSushiUsd = results[3].farmTvl ?? 0;
         const tvlPancakeUsd = results[3].farmTvl ?? 0;
         const farmTvlUsd = tvlUniUsd + tvlSushiUsd + tvlPancakeUsd;
         const tvlUsd = Number(skybridgeData.tvl.usd) + farmTvlUsd;
