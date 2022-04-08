@@ -30,7 +30,7 @@ export const BridgeMetanodes = () => {
             <TextBridge variant="accent" isActive={bridge === b.bridge}>
               {b.tabMenu}
             </TextBridge>
-            <IconRight isActive={bridge === b.bridge} />
+            <IconRight/>
           </RowBridge>
         );
       })}
