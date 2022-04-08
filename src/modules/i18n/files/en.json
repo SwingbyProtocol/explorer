@@ -86,7 +86,6 @@
   "home.network.apr.farm": "farm APR: {value}%",
   "home.network.tvl.float": "Float BTC: {value}",
   "home.network.tvl.swingby": "Locked SWINGBY: {value}",
-  "home.network.tvl.pre-staking": "Pre staking SWINGBY: {value}",
   "home.network.tvl.yield-farming": "Yield farming LP: {value}",
   "home.network.total-vol": "Total Volume (7 Days)",
   "home.recent-swaps.new-swap": "New Swap",
