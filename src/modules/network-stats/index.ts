@@ -5,7 +5,6 @@ import { CoinSymbol } from '../coins';
 import { sumArray } from '../common';
 import {
   ENDPOINT_ETHEREUM_BRIDGE,
-  ENDPOINT_PRESTAKING,
   ENDPOINT_SKYBRIDGE_EXCHANGE,
   ENDPOINT_SKYPOOL_BRIDGE,
   ENDPOINT_YIELD_FARMING,
@@ -79,7 +78,6 @@ export const getTVL = async (): Promise<string> => {
   const getBondBalUrl = (bridge: SkybridgeBridge) =>
     ENDPOINT_SKYBRIDGE_EXCHANGE + `/production/${bridge}/bonded-historic`;
 
-  const preStakingUrl = `${ENDPOINT_PRESTAKING}/v1/stakes/leaderboard`;
   const uniFarmUrl = `${ENDPOINT_YIELD_FARMING}/api/v1/farm-info?farm=Uni-V2`;
   const sushiFarmUrl = `${ENDPOINT_YIELD_FARMING}/api/v1/farm-info?farm=Sushi-V2`;
   const pancakeFarmUrl = `${ENDPOINT_YIELD_FARMING}/api/v1/farm-info?farm=Pancake-V2`;
@@ -91,8 +89,6 @@ export const getTVL = async (): Promise<string> => {
       fetcher<IBondHistories>(getBondBalUrl('btc_erc')),
       fetcher<IBondHistories>(getBondBalUrl('btc_skypool')),
       fetchVwap('btcUsd'),
-      fetchVwap('swingbyUsd'),
-      fetcher<{ totalStaked: number }>(preStakingUrl),
       fetcher<{ farmTvl: number }>(uniFarmUrl),
       fetcher<{ farmTvl: number }>(sushiFarmUrl),
       fetcher<{ farmTvl: number }>(pancakeFarmUrl),
@@ -105,12 +101,10 @@ export const getTVL = async (): Promise<string> => {
     const tvlSwingbyBsc = Number(results[3].data[0].bond);
 
     const usdBtc = results[4];
-    const usdSwingby = results[5];
-    const preStakingUsd = results[6].totalStaked * usdSwingby ?? 0;
 
-    const tvlUniUsd = results[7].farmTvl ?? 0;
-    const tvlSushiUsd = results[8].farmTvl ?? 0;
-    const tvlPancakeUsd = results[9].farmTvl ?? 0;
+    const tvlUniUsd = results[5].farmTvl ?? 0;
+    const tvlSushiUsd = results[6].farmTvl ?? 0;
+    const tvlPancakeUsd = results[7].farmTvl ?? 0;
     const farmTvlUsd = tvlUniUsd + tvlSushiUsd + tvlPancakeUsd;
 
     const formattedWBTC_Skypool = castToBackendVariable(CoinSymbol.SKYPOOL_WBTC);
@@ -124,7 +118,7 @@ export const getTVL = async (): Promise<string> => {
 
     const tvlSwingbyUsd = tvlSwingbyEth + tvlSwingbyBsc;
 
-    const tvl = floatTtl + tvlSwingbyUsd + preStakingUsd + farmTvlUsd;
+    const tvl = floatTtl + tvlSwingbyUsd + farmTvlUsd;
 
     const formattedTvl = String(
       getFiatAssetFormatter({
