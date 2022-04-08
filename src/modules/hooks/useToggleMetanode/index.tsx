@@ -16,29 +16,37 @@ import {
 import { useInterval } from '../useInterval';
 import { useToggleBridge } from '../useToggleBridge';
 
+const useGetNodesDetails = (path: PATH) => {
+  if (path !== PATH.METANODES) {
+    return [];
+  }
+  const { bridge } = useToggleBridge(path);
+  const [metanodes, setMetanodes] = useState<Node[] | null>(null);
+
+  useEffect(() => {
+    return () => {
+      const { data } = useNodesDetailsQuery({
+        variables: {
+          mode: mode as Mode,
+          bridge: bridge as Bridge,
+        },
+      });
+      setMetanodes(data.nodes as Node[]);
+    };
+  }, [bridge]);
+
+  return metanodes;
+};
+
 export const useToggleMetanode = (path: PATH) => {
   const { bridge } = useToggleBridge(path);
-
-  const [metanodes, setMetanodes] = useState<Node[] | null>(null);
   const [reward, setReward] = useState<IReward | null>(null);
   const [liquidity, setLiquidity] = useState<ILiquidity | null>(null);
   const [churnTime, setChurnTime] = useState<IChurn | null>(null);
   const [bondHistories, setBondHistories] = useState<IChartDate[] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [liquidityRatio, setLiquidityRatio] = useState<ILiquidityRatio[] | null>(null);
-
-  const { data } = useNodesDetailsQuery({
-    variables: {
-      mode: mode as Mode,
-      bridge: bridge as Bridge,
-    },
-  });
-
-  const getNodes = useCallback(async () => {
-    if (bridge && path === PATH.METANODES) {
-      setMetanodes(data.nodes as Node[]);
-    }
-  }, [bridge, path, data]);
+  const metanodes = useGetNodesDetails(path);
 
   const getRewards = useCallback(async () => {
     if (bridge && path === PATH.METANODES) {
@@ -120,7 +128,6 @@ export const useToggleMetanode = (path: PATH) => {
           getBondHistory(),
           getLiquidityRation(),
           getChurnTime(),
-          getNodes(),
         ]);
       } catch (error) {
         console.log('error', error);
@@ -128,7 +135,7 @@ export const useToggleMetanode = (path: PATH) => {
         setIsLoading(false);
       }
     })();
-  }, [getBondHistory, getLiquidityRation, getChurnTime, getLiquidity, getRewards, getNodes]);
+  }, [getBondHistory, getLiquidityRation, getChurnTime, getLiquidity, getRewards]);
 
   useEffect(() => {
     setReward(null);
