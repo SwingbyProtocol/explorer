@@ -52,24 +52,24 @@ export const useToggleMetanode = (path: PATH) => {
     } else {
       // Memo: path === Root && bridge === '' (Multi-bridge)
       const ercRewardsUrl = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/btc_erc/rewards-last-week`;
-      const bscRewardsUrl = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/btc_bep20/rewards-last-week`;
+      const skypoolsRewardsUrl = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/btc_skypool/rewards-last-week`;
       const results = await Promise.all([
         fetcher<IReward>(ercRewardsUrl),
-        fetcher<IReward>(bscRewardsUrl),
+        fetcher<IReward>(skypoolsRewardsUrl),
       ]);
 
       const ercRewardData = results[0];
-      const bscRewardData = results[1];
+      const skypoolsRewardsData = results[1];
 
       const rewardData = {
         currency: 'USD',
         networkRewards: (
-          Number(ercRewardData.networkRewards) + Number(bscRewardData.networkRewards)
+          Number(ercRewardData.networkRewards) + Number(skypoolsRewardsData.networkRewards)
         ).toFixed(0),
         stakingRewards: (
-          Number(ercRewardData.stakingRewards) + Number(bscRewardData.stakingRewards)
+          Number(ercRewardData.stakingRewards) + Number(skypoolsRewardsData.stakingRewards)
         ).toFixed(0),
-        total: (Number(ercRewardData.total) + Number(bscRewardData.total)).toFixed(0),
+        total: (Number(ercRewardData.total) + Number(skypoolsRewardsData.total)).toFixed(0),
         avgPerNode: '0',
       };
       setReward(rewardData);
