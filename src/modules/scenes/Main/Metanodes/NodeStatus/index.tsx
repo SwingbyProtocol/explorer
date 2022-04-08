@@ -66,8 +66,8 @@ export const NodeStatus = (props: Props) => {
     <Tooltip
       content={
         <Tooltip.Content>
-          {nodeTable.nodes.map((node: string) => (
-            <div key={node}>
+          {nodeTable?.nodes.map((node: string, index: number) => (
+            <div key={`${index}-${node}`}>
               <TextRoom variant="label">{node},</TextRoom>{' '}
             </div>
           ))}

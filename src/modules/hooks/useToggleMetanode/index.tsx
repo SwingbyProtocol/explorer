@@ -16,28 +16,6 @@ import {
 import { useInterval } from '../useInterval';
 import { useToggleBridge } from '../useToggleBridge';
 
-const useGetNodesDetails = (path: PATH) => {
-  if (path !== PATH.METANODES) {
-    return [];
-  }
-  const { bridge } = useToggleBridge(path);
-  const [metanodes, setMetanodes] = useState<Node[] | null>(null);
-
-  useEffect(() => {
-    return () => {
-      const { data } = useNodesDetailsQuery({
-        variables: {
-          mode: mode as Mode,
-          bridge: bridge as Bridge,
-        },
-      });
-      setMetanodes(data.nodes as Node[]);
-    };
-  }, [bridge]);
-
-  return metanodes;
-};
-
 export const useToggleMetanode = (path: PATH) => {
   const { bridge } = useToggleBridge(path);
 
@@ -57,7 +35,7 @@ export const useToggleMetanode = (path: PATH) => {
   });
 
   const getNodes = useCallback(async () => {
-    if (bridge && path === PATH.METANODES) {
+    if (bridge && path === PATH.METANODES && data?.nodes) {
       setMetanodes(data.nodes as Node[]);
     }
   }, [bridge, path, data]);
