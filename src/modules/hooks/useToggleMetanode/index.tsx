@@ -32,6 +32,7 @@ export const useToggleMetanode = (path: PATH) => {
       mode: mode as Mode,
       bridge: bridge as Bridge,
     },
+    skip: !bridge,
   });
 
   const getNodes = useCallback(async () => {
