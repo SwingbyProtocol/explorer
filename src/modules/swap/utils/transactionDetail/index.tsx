@@ -1,12 +1,12 @@
-import { CoinSymbol, ETHCoins } from '../../../coins';
-import { BTC_EXPLORER, URL_BSCSCAN, URL_ETHERSCAN } from '../../../env';
+import { BTCCoins, CoinSymbol, ETHCoins } from '../../../coins';
+import { BTC_EXPLORER, URL_ETHERSCAN } from '../../../env';
 
 export const transactionDetailByTxId = (currency: CoinSymbol, hash: string): string => {
   const btcBaseUrl = BTC_EXPLORER + '/tx';
 
   const etherBaseUrl = URL_ETHERSCAN + '/tx';
 
-  if (currency === CoinSymbol.BTC) {
+  if (BTCCoins.includes(currency)) {
     return `${btcBaseUrl}/${hash}`;
   }
   if (ETHCoins.includes(currency)) {
