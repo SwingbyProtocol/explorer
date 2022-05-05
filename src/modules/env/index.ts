@@ -88,7 +88,10 @@ export const CONTRACT_SKYPOOL_SB_BTC =
 export const ZERO_ADDRESS = CONTRACTS.coins.BTC.production.address;
 
 export const isEnableBscSupport =
-  process.env.NEXT_PUBLIC_IS_BSC_SUPPORT === 'true' ? true : mode === 'test' ? true : false;
+  process.env.NEXT_PUBLIC_IS_BSC_SUPPORT === 'true' ? true : mode === 'test';
+
+export const skybridgeEnabled = process.env.NEXT_PUBLIC_SKYBRIDGE_ENABLED === 'true';
+export const skypoolsEnabled = process.env.NEXT_PUBLIC_SKYPOOLS_ENABLED === 'true';
 
 export const GA_TAG = process.env.NEXT_PUBLIC_GA_TAG;
 

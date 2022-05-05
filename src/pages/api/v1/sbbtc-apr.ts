@@ -12,7 +12,8 @@ import {
   getFixedBaseEndpoint,
   getTransactionFee,
   IFloat,
-} from './../../../modules/explorer';
+} from '../../../modules/explorer';
+import { skybridgeEnabled, skypoolsEnabled } from '../../../modules/env';
 
 const getFloatUsd = (bridge: SkybridgeBridge, usdBtc: number, floatBalances: IFloat) => {
   const sumFloatUsd = (floatBtc: number, floatPeggedBtc: number, usdBtc: number) =>
@@ -29,6 +30,19 @@ const getFloatUsd = (bridge: SkybridgeBridge, usdBtc: number, floatBalances: IFl
   }
 };
 
+const isBridgeEnabled = (bridge: SkybridgeBridge): boolean => {
+  switch (bridge) {
+    case 'btc_erc': {
+      return skybridgeEnabled;
+    }
+    case 'btc_skypool': {
+      return skypoolsEnabled;
+    }
+    default:
+      return true;
+  }
+};
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<{ apr: number; apy: number; e?: string }>,
@@ -37,6 +51,10 @@ export default async function handler(
   const bridge = getParam({ req, name: 'bridge' }) as SkybridgeBridge;
   let apr = 0;
   let apy = 0;
+
+  if (!isBridgeEnabled(bridge)) {
+    return res.status(200).json({ apr, apy });
+  }
 
   try {
     const usdBtc = await fetchVwap('btcUsd');
