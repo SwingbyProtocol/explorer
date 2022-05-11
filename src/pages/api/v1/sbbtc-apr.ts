@@ -5,7 +5,6 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { corsMiddleware, getParam } from '../../../modules/api';
 import { sumArray } from '../../../modules/common';
 import { fetcher } from '../../../modules/fetch';
-
 import {
   fetchFloatBalances,
   fetchVwap,
