@@ -51,6 +51,16 @@ export const TextBridge = styled(Text)<ActiveProps>`
   color: ${(props) => props.isActive && props.theme.pulsar.color.primary.normal};
 `;
 
+export const HintBridge = styled(Text)<ActiveProps>`
+  font-size: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  color: ${(props) => props.isActive && props.theme.pulsar.color.text.placeholder};
+`;
+
+export const TextContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 export const IconRight = styled(Icon.CaretRight)<ActiveProps>`
   font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
   color: ${(props) => props.isActive && props.theme.pulsar.color.primary.normal};

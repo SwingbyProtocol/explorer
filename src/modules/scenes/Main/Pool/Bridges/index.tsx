@@ -5,7 +5,16 @@ import { PATH } from '../../../../env';
 import { useToggleBridge } from '../../../../hooks';
 import { BRIDGES, IBridge } from '../../../../metanodes';
 
-import { BridgesContainer, TextTitle, TextBridge, RowBridge, RowTitle, IconRight } from './styled';
+import {
+  BridgesContainer,
+  TextTitle,
+  TextBridge,
+  RowBridge,
+  RowTitle,
+  IconRight,
+  HintBridge,
+  TextContainer,
+} from './styled';
 
 export const Bridges = () => {
   const { bridge } = useToggleBridge(PATH.POOL);
@@ -26,9 +35,14 @@ export const Bridges = () => {
               b.bridge !== bridge && window.open(`/pool?bridge=${b.bridge}`, '_self');
             }}
           >
-            <TextBridge variant="accent" isActive={bridge === b.bridge}>
-              {b.tabMenu}
-            </TextBridge>
+            <TextContainer>
+              <TextBridge variant="accent" isActive={bridge === b.bridge}>
+                {b.tabMenu}
+              </TextBridge>
+              <HintBridge variant="label" isActive={bridge === b.bridge}>
+                {b.hint}
+              </HintBridge>
+            </TextContainer>
             <IconRight isActive={bridge === b.bridge} />
           </RowBridge>
         );

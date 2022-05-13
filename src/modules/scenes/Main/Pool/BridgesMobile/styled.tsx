@@ -6,6 +6,10 @@ import { StylingConstants } from '../../../../styles';
 
 const { media } = StylingConstants;
 
+interface ActiveProps {
+  isActive: boolean;
+}
+
 export const BridgesMobileContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -25,4 +29,19 @@ export const DropTargetBridges = styled(Dropdown.DefaultTarget)`
 
 export const TextTitle = styled(Text)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
+`;
+
+export const TextBridge = styled(Text)<ActiveProps>`
+  font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
+  color: ${(props) => props.isActive && props.theme.pulsar.color.primary.normal};
+`;
+
+export const HintBridge = styled(Text)<ActiveProps>`
+  font-size: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  color: ${(props) => props.isActive && props.theme.pulsar.color.text.placeholder};
+`;
+
+export const TextContainer = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
