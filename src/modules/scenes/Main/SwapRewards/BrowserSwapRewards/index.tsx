@@ -2,7 +2,7 @@ import { Text } from '@swingby-protocol/pulsar';
 import { SkybridgeBridge, SKYBRIDGE_BRIDGES } from '@swingby-protocol/sdk';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { FormattedMessage, FormattedNumber } from 'react-intl';
 
 import { ConnectWalletMini } from '../../../../../components/ConnectWalletMini';
