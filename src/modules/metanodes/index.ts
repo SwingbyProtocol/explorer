@@ -22,6 +22,7 @@ export interface IReward {
 export interface IBridge {
   bridge: SkybridgeBridge;
   tabMenu: string;
+  hint?: string;
 }
 
 export interface ILiquidity {
@@ -69,12 +70,13 @@ const btcSkypool = SKYBRIDGE_BRIDGES.find((bridge) => bridge === 'btc_skypool');
 
 export const BRIDGES = [
   {
-    bridge: btcErc,
+    bridge: btcSkypool,
     tabMenu: 'Bitcoin to Ethereum',
   },
   {
-    bridge: btcSkypool,
-    tabMenu: 'Skypools',
+    bridge: btcErc,
+    tabMenu: 'Bitcoin to Ethereum',
+    hint: '(Legacy)',
   },
 ];
 

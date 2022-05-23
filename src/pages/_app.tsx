@@ -1,7 +1,7 @@
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import { relayStylePagination } from '@apollo/client/utilities'; // eslint-disable-line import/no-internal-modules
 import { RouterScrollProvider } from '@moxy/next-router-scroll';
-import { createToast, Text } from '@swingby-protocol/pulsar';
+import { createToast } from '@swingby-protocol/pulsar';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo } from 'react';
 import { FormattedMessage, IntlProvider } from 'react-intl';

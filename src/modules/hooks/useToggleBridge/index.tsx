@@ -10,7 +10,7 @@ export const useToggleBridge = (path: PATH) => {
   const params = router.query;
   const bridge: SkybridgeBridge = params.bridge as SkybridgeBridge;
 
-  const btcErc = SKYBRIDGE_BRIDGES.find((bridge) => bridge === 'btc_erc');
+  const btcErc = SKYBRIDGE_BRIDGES.find((bridge) => bridge === 'btc_skypool');
   const poolCurrencies = [CoinSymbol.BTC, getBridgeBtc(bridge)];
 
   const setBridge = (bridge: SkybridgeBridge): void => {

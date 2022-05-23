@@ -7,7 +7,14 @@ import { useToggleBridge } from '../../../../hooks';
 import { BRIDGES, IBridge } from '../../../../metanodes';
 import { TextChosenFilter } from '../../../Common';
 
-import { BridgesMobileContainer, DropTargetBridges, TextTitle } from './styled';
+import {
+  BridgesMobileContainer,
+  DropTargetBridges,
+  HintBridge,
+  TextBridge,
+  TextContainer,
+  TextTitle,
+} from './styled';
 
 export const BridgesMobile = () => {
   const { bridge } = useToggleBridge(PATH.POOL);
@@ -19,7 +26,14 @@ export const BridgesMobile = () => {
           onClick={() => b.bridge !== bridge && window.open(`/pool?bridge=${b.bridge}`, '_self')}
           key={b.bridge}
         >
-          {b.tabMenu}
+          <TextContainer>
+            <TextBridge variant="accent" isActive={bridge === b.bridge}>
+              {b.tabMenu}
+            </TextBridge>
+            <HintBridge variant="label" isActive={bridge === b.bridge}>
+              {b.hint}
+            </HintBridge>
+          </TextContainer>
         </Dropdown.Item>
       ))}
     </>
