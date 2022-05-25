@@ -34,7 +34,7 @@ export const FarmCard = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
 
-  const { apr } = useGetPoolApr();
+  const { apr, isLoading: aprLoading } = useGetPoolApr();
 
   const formattedTvlAmountUsd = getFiatAssetFormatter({
     locale,
@@ -94,22 +94,17 @@ export const FarmCard = () => {
                   <FormattedMessage
                     id="pool.stake-card.stake-on-farm-apr"
                     values={{
-                      value:
-                        bridge && apr[bridge].total ? (
-                          <FormattedNumber
-                            value={bridge && apr[bridge].total}
-                            maximumFractionDigits={2}
-                            minimumFractionDigits={2}
-                          />
-                        ) : (
-                          <ColumnInlineBlock>
-                            <PulseLoader
-                              margin={7}
-                              size={4}
-                              color={theme.pulsar.color.text.normal}
-                            />
-                          </ColumnInlineBlock>
-                        ),
+                      value: aprLoading ? (
+                        <ColumnInlineBlock>
+                          <PulseLoader margin={7} size={4} color={theme.pulsar.color.text.normal} />
+                        </ColumnInlineBlock>
+                      ) : (
+                        <FormattedNumber
+                          value={bridge && apr[bridge].total}
+                          maximumFractionDigits={2}
+                          minimumFractionDigits={2}
+                        />
+                      ),
                     }}
                   />
                 </Text>
@@ -191,7 +186,7 @@ export const FarmCard = () => {
             )}
             {/* Todo: remove condition once published sbBTC pool on BSC */}
             <ButtonLink
-              isMultiButton={bridge !== 'btc_skypool' ? true : false}
+              isMultiButton={bridge !== 'btc_skypool'}
               variant="secondary"
               size="town"
               shape="fill"
