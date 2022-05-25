@@ -17,8 +17,8 @@ import {
   getMinimumWithdrawAmount,
   poolMinimumWithdrawAmountSelector,
   transactionFeesSelector,
+  useThemeSettings,
 } from '../../../../store';
-import { useThemeSettings } from '../../../../store';
 import { ButtonScale, TextChosenFilter, TextEstimated } from '../../../Common';
 import { mode, PATH } from '../../../../env';
 

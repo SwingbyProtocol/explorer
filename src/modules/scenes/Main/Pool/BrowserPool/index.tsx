@@ -16,6 +16,7 @@ import { EarningStats } from '../EarningStats';
 import { FarmCard } from '../FarmCard';
 import { TransactionsPool } from '../TransactionsPool';
 import { Withdraw } from '../Withdraw';
+import { poolModeSelector } from '../../../../store';
 
 import {
   BrowserPoolContainer,
@@ -27,7 +28,6 @@ import {
   ValidationResult,
   BackDropMobile,
 } from './styled';
-import { poolModeSelector } from '../../../../store';
 
 export const BrowserPool = () => {
   const mode = useSelector(poolModeSelector);
