@@ -4,9 +4,10 @@ import { DefaultRootState, useDispatch, useSelector } from 'react-redux';
 import { LOCAL_STORAGE } from '../../env';
 
 import { actionSetSettings } from './reducer';
+import { themeSelector } from './selectors';
 
 export const useThemeSettings = () => {
-  const theme = useSelector((state) => state.settings.theme);
+  const theme = useSelector(themeSelector);
   const dispatch = useDispatch();
   return useMemo(() => {
     return [
