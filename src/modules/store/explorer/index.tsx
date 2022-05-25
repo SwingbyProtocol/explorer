@@ -1,9 +1,9 @@
 import { Reducer } from 'redux';
 
 import { IFee, IFetchUsd, INetworkInfos, ITransactions, TTxRawObject } from '../../explorer';
+import { ExplorerState } from '../types';
 
 import * as initial from './initialState';
-import { ExplorerState } from '../types';
 
 export { networkInfos, initialVolumes, floatHistoryObjectInitialValue } from './initialState';
 
@@ -94,3 +94,14 @@ type Action =
   | ReturnType<typeof fetchUsdPrice>
   | ReturnType<typeof fetchTransactionFees>
   | ReturnType<typeof updateNetworkInfos>;
+
+export {
+  btcUSDPriceSelector,
+  usdPricesSelector,
+  swingbyUSDPriceSelector,
+  transactionFeesSelector,
+  networkInfoSelector,
+  explorerSelector,
+  explorerLoadingSelector,
+  statsSelector,
+} from './selectors';

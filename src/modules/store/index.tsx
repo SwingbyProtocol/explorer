@@ -12,6 +12,14 @@ export {
   toggleIsExistPreviousPage,
   initialVolumes,
   floatHistoryObjectInitialValue,
+  btcUSDPriceSelector,
+  explorerLoadingSelector,
+  explorerSelector,
+  networkInfoSelector,
+  swingbyUSDPriceSelector,
+  usdPricesSelector,
+  transactionFeesSelector,
+  statsSelector,
 } from './explorer';
 
 export { togglePoolMode, getRecentTxs, resetPoolState, getMinimumWithdrawAmount } from './pool';

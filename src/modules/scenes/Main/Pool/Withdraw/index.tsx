@@ -13,10 +13,10 @@ import { getBridgeSbBtc, TBtcCurrency } from '../../../../coins';
 import { useGetSbBtcBal, usePoolWithdrawCoin, useToggleBridge } from '../../../../hooks';
 import { IWithdrawAmountValidation } from '../../../../pool';
 import { useSdkContext } from '../../../../sdk-context';
-import { getMinimumWithdrawAmount } from '../../../../store';
+import { getMinimumWithdrawAmount, transactionFeesSelector } from '../../../../store';
 import { useThemeSettings } from '../../../../store/settings';
 import { ButtonScale, TextChosenFilter, TextEstimated } from '../../../Common';
-import { mode, PATH } from '../.././../../env';
+import { mode, PATH } from '../../../../env';
 
 import {
   AllButtonDiv,
@@ -56,7 +56,7 @@ export const Withdraw = (props: Props) => {
 
   const { balance } = useGetSbBtcBal();
   const minimumWithdrawAmount = useSelector((state) => state.pool.minimumWithdrawAmount);
-  const transactionFees = useSelector((state) => state.explorer.transactionFees);
+  const transactionFees = useSelector(transactionFeesSelector);
   const { locale } = useRouter();
   const dispatch = useDispatch();
   const affiliateCode = useAffiliateCode();
