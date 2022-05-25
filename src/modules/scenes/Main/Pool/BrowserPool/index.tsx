@@ -27,9 +27,10 @@ import {
   ValidationResult,
   BackDropMobile,
 } from './styled';
+import { poolModeSelector } from '../../../../store';
 
 export const BrowserPool = () => {
-  const mode = useSelector((state) => state.pool.mode);
+  const mode = useSelector(poolModeSelector);
   const { address, wallet, onboard } = useOnboard();
   const storedWallet = localStorage.getItem(LOCAL_STORAGE.Wallet);
   const { bridge } = useToggleBridge(PATH.POOL);

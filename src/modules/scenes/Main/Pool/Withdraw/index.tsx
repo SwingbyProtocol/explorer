@@ -13,8 +13,12 @@ import { getBridgeSbBtc, TBtcCurrency } from '../../../../coins';
 import { useGetSbBtcBal, usePoolWithdrawCoin, useToggleBridge } from '../../../../hooks';
 import { IWithdrawAmountValidation } from '../../../../pool';
 import { useSdkContext } from '../../../../sdk-context';
-import { getMinimumWithdrawAmount, transactionFeesSelector } from '../../../../store';
-import { useThemeSettings } from '../../../../store/settings';
+import {
+  getMinimumWithdrawAmount,
+  poolMinimumWithdrawAmountSelector,
+  transactionFeesSelector,
+} from '../../../../store';
+import { useThemeSettings } from '../../../../store';
 import { ButtonScale, TextChosenFilter, TextEstimated } from '../../../Common';
 import { mode, PATH } from '../../../../env';
 
@@ -55,7 +59,7 @@ export const Withdraw = (props: Props) => {
   const [themeMode] = useThemeSettings();
 
   const { balance } = useGetSbBtcBal();
-  const minimumWithdrawAmount = useSelector((state) => state.pool.minimumWithdrawAmount);
+  const minimumWithdrawAmount = useSelector(poolMinimumWithdrawAmountSelector);
   const transactionFees = useSelector(transactionFeesSelector);
   const { locale } = useRouter();
   const dispatch = useDispatch();

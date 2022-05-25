@@ -22,6 +22,16 @@ export {
   statsSelector,
 } from './explorer';
 
-export { togglePoolMode, getRecentTxs, resetPoolState, getMinimumWithdrawAmount } from './pool';
+export {
+  togglePoolMode,
+  getRecentTxs,
+  resetPoolState,
+  getMinimumWithdrawAmount,
+  poolRecentTxsSelector,
+  poolModeSelector,
+  poolMinimumWithdrawAmountSelector,
+  poolSelector,
+  pool,
+} from './pool';
 
 export { settingsSelector, themeSelector, useThemeSettings, settings } from './settings';
