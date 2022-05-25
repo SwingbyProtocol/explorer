@@ -1,3 +1,5 @@
+import { NetworkInfo } from '../types';
+
 const intialVolume = { at: '1-Jan', amount: '1' };
 export const initialVolumes = [
   intialVolume,
@@ -8,7 +10,7 @@ export const initialVolumes = [
   intialVolume,
   intialVolume,
 ];
-export const networkInfos = {
+export const networkInfos: NetworkInfo = {
   capacity: 0,
   floatBalances: { btcEth: 0, btcSkypool: 0, wbtc: 0, wbtcSkypool: 0 },
   stats: {

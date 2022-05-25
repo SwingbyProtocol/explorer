@@ -3,6 +3,7 @@ import { Reducer } from 'redux';
 import { IFee, IFetchUsd, INetworkInfos, ITransactions, TTxRawObject } from '../../explorer';
 
 import * as initial from './initialState';
+import { ExplorerState } from '../types';
 
 export { networkInfos, initialVolumes, floatHistoryObjectInitialValue } from './initialState';
 
@@ -17,7 +18,7 @@ enum Actions {
   UpdateNetworkInfos = 'Explorer/UPDATE_NETWORK_INFOS',
 }
 
-const initialState = {
+const initialState: ExplorerState = {
   isLoading: false,
   swapHistory: null,
   swapHistoryTemp: null,
@@ -27,9 +28,7 @@ const initialState = {
   isExistPreviousPage: false,
 };
 
-type State = typeof initialState;
-
-export const explorer: Reducer<State, Action> = (state = initialState, action) => {
+export const explorer: Reducer<ExplorerState, Action> = (state = initialState, action) => {
   if (action.type === Actions.ToggleIsLoading) {
     return { ...state, isLoading: action.data };
   }
