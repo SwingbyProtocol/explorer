@@ -51,7 +51,9 @@ export const FarmCard = () => {
         <AprBox>
           <div>
             <TextTitle variant="accent">
-              <FormattedMessage id="common.sbbtc" />
+              <FormattedMessage
+                id={bridge === 'btc_erc' ? 'common.sbbtc.legacy' : 'common.sbbtc'}
+              />
             </TextTitle>
             <div>
               <Tooltip

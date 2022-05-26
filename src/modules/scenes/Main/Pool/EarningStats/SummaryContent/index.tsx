@@ -95,7 +95,9 @@ export const SummaryContent = ({ farming, bridge }) => {
               <RowFarmName>
                 <CoinMini symbol={CoinSymbol.ERC20_SB_BTC} />
                 <Text variant="menu">
-                  <FormattedMessage id="common.sbbtc" />
+                  <FormattedMessage
+                    id={bridge === 'btc_erc' ? 'common.sbbtc.legacy' : 'common.sbbtc'}
+                  />
                 </Text>
               </RowFarmName>
               {/* Todo: remove condition once published sbBTC pool on BSC */}

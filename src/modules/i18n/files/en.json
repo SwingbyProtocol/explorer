@@ -20,6 +20,7 @@
   "common.claim": "Claim",
   "common.tvl": "TVL",
   "common.sbbtc": "sbBTC",
+  "common.sbbtc.legacy": "sbBTC (Legacy)",
   "common.btc": "BTC",
   "common.total": "Total",
   "common.value.swingby": "{value} SWINGBY",
