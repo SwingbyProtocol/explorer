@@ -4,11 +4,12 @@ import { useSelector } from 'react-redux';
 import { ITvl, ITvlResponses } from '..';
 import { ENDPOINT_SKYBRIDGE_EXCHANGE, ENDPOINT_YIELD_FARMING, mode } from '../../env';
 import { fetcher } from '../../fetch';
+import { swingbyUSDPriceSelector } from '../../store';
 
 // Memo: TVL data for Top page
 export const useGetTvlSummary = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const usdSwingby = useSelector((state) => state.explorer.usd.SWINGBY);
+  const usdSwingby = useSelector(swingbyUSDPriceSelector);
   const [tvl, setTvl] = useState<ITvl>({
     tvlUsd: 0,
     floatUsd: 0,

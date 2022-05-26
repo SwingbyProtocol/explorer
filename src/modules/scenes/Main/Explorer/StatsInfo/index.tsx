@@ -11,6 +11,7 @@ import { GenerateChart } from '../../../../../components/GenerateChart';
 import { LoaderComingSoon } from '../../../../../components/LoaderComingSoon';
 import { PATH } from '../../../../env';
 import { useGetStatsChartData, useToggleMetanode } from '../../../../hooks';
+import { explorerLoadingSelector, statsSelector, usdPricesSelector } from '../../../../store';
 
 import {
   ChartBox,
@@ -44,9 +45,9 @@ export const StatsInfo = () => {
   const formattedMetanodes = formatMessage({ id: 'metanodes.metanodes' });
   const formattedRewards = formatMessage({ id: 'home.network.rewards' });
 
-  const stats = useSelector((state) => state.explorer.networkInfos.stats);
-  const usd = useSelector((state) => state.explorer.usd);
-  const isLoading = useSelector((state) => state.explorer.isLoading);
+  const stats = useSelector(statsSelector);
+  const usd = useSelector(usdPricesSelector);
+  const isLoading = useSelector(explorerLoadingSelector);
 
   const { bridge, reward, isLoading: isLoadingMetanode } = useToggleMetanode(PATH.ROOT);
   const {
