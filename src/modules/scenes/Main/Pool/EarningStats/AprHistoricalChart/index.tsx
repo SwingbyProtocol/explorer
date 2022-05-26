@@ -91,7 +91,9 @@ export const AprHistoricalChart = ({ aprHistoric, bridge }) => {
               onClick={() => setActive('sbBtcErc20')}
               isActive={'sbBtcErc20' === active}
             >
-              <FormattedMessage id="common.sbbtc" />
+              <FormattedMessage
+                id={bridge === 'btc_erc' ? 'common.sbbtc.legacy' : 'common.sbbtc'}
+              />
             </TextDate>
           )}
         </Column>

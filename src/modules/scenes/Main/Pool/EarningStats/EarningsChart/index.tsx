@@ -116,7 +116,9 @@ export const EarningsChart = ({ farming, bridge }) => {
               onClick={() => setActive('sbBTC')}
               isActive={'sbBTC' === active}
             >
-              <FormattedMessage id="common.sbbtc" />
+              <FormattedMessage
+                id={bridge === 'btc_erc' ? 'common.sbbtc.legacy' : 'common.sbbtc'}
+              />
             </TextDate>
           )}
         </Column>
