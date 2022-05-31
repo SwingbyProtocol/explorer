@@ -18,7 +18,7 @@ import {
   BrowserPool,
 } from '../../Main';
 
-import { ExplorerMainContainer, HeadLine, TitleH1 } from './styled';
+import { ExplorerMainContainer, ExplorerMainDecoration, HeadLine, TitleH1 } from './styled';
 
 export const ExplorerMain = () => {
   const router = useRouter();
@@ -82,6 +82,7 @@ export const ExplorerMain = () => {
   return (
     <PulsarThemeProvider theme="accent">
       <ExplorerMainContainer isLightTheme={themeId === 'PulsarLight'}>
+        <ExplorerMainDecoration />
         <HeadLine>
           <TitleH1>{titleGenerator(currentPath)}</TitleH1>
           <PulsarThemeProvider theme={theme}>

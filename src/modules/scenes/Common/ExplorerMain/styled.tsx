@@ -9,15 +9,22 @@ interface ThemeProps {
 }
 
 const { media } = StylingConstants;
-export const ExplorerMainContainer = styled.div<ThemeProps>`
-  position: relative;
-  height: ${rem(250)};
+export const ExplorerMainDecoration = styled.div`
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
   background: ${({ theme }) => theme.pulsar.color.bg.normal};
   background-image: url(${logos.StarsBgAnimated});
-  z-index: 0;
-  background-size: ${(props) => (props.isLightTheme ? '80%' : '55%')};
+  height: ${rem(250)};
   @media (min-width: ${rem(media.xs)}) {
     height: ${rem(240)};
+  }
+`;
+export const ExplorerMainContainer = styled.div<ThemeProps>`
+  position: relative;
+  background-size: ${(props) => (props.isLightTheme ? '80%' : '55%')};
+  @media (min-width: ${rem(media.xs)}) {
     display: grid;
     width: 100%;
   }
@@ -31,7 +38,6 @@ export const ExplorerMainContainer = styled.div<ThemeProps>`
     padding-right: ${({ theme }) => rem(theme.pulsar.size.street)};
   }
   @media (min-width: ${rem(media.lg)}) {
-    height: ${rem(274)};
     padding-left: ${({ theme }) => rem(theme.pulsar.size.closet)};
     padding-right: ${({ theme }) => rem(theme.pulsar.size.closet)};
     padding-top: ${({ theme }) => rem(theme.pulsar.size.country)};
@@ -47,6 +53,7 @@ export const HeadLine = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
+  z-index: 1;
   @media (min-width: ${rem(media.sm)}) {
     height: ${({ theme }) => rem(theme.pulsar.size.country)};
     max-width: ${rem(1400)};

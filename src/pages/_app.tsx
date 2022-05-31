@@ -3,16 +3,19 @@ import { relayStylePagination } from '@apollo/client/utilities'; // eslint-disab
 import { RouterScrollProvider } from '@moxy/next-router-scroll';
 import { createToast } from '@swingby-protocol/pulsar';
 import { useRouter } from 'next/router';
-import { useEffect, useMemo } from 'react';
+import { ReactElement, ReactNode, useEffect, useMemo } from 'react';
 import { FormattedMessage, IntlProvider } from 'react-intl';
 import { Provider as ReduxProvider } from 'react-redux';
 import styled from 'styled-components';
+import { AppProps } from 'next/app';
+import { NextPage } from 'next';
 
 import { Globals } from '../components/Globals';
 import { graphEndpoint } from '../modules/env';
 import { languages } from '../modules/i18n';
 import { SEO } from '../modules/seo';
 import { useStore } from '../modules/store';
+import LayoutView from '../layout';
 import './style.css';
 
 const DEFAULT_LOCALE = 'en';
@@ -61,7 +64,14 @@ const OldExplorerWarning = () => {
   return <>{null}</>;
 };
 
-function MyApp({ Component, pageProps }) {
+type AppWithLayoutProps = AppProps & {
+  Component: NextPageWithLayout;
+};
+export type NextPageWithLayout<P = Record<string, unknown>> = NextPage<P> & {
+  getLayout?: (page: ReactElement) => ReactNode;
+};
+
+function MyApp({ Component, pageProps }: AppWithLayoutProps) {
   const router = useRouter();
   const store = useStore();
 
@@ -77,6 +87,8 @@ function MyApp({ Component, pageProps }) {
     locale,
   ]);
 
+  const getLayout = Component.getLayout || ((page) => <LayoutView>{page}</LayoutView>);
+
   return (
     <ApolloProvider client={apolloClient}>
       <RouterScrollProvider>
@@ -85,7 +97,7 @@ function MyApp({ Component, pageProps }) {
           <ReduxProvider store={store}>
             <Globals>
               <OldExplorerWarning />
-              <Component {...pageProps} />
+              {getLayout(<Component {...pageProps} />)}
             </Globals>
           </ReduxProvider>
         </IntlProvider>
