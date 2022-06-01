@@ -92,19 +92,19 @@ export const SvgIcon = styled.svg`
   color: ${({ color, theme }) => {
     switch (color) {
       case 'primary':
-        return theme.pulsar.color.primary.text;
+        return theme.pulsar.color.primary.normal;
       case 'secondary':
-        return theme.pulsar.color.secondary.text;
+        return theme.pulsar.color.secondary.normal;
       case 'red':
-        return theme.pulsar.color.danger.text;
+        return theme.pulsar.color.danger.normal;
       case 'green':
-        return theme.pulsar.color.success.text;
+        return theme.pulsar.color.success.normal;
       case 'blue':
-        return theme.pulsar.color.warning.text;
+        return theme.pulsar.color.warning.normal;
       case 'inherit':
         return 'inherit';
       default:
-        return theme.pulsar.color.primary.text;
+        return theme.pulsar.color.text.normal;
     }
   }};
 `;

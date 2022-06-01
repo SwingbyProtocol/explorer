@@ -19,11 +19,15 @@ export const Aside = styled.aside<{ open: boolean }>`
   border-right: 1px solid ${({ theme }) => theme.pulsar.color.border.normal};
   transition: all 0.2s linear;
 
+  @media (max-width: 1024px) {
+    width: ${({ open }) => (open ? '196px' : '72px')};
+  }
+
   @media (max-width: 768px) {
     position: fixed;
     left: ${({ open }) => (open ? '0' : '-100%')};
     z-index: 10;
-    width: 275px !important;
+    width: 225px !important;
   }
 `;
 
