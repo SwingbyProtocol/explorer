@@ -119,7 +119,7 @@ export const ButtonContent = styled.div<{ navOpen: boolean }>`
   flex-direction: column;
   align-items: flex-start;
   justify-content: start;
-  margin-left: 16px;
+  margin-left: 8px;
   visibility: ${(props) => (props.navOpen ? 'visible' : 'hidden')};
 
   > div {
@@ -144,9 +144,11 @@ export const ButtonHint = styled.span`
   color: ${({ theme }) => theme.pulsar.color.text.placeholder};
 `;
 
-export const Dot = styled.div`
-  height: 10px;
-  width: 10px;
+export const Dot = styled.div<{ currentRoute: boolean }>`
+  visibility: ${({ currentRoute }) => (currentRoute ? 'visible' : 'hidden')};
+  height: 8px;
+  width: 8px;
+  margin: 1px;
   border-radius: 50%;
   background-color: ${({ theme }) => theme.pulsar.color.primary.normal};
 `;
@@ -154,9 +156,10 @@ export const Dot = styled.div`
 export const SwapLabel = styled.p`
   font-weight: bold;
   font-size: 0.95rem;
+  letter-spacing: 0.03rem;
   margin-top: 0;
   margin-left: 16px;
-  color: ${({ theme }) => theme.pulsar.color.primary.normal};
+  color: ${({ theme }) => theme.pulsar.color.text.placeholder};
   margin-bottom: 1px;
 `;
 

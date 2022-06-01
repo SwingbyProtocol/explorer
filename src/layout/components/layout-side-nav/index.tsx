@@ -64,7 +64,7 @@ function LayoutSideNav({ navOpen, setNavOpen }: NavHandlerProps) {
             const isCurrentRoute = render === 'Explorer';
             return (
               <NavLink href={href} key={key} currentRoute={isCurrentRoute}>
-                {isCurrentRoute && <Dot />}
+                <Dot currentRoute={isCurrentRoute} />
                 <ButtonContent navOpen={navOpen}>
                   <ButtonLabel>{render}</ButtonLabel>
                   {hint && <ButtonHint>{hint}</ButtonHint>}
