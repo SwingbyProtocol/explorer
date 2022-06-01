@@ -60,7 +60,7 @@ export const Tittle = styled.h3`
   color: ${({ theme }) => theme.pulsar.color.text.normal};
 `;
 
-export const ArrowIcon = styled(Icon.ArrowRight)`
+export const ArrowIcon = styled(Icon.ArrowRight)<{ navOpen: boolean }>`
   transform: rotate(${(props) => (props.navOpen ? 180 : 0)}deg);
   font-size: 12px;
   color: ${({ theme }) => theme.pulsar.color.text.normal};

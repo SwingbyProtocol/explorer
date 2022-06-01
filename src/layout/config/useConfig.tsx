@@ -16,7 +16,7 @@ export const useConfig = () => {
         href: 'https://skybridge.info',
       },
       {
-        render: 'Liquidity',
+        render: 'Add liquidity',
         key: 'liquidity',
         href: 'https://skybridge.info/pool',
       },
@@ -27,6 +27,7 @@ export const useConfig = () => {
       },
       {
         render: 'Metanodes',
+        hint: '(Validators)',
         key: 'metanodes',
         href: 'https://skybridge.info/metanodes',
       },

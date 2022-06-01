@@ -57,7 +57,7 @@ export const LogoLabel = styled.text<{ navOpen: boolean }>`
 
 export const Nav = styled.nav``;
 
-export const NavLink = styled.a`
+export const NavLink = styled.a<{ currentRoute?: boolean }>`
   text-decoration: none;
   position: relative;
   display: flex;
@@ -85,6 +85,9 @@ export const NavLink = styled.a`
       border-bottom: 1px solid ${({ theme }) => theme.pulsar.color.primary.normal};
       color: ${({ theme }) => theme.pulsar.color.text.normal};
     }
+  }
+  text {
+    color: ${({ theme, currentRoute }) => currentRoute && theme.pulsar.color.text.normal};
   }
 
   svg {
@@ -132,6 +135,20 @@ export const ButtonLabel = styled.text`
   &:hover {
     color: ${({ theme }) => theme.pulsar.color.text.normal};
   }
+`;
+
+export const ButtonHint = styled.span`
+  font-weight: normal;
+  font-size: 0.55rem;
+  letter-spacing: 0.03rem;
+  color: ${({ theme }) => theme.pulsar.color.text.placeholder};
+`;
+
+export const Dot = styled.div`
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  background-color: ${({ theme }) => theme.pulsar.color.primary.normal};
 `;
 
 export const SwapLabel = styled.p`

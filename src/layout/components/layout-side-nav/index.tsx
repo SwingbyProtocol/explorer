@@ -22,6 +22,8 @@ import {
   NavLink,
   Wrapper,
   SwapLabel,
+  ButtonHint,
+  Dot,
 } from './styled';
 
 type NavHandlerProps = {
@@ -58,11 +60,14 @@ function LayoutSideNav({ navOpen, setNavOpen }: NavHandlerProps) {
           <NavLink href="https://skypools.swingby.network/">
             <SwapLabel>Swap</SwapLabel>
           </NavLink>
-          {sideNavItems.map(({ href, render, key }) => {
+          {sideNavItems.map(({ href, render, key, hint }) => {
+            const isCurrentRoute = render === 'Explorer';
             return (
-              <NavLink href={href} key={key}>
+              <NavLink href={href} key={key} currentRoute={isCurrentRoute}>
+                {isCurrentRoute && <Dot />}
                 <ButtonContent navOpen={navOpen}>
                   <ButtonLabel>{render}</ButtonLabel>
+                  {hint && <ButtonHint>{hint}</ButtonHint>}
                 </ButtonContent>
               </NavLink>
             );
