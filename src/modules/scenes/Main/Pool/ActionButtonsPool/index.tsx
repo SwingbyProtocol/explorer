@@ -19,9 +19,6 @@ export const ActionButtonsPool = () => {
   const queryParams = useGetQueryParams();
   const isBTC_ERC = queryParams.bridge === 'btc_erc';
 
-  const queryParams = useGetQueryParams();
-  const isBTC_ERC = queryParams.bridge === 'btc_erc';
-
   const { media } = StylingConstants;
   const sm = useMatchMedia({ query: `(min-width: ${rem(media.sm)})` });
 
