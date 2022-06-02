@@ -21,7 +21,7 @@ import { IWithdrawAmountValidation } from '../../../../pool';
 import { useSdkContext } from '../../../../sdk-context';
 import { useThemeSettings } from '../../../../store/settings';
 import { ButtonScale, TextChosenFilter, TextEstimated } from '../../../Common';
-import { mode, PATH } from '../.././../../env';
+import { mode, PATH } from '../../../../env';
 
 import {
   AddLiquidityContainer,
@@ -192,7 +192,7 @@ export const AddLiquidity = (props: Props) => {
                 {
                   id: 'pool.receive-address',
                 },
-                { value: sbBTC },
+                { value: bridge === 'btc_erc' ? 'sbBTC (Legacy)' : 'sbBTC' },
               )}
               left={<Coin symbol={sbBTC} />}
               onChange={(e) => {

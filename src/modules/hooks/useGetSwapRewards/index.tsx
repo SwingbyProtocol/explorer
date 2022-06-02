@@ -13,6 +13,7 @@ import { useOnboard } from '../../onboard';
 import { SWINGBY_DECIMALS, tradeMiningContract } from '../../swap-rewards';
 import abi from '../../swap-rewards/abi/trade-mining.json'; // eslint-disable-line
 import { calculateGasMargin, generateSendParams, generateWeb3ErrorToast } from '../../web3';
+import { btcUSDPriceSelector } from '../../store';
 
 const initialUserState = {
   pending: '0',
@@ -29,7 +30,7 @@ export const useGetSwapRewards = ({ bridge }: { bridge: SkybridgeBridge }) => {
   const [rewards, setRewards] = useState<typeof initialCoinState>(initialCoinState);
   const [rewardsPercent, setRewardsPercent] = useState<Number>(0);
   const [isLoading, setIsLoading] = useState<Boolean>(false);
-  const usdBtc = useSelector((state) => state.explorer.usd.BTC);
+  const usdBtc = useSelector(btcUSDPriceSelector);
   const { network, wallet, onboard, address } = useOnboard();
   const isValidCondition = network === 1 || network === 3;
 

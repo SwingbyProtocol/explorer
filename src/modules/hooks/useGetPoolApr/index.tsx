@@ -22,9 +22,26 @@ const initialState = {
   },
 };
 
-export const useGetPoolApr = () => {
-  const [apr, setApr] = useState<typeof initialState>(initialState);
-  const [isLoading, setIsLoading] = useState<Boolean>(false);
+type PoolAprState = {
+  btc_erc: {
+    sbBtc: number;
+    farm: number;
+    total: number;
+    swingbyPerBlock: number;
+    farmTvl: number;
+  };
+  btc_skypool: {
+    sbBtc: number;
+    farm: number;
+    total: number;
+    swingbyPerBlock: number;
+    farmTvl: number;
+  };
+};
+
+export const useGetPoolApr = (): { apr: PoolAprState; isLoading: boolean } => {
+  const [apr, setApr] = useState<PoolAprState>(initialState);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const getApr = useCallback(async () => {
     try {
@@ -54,6 +71,7 @@ export const useGetPoolApr = () => {
         fetcher<{ apy: number }>(sbBtcSkypoolUrl),
         fetcher<{ apr: number; swingbyPerBlock: number; farmTvl: number }>(farmBsc),
       ]);
+
       setApr({
         btc_erc: {
           sbBtc: results[0].apy,

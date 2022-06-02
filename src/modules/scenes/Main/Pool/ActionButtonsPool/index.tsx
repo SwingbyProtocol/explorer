@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { PoolMode } from '../../../../pool';
-import { togglePoolMode } from '../../../../store';
+import { poolModeSelector, togglePoolMode } from '../../../../store';
 import { StylingConstants } from '../../../../styles';
 import { ButtonScale, IconArrowLeft } from '../../../Common';
 import { useGetQueryParams } from '../../../../hooks';
@@ -14,7 +14,7 @@ import { ActionButtonsPoolContainer, Buttons, ColumnIcon } from './styled';
 
 export const ActionButtonsPool = () => {
   const dispatch = useDispatch();
-  const mode = useSelector((state) => state.pool.mode);
+  const mode = useSelector(poolModeSelector);
 
   const queryParams = useGetQueryParams();
   const isBTC_ERC = queryParams.bridge === 'btc_erc';

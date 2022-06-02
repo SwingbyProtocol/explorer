@@ -10,6 +10,7 @@ import { CoinSymbol } from '../../../../coins';
 import { mode, URL_ETHERSCAN } from '../../../../env';
 import { useGetPoolApr } from '../../../../hooks';
 import { ColumnInlineBlock, IconExternalLink } from '../../../Common';
+import { explorerLoadingSelector, networkInfoSelector } from '../../../../store';
 
 import {
   Atag,
@@ -36,9 +37,9 @@ interface IBridgeData {
 
 export const FloatVolume = () => {
   const theme = useTheme();
-  const { apr } = useGetPoolApr();
-  const isLoading = useSelector((state) => state.explorer.isLoading);
-  const networkInfos = useSelector((state) => state.explorer.networkInfos);
+  const { apr, isLoading: aprLoading } = useGetPoolApr();
+  const explorerLoading = useSelector(explorerLoadingSelector);
+  const networkInfos = useSelector(networkInfoSelector);
   const { floatBalances, stats } = networkInfos;
 
   const dataEthBridge = [
@@ -64,7 +65,7 @@ export const FloatVolume = () => {
   );
 
   // Memo: Show 'loading' animation if backend api is broken
-  const isLoadingAll = isLoading || floatBalances.btcEth === 0;
+  const isLoadingAll = explorerLoading || floatBalances.btcEth === 0;
 
   const bridgeInfo = (bridgeData: IBridgeData[]) => {
     return (
@@ -169,18 +170,22 @@ export const FloatVolume = () => {
         <Atag href={`/pool?bridge=${bridge}`} rel="noopener noreferrer" target="_blank">
           <TextLink variant="label">
             <FormattedMessage
-              id="home.network.add-liquidity"
+              id={
+                bridge === 'btc_skypool'
+                  ? 'home.network.add-liquidity'
+                  : 'home.network.remove-liquidity'
+              }
               values={{
-                value: apr[bridge].total ? (
+                value: aprLoading ? (
+                  <ColumnInlineBlock>
+                    <PulseLoader margin={3} size={2} color={theme.pulsar.color.text.normal} />
+                  </ColumnInlineBlock>
+                ) : (
                   <FormattedNumber
                     value={apr[bridge].total}
                     maximumFractionDigits={2}
                     minimumFractionDigits={2}
                   />
-                ) : (
-                  <ColumnInlineBlock>
-                    <PulseLoader margin={3} size={2} color={theme.pulsar.color.text.normal} />
-                  </ColumnInlineBlock>
                 ),
               }}
             />
@@ -219,8 +224,8 @@ export const FloatVolume = () => {
   return (
     <FloatVolumeContainer>
       <BridgeInfos>
-        {rowBridgeInfo('btc_erc')}
         {rowBridgeInfo('btc_skypool')}
+        {rowBridgeInfo('btc_erc')}
       </BridgeInfos>
     </FloatVolumeContainer>
   );

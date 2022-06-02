@@ -16,6 +16,7 @@ import { EarningStats } from '../EarningStats';
 import { FarmCard } from '../FarmCard';
 import { TransactionsPool } from '../TransactionsPool';
 import { Withdraw } from '../Withdraw';
+import { poolModeSelector } from '../../../../store';
 
 import {
   BrowserPoolContainer,
@@ -29,7 +30,7 @@ import {
 } from './styled';
 
 export const BrowserPool = () => {
-  const mode = useSelector((state) => state.pool.mode);
+  const mode = useSelector(poolModeSelector);
   const { address, wallet, onboard } = useOnboard();
   const storedWallet = localStorage.getItem(LOCAL_STORAGE.Wallet);
   const { bridge } = useToggleBridge(PATH.POOL);

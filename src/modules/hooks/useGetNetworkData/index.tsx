@@ -5,11 +5,11 @@ import { useToggleBridge } from '..';
 import { mode, PATH } from '../../env';
 import { fetch1wksRewards, fetchFloatBalances, fetchVolumeInfo } from '../../explorer';
 import { getNodeQty } from '../../network-stats';
-import { toggleIsLoading, updateNetworkInfos } from '../../store';
+import { toggleIsLoading, updateNetworkInfos, usdPricesSelector } from '../../store';
 
 export const useGetNetworkData = () => {
   const dispatch = useDispatch();
-  const usd = useSelector((state) => state.explorer.usd);
+  const usd = useSelector(usdPricesSelector);
   const { bridge } = useToggleBridge(PATH.ROOT);
 
   useEffect(() => {
