@@ -71,7 +71,7 @@ export const useGetPoolApr = (): { apr: PoolAprState; isLoading: boolean } => {
         fetcher<{ apy: number }>(sbBtcSkypoolUrl),
         fetcher<{ apr: number; swingbyPerBlock: number; farmTvl: number }>(farmBsc),
       ]);
-      console.log('results', results[0], '1', results[1]);
+
       setApr({
         btc_erc: {
           sbBtc: results[0].apy,
