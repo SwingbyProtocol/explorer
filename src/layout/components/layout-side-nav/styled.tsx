@@ -33,7 +33,7 @@ export const Aside = styled.aside<{ open: boolean }>`
 
 export const LogoContainer = styled.div`
   display: flex;
-  margin-bottom: 48px;
+  margin-bottom: 32px;
   overflow: hidden;
   padding: 0 8px;
   transition: width 0.3s linear;
@@ -68,7 +68,7 @@ export const NavLink = styled.a<{ currentRoute?: boolean }>`
   border-radius: 4px;
   text-align: left;
   padding: 0 8px;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 
   &:hover {
     svg {
@@ -81,7 +81,7 @@ export const NavLink = styled.a<{ currentRoute?: boolean }>`
     }
     p {
       //SwapLabel
-      margin-bottom: 0;
+      margin-bottom: 8px;
       border-bottom: 1px solid ${({ theme }) => theme.pulsar.color.primary.normal};
       color: ${({ theme }) => theme.pulsar.color.text.normal};
     }
@@ -146,8 +146,8 @@ export const ButtonHint = styled.span`
 
 export const Dot = styled.div<{ currentRoute: boolean }>`
   visibility: ${({ currentRoute }) => (currentRoute ? 'visible' : 'hidden')};
-  height: 8px;
-  width: 8px;
+  height: 4px;
+  width: 4px;
   margin: 1px;
   border-radius: 50%;
   background-color: ${({ theme }) => theme.pulsar.color.primary.normal};
@@ -159,8 +159,8 @@ export const SwapLabel = styled.p`
   letter-spacing: 0.03rem;
   margin-top: 0;
   margin-left: 16px;
-  color: ${({ theme }) => theme.pulsar.color.text.placeholder};
-  margin-bottom: 1px;
+  color: ${({ theme }) => theme.pulsar.color.primary.normal};
+  margin-bottom: 9px;
 `;
 
 export const ButtonText = styled.text`
