@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import Link from 'next/link';
 
 export const Wrapper = styled.div`
   position: relative;
@@ -94,6 +95,8 @@ export const NavLink = styled.a<{ currentRoute?: boolean }>`
     flex-shrink: 0;
   }
 `;
+
+export const NavNextLink = styled(Link)``;
 
 export const BottomContainer = styled.div`
   position: relative;

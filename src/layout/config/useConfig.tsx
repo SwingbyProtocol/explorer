@@ -13,12 +13,12 @@ export const useConfig = () => {
       {
         render: 'Explorer',
         key: 'explorer',
-        href: 'https://skybridge.info',
+        href: '/',
       },
       {
         render: 'Add liquidity',
         key: 'liquidity',
-        href: 'https://skybridge.info/pool',
+        href: '/pool',
       },
       {
         render: 'Farm',
@@ -29,7 +29,7 @@ export const useConfig = () => {
         render: 'Metanodes',
         hint: '(Validators)',
         key: 'metanodes',
-        href: 'https://skybridge.info/metanodes',
+        href: '/metanodes',
       },
       {
         render: 'ERC20 Bridge',
