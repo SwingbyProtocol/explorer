@@ -6,10 +6,8 @@ import { getTransactionFees } from '../../modules/explorer';
 import { OnboardProvider } from '../../modules/onboard';
 import { SdkContextProvider } from '../../modules/sdk-context';
 import { fetchTransactionFees } from '../../modules/store';
-import { Swap } from '../Swap';
 
 import { CookieConsentHandler } from './CookieConsentHandler';
-import { SwapContainer } from './styled';
 
 type Props = { children: React.ReactNode };
 
@@ -26,13 +24,7 @@ export const Layout = ({ children }: Props) => {
   return (
     <>
       <SdkContextProvider mode={mode}>
-        <OnboardProvider>
-          <SwapContainer>
-            <Swap />
-          </SwapContainer>
-
-          {children}
-        </OnboardProvider>
+        <OnboardProvider>{children}</OnboardProvider>
       </SdkContextProvider>
 
       <CookieConsentHandler />
