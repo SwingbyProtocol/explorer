@@ -62,7 +62,7 @@ export const useGetPoolApr = (): { apr: PoolAprState; isLoading: boolean } => {
 
       const farmBsc = stringifyUrl({
         url: `${ENDPOINT_YIELD_FARMING}/api/v1/farm-info`,
-        query: { farm: 'sbBTC-BEP20' },
+        query: { farm: 'SkyPools' },
       });
 
       const results = await Promise.all([
