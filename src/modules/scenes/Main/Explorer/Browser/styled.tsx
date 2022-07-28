@@ -7,6 +7,7 @@ import { StylingConstants } from '../../../../styles';
 const { media } = StylingConstants;
 
 export const BrowserContainer = styled.div`
+  z-index: 1;
   display: grid;
   padding-top: ${({ theme }) => rem(theme.pulsar.size.drawer)};
   padding-bottom: ${({ theme }) => rem(theme.pulsar.size.room)};
