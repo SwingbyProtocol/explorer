@@ -3295,10 +3295,10 @@
     eslint-plugin-react "^7.21.5"
     eslint-plugin-react-hooks "^4.2.0"
 
-"@swingby-protocol/header@^2.1.1":
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/@swingby-protocol/header/-/header-2.1.1.tgz#e319e88e231e44670aa8eb8e951ecd1f0279de1f"
-  integrity sha512-5NmjISmSZbY0z4G3fph1b3M8wzzbpV7yT7fI1c5U/+Rf+DmXDpkREeR4BQweKRu9N+uN4g6CMLgueBGwj8iH2Q==
+"@swingby-protocol/header@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@swingby-protocol/header/-/header-2.2.0.tgz#d4cddfa91456a4326c49a0d2484bad1d2c0c45cb"
+  integrity sha512-ASTAY1wAGSrWiNr/Sm5SvoUOq8YfK+NVoYr35ss99O9HAyNFwqgxHX/Tq/s6WU2ymH+TzDQ8rn0Vw3NXbWNBYw==
 
 "@swingby-protocol/ip-check@^2.1.0":
   version "2.1.0"
