@@ -2,11 +2,8 @@ import { Tooltip, Text } from '@swingby-protocol/pulsar';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import { RewardButton } from '../../../../../components/RewardButton';
-
 import {
   ActionButtonMetanodesContainer,
-  ButtonContainer,
   RowText,
   TextAPR,
   TextTitle,
@@ -45,9 +42,6 @@ export const ActionButtonMetanodes = () => {
           </Tooltip>
         </div>
       </RowText>
-      <ButtonContainer>
-        <RewardButton />
-      </ButtonContainer>
     </ActionButtonMetanodesContainer>
   );
 };
