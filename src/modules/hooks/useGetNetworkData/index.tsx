@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useToggleBridge } from '..';
-import { mode, NETWORK_FETCH_RATE, PATH } from '../../env';
+import { mode, NETWORK_INFO_FETCH_RATE, PATH } from '../../env';
 import { fetch1wksRewards, fetchFloatBalances, fetchVolumeInfo } from '../../explorer';
 import { getNodeQty } from '../../network-stats';
 import { toggleIsLoading, updateNetworkInfos, usdPricesSelector } from '../../store';
@@ -53,7 +53,7 @@ export const useGetNetworkData = () => {
   useEffect(() => {
     (async () => {
       usd.BTC > 0 && (await fetcher());
-      setTimeout(() => setRefetchingState(refetchingState + 1), NETWORK_FETCH_RATE);
+      setTimeout(() => setRefetchingState(refetchingState + 1), NETWORK_INFO_FETCH_RATE);
     })();
   }, [usd, fetcher, refetchingState]);
 };
