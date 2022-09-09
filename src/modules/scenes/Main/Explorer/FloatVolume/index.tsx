@@ -223,10 +223,7 @@ export const FloatVolume = () => {
 
   return (
     <FloatVolumeContainer>
-      <BridgeInfos>
-        {rowBridgeInfo('btc_skypool')}
-        {rowBridgeInfo('btc_erc')}
-      </BridgeInfos>
+      <BridgeInfos>{rowBridgeInfo('btc_skypool')}</BridgeInfos>
     </FloatVolumeContainer>
   );
 };
