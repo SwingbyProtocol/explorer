@@ -1,12 +1,10 @@
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import { relayStylePagination } from '@apollo/client/utilities'; // eslint-disable-line import/no-internal-modules
 import { RouterScrollProvider } from '@moxy/next-router-scroll';
-import { createToast } from '@swingby-protocol/pulsar';
 import { useRouter } from 'next/router';
-import { useEffect, useMemo } from 'react';
-import { FormattedMessage, IntlProvider } from 'react-intl';
+import { useMemo } from 'react';
+import { IntlProvider } from 'react-intl';
 import { Provider as ReduxProvider } from 'react-redux';
-import styled from 'styled-components';
 
 import { Globals } from '../components/Globals';
 import { graphEndpoint } from '../modules/env';
@@ -29,37 +27,6 @@ const apolloClient = new ApolloClient({
     },
   }),
 });
-
-const OldExplorerWarningText = styled.span`
-  a {
-    color: inherit;
-  }
-`;
-
-const OldExplorerWarning = () => {
-  useEffect(() => {
-    createToast({
-      type: 'info',
-      content: (
-        <OldExplorerWarningText>
-          <FormattedMessage
-            id="toast.old-explorer"
-            values={{
-              link: (
-                <a href="https://old.skybridge.info" rel="noopener noreferrer">
-                  https://old.skybridge.info
-                </a>
-              ),
-            }}
-          />
-        </OldExplorerWarningText>
-      ),
-      autoClose: false,
-      toastId: 'oldExplorer',
-    });
-  }, []);
-  return <>{null}</>;
-};
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
@@ -84,7 +51,6 @@ function MyApp({ Component, pageProps }) {
         <IntlProvider messages={messages} locale={locale} defaultLocale={DEFAULT_LOCALE}>
           <ReduxProvider store={store}>
             <Globals>
-              <OldExplorerWarning />
               <Component {...pageProps} />
             </Globals>
           </ReduxProvider>
