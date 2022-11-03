@@ -22,8 +22,8 @@ export const Search = () => {
   const { formatMessage } = useIntl();
 
   const checkUD = async (search_value) => {
-    const API_URL = 'https://resolve.unstoppabledomains.com/domains/';
-    const API_KEY1 = process.env.NEXT_PUBLIC_UD_API_KEY;
+    const API_URL = 'https://unstoppabledomains.g.alchemy.com/domains/';
+    const API_KEY1 = 'OPnt5xBjF7t5cIhhqwpZ42iXOoqCut_-';
     try {
       var res = await axios.get(API_URL + search_value, {
         headers: {
