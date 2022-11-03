@@ -1,5 +1,6 @@
 import { useMatchMedia } from '@swingby-protocol/pulsar';
 import { useRouter } from 'next/router';
+import axios from 'axios';
 import { rem } from 'polished';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -20,23 +21,55 @@ export const Search = () => {
 
   const { formatMessage } = useIntl();
 
+  const checkUD = async (search_value) => {
+    const API_URL = 'https://unstoppabledomains.g.alchemy.com/domains/';
+    const API_KEY1 = 'OPnt5xBjF7t5cIhhqwpZ42iXOoqCut_-';
+    try {
+      var res = await axios.get(API_URL + search_value, {
+        headers: {
+          Authorization: `bearer ${API_KEY1}`,
+        },
+      });
+      return res.data.meta.owner;
+    } catch (err) {
+      return null;
+    }
+  };
+
   return (
     <SearchInput
       size={lg ? 'country' : md ? 'state' : 'country'}
       value={search || router.query.q}
       onChange={(evt) => {
         setSearch(evt.target.value);
-        router.push({
-          pathname: '/',
-          query: {
-            bridge: chainBridge,
-            type: evt.target.value ? 'search' : '',
-            q: evt.target.value,
-          },
-        });
       }}
       placeholder={formatMessage({ id: 'common.placeholder.search' })}
-      right={<SearchIcon size="country" />}
+      right={
+        <SearchIcon
+          size="country"
+          onClick={async () => {
+            var address = await checkUD(search);
+            if (address)
+              router.push({
+                pathname: '/',
+                query: {
+                  bridge: chainBridge,
+                  type: address ? 'search' : '',
+                  q: address,
+                },
+              });
+            else
+              router.push({
+                pathname: '/',
+                query: {
+                  bridge: chainBridge,
+                  type: search ? 'search' : '',
+                  q: search,
+                },
+              });
+          }}
+        />
+      }
     />
   );
 };
