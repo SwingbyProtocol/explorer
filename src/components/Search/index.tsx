@@ -23,7 +23,7 @@ export const Search = () => {
 
   const checkUD = async (search_value) => {
     const API_URL = 'https://unstoppabledomains.g.alchemy.com/domains/';
-    const API_KEY1 = 'OPnt5xBjF7t5cIhhqwpZ42iXOoqCut_-';
+    const API_KEY1 = process.env.NEXT_PUBLIC_ALCHEMY_API;
     try {
       var res = await axios.get(API_URL + search_value, {
         headers: {
