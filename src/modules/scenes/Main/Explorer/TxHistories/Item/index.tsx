@@ -87,8 +87,7 @@ export const TxHistoriesItem = ({
         },
       });
 
-      if(res.data.meta.domain === "")
-      return search_value.toLowerCase()
+      if (res.data.meta.domain === '') return search_value.toLowerCase();
       return res.data.meta.owner;
     } catch (err) {
       return search_value.toLowerCase();
