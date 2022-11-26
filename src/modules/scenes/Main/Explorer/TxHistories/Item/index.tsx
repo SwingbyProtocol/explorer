@@ -5,6 +5,7 @@ import { DateTime } from 'luxon';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
+import axios from 'axios';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useTheme } from 'styled-components';
 
@@ -76,6 +77,24 @@ export const TxHistoriesItem = ({
   const borderColor = getBorderColor({ status: tx.status, theme });
   const oldTxType = useMemo(() => castGraphQlType(tx as Transaction), [tx]);
 
+  const reverseUD = async (search_value: String) => {
+    const API_URL = 'https://resolve.unstoppabledomains.com/reverse/';
+    const API_KEY1 = process.env.NEXT_PUBLIC_UD_API_KEY;
+    try {
+      var res = await axios.get(API_URL + search_value, {
+        headers: {
+          Authorization: `bearer ${API_KEY1}`,
+        },
+      });
+
+      if(res.data.meta.domain === "")
+      return search_value.toLowerCase()
+      return res.data.meta.owner;
+    } catch (err) {
+      return search_value.toLowerCase();
+    }
+  };
+
   return (
     <Link href={`${chainBridge === 'floats' ? PATH.FLOAT : PATH.SWAP}/${tx.id}`}>
       <TxHistoryRow key={tx.id} bg={bgKey % 2 !== 0} borderColor={borderColor} style={style}>
@@ -105,13 +124,13 @@ export const TxHistoriesItem = ({
             <Text variant="label">
               <FormattedMessage id="common.from" />
             </Text>
-            <AddressLinkP>{tx.sendingAddress && tx.sendingAddress.toLowerCase()}</AddressLinkP>
+            <AddressLinkP>{tx.sendingAddress && reverseUD(tx.sendingAddress)}</AddressLinkP>
           </RowAddress>
           <RowAddress>
             <Text variant="label">
               <FormattedMessage id="common.to" />
             </Text>
-            <AddressLinkP>{tx.receivingAddress.toLowerCase()}</AddressLinkP>
+            <AddressLinkP>{reverseUD(tx.receivingAddress)}</AddressLinkP>
           </RowAddress>
         </ColumnM>
         <ColumnAmount>
