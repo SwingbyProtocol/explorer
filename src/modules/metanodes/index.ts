@@ -73,11 +73,6 @@ export const BRIDGES = [
     bridge: btcSkypool,
     tabMenu: 'Bitcoin to Ethereum',
   },
-  {
-    bridge: btcErc,
-    tabMenu: 'Bitcoin to Ethereum',
-    hint: '(Legacy)',
-  },
 ];
 
 export const {
