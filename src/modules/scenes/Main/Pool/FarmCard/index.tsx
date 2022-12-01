@@ -9,7 +9,7 @@ import { PoolMode } from '../../../../pool';
 import { togglePoolMode } from '../../../../store';
 import { CoinSymbol } from '../../../../coins';
 import { PATH } from '../../../../env';
-import { useGetPoolApr, useToggleBridge } from '../../../../hooks';
+import { useGetPoolApr, useToggleBridge, useGetSbBtcBal } from '../../../../hooks';
 import { URL } from '../../../../links';
 import { Atag, ColumnInlineBlock } from '../../../Common';
 
@@ -45,72 +45,44 @@ export const FarmCard = () => {
 
   const swingbyPerBlock = bridge ? (60 / 13) * 60 * 24 * apr[bridge].swingbyPerBlock : 0;
 
+  const { balance: sbBtcBalance } = useGetSbBtcBal();
+
   return (
     <FarmCardContainer>
       <Box>
+        <TextTitle variant="accent">
+          <FormattedMessage
+            id={bridge === 'btc_erc' ? 'common.sbbtc.legacy' : 'home.network.apr.current'}
+            values={{
+              currency: (
+                <FormattedMessage
+                  id={bridge === 'btc_erc' ? 'common.sbbtc.legacy' : 'common.sbbtc'}
+                />
+              ),
+            }}
+          />
+        </TextTitle>
         <AprBox>
           <div>
-            <TextTitle variant="accent">
-              <FormattedMessage
-                id={bridge === 'btc_erc' ? 'common.sbbtc.legacy' : 'common.sbbtc'}
-              />
-            </TextTitle>
             <div>
-              <Tooltip
-                content={
-                  <Tooltip.Content>
-                    <Text variant="normal">
-                      <FormattedMessage
-                        id="home.network.apy.sbbtc"
-                        values={{
-                          value: (
-                            <FormattedNumber
-                              value={bridge ? apr[bridge].sbBtc : 0}
-                              maximumFractionDigits={2}
-                              minimumFractionDigits={2}
-                            />
-                          ),
-                        }}
+              <Text variant="title-xs">
+                <FormattedMessage
+                  id="pool.stake-card.stake-on-farm-apr"
+                  values={{
+                    value: aprLoading ? (
+                      <ColumnInlineBlock>
+                        <PulseLoader margin={7} size={4} color={theme.pulsar.color.text.normal} />
+                      </ColumnInlineBlock>
+                    ) : (
+                      <FormattedNumber
+                        value={bridge && apr[bridge].total}
+                        maximumFractionDigits={2}
+                        minimumFractionDigits={2}
                       />
-                    </Text>
-                    <br />
-                    <Text variant="normal">
-                      <FormattedMessage
-                        id="home.network.apr.farm"
-                        values={{
-                          value: (
-                            <FormattedNumber
-                              value={bridge ? apr[bridge].farm : 0}
-                              maximumFractionDigits={2}
-                              minimumFractionDigits={2}
-                            />
-                          ),
-                        }}
-                      />
-                    </Text>
-                  </Tooltip.Content>
-                }
-                targetHtmlTag="span"
-              >
-                <Text variant="title-xs">
-                  <FormattedMessage
-                    id="pool.stake-card.stake-on-farm-apr"
-                    values={{
-                      value: aprLoading ? (
-                        <ColumnInlineBlock>
-                          <PulseLoader margin={7} size={4} color={theme.pulsar.color.text.normal} />
-                        </ColumnInlineBlock>
-                      ) : (
-                        <FormattedNumber
-                          value={bridge && apr[bridge].total}
-                          maximumFractionDigits={2}
-                          minimumFractionDigits={2}
-                        />
-                      ),
-                    }}
-                  />
-                </Text>
-              </Tooltip>
+                    ),
+                  }}
+                />
+              </Text>
             </div>
             <div>
               <TextTvl variant="label">
@@ -137,8 +109,73 @@ export const FarmCard = () => {
               </TextTvl>
             </div>
           </div>
+          <div>
+            <Text variant="label">
+              <FormattedMessage
+                id="home.network.apy.native"
+                values={{
+                  value: (
+                    <FormattedNumber
+                      value={bridge ? apr[bridge].sbBtc : 0}
+                      maximumFractionDigits={2}
+                      minimumFractionDigits={2}
+                    />
+                  ),
+                }}
+              />
+            </Text>
+            <br />
+            <Text variant="label">
+              <FormattedMessage
+                id="home.network.apr.farming"
+                values={{
+                  value: (
+                    <FormattedNumber
+                      value={bridge ? apr[bridge].farm : 0}
+                      maximumFractionDigits={2}
+                      minimumFractionDigits={2}
+                    />
+                  ),
+                }}
+              />
+            </Text>
+          </div>
           <Coin symbol={CoinSymbol.ERC20_SB_BTC} />
         </AprBox>
+        <AprBox>
+          <div style={{ marginTop: theme.pulsar.size.house }}>
+            <Text variant="label">
+              <FormattedMessage
+                id="pool.farm.wallet-balance"
+                values={{
+                  value: (
+                    <FormattedNumber
+                      value={bridge ? sbBtcBalance[bridge].wallet : 0}
+                      maximumFractionDigits={18}
+                      minimumFractionDigits={2}
+                    />
+                  ),
+                }}
+              />
+            </Text>
+            <br />
+            <Text variant="label">
+              <FormattedMessage
+                id="pool.farm.farm-balance"
+                values={{
+                  value: (
+                    <FormattedNumber
+                      value={bridge ? sbBtcBalance[bridge].farm : 0}
+                      maximumFractionDigits={18}
+                      minimumFractionDigits={2}
+                    />
+                  ),
+                }}
+              />
+            </Text>
+          </div>
+        </AprBox>
+
         <FeaturesBox>
           <RowTitle>
             <TextTitle variant="accent">
@@ -154,41 +191,33 @@ export const FarmCard = () => {
           <RowFeatures>
             <IconTick />
             <TextTitle variant="normal">
-              {bridge !== 'btc_skypool' ? (
-                <FormattedMessage
-                  id="pool.stake-card.stake-apr"
-                  values={{
-                    swingbyPerDay:
-                      bridge && apr[bridge].swingbyPerBlock > 0 ? (
-                        <FormattedNumber
-                          value={swingbyPerBlock}
-                          maximumFractionDigits={0}
-                          minimumFractionDigits={0}
-                        />
-                      ) : (
-                        <ColumnInlineBlock>
-                          <PulseLoader margin={3} size={2} color={theme.pulsar.color.text.normal} />
-                        </ColumnInlineBlock>
-                      ),
-                  }}
-                />
-              ) : (
-                'Yield farming is coming soon'
-              )}
+              <FormattedMessage
+                id="pool.stake-card.stake-apr"
+                values={{
+                  swingbyPerDay:
+                    bridge && apr[bridge].swingbyPerBlock > 0 ? (
+                      <FormattedNumber
+                        value={swingbyPerBlock}
+                        maximumFractionDigits={0}
+                        minimumFractionDigits={0}
+                      />
+                    ) : (
+                      <ColumnInlineBlock>
+                        <PulseLoader margin={3} size={2} color={theme.pulsar.color.text.normal} />
+                      </ColumnInlineBlock>
+                    ),
+                }}
+              />
             </TextTitle>
           </RowFeatures>
-          {/* Todo: remove condition once published sbBTC pool on BSC */}
           <Buttons>
-            {bridge !== 'btc_skypool' && (
-              <Atag href={URL.YieldFarming} rel="noopener noreferrer" target="_blank">
-                <ButtonLink variant="primary" size="town" shape="fill" isMultiButton={true}>
-                  <FormattedMessage id="pool.stake-card.stake" />
-                </ButtonLink>
-              </Atag>
-            )}
-            {/* Todo: remove condition once published sbBTC pool on BSC */}
+            <Atag href={URL.YieldFarming} rel="noopener noreferrer" target="_blank">
+              <ButtonLink variant="primary" size="town" shape="fill" isMultiButton={true}>
+                <FormattedMessage id="pool.stake-card.stake" />
+              </ButtonLink>
+            </Atag>
             <ButtonLink
-              isMultiButton={bridge !== 'btc_skypool'}
+              isMultiButton
               variant="secondary"
               size="town"
               shape="fill"
