@@ -12,7 +12,7 @@ import {
 } from './styled';
 
 export const ActionButtonMetanodes = () => {
-  const apr = 30;
+  const apr = 15;
   return (
     <ActionButtonMetanodesContainer>
       <RowText>
