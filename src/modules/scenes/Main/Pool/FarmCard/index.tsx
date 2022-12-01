@@ -1,4 +1,4 @@
-import { getFiatAssetFormatter, Text, Tooltip } from '@swingby-protocol/pulsar';
+import { getFiatAssetFormatter, Text } from '@swingby-protocol/pulsar';
 import React from 'react';
 import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
