@@ -31,6 +31,8 @@ export const useGetSbBtcBal = () => {
 
   const getBal = useCallback(async () => {
     try {
+      if (!address) return;
+
       setIsLoading(true);
 
       const sbBtcStakedErcUrl = stringifyUrl({

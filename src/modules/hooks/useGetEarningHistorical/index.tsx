@@ -75,24 +75,23 @@ export const useGetEarningHistorical = () => {
   const getHistoricalAprData = useCallback(async () => {
     try {
       if (network === 1) {
-        const urlSbtc = `${ENDPOINT_YIELD_FARMING}/api/v1/sbbtc-erc20/apr`;
-        const urlUni = `${ENDPOINT_YIELD_FARMING}/api/v1/uni/apr`;
-        const urlSushi = `${ENDPOINT_YIELD_FARMING}/api/v1/sushi/apr`;
-
-        const results = await Promise.all([
-          fetcher<IAprHistoric[]>(urlSbtc),
-          fetcher<IAprHistoric[]>(urlUni),
-          fetcher<IAprHistoric[]>(urlSushi),
-        ]);
-        const data = {
-          sbBtcErc20: results[0],
-          uni: results[1],
-          sushi: results[2],
-          pancake: [],
-          sbBtcBep20: [],
-        };
-        setAprHistoric(data);
-        return;
+        // const urlSbtc = `${ENDPOINT_YIELD_FARMING}/api/v1/sbbtc-erc20/apr`;
+        // const urlUni = `${ENDPOINT_YIELD_FARMING}/api/v1/uni/apr`;
+        // const urlSushi = `${ENDPOINT_YIELD_FARMING}/api/v1/sushi/apr`;
+        // const results = await Promise.all([
+        //   fetcher<IAprHistoric[]>(urlSbtc),
+        //   fetcher<IAprHistoric[]>(urlUni),
+        //   fetcher<IAprHistoric[]>(urlSushi),
+        // ]);
+        // const data = {
+        //   sbBtcErc20: results[0],
+        //   uni: results[1],
+        //   sushi: results[2],
+        //   pancake: [],
+        //   sbBtcBep20: [],
+        // };
+        // setAprHistoric(data);
+        // return;
       }
     } catch (error) {
       logger.error(error);
