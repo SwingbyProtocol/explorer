@@ -10,18 +10,18 @@ import { TextRoom } from '../../../../Common';
 
 import {
   CoinMini,
-  ColumMultiIcons,
+  // ColumMultiIcons,
   ColumnFarm,
   ColumnMultiFarm,
   ColumnTotal,
   IconCoinLogo,
-  IconCoinLogoMini,
+  // IconCoinLogoMini,
   Left,
   Right,
   Row,
   RowFarm,
   RowFarmName,
-  RowFarmNameMulti,
+  // RowFarmNameMulti,
   SummaryContentContainer,
   TitleFarm,
   UnitSwingby,
@@ -54,15 +54,15 @@ export const SummaryContent = ({ farming, bridge }) => {
     maximumFractionDigits: 0,
   }).format(earnedSwingbyTotal * swingbyUsd);
 
-  const thirdPartyLogo =
-    bridge === 'btc_bep20' ? (
-      <IconCoinLogoMini src={logos.PancakeSwapCircled} />
-    ) : (
-      <ColumMultiIcons>
-        <IconCoinLogoMini src={logos.UniswapCircled} />
-        <IconCoinLogoMini src={logos.SushiSwapCircled} />
-      </ColumMultiIcons>
-    );
+  // const thirdPartyLogo =
+  //   bridge === 'btc_bep20' ? (
+  //     <IconCoinLogoMini src={logos.PancakeSwapCircled} />
+  //   ) : (
+  //     <ColumMultiIcons>
+  //       <IconCoinLogoMini src={logos.UniswapCircled} />
+  //       <IconCoinLogoMini src={logos.SushiSwapCircled} />
+  //     </ColumMultiIcons>
+  //   );
 
   return (
     <SummaryContentContainer>
@@ -130,32 +130,32 @@ export const SummaryContent = ({ farming, bridge }) => {
               </div>
             </ColumnFarm>
             <ColumnMultiFarm>
-              <RowFarmNameMulti>
-                {thirdPartyLogo}
-                <Text variant="menu">
-                  <FormattedMessage
-                    id={bridge === 'btc_bep20' ? 'pool.earning.pancake' : 'pool.earning.sushi-uni'}
-                  />
-                </Text>
-              </RowFarmNameMulti>
-              <div>
-                <TextRoom variant="accent">
-                  <FormattedNumber
-                    value={farming.thirdPartyFarm.claimedSwingby}
-                    maximumFractionDigits={0}
-                    minimumFractionDigits={0}
-                  />
-                </TextRoom>
-              </div>
-              <div>
-                <TextRoom variant="accent">
-                  <FormattedNumber
-                    value={farming.thirdPartyFarm.pendingSwingby}
-                    maximumFractionDigits={0}
-                    minimumFractionDigits={0}
-                  />
-                </TextRoom>
-              </div>
+              {/* <RowFarmNameMulti> */}
+              {/*   {thirdPartyLogo} */}
+              {/*   <Text variant="menu"> */}
+              {/*     <FormattedMessage */}
+              {/*       id={bridge === 'btc_bep20' ? 'pool.earning.pancake' : 'pool.earning.sushi-uni'} */}
+              {/*     /> */}
+              {/*   </Text> */}
+              {/* </RowFarmNameMulti> */}
+              {/* <div> */}
+              {/*   <TextRoom variant="accent"> */}
+              {/*     <FormattedNumber */}
+              {/*       value={farming.thirdPartyFarm.claimedSwingby} */}
+              {/*       maximumFractionDigits={0} */}
+              {/*       minimumFractionDigits={0} */}
+              {/*     /> */}
+              {/*   </TextRoom> */}
+              {/* </div> */}
+              {/* <div> */}
+              {/*   <TextRoom variant="accent"> */}
+              {/*     <FormattedNumber */}
+              {/*       value={farming.thirdPartyFarm.pendingSwingby} */}
+              {/*       maximumFractionDigits={0} */}
+              {/*       minimumFractionDigits={0} */}
+              {/*     /> */}
+              {/*   </TextRoom> */}
+              {/* </div> */}
             </ColumnMultiFarm>
           </Right>
         </RowFarm>

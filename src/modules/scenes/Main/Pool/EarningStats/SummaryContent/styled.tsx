@@ -6,7 +6,7 @@ export const SummaryContentContainer = styled.div`
   display: grid;
   height: ${rem(210)};
   grid-row-gap: ${({ theme }) => rem(theme.pulsar.size.town)};
-  margin-top: ${({ theme }) => rem(theme.pulsar.size.street)};
+  margin-top: ${({ theme }) => rem(theme.pulsar.size.state)};
   justify-content: center;
 `;
 

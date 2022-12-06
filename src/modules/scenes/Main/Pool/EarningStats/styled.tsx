@@ -40,7 +40,7 @@ export const EarningStatsContainer = styled.div`
   @media (min-width: ${rem(media.lg)}) {
     margin-top: 0;
     width: ${rem(375)};
-    height: ${rem(286)};
+    height: 100%;
     grid-area: auto;
     padding-top: ${({ theme }) => rem(theme.pulsar.size.street)};
     padding-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};

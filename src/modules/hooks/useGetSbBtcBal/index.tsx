@@ -31,6 +31,8 @@ export const useGetSbBtcBal = () => {
 
   const getBal = useCallback(async () => {
     try {
+      if (!address) return;
+
       setIsLoading(true);
 
       const sbBtcStakedErcUrl = stringifyUrl({
@@ -39,7 +41,7 @@ export const useGetSbBtcBal = () => {
       });
       const sbBtcStakedBscUrl = stringifyUrl({
         url: `${ENDPOINT_YIELD_FARMING}/api/v1/user-lp-bal`,
-        query: { farm: 'sbBTC-BEP20', address, network: mode === 'production' ? '56' : '97' },
+        query: { farm: 'SkyPools', address, network: mode === 'production' ? '1' : '5' },
       });
 
       const results = await Promise.all([
