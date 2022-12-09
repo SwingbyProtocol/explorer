@@ -17,7 +17,7 @@ import { useInterval } from '../useInterval';
 import { useToggleBridge } from '../useToggleBridge';
 
 export const useToggleMetanode = (path: PATH) => {
-  const { bridge } = useToggleBridge(path);
+  const { bridge, defaultBridge } = useToggleBridge(path);
 
   const [metanodes, setMetanodes] = useState<Node[] | null>(null);
   const [reward, setReward] = useState<IReward | null>(null);
@@ -146,6 +146,7 @@ export const useToggleMetanode = (path: PATH) => {
 
   return {
     bridge,
+    defaultBridge,
     metanodes,
     bondHistories,
     liquidity,
