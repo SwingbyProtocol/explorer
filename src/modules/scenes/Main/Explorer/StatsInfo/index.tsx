@@ -1,5 +1,4 @@
 import { getFiatAssetFormatter, Text, Tooltip } from '@swingby-protocol/pulsar';
-import { SKYBRIDGE_BRIDGES } from '@swingby-protocol/sdk';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -49,7 +48,9 @@ export const StatsInfo = () => {
   const usd = useSelector(usdPricesSelector);
   const isLoading = useSelector(explorerLoadingSelector);
 
-  const { bridge, reward, isLoading: isLoadingMetanode } = useToggleMetanode(PATH.ROOT);
+  const { bridge, defaultBridge, reward, isLoading: isLoadingMetanode } = useToggleMetanode(
+    PATH.ROOT,
+  );
   const {
     volumes,
     floatHistories,
@@ -203,7 +204,7 @@ export const StatsInfo = () => {
                             onClick={() =>
                               router.push({
                                 pathname: PATH.METANODES,
-                                query: { bridge: bridge ? bridge : SKYBRIDGE_BRIDGES[0] },
+                                query: { bridge: bridge ? bridge : defaultBridge },
                               })
                             }
                           >
