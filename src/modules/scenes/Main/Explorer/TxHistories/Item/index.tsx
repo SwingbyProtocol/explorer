@@ -4,7 +4,7 @@ import { Dropdown, getCryptoAssetFormatter, Text } from '@swingby-protocol/pulsa
 import { DateTime } from 'luxon';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useMemo } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import axios from 'axios';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useTheme } from 'styled-components';
@@ -77,6 +77,8 @@ export const TxHistoriesItem = ({
   const chainBridge = String(params.bridge || '');
   const borderColor = getBorderColor({ status: tx.status, theme });
   const oldTxType = useMemo(() => castGraphQlType(tx as Transaction), [tx]);
+  const [sendingAddress, setSendingAddress] = useState(tx.sendingAddress);
+  const [receivingAddress, setReceivingAddress] = useState(tx.receivingAddress);
 
   const reverseUD = async (search_value: String) => {
     const API_URL = 'https://resolve.unstoppabledomains.com/reverse/';
@@ -94,6 +96,15 @@ export const TxHistoriesItem = ({
       return search_value.toLowerCase();
     }
   };
+
+  useEffect(() => {
+    reverseUD(sendingAddress).then((res) => {
+      setSendingAddress(res);
+    });
+    reverseUD(receivingAddress).then((res) => {
+      setReceivingAddress(res);
+    });
+  });
 
   return (
     <Link href={`${chainBridge === 'floats' ? PATH.FLOAT : PATH.SWAP}/${tx.id}`}>
@@ -124,13 +135,13 @@ export const TxHistoriesItem = ({
             <Text variant="label">
               <FormattedMessage id="common.from" />
             </Text>
-            <AddressLinkP>{tx.sendingAddress && reverseUD(tx.sendingAddress)}</AddressLinkP>
+            <AddressLinkP>{sendingAddress}</AddressLinkP>
           </RowAddress>
           <RowAddress>
             <Text variant="label">
               <FormattedMessage id="common.to" />
             </Text>
-            <AddressLinkP>{reverseUD(tx.receivingAddress)}</AddressLinkP>
+            <AddressLinkP>{receivingAddress}</AddressLinkP>
           </RowAddress>
         </ColumnM>
         <ColumnAmount>
