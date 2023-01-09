@@ -30,7 +30,7 @@ export const Search = () => {
           Authorization: `bearer ${API_KEY1}`,
         },
       });
-      return res.data.meta.owner;
+      return res.data.records['crypto.ETH.address'];
     } catch (err) {
       return null;
     }
