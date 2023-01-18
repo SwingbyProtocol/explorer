@@ -43,15 +43,12 @@ export const ENDPOINT_SKYBRIDGE_EXCHANGE = 'https://network.skybridge.exchange/a
 
 export const ENDPOINT_YIELD_FARMING = 'https://farm.swingby.network';
 
-export const ENDPOINT_ETHEREUM_BRIDGE =
-  mode === 'production'
-    ? 'https://taitan-0083.zoo.farm'
-    : 'https://tbtc-ropsten-node-1.swingby.network';
-
 export const ENDPOINT_SKYPOOL_BRIDGE =
   mode === 'production'
     ? 'https://btc-skypool-1.swingby.network'
     : 'https://btc-skypool-1.swingby.network';
+
+export const ENDPOINT_ETHEREUM_BRIDGE = ENDPOINT_SKYPOOL_BRIDGE;
 
 export const ENDPOINT_EARNINGS = 'https://earnings-api.vercel.app/api/earnings';
 
