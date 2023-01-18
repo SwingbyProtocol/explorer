@@ -64,8 +64,7 @@ export const FloatVolume = () => {
     <PulseLoader margin={3} size={4} color={theme.pulsar.color.text.normal} />
   );
 
-  // Memo: Show 'loading' animation if backend api is broken
-  const isLoadingAll = explorerLoading || floatBalances.btcEth === 0;
+  const isLoadingAll = explorerLoading;
 
   const bridgeInfo = (bridgeData: IBridgeData[]) => {
     return (
