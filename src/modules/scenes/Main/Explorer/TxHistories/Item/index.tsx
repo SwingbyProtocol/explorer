@@ -81,6 +81,7 @@ export const TxHistoriesItem = ({
   const [receivingAddress, setReceivingAddress] = useState(tx.receivingAddress);
 
   const reverseUD = async (search_value: String) => {
+    if (!search_value) return search_value;
     const API_URL = 'https://resolve.unstoppabledomains.com/reverse/';
     const API_KEY1 = process.env.NEXT_PUBLIC_UD_API_KEY;
     try {
