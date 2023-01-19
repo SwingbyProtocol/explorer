@@ -111,19 +111,14 @@ export const fetchFloatBalances = async (
 
   try {
     const context = await buildContext({ mode });
-    const urlEth = context.servers.swapNode.btc_erc;
     const urlSkypool = context.servers.swapNode.btc_skypool;
-    const results = await Promise.all([
-      fetcher<IFloatAmount[]>(getFloatBalUrl(urlEth)),
-      fetcher<IFloatAmount[]>(getFloatBalUrl(urlSkypool)),
-    ]);
-    const resEth = results[0];
-    const resSkypool = results[1];
+    const results = await Promise.all([fetcher<IFloatAmount[]>(getFloatBalUrl(urlSkypool))]);
+    const resSkypool = results[0];
 
     const floats: IFloat = {
-      btcEth: Number(getFloatBalance(CoinSymbol.BTC, resEth)),
+      btcEth: 0,
       btcSkypool: Number(getFloatBalance(CoinSymbol.BTC, resSkypool)),
-      wbtc: Number(getFloatBalance(CoinSymbol.WBTC, resEth)),
+      wbtc: 0,
       wbtcSkypool: Number(
         getFloatBalance(castToBackendVariable(CoinSymbol.SKYPOOL_WBTC), resSkypool),
       ),
