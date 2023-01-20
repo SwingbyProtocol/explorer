@@ -15,7 +15,7 @@ export const StyledSwap = styled.div`
     padding: 0;
     display: block;
     width: 100%;
-    height: ${rem(100)};
+    height: ${rem(88)};
   }
 `;
 
@@ -23,7 +23,7 @@ export const SwapMobileRow = styled.div`
   width: 100%;
   padding-left: ${({ theme }) => rem(theme.pulsar.size.closet)};
   padding-right: ${({ theme }) => rem(theme.pulsar.size.closet)};
-  height: ${rem(100)};
+  height: ${rem(88)};
   display: flex;
   align-items: center;
   justify-content: center;
