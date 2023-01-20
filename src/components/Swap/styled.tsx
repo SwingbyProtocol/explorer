@@ -17,6 +17,10 @@ export const StyledSwap = styled.div`
     width: 100%;
     height: ${rem(88)};
   }
+
+  > iframe {
+    width: 100% !important;
+  }
 `;
 
 export const SwapMobileRow = styled.div`
