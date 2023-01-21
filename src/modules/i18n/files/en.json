@@ -74,7 +74,7 @@
   "home.no-results-found": "No results found :-(",
   "home.try-different-tx": "Try a different transaction or address",
   "home.network.volume": "Volume (1W)",
-  "home.network.rewards": "Rewards (1W)",
+  "home.network.rewards": "Rewards",
   "home.network.capacity": "Capacity (Float)",
   "home.network.network-bridges": "Network Bridges",
   "home.network.bitcoin-ethereum": "Bitcoin - Ethereum (Legacy)",
