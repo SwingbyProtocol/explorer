@@ -1,4 +1,4 @@
-import { getFiatAssetFormatter, Text } from '@swingby-protocol/pulsar';
+import { getFiatAssetFormatter, Text, Tooltip } from '@swingby-protocol/pulsar';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -16,6 +16,7 @@ import {
   ChartBox,
   DataDiv,
   DataRow,
+  IconInfo,
   InfoContainer,
   InfosContainer,
   Left,
@@ -196,6 +197,33 @@ export const StatsInfo = () => {
                       ) : (
                         <RowReward>
                           <Text variant="label">{info.description}</Text>
+                          <Tooltip
+                            content={
+                              <Tooltip.Content>
+                                <Text variant="accent">
+                                  <a
+                                    href="https://skybridge.info/pool"
+                                    target="_blank"
+                                    rel="noreferrer"
+                                  >
+                                    Deposit liquidity
+                                  </a>
+                                  &nbsp; and then stake the LP tokens in the&nbsp;
+                                  <a
+                                    href="https://farm.swingby.network"
+                                    target="_blank"
+                                    rel="noreferrer"
+                                  >
+                                    Farm
+                                  </a>
+                                  .
+                                </Text>
+                              </Tooltip.Content>
+                            }
+                            data-testid="tooltip"
+                          >
+                            <IconInfo />
+                          </Tooltip>
                         </RowReward>
                       )}
                       {info.isLoading ? (
