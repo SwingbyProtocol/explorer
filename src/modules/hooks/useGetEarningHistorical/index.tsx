@@ -1,7 +1,7 @@
 import { stringifyUrl } from 'query-string';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { IAprHistoric, IAprHistoricalPool, IEarningHistorical, useToggleBridge } from '..';
+import { IAprHistoricalPool, IEarningHistorical, useToggleBridge } from '..';
 import { ENDPOINT_YIELD_FARMING, mode, PATH } from '../../env';
 import { fetcher } from '../../fetch';
 import { logger } from '../../logger';
@@ -27,7 +27,7 @@ const initialState = {
 
 export const useGetEarningHistorical = () => {
   const [farming, setFarming] = useState<typeof initialState>(initialState);
-  const [aprHistoric, setAprHistoric] = useState<IAprHistoricalPool>({
+  const [aprHistoric] = useState<IAprHistoricalPool>({
     sbBtcErc20: [],
     uni: [],
     sushi: [],

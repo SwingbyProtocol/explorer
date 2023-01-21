@@ -1,4 +1,4 @@
-import { getFiatAssetFormatter, Text, Tooltip } from '@swingby-protocol/pulsar';
+import { getFiatAssetFormatter, Text } from '@swingby-protocol/pulsar';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -16,7 +16,6 @@ import {
   ChartBox,
   DataDiv,
   DataRow,
-  IconInfo,
   InfoContainer,
   InfosContainer,
   Left,
@@ -68,8 +67,6 @@ export const StatsInfo = () => {
   const floatAmount = Number(floatHistories[floatHistories.length - 1].amount);
 
   const rewardsTotal = reward ? reward.total : 0;
-  const rewardsSwingby = reward ? reward.stakingRewards : 0;
-  const rewardsSbBtcUsd = reward ? reward.networkRewards : 0;
 
   const dataChart = usd && [
     {
@@ -126,28 +123,13 @@ export const StatsInfo = () => {
       isLoading: isLoadingAll ? isLoadingAll : Number(rewardsTotal) > 1 ? false : true,
       icon: <NetworkRewards />,
       description: formattedRewards,
-      value: getFiatAssetFormatter({
-        locale,
-        currency: 'USD',
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-      }).format(Number(rewardsTotal)),
+      value: (
+        <a href="https://farm.swingby.network" target="_blank" rel="noreferrer">
+          Check
+        </a>
+      ),
     },
   ];
-
-  const earningSwingbyUsd = getFiatAssetFormatter({
-    locale,
-    currency: 'USD',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(Number(rewardsSwingby));
-
-  const earningSbBtcUsd = getFiatAssetFormatter({
-    locale,
-    currency: 'USD',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(Number(rewardsSbBtcUsd));
 
   const loader = <LoaderComingSoon isPlaceholder={false} isSmallWindow={true} />;
 
@@ -214,28 +196,6 @@ export const StatsInfo = () => {
                       ) : (
                         <RowReward>
                           <Text variant="label">{info.description}</Text>
-                          <Tooltip
-                            content={
-                              <Tooltip.Content>
-                                <Text variant="accent">
-                                  <FormattedMessage
-                                    id="metanodes.swingby"
-                                    values={{ value: earningSwingbyUsd }}
-                                  />
-                                </Text>
-                                <br />
-                                <Text variant="accent">
-                                  <FormattedMessage
-                                    id="metanodes.sbBTC"
-                                    values={{ value: earningSbBtcUsd }}
-                                  />
-                                </Text>
-                              </Tooltip.Content>
-                            }
-                            data-testid="tooltip"
-                          >
-                            <IconInfo />
-                          </Tooltip>
                         </RowReward>
                       )}
                       {info.isLoading ? (
