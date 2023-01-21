@@ -5,7 +5,6 @@ import { useToggleMetanode } from '../../../../hooks';
 import { ActionButtonMetanodes } from '../ActionButtonMetanodes';
 import { BondToLiquidity } from '../BondToLiquidity';
 import { Churning } from '../Churning';
-import { Earnings } from '../Earnings';
 import { GeneralInfo } from '../GeneralInfo';
 import { LiquidityRatio } from '../LiquidityRatio';
 import { MetanodeList } from '../MetanodeList';
@@ -23,7 +22,6 @@ export const MetanodeInfo = () => {
     liquidity,
     liquidityRatio,
     churnTime,
-    reward,
     isLoading,
   } = useToggleMetanode(PATH.METANODES);
   return (
@@ -41,7 +39,6 @@ export const MetanodeInfo = () => {
           <LiquidityRatio liquidityRatio={liquidityRatio} isLoading={isLoading} />
           <Row>
             <Churning churnTime={churnTime} isLoading={isLoading} />
-            <Earnings reward={reward} isLoading={isLoading} />
           </Row>
         </Right>
       </Top>
