@@ -1,4 +1,4 @@
-import { Text, Tooltip } from '@swingby-protocol/pulsar';
+import { Text } from '@swingby-protocol/pulsar';
 import { CONTRACTS, SkybridgeBridge } from '@swingby-protocol/sdk';
 import React from 'react';
 import { FormattedMessage, FormattedNumber } from 'react-intl';
@@ -8,8 +8,7 @@ import { useTheme } from 'styled-components';
 
 import { CoinSymbol } from '../../../../coins';
 import { mode, URL_ETHERSCAN } from '../../../../env';
-import { useGetPoolApr } from '../../../../hooks';
-import { ColumnInlineBlock, IconExternalLink } from '../../../Common';
+import { IconExternalLink } from '../../../Common';
 import { explorerLoadingSelector, networkInfoSelector } from '../../../../store';
 
 import {
@@ -37,7 +36,6 @@ interface IBridgeData {
 
 export const FloatVolume = () => {
   const theme = useTheme();
-  const { apr, isLoading: aprLoading } = useGetPoolApr();
   const explorerLoading = useSelector(explorerLoadingSelector);
   const networkInfos = useSelector(networkInfoSelector);
   const { floatBalances, stats } = networkInfos;
@@ -130,67 +128,17 @@ export const FloatVolume = () => {
 
   const poolLink = (bridge: SkybridgeBridge) => {
     return (
-      <Tooltip
-        content={
-          <Tooltip.Content>
-            <Text variant="normal">
-              <FormattedMessage
-                id="home.network.apy.sbbtc"
-                values={{
-                  value: (
-                    <FormattedNumber
-                      value={apr[bridge].sbBtc}
-                      maximumFractionDigits={2}
-                      minimumFractionDigits={2}
-                    />
-                  ),
-                }}
-              />
-            </Text>
-            <br />
-            <Text variant="normal">
-              <FormattedMessage
-                id="home.network.apr.farm"
-                values={{
-                  value: (
-                    <FormattedNumber
-                      value={apr[bridge].farm}
-                      maximumFractionDigits={2}
-                      minimumFractionDigits={2}
-                    />
-                  ),
-                }}
-              />
-            </Text>
-          </Tooltip.Content>
-        }
-        targetHtmlTag="span"
-      >
-        <Atag href={`/pool?bridge=${bridge}`} rel="noopener noreferrer" target="_blank">
-          <TextLink variant="label">
-            <FormattedMessage
-              id={
-                bridge === 'btc_skypool'
-                  ? 'home.network.add-liquidity'
-                  : 'home.network.remove-liquidity'
-              }
-              values={{
-                value: aprLoading ? (
-                  <ColumnInlineBlock>
-                    <PulseLoader margin={3} size={2} color={theme.pulsar.color.text.normal} />
-                  </ColumnInlineBlock>
-                ) : (
-                  <FormattedNumber
-                    value={apr[bridge].total}
-                    maximumFractionDigits={2}
-                    minimumFractionDigits={2}
-                  />
-                ),
-              }}
-            />
-          </TextLink>
-        </Atag>
-      </Tooltip>
+      <Atag href={`/pool?bridge=${bridge}`} rel="noopener noreferrer" target="_blank">
+        <TextLink variant="label">
+          <FormattedMessage
+            id={
+              bridge === 'btc_skypool'
+                ? 'home.network.add-liquidity'
+                : 'home.network.remove-liquidity'
+            }
+          />
+        </TextLink>
+      </Atag>
     );
   };
 
