@@ -4,11 +4,13 @@ import { Dropdown, getCryptoAssetFormatter, Text } from '@swingby-protocol/pulsa
 import { DateTime } from 'luxon';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo, useEffect } from 'react';
 import axios from 'axios';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useTheme } from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { reverseUDAddressSelector, fetchReverseUDAddress } from '../../../../../store';
 import type {
   Transaction,
   TransactionsHistoryQueryHookResult,
@@ -70,6 +72,8 @@ export const TxHistoriesItem = ({
   setToggleOpenLink: (arg: number) => void;
   setTxDetail: (tx: Transaction) => void;
 }) => {
+  const dispatch = useDispatch();
+
   const { locale } = useIntl();
   const theme = useTheme();
   const { query } = useRouter();
@@ -77,11 +81,15 @@ export const TxHistoriesItem = ({
   const chainBridge = String(params.bridge || '');
   const borderColor = getBorderColor({ status: tx.status, theme });
   const oldTxType = useMemo(() => castGraphQlType(tx as Transaction), [tx]);
-  const [sendingAddress, setSendingAddress] = useState(tx.sendingAddress);
-  const [receivingAddress, setReceivingAddress] = useState(tx.receivingAddress);
+
+  const txSendingAddress = tx.sendingAddress?.toLowerCase();
+  const txReceivingAddress = tx.receivingAddress?.toLowerCase();
+  const sendingAddress = useSelector(reverseUDAddressSelector(txSendingAddress));
+  const receivingAddress = useSelector(reverseUDAddressSelector(txReceivingAddress));
 
   const reverseUD = async (search_value: String) => {
     if (!search_value) return search_value;
+
     const API_URL = 'https://resolve.unstoppabledomains.com/reverse/';
     const API_KEY1 = process.env.NEXT_PUBLIC_UD_API_KEY;
     try {
@@ -91,21 +99,28 @@ export const TxHistoriesItem = ({
         },
       });
 
-      if (res.data.meta.domain === '') return search_value.toLowerCase();
-      return res.data.meta.owner;
+      if (res.data.meta.domain !== '') {
+        return res.data.meta.domain;
+      }
+      return search_value;
     } catch (err) {
-      return search_value.toLowerCase();
+      return search_value;
     }
   };
 
   useEffect(() => {
-    reverseUD(sendingAddress).then((res) => {
-      setSendingAddress(res);
+    if (sendingAddress || !txSendingAddress) return;
+    reverseUD(txSendingAddress).then((reversedUDAddress) => {
+      dispatch(fetchReverseUDAddress(reversedUDAddress, txSendingAddress));
     });
-    reverseUD(receivingAddress).then((res) => {
-      setReceivingAddress(res);
+  }, [dispatch, sendingAddress, txSendingAddress]);
+
+  useEffect(() => {
+    if (receivingAddress || !txReceivingAddress) return;
+    reverseUD(txReceivingAddress).then((reversedUDAddress) => {
+      dispatch(fetchReverseUDAddress(reversedUDAddress, txReceivingAddress));
     });
-  });
+  }, [dispatch, receivingAddress, txReceivingAddress]);
 
   return (
     <Link href={`${chainBridge === 'floats' ? PATH.FLOAT : PATH.SWAP}/${tx.id}`}>
@@ -136,13 +151,13 @@ export const TxHistoriesItem = ({
             <Text variant="label">
               <FormattedMessage id="common.from" />
             </Text>
-            <AddressLinkP>{sendingAddress}</AddressLinkP>
+            <AddressLinkP>{sendingAddress ?? txSendingAddress}</AddressLinkP>
           </RowAddress>
           <RowAddress>
             <Text variant="label">
               <FormattedMessage id="common.to" />
             </Text>
-            <AddressLinkP>{receivingAddress}</AddressLinkP>
+            <AddressLinkP>{receivingAddress ?? txReceivingAddress}</AddressLinkP>
           </RowAddress>
         </ColumnM>
         <ColumnAmount>
