@@ -28,7 +28,6 @@ export const useGetNetworkData = () => {
 
       const data = results[0];
       const stats = {
-        volume1wksWBTC: results[1].volume1wksWBTC,
         volume1wksWBTC_Skypool: results[1].volume1wksWBTC_Skypool,
         volume1wksBTC: results[1].volume1wksBTC,
         volumes: results[1].volumes,

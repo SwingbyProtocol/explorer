@@ -192,7 +192,7 @@ export const AddLiquidity = (props: Props) => {
                 {
                   id: 'pool.receive-address',
                 },
-                { value: bridge === 'btc_erc' ? 'sbBTC (Legacy)' : 'sbBTC' },
+                { value: 'sbBTC' },
               )}
               left={<Coin symbol={sbBTC} />}
               onChange={(e) => {

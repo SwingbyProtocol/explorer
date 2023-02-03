@@ -40,11 +40,6 @@ export const FloatVolume = () => {
   const networkInfos = useSelector(networkInfoSelector);
   const { floatBalances, stats } = networkInfos;
 
-  const dataEthBridge = [
-    { coin: CoinSymbol.BTC, float: floatBalances.btcEth, vol: stats.volume1wksWBTC },
-    { coin: CoinSymbol.WBTC, float: floatBalances.wbtc, vol: stats.volume1wksWBTC },
-  ];
-
   const dataSkypoolBridge = [
     {
       coin: CoinSymbol.BTC,
@@ -103,7 +98,6 @@ export const FloatVolume = () => {
   const networkScan = ({ bridge }: { bridge: SkybridgeBridge }) => {
     const baseUrl = (() => {
       switch (bridge) {
-        case 'btc_erc':
         case 'btc_skypool':
           return URL_ETHERSCAN;
       }
@@ -130,13 +124,7 @@ export const FloatVolume = () => {
     return (
       <Atag href={`/pool?bridge=${bridge}`} rel="noopener noreferrer" target="_blank">
         <TextLink variant="label">
-          <FormattedMessage
-            id={
-              bridge === 'btc_skypool'
-                ? 'home.network.add-liquidity'
-                : 'home.network.remove-liquidity'
-            }
-          />
+          <FormattedMessage id={'home.network.add-liquidity'} />
         </TextLink>
       </Atag>
     );
@@ -146,24 +134,13 @@ export const FloatVolume = () => {
     return (
       <BridgeContainer>
         <TextBridge variant="label">
-          <FormattedMessage
-            id={(() => {
-              switch (bridge) {
-                case 'btc_erc':
-                  return 'home.network.bitcoin-ethereum';
-                case 'btc_skypool':
-                  return 'home.network.bitcoin-skypool';
-              }
-            })()}
-          />
+          <FormattedMessage id={'home.network.bitcoin-skypool'} />
         </TextBridge>
         <RowBridge>
           {networkScan({ bridge })}
           {poolLink(bridge)}
         </RowBridge>
-        <CoinContainer>
-          {bridgeInfo(bridge === 'btc_erc' ? dataEthBridge : dataSkypoolBridge)}
-        </CoinContainer>
+        <CoinContainer>{bridgeInfo(dataSkypoolBridge)}</CoinContainer>
       </BridgeContainer>
     );
   };

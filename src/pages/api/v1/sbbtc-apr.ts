@@ -12,33 +12,28 @@ import {
   getTransactionFee,
   IFloat,
 } from '../../../modules/explorer';
-import { skybridgeEnabled, skypoolsEnabled } from '../../../modules/env';
+import { skypoolsEnabled } from '../../../modules/env';
 
 const getFloatUsd = (bridge: SkybridgeBridge, usdBtc: number, floatBalances: IFloat) => {
   const sumFloatUsd = (floatBtc: number, floatPeggedBtc: number, usdBtc: number) =>
     (floatBtc + floatPeggedBtc) * usdBtc;
 
   switch (bridge) {
-    case 'btc_erc':
-      return sumFloatUsd(floatBalances.btcEth, floatBalances.wbtc, usdBtc);
     case 'btc_skypool':
       return sumFloatUsd(floatBalances.btcSkypool, floatBalances.wbtcSkypool, usdBtc);
 
     default:
-      return sumFloatUsd(floatBalances.btcEth, floatBalances.wbtc, usdBtc);
+      return sumFloatUsd(floatBalances.btcSkypool, floatBalances.wbtcSkypool, usdBtc);
   }
 };
 
 const isBridgeEnabled = (bridge: SkybridgeBridge): boolean => {
   switch (bridge) {
-    case 'btc_erc': {
-      return skybridgeEnabled;
-    }
     case 'btc_skypool': {
       return skypoolsEnabled;
     }
     default:
-      return true;
+      return skypoolsEnabled;
   }
 };
 

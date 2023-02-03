@@ -28,11 +28,8 @@ export const getNodeQty = async ({
       const result = await fetcher<Array<any>>(getBridgePeersUrl(bridge));
       return result.length;
     }
-    const results = await Promise.all([
-      fetcher<Array<any>>(getBridgePeersUrl('btc_erc')),
-      fetcher<Array<any>>(getBridgePeersUrl('btc_skypool')),
-    ]);
-    const total = results[0].length + results[1].length;
+    const results = await fetcher<Array<any>>(getBridgePeersUrl('btc_skypool'));
+    const total = results.length;
     return total;
   } catch (e) {
     return 0;
@@ -84,9 +81,7 @@ export const getTVL = async (): Promise<string> => {
 
   try {
     const results = await Promise.all([
-      fetcher<IFloatAmount[]>(getFloatBalUrl(ENDPOINT_ETHEREUM_BRIDGE)),
       fetcher<IFloatAmount[]>(getFloatBalUrl(ENDPOINT_SKYPOOL_BRIDGE)),
-      fetcher<IBondHistories>(getBondBalUrl('btc_erc')),
       fetcher<IBondHistories>(getBondBalUrl('btc_skypool')),
       fetchVwap('btcUsd'),
       fetcher<{ farmTvl: number }>(uniFarmUrl),
@@ -94,29 +89,27 @@ export const getTVL = async (): Promise<string> => {
       fetcher<{ farmTvl: number }>(pancakeFarmUrl),
     ]);
 
-    const resEth = results[0];
-    const resSkypool = results[1];
+    const resSkypool = results[0];
 
-    const tvlSwingbyEth = Number(results[2].data[0].bond);
-    const tvlSwingbyBsc = Number(results[3].data[0].bond);
+    const tvlSwingbyBsc = Number(results[1].data[0].bond);
 
-    const usdBtc = results[4];
+    const usdBtc = results[2];
 
-    const tvlUniUsd = results[5].farmTvl ?? 0;
-    const tvlSushiUsd = results[6].farmTvl ?? 0;
-    const tvlPancakeUsd = results[7].farmTvl ?? 0;
+    const tvlUniUsd = results[3].farmTvl ?? 0;
+    const tvlSushiUsd = results[4].farmTvl ?? 0;
+    const tvlPancakeUsd = results[5].farmTvl ?? 0;
     const farmTvlUsd = tvlUniUsd + tvlSushiUsd + tvlPancakeUsd;
 
     const formattedWBTC_Skypool = castToBackendVariable(CoinSymbol.SKYPOOL_WBTC);
 
-    const btcEth = Number(getFloatBalance(CoinSymbol.BTC, resEth));
+    const btcEth = 0;
     const btcSkypool = Number(getFloatBalance(CoinSymbol.BTC, resSkypool));
-    const wbtc = Number(getFloatBalance(CoinSymbol.WBTC, resEth));
+    const wbtc = 0;
     const btcb = Number(getFloatBalance(formattedWBTC_Skypool, resSkypool));
 
     const floatTtl = usdBtc * (btcEth + btcSkypool + wbtc + btcb);
 
-    const tvlSwingbyUsd = tvlSwingbyEth + tvlSwingbyBsc;
+    const tvlSwingbyUsd = tvlSwingbyBsc;
 
     const tvl = floatTtl + tvlSwingbyUsd + farmTvlUsd;
 

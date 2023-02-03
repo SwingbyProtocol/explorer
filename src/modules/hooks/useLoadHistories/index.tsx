@@ -44,11 +44,9 @@ export const useLoadHistories = () => {
     switch (queryBridge) {
       case Bridge.BtcSkypool:
         return { in: [Bridge.BtcSkypool] };
-      case Bridge.BtcErc:
-        return { in: [Bridge.BtcErc] };
 
       default:
-        return { in: [Bridge.BtcSkypool, Bridge.BtcErc] };
+        return { in: [Bridge.BtcSkypool] };
     }
   };
 

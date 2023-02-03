@@ -16,16 +16,15 @@ export default async function handler(
 
   try {
     const results = await Promise.all([
-      getNodeQty({ bridge: 'btc_erc', mode: 'production' }),
       getNodeQty({ bridge: 'btc_skypool', mode: 'production' }),
       get7daysVolume(),
       getTVL(),
     ]);
 
     const data = {
-      nodes: String(results[0] + results[1]),
-      volume: results[2],
-      tvl: results[3],
+      nodes: String(results[0]),
+      volume: results[1],
+      tvl: results[2],
     };
 
     res.status(200).json(data);

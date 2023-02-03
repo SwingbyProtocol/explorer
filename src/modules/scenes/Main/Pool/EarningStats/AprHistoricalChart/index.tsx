@@ -16,9 +16,7 @@ import { Column, AprHistoricalChartContainer, TextDate, TitleDiv } from './style
 type TPool = 'sbBtcErc20' | 'sbBtcBep20' | 'uni' | 'sushi' | 'pancake';
 
 export const AprHistoricalChart = ({ aprHistoric, bridge }) => {
-  const initialActiveState =
-    //  Todo: update to 'sbBtcBep20' once published sbBTC pool on BSC
-    bridge === 'btc_bep20' ? 'pancake' : 'sbBtcErc20';
+  const initialActiveState = 'sbBtcBep20';
 
   const [active, setActive] = useState<TPool>(initialActiveState);
 
@@ -66,36 +64,18 @@ export const AprHistoricalChart = ({ aprHistoric, bridge }) => {
         <Column bridge={bridge}>
           <TextDate
             variant="label"
-            onClick={() => setActive(bridge === 'btc_bep20' ? 'pancake' : 'uni')}
-            isActive={bridge === 'btc_bep20' ? active === 'pancake' : active === 'uni'}
+            onClick={() => setActive('pancake')}
+            isActive={active === 'pancake'}
           >
-            {bridge === 'btc_bep20' ? (
-              <FormattedMessage id="pool.earning.pancake" />
-            ) : (
-              <FormattedMessage id="pool.earning.uni" />
-            )}
+            <FormattedMessage id="pool.earning.pancake" />
           </TextDate>
-          {bridge === 'btc_erc' && (
-            <TextDate
-              variant="label"
-              onClick={() => setActive('sushi')}
-              isActive={'sushi' === active}
-            >
-              <FormattedMessage id="pool.earning.sushi" />
-            </TextDate>
-          )}
-          {/* Todo: remove condition once published sbBTC pool on BSC */}
-          {bridge === 'btc_erc' && (
-            <TextDate
-              variant="label"
-              onClick={() => setActive('sbBtcErc20')}
-              isActive={'sbBtcErc20' === active}
-            >
-              <FormattedMessage
-                id={bridge === 'btc_erc' ? 'common.sbbtc.legacy' : 'common.sbbtc'}
-              />
-            </TextDate>
-          )}
+          <TextDate
+            variant="label"
+            onClick={() => setActive('sbBtcBep20')}
+            isActive={'sbBtcBep20' === active}
+          >
+            <FormattedMessage id={'common.sbbtc'} />
+          </TextDate>
         </Column>
       </TitleDiv>
       <ResponsiveContainer width={chartWidth} height={182}>

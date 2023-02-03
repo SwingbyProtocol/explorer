@@ -4,7 +4,6 @@ import { CoinSymbol } from '../../../coins';
 import { getShortDate, sumArray } from '../../../common';
 import {
   ENDPOINT_COINGECKO,
-  ENDPOINT_ETHEREUM_BRIDGE,
   ENDPOINT_SKYBRIDGE_EXCHANGE,
   ENDPOINT_SKYPOOL_BRIDGE,
   mode,
@@ -15,13 +14,11 @@ import { IChartDate, IFloat, IFloatAmount, IFloatBalances } from '../../index';
 
 export const getFixedBaseEndpoint = (bridge: SkybridgeBridge) => {
   switch (bridge) {
-    case 'btc_erc':
-      return ENDPOINT_ETHEREUM_BRIDGE;
     case 'btc_skypool':
       return ENDPOINT_SKYPOOL_BRIDGE;
 
     default:
-      return ENDPOINT_ETHEREUM_BRIDGE;
+      return ENDPOINT_SKYPOOL_BRIDGE;
   }
 };
 
@@ -80,26 +77,21 @@ export const getFloatBalance = (currency: string, floatInfos: IFloatAmount[]): s
 
 interface getCapacityArg {
   bridge: SkybridgeBridge;
-  btcEth: number;
   btcSkypool: number;
-  wbtc: number;
   wbtcSkypool: number;
 }
 
 const getCapacity = (arg: getCapacityArg): number => {
-  const { bridge, btcEth, btcSkypool, wbtc, wbtcSkypool } = arg;
+  const { bridge, btcSkypool, wbtcSkypool } = arg;
 
-  const capacityEthBridge = btcEth + wbtc;
   const capacitySkypoolBridge = btcSkypool + wbtcSkypool;
 
   switch (bridge) {
-    case 'btc_erc':
-      return capacityEthBridge;
     case 'btc_skypool':
       return capacitySkypoolBridge;
 
     default:
-      return capacityEthBridge + capacitySkypoolBridge;
+      return capacitySkypoolBridge;
   }
 };
 
@@ -116,25 +108,20 @@ export const fetchFloatBalances = async (
     const resSkypool = results[0];
 
     const floats: IFloat = {
-      btcEth: 0,
       btcSkypool: Number(getFloatBalance(CoinSymbol.BTC, resSkypool)),
-      wbtc: 0,
       wbtcSkypool: Number(
         getFloatBalance(castToBackendVariable(CoinSymbol.SKYPOOL_WBTC), resSkypool),
       ),
     };
-    const { btcEth, btcSkypool, wbtc, wbtcSkypool } = floats;
-    const capacity: number =
-      usdBtc * getCapacity({ bridge, btcEth, btcSkypool, wbtc, wbtcSkypool });
+    const { btcSkypool, wbtcSkypool } = floats;
+    const capacity: number = usdBtc * getCapacity({ bridge, btcSkypool, wbtcSkypool });
 
     return { floats, capacity };
   } catch (err) {
     console.log(err);
     return {
       floats: {
-        btcEth: 0,
         btcSkypool: 0,
-        wbtc: 0,
         wbtcSkypool: 0,
       },
       capacity: 0,
@@ -144,83 +131,45 @@ export const fetchFloatBalances = async (
 
 interface getVolume1wksBTCArg {
   bridge: SkybridgeBridge;
-  volume1wksWBTC: number;
   volume1wksWBTC_Skypool: number;
 }
 
 const getVolume1wksBTC = (arg: getVolume1wksBTCArg): number => {
-  const { bridge, volume1wksWBTC, volume1wksWBTC_Skypool } = arg;
+  const { bridge, volume1wksWBTC_Skypool } = arg;
   switch (bridge) {
-    case 'btc_erc':
-      return volume1wksWBTC;
     case 'btc_skypool':
       return volume1wksWBTC_Skypool;
 
     default:
-      return volume1wksWBTC + volume1wksWBTC_Skypool;
+      return volume1wksWBTC_Skypool;
   }
 };
 
 interface getRewards1wksArg {
   bridge: SkybridgeBridge;
-  ethRewards1wksUSD: number;
   skypoolRewards1wksUSD: number;
 }
 
 const getRewards1wks = (arg: getRewards1wksArg): number => {
-  const { bridge, ethRewards1wksUSD, skypoolRewards1wksUSD } = arg;
+  const { bridge, skypoolRewards1wksUSD } = arg;
   switch (bridge) {
-    case 'btc_erc':
-      return ethRewards1wksUSD;
     case 'btc_skypool':
       return skypoolRewards1wksUSD;
 
     default:
-      return ethRewards1wksUSD + skypoolRewards1wksUSD;
+      return skypoolRewards1wksUSD;
   }
 };
 
 interface getVolumesArg {
   bridge: SkybridgeBridge;
   usdBtc: number;
-  ethNetwork24hrSwaps: number[];
   skypoolNetwork24hrSwaps: number[];
-  ethNetwork24hrSwapsVolume: number[];
   skypoolNetwork24hrSwapsVolume: number[];
 }
 
 const getVolumes = (arg: getVolumesArg): IChartDate[] => {
-  const {
-    bridge,
-    usdBtc,
-    ethNetwork24hrSwaps,
-    skypoolNetwork24hrSwaps,
-    ethNetwork24hrSwapsVolume,
-    skypoolNetwork24hrSwapsVolume,
-  } = arg;
-
-  const mergeBridgeStats = ({
-    ethStats,
-    skypoolStats,
-  }: {
-    ethStats: number[];
-    skypoolStats: number[];
-  }): number[] => {
-    return ethStats.map((ethItem: number, i: number) => {
-      const statsByDate = ethItem + skypoolStats[i];
-      return Number(statsByDate.toFixed(3));
-    });
-  };
-
-  const totalSwaps: number[] = mergeBridgeStats({
-    ethStats: ethNetwork24hrSwaps,
-    skypoolStats: skypoolNetwork24hrSwaps,
-  });
-
-  const totalVolumes: number[] = mergeBridgeStats({
-    ethStats: ethNetwork24hrSwapsVolume,
-    skypoolStats: skypoolNetwork24hrSwapsVolume,
-  });
+  const { bridge, usdBtc, skypoolNetwork24hrSwaps, skypoolNetwork24hrSwapsVolume } = arg;
 
   const buildVolumesArray = ({
     swapsVolume,
@@ -245,12 +194,6 @@ const getVolumes = (arg: getVolumesArg): IChartDate[] => {
   };
 
   switch (bridge) {
-    case 'btc_erc':
-      return buildVolumesArray({
-        swapsVolume: ethNetwork24hrSwapsVolume,
-        swapsCount: ethNetwork24hrSwaps,
-        usdBtc,
-      });
     case 'btc_skypool':
       return buildVolumesArray({
         swapsVolume: skypoolNetwork24hrSwapsVolume,
@@ -259,7 +202,11 @@ const getVolumes = (arg: getVolumesArg): IChartDate[] => {
       });
 
     default:
-      return buildVolumesArray({ swapsVolume: totalVolumes, swapsCount: totalSwaps, usdBtc });
+      return buildVolumesArray({
+        swapsVolume: skypoolNetwork24hrSwapsVolume,
+        swapsCount: skypoolNetwork24hrSwaps,
+        usdBtc,
+      });
   }
 };
 
@@ -267,7 +214,6 @@ export const fetchVolumeInfo = async (
   bridge: SkybridgeBridge,
   usdBtc: number,
 ): Promise<{
-  volume1wksWBTC: number;
   volume1wksWBTC_Skypool: number;
   volume1wksBTC: number;
   volumes: IChartDate[] | null;
@@ -276,10 +222,8 @@ export const fetchVolumeInfo = async (
 
   try {
     const context = await buildContext({ mode });
-    const urlEth = context.servers.swapNode.btc_erc;
     const urlSkypool = context.servers.swapNode.btc_skypool;
     const results = await Promise.all([
-      fetch<{ network24hrSwapsVolume: number[]; network24hrSwaps: number[] }>(getBridgeUrl(urlEth)),
       fetch<{ network24hrSwapsVolume: number[]; network24hrSwaps: number[] }>(
         getBridgeUrl(urlSkypool),
       ),
@@ -287,44 +231,31 @@ export const fetchVolumeInfo = async (
 
     const swaps24hrsFallback = [0, 0, 0, 0, 0, 0, 0];
 
-    const ethNetwork24hrSwaps = results[0].ok
+    const skypoolNetwork24hrSwaps = results[0].ok
       ? results[0].response.network24hrSwaps
       : swaps24hrsFallback;
 
-    const skypoolNetwork24hrSwaps = results[1].ok
-      ? results[1].response.network24hrSwaps
-      : swaps24hrsFallback;
-
-    const ethNetwork24hrSwapsVolume = results[0].ok
+    const skypoolNetwork24hrSwapsVolume = results[0].ok
       ? results[0].response.network24hrSwapsVolume
       : swaps24hrsFallback;
 
-    const skypoolNetwork24hrSwapsVolume = results[1].ok
-      ? results[1].response.network24hrSwapsVolume
-      : swaps24hrsFallback;
-
-    const volume1wksWBTC: number = sumArray(ethNetwork24hrSwapsVolume.slice(0, 7));
     const volume1wksWBTC_Skypool: number = sumArray(skypoolNetwork24hrSwapsVolume.slice(0, 7));
 
     const volume1wksBTC: number = getVolume1wksBTC({
       bridge,
-      volume1wksWBTC,
       volume1wksWBTC_Skypool,
     });
 
     const volumes: IChartDate[] = getVolumes({
       bridge,
       usdBtc,
-      ethNetwork24hrSwaps,
       skypoolNetwork24hrSwaps,
-      ethNetwork24hrSwapsVolume,
       skypoolNetwork24hrSwapsVolume,
     })
       .slice(0, 7)
       .reverse();
 
     return {
-      volume1wksWBTC,
       volume1wksWBTC_Skypool,
       volume1wksBTC,
       volumes,
@@ -332,7 +263,6 @@ export const fetchVolumeInfo = async (
   } catch (err) {
     console.log(err);
     return {
-      volume1wksWBTC: 0,
       volume1wksWBTC_Skypool: 0,
       volume1wksBTC: 0,
       volumes: null,
@@ -344,16 +274,11 @@ export const fetch1wksRewards = async (bridge: SkybridgeBridge): Promise<number>
   const getRewardsUrl = (bridge: SkybridgeBridge) =>
     `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/${bridge}/rewards-last-week`;
   try {
-    const results = await Promise.all([
-      fetch<IReward>(getRewardsUrl('btc_erc')),
-      fetch<IReward>(getRewardsUrl('btc_skypool')),
-    ]);
+    const results = await Promise.all([fetch<IReward>(getRewardsUrl('btc_skypool'))]);
 
-    const ethRewards1wksUSD = results[0].ok ? Number(results[0].response.total) : 0;
+    const skypoolRewards1wksUSD = results[0].ok ? Number(results[0].response.total) : 0;
 
-    const skypoolRewards1wksUSD = results[1].ok ? Number(results[1].response.total) : 0;
-
-    const rewards1wksUSD = getRewards1wks({ bridge, ethRewards1wksUSD, skypoolRewards1wksUSD });
+    const rewards1wksUSD = getRewards1wks({ bridge, skypoolRewards1wksUSD });
 
     return rewards1wksUSD;
   } catch (err) {

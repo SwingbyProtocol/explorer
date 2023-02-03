@@ -4,7 +4,6 @@ import { IFee, ITransactions, TTxRawObject } from '../explorer';
 export type Volume = { at: string; amount: string };
 
 export type NetworkStats = {
-  volume1wksWBTC: number;
   volume1wksBTC: number;
   volume1wksWBTC_Skypool: number;
   volumes: Volume[];
@@ -15,8 +14,6 @@ export type NetworkStats = {
 export type NetworkInfo = {
   capacity: number;
   floatBalances: {
-    btcEth: number;
-    wbtc: number;
     btcSkypool: number;
     wbtcSkypool: number;
   };
@@ -29,7 +26,6 @@ export type USDPrices = {
 };
 
 export type NodeEndpoint = {
-  btc_erc: string;
   btc_bep20: string;
 };
 

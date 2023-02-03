@@ -3,14 +3,12 @@ import { SkybridgeBridge } from '@swingby-protocol/sdk';
 import {
   ENDPOINT_ETHERSCAN,
   etherscanApiKey,
-  CONTRACT_SB_BTC,
   CONTRACT_SKYPOOL_SB_BTC,
   URL_ETHERSCAN,
 } from '../../../env';
 
 export const getScanApiBaseEndpoint = (bridge: SkybridgeBridge) => {
   switch (bridge) {
-    case 'btc_erc':
     case 'btc_skypool':
       return ENDPOINT_ETHERSCAN;
 
@@ -21,7 +19,6 @@ export const getScanApiBaseEndpoint = (bridge: SkybridgeBridge) => {
 
 export const getScanDetailBaseEndpoint = (bridge: SkybridgeBridge) => {
   switch (bridge) {
-    case 'btc_erc':
     case 'btc_skypool':
       return URL_ETHERSCAN;
 
@@ -32,7 +29,6 @@ export const getScanDetailBaseEndpoint = (bridge: SkybridgeBridge) => {
 
 export const getScanApiKey = (bridge: SkybridgeBridge) => {
   switch (bridge) {
-    case 'btc_erc':
     case 'btc_skypool':
       return etherscanApiKey;
 
@@ -43,13 +39,10 @@ export const getScanApiKey = (bridge: SkybridgeBridge) => {
 
 export const getSbBtcContract = (bridge: SkybridgeBridge) => {
   switch (bridge) {
-    case 'btc_erc':
-      return CONTRACT_SB_BTC;
-
     case 'btc_skypool':
       return CONTRACT_SKYPOOL_SB_BTC;
 
     default:
-      return CONTRACT_SB_BTC;
+      return CONTRACT_SKYPOOL_SB_BTC;
   }
 };

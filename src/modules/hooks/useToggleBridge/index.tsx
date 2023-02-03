@@ -20,7 +20,7 @@ export const useToggleBridge = (path: PATH) => {
     });
   };
 
-  // Memo: Redirect to btc_erc bridge
+  // Memo: Redirect to btc_skypool bridge
   useEffect(() => {
     // Memo: Multiple-bridge as default path for Root
     if (path !== PATH.ROOT) {

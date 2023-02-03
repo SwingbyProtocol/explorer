@@ -52,13 +52,9 @@ export const FarmCard = () => {
       <Box>
         <TextTitle variant="accent">
           <FormattedMessage
-            id={bridge === 'btc_erc' ? 'common.sbbtc.legacy' : 'home.network.apr.current'}
+            id="home.network.apr.current"
             values={{
-              currency: (
-                <FormattedMessage
-                  id={bridge === 'btc_erc' ? 'common.sbbtc.legacy' : 'common.sbbtc'}
-                />
-              ),
+              currency: <FormattedMessage id="common.sbbtc" />,
             }}
           />
         </TextTitle>
@@ -86,26 +82,19 @@ export const FarmCard = () => {
             </div>
             <div>
               <TextTvl variant="label">
-                {/* Todo: remove condition once published sbBTC pool on BSC */}
-                {bridge !== 'btc_skypool' && (
-                  <FormattedMessage
-                    id="pool.stake-card.stake-on-farm-tvl"
-                    values={{
-                      value:
-                        bridge && apr[bridge].farmTvl > 0 ? (
-                          formattedTvlAmountUsd
-                        ) : (
-                          <ColumnInlineBlock>
-                            <PulseLoader
-                              margin={3}
-                              size={3}
-                              color={theme.pulsar.color.text.normal}
-                            />
-                          </ColumnInlineBlock>
-                        ),
-                    }}
-                  />
-                )}
+                <FormattedMessage
+                  id="pool.stake-card.stake-on-farm-tvl"
+                  values={{
+                    value:
+                      bridge && apr[bridge].farmTvl > 0 ? (
+                        formattedTvlAmountUsd
+                      ) : (
+                        <ColumnInlineBlock>
+                          <PulseLoader margin={3} size={3} color={theme.pulsar.color.text.normal} />
+                        </ColumnInlineBlock>
+                      ),
+                  }}
+                />
               </TextTvl>
             </div>
           </div>

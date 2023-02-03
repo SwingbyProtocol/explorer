@@ -65,7 +65,6 @@ export interface INodeStatusTable {
   nodeQty: number;
 }
 
-const btcErc = SKYBRIDGE_BRIDGES.find((bridge) => bridge === 'btc_erc');
 const btcSkypool = SKYBRIDGE_BRIDGES.find((bridge) => bridge === 'btc_skypool');
 
 export const BRIDGES = [
@@ -137,9 +136,6 @@ export const toggleStatusIconColor = (status: NodeStatus): TStatus => {
 
 export const getSbBtcRewardCurrency = (bridge: SkybridgeBridge) => {
   switch (bridge) {
-    case btcErc:
-      return 'ERC20';
-
     case btcSkypool:
       return 'BEP20';
 

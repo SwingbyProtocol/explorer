@@ -190,7 +190,7 @@ export type Transaction = {
   status: TransactionStatus;
   bridge: Bridge;
   mode: Mode;
-  depositAddress: Scalars['String'];
+  depositAddress?: Maybe<Scalars['String']>;
   depositAmount: Scalars['Decimal'];
   depositTxHash?: Maybe<Scalars['String']>;
   depositCurrency: TransactionCurrency;
@@ -201,6 +201,7 @@ export type Transaction = {
   receivingCurrency: TransactionCurrency;
   feeCurrency: TransactionCurrency;
   feeTotal: Scalars['Decimal'];
+  rebalanceRewards?: Maybe<Scalars['Decimal']>;
 };
 
 export enum TransactionCurrency {
