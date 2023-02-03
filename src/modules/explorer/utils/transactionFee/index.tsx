@@ -7,9 +7,9 @@ import { IFee } from '../../index';
 
 export const getTransactionFees = async (): Promise<IFee[]> => {
   const context = await buildContext({ mode });
-  const urlEth = context.servers.swapNode.btc_erc;
+  const urlSkypool = context.servers.swapNode.btc_skypool;
   try {
-    const result = await fetch<IFee[]>(urlEth + '/api/v1/swaps/fees');
+    const result = await fetch<IFee[]>(urlSkypool + '/api/v1/swaps/fees');
     return result.ok && result.response;
   } catch (err) {
     console.log(err);
@@ -41,8 +41,6 @@ export const getTransactionFees = async (): Promise<IFee[]> => {
 export const getTransactionFee = async (bridge: SkybridgeBridge): Promise<IFee> => {
   const getTargetCurrency = (bridge: SkybridgeBridge) => {
     switch (bridge) {
-      case 'btc_erc':
-        return 'WBTC';
       case 'btc_skypool':
         return 'WBTC';
 

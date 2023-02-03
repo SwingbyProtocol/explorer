@@ -41,10 +41,6 @@ export const selectableBridge = [
     bridge: '' as Bridge,
   },
   {
-    menu: 'Ethereum',
-    bridge: Bridge.BtcErc as Bridge,
-  },
-  {
     menu: 'Skypools',
     bridge: Bridge.BtcSkypool as Bridge,
   },
@@ -121,9 +117,7 @@ export interface Reward {
 }
 
 export interface IFloat {
-  btcEth: number;
   btcSkypool: number;
-  wbtc: number;
   wbtcSkypool: number;
 }
 
@@ -172,13 +166,10 @@ export interface ILoadHistoryArgs {
 export interface INetworkInfos {
   capacity: number;
   floatBalances: {
-    btcEth: number;
     btcSkypool: number;
-    wbtc: number;
     wbtcSkypool: number;
   };
   stats: {
-    volume1wksWBTC: number;
     volume1wksWBTC_Skypool: number;
     volume1wksBTC: number;
     rewards1wksUSD: number;

@@ -15,7 +15,7 @@ export const createWeb3Instance = ({
   mode: SkybridgeMode;
   bridge: SkybridgeBridge;
 }) => {
-  if (bridge === 'btc_erc' || bridge === 'btc_skypool') {
+  if (bridge === 'btc_skypool') {
     const web3 = new Web3(
       new Web3.providers.HttpProvider(
         `https://${mode === 'production' ? 'mainnet' : 'ropsten'}.infura.io/v3/${infuraApiKey}`,

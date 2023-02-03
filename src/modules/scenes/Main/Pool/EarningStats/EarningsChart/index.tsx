@@ -107,20 +107,15 @@ export const EarningsChart = ({ farming, bridge }) => {
             onClick={() => setActive('thirdPartyFarm')}
             isActive={'thirdPartyFarm' === active}
           >
-            {bridge === 'btc_erc' ? 'Uni / Sushi' : 'Pancake'}
+            {'Pancake'}
           </TextDate>
-          {/* Todo: remove condition once published sbBTC pool on BSC */}
-          {bridge === 'btc_erc' && (
-            <TextDate
-              variant="label"
-              onClick={() => setActive('sbBTC')}
-              isActive={'sbBTC' === active}
-            >
-              <FormattedMessage
-                id={bridge === 'btc_erc' ? 'common.sbbtc.legacy' : 'common.sbbtc'}
-              />
-            </TextDate>
-          )}
+          <TextDate
+            variant="label"
+            onClick={() => setActive('sbBTC')}
+            isActive={'sbBTC' === active}
+          >
+            <FormattedMessage id={'common.sbbtc'} />
+          </TextDate>
         </Column>
       </TitleDiv>
       {pendingSwingby > 0 || claimedSwingby > 0 ? (

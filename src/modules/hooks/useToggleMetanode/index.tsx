@@ -52,27 +52,8 @@ export const useToggleMetanode = (path: PATH) => {
       setReward(rewardData);
     } else {
       // Memo: path === Root && bridge === '' (Multi-bridge)
-      const ercRewardsUrl = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/btc_erc/rewards-last-week`;
       const skypoolsRewardsUrl = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/${mode}/btc_skypool/rewards-last-week`;
-      const results = await Promise.all([
-        fetcher<IReward>(ercRewardsUrl),
-        fetcher<IReward>(skypoolsRewardsUrl),
-      ]);
-
-      const ercRewardData = results[0];
-      const skypoolsRewardsData = results[1];
-
-      const rewardData = {
-        currency: 'USD',
-        networkRewards: (
-          Number(ercRewardData.networkRewards) + Number(skypoolsRewardsData.networkRewards)
-        ).toFixed(0),
-        stakingRewards: (
-          Number(ercRewardData.stakingRewards) + Number(skypoolsRewardsData.stakingRewards)
-        ).toFixed(0),
-        total: (Number(ercRewardData.total) + Number(skypoolsRewardsData.total)).toFixed(0),
-        avgPerNode: '0',
-      };
+      const rewardData = await fetcher<IReward>(skypoolsRewardsUrl);
       setReward(rewardData);
     }
   }, [bridge, path]);

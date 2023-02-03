@@ -100,12 +100,12 @@ export const useGetSwapRewards = ({ bridge }: { bridge: SkybridgeBridge }) => {
       }
 
       setRewards({
-        swapFrom: floats.btcEth > floats.wbtc ? 'WBTC' : 'BTC',
-        swapTo: floats.btcEth > floats.wbtc ? 'BTC' : 'WBTC',
+        swapFrom: floats.btcSkypool > floats.wbtcSkypool ? 'WBTC' : 'BTC',
+        swapTo: floats.btcSkypool > floats.wbtcSkypool ? 'BTC' : 'WBTC',
       });
       const rewardsPercentage = getRewardsPercentage({
-        btcFloat: floats.btcEth,
-        peggedBtcFloat: floats.wbtc,
+        btcFloat: floats.btcSkypool,
+        peggedBtcFloat: floats.wbtcSkypool,
       });
       setRewardsPercent(rewardsPercentage);
       return;

@@ -40,15 +40,15 @@ export const BrowserSwapRewards = () => {
   } = useRouter();
   const bridge = SKYBRIDGE_BRIDGES.includes(bridgeParam as any)
     ? (bridgeParam as SkybridgeBridge)
-    : 'btc_erc';
+    : 'btc_skypool';
 
   const { user, rewards, claimRewards, isLoading, network, rewardsPercent } = useGetSwapRewards({
     bridge,
   });
   const { pending, claimed } = user;
   const { swapFrom, swapTo } = rewards;
-  const rewardsCurrency = bridge === 'btc_skypool' ? 'ERC20 SWINGBY' : 'ERC20 SWINGBY';
-  const peggedBtc = bridge === 'btc_skypool' ? 'WBTC' : 'WBTC';
+  const rewardsCurrency = 'ERC20 SWINGBY';
+  const peggedBtc = 'WBTC';
 
   const widthAmountRight = useMemo(() => {
     const amount = Number(pending) > Number(claimed) ? Number(pending) : Number(claimed);

@@ -19,12 +19,9 @@ export const useGetStatsChartData = () => {
 
   const getFloatHistory = async (bridge: SkybridgeBridge) => {
     const url = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/production/float-historic`;
-    const urlEth = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/production/btc_erc/float-historic`;
     const urlSkypool = `${ENDPOINT_SKYBRIDGE_EXCHANGE}/production/btc_skypool/float-historic`;
     try {
-      if (bridge === 'btc_erc') {
-        return await fetcher<IFloatHistoryObject[]>(urlEth);
-      } else if (bridge === 'btc_skypool') {
+      if (bridge === 'btc_skypool') {
         return await fetcher<IFloatHistoryObject[]>(urlSkypool);
       } else {
         return await fetcher<IFloatHistoryObject[]>(url);

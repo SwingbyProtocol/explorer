@@ -28,27 +28,21 @@ export const BTCCoins = [CoinSymbol.BTC];
 
 export const getBridgeBtc = (bridge: SkybridgeBridge): CoinSymbol => {
   switch (bridge) {
-    case 'btc_erc':
-      return CoinSymbol.WBTC;
-
     case 'btc_skypool':
       return CoinSymbol.SKYPOOL_WBTC;
 
     default:
-      return CoinSymbol.WBTC;
+      return CoinSymbol.SKYPOOL_WBTC;
   }
 };
 
 export const getBridgeSbBtc = (bridge: SkybridgeBridge): TSbBTC => {
   switch (bridge) {
-    case 'btc_erc':
-      return CoinSymbol.ERC20_SB_BTC;
-
     case 'btc_skypool':
       return CoinSymbol.SKYPOOL_SB_BTC;
 
     default:
-      return CoinSymbol.ERC20_SB_BTC;
+      return CoinSymbol.SKYPOOL_SB_BTC;
   }
 };
 

@@ -8,16 +8,12 @@ import { PoolMode } from '../../../../pool';
 import { poolModeSelector, togglePoolMode } from '../../../../store';
 import { StylingConstants } from '../../../../styles';
 import { ButtonScale, IconArrowLeft } from '../../../Common';
-import { useGetQueryParams } from '../../../../hooks';
 
 import { ActionButtonsPoolContainer, Buttons, ColumnIcon } from './styled';
 
 export const ActionButtonsPool = () => {
   const dispatch = useDispatch();
   const mode = useSelector(poolModeSelector);
-
-  const queryParams = useGetQueryParams();
-  const isBTC_ERC = queryParams.bridge === 'btc_erc';
 
   const { media } = StylingConstants;
   const sm = useMatchMedia({ query: `(min-width: ${rem(media.sm)})` });
@@ -42,7 +38,6 @@ export const ActionButtonsPool = () => {
         <ButtonScale
           variant="primary"
           size="city"
-          disabled={isBTC_ERC}
           onClick={() => dispatch(togglePoolMode(PoolMode.AddLiquidity))}
         >
           <FormattedMessage id="pool.add-liquidity" values={{ value: sm && '+ ' }} />
