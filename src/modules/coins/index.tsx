@@ -76,3 +76,23 @@ export const castCurrencyName = (currency: TransactionCurrency): CoinSymbol => {
       return currency as CoinSymbol;
   }
 };
+
+export const swingbyTextDisplay = (coin: CoinSymbol): string => {
+  switch (coin) {
+    case CoinSymbol.WBTC: {
+      return 'WBTC (Legacy)';
+    }
+    case CoinSymbol.SKYPOOL_WBTC: {
+      return 'WBTC';
+    }
+    case CoinSymbol.ERC20_SB_BTC: {
+      return 'sbBTC (Legacy)';
+    }
+    case CoinSymbol.SKYPOOL_SB_BTC: {
+      return 'sbBTC';
+    }
+    default: {
+      return coin;
+    }
+  }
+};
