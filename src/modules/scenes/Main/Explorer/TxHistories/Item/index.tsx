@@ -24,6 +24,7 @@ import {
 } from '../../../../../explorer';
 import { transactionDetailByTxId } from '../../../../../swap';
 import { AddressLinkP } from '../../../../Common';
+import { swingbyTextDisplay } from '../../../../../coins';
 
 import {
   AmountSpan,
@@ -143,7 +144,7 @@ export const TxHistoriesItem = ({
           <Text variant="section-title">
             {getCryptoAssetFormatter({
               locale,
-              displaySymbol: oldTxType.feeCurrency,
+              displaySymbol: swingbyTextDisplay(oldTxType.feeCurrency),
             }).format(Number(tx.feeTotal))}
           </Text>
         </ColumnFee>
