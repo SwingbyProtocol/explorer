@@ -28,3 +28,7 @@ export const swingbyUSDPriceSelector = (state: DefaultRootState): number =>
 
 export const explorerLoadingSelector = (state: DefaultRootState): boolean =>
   state.explorer.isLoading;
+
+export const reverseUDAddressSelector = (address: string) => (
+  state: DefaultRootState,
+): string | undefined => state.explorer.reversedUDAddresses[address];

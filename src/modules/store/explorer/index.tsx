@@ -16,6 +16,7 @@ enum Actions {
   FetchUsdPrice = 'Explorer/FETCH_USD_PRICE',
   FetchTransactionFees = 'Explorer/FETCH_TRANSACTION_FEES',
   UpdateNetworkInfos = 'Explorer/UPDATE_NETWORK_INFOS',
+  FetchReverseUDAddress = 'Explorer/FETCH_REVERSE_UD_ADDRESS',
 }
 
 const initialState: ExplorerState = {
@@ -26,6 +27,7 @@ const initialState: ExplorerState = {
   networkInfos: initial.networkInfos,
   transactionFees: null,
   isExistPreviousPage: false,
+  reversedUDAddresses: {},
 };
 
 export const explorer: Reducer<ExplorerState, Action> = (state = initialState, action) => {
@@ -61,6 +63,13 @@ export const explorer: Reducer<ExplorerState, Action> = (state = initialState, a
     return { ...state, networkInfos: action.data };
   }
 
+  if (action.type === Actions.FetchReverseUDAddress) {
+    return {
+      ...state,
+      reversedUDAddresses: { ...state.reversedUDAddresses, [action.address]: action.data },
+    };
+  }
+
   return state;
 };
 
@@ -85,6 +94,9 @@ export const fetchTransactionFees = (data: IFee[]) =>
 export const updateNetworkInfos = (data: INetworkInfos) =>
   ({ type: Actions.UpdateNetworkInfos, data } as const);
 
+export const fetchReverseUDAddress = (data: string, address: string) =>
+  ({ type: Actions.FetchReverseUDAddress, data, address } as const);
+
 type Action =
   | ReturnType<typeof toggleIsLoading>
   | ReturnType<typeof toggleIsExistPreviousPage>
@@ -93,7 +105,8 @@ type Action =
   | ReturnType<typeof updateSwapHistoryTemp>
   | ReturnType<typeof fetchUsdPrice>
   | ReturnType<typeof fetchTransactionFees>
-  | ReturnType<typeof updateNetworkInfos>;
+  | ReturnType<typeof updateNetworkInfos>
+  | ReturnType<typeof fetchReverseUDAddress>;
 
 export {
   btcUSDPriceSelector,
@@ -104,4 +117,5 @@ export {
   explorerSelector,
   explorerLoadingSelector,
   statsSelector,
+  reverseUDAddressSelector,
 } from './selectors';

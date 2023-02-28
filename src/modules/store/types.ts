@@ -50,6 +50,7 @@ export type ExplorerState = {
   isExistPreviousPage: boolean;
   swapHistory: ITransactions | null;
   swapHistoryTemp: TTxRawObject[] | null;
+  reversedUDAddresses: Record<string, string>;
 };
 
 export type SettingsState = {
