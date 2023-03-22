@@ -137,7 +137,7 @@ export const toggleStatusIconColor = (status: NodeStatus): TStatus => {
 export const getSbBtcRewardCurrency = (bridge: SkybridgeBridge) => {
   switch (bridge) {
     case btcSkypool:
-      return 'BEP20';
+      return 'ERC20';
 
     default:
       return 'ERC20';

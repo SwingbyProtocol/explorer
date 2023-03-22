@@ -50,7 +50,6 @@ interface Props {
 export const MetanodeList = (props: Props) => {
   const { locale } = useIntl();
   const { metanodes, bridge, isLoading } = props;
-  const swingbyRewardCurrency = 'BEP2';
   const sbBTCRewardCurrency = bridge && getSbBtcRewardCurrency(bridge);
 
   const { media } = StylingConstants;
@@ -87,7 +86,6 @@ export const MetanodeList = (props: Props) => {
         {!isLoading &&
           metanodes &&
           metanodes.map((node: Node, i: number) => {
-            const bnbAddress = node.bondAddress;
             const ethAddress = node.rewardsAddress;
             const bondAmount = getCryptoAssetFormatter({
               locale,
@@ -166,17 +164,6 @@ export const MetanodeList = (props: Props) => {
                 </ColumnExpiry>
                 <SizeL>
                   <BoxAddress>
-                    <RowAddress>
-                      <CurrencyColumn>
-                        <CurrencyBox>
-                          <TextRoom variant="label">{swingbyRewardCurrency}</TextRoom>
-                        </CurrencyBox>
-                        <TextRoom variant="label">:</TextRoom>
-                      </CurrencyColumn>
-                      <ColumnAddress>
-                        <AddressP>{bnbAddress}</AddressP>
-                      </ColumnAddress>
-                    </RowAddress>
                     <RowAddress>
                       <CurrencyColumn>
                         <CurrencyBox>
