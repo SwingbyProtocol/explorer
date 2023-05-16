@@ -129,19 +129,19 @@ export const fetchFloatBalances = async (
   }
 };
 
-interface getVolume1wksBTCArg {
+interface getVolumesBTCArg {
   bridge: SkybridgeBridge;
-  volume1wksWBTC_Skypool: number;
+  volumesWBTC_Skypool: number;
 }
 
-const getVolume1wksBTC = (arg: getVolume1wksBTCArg): number => {
-  const { bridge, volume1wksWBTC_Skypool } = arg;
+const getVolumesBTC = (arg: getVolumesBTCArg): number => {
+  const { bridge, volumesWBTC_Skypool } = arg;
   switch (bridge) {
     case 'btc_skypool':
-      return volume1wksWBTC_Skypool;
+      return volumesWBTC_Skypool;
 
     default:
-      return volume1wksWBTC_Skypool;
+      return volumesWBTC_Skypool;
   }
 };
 
@@ -164,12 +164,13 @@ const getRewards1wks = (arg: getRewards1wksArg): number => {
 interface getVolumesArg {
   bridge: SkybridgeBridge;
   usdBtc: number;
-  skypoolNetwork24hrSwaps: number[];
-  skypoolNetwork24hrSwapsVolume: number[];
+  swapsCount: number[];
+  swapsVolume: number[];
+  volumeStep: 'day' | 'month';
 }
 
 const getVolumes = (arg: getVolumesArg): IChartDate[] => {
-  const { bridge, usdBtc, skypoolNetwork24hrSwaps, skypoolNetwork24hrSwapsVolume } = arg;
+  const { bridge, usdBtc, swapsCount, swapsVolume, volumeStep } = arg;
 
   const buildVolumesArray = ({
     swapsVolume,
@@ -182,8 +183,14 @@ const getVolumes = (arg: getVolumesArg): IChartDate[] => {
   }) => {
     return swapsVolume.map((vol: number, i: number) => {
       const d = new Date();
-      d.setDate(d.getDate() - i);
-      const dt = getShortDate(String(d));
+      let dt: string;
+      if (volumeStep === 'month') {
+        d.setMonth(d.getMonth() - i);
+        dt = getShortDate(String(d));
+      } else {
+        d.setDate(d.getDate() - i);
+        dt = getShortDate(String(d));
+      }
 
       return {
         at: String(dt),
@@ -196,15 +203,15 @@ const getVolumes = (arg: getVolumesArg): IChartDate[] => {
   switch (bridge) {
     case 'btc_skypool':
       return buildVolumesArray({
-        swapsVolume: skypoolNetwork24hrSwapsVolume,
-        swapsCount: skypoolNetwork24hrSwaps,
+        swapsVolume,
+        swapsCount,
         usdBtc,
       });
 
     default:
       return buildVolumesArray({
-        swapsVolume: skypoolNetwork24hrSwapsVolume,
-        swapsCount: skypoolNetwork24hrSwaps,
+        swapsVolume,
+        swapsCount,
         usdBtc,
       });
   }
@@ -217,6 +224,12 @@ export const fetchVolumeInfo = async (
   volume1wksWBTC_Skypool: number;
   volume1wksBTC: number;
   volumes: IChartDate[] | null;
+  volumes1mWBTC_Skypool: number;
+  volumes1mBTC: number;
+  volumes1m: IChartDate[] | null;
+  volumes1yWBTC_Skypool: number;
+  volumes1yBTC: number;
+  volumes1y: IChartDate[] | null;
 }> => {
   const getBridgeUrl = (endpoint: string) => endpoint + '/api/v1/swaps/stats';
 
@@ -224,9 +237,12 @@ export const fetchVolumeInfo = async (
     const context = await buildContext({ mode });
     const urlSkypool = context.servers.swapNode.btc_skypool;
     const results = await Promise.all([
-      fetch<{ network24hrSwapsVolume: number[]; network24hrSwaps: number[] }>(
-        getBridgeUrl(urlSkypool),
-      ),
+      fetch<{
+        network24hrSwapsVolume: number[];
+        network24hrSwaps: number[];
+        network1mSwapsVolume: number[];
+        network1mSwaps: number[];
+      }>(getBridgeUrl(urlSkypool)),
     ]);
 
     const swaps24hrsFallback = [0, 0, 0, 0, 0, 0, 0];
@@ -239,26 +255,69 @@ export const fetchVolumeInfo = async (
       ? results[0].response.network24hrSwapsVolume
       : swaps24hrsFallback;
 
+    const skypoolNetwork1mSwaps = results[0].ok
+      ? results[0].response.network1mSwaps
+      : swaps24hrsFallback;
+
+    const skypoolNetwork1mSwapsVolume = results[0].ok
+      ? results[0].response.network1mSwapsVolume
+      : swaps24hrsFallback;
+
     const volume1wksWBTC_Skypool: number = sumArray(skypoolNetwork24hrSwapsVolume.slice(0, 7));
-
-    const volume1wksBTC: number = getVolume1wksBTC({
+    const volume1wksBTC: number = getVolumesBTC({
       bridge,
-      volume1wksWBTC_Skypool,
+      volumesWBTC_Skypool: volume1wksWBTC_Skypool,
     });
-
     const volumes: IChartDate[] = getVolumes({
       bridge,
       usdBtc,
-      skypoolNetwork24hrSwaps,
-      skypoolNetwork24hrSwapsVolume,
+      swapsCount: skypoolNetwork24hrSwaps,
+      swapsVolume: skypoolNetwork24hrSwapsVolume,
+      volumeStep: 'day',
     })
       .slice(0, 7)
+      .reverse();
+
+    const volumes1mWBTC_Skypool: number = sumArray(skypoolNetwork24hrSwapsVolume.slice(0, 30));
+    const volumes1mBTC: number = getVolumesBTC({
+      bridge,
+      volumesWBTC_Skypool: volumes1mWBTC_Skypool,
+    });
+    const volumes1m: IChartDate[] = getVolumes({
+      bridge,
+      usdBtc,
+      swapsCount: skypoolNetwork24hrSwaps,
+      swapsVolume: skypoolNetwork24hrSwapsVolume,
+      volumeStep: 'day',
+    })
+      .slice(0, 30)
+      .reverse();
+
+    const volumes1yWBTC_Skypool: number = sumArray(skypoolNetwork1mSwapsVolume.slice(0, 12));
+    const volumes1yBTC: number = getVolumesBTC({
+      bridge,
+      volumesWBTC_Skypool: volumes1yWBTC_Skypool,
+    });
+    const volumes1y: IChartDate[] = getVolumes({
+      bridge,
+      usdBtc,
+      swapsCount: skypoolNetwork1mSwaps,
+      swapsVolume: skypoolNetwork1mSwapsVolume,
+      volumeStep: 'month',
+    })
+      .slice(0, 12)
       .reverse();
 
     return {
       volume1wksWBTC_Skypool,
       volume1wksBTC,
       volumes,
+      volumes1mWBTC_Skypool,
+      volumes1mBTC,
+      volumes1m,
+      volumes1yWBTC_Skypool,
+      volumes1yBTC,
+      volumes1y,
     };
   } catch (err) {
     console.log(err);
@@ -266,6 +325,12 @@ export const fetchVolumeInfo = async (
       volume1wksWBTC_Skypool: 0,
       volume1wksBTC: 0,
       volumes: null,
+      volumes1mWBTC_Skypool: 0,
+      volumes1mBTC: 0,
+      volumes1m: null,
+      volumes1yWBTC_Skypool: 0,
+      volumes1yBTC: 0,
+      volumes1y: null,
     };
   }
 };

@@ -18,6 +18,12 @@ export const networkInfos: NetworkInfo = {
     volume1wksBTC: 0,
     rewards1wksUSD: 0,
     volumes: initialVolumes,
+    volumes1mWBTC_Skypool: 0,
+    volumes1mBTC: 0,
+    volumes1m: initialVolumes,
+    volumes1yWBTC_Skypool: 0,
+    volumes1yBTC: 0,
+    volumes1y: initialVolumes,
     metanodes: 0,
   },
 };

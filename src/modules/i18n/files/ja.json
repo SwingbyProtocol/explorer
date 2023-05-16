@@ -41,7 +41,7 @@
   "home.explorer": "Skybridge Explorer",
   "home.no-results-found": "一致する情報は見つかりませんでした。 :-(",
   "home.try-different-tx": "アドレス / ハッシュに誤字・脱字がないかを確認してみてください。",
-  "home.network.volume": "取引量 (1W)",
+  "home.network.volume": "取引量",
   "home.network.rewards": "リワード (1W)",
   "home.network.capacity": "Capacity (Float)",
   "home.network.bitcoin-ethereum": "Bitcoin - Ethereum (Legacy)",
