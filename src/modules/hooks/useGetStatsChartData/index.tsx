@@ -13,6 +13,8 @@ import { useToggleBridge } from '../useToggleBridge';
 export const useGetStatsChartData = () => {
   const { bridge } = useToggleBridge(PATH.ROOT);
   const volumes = useSelector((state) => state.explorer.networkInfos.stats.volumes);
+  const volumes1m = useSelector((state) => state.explorer.networkInfos.stats.volumes1m);
+  const volumes1y = useSelector((state) => state.explorer.networkInfos.stats.volumes1y);
   const [floatHistories, setFloatHistories] = useState<IChartDate[]>(initialVolumes);
   const [lockHistories, setLockHistories] = useState<IChartDate[]>(initialVolumes);
   const [isLoading, setIsLoading] = useState(false);
@@ -48,5 +50,5 @@ export const useGetStatsChartData = () => {
     })();
   }, [bridge]);
 
-  return { volumes, floatHistories, lockHistories, isLoading };
+  return { volumes, volumes1m, volumes1y, floatHistories, lockHistories, isLoading };
 };

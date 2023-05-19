@@ -31,6 +31,12 @@ export const useGetNetworkData = () => {
         volume1wksWBTC_Skypool: results[1].volume1wksWBTC_Skypool,
         volume1wksBTC: results[1].volume1wksBTC,
         volumes: results[1].volumes,
+        volumes1mWBTC_Skypool: results[1].volumes1mWBTC_Skypool,
+        volumes1mBTC: results[1].volumes1mBTC,
+        volumes1m: results[1].volumes1m,
+        volumes1yWBTC_Skypool: results[1].volumes1yWBTC_Skypool,
+        volumes1yBTC: results[1].volumes1yBTC,
+        volumes1y: results[1].volumes1y,
         rewards1wksUSD: results[2],
         metanodes: results[3],
       };

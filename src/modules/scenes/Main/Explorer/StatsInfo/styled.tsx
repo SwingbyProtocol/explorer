@@ -1,6 +1,6 @@
 import styled from 'styled-components';
+import { Dropdown, Icon, Text } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
-import { Icon, Text } from '@swingby-protocol/pulsar';
 
 import { StylingConstants } from '../../../../styles';
 
@@ -190,4 +190,17 @@ export const IconInfo = styled(Icon.InfoCircle)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.closet)};
   color: ${({ theme }) => theme.pulsar.color.text.masked};
   cursor: pointer;
+`;
+
+export const DataChartDropdownTarget = styled(Dropdown.DefaultTarget)`
+  margin-left: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  font-size: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  color: ${({ theme }) => theme.pulsar.color.text.masked};
+  height: 1.4em;
+  background: transparent;
+
+  :active,
+  :hover {
+    background: transparent;
+  }
 `;

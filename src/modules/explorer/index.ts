@@ -174,6 +174,12 @@ export interface INetworkInfos {
     volume1wksBTC: number;
     rewards1wksUSD: number;
     volumes: IChartDate[];
+    volumes1mWBTC_Skypool: number;
+    volumes1mBTC: number;
+    volumes1m: IChartDate[];
+    volumes1yWBTC_Skypool: number;
+    volumes1yBTC: number;
+    volumes1y: IChartDate[];
     metanodes: number;
   };
 }

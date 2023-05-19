@@ -7,6 +7,12 @@ export type NetworkStats = {
   volume1wksBTC: number;
   volume1wksWBTC_Skypool: number;
   volumes: Volume[];
+  volumes1mBTC: number;
+  volumes1mWBTC_Skypool: number;
+  volumes1m: Volume[];
+  volumes1yBTC: number;
+  volumes1yWBTC_Skypool: number;
+  volumes1y: Volume[];
   rewards1wksUSD: number;
   metanodes: number;
 };

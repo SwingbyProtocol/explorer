@@ -1,6 +1,6 @@
-import { getFiatAssetFormatter, Text, Tooltip } from '@swingby-protocol/pulsar';
+import { getFiatAssetFormatter, Text, Tooltip, Dropdown } from '@swingby-protocol/pulsar';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { PulseLoader } from 'react-spinners';
@@ -33,7 +33,10 @@ import {
   TextValue,
   ValidatorLinkSpan,
   RowReward,
+  DataChartDropdownTarget,
 } from './styled';
+
+type VolumeType = '1W' | '1M' | '1Y' | 'All';
 
 export const StatsInfo = () => {
   const theme = useTheme();
@@ -47,16 +50,35 @@ export const StatsInfo = () => {
   const stats = useSelector(statsSelector);
   const usd = useSelector(usdPricesSelector);
   const isLoading = useSelector(explorerLoadingSelector);
+  const [volumeType, setVolumeType] = useState<VolumeType>('1W');
 
   const { bridge, defaultBridge, reward, isLoading: isLoadingMetanode } = useToggleMetanode(
     PATH.ROOT,
   );
   const {
     volumes,
+    volumes1m,
+    volumes1y,
     floatHistories,
     lockHistories,
     isLoading: isLoadingGetChart,
   } = useGetStatsChartData();
+
+  let targetVolumes: typeof volumes;
+  let targetSumVolumes: number;
+  switch (volumeType) {
+    case '1M':
+      targetVolumes = volumes1m;
+      targetSumVolumes = Number(stats.volumes1mBTC);
+      break;
+    case '1Y':
+      targetVolumes = volumes1y;
+      targetSumVolumes = Number(stats.volumes1yBTC);
+      break;
+    default:
+      targetVolumes = volumes;
+      targetSumVolumes = Number(stats.volume1wksBTC);
+  }
 
   const isLoadingAll =
     isLoading || isLoadingMetanode || isLoadingGetChart || stats.volume1wksBTC === 0;
@@ -75,13 +97,28 @@ export const StatsInfo = () => {
       isLoading: isLoadingAll,
       icon: <Network />,
       description: <FormattedMessage id="home.network.volume" />,
-      chart: volumes,
+      selection: (
+        <Dropdown
+          target={<DataChartDropdownTarget size="city">{volumeType}</DataChartDropdownTarget>}
+        >
+          {['1W', '1M', '1Y'].map((volumeTypeForSelect: VolumeType) => (
+            <Dropdown.Item
+              selected={volumeType === volumeTypeForSelect}
+              onClick={() => setVolumeType(volumeTypeForSelect)}
+              key={volumeTypeForSelect}
+            >
+              {volumeTypeForSelect}
+            </Dropdown.Item>
+          ))}
+        </Dropdown>
+      ),
+      chart: targetVolumes,
       value: getFiatAssetFormatter({
         locale,
         currency: 'USD',
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
-      }).format(Number(stats.volume1wksBTC) * usd.BTC),
+      }).format(targetSumVolumes * usd.BTC),
     },
     {
       key: 'swingbyLocked',
@@ -146,6 +183,7 @@ export const StatsInfo = () => {
                   <DataDiv>
                     <Row>
                       <Text variant="label">{info.description}</Text>
+                      {info.selection}
                     </Row>
                     {info.isLoading ? (
                       placeholderLoader
