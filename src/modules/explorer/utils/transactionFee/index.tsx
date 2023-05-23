@@ -1,12 +1,14 @@
-import { buildContext, SkybridgeBridge } from '@swingby-protocol/sdk';
+import { SkybridgeBridge, SkybridgeContext } from '@swingby-protocol/sdk';
 import { BigNumber } from 'bignumber.js';
 
-import { mode } from '../../../env';
 import { fetch } from '../../../fetch';
 import { IFee } from '../../index';
 
-export const getTransactionFees = async (): Promise<IFee[]> => {
-  const context = await buildContext({ mode });
+export const getTransactionFees = async ({
+  context,
+}: {
+  context: SkybridgeContext;
+}): Promise<IFee[]> => {
   const urlSkypool = context.servers.swapNode.btc_skypool;
   try {
     const result = await fetch<IFee[]>(urlSkypool + '/api/v1/swaps/fees');
@@ -38,7 +40,13 @@ export const getTransactionFees = async (): Promise<IFee[]> => {
   }
 };
 
-export const getTransactionFee = async (bridge: SkybridgeBridge): Promise<IFee> => {
+export const getTransactionFee = async ({
+  bridge,
+  context,
+}: {
+  bridge: SkybridgeBridge;
+  context: SkybridgeContext;
+}): Promise<IFee> => {
   const getTargetCurrency = (bridge: SkybridgeBridge) => {
     switch (bridge) {
       case 'btc_skypool':
@@ -50,7 +58,7 @@ export const getTransactionFee = async (bridge: SkybridgeBridge): Promise<IFee> 
   };
 
   try {
-    const fees = await getTransactionFees();
+    const fees = await getTransactionFees({ context });
     const fee = fees.find((it: IFee) => it.currency === getTargetCurrency(bridge));
     return fee;
   } catch (err) {

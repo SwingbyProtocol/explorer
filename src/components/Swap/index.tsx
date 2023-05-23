@@ -1,16 +1,23 @@
 import { Button } from '@swingby-protocol/pulsar';
 import { createWidget, getHtml, openPopup } from '@swingby-protocol/widget';
 import { useRouter } from 'next/router';
-import { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { useDispatch } from 'react-redux';
 
 import { useAffiliateCode } from '../../modules/affiliate-code';
 import { mode } from '../../modules/env';
 import { useThemeSettings } from '../../modules/store/settings';
+import { getTransactionFees } from '../../modules/explorer';
+import { fetchTransactionFees } from '../../modules/store';
+import { useSdkContext } from '../../modules/sdk-context';
 
 import { StyledSwap, SwapMobileRow } from './styled';
 
 export const Swap = () => {
+  const dispatch = useDispatch();
+  const context = useSdkContext();
+
   const { locale } = useRouter();
   const affiliateCode = useAffiliateCode();
   const [theme] = useThemeSettings();
@@ -42,6 +49,13 @@ export const Swap = () => {
   );
 
   const show = useCallback(() => openPopup({ widget: big }), [big]);
+
+  useEffect(() => {
+    (async () => {
+      const transactionFees = await getTransactionFees({ context });
+      dispatch(fetchTransactionFees(transactionFees));
+    })();
+  }, [dispatch, context]);
 
   return (
     <>

@@ -1,4 +1,4 @@
-import { buildContext, SkybridgeBridge } from '@swingby-protocol/sdk';
+import { SkybridgeBridge, SkybridgeContext } from '@swingby-protocol/sdk';
 
 import { CoinSymbol } from '../../../coins';
 import { getShortDate, sumArray } from '../../../common';
@@ -95,14 +95,18 @@ const getCapacity = (arg: getCapacityArg): number => {
   }
 };
 
-export const fetchFloatBalances = async (
-  usdBtc: number,
-  bridge: SkybridgeBridge,
-): Promise<IFloatBalances> => {
+export const fetchFloatBalances = async ({
+  usdBtc,
+  bridge,
+  context,
+}: {
+  usdBtc: number;
+  bridge: SkybridgeBridge;
+  context: SkybridgeContext;
+}): Promise<IFloatBalances> => {
   const getFloatBalUrl = (base: string) => base + '/api/v1/floats/balances';
 
   try {
-    const context = await buildContext({ mode });
     const urlSkypool = context.servers.swapNode.btc_skypool;
     const results = await Promise.all([fetcher<IFloatAmount[]>(getFloatBalUrl(urlSkypool))]);
     const resSkypool = results[0];
@@ -217,10 +221,15 @@ const getVolumes = (arg: getVolumesArg): IChartDate[] => {
   }
 };
 
-export const fetchVolumeInfo = async (
-  bridge: SkybridgeBridge,
-  usdBtc: number,
-): Promise<{
+export const fetchVolumeInfo = async ({
+  usdBtc,
+  bridge,
+  context,
+}: {
+  usdBtc: number;
+  bridge: SkybridgeBridge;
+  context: SkybridgeContext;
+}): Promise<{
   volume1wksWBTC_Skypool: number;
   volume1wksBTC: number;
   volumes: IChartDate[] | null;
@@ -234,7 +243,6 @@ export const fetchVolumeInfo = async (
   const getBridgeUrl = (endpoint: string) => endpoint + '/api/v1/swaps/stats';
 
   try {
-    const context = await buildContext({ mode });
     const urlSkypool = context.servers.swapNode.btc_skypool;
     const results = await Promise.all([
       fetch<{

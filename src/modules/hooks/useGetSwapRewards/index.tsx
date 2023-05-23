@@ -14,6 +14,7 @@ import { SWINGBY_DECIMALS, tradeMiningContract } from '../../swap-rewards';
 import abi from '../../swap-rewards/abi/trade-mining.json'; // eslint-disable-line
 import { calculateGasMargin, generateSendParams, generateWeb3ErrorToast } from '../../web3';
 import { btcUSDPriceSelector } from '../../store';
+import { useSdkContext } from '../../sdk-context';
 
 const initialUserState = {
   pending: '0',
@@ -33,6 +34,7 @@ export const useGetSwapRewards = ({ bridge }: { bridge: SkybridgeBridge }) => {
   const usdBtc = useSelector(btcUSDPriceSelector);
   const { network, wallet, onboard, address } = useOnboard();
   const isValidCondition = network === 1 || network === 3;
+  const context = useSdkContext();
 
   const getRewardsPercentage = ({
     btcFloat,
@@ -84,7 +86,7 @@ export const useGetSwapRewards = ({ bridge }: { bridge: SkybridgeBridge }) => {
   const getCurrency = useCallback(async () => {
     try {
       setIsLoading(true);
-      const { floats } = await fetchFloatBalances(usdBtc, bridge);
+      const { floats } = await fetchFloatBalances({ usdBtc, bridge, context });
 
       if (bridge === 'btc_skypool') {
         setRewards({

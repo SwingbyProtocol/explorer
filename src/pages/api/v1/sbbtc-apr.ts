@@ -1,4 +1,4 @@
-import { SkybridgeBridge } from '@swingby-protocol/sdk';
+import { SkybridgeBridge, buildContext } from '@swingby-protocol/sdk';
 import { aprToApy } from 'apr-tools';
 import { NextApiRequest, NextApiResponse } from 'next';
 
@@ -12,7 +12,7 @@ import {
   getTransactionFee,
   IFloat,
 } from '../../../modules/explorer';
-import { skypoolsEnabled } from '../../../modules/env';
+import { skypoolsEnabled, mode } from '../../../modules/env';
 
 const getFloatUsd = (bridge: SkybridgeBridge, usdBtc: number, floatBalances: IFloat) => {
   const sumFloatUsd = (floatBtc: number, floatPeggedBtc: number, usdBtc: number) =>
@@ -52,6 +52,7 @@ export default async function handler(
 
   try {
     const usdBtc = await fetchVwap('btcUsd');
+    const context = await buildContext({ mode });
 
     // Memo: 1/3 goes to liquidity provider
     const feeGoesLiquidityProvider = 0.33;
@@ -59,8 +60,8 @@ export default async function handler(
 
     const results = await Promise.all([
       fetcher<{ network1mSwapsVolume: number[] }>(`${baseUrl}/api/v1/swaps/stats`),
-      getTransactionFee(bridge),
-      fetchFloatBalances(usdBtc, bridge),
+      getTransactionFee({ bridge, context }),
+      fetchFloatBalances({ usdBtc, bridge, context }),
     ]);
 
     const network1mSwapVolume = results[0].network1mSwapsVolume;

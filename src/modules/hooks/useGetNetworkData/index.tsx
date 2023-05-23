@@ -6,11 +6,13 @@ import { mode, NETWORK_INFO_FETCH_RATE, PATH } from '../../env';
 import { fetch1wksRewards, fetchFloatBalances, fetchVolumeInfo } from '../../explorer';
 import { getNodeQty } from '../../network-stats';
 import { toggleIsLoading, updateNetworkInfos, usdPricesSelector } from '../../store';
+import { useSdkContext } from '../../sdk-context';
 
 export const useGetNetworkData = () => {
   const dispatch = useDispatch();
   const usd = useSelector(usdPricesSelector);
   const { bridge } = useToggleBridge(PATH.ROOT);
+  const context = useSdkContext();
 
   // refetchingState used to trigger fetcher re-evaluation
   // after the previous async handler completes
@@ -20,8 +22,8 @@ export const useGetNetworkData = () => {
     dispatch(toggleIsLoading(true));
     try {
       const results = await Promise.all([
-        fetchFloatBalances(usd.BTC, bridge),
-        fetchVolumeInfo(bridge, usd.BTC),
+        fetchFloatBalances({ usdBtc: usd.BTC, bridge, context }),
+        fetchVolumeInfo({ usdBtc: usd.BTC, bridge, context }),
         fetch1wksRewards(bridge),
         getNodeQty({ bridge, mode }),
       ]);
