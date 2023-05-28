@@ -101,11 +101,11 @@ export const toggleStatusWord = (status: NodeStatus): string | boolean => {
     case MayChurnOutBondTooLow:
       return 'metanodes.metanode-status.may-churn-out-bond-low';
     case MayChurnOutBondExpiring:
-      return 'metanodes.metanode-status.bond-expiring-preparing-for-migration';
+      return 'metanodes.metanode-status.may-churn-out-bond-expiring';
     case MayChurnIn:
       return 'metanodes.metanode-status.may-churn-in';
     case InactiveBondExpired:
-      return 'metanodes.metanode-status.bond-expiring-preparing-for-migration';
+      return 'metanodes.metanode-status.inactive-bond-expired';
     case InactiveBondTooLow:
       return 'metanodes.metanode-status.inactive-bond-too-low';
     case Unreachable:
@@ -123,11 +123,11 @@ export const toggleStatusIconColor = (status: NodeStatus): TStatus => {
     case MayChurnOutBondTooLow:
       return 'SIGNING';
     case MayChurnOutBondExpiring:
-      return 'EXPIRED';
+      return 'SIGNING';
     case InactiveBondTooLow:
       return 'PENDING';
     case InactiveBondExpired:
-      return 'EXPIRED';
+      return 'SIGNING';
 
     default:
       return 'WAITING';
