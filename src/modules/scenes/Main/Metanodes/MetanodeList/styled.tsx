@@ -67,9 +67,9 @@ export const Row = styled.div<BgProps>`
     props.bg === MayChurnOutBondTooLow
       ? 'rgba(235, 65, 65, 0.2)'
       : props.bg === MayChurnOutBondExpiring
-      ? 'rgba(143, 231, 217, 0.2)'
+      ? 'rgba(235, 65, 65, 0.2)'
       : props.bg === InactiveBondExpired
-      ? 'rgba(143, 231, 217, 0.2)'
+      ? 'rgba(235, 65, 65, 0.2)'
       : props.bg === InactiveBondTooLow
       ? 'rgba(235, 65, 65, 0.2)'
       : props.bg === Unreachable
