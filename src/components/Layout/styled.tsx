@@ -9,3 +9,8 @@ export const SwapContainer = styled.div`
   margin: 0 auto;
   padding-top: ${rem(70)};
 `;
+
+export const LayoutBody = styled.div<{ open: boolean }>`
+  margin-left: ${({ open }) => (open ? '216px' : '72px')};
+  transition: all 0.2s linear;
+`;

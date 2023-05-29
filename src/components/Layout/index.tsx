@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { mode } from '../../modules/env';
@@ -10,12 +10,18 @@ import { Header } from '../Header';
 import { Swap } from '../Swap';
 
 import { CookieConsentHandler } from './CookieConsentHandler';
-import { SwapContainer } from './styled';
+import { SwapContainer, LayoutBody } from './styled';
 
 type Props = { children: React.ReactNode };
 
+export type NavHandlerProps = {
+  navOpen: boolean;
+  setNavOpen: (navOpen: boolean) => void;
+};
+
 export const Layout = ({ children }: Props) => {
   const dispatch = useDispatch();
+  const [navOpen, setNavOpen] = useState(true);
 
   useEffect(() => {
     (async () => {
@@ -28,13 +34,15 @@ export const Layout = ({ children }: Props) => {
     <>
       <SdkContextProvider mode={mode}>
         <OnboardProvider>
-          <Header />
+          <Header navOpen={navOpen} setNavOpen={setNavOpen} />
 
-          <SwapContainer>
-            <Swap />
-          </SwapContainer>
+          <LayoutBody open={navOpen}>
+            <SwapContainer>
+              <Swap />
+            </SwapContainer>
 
-          {children}
+            {children}
+          </LayoutBody>
         </OnboardProvider>
       </SdkContextProvider>
 

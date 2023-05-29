@@ -4,10 +4,14 @@ import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 
 import { useThemeSettings } from '../../modules/store/settings';
+import { Sidebar } from '../Sidebar';
+import { NavHandlerProps } from '../Layout';
 
-import { HeaderContainer } from './styled';
+import { HeaderContainer, HeaderAction } from './styled';
 
-export const Header = () => {
+type Props = NavHandlerProps;
+
+export const Header = ({ navOpen, setNavOpen }: Props) => {
   const { push, asPath, locales } = useRouter();
   const { locale } = useIntl();
   const [theme, setTheme] = useThemeSettings();
@@ -18,16 +22,11 @@ export const Header = () => {
   ]);
 
   return (
-    <HeaderContainer>
-      <SwingbyHeader
-        logoHref={`/${locale}`}
-        barItems={
-          <>
-            <ThemeSwitcher theme={theme} onChange={setTheme} />
-            <LocaleSwitcher locale={locale} locales={locales} onChange={changeLocale} />
-          </>
-        }
-      />
+    <HeaderContainer open={navOpen}>
+      <Sidebar navOpen={navOpen} setNavOpen={setNavOpen} />
+
+      <div />
+      <HeaderAction>ACTION</HeaderAction>
     </HeaderContainer>
   );
 };
