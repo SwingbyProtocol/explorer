@@ -1,10 +1,22 @@
-import styled from 'styled-components';
-import { rem } from 'polished';
+import styled, { css } from 'styled-components';
+import { rem, transitions } from 'polished';
 
-export const SidebarInput = styled.input`
+import { StylingConstants } from '../../modules/styles';
+
+const { media } = StylingConstants;
+
+export const SidebarInput = styled.input<{ open: boolean }>`
   position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
   visibility: hidden;
   opacity: 0;
+  z-index: 10;
+
+  @media (max-width: ${rem(media.md - 1)}) {
+    visibility: ${({ open }) => (open ? 'visible' : 'hidden')};
+  }
 `;
 
 export const SidebarToggle = styled.label`
@@ -23,6 +35,25 @@ export const SidebarToggle = styled.label`
     width: 0.7em;
     height: 0.7em;
   }
+
+  @media (max-width: ${rem(media.md - 1)}) {
+    display: none;
+  }
+`;
+
+export const SidebarToggleMobile = styled.label`
+  position: absolute;
+  top: 24px;
+  left: 12px;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  cursor: pointer;
+
+  @media (min-width: ${rem(media.md)}) {
+    display: none;
+  }
 `;
 
 export const SidebarContainer = styled.aside<{ open: boolean }>`
@@ -39,6 +70,35 @@ export const SidebarContainer = styled.aside<{ open: boolean }>`
   flex-direction: column;
   align-items: center;
   z-index: 20;
+
+  @media (max-width: ${rem(media.md - 1)}) {
+    width: 275px;
+    left: ${({ open }) => (open ? '0' : '-100%')};
+
+    &:before {
+      ${({ open }) =>
+        open &&
+        `
+        content: '';
+        position: fixed;
+        inset: 0;
+        width: 100vw;
+        height: 100vh;
+        pointer-events: none;
+        background-color: rgba(0,0,0,0.3);
+        z-index: -1;
+      `}
+    }
+  }
+`;
+
+export const SidebarActionContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+
+  > * + * {
+    margin-left: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  }
 `;
 
 export const AppLogoLink = styled.a`
@@ -50,5 +110,57 @@ export const AppLogoLink = styled.a`
 
   > svg {
     height: 1.5em;
+  }
+`;
+
+export const MenuContainer = styled.ol`
+  flex: 1;
+  width: 100%;
+  padding: 0;
+  list-style: none;
+`;
+
+export const MenuItemContainer = styled.li`
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: ${({ theme }) => rem(theme.pulsar.size.house)} 0;
+`;
+
+const activeAnchor = css`
+  color: ${({ theme }) => theme.pulsar.color.primary.normal};
+`;
+
+export const MenuItemAnchor = styled.a<{ isActive: boolean }>`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin: ${({ theme }) => rem(-theme.pulsar.size.house)} 0;
+  padding-top: ${({ theme }) => rem(theme.pulsar.size.house)};
+  padding-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
+  font-size: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  font-weight: 500;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  ${({ theme }) => transitions(['background'], theme.pulsar.duration.normal)};
+  ${({ isActive }) => isActive && activeAnchor};
+
+  :hover {
+    background: ${({ theme }) => theme.pulsar.color.bg.hover};
+  }
+
+  :has(span) {
+    justify-content: flex-start;
+    padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
+    padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
+    > svg {
+      margin-right: ${({ theme }) => rem(theme.pulsar.size.house)};
+    }
+  }
+
+  > svg {
+    font-size: 20px;
   }
 `;

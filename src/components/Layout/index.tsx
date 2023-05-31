@@ -16,12 +16,18 @@ type Props = { children: React.ReactNode };
 
 export type NavHandlerProps = {
   navOpen: boolean;
-  setNavOpen: (navOpen: boolean) => void;
+  toggleNav: (e: React.MouseEvent<HTMLElement>) => void;
 };
 
 export const Layout = ({ children }: Props) => {
   const dispatch = useDispatch();
-  const [navOpen, setNavOpen] = useState(true);
+  const [navOpen, setNavOpen] = useState(false);
+
+  const toggleNav = (e: React.MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
+    e.preventDefault();
+    setNavOpen(!navOpen);
+  };
 
   useEffect(() => {
     (async () => {
@@ -34,7 +40,7 @@ export const Layout = ({ children }: Props) => {
     <>
       <SdkContextProvider mode={mode}>
         <OnboardProvider>
-          <Header navOpen={navOpen} setNavOpen={setNavOpen} />
+          <Header navOpen={navOpen} toggleNav={toggleNav} />
 
           <LayoutBody open={navOpen}>
             <SwapContainer>

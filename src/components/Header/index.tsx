@@ -1,32 +1,53 @@
-import { SwingbyHeader, LocaleSwitcher, ThemeSwitcher } from '@swingby-protocol/header';
-import { useRouter } from 'next/router';
-import React, { useCallback } from 'react';
-import { useIntl } from 'react-intl';
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
+import { Icon } from '@swingby-protocol/pulsar';
 
-import { useThemeSettings } from '../../modules/store/settings';
 import { Sidebar } from '../Sidebar';
 import { NavHandlerProps } from '../Layout';
+import { useOnboard } from '../../modules/onboard';
 
-import { HeaderContainer, HeaderAction } from './styled';
+import {
+  HeaderContainer,
+  SidebarToggleMobile,
+  HeaderAction,
+  HeaderLogo,
+  ButtonConnect,
+} from './styled';
 
 type Props = NavHandlerProps;
 
-export const Header = ({ navOpen, setNavOpen }: Props) => {
-  const { push, asPath, locales } = useRouter();
-  const { locale } = useIntl();
-  const [theme, setTheme] = useThemeSettings();
+const ConnectWallet = () => {
+  const { address, onboard } = useOnboard();
 
-  const changeLocale = useCallback((locale: string) => push(asPath, null, { locale }), [
-    push,
-    asPath,
-  ]);
+  if (address) {
+    return <div>{address}</div>;
+  }
 
   return (
-    <HeaderContainer open={navOpen}>
-      <Sidebar navOpen={navOpen} setNavOpen={setNavOpen} />
+    <ButtonConnect
+      variant="primary"
+      size="state"
+      onClick={async () => await onboard?.walletSelect()}
+    >
+      <FormattedMessage id="pool.connectWallet" />
+    </ButtonConnect>
+  );
+};
 
-      <div />
-      <HeaderAction>ACTION</HeaderAction>
+export const Header = ({ navOpen, toggleNav }: Props) => {
+  return (
+    <HeaderContainer open={navOpen}>
+      <Sidebar navOpen={navOpen} toggleNav={toggleNav} />
+
+      <HeaderLogo>
+        <SidebarToggleMobile onClick={toggleNav}>
+          <Icon.Hamburger />
+        </SidebarToggleMobile>
+      </HeaderLogo>
+
+      <HeaderAction>
+        <ConnectWallet />
+      </HeaderAction>
     </HeaderContainer>
   );
 };
