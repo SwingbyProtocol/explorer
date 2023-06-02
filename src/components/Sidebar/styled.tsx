@@ -107,6 +107,12 @@ export const AppLogoLink = styled.a`
   display: flex;
   align-items: center;
   justify-content: center;
+  align-self: flex-start;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-left: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  padding-right: ${({ theme }) => rem(theme.pulsar.size.closet)};
 
   > svg {
     height: 1.5em;
@@ -135,15 +141,20 @@ export const MenuItemAnchor = styled.a<{ isActive: boolean }>`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
   margin: ${({ theme }) => rem(-theme.pulsar.size.house)} 0;
   padding-top: ${({ theme }) => rem(theme.pulsar.size.house)};
   padding-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
+  padding-left: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  padding-right: ${({ theme }) => rem(theme.pulsar.size.closet)};
   font-size: ${({ theme }) => rem(theme.pulsar.size.closet)};
   font-weight: 500;
   text-decoration: none;
   color: inherit;
   cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
   ${({ theme }) => transitions(['background'], theme.pulsar.duration.normal)};
   ${({ isActive }) => isActive && activeAnchor};
 
@@ -152,9 +163,6 @@ export const MenuItemAnchor = styled.a<{ isActive: boolean }>`
   }
 
   :has(span) {
-    justify-content: flex-start;
-    padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
-    padding-right: ${({ theme }) => rem(theme.pulsar.size.house)};
     > svg {
       margin-right: ${({ theme }) => rem(theme.pulsar.size.house)};
     }
@@ -162,5 +170,6 @@ export const MenuItemAnchor = styled.a<{ isActive: boolean }>`
 
   > svg {
     font-size: 20px;
+    flex-shrink: 0;
   }
 `;

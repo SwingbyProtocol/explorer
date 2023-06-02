@@ -5,6 +5,7 @@ import { Icon } from '@swingby-protocol/pulsar';
 import { Sidebar } from '../Sidebar';
 import { NavHandlerProps } from '../Layout';
 import { useOnboard } from '../../modules/onboard';
+import { AccountId } from '../../components/AccountId';
 
 import {
   HeaderContainer,
@@ -20,7 +21,7 @@ const ConnectWallet = () => {
   const { address, onboard } = useOnboard();
 
   if (address) {
-    return <div>{address}</div>;
+    return <AccountId />;
   }
 
   return (
