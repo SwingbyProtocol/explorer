@@ -15,6 +15,7 @@ export const StatsInfoContainer = styled.div`
   }
   @media (min-width: ${rem(media.lg)}) {
     grid-area: auto;
+    grid-column: span 8 / span 8;
     border-left: 1px solid #cecddc;
     padding-right: 0;
     padding-left: ${({ theme }) => rem(theme.pulsar.size.house)};
@@ -147,36 +148,32 @@ export const Left = styled.div`
     margin-right: ${({ theme }) => rem(theme.pulsar.size.box)};
   }
 `;
-export const Right = styled.div``;
+export const Right = styled.div`
+  flex: 1;
+`;
 
 export const ChartBox = styled.div`
-  width: ${rem(176)};
   height: ${rem(60)};
   @media (min-width: ${rem(media.xs)}) {
-    width: ${rem(186)};
     height: ${rem(64)};
   }
   @media (min-width: ${rem(media.md)}) {
-    width: ${rem(200)};
     height: ${rem(70)};
   }
   @media (min-width: ${rem((media.md + media.lg) / 2)}) {
-    width: ${rem(258)};
     height: ${rem(90)};
   }
   @media (min-width: ${rem(media.lg)}) {
-    width: ${rem(170)};
     height: ${rem(76)};
   }
   @media (min-width: ${rem(media.xl)}) {
-    width: ${rem(220)};
     height: ${rem(76)};
   }
 `;
 
 export const StatsWithoutChart = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
 `;
 
 export const DataRow = styled.div`

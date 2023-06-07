@@ -44,7 +44,7 @@ export const SidebarToggle = styled.label`
 export const SidebarToggleMobile = styled.label`
   position: absolute;
   top: 24px;
-  left: 12px;
+  left: 24px;
   width: 24px;
   height: 24px;
   line-height: 24px;
@@ -57,7 +57,8 @@ export const SidebarToggleMobile = styled.label`
 `;
 
 export const SidebarContainer = styled.aside<{ open: boolean }>`
-  background-color: ${({ theme }) => theme.pulsar.color.bg.accent};
+  background-color: var(--theme-card-color);
+  /* background-color: ${({ theme }) => theme.pulsar.color.bg.accent}; */
   width: ${({ open }) => (open ? '216px' : '72px')};
   border-right: 1px solid ${({ theme }) => theme.pulsar.color.border.normal};
   padding: ${({ theme }) => `${rem(theme.pulsar.size.street)} ${rem(theme.pulsar.size.closet)}`};
@@ -116,6 +117,10 @@ export const AppLogoLink = styled.a`
 
   > svg {
     height: 1.5em;
+  }
+
+  @media (max-width: ${rem(media.md - 1)}) {
+    margin-left: 40px;
   }
 `;
 

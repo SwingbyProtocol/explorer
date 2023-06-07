@@ -23,6 +23,7 @@ export const FloatVolumeContainer = styled.div`
   }
   @media (min-width: ${rem(media.lg)}) {
     grid-area: auto;
+    grid-column: span 4 / span 4;
     padding-top: 0;
     padding-bottom: 0;
     padding-right: 0;
@@ -53,7 +54,6 @@ export const CoinContainer = styled.div`
     grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.room)};
   }
   @media (min-width: ${rem(media.xl)}) {
-    padding-right: ${({ theme }) => rem(theme.pulsar.size.city)};
     grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.street)};
   }
 `;
