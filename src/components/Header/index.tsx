@@ -1,33 +1,54 @@
-import { SwingbyHeader, LocaleSwitcher, ThemeSwitcher } from '@swingby-protocol/header';
-import { useRouter } from 'next/router';
-import React, { useCallback } from 'react';
-import { useIntl } from 'react-intl';
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
+import { Icon } from '@swingby-protocol/pulsar';
 
-import { useThemeSettings } from '../../modules/store/settings';
+import { Sidebar } from '../Sidebar';
+import { NavHandlerProps } from '../Layout';
+import { useOnboard } from '../../modules/onboard';
+import { AccountId } from '../../components/AccountId';
 
-import { HeaderContainer } from './styled';
+import {
+  HeaderContainer,
+  SidebarToggleMobile,
+  HeaderAction,
+  HeaderLogo,
+  ButtonConnect,
+} from './styled';
 
-export const Header = () => {
-  const { push, asPath, locales } = useRouter();
-  const { locale } = useIntl();
-  const [theme, setTheme] = useThemeSettings();
+type Props = NavHandlerProps;
 
-  const changeLocale = useCallback((locale: string) => push(asPath, null, { locale }), [
-    push,
-    asPath,
-  ]);
+const ConnectWallet = () => {
+  const { address, onboard } = useOnboard();
+
+  if (address) {
+    return <AccountId />;
+  }
 
   return (
-    <HeaderContainer>
-      <SwingbyHeader
-        logoHref={`/${locale}`}
-        barItems={
-          <>
-            <ThemeSwitcher theme={theme} onChange={setTheme} />
-            <LocaleSwitcher locale={locale} locales={locales} onChange={changeLocale} />
-          </>
-        }
-      />
+    <ButtonConnect
+      variant="primary"
+      size="state"
+      onClick={async () => await onboard?.walletSelect()}
+    >
+      <FormattedMessage id="pool.connectWallet" />
+    </ButtonConnect>
+  );
+};
+
+export const Header = ({ navOpen, toggleNav }: Props) => {
+  return (
+    <HeaderContainer open={navOpen}>
+      <Sidebar navOpen={navOpen} toggleNav={toggleNav} />
+
+      <HeaderLogo>
+        <SidebarToggleMobile onClick={toggleNav}>
+          <Icon.Hamburger />
+        </SidebarToggleMobile>
+      </HeaderLogo>
+
+      <HeaderAction>
+        <ConnectWallet />
+      </HeaderAction>
     </HeaderContainer>
   );
 };

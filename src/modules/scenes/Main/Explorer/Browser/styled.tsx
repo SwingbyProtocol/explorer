@@ -26,6 +26,8 @@ export const BrowserContainer = styled.div`
 `;
 
 export const BrowserDiv = styled(Card)`
+  background-color: var(--theme-card-color);
+  box-shadow: var(--theme-card-shadow);
   padding-bottom: ${({ theme }) => rem(theme.pulsar.size.drawer)};
   @media (min-width: ${rem(media.lg)}) {
     padding-top: ${({ theme }) => rem(theme.pulsar.size.town)};
@@ -34,7 +36,6 @@ export const BrowserDiv = styled(Card)`
     padding-bottom: ${({ theme }) => rem(theme.pulsar.size.closet)};
   }
   @media (min-width: ${rem(media.xl)}) {
-    width: ${rem(1188)};
     padding-left: ${({ theme }) => rem(theme.pulsar.size.town)};
     padding-right: ${({ theme }) => rem(theme.pulsar.size.town)};
     padding-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
@@ -44,8 +45,7 @@ export const BrowserDiv = styled(Card)`
 export const Top = styled.div`
   @media (min-width: ${rem(media.lg)}) {
     display: grid;
-    grid-template-columns: auto auto;
-    grid-template-rows: 1fr;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
     align-items: start;
   }
   padding-top: 0;
