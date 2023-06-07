@@ -16,7 +16,8 @@ export const HeaderContainer = styled.div<{ open: boolean }>`
   align-items: center;
   height: 70px;
   padding: ${({ theme }) => rem(theme.pulsar.size.street)};
-  background-color: ${({ theme }) => theme.pulsar.color.bg.accent};
+  background-color: var(--theme-card-color);
+  box-shadow: var(--theme-card-shadow);
   border-bottom: 1px solid ${({ theme }) => theme.pulsar.color.border.normal};
   transition: all 0.2s linear;
   z-index: 20;
@@ -56,4 +57,8 @@ export const AppLogoLink = styled.a`
 export const ButtonConnect = styled(Button)`
   width: ${rem(176)};
   z-index: 10;
+  background-color: var(--theme-blue-color);
+  :hover {
+    background-color: var(--theme-blue400-color);
+  }
 `;

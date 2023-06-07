@@ -13,6 +13,7 @@ export const SearchInput = styled(TextInput)`
   padding-left: ${({ theme }) => rem(theme.pulsar.size.closet)};
   padding-right: ${({ theme }) => rem(theme.pulsar.size.closet)};
   font-size: ${({ theme }) => rem(theme.pulsar.size.house)};
+
   @media (min-width: ${rem(media.sm)}) {
     width: ${rem(250)};
     font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
@@ -34,6 +35,6 @@ export const SearchInput = styled(TextInput)`
 `;
 
 export const SearchIcon = styled(Icon.Search)`
-  color: ${({ theme }) => theme.pulsar.color.primary.normal};
+  color: var(--theme-blue-color);
   font-size: ${({ theme }) => rem(theme.pulsar.size.street)};
 `;

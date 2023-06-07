@@ -8,11 +8,7 @@ body {
   background: var(--theme-body-color);
   color: var(--theme-primary-color);
   font-family: var(--font-family);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  min-block-size: 100%;
-  min-inline-size: 100%;
-  font-feature-settings: 'tnum';
+  overflow-x: hidden;
 }
 
 :root {
