@@ -1,6 +1,5 @@
-import WalletConnectProvider from '@walletconnect/web3-provider';
-import { CommonWalletOptions, Helpers, WalletModule } from 'bnc-onboard/dist/src/interfaces'; // eslint-disable-line
-import { infuraApiKey, WC_BRIDGE } from '../../../env';
+import { CommonWalletOptions, WalletModule } from 'bnc-onboard/dist/src/interfaces'; // eslint-disable-line
+import { EthereumProvider } from '@walletconnect/ethereum-provider';
 
 import { walletConnectLogo } from './logo';
 
@@ -15,16 +14,10 @@ export function customWalletConnect(
     iconSrcSet: walletConnectLogo,
     svg: walletConnectLogo,
     wallet: async () => {
-      const POLLING_INTERVAL = 12000;
-      const bscRpcUrl = 'https://bsc-dataseed1.binance.org:443';
-      const provider = new WalletConnectProvider({
-        rpc: {
-          1: `https://mainnet.infura.io/v3/${infuraApiKey}`,
-          56: bscRpcUrl,
-        },
-        bridge: WC_BRIDGE,
-        pollingInterval: POLLING_INTERVAL,
-        chainId: networkId,
+      const provider = await EthereumProvider.init({
+        projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID, // required
+        chains: [networkId], // required
+        showQrModal: true, // requires @walletconnect/modal
       });
 
       return {
@@ -44,15 +37,11 @@ export function customWalletConnect(
             }),
           address: {
             onChange: (func) => {
-              provider
-                .send('eth_accounts')
-                .then((accounts: string[]) => accounts[0] && func(accounts[0]));
               provider.on('accountsChanged', (accounts: string[]) => func(accounts[0]));
             },
           },
           network: {
             onChange: (func) => {
-              provider.send('eth_chainId').then(func);
               provider.on('chainChanged', func);
             },
           },
@@ -63,8 +52,7 @@ export function customWalletConnect(
             },
           },
           disconnect: () => {
-            provider.wc.killSession();
-            provider.stop();
+            provider.disconnect();
           },
         },
       };
