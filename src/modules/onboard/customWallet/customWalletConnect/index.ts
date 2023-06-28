@@ -3,6 +3,10 @@ import { EthereumProvider } from '@walletconnect/ethereum-provider';
 
 import { walletConnectLogo } from './logo';
 
+function toHexChainId(chainId: number): string {
+  return `0x${chainId.toString(16)}`;
+}
+
 export function customWalletConnect(
   options: CommonWalletOptions & { isMobile: boolean },
 ): WalletModule {
@@ -19,6 +23,26 @@ export function customWalletConnect(
         chains: [networkId], // required
         showQrModal: true, // requires @walletconnect/modal
       });
+
+      let hasSession = false;
+      if (provider.session) {
+        hasSession = true;
+        if (networkId !== provider.chainId) {
+          // WalletConnect exposes connected accounts, not chains: `eip155:${chainId}:${address}`
+          const isConnectedToDesiredChain = provider.session.namespaces.eip155.accounts.some(
+            (account: string) => account.startsWith(`eip155:${networkId}:`),
+          );
+          if (!isConnectedToDesiredChain) {
+            throw new Error(
+              `Unknown chain (${networkId}). Make sure to include any chains you might connect to in the "chains" or "optionalChains" parameters when initializing WalletConnect.`,
+            );
+          }
+          await provider.request<void>({
+            method: 'wallet_switchEthereumChain',
+            params: [{ chainId: `0x${networkId.toString(16)}` }],
+          });
+        }
+      }
 
       return {
         provider,
@@ -37,11 +61,17 @@ export function customWalletConnect(
             }),
           address: {
             onChange: (func) => {
+              if (hasSession) {
+                func(provider.accounts[0]);
+              }
               provider.on('accountsChanged', (accounts: string[]) => func(accounts[0]));
             },
           },
           network: {
             onChange: (func) => {
+              if (hasSession) {
+                func(toHexChainId(provider.chainId));
+              }
               provider.on('chainChanged', func);
             },
           },
