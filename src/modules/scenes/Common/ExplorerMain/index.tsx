@@ -16,6 +16,7 @@ import {
   BrowserFees,
   BrowserMetanodes,
   BrowserPool,
+  BrowserLiquidity,
 } from '../../Main';
 
 import { ExplorerMainContainer, HeadLine, TitleH1 } from './styled';
@@ -34,6 +35,8 @@ export const ExplorerMain = () => {
   const switchBrowser = (path: string): JSX.Element => {
     switch (path) {
       case PATH.ROOT:
+        return <BrowserLiquidity />;
+      case PATH.EXPLORER:
         return <Browser />;
       case PATH.SWAP + '/[hash]':
         return <BrowserDetail />;
@@ -58,6 +61,8 @@ export const ExplorerMain = () => {
   const switchRightComponent = (path: string): JSX.Element => {
     switch (path) {
       case PATH.ROOT:
+        return <AccountId />;
+      case PATH.EXPLORER:
         return <Search />;
       case PATH.SWAP + '/[hash]':
         return <Search />;

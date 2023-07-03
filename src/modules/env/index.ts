@@ -11,6 +11,7 @@ export const ROOT_URL =
 
 export enum PATH {
   ROOT = '/',
+  EXPLORER = '/explorer',
   SWAP = '/swap',
   FLOAT = '/float',
   POOL = '/pool',

@@ -46,6 +46,17 @@ export type PoolState = {
   minimumWithdrawAmount: number | null;
 };
 
+export type LiquidityRecentTx = {
+  data: unknown;
+  total: number;
+} | null;
+
+export type LiquidityState = {
+  mode: PoolMode;
+  recentTxs: LiquidityRecentTx;
+  minimumWithdrawAmount: number | null;
+};
+
 export type ThemeType = 'light' | 'dark' | 'auto';
 
 export type ExplorerState = {

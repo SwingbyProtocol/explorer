@@ -182,6 +182,8 @@
   "pool.earning.no-record": "You don't have any earned record yet. {value}  Let's swap sbBTC and stake on the farm.",
   "pool.farm.wallet-balance": "In wallet: {value}",
   "pool.farm.farm-balance": "In farming: {value}",
+  "liquidity.mode.ethereum": "BTC - WBTC (Ethereum)",
+  "liquidity.mode.network-select-label": "Network:",
   "metanodes.no": "No",
   "metanodes.node": "Node",
   "metanodes.location": "Location",
