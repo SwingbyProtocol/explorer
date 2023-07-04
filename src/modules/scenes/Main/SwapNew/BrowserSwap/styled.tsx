@@ -1,4 +1,4 @@
-import { Card, Text, Dropdown } from '@swingby-protocol/pulsar';
+import { Card, Dropdown } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
 import styled from 'styled-components';
 
@@ -6,7 +6,7 @@ import { StylingConstants } from '../../../../styles';
 
 const { media } = StylingConstants;
 
-export const BrowserLiquidityContainer = styled.div`
+export const BrowserSwapContainer = styled.div`
   display: grid;
   padding-top: ${({ theme }) => rem(theme.pulsar.size.drawer)};
   padding-bottom: ${({ theme }) => rem(theme.pulsar.size.room)};
@@ -22,7 +22,7 @@ export const BrowserLiquidityContainer = styled.div`
   }
 `;
 
-export const BrowserLiquidityDiv = styled(Card)`
+export const BrowserSwapDiv = styled(Card)`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -45,16 +45,6 @@ export const BrowserLiquidityDiv = styled(Card)`
   }
 `;
 
-export const ValidationResult = styled.div`
-  position: absolute;
-  margin-top: ${({ theme }) => rem(theme.pulsar.size.box / 2)};
-`;
-
-export const TextValidationResult = styled(Text)`
-  color: ${({ theme }) => theme.pulsar.color.danger.active};
-  font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
-`;
-
 export const NetworkDropdownContainer = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -71,9 +61,50 @@ export const NetworkDropdownContainer = styled.div`
   }
 `;
 
-export const LiquidityBridgeDropdownTarget = styled(Dropdown.DefaultTarget)`
+export const SwapBridgeDropdownTarget = styled(Dropdown.DefaultTarget)`
   margin-left: 1rem;
   background-color: transparent;
   color: ${({ theme }) => theme.pulsar.color.success.normal};
   font-weight: bold;
+`;
+
+export const SwapContainer = styled.div`
+  width: 100%;
+  border-radius: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  background-color: ${({ theme }) => theme.pulsar.color.bg.normal};
+  overflow: hidden;
+  padding-bottom: 65px;
+  margin-bottom: -65px;
+
+  @media (min-width: ${rem(media.sm)}) {
+    width: ${rem(445)};
+  }
+`;
+
+export const SwapExtendedFooter = styled.div`
+  width: 100%;
+  padding: ${({ theme }) => rem(theme.pulsar.size.street)};
+  border-bottom-left-radius: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  border-bottom-right-radius: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  overflow: hidden;
+
+  @media (min-width: ${rem(media.sm)}) {
+    width: ${rem(445)};
+  }
+`;
+
+export const ExplorerLinkContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
+`;
+
+export const ExplorerIconContainer = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
+  margin-left: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  color: ${({ theme }) => theme.pulsar.color.primary.normal};
 `;

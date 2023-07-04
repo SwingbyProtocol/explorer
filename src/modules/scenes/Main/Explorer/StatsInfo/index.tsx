@@ -53,7 +53,7 @@ export const StatsInfo = () => {
   const [volumeType, setVolumeType] = useState<VolumeType>('1W');
 
   const { bridge, defaultBridge, reward, isLoading: isLoadingMetanode } = useToggleMetanode(
-    PATH.ROOT,
+    PATH.EXPLORER,
   );
   const {
     volumes,

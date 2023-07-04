@@ -71,7 +71,7 @@ export const Withdraw = (props: Props) => {
   const dispatch = useDispatch();
   const affiliateCode = useAffiliateCode();
 
-  const { poolCurrencies, bridge } = useToggleBridge(PATH.ROOT);
+  const { poolCurrencies, bridge } = useToggleBridge(PATH.LIQUIDITY);
   const context = useSdkContext();
   const maxAmount = (bridge && balance[bridge].wallet) || 0;
 

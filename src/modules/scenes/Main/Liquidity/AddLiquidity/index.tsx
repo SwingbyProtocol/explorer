@@ -57,7 +57,7 @@ export const AddLiquidity = (props: Props) => {
   const { addressValidationResult, amountValidationResult } = props;
   const { formatMessage } = useIntl();
   const { address } = useOnboard();
-  const { poolCurrencies, bridge } = useToggleBridge(PATH.ROOT);
+  const { poolCurrencies, bridge } = useToggleBridge(PATH.LIQUIDITY);
   const { locale } = useRouter();
   const affiliateCode = useAffiliateCode();
   const [themeMode] = useThemeSettings();

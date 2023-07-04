@@ -17,6 +17,7 @@ import {
   BrowserMetanodes,
   BrowserPool,
   BrowserLiquidity,
+  BrowserSwap,
 } from '../../Main';
 
 import { ExplorerMainContainer, HeadLine, TitleH1 } from './styled';
@@ -35,9 +36,11 @@ export const ExplorerMain = () => {
   const switchBrowser = (path: string): JSX.Element => {
     switch (path) {
       case PATH.ROOT:
-        return <BrowserLiquidity />;
+        return <BrowserSwap />;
       case PATH.EXPLORER:
         return <Browser />;
+      case PATH.LIQUIDITY:
+        return <BrowserLiquidity />;
       case PATH.SWAP + '/[hash]':
         return <BrowserDetail />;
       case PATH.FLOAT + '/[hash]':
@@ -64,6 +67,8 @@ export const ExplorerMain = () => {
         return <AccountId />;
       case PATH.EXPLORER:
         return <Search />;
+      case PATH.LIQUIDITY:
+        return <AccountId />;
       case PATH.SWAP + '/[hash]':
         return <Search />;
       case PATH.FLOAT + '/[hash]':

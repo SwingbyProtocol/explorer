@@ -6,9 +6,11 @@ import { PATH } from '../../../env';
 export const titleGenerator = (path: string): JSX.Element => {
   switch (path) {
     case PATH.ROOT:
-      return <FormattedMessage id="pool.liquidity" />;
+      return <FormattedMessage id="pool.swap" />;
     case PATH.EXPLORER:
       return <FormattedMessage id="home.explorer" />;
+    case PATH.LIQUIDITY:
+      return <FormattedMessage id="pool.liquidity" />;
     case PATH.SWAP + '/[hash]':
       return <FormattedMessage id="home.explorer" />;
     case PATH.POOL:

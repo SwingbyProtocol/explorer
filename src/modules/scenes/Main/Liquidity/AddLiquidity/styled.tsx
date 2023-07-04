@@ -18,11 +18,15 @@ interface CurrencyProps {
 }
 
 export const AddLiquidityContainer = styled.div`
-  width: ${rem(445)};
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  @media (min-width: ${rem(media.sm)}) {
+    width: ${rem(445)};
+  }
 `;
 
 export const Box = styled.div`
@@ -41,13 +45,10 @@ export const ColumnForm = styled.div`
   margin-bottom: ${({ theme }) => rem(theme.pulsar.size.town)};
   margin-left: ${({ theme }) => rem(theme.pulsar.size.closet)};
   margin-right: ${({ theme }) => rem(theme.pulsar.size.closet)};
-  @media (min-width: ${rem(media.md)}) {
+
+  @media (min-width: ${rem(media.sm)}) {
     margin-left: ${({ theme }) => rem(theme.pulsar.size.street)};
     margin-right: ${({ theme }) => rem(theme.pulsar.size.street)};
-  }
-  @media (min-width: ${rem(media.lg)}) {
-    margin-left: ${({ theme }) => rem(theme.pulsar.size.city)};
-    margin-right: ${({ theme }) => rem(theme.pulsar.size.city)};
   }
 `;
 
@@ -70,10 +71,6 @@ export const RowTop = styled.div`
 export const RowBottom = styled(RowTop)`
   margin-top: ${({ theme }) => rem(theme.pulsar.size.street)};
   margin-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
-  padding-right: ${({ theme }) => rem(theme.pulsar.size.street)};
-  @media (min-width: ${rem(media.sm)}) {
-    padding-right: 0;
-  }
 `;
 
 export const InputAmount = styled(TextInput)`
@@ -87,15 +84,11 @@ export const Bottom = styled.div`
 
 export const InputReceivingAddress = styled(TextInput)<ReceivingAddressProps>`
   width: 100%;
-  padding-right: ${({ theme }) => rem(theme.pulsar.size.street)};
   label {
     color: ${({ theme }) => theme.pulsar.color.text.masked};
   }
   input {
     cursor: ${(props) => (props.isEthAddress ? 'not-allowed' : 'text')};
-  }
-  @media (min-width: ${rem(media.sm)}) {
-    padding-right: 0;
   }
 `;
 
@@ -153,12 +146,7 @@ export const CoinDropDown = styled(CoinIcon)`
   margin-right: ${({ theme }) => rem(theme.pulsar.size.box)};
 `;
 
-export const ButtonRow = styled.div`
-  padding-right: ${({ theme }) => rem(theme.pulsar.size.street)};
-  @media (min-width: ${rem(media.sm)}) {
-    padding-right: 0;
-  }
-`;
+export const ButtonRow = styled.div``;
 
 export const AmountValidation = styled.div`
   margin-top: ${({ theme }) => rem(theme.pulsar.size.box / 2)};
@@ -168,10 +156,6 @@ export const AmountValidation = styled.div`
 
 export const AllButtonDiv = styled.div<CurrencyProps>`
   display: ${(props) => (props.currency === CoinSymbol.BTC ? 'none' : 'block')};
-  padding-right: ${({ theme }) => rem(theme.pulsar.size.street)};
-  @media (min-width: ${rem(media.sm)}) {
-    padding-right: ${({ theme }) => rem(theme.pulsar.size.room)};
-  }
 `;
 
 export const TextAll = styled(Text)`
