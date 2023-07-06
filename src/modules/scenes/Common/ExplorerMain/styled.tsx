@@ -16,13 +16,13 @@ export const ExplorerMainContainer = styled.div<ThemeProps>`
   background-image: url(${logos.StarsBgAnimated});
   z-index: 0;
   background-size: ${(props) => (props.isLightTheme ? '80%' : '55%')};
+  padding-top: ${({ theme }) => rem(theme.pulsar.size.country * 2)};
   @media (min-width: ${rem(media.xs)}) {
     height: ${rem(240)};
     display: grid;
     width: 100%;
   }
   @media (min-width: ${rem(media.sm)}) {
-    padding-top: ${({ theme }) => rem(theme.pulsar.size.street)};
     padding-left: ${({ theme }) => rem(theme.pulsar.size.town)};
     padding-right: ${({ theme }) => rem(theme.pulsar.size.town)};
   }
@@ -34,7 +34,6 @@ export const ExplorerMainContainer = styled.div<ThemeProps>`
     height: ${rem(274)};
     padding-left: ${({ theme }) => rem(theme.pulsar.size.closet)};
     padding-right: ${({ theme }) => rem(theme.pulsar.size.closet)};
-    padding-top: ${({ theme }) => rem(theme.pulsar.size.country)};
   }
   @media (min-width: ${rem(media.xl)}) {
     display: grid;

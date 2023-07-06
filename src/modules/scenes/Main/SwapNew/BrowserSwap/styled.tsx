@@ -51,6 +51,8 @@ export const NetworkDropdownContainer = styled.div`
   align-items: center;
   margin-top: -1rem;
   margin-bottom: 1rem;
+  color: ${({ theme }) =>
+    theme.pulsar.id === 'PulsarLight' ? '#FFF' : theme.pulsar.color.text.normal};
   @media (min-width: ${rem(media.lg)}) {
     width: ${rem(980)};
     margin-left: auto;
@@ -70,6 +72,7 @@ export const SwapBridgeDropdownTarget = styled(Dropdown.DefaultTarget)`
 
 export const SwapContainer = styled.div`
   width: 100%;
+  border: 1px solid ${({ theme }) => theme.pulsar.color.border.normal};
   border-radius: ${({ theme }) => rem(theme.pulsar.size.closet)};
   background-color: ${({ theme }) => theme.pulsar.color.bg.normal};
   overflow: hidden;
