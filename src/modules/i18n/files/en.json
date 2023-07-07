@@ -185,6 +185,8 @@
   "pool.farm.farm-balance": "In farming: {value}",
   "liquidity.mode.ethereum": "BTC - WBTC (Ethereum)",
   "liquidity.mode.network-select-label": "Network:",
+  "liquidity.current-apr-label": "Current APR:",
+  "liquidity.help-url": "What’s sbBTC and how it works",
   "swap.mode.ethereum": "BTC - WBTC (Ethereum)",
   "swap.mode.network-select-label": "Network:",
   "swap.go-to-explorer": "Go to Explorer",

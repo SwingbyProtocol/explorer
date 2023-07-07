@@ -1,4 +1,4 @@
-import { Dropdown, Tooltip } from '@swingby-protocol/pulsar';
+import { Dropdown, Tooltip, Icon } from '@swingby-protocol/pulsar';
 import { estimateAmountReceiving, getMinimumWithdrawal } from '@swingby-protocol/sdk';
 import { createWidget, openPopup } from '@swingby-protocol/widget';
 import { useRouter } from 'next/router';
@@ -8,11 +8,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { PulseLoader } from 'react-spinners';
 import { useTheme } from 'styled-components';
 
+import { CoinSymbol, getBridgeSbBtc, TBtcCurrency } from '../../../../coins';
 import { LOCAL_STORAGE, mode, PATH } from '../../../../env';
 import { useOnboard } from '../../../../onboard';
 import { ConnectWallet } from '../ConnectWallet';
 import { useAffiliateCode } from '../../../../affiliate-code';
-import { getBridgeSbBtc, TBtcCurrency } from '../../../../coins';
 import { useGetSbBtcBal, usePoolWithdrawCoin, useToggleBridge } from '../../../../hooks';
 import { IWithdrawAmountValidation } from '../../../../pool';
 import { useSdkContext } from '../../../../sdk-context';
@@ -48,6 +48,14 @@ import {
   Top,
   WithdrawContainer,
   BackDropMobile,
+  LiquidityInfoContainer,
+  LiquidityInfo,
+  CoinInfoContainer,
+  CoinInfo,
+  CoinInfoIcon,
+  CoinName,
+  LiquidityStatInfo,
+  LiquidityHelpLink,
 } from './styled';
 
 interface Props {
@@ -188,6 +196,40 @@ export const Withdraw = (props: Props) => {
 
   return (
     <WithdrawContainer>
+      <LiquidityInfoContainer>
+        <LiquidityInfo>
+          <CoinInfoContainer>
+            <CoinInfo>
+              <CoinInfoIcon symbol={CoinSymbol.SKYPOOL_SB_BTC} />
+              <CoinName>sbBTC (ERC20)</CoinName>
+            </CoinInfo>
+          </CoinInfoContainer>
+
+          <Icon.ArrowRight />
+
+          <CoinInfoContainer>
+            <CoinInfo>
+              <CoinInfoIcon symbol={CoinSymbol.BTC} />
+              <CoinName>BTC</CoinName>
+            </CoinInfo>
+
+            <div>or</div>
+
+            <CoinInfo>
+              <CoinInfoIcon symbol={CoinSymbol.SKYPOOL_WBTC} />
+              <CoinName>WBTC</CoinName>
+            </CoinInfo>
+          </CoinInfoContainer>
+        </LiquidityInfo>
+
+        <LiquidityStatInfo>
+          <Icon.InfoCircle />
+          <LiquidityHelpLink>
+            <FormattedMessage id="liquidity.help-url" />
+          </LiquidityHelpLink>
+        </LiquidityStatInfo>
+      </LiquidityInfoContainer>
+
       {!address && <ConnectWallet />}
       {!address && <BackDropMobile />}
       <Box>

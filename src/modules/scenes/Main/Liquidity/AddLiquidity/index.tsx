@@ -1,9 +1,9 @@
-import { Dropdown, Tooltip } from '@swingby-protocol/pulsar';
+import { Dropdown, Tooltip, Icon } from '@swingby-protocol/pulsar';
 import { estimateAmountReceiving } from '@swingby-protocol/sdk';
 import { createWidget, openPopup } from '@swingby-protocol/widget';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
 import { PulseLoader } from 'react-spinners';
 import { useTheme } from 'styled-components';
 
@@ -15,7 +15,7 @@ import {
   TBtcCurrency,
   TSbBTC,
 } from '../../../../coins';
-import { usePoolWithdrawCoin, useToggleBridge } from '../../../../hooks';
+import { useGetPoolApr, usePoolWithdrawCoin, useToggleBridge } from '../../../../hooks';
 import { useOnboard } from '../../../../onboard';
 import { IWithdrawAmountValidation } from '../../../../pool';
 import { useSdkContext } from '../../../../sdk-context';
@@ -46,6 +46,16 @@ import {
   Top,
   AllButtonDiv,
   TextAll,
+  LiquidityInfoContainer,
+  LiquidityInfo,
+  CoinInfoContainer,
+  CoinInfo,
+  CoinInfoIcon,
+  CoinName,
+  LiquidityAPR,
+  LiquidityAPRValue,
+  LiquidityStatInfo,
+  LiquidityHelpLink,
 } from './styled';
 
 interface Props {
@@ -140,11 +150,62 @@ export const AddLiquidity = (props: Props) => {
     affiliateCode,
   });
 
+  const { apr, isLoading: aprLoading } = useGetPoolApr();
+
   const isDisabled =
     0 >= Number(amount) || !isValidAddress || !receivingAddress || amount[0] === '-';
 
   return (
     <AddLiquidityContainer>
+      <LiquidityInfoContainer>
+        <LiquidityInfo>
+          <CoinInfoContainer>
+            <CoinInfo>
+              <CoinInfoIcon symbol={CoinSymbol.BTC} />
+              <CoinName>BTC</CoinName>
+            </CoinInfo>
+
+            <div>or</div>
+
+            <CoinInfo>
+              <CoinInfoIcon symbol={CoinSymbol.SKYPOOL_WBTC} />
+              <CoinName>WBTC</CoinName>
+            </CoinInfo>
+          </CoinInfoContainer>
+
+          <Icon.ArrowRight />
+
+          <CoinInfoContainer>
+            <CoinInfo>
+              <CoinInfoIcon symbol={CoinSymbol.SKYPOOL_SB_BTC} />
+              <CoinName>sbBTC (ERC20)</CoinName>
+            </CoinInfo>
+          </CoinInfoContainer>
+
+          <LiquidityAPR>
+            <FormattedMessage id="liquidity.current-apr-label" />
+            {aprLoading ? (
+              <PulseLoader margin={3} size={4} color={theme.pulsar.color.text.normal} />
+            ) : (
+              <LiquidityAPRValue>
+                <FormattedNumber
+                  value={bridge && apr[bridge].total}
+                  maximumFractionDigits={2}
+                  minimumFractionDigits={2}
+                />
+              </LiquidityAPRValue>
+            )}
+          </LiquidityAPR>
+        </LiquidityInfo>
+
+        <LiquidityStatInfo>
+          <Icon.InfoCircle />
+          <LiquidityHelpLink>
+            <FormattedMessage id="liquidity.help-url" />
+          </LiquidityHelpLink>
+        </LiquidityStatInfo>
+      </LiquidityInfoContainer>
+
       <Box>
         <ColumnForm>
           <Top>

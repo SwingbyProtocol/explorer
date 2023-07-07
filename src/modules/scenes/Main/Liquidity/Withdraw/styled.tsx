@@ -165,3 +165,77 @@ export const BackDropMobile = styled.div`
     display: none;
   }
 `;
+
+export const LiquidityInfoContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
+
+  @media (min-width: ${rem(media.sm)}) {
+    width: ${rem(445)};
+  }
+`;
+
+export const LiquidityInfo = styled.div`
+  position: relative;
+  width: 100%;
+  border: 1px solid ${({ theme }) => theme.pulsar.color.border.normal};
+  border-radius: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  background-color: ${({ theme }) => theme.pulsar.color.bg.masked};
+  padding: ${({ theme }) => rem(theme.pulsar.size.street)};
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: ${({ theme }) => rem(theme.pulsar.size.room)};
+`;
+
+export const CoinInfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const CoinInfo = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => rem(theme.pulsar.size.room)};
+  @media (min-width: ${rem(media.xs)}) {
+    width: ${rem(160)};
+  }
+  @media (min-width: ${rem(media.sm)}) {
+    grid-template-columns: ${rem(46)} auto;
+  }
+`;
+
+export const CoinInfoIcon = styled(CoinIcon)`
+  font-size: ${({ theme }) => rem(theme.pulsar.size.city)};
+`;
+
+export const CoinName = styled(Text)`
+  color: ${({ theme }) => theme.pulsar.color.text.masked};
+`;
+
+export const LiquidityStatInfo = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  gap: 5px;
+  font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
+  color: ${({ theme }) => theme.pulsar.color.text.masked};
+`;
+
+export const LiquidityHelpLink = styled.a`
+  color: ${({ theme }) => theme.pulsar.color.text.normal};
+  text-decoration: none;
+  font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
+  opacity: 0.8;
+  transition: all 0.2s ease-in-out;
+  text-decoration: underline;
+  :hover {
+    opacity: 1;
+    transition: all 0.2s ease-in-out;
+  }
+`;
