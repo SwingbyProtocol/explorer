@@ -1,4 +1,4 @@
-import { Card, Dropdown } from '@swingby-protocol/pulsar';
+import { Card, Dropdown, CoinIcon, Text } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
 import styled from 'styled-components';
 
@@ -110,4 +110,72 @@ export const ExplorerIconContainer = styled.div`
   font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
   margin-left: ${({ theme }) => rem(theme.pulsar.size.closet)};
   color: ${({ theme }) => theme.pulsar.color.primary.normal};
+`;
+
+export const SwapLiquidityInfoContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.house)};
+
+  @media (min-width: ${rem(media.sm)}) {
+    width: ${rem(445)};
+  }
+`;
+
+export const SwapLiquidityInfo = styled.div`
+  width: 100%;
+  border: 1px solid ${({ theme }) => theme.pulsar.color.border.normal};
+  border-radius: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  background-color: ${({ theme }) => theme.pulsar.color.bg.masked};
+  padding: ${({ theme }) => rem(theme.pulsar.size.street)};
+  overflow: hidden;
+`;
+
+export const SwapLiquidityInfoDiv = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+export const SwapStatInfo = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  gap: 5px;
+  font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
+  color: ${({ theme }) => theme.pulsar.color.text.masked};
+`;
+
+export const SwapStatValue = styled(Text)`
+  color: ${({ theme }) => theme.pulsar.color.primary.normal};
+  font-weight: bold;
+`;
+
+export const CoinContainer = styled.div`
+  display: grid;
+  grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.street)};
+  grid-template-columns: 1fr 1fr;
+  height: ${rem(60)};
+  padding: 0 ${({ theme }) => rem(theme.pulsar.size.street)};
+`;
+
+export const CoinInfo = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => rem(theme.pulsar.size.room)};
+  @media (min-width: ${rem(media.xs)}) {
+    width: ${rem(160)};
+  }
+  @media (min-width: ${rem(media.sm)}) {
+    grid-template-columns: ${rem(46)} auto;
+  }
+`;
+
+export const CoinName = styled(Text)`
+  color: ${({ theme }) => theme.pulsar.color.text.masked};
+`;
+
+export const Coin = styled(CoinIcon)`
+  font-size: ${({ theme }) => rem(theme.pulsar.size.town)};
 `;
