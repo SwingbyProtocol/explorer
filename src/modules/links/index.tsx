@@ -19,7 +19,7 @@ export const URL = {
   Support: 'support@swingby.network',
   HowItWorks: 'https://skybridge-docs.swingby.network/how-it-works',
   SwapFees: 'https://tbtc-ropsten-node-1.swingby.network/api/v1/swaps/fees',
-  SkybridgeMainnet: 'https://skybridge.info/',
+  SkybridgeMainnet: 'https://app.swingby.network/',
   SkybridgeTestnet: 'https://testnet.skybridge.info/',
   Erc20Bridge: 'https://bridge.swingby.network/',
   YieldFarming: 'https://farm.swingby.network/',

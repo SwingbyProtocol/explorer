@@ -240,7 +240,7 @@ export const StatsInfo = () => {
                               <Tooltip.Content>
                                 <Text variant="accent">
                                   <a
-                                    href="https://skybridge.info/pool"
+                                    href="https://app.swingby.network/liquidity"
                                     target="_blank"
                                     rel="noreferrer"
                                   >
