@@ -21,13 +21,6 @@ export const Header = () => {
     <HeaderContainer>
       <SwingbyHeader
         logoHref={`/${locale}`}
-        items={[
-          { render: 'Swap', key: 'swap', href: 'https://app.swingby.network' },
-          { render: 'Liquidity', key: 'liquidity', href: 'https://app.swingby.network/liquidity' },
-          { render: 'Explorer', key: 'explorer', href: 'https://app.swingby.network/explorer' },
-          { render: 'Metanodes', key: 'metanodes', href: 'https://app.swingby.network/metanodes' },
-          { render: 'DAO', key: 'dao', href: 'https://dao.swingby.network' },
-        ]}
         barItems={
           <>
             <ThemeSwitcher theme={theme} onChange={setTheme} />
