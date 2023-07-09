@@ -165,7 +165,7 @@ export const AddLiquidity = (props: Props) => {
               <CoinName>BTC</CoinName>
             </CoinInfo>
 
-            <div>or</div>
+            <div style={{ paddingLeft: 30 }}>or</div>
 
             <CoinInfo>
               <CoinInfoIcon symbol={CoinSymbol.SKYPOOL_WBTC} />

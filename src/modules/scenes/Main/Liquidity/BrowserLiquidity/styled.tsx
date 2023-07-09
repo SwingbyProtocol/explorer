@@ -27,11 +27,11 @@ export const BrowserLiquidityDiv = styled(Card)`
   flex-direction: column;
   align-items: center;
   position: relative;
-  background-color: ${({ theme }) => (theme.pulsar.id === 'PulsarLight' ? '#FFF' : '#2A3039')};
 
   @media (min-width: ${rem(media.sm)}) {
     padding-top: ${({ theme }) => rem(theme.pulsar.size.city)};
     padding-bottom: ${({ theme }) => rem(theme.pulsar.size.city)};
+    background-color: ${({ theme }) => (theme.pulsar.id === 'PulsarLight' ? '#FFF' : '#2A3039')};
   }
   @media (min-width: ${rem(media.md)}) {
     min-height: ${rem(500)};

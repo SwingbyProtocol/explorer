@@ -27,11 +27,11 @@ export const BrowserSwapDiv = styled(Card)`
   flex-direction: column;
   align-items: center;
   position: relative;
-  background-color: ${({ theme }) => (theme.pulsar.id === 'PulsarLight' ? '#FFF' : '#2A3039')};
 
   @media (min-width: ${rem(media.sm)}) {
     padding-top: ${({ theme }) => rem(theme.pulsar.size.city)};
     padding-bottom: ${({ theme }) => rem(theme.pulsar.size.city)};
+    background-color: ${({ theme }) => (theme.pulsar.id === 'PulsarLight' ? '#FFF' : '#2A3039')};
   }
   @media (min-width: ${rem(media.md)}) {
     min-height: ${rem(500)};
@@ -155,9 +155,12 @@ export const SwapStatValue = styled(Text)`
 export const CoinContainer = styled.div`
   display: grid;
   grid-column-gap: ${({ theme }) => rem(theme.pulsar.size.street)};
-  grid-template-columns: 1fr 1fr;
-  height: ${rem(60)};
-  padding: 0 ${({ theme }) => rem(theme.pulsar.size.street)};
+  grid-template-columns: 1fr;
+  line-height: ${rem(60)};
+  @media (min-width: ${rem(media.sm)}) {
+    grid-template-columns: 1fr 1fr;
+    padding: 0 ${({ theme }) => rem(theme.pulsar.size.street)};
+  }
 `;
 
 export const CoinInfo = styled.div`
@@ -174,6 +177,11 @@ export const CoinInfo = styled.div`
 
 export const CoinName = styled(Text)`
   color: ${({ theme }) => theme.pulsar.color.text.masked};
+
+  @media (max-width: ${rem(media.sm - 1)}) {
+    grid-template-columns: ${rem(46)} auto;
+    width: ${rem(50)};
+  }
 `;
 
 export const Coin = styled(CoinIcon)`

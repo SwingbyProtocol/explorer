@@ -195,19 +195,16 @@ export const LiquidityInfo = styled.div`
 export const CoinInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+
+  @media (max-width: ${rem(media.sm - 1)}) {
+    font-size ${({ theme }) => rem(theme.pulsar.size.room)};
+  }
 `;
 
 export const CoinInfo = styled.div`
   display: flex;
   align-items: center;
   gap: ${({ theme }) => rem(theme.pulsar.size.room)};
-  @media (min-width: ${rem(media.xs)}) {
-    width: ${rem(160)};
-  }
-  @media (min-width: ${rem(media.sm)}) {
-    grid-template-columns: ${rem(46)} auto;
-  }
 `;
 
 export const CoinInfoIcon = styled(CoinIcon)`
@@ -216,6 +213,7 @@ export const CoinInfoIcon = styled(CoinIcon)`
 
 export const CoinName = styled(Text)`
   color: ${({ theme }) => theme.pulsar.color.text.masked};
+  white-space: nowrap;
 `;
 
 export const LiquidityStatInfo = styled.div`
