@@ -3,8 +3,10 @@ import Head from 'next/head';
 import { ExplorerMain } from '../Common';
 
 export { Browser } from './Explorer';
-export { BrowserDetail } from './Swap';
+export { BrowserDetail } from './SwapLegacy';
 export { BrowserPool } from './Pool';
+export { BrowserLiquidity } from './Liquidity';
+export { BrowserSwap } from './Swap';
 export { BrowserMetanodes } from './Metanodes';
 export { BrowserFees } from './Fees/';
 export { BrowserAsset } from './Asset';
