@@ -3,12 +3,13 @@ import { estimateAmountReceiving, getMinimumWithdrawal } from '@swingby-protocol
 import { createWidget, openPopup } from '@swingby-protocol/widget';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { PulseLoader } from 'react-spinners';
 import { useTheme } from 'styled-components';
 
-import { CoinSymbol, getBridgeSbBtc, TBtcCurrency } from '../../../../coins';
+import { AccountId } from '../../../../../components/AccountId';
+import { CoinSymbol, getBridgeSbBtc, TBtcCurrency, swingbyTextDisplay } from '../../../../coins';
 import { LOCAL_STORAGE, mode, PATH } from '../../../../env';
 import { useOnboard } from '../../../../onboard';
 import { ConnectWallet } from '../ConnectWallet';
@@ -23,6 +24,7 @@ import {
   useThemeSettings,
 } from '../../../../store';
 import { ButtonScale, TextChosenFilter, TextEstimated } from '../../../Common';
+import { URL } from '../../../../links';
 
 import {
   AllButtonDiv,
@@ -56,6 +58,8 @@ import {
   CoinName,
   LiquidityStatInfo,
   LiquidityHelpLink,
+  AccountIdContainer,
+  AccountIdSbBtcBalanceContainer,
 } from './styled';
 
 interface Props {
@@ -168,7 +172,7 @@ export const Withdraw = (props: Props) => {
     <>
       {poolCurrencies.map((currency) => (
         <Dropdown.Item onClick={() => setCurrency(currency)} key={currency}>
-          {<CoinDropDown symbol={currency} />} {currency}
+          {<CoinDropDown symbol={currency} />} {swingbyTextDisplay(currency)}
         </Dropdown.Item>
       ))}
     </>
@@ -224,16 +228,32 @@ export const Withdraw = (props: Props) => {
 
         <LiquidityStatInfo>
           <Icon.InfoCircle />
-          <LiquidityHelpLink>
+          <LiquidityHelpLink href={URL.BecomeLiquidityProvider} target="_blank">
             <FormattedMessage id="liquidity.help-url" />
           </LiquidityHelpLink>
         </LiquidityStatInfo>
       </LiquidityInfoContainer>
 
-      {!address && <ConnectWallet />}
-      {!address && <BackDropMobile />}
       <Box>
+        {!address && <ConnectWallet />}
+        {!address && <BackDropMobile />}
+
         <ColumnForm>
+          {address && (
+            <>
+              <AccountIdContainer>
+                <AccountId />
+              </AccountIdContainer>
+              <AccountIdSbBtcBalanceContainer>
+                <span>
+                  <FormattedMessage id="liquidity.sbbtc-holding" />
+                </span>
+                <span>
+                  <FormattedNumber value={Number(maxAmount)} />
+                </span>
+              </AccountIdSbBtcBalanceContainer>
+            </>
+          )}
           <Top>
             <RowTop>
               <ColumnDropdown>
@@ -244,7 +264,7 @@ export const Withdraw = (props: Props) => {
                   target={
                     <DefaultTarget size="city">
                       <TargetCoin symbol={currency} />
-                      <TextChosenFilter>{currency}</TextChosenFilter>
+                      <TextChosenFilter>{swingbyTextDisplay(currency)}</TextChosenFilter>
                     </DefaultTarget>
                   }
                   data-testid="dropdown"
@@ -286,7 +306,7 @@ export const Withdraw = (props: Props) => {
                 {
                   id: 'pool.receive-address',
                 },
-                { value: currency },
+                { value: swingbyTextDisplay(currency) },
               )}
               left={<Coin symbol={toCurrency} />}
               onChange={(e) => setReceivingAddress(e.target.value)}

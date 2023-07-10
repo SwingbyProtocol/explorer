@@ -22,6 +22,7 @@ import { useSdkContext } from '../../../../sdk-context';
 import { useThemeSettings } from '../../../../store/settings';
 import { ButtonScale, TextChosenFilter, TextEstimated } from '../../../Common';
 import { mode, PATH } from '../../../../env';
+import { URL } from '../../../../links';
 
 import {
   AddLiquidityContainer,
@@ -200,7 +201,7 @@ export const AddLiquidity = (props: Props) => {
 
         <LiquidityStatInfo>
           <Icon.InfoCircle />
-          <LiquidityHelpLink>
+          <LiquidityHelpLink href={URL.BecomeLiquidityProvider} target="_blank">
             <FormattedMessage id="liquidity.help-url" />
           </LiquidityHelpLink>
         </LiquidityStatInfo>
@@ -304,7 +305,7 @@ export const AddLiquidity = (props: Props) => {
                 disabled={isDisabled}
                 onClick={() => openPopup({ widget })}
               >
-                <FormattedMessage id="pool.pool.pool" />
+                <FormattedMessage id="pool.pool.deposit" />
               </ButtonScale>
             </ButtonRow>
           </Bottom>

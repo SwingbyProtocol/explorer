@@ -119,7 +119,7 @@ export const BrowserSwap = () => {
               <SwapStatValue>5.00</SwapStatValue>
 
               <FormattedMessage id="swap.fees-stat-label" />
-              <SwapStatValue>0.20%</SwapStatValue>
+              <SwapStatValue>0.25%</SwapStatValue>
             </SwapStatInfo>
           </SwapLiquidityInfoContainer>
 

@@ -64,11 +64,11 @@ export const ExplorerMain = () => {
   const switchRightComponent = (path: string): JSX.Element => {
     switch (path) {
       case PATH.ROOT:
-        return <AccountId />;
+        return <></>;
       case PATH.EXPLORER:
         return <Search />;
       case PATH.LIQUIDITY:
-        return <AccountId />;
+        return <></>;
       case PATH.SWAP + '/[hash]':
         return <Search />;
       case PATH.FLOAT + '/[hash]':

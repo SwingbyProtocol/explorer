@@ -12,22 +12,7 @@ export const ConnectWalletContainer = styled.div`
   height: 100%;
   display: flex;
   justify-content: center;
-
-  @media (min-width: ${rem(media.xs)}) {
-    align-items: center;
-  }
-  @media (min-width: ${rem(media.md)}) {
-    margin-left: ${({ theme }) => rem(-theme.pulsar.size.street)};
-    margin-right: ${({ theme }) => rem(-theme.pulsar.size.street)};
-  }
-  @media (min-width: ${rem(media.lg)}) {
-    margin-left: ${({ theme }) => rem(-theme.pulsar.size.city)};
-    margin-right: ${({ theme }) => rem(-theme.pulsar.size.city)};
-  }
-  @media (min-width: ${rem(media.xl)}) {
-    margin-left: ${rem(-74)};
-    margin-right: ${rem(-74)};
-  }
+  align-items: center;
 `;
 
 export const ButtonConnect = styled(Button)`
