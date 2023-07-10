@@ -16,7 +16,6 @@ export const WithdrawContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: relative;
 
   @media (min-width: ${rem(media.sm)}) {
     width: ${rem(445)};
@@ -24,6 +23,7 @@ export const WithdrawContainer = styled.div`
 `;
 
 export const Box = styled.div`
+  position: relative;
   width: 100%;
   border-radius: 0.75em;
   border: 1px solid ${({ theme }) => theme.pulsar.color.border.normal};
@@ -236,4 +236,25 @@ export const LiquidityHelpLink = styled.a`
     opacity: 1;
     transition: all 0.2s ease-in-out;
   }
+`;
+
+export const AccountIdContainer = styled.div`
+  border-radius: 0.75em;
+  border: 1px solid ${({ theme }) => theme.pulsar.color.border.normal};
+  overflow: hidden;
+
+  @media (max-width: ${rem(media.sm - 1)}) {
+    > div {
+      padding: 0;
+    }
+  }
+`;
+
+export const AccountIdSbBtcBalanceContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
+  margin-top: ${({ theme }) => rem(theme.pulsar.size.room)};
+  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
 `;

@@ -23,6 +23,8 @@ export const URL = {
   SkybridgeTestnet: 'https://testnet.skybridge.info/',
   Erc20Bridge: 'https://bridge.swingby.network/',
   YieldFarming: 'https://farm.swingby.network/',
+  BecomeLiquidityProvider:
+    'https://skybridge-docs.swingby.network/getting-start/becoming-a-liquidity-provider',
 };
 
 export const Links = [
