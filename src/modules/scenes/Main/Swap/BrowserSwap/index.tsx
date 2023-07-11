@@ -77,7 +77,7 @@ export const BrowserSwap = () => {
   return (
     <>
       <Head>
-        <title>Swingby Explorer | Swap</title>
+        <title>Swingby Skybridge | Swap</title>
       </Head>
       <NetworkDropdownContainer>
         <FormattedMessage id="swap.mode.network-select-label" />

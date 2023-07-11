@@ -17,7 +17,7 @@ export const Main = () => {
   return (
     <>
       <Head>
-        <title>Swingby Explorer</title>
+        <title>Swingby Skybridge</title>
       </Head>
       <ExplorerMain />
     </>

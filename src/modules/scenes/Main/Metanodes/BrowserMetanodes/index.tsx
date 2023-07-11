@@ -10,7 +10,7 @@ export const BrowserMetanodes = () => {
   return (
     <>
       <Head>
-        <title>Swingby Explorer | Metanodes</title>
+        <title>Swingby Skybridge | Metanodes</title>
       </Head>
       <BrowserMetanodesContainer>
         <BrowserMetanodesDiv size="bare">

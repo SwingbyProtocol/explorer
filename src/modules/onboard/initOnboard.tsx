@@ -29,6 +29,7 @@ export const initOnboard = ({
 
   // Onboard bug: metamask's `preferred` becomes 'false' if gives 'preferred: true' to other wallets
   const wallets = [
+    { walletName: 'trust' },
     { walletName: 'metamask' },
     customWalletConnect({
       walletName: 'WalletConnect',
@@ -40,9 +41,9 @@ export const initOnboard = ({
       rpcUrl,
     },
     { walletName: 'walletLink', rpcUrl, appName },
-    { walletName: 'authereum' },
+    { walletName: 'authereum', display: { mobile: false } },
     { walletName: 'lattice', rpcUrl, appName },
-    { walletName: 'torus' },
+    { walletName: 'torus', display: { mobile: false } },
     { walletName: 'opera' },
     {
       walletName: 'trezor',
