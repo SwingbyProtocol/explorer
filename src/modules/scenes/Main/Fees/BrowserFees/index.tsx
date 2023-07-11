@@ -24,7 +24,7 @@ export const BrowserFees = () => {
   return (
     <>
       <Head>
-        <title>Swingby Explorer | Fees</title>
+        <title>Swingby Skybridge | Fees</title>
       </Head>
       <BrowserFeesContainer>
         <BrowserFeesDiv size="bare">

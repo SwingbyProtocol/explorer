@@ -14,6 +14,7 @@ import {
   getBridgeSbBtc,
   TBtcCurrency,
   TSbBTC,
+  swingbyTextDisplay,
 } from '../../../../coins';
 import { useGetPoolApr, usePoolWithdrawCoin, useToggleBridge } from '../../../../hooks';
 import { useOnboard } from '../../../../onboard';
@@ -90,7 +91,7 @@ export const AddLiquidity = (props: Props) => {
     <>
       {poolCurrencies.map((currency: CoinSymbol) => (
         <Dropdown.Item onClick={() => setCurrency(currency)} key={currency}>
-          {<CoinDropDown symbol={currency} />} {currency}
+          {<CoinDropDown symbol={currency} />} {swingbyTextDisplay(currency)}
         </Dropdown.Item>
       ))}
     </>
@@ -194,6 +195,7 @@ export const AddLiquidity = (props: Props) => {
                   maximumFractionDigits={2}
                   minimumFractionDigits={2}
                 />
+                %
               </LiquidityAPRValue>
             )}
           </LiquidityAPR>
@@ -219,7 +221,7 @@ export const AddLiquidity = (props: Props) => {
                   target={
                     <DefaultTarget size="city">
                       <TargetCoin symbol={currency} />
-                      <TextChosenFilter>{currency} </TextChosenFilter>
+                      <TextChosenFilter>{swingbyTextDisplay(currency)} </TextChosenFilter>
                     </DefaultTarget>
                   }
                   data-testid="dropdown"

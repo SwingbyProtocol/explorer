@@ -124,7 +124,7 @@ export const BrowserPool = () => {
   return (
     <>
       <Head>
-        <title>Swingby Explorer | Pool</title>
+        <title>Swingby Skybridge | Pool</title>
       </Head>
       <BrowserPoolContainer>
         <BrowserPoolDiv size="bare">

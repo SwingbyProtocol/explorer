@@ -42,7 +42,7 @@ export const BrowserAsset = () => {
   return (
     <>
       <Head>
-        <title>Swingby Explorer | Asset</title>
+        <title>Swingby Skybridge | Asset</title>
         <script
           type="text/javascript"
           src="https://files.coinmarketcap.com/static/widget/currency.js"

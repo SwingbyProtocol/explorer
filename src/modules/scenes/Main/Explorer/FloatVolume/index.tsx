@@ -120,9 +120,9 @@ export const FloatVolume = () => {
     );
   };
 
-  const poolLink = (bridge: SkybridgeBridge) => {
+  const liquidityLink = (bridge: SkybridgeBridge) => {
     return (
-      <Atag href={`/pool?bridge=${bridge}`} rel="noopener noreferrer" target="_blank">
+      <Atag href={`/liquidity?bridge=${bridge}`} rel="noopener noreferrer" target="_blank">
         <TextLink variant="label">
           <FormattedMessage id={'home.network.add-liquidity'} />
         </TextLink>
@@ -138,7 +138,7 @@ export const FloatVolume = () => {
         </TextBridge>
         <RowBridge>
           {networkScan({ bridge })}
-          {poolLink(bridge)}
+          {liquidityLink(bridge)}
         </RowBridge>
         <CoinContainer>{bridgeInfo(dataSkypoolBridge)}</CoinContainer>
       </BridgeContainer>

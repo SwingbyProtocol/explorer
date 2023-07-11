@@ -249,7 +249,11 @@ export const Withdraw = (props: Props) => {
                   <FormattedMessage id="liquidity.sbbtc-holding" />
                 </span>
                 <span>
-                  <FormattedNumber value={Number(maxAmount)} />
+                  <FormattedNumber
+                    value={Number(maxAmount)}
+                    maximumFractionDigits={18}
+                    minimumFractionDigits={0}
+                  />
                 </span>
               </AccountIdSbBtcBalanceContainer>
             </>

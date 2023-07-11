@@ -70,7 +70,7 @@ export const BrowserSwapRewards = () => {
   return (
     <>
       <Head>
-        <title>Swingby Explorer | Swap Rewards</title>
+        <title>Swingby Skybridge | Swap Rewards</title>
       </Head>
       <BrowserSwapRewardsContainer>
         <BrowserSwapRewardsDiv size="bare">

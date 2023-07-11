@@ -80,7 +80,7 @@ export const BrowserLiquidity = () => {
   return (
     <>
       <Head>
-        <title>Swingby Explorer | Liquidity</title>
+        <title>Swingby Skybridge | Liquidity</title>
       </Head>
       <NetworkDropdownContainer>
         <FormattedMessage id="liquidity.mode.network-select-label" />
