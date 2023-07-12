@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 import { Dropdown, Icon } from '@swingby-protocol/pulsar';
 import { FormattedMessage, FormattedNumber } from 'react-intl';
-import Head from 'next/head';
 import { createWidget, getHtml } from '@swingby-protocol/widget';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
@@ -76,9 +75,6 @@ export const BrowserSwap = () => {
 
   return (
     <>
-      <Head>
-        <title>Swingby Skybridge | Swap</title>
-      </Head>
       <NetworkDropdownContainer>
         <FormattedMessage id="swap.mode.network-select-label" />
         <Dropdown
