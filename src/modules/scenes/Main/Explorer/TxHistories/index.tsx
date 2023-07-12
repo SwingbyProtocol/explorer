@@ -56,7 +56,7 @@ export const TxHistories = () => {
       // Ref: https://nextjs.org/docs/routing/shallow-routing
       push(
         {
-          pathname: '/',
+          pathname: '/explorer',
           query: { bridge, type, rejected, q },
         },
         undefined,
