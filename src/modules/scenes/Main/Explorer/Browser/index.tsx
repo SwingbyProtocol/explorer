@@ -1,4 +1,5 @@
 import React from 'react';
+import Head from 'next/head';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { PulseLoader } from 'react-spinners';
 import { getFiatAssetFormatter, Text, Tooltip } from '@swingby-protocol/pulsar';
@@ -102,17 +103,22 @@ export const Browser = () => {
   );
 
   return (
-    <BrowserContainer>
-      <BrowserDiv size="bare">
-        {networkBridges}
-        <Top>
-          <FloatVolume />
-          <StatsInfo />
-        </Top>
-        <Bottom>
-          <TxHistories />
-        </Bottom>
-      </BrowserDiv>
-    </BrowserContainer>
+    <>
+      <Head>
+        <title>Swingby Skybridge | Explorer</title>
+      </Head>
+      <BrowserContainer>
+        <BrowserDiv size="bare">
+          {networkBridges}
+          <Top>
+            <FloatVolume />
+            <StatsInfo />
+          </Top>
+          <Bottom>
+            <TxHistories />
+          </Bottom>
+        </BrowserDiv>
+      </BrowserContainer>
+    </>
   );
 };

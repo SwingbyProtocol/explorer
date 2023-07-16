@@ -7,7 +7,7 @@ export const SEO = () => {
   const url = DEPLOYED_URL;
   const content =
     'Swap BTC to and from Ethereum Chain and other blockchains. It’s non-custodial and decentralized';
-  const title = 'Swingby Skybridge Explorer';
+  const title = 'Swingby Skybridge';
   const image = 'https://dl.dropboxusercontent.com/s/133s5bap3tbbonv/RebrandOG.jpg';
 
   return (

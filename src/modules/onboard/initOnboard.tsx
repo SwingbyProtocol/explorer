@@ -1,7 +1,7 @@
 import Onboard from 'bnc-onboard';
 import type { Subscriptions } from 'bnc-onboard/dist/src/interfaces'; // eslint-disable-line import/no-internal-modules
 
-import { appName, blocknativeApiKey, infuraApiKey } from '../env';
+import { blocknativeApiKey, infuraApiKey } from '../env';
 
 import { customWalletConnect } from './customWallet';
 
@@ -36,21 +36,6 @@ export const initOnboard = ({
       isMobile: true,
       networkId,
     }),
-    {
-      walletName: 'ledger',
-      rpcUrl,
-    },
-    { walletName: 'walletLink', rpcUrl, appName },
-    { walletName: 'authereum', display: { mobile: false } },
-    { walletName: 'lattice', rpcUrl, appName },
-    { walletName: 'torus', display: { mobile: false } },
-    { walletName: 'opera' },
-    {
-      walletName: 'trezor',
-      email: 'info@swingby.network',
-      appUrl: appName,
-      rpcUrl,
-    },
   ];
 
   return Onboard({
