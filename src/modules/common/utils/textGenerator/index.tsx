@@ -11,7 +11,7 @@ export const titleGenerator = (path: string): JSX.Element => {
       return <FormattedMessage id="home.explorer" />;
     case PATH.LIQUIDITY:
       return <FormattedMessage id="pool.liquidity" />;
-    case PATH.SWAP + '/[hash]':
+    case PATH.EXPLORER + '/[hash]':
       return <FormattedMessage id="home.explorer" />;
     case PATH.POOL:
       return <FormattedMessage id="pool.liquidity" />;

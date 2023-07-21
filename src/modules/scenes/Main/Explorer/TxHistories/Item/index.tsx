@@ -123,7 +123,7 @@ export const TxHistoriesItem = ({
   }, [dispatch, receivingAddress, txReceivingAddress]);
 
   return (
-    <Link href={`${chainBridge === 'floats' ? PATH.FLOAT : PATH.SWAP}/${tx.id}`}>
+    <Link href={`${chainBridge === 'floats' ? PATH.FLOAT : PATH.EXPLORER}/${tx.id}`}>
       <TxHistoryRow key={tx.id} bg={bgKey % 2 !== 0} borderColor={borderColor} style={style}>
         <Column>
           <Status>
