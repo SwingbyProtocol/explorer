@@ -10,7 +10,7 @@ export const GoBackArrow = () => {
   return (
     <IconBack
       onClick={() => {
-        router.push(PATH.ROOT);
+        router.push(PATH.EXPLORER);
       }}
     />
   );
