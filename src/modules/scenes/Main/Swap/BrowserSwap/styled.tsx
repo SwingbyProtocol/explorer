@@ -76,40 +76,10 @@ export const SwapContainer = styled.div`
   border-radius: ${({ theme }) => rem(theme.pulsar.size.closet)};
   background-color: ${({ theme }) => theme.pulsar.color.bg.normal};
   overflow: hidden;
-  padding-bottom: 65px;
-  margin-bottom: -65px;
 
   @media (min-width: ${rem(media.sm)}) {
     width: ${rem(445)};
   }
-`;
-
-export const SwapExtendedFooter = styled.div`
-  width: 100%;
-  padding: ${({ theme }) => rem(theme.pulsar.size.street)};
-  border-bottom-left-radius: ${({ theme }) => rem(theme.pulsar.size.closet)};
-  border-bottom-right-radius: ${({ theme }) => rem(theme.pulsar.size.closet)};
-  overflow: hidden;
-
-  @media (min-width: ${rem(media.sm)}) {
-    width: ${rem(445)};
-  }
-`;
-
-export const ExplorerLinkContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
-`;
-
-export const ExplorerIconContainer = styled.div`
-  display: flex;
-  align-items: center;
-  font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
-  margin-left: ${({ theme }) => rem(theme.pulsar.size.closet)};
-  color: ${({ theme }) => theme.pulsar.color.primary.normal};
 `;
 
 export const SwapLiquidityInfoContainer = styled.div`

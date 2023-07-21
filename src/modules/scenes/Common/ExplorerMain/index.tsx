@@ -41,7 +41,7 @@ export const ExplorerMain = () => {
         return <Browser />;
       case PATH.LIQUIDITY:
         return <BrowserLiquidity />;
-      case PATH.SWAP + '/[hash]':
+      case PATH.EXPLORER + '/[hash]':
         return <BrowserDetail />;
       case PATH.FLOAT + '/[hash]':
         return <BrowserDetail />;

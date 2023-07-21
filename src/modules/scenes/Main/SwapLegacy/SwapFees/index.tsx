@@ -9,6 +9,7 @@ import { TTxRawObject } from '../../../../explorer';
 import { useSdkContext } from '../../../../sdk-context';
 import { toggleIsExistPreviousPage } from '../../../../store';
 import { TextPrimary } from '../../../Common';
+import { swingbyTextDisplay } from '../../../../coins';
 
 import {
   Center,
@@ -77,7 +78,10 @@ export const SwapFees = (props: Props) => {
           <FeeBox>
             <Text variant="masked">
               {bridgeFee}{' '}
-              <FormattedMessage id="swap.miner-fee" values={{ currency: tx.currencyIn }} />
+              <FormattedMessage
+                id="swap.miner-fee"
+                values={{ currency: swingbyTextDisplay(tx.currencyIn) }}
+              />
             </Text>
           </FeeBox>
         </Center>

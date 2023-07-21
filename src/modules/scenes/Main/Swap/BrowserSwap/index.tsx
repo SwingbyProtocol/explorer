@@ -1,15 +1,14 @@
 import { useMemo } from 'react';
-import { Dropdown, Icon } from '@swingby-protocol/pulsar';
+import { Dropdown } from '@swingby-protocol/pulsar';
 import { FormattedMessage, FormattedNumber } from 'react-intl';
 import { createWidget, getHtml } from '@swingby-protocol/widget';
 import { useRouter } from 'next/router';
-import Link from 'next/link';
 import { useSelector } from 'react-redux';
 
 import { useGetNetworkData } from '../../../../hooks';
 import { networkInfoSelector } from '../../../../store';
 import { useAffiliateCode } from '../../../../affiliate-code';
-import { mode, PATH } from '../../../../env';
+import { mode } from '../../../../env';
 import { useThemeSettings } from '../../../../store/settings';
 import { CoinSymbol } from '../../../../coins';
 
@@ -19,9 +18,6 @@ import {
   NetworkDropdownContainer,
   SwapBridgeDropdownTarget,
   SwapContainer,
-  SwapExtendedFooter,
-  ExplorerLinkContainer,
-  ExplorerIconContainer,
   SwapLiquidityInfoContainer,
   SwapLiquidityInfo,
   SwapStatInfo,
@@ -120,16 +116,6 @@ export const BrowserSwap = () => {
           </SwapLiquidityInfoContainer>
 
           <SwapContainer dangerouslySetInnerHTML={{ __html: getHtml({ widget: swapForm }) }} />
-          <SwapExtendedFooter>
-            <Link href={PATH.EXPLORER}>
-              <ExplorerLinkContainer>
-                <FormattedMessage id="swap.go-to-explorer" />
-                <ExplorerIconContainer>
-                  <Icon.CaretRight />
-                </ExplorerIconContainer>
-              </ExplorerLinkContainer>
-            </Link>
-          </SwapExtendedFooter>
         </BrowserSwapDiv>
       </BrowserSwapContainer>
     </>
