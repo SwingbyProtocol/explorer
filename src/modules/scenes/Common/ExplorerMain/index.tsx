@@ -69,7 +69,7 @@ export const ExplorerMain = () => {
         return <Search />;
       case PATH.LIQUIDITY:
         return <></>;
-      case PATH.SWAP + '/[hash]':
+      case PATH.EXPLORER + '/[hash]':
         return <Search />;
       case PATH.FLOAT + '/[hash]':
         return <Search />;
