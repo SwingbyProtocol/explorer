@@ -68,11 +68,6 @@ export const RowTop = styled.div`
   gap: 1.5rem;
 `;
 
-export const RowBottom = styled(RowTop)`
-  margin-top: ${({ theme }) => rem(theme.pulsar.size.street)};
-  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
-`;
-
 export const InputAmount = styled(TextInput)`
   align-self: flex-end;
   flex: 2;
@@ -146,7 +141,9 @@ export const CoinDropDown = styled(CoinIcon)`
   margin-right: ${({ theme }) => rem(theme.pulsar.size.box)};
 `;
 
-export const ButtonRow = styled.div``;
+export const ButtonRow = styled.div`
+  margin-top: ${({ theme }) => rem(theme.pulsar.size.street)};
+`;
 
 export const AmountValidation = styled.div`
   margin-top: ${({ theme }) => rem(theme.pulsar.size.box / 2)};

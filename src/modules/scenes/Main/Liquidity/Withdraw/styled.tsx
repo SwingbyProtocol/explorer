@@ -136,11 +136,6 @@ export const TextAll = styled(Text)`
   text-decoration: underline;
 `;
 
-export const RowBottom = styled(RowTop)`
-  margin-top: ${({ theme }) => rem(theme.pulsar.size.street)};
-  margin-bottom: ${({ theme }) => rem(theme.pulsar.size.street)};
-`;
-
 export const TextDescription = styled(Text)`
   display: flex;
   font-size: ${({ theme }) => rem(theme.pulsar.size.room)};

@@ -6,6 +6,7 @@ import { useTheme } from 'styled-components';
 import { AccountId } from '../../../../components/AccountId';
 import { Footer } from '../../../../components/Footer';
 import { Search } from '../../../../components/Search';
+import { NetworkSelect } from '../../../../components/NetworkSelect';
 import { scrollToTop, titleGenerator } from '../../../common';
 import { PATH } from '../../../env';
 import { useThemeSettings } from '../../../store/settings';
@@ -64,11 +65,11 @@ export const ExplorerMain = () => {
   const switchRightComponent = (path: string): JSX.Element => {
     switch (path) {
       case PATH.ROOT:
-        return <></>;
+        return <NetworkSelect />;
       case PATH.EXPLORER:
         return <Search />;
       case PATH.LIQUIDITY:
-        return <></>;
+        return <NetworkSelect />;
       case PATH.EXPLORER + '/[hash]':
         return <Search />;
       case PATH.FLOAT + '/[hash]':

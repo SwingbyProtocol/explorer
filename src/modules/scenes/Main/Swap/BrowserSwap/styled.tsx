@@ -1,4 +1,4 @@
-import { Card, Dropdown, CoinIcon, Text } from '@swingby-protocol/pulsar';
+import { Card, CoinIcon, Text } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
 import styled from 'styled-components';
 
@@ -43,31 +43,6 @@ export const BrowserSwapDiv = styled(Card)`
   @media (min-width: ${rem(media.xl)}) {
     width: ${rem(1100)};
   }
-`;
-
-export const NetworkDropdownContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin-top: -1rem;
-  margin-bottom: 1rem;
-  color: ${({ theme }) =>
-    theme.pulsar.id === 'PulsarLight' ? '#FFF' : theme.pulsar.color.text.normal};
-  @media (min-width: ${rem(media.lg)}) {
-    width: ${rem(980)};
-    margin-left: auto;
-    margin-right: auto;
-  }
-  @media (min-width: ${rem(media.xl)}) {
-    width: ${rem(1100)};
-  }
-`;
-
-export const SwapBridgeDropdownTarget = styled(Dropdown.DefaultTarget)`
-  margin-left: 1rem;
-  background-color: transparent;
-  color: ${({ theme }) => theme.pulsar.color.success.normal};
-  font-weight: bold;
 `;
 
 export const SwapContainer = styled.div`

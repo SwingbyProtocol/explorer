@@ -1,11 +1,10 @@
-import { Dropdown, Tooltip, Icon } from '@swingby-protocol/pulsar';
+import { Dropdown, Icon } from '@swingby-protocol/pulsar';
 import { estimateAmountReceiving, getMinimumWithdrawal } from '@swingby-protocol/sdk';
 import { createWidget, openPopup } from '@swingby-protocol/widget';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { PulseLoader } from 'react-spinners';
 import { useTheme } from 'styled-components';
 
 import { AccountId } from '../../../../../components/AccountId';
@@ -23,7 +22,7 @@ import {
   transactionFeesSelector,
   useThemeSettings,
 } from '../../../../store';
-import { ButtonScale, TextChosenFilter, TextEstimated } from '../../../Common';
+import { ButtonScale, TextChosenFilter } from '../../../Common';
 import { URL } from '../../../../links';
 
 import {
@@ -40,12 +39,9 @@ import {
   DropdownCurrency,
   InputAmount,
   InputReceivingAddress,
-  RowBottom,
   RowTop,
   TargetCoin,
   TextAll,
-  TextDescription,
-  TextFee,
   TextLabel,
   Top,
   WithdrawContainer,
@@ -135,38 +131,6 @@ export const Withdraw = (props: Props) => {
       })();
     }
   }, [dispatch, toCurrency, transactionFees, context, amount, currency, bridge]);
-
-  const [transactionFee, setTransactionFee] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    (async () => {
-      Number(amount) > 0 && setIsLoading(true);
-      try {
-        if (cancelled) return;
-        const { feeTotal } = await estimateAmountReceiving({
-          context,
-          currencyDeposit: getBridgeSbBtc(bridge),
-          currencyReceiving: toCurrency,
-          amountDesired: amount,
-        });
-        if (cancelled) return;
-        setTransactionFee(feeTotal);
-      } catch (e) {
-        if (cancelled) return;
-        console.log(e);
-        setTransactionFee('');
-      }
-      setIsLoading(false);
-    })();
-
-    return () => {
-      cancelled = true;
-      setTransactionFee('');
-    };
-  }, [toCurrency, amount, context, bridge]);
 
   const currencyItems = (
     <>
@@ -316,41 +280,6 @@ export const Withdraw = (props: Props) => {
               onChange={(e) => setReceivingAddress(e.target.value)}
             />
             {!isValidAddress && receivingAddress && addressValidationResult}
-
-            <RowBottom>
-              <div>
-                <TextDescription variant="masked">
-                  <FormattedMessage id="pool.withdraw.transaction-fee" />
-                  &nbsp;
-                  <Tooltip
-                    content={
-                      <Tooltip.Content>
-                        <FormattedMessage id="pool.withdraw.estimated-reason" />
-                      </Tooltip.Content>
-                    }
-                    data-testid="tooltip"
-                  >
-                    {'('}
-                    <TextEstimated>
-                      <FormattedMessage id="pool.withdraw.estimated" />
-                    </TextEstimated>
-                    {')'}
-                  </Tooltip>
-                  <FormattedMessage id="pool.withdraw.estimated2" />
-                </TextDescription>
-              </div>
-              <div>
-                <TextFee variant="masked">
-                  {isLoading ? (
-                    <PulseLoader margin={3} size={4} color={theme.pulsar.color.text.normal} />
-                  ) : Number(amount) > 0 ? (
-                    transactionFee
-                  ) : (
-                    0
-                  )}
-                </TextFee>
-              </div>
-            </RowBottom>
 
             <ButtonRow>
               <ButtonScale

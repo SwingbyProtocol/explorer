@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import { Dropdown } from '@swingby-protocol/pulsar';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useSelector } from 'react-redux';
@@ -15,8 +14,6 @@ import {
   BrowserLiquidityDiv,
   TextValidationResult,
   ValidationResult,
-  NetworkDropdownContainer,
-  LiquidityBridgeDropdownTarget,
 } from './styled';
 
 export const BrowserLiquidity = () => {
@@ -82,20 +79,6 @@ export const BrowserLiquidity = () => {
       <Head>
         <title>Swingby Skybridge | Liquidity</title>
       </Head>
-      <NetworkDropdownContainer>
-        <FormattedMessage id="liquidity.mode.network-select-label" />
-        <Dropdown
-          target={
-            <LiquidityBridgeDropdownTarget size="city">
-              <FormattedMessage id="liquidity.mode.ethereum" />
-            </LiquidityBridgeDropdownTarget>
-          }
-        >
-          <Dropdown.Item selected>
-            <FormattedMessage id="liquidity.mode.ethereum" />
-          </Dropdown.Item>
-        </Dropdown>
-      </NetworkDropdownContainer>
       <BrowserLiquidityContainer>
         <BrowserLiquidityDiv size="bare">
           <ActionButtonsLiquidity />
