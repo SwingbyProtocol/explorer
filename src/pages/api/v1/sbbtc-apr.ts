@@ -3,29 +3,8 @@ import { aprToApy } from 'apr-tools';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { corsMiddleware, getParam } from '../../../modules/api';
-import { sumArray } from '../../../modules/common';
 import { fetcher } from '../../../modules/fetch';
-import {
-  fetchFloatBalances,
-  fetchVwap,
-  getFixedBaseEndpoint,
-  getTransactionFee,
-  IFloat,
-} from '../../../modules/explorer';
 import { skypoolsEnabled } from '../../../modules/env';
-
-const getFloatUsd = (bridge: SkybridgeBridge, usdBtc: number, floatBalances: IFloat) => {
-  const sumFloatUsd = (floatBtc: number, floatPeggedBtc: number, usdBtc: number) =>
-    (floatBtc + floatPeggedBtc) * usdBtc;
-
-  switch (bridge) {
-    case 'btc_skypool':
-      return sumFloatUsd(floatBalances.btcSkypool, floatBalances.wbtcSkypool, usdBtc);
-
-    default:
-      return sumFloatUsd(floatBalances.btcSkypool, floatBalances.wbtcSkypool, usdBtc);
-  }
-};
 
 const isBridgeEnabled = (bridge: SkybridgeBridge): boolean => {
   switch (bridge) {
@@ -51,34 +30,15 @@ export default async function handler(
   }
 
   try {
-    const usdBtc = await fetchVwap('btcUsd');
-
-    // Memo: 1/3 goes to liquidity provider
-    const feeGoesLiquidityProvider = 0.33;
-    const baseUrl = getFixedBaseEndpoint(bridge);
-
     const results = await Promise.all([
-      fetcher<{ network1mSwapsVolume: number[] }>(`${baseUrl}/api/v1/swaps/stats`),
-      getTransactionFee(bridge),
-      fetchFloatBalances(usdBtc, bridge),
+      fetcher<{ result: { rows: { apr: number; date: string }[] } }>(
+        'https://api.dune.com/api/v1/query/2705069/results?api_key=6AUVgjoBeq5858W8OVcwIhJz4xM0JWPE',
+      ),
     ]);
 
-    const network1mSwapVolume = results[0].network1mSwapsVolume;
-    const bridgeFeePercent = Number(results[1].bridgeFeePercent) * 0.01;
-    const floatBalances = results[2].floats;
-
-    const filledMonth = network1mSwapVolume.filter((it: number) => it !== 0).length;
-    const yearlyVolume = sumArray(network1mSwapVolume);
-    const averageVolume = yearlyVolume / filledMonth;
-    const estimatedYearlyVolumeUsd = averageVolume * usdBtc * 12;
-    const floatUsd = getFloatUsd(bridge, usdBtc, floatBalances);
-
-    if (floatUsd > 0) {
-      // Eg: ((32,356,354 * 0.002 * 0.33) / 470,438) * 100 = 4.5
-      const estApr =
-        ((estimatedYearlyVolumeUsd * bridgeFeePercent * feeGoesLiquidityProvider) / floatUsd) * 100;
-
-      apr = Number(estApr.toFixed(1));
+    const currentApr = results[0].result.rows.find((row) => row.apr > 0);
+    if (currentApr) {
+      apr = Number(currentApr.apr.toFixed(1));
       apy = Number(aprToApy(apr).toFixed(1));
     }
 

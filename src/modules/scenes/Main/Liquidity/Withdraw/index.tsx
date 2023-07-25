@@ -132,38 +132,6 @@ export const Withdraw = (props: Props) => {
     }
   }, [dispatch, toCurrency, transactionFees, context, amount, currency, bridge]);
 
-  const [transactionFee, setTransactionFee] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    (async () => {
-      Number(amount) > 0 && setIsLoading(true);
-      try {
-        if (cancelled) return;
-        const { feeTotal } = await estimateAmountReceiving({
-          context,
-          currencyDeposit: getBridgeSbBtc(bridge),
-          currencyReceiving: toCurrency,
-          amountDesired: amount,
-        });
-        if (cancelled) return;
-        setTransactionFee(feeTotal);
-      } catch (e) {
-        if (cancelled) return;
-        console.log(e);
-        setTransactionFee('');
-      }
-      setIsLoading(false);
-    })();
-
-    return () => {
-      cancelled = true;
-      setTransactionFee('');
-    };
-  }, [toCurrency, amount, context, bridge]);
-
   const currencyItems = (
     <>
       {poolCurrencies.map((currency) => (

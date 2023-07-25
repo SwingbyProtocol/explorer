@@ -102,39 +102,7 @@ export const AddLiquidity = (props: Props) => {
     }
   };
 
-  const [transactionFee, setTransactionFee] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const context = useSdkContext();
   const sbBTC = getBridgeSbBtc(bridge);
-  useEffect(() => {
-    let cancelled = false;
-
-    (async () => {
-      Number(amount) > 0 && setIsLoading(true);
-      try {
-        if (cancelled) return;
-
-        const { feeTotal } = await estimateAmountReceiving({
-          context,
-          currencyDeposit: currency as CoinSymbol,
-          currencyReceiving: sbBTC,
-          amountDesired: amount,
-        });
-        if (cancelled) return;
-        setTransactionFee(feeTotal);
-      } catch (e) {
-        if (cancelled) return;
-        console.log(e);
-        setTransactionFee('');
-      }
-      setIsLoading(false);
-    })();
-
-    return () => {
-      cancelled = true;
-      setTransactionFee('');
-    };
-  }, [currency, amount, context, bridge, sbBTC]);
 
   const widget = createWidget({
     resource: 'pool',

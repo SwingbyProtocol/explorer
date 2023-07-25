@@ -37,23 +37,15 @@ export const useGetPoolApr = (): { apr: PoolAprState; isLoading: boolean } => {
         query: { bridge: 'btc_skypool' },
       });
 
-      const farmBsc = stringifyUrl({
-        url: `${ENDPOINT_YIELD_FARMING}/api/v1/farm-info`,
-        query: { farm: 'SkyPools' },
-      });
-
-      const results = await Promise.all([
-        fetcher<{ apy: number }>(sbBtcSkypoolUrl),
-        fetcher<{ apr: number; swingbyPerBlock: number; farmTvl: number }>(farmBsc),
-      ]);
+      const results = await Promise.all([fetcher<{ apy: number }>(sbBtcSkypoolUrl)]);
 
       setApr({
         btc_skypool: {
           sbBtc: results[0].apy,
-          farm: results[1].apr,
-          total: results[0].apy + results[1].apr,
-          swingbyPerBlock: results[1].swingbyPerBlock,
-          farmTvl: results[1].farmTvl,
+          farm: 0,
+          total: results[0].apy,
+          swingbyPerBlock: 0,
+          farmTvl: 0,
         },
       });
     } catch (error) {
