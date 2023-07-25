@@ -1,4 +1,4 @@
-import { Dropdown, Tooltip, Icon } from '@swingby-protocol/pulsar';
+import { Dropdown, Icon } from '@swingby-protocol/pulsar';
 import { estimateAmountReceiving } from '@swingby-protocol/sdk';
 import { createWidget, openPopup } from '@swingby-protocol/widget';
 import { useRouter } from 'next/router';
@@ -21,7 +21,7 @@ import { useOnboard } from '../../../../onboard';
 import { IWithdrawAmountValidation } from '../../../../pool';
 import { useSdkContext } from '../../../../sdk-context';
 import { useThemeSettings } from '../../../../store/settings';
-import { ButtonScale, TextChosenFilter, TextEstimated } from '../../../Common';
+import { ButtonScale, TextChosenFilter } from '../../../Common';
 import { mode, PATH } from '../../../../env';
 import { URL } from '../../../../links';
 
@@ -39,11 +39,8 @@ import {
   DropdownCurrency,
   InputAmount,
   InputReceivingAddress,
-  RowBottom,
   RowTop,
   TargetCoin,
-  TextDescription,
-  TextFee,
   TextLabel,
   Top,
   AllButtonDiv,
@@ -266,40 +263,6 @@ export const AddLiquidity = (props: Props) => {
               }}
             />
             {!isValidAddress && receivingAddress && addressValidationResult}
-            <RowBottom>
-              <div>
-                <TextDescription variant="masked">
-                  <FormattedMessage id="pool.pool.deposit-fee" />
-                  &nbsp;
-                  <Tooltip
-                    content={
-                      <Tooltip.Content>
-                        <FormattedMessage id="pool.withdraw.estimated-reason" />
-                      </Tooltip.Content>
-                    }
-                    data-testid="tooltip"
-                  >
-                    {'('}
-                    <TextEstimated>
-                      <FormattedMessage id="pool.withdraw.estimated" />
-                    </TextEstimated>
-                    {')'}
-                  </Tooltip>
-                  <FormattedMessage id="pool.withdraw.estimated2" />
-                </TextDescription>
-              </div>
-              <div>
-                <TextFee variant="masked">
-                  {isLoading ? (
-                    <PulseLoader margin={3} size={4} color={theme.pulsar.color.text.normal} />
-                  ) : Number(amount) > 0 ? (
-                    transactionFee
-                  ) : (
-                    0
-                  )}
-                </TextFee>
-              </div>
-            </RowBottom>
             <ButtonRow>
               <ButtonScale
                 variant="primary"

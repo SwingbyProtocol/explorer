@@ -1,5 +1,4 @@
 import { useMemo } from 'react';
-import { Dropdown } from '@swingby-protocol/pulsar';
 import { FormattedMessage, FormattedNumber } from 'react-intl';
 import { createWidget, getHtml } from '@swingby-protocol/widget';
 import { useRouter } from 'next/router';
@@ -15,8 +14,6 @@ import { CoinSymbol } from '../../../../coins';
 import {
   BrowserSwapContainer,
   BrowserSwapDiv,
-  NetworkDropdownContainer,
-  SwapBridgeDropdownTarget,
   SwapContainer,
   SwapLiquidityInfoContainer,
   SwapLiquidityInfo,
@@ -71,20 +68,6 @@ export const BrowserSwap = () => {
 
   return (
     <>
-      <NetworkDropdownContainer>
-        <FormattedMessage id="swap.mode.network-select-label" />
-        <Dropdown
-          target={
-            <SwapBridgeDropdownTarget size="city">
-              <FormattedMessage id="swap.mode.ethereum" />
-            </SwapBridgeDropdownTarget>
-          }
-        >
-          <Dropdown.Item selected>
-            <FormattedMessage id="swap.mode.ethereum" />
-          </Dropdown.Item>
-        </Dropdown>
-      </NetworkDropdownContainer>
       <BrowserSwapContainer>
         <BrowserSwapDiv size="bare">
           <SwapLiquidityInfoContainer>

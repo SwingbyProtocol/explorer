@@ -1,4 +1,4 @@
-import { Card, Text, Dropdown } from '@swingby-protocol/pulsar';
+import { Card, Text } from '@swingby-protocol/pulsar';
 import { rem } from 'polished';
 import styled from 'styled-components';
 
@@ -53,27 +53,4 @@ export const ValidationResult = styled.div`
 export const TextValidationResult = styled(Text)`
   color: ${({ theme }) => theme.pulsar.color.danger.active};
   font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
-`;
-
-export const NetworkDropdownContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin-top: -1rem;
-  margin-bottom: 1rem;
-  @media (min-width: ${rem(media.lg)}) {
-    width: ${rem(980)};
-    margin-left: auto;
-    margin-right: auto;
-  }
-  @media (min-width: ${rem(media.xl)}) {
-    width: ${rem(1100)};
-  }
-`;
-
-export const LiquidityBridgeDropdownTarget = styled(Dropdown.DefaultTarget)`
-  margin-left: 1rem;
-  background-color: transparent;
-  color: ${({ theme }) => theme.pulsar.color.success.normal};
-  font-weight: bold;
 `;
