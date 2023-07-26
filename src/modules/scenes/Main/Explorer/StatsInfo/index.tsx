@@ -158,12 +158,12 @@ export const StatsInfo = () => {
     },
     {
       key: 'rewards',
-      isLoading: isLoadingAll ? isLoadingAll : Number(rewardsTotal) > 1 ? false : true,
+      isLoading: isLoadingAll,
       icon: <NetworkRewards />,
       description: formattedRewards,
       value: (
-        <a href="https://farm.swingby.network" target="_blank" rel="noreferrer">
-          Check
+        <a href="https://dune.com/swingby/skybridge" target="_blank" rel="noreferrer">
+          Analytics
         </a>
       ),
     },

@@ -32,7 +32,7 @@ export default async function handler(
   try {
     const results = await Promise.all([
       fetcher<{ result: { rows: { apr: number; date: string }[] } }>(
-        'https://api.dune.com/api/v1/query/2705069/results?api_key=6AUVgjoBeq5858W8OVcwIhJz4xM0JWPE',
+        `https://api.dune.com/api/v1/query/2705069/results?api_key=${process.env.DUNE_API_KEY}`,
       ),
     ]);
 
