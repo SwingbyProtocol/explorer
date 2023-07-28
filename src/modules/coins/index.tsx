@@ -23,7 +23,12 @@ export const EthereumWalletAddressCoins = [
   CoinSymbol.SKYPOOL_WBTC,
 ];
 
-export const ETHCoins = [CoinSymbol.ERC20_SB_BTC, CoinSymbol.WBTC, CoinSymbol.SKYPOOL_WBTC];
+export const ETHCoins = [
+  CoinSymbol.ERC20_SB_BTC,
+  CoinSymbol.SKYPOOL_SB_BTC,
+  CoinSymbol.WBTC,
+  CoinSymbol.SKYPOOL_WBTC,
+];
 export const BTCCoins = [CoinSymbol.BTC];
 
 export const getBridgeBtc = (bridge: SkybridgeBridge): CoinSymbol => {
