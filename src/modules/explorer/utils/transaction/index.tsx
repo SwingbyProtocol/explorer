@@ -40,16 +40,16 @@ export const currencyNetwork = (currency: string): string => {
       return CoinSymbol.BTC;
 
     case CoinSymbol.SKYPOOL_WBTC:
-      return 'WBTC on Skypools';
+      return 'WBTC (ERC-20)';
 
     case CoinSymbol.SKYPOOL_SB_BTC:
-      return 'sbBTC on Skypools';
+      return 'sbBTC (ERC-20)';
 
     case CoinSymbol.WBTC:
-      return 'WBTC on Ethereum';
+      return 'WBTC (Legacy)';
 
     case CoinSymbol.ERC20_SB_BTC:
-      return 'sbBTC on Ethereum';
+      return 'sbBTC (Legacy)';
 
     default:
       return currency;
