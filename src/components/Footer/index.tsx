@@ -1,7 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import { mode } from '../../modules/env';
 import { Developers, Links, Media, Terms, URL } from '../../modules/links';
 import { Atag } from '../../modules/scenes/Common';
 
@@ -39,17 +38,6 @@ export const Footer = () => {
                 </ALink>
               </LiLink>
             ))}
-            <LiLink>
-              <ALink
-                href={mode === 'production' ? URL.SkybridgeTestnet : URL.SkybridgeMainnet}
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                <FormattedMessage
-                  id={mode === 'production' ? 'footer.testnet' : 'footer.mainnet'}
-                />
-              </ALink>
-            </LiLink>
           </UlLink>
         </ColumnLink>
         <ColumnLink>

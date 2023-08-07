@@ -1,11 +1,9 @@
 import { Icon } from '@swingby-protocol/pulsar';
 
-import { PATH } from '../env';
-
 export const URL = {
   Swingby: 'https://swingby.network/',
   Earn: 'https://swingby.network/earn',
-  WhatIsSwingby: 'https://swingby.network/about-swingby',
+  Home: 'https://swingby.network',
   WhitePaper: 'https://docs.swingby.network/SwingbySkybridge_WhitePaper_v1.0.0_14112019.pdf',
   SwingbyDocs: 'https://skybridge-docs.swingby.network/',
   TermsOfUse: 'https://docs.swingby.network/terms.pdf',
@@ -25,12 +23,12 @@ export const URL = {
   YieldFarming: 'https://farm.swingby.network/',
   BecomeLiquidityProvider:
     'https://skybridge-docs.swingby.network/getting-start/becoming-a-liquidity-provider',
+  Fees: 'https://skybridge-docs.swingby.network/getting-start/network-fees',
 };
 
 export const Links = [
-  { link: URL.WhatIsSwingby, description: 'footer.what-is-swingby' },
-  { link: URL.Earn, description: 'footer.earn' },
-  { link: PATH.FEES, description: 'footer.transaction-fees' },
+  { link: URL.Home, description: 'footer.home' },
+  { link: URL.Fees, description: 'footer.transaction-fees' },
   { link: URL.Erc20Bridge, description: 'footer.erc20' },
   { link: URL.YieldFarming, description: 'footer.yield-farming' },
 ];
