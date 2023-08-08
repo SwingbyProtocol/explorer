@@ -90,7 +90,7 @@ export const TxHistoriesItem = ({
   const reverseUD = async (search_value: String) => {
     if (!search_value) return search_value;
 
-    const API_URL = 'https://resolve.unstoppabledomains.com/reverse/';
+    const API_URL = 'https://api.unstoppabledomains.com/resolve/reverse/';
     const API_KEY1 = process.env.NEXT_PUBLIC_UD_API_KEY;
     try {
       var res = await axios.get(API_URL + search_value, {
