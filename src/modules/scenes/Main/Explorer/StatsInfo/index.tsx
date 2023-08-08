@@ -50,7 +50,7 @@ export const StatsInfo = () => {
   const stats = useSelector(statsSelector);
   const usd = useSelector(usdPricesSelector);
   const isLoading = useSelector(explorerLoadingSelector);
-  const [volumeType, setVolumeType] = useState<VolumeType>('1W');
+  const [volumeType, setVolumeType] = useState<VolumeType>('1Y');
 
   const { bridge, defaultBridge, reward, isLoading: isLoadingMetanode } = useToggleMetanode(
     PATH.EXPLORER,

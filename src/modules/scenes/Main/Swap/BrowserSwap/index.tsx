@@ -3,6 +3,8 @@ import { FormattedMessage, FormattedNumber } from 'react-intl';
 import { createWidget, getHtml } from '@swingby-protocol/widget';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
+import { PulseLoader } from 'react-spinners';
+import { useTheme } from 'styled-components';
 
 import { useGetNetworkData } from '../../../../hooks';
 import { networkInfoSelector } from '../../../../store';
@@ -34,7 +36,8 @@ interface IBridgeData {
 export const BrowserSwap = () => {
   const { locale } = useRouter();
   const affiliateCode = useAffiliateCode();
-  const [theme] = useThemeSettings();
+  const [themeMode] = useThemeSettings();
+  const theme = useTheme();
 
   const swapForm = useMemo(
     () =>
@@ -42,16 +45,18 @@ export const BrowserSwap = () => {
         resource: 'swap',
         mode,
         size: 'big',
-        theme,
+        theme: themeMode,
         locale,
         affiliateCode,
       }),
-    [theme, locale, affiliateCode],
+    [themeMode, locale, affiliateCode],
   );
 
   useGetNetworkData();
   const networkInfos = useSelector(networkInfoSelector);
   const { floatBalances } = networkInfos;
+
+  const isLoading = floatBalances.btcSkypool === 0 && floatBalances.wbtcSkypool === 0;
 
   const dataSkypoolBridge = [
     {
@@ -81,7 +86,11 @@ export const BrowserSwap = () => {
                       <Coin symbol={coin.coin} />
                       <CoinName>{coin.name}</CoinName>
                       <b>
-                        <FormattedNumber value={Number(coin.float)} />
+                        {isLoading ? (
+                          <PulseLoader margin={3} size={4} color={theme.pulsar.color.text.normal} />
+                        ) : (
+                          <FormattedNumber value={Number(coin.float)} />
+                        )}
                       </b>
                     </CoinInfo>
                   );

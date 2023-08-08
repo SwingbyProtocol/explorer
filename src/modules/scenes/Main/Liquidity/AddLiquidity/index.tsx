@@ -1,8 +1,7 @@
 import { Dropdown, Icon } from '@swingby-protocol/pulsar';
-import { estimateAmountReceiving } from '@swingby-protocol/sdk';
 import { createWidget, openPopup } from '@swingby-protocol/widget';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
 import { PulseLoader } from 'react-spinners';
 import { useTheme } from 'styled-components';
@@ -19,7 +18,6 @@ import {
 import { useGetPoolApr, usePoolWithdrawCoin, useToggleBridge } from '../../../../hooks';
 import { useOnboard } from '../../../../onboard';
 import { IWithdrawAmountValidation } from '../../../../pool';
-import { useSdkContext } from '../../../../sdk-context';
 import { useThemeSettings } from '../../../../store/settings';
 import { ButtonScale, TextChosenFilter } from '../../../Common';
 import { mode, PATH } from '../../../../env';
@@ -154,14 +152,16 @@ export const AddLiquidity = (props: Props) => {
             {aprLoading ? (
               <PulseLoader margin={3} size={4} color={theme.pulsar.color.text.normal} />
             ) : (
-              <LiquidityAPRValue>
-                <FormattedNumber
-                  value={bridge && apr[bridge].total}
-                  maximumFractionDigits={2}
-                  minimumFractionDigits={2}
-                />
-                %
-              </LiquidityAPRValue>
+              <a href="https://dune.com/swingby/skybridge" target="_blank" rel="noreferrer">
+                <LiquidityAPRValue>
+                  <FormattedNumber
+                    value={bridge && apr[bridge].total}
+                    maximumFractionDigits={2}
+                    minimumFractionDigits={2}
+                  />
+                  %
+                </LiquidityAPRValue>
+              </a>
             )}
           </LiquidityAPR>
         </LiquidityInfo>
