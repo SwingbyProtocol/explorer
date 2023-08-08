@@ -1,11 +1,12 @@
 import { Dropdown, Icon } from '@swingby-protocol/pulsar';
-import { estimateAmountReceiving, getMinimumWithdrawal } from '@swingby-protocol/sdk';
+import { getMinimumWithdrawal } from '@swingby-protocol/sdk';
 import { createWidget, openPopup } from '@swingby-protocol/widget';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
+import { PulseLoader } from 'react-spinners';
 
 import { AccountId } from '../../../../../components/AccountId';
 import { CoinSymbol, getBridgeSbBtc, TBtcCurrency, swingbyTextDisplay } from '../../../../coins';
@@ -72,7 +73,7 @@ export const Withdraw = (props: Props) => {
   const theme = useTheme();
   const [themeMode] = useThemeSettings();
 
-  const { balance } = useGetSbBtcBal();
+  const { balance, isLoading } = useGetSbBtcBal();
   const minimumWithdrawAmount = useSelector(poolMinimumWithdrawAmountSelector);
   const transactionFees = useSelector(transactionFeesSelector);
   const { locale } = useRouter();
@@ -213,11 +214,15 @@ export const Withdraw = (props: Props) => {
                   <FormattedMessage id="liquidity.sbbtc-holding" />
                 </span>
                 <span>
-                  <FormattedNumber
-                    value={Number(maxAmount)}
-                    maximumFractionDigits={18}
-                    minimumFractionDigits={0}
-                  />
+                  {isLoading ? (
+                    <PulseLoader margin={3} size={4} color={theme.pulsar.color.text.normal} />
+                  ) : (
+                    <FormattedNumber
+                      value={Number(maxAmount)}
+                      maximumFractionDigits={18}
+                      minimumFractionDigits={0}
+                    />
+                  )}
                 </span>
               </AccountIdSbBtcBalanceContainer>
             </>
