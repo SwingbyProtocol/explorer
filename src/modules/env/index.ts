@@ -105,3 +105,7 @@ export const infuraApiKey = process.env.NEXT_PUBLIC_INFURA_KEY;
 export const WC_BRIDGE = process.env.NEXT_PUBLIC_WC_BRIDGE;
 
 export const NETWORK_INFO_FETCH_RATE = 300 * 1000; // 5 minutes in milliseconds
+
+export enum ADDRESS_RESOLVER {
+  UD = 'UD',
+}

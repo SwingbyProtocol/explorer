@@ -16,7 +16,7 @@ enum Actions {
   FetchUsdPrice = 'Explorer/FETCH_USD_PRICE',
   FetchTransactionFees = 'Explorer/FETCH_TRANSACTION_FEES',
   UpdateNetworkInfos = 'Explorer/UPDATE_NETWORK_INFOS',
-  FetchReverseUDAddress = 'Explorer/FETCH_REVERSE_UD_ADDRESS',
+  FetchResolvedAddress = 'Explorer/FETCH_RESOLVED_ADDRESS',
 }
 
 const initialState: ExplorerState = {
@@ -27,7 +27,7 @@ const initialState: ExplorerState = {
   networkInfos: initial.networkInfos,
   transactionFees: null,
   isExistPreviousPage: false,
-  reversedUDAddresses: {},
+  resolvedAddresses: {},
 };
 
 export const explorer: Reducer<ExplorerState, Action> = (state = initialState, action) => {
@@ -63,10 +63,10 @@ export const explorer: Reducer<ExplorerState, Action> = (state = initialState, a
     return { ...state, networkInfos: action.data };
   }
 
-  if (action.type === Actions.FetchReverseUDAddress) {
+  if (action.type === Actions.FetchResolvedAddress) {
     return {
       ...state,
-      reversedUDAddresses: { ...state.reversedUDAddresses, [action.address]: action.data },
+      resolvedAddresses: { ...state.resolvedAddresses, [action.address]: action.data },
     };
   }
 
@@ -94,8 +94,8 @@ export const fetchTransactionFees = (data: IFee[]) =>
 export const updateNetworkInfos = (data: INetworkInfos) =>
   ({ type: Actions.UpdateNetworkInfos, data } as const);
 
-export const fetchReverseUDAddress = (data: string, address: string) =>
-  ({ type: Actions.FetchReverseUDAddress, data, address } as const);
+export const fetchResolvedAddress = (data: string, address: string) =>
+  ({ type: Actions.FetchResolvedAddress, data, address } as const);
 
 type Action =
   | ReturnType<typeof toggleIsLoading>
@@ -106,7 +106,7 @@ type Action =
   | ReturnType<typeof fetchUsdPrice>
   | ReturnType<typeof fetchTransactionFees>
   | ReturnType<typeof updateNetworkInfos>
-  | ReturnType<typeof fetchReverseUDAddress>;
+  | ReturnType<typeof fetchResolvedAddress>;
 
 export {
   btcUSDPriceSelector,
@@ -117,5 +117,5 @@ export {
   explorerSelector,
   explorerLoadingSelector,
   statsSelector,
-  reverseUDAddressSelector,
+  resolveAddressSelector,
 } from './selectors';

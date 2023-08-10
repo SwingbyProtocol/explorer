@@ -20,8 +20,8 @@ export {
   usdPricesSelector,
   transactionFeesSelector,
   statsSelector,
-  reverseUDAddressSelector,
-  fetchReverseUDAddress,
+  resolveAddressSelector,
+  fetchResolvedAddress,
 } from './explorer';
 
 export {

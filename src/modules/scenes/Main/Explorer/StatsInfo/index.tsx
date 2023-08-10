@@ -268,7 +268,11 @@ export const StatsInfo = () => {
                         placeholderLoader
                       ) : (
                         <Row>
-                          <TextValue variant="accent">{info.value}</TextValue>
+                          {info.description === formattedRewards ? (
+                            <ValidatorLinkSpan variant="accent">{info.value}</ValidatorLinkSpan>
+                          ) : (
+                            <TextValue variant="accent">{info.value}</TextValue>
+                          )}
                         </Row>
                       )}
                     </DataDiv>

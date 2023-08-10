@@ -224,6 +224,7 @@ export const LiquidityAPR = styled.div`
 export const LiquidityAPRValue = styled(Text)`
   color: ${({ theme }) => theme.pulsar.color.primary.normal};
   font-weight: bold;
+  text-decoration: underline;
 `;
 
 export const LiquidityStatInfo = styled.div`
