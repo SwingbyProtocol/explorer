@@ -54,6 +54,7 @@ import {
   CoinInfoIcon,
   CoinName,
   LiquidityStatInfo,
+  LiquidityStatValue,
   LiquidityHelpLink,
   AccountIdContainer,
   AccountIdSbBtcBalanceContainer,
@@ -190,6 +191,14 @@ export const Withdraw = (props: Props) => {
             </CoinInfo>
           </CoinInfoContainer>
         </LiquidityInfo>
+
+        <LiquidityStatInfo>
+          <FormattedMessage id="swap.limittx-stat-label" />
+          <LiquidityStatValue>10.00</LiquidityStatValue>
+
+          <FormattedMessage id="swap.fees-stat-label" />
+          <LiquidityStatValue>0.20%</LiquidityStatValue>
+        </LiquidityStatInfo>
 
         <LiquidityStatInfo>
           <Icon.InfoCircle />

@@ -52,6 +52,7 @@ import {
   LiquidityAPR,
   LiquidityAPRValue,
   LiquidityStatInfo,
+  LiquidityStatValue,
   LiquidityHelpLink,
 } from './styled';
 
@@ -165,6 +166,14 @@ export const AddLiquidity = (props: Props) => {
             )}
           </LiquidityAPR>
         </LiquidityInfo>
+
+        <LiquidityStatInfo>
+          <FormattedMessage id="swap.limittx-stat-label" />
+          <LiquidityStatValue>10.00</LiquidityStatValue>
+
+          <FormattedMessage id="swap.fees-stat-label" />
+          <LiquidityStatValue>0.00%</LiquidityStatValue>
+        </LiquidityStatInfo>
 
         <LiquidityStatInfo>
           <Icon.InfoCircle />
