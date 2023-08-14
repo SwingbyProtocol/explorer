@@ -86,6 +86,7 @@ export const Row = styled.div`
 
 export const RowValidator = styled.div`
   display: flex;
+  gap: ${({ theme }) => rem(theme.pulsar.size.closet)};
   margin-bottom: ${({ theme }) => rem(-theme.pulsar.size.box)};
 `;
 
@@ -109,10 +110,14 @@ export const TextEst = styled(Text)`
 
 export const ValidatorLinkSpan = styled(Text)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.room)};
-  margin-left: ${({ theme }) => rem(theme.pulsar.size.closet)};
   color: ${({ theme }) => theme.pulsar.color.primary.normal};
   border-bottom: 1px solid ${({ theme }) => theme.pulsar.color.primary.normal};
   cursor: pointer;
+
+  > a {
+    color: inherit;
+    text-decoration: none;
+  }
 `;
 
 export const Network = styled(Icon.NetworkVolume)`

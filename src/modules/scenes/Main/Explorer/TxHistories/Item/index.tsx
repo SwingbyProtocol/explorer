@@ -1,21 +1,19 @@
-/* eslint-disable import/no-internal-modules */
-
+import { stringifyUrl } from 'query-string';
 import { Dropdown, getCryptoAssetFormatter, Text } from '@swingby-protocol/pulsar';
 import { DateTime } from 'luxon';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useMemo, useEffect } from 'react';
-import axios from 'axios';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useTheme } from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { reverseUDAddressSelector, fetchReverseUDAddress } from '../../../../../store';
+import { resolveAddressSelector, fetchResolvedAddress } from '../../../../../store';
 import type {
   Transaction,
   TransactionsHistoryQueryHookResult,
 } from '../../../../../../generated/graphql';
-import { PATH } from '../../../../../env';
+import { PATH, ADDRESS_RESOLVER } from '../../../../../env';
 import {
   castGraphQlType,
   castUiStatus,
@@ -28,6 +26,7 @@ import {
 import { transactionDetailByTxId } from '../../../../../swap';
 import { AddressLinkP } from '../../../../Common';
 import { swingbyTextDisplay } from '../../../../../coins';
+import { fetcher } from '../../../../../../modules/fetch';
 
 import {
   AmountSpan,
@@ -84,41 +83,35 @@ export const TxHistoriesItem = ({
 
   const txSendingAddress = tx.sendingAddress?.toLowerCase();
   const txReceivingAddress = tx.receivingAddress?.toLowerCase();
-  const sendingAddress = useSelector(reverseUDAddressSelector(txSendingAddress));
-  const receivingAddress = useSelector(reverseUDAddressSelector(txReceivingAddress));
+  const sendingAddress = useSelector(resolveAddressSelector(txSendingAddress));
+  const receivingAddress = useSelector(resolveAddressSelector(txReceivingAddress));
 
-  const reverseUD = async (search_value: String) => {
-    return search_value;
+  const resolveAddress = async (search_value: string) => {
+    const resolveAddressUrl = stringifyUrl({
+      url: `/api/v1/addr-resolve`,
+      query: { address: search_value, resolver: ADDRESS_RESOLVER.UD },
+    });
 
-    const API_URL = 'https://api.unstoppabledomains.com/resolve/reverse/';
-    const API_KEY1 = process.env.NEXT_PUBLIC_UD_API_KEY;
     try {
-      var res = await axios.get(API_URL + search_value, {
-        headers: {
-          Authorization: `bearer ${API_KEY1}`,
-        },
-      });
-
-      if (res.data.meta.domain !== '') {
-        return res.data.meta.domain;
-      }
-      return search_value;
-    } catch (err) {
+      const result = await fetcher<{ address: string; isResolved: boolean }>(resolveAddressUrl);
+      if (result.isResolved) return result.address;
+      else return search_value;
+    } catch {
       return search_value;
     }
   };
 
   useEffect(() => {
     if (sendingAddress || !txSendingAddress) return;
-    reverseUD(txSendingAddress).then((reversedUDAddress) => {
-      dispatch(fetchReverseUDAddress(reversedUDAddress, txSendingAddress));
+    resolveAddress(txSendingAddress).then((resolvedAddress) => {
+      dispatch(fetchResolvedAddress(resolvedAddress, txSendingAddress));
     });
   }, [dispatch, sendingAddress, txSendingAddress]);
 
   useEffect(() => {
     if (receivingAddress || !txReceivingAddress) return;
-    reverseUD(txReceivingAddress).then((reversedUDAddress) => {
-      dispatch(fetchReverseUDAddress(reversedUDAddress, txReceivingAddress));
+    resolveAddress(txReceivingAddress).then((resolvedAddress) => {
+      dispatch(fetchResolvedAddress(resolvedAddress, txReceivingAddress));
     });
   }, [dispatch, receivingAddress, txReceivingAddress]);
 
