@@ -21,6 +21,7 @@ export enum PATH {
   ASSET_BTC = '/asset/btc',
   ASSET_WBTC = '/asset/wbtc',
   METANODE_EARNERS = '/metanode-earners',
+  MIGRATE = '/migrate',
 }
 
 export enum LOCAL_STORAGE {

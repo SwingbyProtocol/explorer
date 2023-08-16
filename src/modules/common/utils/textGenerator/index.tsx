@@ -23,6 +23,8 @@ export const titleGenerator = (path: string): JSX.Element => {
       return <AssetTitle />;
     case PATH.ASSET_WBTC:
       return <AssetTitle />;
+    case PATH.MIGRATE:
+      return <FormattedMessage id="migrate.title" />;
 
     default:
       break;
