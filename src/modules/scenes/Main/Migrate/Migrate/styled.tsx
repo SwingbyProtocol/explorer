@@ -95,6 +95,10 @@ export const MigrateChain = styled(ButtonScale)`
   text-decoration: underline;
 `;
 
+export const MigrateChainAnchor = styled.a`
+  cursor: pointer;
+`;
+
 export const MigrateQrCode = styled(QRCodeSVG)`
   background-color: ${({ theme }) => (theme.pulsar.id === 'PulsarLight' ? '#FFF' : '#FFF')};
   padding: ${({ theme }) => rem(theme.pulsar.size.street)};
@@ -115,12 +119,30 @@ export const MigrateAddressContainer = styled.div`
   gap: ${({ theme }) => rem(theme.pulsar.size.room)};
 `;
 
-export const MigrateAddress = styled(ButtonScale)``;
+export const MigrateAddress = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => rem(theme.pulsar.size.room)};
+
+  > :first-child {
+    flex-shrink: 0;
+  }
+`;
+
+export const MigrateAddressText = styled.div`
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
 
 export const MigrateAddressAnchor = styled.a`
   display: flex;
   align-items: center;
   gap: ${({ theme }) => rem(theme.pulsar.size.room)};
-  fon t-size: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  color: ${({ theme }) => theme.pulsar.color.text.normal};
+  font-size: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  text-decoration: none;
   cursor: pointer;
 `;

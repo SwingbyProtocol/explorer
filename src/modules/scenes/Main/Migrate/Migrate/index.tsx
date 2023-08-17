@@ -2,22 +2,32 @@ import { Icon } from '@swingby-protocol/pulsar';
 import Head from 'next/head';
 import Image from 'next/image';
 import { FormattedMessage } from 'react-intl';
+import useCopy from '@react-hook/copy';
+
+import { ButtonScale } from '../../../Common';
+import { BRIDGE_ADDRESS } from '../../../../../modules/env';
+import { URL } from '../../../../../modules/links';
+import { copyToClipboard, toastCopyAddress } from '../../../../../components/Toast';
 
 import {
   MigrateContainer,
   MigrateChainContainer,
   MigrateChain,
+  MigrateChainAnchor,
   MigrateDiv,
   MigratePanelContainer,
   MigratePanel,
   MigrateAddressContainer,
   MigrateAddress,
+  MigrateAddressText,
   MigrateQrCode,
   MigrateQrCodeDescription,
   MigrateAddressAnchor,
 } from './styled';
 
 export const Migrate = () => {
+  const { copy } = useCopy(BRIDGE_ADDRESS);
+
   return (
     <>
       <Head>
@@ -30,29 +40,40 @@ export const Migrate = () => {
               <MigrateChainContainer>
                 <Image src="/migrate-erc20.svg" width={222} height={55} />
 
-                <MigrateChain variant="secondary" size="city">
-                  BEP20
-                </MigrateChain>
-                <MigrateChain variant="secondary" size="city">
-                  ERC20
-                </MigrateChain>
+                <MigrateChainAnchor href={URL.MigrateBep20} target="_blank">
+                  <MigrateChain variant="secondary" size="city">
+                    BEP20
+                  </MigrateChain>
+                </MigrateChainAnchor>
+                <MigrateChainAnchor href={URL.MigrateErc20} target="_blank">
+                  <MigrateChain variant="secondary" size="city">
+                    ERC20
+                  </MigrateChain>
+                </MigrateChainAnchor>
               </MigrateChainContainer>
 
-              <MigrateQrCode value="ALSDJLAKSJDLAKSJFKLASFJL" size={200}></MigrateQrCode>
+              <MigrateQrCode value={BRIDGE_ADDRESS} size={200}></MigrateQrCode>
               <MigrateQrCodeDescription>
                 <FormattedMessage id="migrate.description" />
               </MigrateQrCodeDescription>
 
               <MigrateAddressContainer>
-                <MigrateAddress variant="secondary" size="city">
-                  ALSDJLAKSJDLAKSJFKLASFJL
-                </MigrateAddress>
+                <ButtonScale
+                  variant="secondary"
+                  size="city"
+                  onClick={() => copyToClipboard(copy, toastCopyAddress)}
+                >
+                  <MigrateAddress>
+                    <Image src="/coin.svg" width={20} height={20} />
+                    <MigrateAddressText>{BRIDGE_ADDRESS}</MigrateAddressText>
+                  </MigrateAddress>
+                </ButtonScale>
 
-                <MigrateAddressAnchor>
+                <MigrateAddressAnchor href={URL.MigrateIn} target="_blank">
                   IN
                   <Icon.ExternalLink />
                 </MigrateAddressAnchor>
-                <MigrateAddressAnchor>
+                <MigrateAddressAnchor href={URL.MigrateOut} target="_blank">
                   OUT
                   <Icon.ExternalLink />
                 </MigrateAddressAnchor>
