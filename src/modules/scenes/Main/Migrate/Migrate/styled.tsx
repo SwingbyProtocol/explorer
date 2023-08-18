@@ -117,6 +117,10 @@ export const MigrateAddressContainer = styled.div`
   justify-content: space-between;
   flex-wrap: wrap;
   gap: ${({ theme }) => rem(theme.pulsar.size.room)};
+
+  @media (max-width: ${rem(media.sm - 1)}) {
+    max-width: calc(100vw - 4.5rem);
+  }
 `;
 
 export const MigrateAddress = styled.div`
