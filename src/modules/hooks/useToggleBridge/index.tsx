@@ -23,7 +23,7 @@ export const useToggleBridge = (path: PATH) => {
   // Memo: Redirect to btc_skypool bridge
   useEffect(() => {
     // Memo: Multiple-bridge as default path for Root and Explorer
-    if (path !== PATH.ROOT && path !== PATH.EXPLORER) {
+    if (path !== PATH.ROOT && path !== PATH.EXPLORER && path !== PATH.MIGRATE) {
       if (params.bridge === '' || !SKYBRIDGE_BRIDGES.includes(params.bridge as SkybridgeBridge)) {
         router.push({
           pathname: path,

@@ -265,5 +265,7 @@
   "asset.bitcoin.1": "Bitcoin is a cryptocurrency invented in 2008 by an unknown person or group of people using the name Satoshi Nakamoto and started in 2009 when its implementation was released as open-source software.",
   "asset.bitcoin.2": "It is a decentralized digital currency without a central bank or single administrator that can be sent from user to user on the peer-to-peer bitcoin network without the need for intermediaries. Transactions are verified by network nodes through cryptography and recorded in a public distributed ledger called a blockchain. Bitcoins are created as a reward for a process known as mining. They can be exchanged for other currencies, products, and services. Research produced by the University of Cambridge estimates that in 2017, there were 2.9 to 5.8 million unique users using a cryptocurrency wallet, most of them using bitcoin.",
   "asset.wrapped-bitcoin.1": "Wrapped Bitcoin (WBTC) is an ERC-20 token that represents Bitcoin (BTC) on the Ethereum blockchain. A key advantage of WBTC is its integration into the world of Ethereum wallets, dapps, and smart contracts. Through a WBTC partner, 1 Bitcoin can be converted to 1 Wrapped Bitcoin, and vice-versa.",
-  "asset.wrapped-bitcoin.2": " "
+  "asset.wrapped-bitcoin.2": " ",
+  "migrate.title": "Migrate SWINGBY BEP20 to ERC20",
+  "migrate.description": "Please note that this manual bridging process can take up to 8 hours."
 }

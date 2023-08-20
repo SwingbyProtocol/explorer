@@ -12,6 +12,7 @@ export { BrowserFees } from './Fees/';
 export { BrowserAsset } from './Asset';
 export { BrowserSwapRewards } from './SwapRewards';
 export { MetanodeEarners } from './MetanodeEarners';
+export { Migrate } from './Migrate';
 
 export const Main = () => {
   return (
