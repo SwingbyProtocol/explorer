@@ -95,6 +95,7 @@ export const Browser = () => {
             </Tooltip.Content>
           }
           data-testid="tooltip"
+          interactive={true}
         >
           <IconInfo />
         </Tooltip>

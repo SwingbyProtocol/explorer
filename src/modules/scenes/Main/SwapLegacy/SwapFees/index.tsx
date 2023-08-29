@@ -8,7 +8,6 @@ import { useDispatch } from 'react-redux';
 import { TTxRawObject } from '../../../../explorer';
 import { useSdkContext } from '../../../../sdk-context';
 import { toggleIsExistPreviousPage } from '../../../../store';
-import { TextPrimary } from '../../../Common';
 import { swingbyTextDisplay } from '../../../../coins';
 
 import {
@@ -21,6 +20,7 @@ import {
   SwapFeesContainer,
   TitleText,
   Top,
+  TextPrimary,
 } from './styled';
 
 interface Props {
@@ -57,13 +57,16 @@ export const SwapFees = (props: Props) => {
             content={
               <Tooltip.Content>
                 <FormattedMessage id="swap.node-explanation1" />
-                <TextPrimary>
-                  <FormattedMessage id="common.click" />
-                </TextPrimary>
+                <Link href="/fees">
+                  <TextPrimary>
+                    <FormattedMessage id="common.click" />
+                  </TextPrimary>
+                </Link>
                 <FormattedMessage id="swap.node-explanation2" />
               </Tooltip.Content>
             }
             data-testid="tooltip"
+            interactive={true}
           >
             <Link href="/fees">
               <IconInfo onClick={() => dispatch(toggleIsExistPreviousPage(true))} />
