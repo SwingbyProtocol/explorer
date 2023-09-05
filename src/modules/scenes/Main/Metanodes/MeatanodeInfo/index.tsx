@@ -23,7 +23,7 @@ export const MetanodeInfo = () => {
     liquidity,
     liquidityRatio,
     churnTime,
-    reward,
+    rewardV2,
     isLoading,
   } = useToggleMetanode(PATH.METANODES);
   return (
@@ -41,7 +41,7 @@ export const MetanodeInfo = () => {
           <LiquidityRatio liquidityRatio={liquidityRatio} isLoading={isLoading} />
           <Row>
             <Churning churnTime={churnTime} isLoading={isLoading} />
-            <Earnings reward={reward} isLoading={isLoading} />
+            <Earnings reward={rewardV2} isLoading={isLoading} />
           </Row>
         </Right>
       </Top>

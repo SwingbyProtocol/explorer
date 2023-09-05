@@ -19,6 +19,12 @@ export interface IReward {
   stakingRewards: string;
 }
 
+export interface IRewardV2 {
+  currency: string;
+  total: number;
+  totalSbBtc: number;
+}
+
 export interface IBridge {
   bridge: SkybridgeBridge;
   tabMenu: string;
