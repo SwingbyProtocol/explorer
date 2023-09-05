@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 
 import { StylingConstants } from '../../modules/styles';
+import { PATH } from '../../modules/env';
 
 import { SearchIcon, SearchInput } from './styled';
 
@@ -51,7 +52,7 @@ export const Search = () => {
             var address = await checkUD(search);
             if (address)
               router.push({
-                pathname: '/',
+                pathname: PATH.EXPLORER,
                 query: {
                   bridge: chainBridge,
                   type: address ? 'search' : '',
@@ -60,7 +61,7 @@ export const Search = () => {
               });
             else
               router.push({
-                pathname: '/',
+                pathname: PATH.EXPLORER,
                 query: {
                   bridge: chainBridge,
                   type: search ? 'search' : '',
