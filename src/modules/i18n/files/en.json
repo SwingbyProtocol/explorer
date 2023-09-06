@@ -222,7 +222,7 @@
   "metanodes.churning": "Churning",
   "metanodes.next": "Next",
   "metanodes.last": "Last",
-  "metanodes.earnings": "Earnings (1W)",
+  "metanodes.earnings": "Earnings (1M)",
   "metanodes.earning-avr": "Avg {earningAvr} per node",
   "metanodes.metanodes": "Metanodes",
   "metanodes.version": "Version",
