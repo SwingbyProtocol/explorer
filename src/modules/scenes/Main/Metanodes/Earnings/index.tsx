@@ -2,13 +2,13 @@ import { getFiatAssetFormatter, Text, Tooltip } from '@swingby-protocol/pulsar';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import { Loader } from '../../../../../components/Loader';
-import { IReward } from '../../../../metanodes';
+import { IRewardV2 } from '../../../../metanodes';
 import { IconInfo } from '../../../Common';
 
 import { EarningsContainer, Row } from './styled';
 
 interface Props {
-  reward: IReward | null;
+  reward: IRewardV2 | null;
   isLoading: boolean;
 }
 
@@ -16,9 +16,7 @@ export const Earnings = (props: Props) => {
   const { locale } = useIntl();
   const { reward, isLoading } = props;
   const rewardsTotal = reward ? reward.total : 0;
-  const rewardsSwingby = reward ? reward.stakingRewards : 0;
-  // const rewardsSbBtcUsd = reward ? reward.networkRewards : 0;
-  const rewardsAvgPerNode = reward ? reward.avgPerNode : 0;
+  const rewardsSbBtc = reward ? reward.totalSbBtc : 0;
 
   const earningTotal = getFiatAssetFormatter({
     locale,
@@ -26,27 +24,6 @@ export const Earnings = (props: Props) => {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(Number(rewardsTotal));
-
-  const earningSwingbyUsd = getFiatAssetFormatter({
-    locale,
-    currency: 'USD',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(Number(rewardsSwingby));
-
-  // const earningSbBtcUsd = getFiatAssetFormatter({
-  //   locale,
-  //   currency: 'USD',
-  //   minimumFractionDigits: 0,
-  //   maximumFractionDigits: 0,
-  // }).format(Number(rewardsSbBtcUsd));
-
-  const earningAvr = getFiatAssetFormatter({
-    locale,
-    currency: 'USD',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(Number(rewardsAvgPerNode));
 
   const loader = <Loader marginTop={0} minHeight={68} />;
 
@@ -60,7 +37,7 @@ export const Earnings = (props: Props) => {
           content={
             <Tooltip.Content>
               <Text variant="accent">
-                <FormattedMessage id="metanodes.swingby" values={{ value: earningSwingbyUsd }} />
+                <FormattedMessage id="metanodes.swingby" values={{ value: earningTotal }} />
               </Text>
               <br />
               {/* <Text variant="accent">
@@ -79,14 +56,7 @@ export const Earnings = (props: Props) => {
             <Text variant="title-xs">{earningTotal}</Text>
           </Row>
           <div>
-            <Text variant="section-title">
-              <FormattedMessage
-                id="metanodes.earning-avr"
-                values={{
-                  earningAvr,
-                }}
-              />
-            </Text>
+            <Text variant="section-title">{rewardsSbBtc.toFixed(6)} sbBTC</Text>
           </div>
         </>
       ) : (

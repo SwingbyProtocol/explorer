@@ -2,6 +2,8 @@ import { Tooltip, Text } from '@swingby-protocol/pulsar';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
+import { URL } from '../../../../links';
+
 import {
   ActionButtonMetanodesContainer,
   RowText,
@@ -9,6 +11,8 @@ import {
   TextTitle,
   TextSwapFee,
   InfoIcon,
+  ButtonSetupNode,
+  ButtonSetupNodeAnchor,
 } from './styled';
 
 export const ActionButtonMetanodes = () => {
@@ -41,6 +45,14 @@ export const ActionButtonMetanodes = () => {
             <InfoIcon />
           </Tooltip>
         </div>
+
+        <div style={{ flex: 1 }}></div>
+
+        <ButtonSetupNodeAnchor href={URL.SetupNode} target="_blank">
+          <ButtonSetupNode variant="primary" size="country">
+            How to Setup Node
+          </ButtonSetupNode>
+        </ButtonSetupNodeAnchor>
       </RowText>
     </ActionButtonMetanodesContainer>
   );

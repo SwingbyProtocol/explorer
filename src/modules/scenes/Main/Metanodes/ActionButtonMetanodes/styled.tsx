@@ -3,7 +3,7 @@ import { rem } from 'polished';
 import styled from 'styled-components';
 
 import { StylingConstants } from '../../../../styles';
-import { IconInfo } from '../../../Common';
+import { IconInfo, ButtonScale } from '../../../Common';
 
 const { media } = StylingConstants;
 
@@ -26,12 +26,26 @@ export const RowText = styled.div`
   @media (min-width: ${rem(media.sm)}) {
     align-items: center;
     flex-direction: row;
-    width: auto;
+    width: 100%;
     column-gap: ${({ theme }) => rem(theme.pulsar.size.box)};
   }
 `;
 
 export const ButtonContainer = styled.div``;
+
+export const ButtonSetupNode = styled(ButtonScale)`
+  width: 200px;
+`;
+
+export const ButtonSetupNodeAnchor = styled.a`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => rem(theme.pulsar.size.room)};
+  color: ${({ theme }) => theme.pulsar.color.text.normal};
+  font-size: ${({ theme }) => rem(theme.pulsar.size.closet)};
+  text-decoration: none;
+  cursor: pointer;
+`;
 
 export const TextTitle = styled(Text)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.house)};

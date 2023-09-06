@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { stringifyUrl } from 'query-string';
 
 import { Bridge, Mode, Node, useNodesDetailsQuery } from '../../../generated/graphql';
 import { ENDPOINT_SKYBRIDGE_EXCHANGE, mode, PATH } from '../../env';
@@ -11,6 +12,7 @@ import {
   ILiquidityRatio,
   ILiquidityRatios,
   IReward,
+  IRewardV2,
   listHistory,
 } from '../../metanodes';
 import { useInterval } from '../useInterval';
@@ -21,6 +23,7 @@ export const useToggleMetanode = (path: PATH) => {
 
   const [metanodes, setMetanodes] = useState<Node[] | null>(null);
   const [reward, setReward] = useState<IReward | null>(null);
+  const [rewardV2, setRewardV2] = useState<IRewardV2 | null>(null);
   const [liquidity, setLiquidity] = useState<ILiquidity | null>(null);
   const [churnTime, setChurnTime] = useState<IChurn | null>(null);
   const [bondHistories, setBondHistories] = useState<IChartDate[] | null>(null);
@@ -57,6 +60,16 @@ export const useToggleMetanode = (path: PATH) => {
       setReward(rewardData);
     }
   }, [bridge, path]);
+
+  const getRewardsV2 = useCallback(async () => {
+    const rewardsUrl = stringifyUrl({
+      url: `/api/v1/rewards-last-week`,
+      query: { bridge: 'btc_skypool' },
+    });
+
+    const rewardData = await fetcher<IRewardV2>(rewardsUrl);
+    setRewardV2(rewardData);
+  }, []);
 
   const getLiquidity = useCallback(async () => {
     if (bridge && path === PATH.METANODES) {
@@ -97,7 +110,8 @@ export const useToggleMetanode = (path: PATH) => {
     (async () => {
       try {
         await Promise.all([
-          getRewards(),
+          // getRewards(),
+          getRewardsV2(),
           getLiquidity(),
           getBondHistory(),
           getLiquidityRation(),
@@ -110,10 +124,19 @@ export const useToggleMetanode = (path: PATH) => {
         setIsLoading(false);
       }
     })();
-  }, [getBondHistory, getLiquidityRation, getChurnTime, getLiquidity, getRewards, getNodes]);
+  }, [
+    getBondHistory,
+    getLiquidityRation,
+    getChurnTime,
+    getLiquidity,
+    getRewards,
+    getRewardsV2,
+    getNodes,
+  ]);
 
   useEffect(() => {
     setReward(null);
+    setRewardV2(null);
     setLiquidity(null);
     setChurnTime(null);
     setBondHistories(null);
@@ -134,6 +157,7 @@ export const useToggleMetanode = (path: PATH) => {
     liquidityRatio,
     churnTime,
     reward,
+    rewardV2,
     isLoading,
   };
 };
