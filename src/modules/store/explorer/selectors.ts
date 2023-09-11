@@ -29,6 +29,7 @@ export const swingbyUSDPriceSelector = (state: DefaultRootState): number =>
 export const explorerLoadingSelector = (state: DefaultRootState): boolean =>
   state.explorer.isLoading;
 
-export const resolveAddressSelector = (address: string) => (
-  state: DefaultRootState,
-): string | undefined => state.explorer.resolvedAddresses[address];
+export const resolveAddressSelector =
+  (address: string) =>
+  (state: DefaultRootState): string | undefined =>
+    state.explorer.resolvedAddresses[address];

@@ -74,28 +74,28 @@ export const explorer: Reducer<ExplorerState, Action> = (state = initialState, a
 };
 
 export const toggleIsLoading = (data: boolean) =>
-  ({ type: Actions.ToggleIsLoading, data } as const);
+  ({ type: Actions.ToggleIsLoading, data }) as const;
 
 export const toggleIsExistPreviousPage = (data: boolean) =>
-  ({ type: Actions.ToggleIsExistPreviousPage, data } as const);
+  ({ type: Actions.ToggleIsExistPreviousPage, data }) as const;
 
-export const getHistory = (data: ITransactions) => ({ type: Actions.FetchHistory, data } as const);
+export const getHistory = (data: ITransactions) => ({ type: Actions.FetchHistory, data }) as const;
 
-export const clearHistory = () => ({ type: Actions.ClearHistory } as const);
+export const clearHistory = () => ({ type: Actions.ClearHistory }) as const;
 
 export const updateSwapHistoryTemp = (data: TTxRawObject[]) =>
-  ({ type: Actions.UpdateSwapHistoryTemp, data } as const);
+  ({ type: Actions.UpdateSwapHistoryTemp, data }) as const;
 
-export const fetchUsdPrice = (data: IFetchUsd) => ({ type: Actions.FetchUsdPrice, data } as const);
+export const fetchUsdPrice = (data: IFetchUsd) => ({ type: Actions.FetchUsdPrice, data }) as const;
 
 export const fetchTransactionFees = (data: IFee[]) =>
-  ({ type: Actions.FetchTransactionFees, data } as const);
+  ({ type: Actions.FetchTransactionFees, data }) as const;
 
 export const updateNetworkInfos = (data: INetworkInfos) =>
-  ({ type: Actions.UpdateNetworkInfos, data } as const);
+  ({ type: Actions.UpdateNetworkInfos, data }) as const;
 
 export const fetchResolvedAddress = (data: string, address: string) =>
-  ({ type: Actions.FetchResolvedAddress, data, address } as const);
+  ({ type: Actions.FetchResolvedAddress, data, address }) as const;
 
 type Action =
   | ReturnType<typeof toggleIsLoading>

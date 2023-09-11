@@ -111,10 +111,8 @@ export const useGetEarningHistorical = () => {
     }
   }, [getData, getHistoricalAprData]);
 
-  return useMemo(() => ({ farming, isLoading, bridge, aprHistoric }), [
-    farming,
-    isLoading,
-    bridge,
-    aprHistoric,
-  ]);
+  return useMemo(
+    () => ({ farming, isLoading, bridge, aprHistoric }),
+    [farming, isLoading, bridge, aprHistoric],
+  );
 };

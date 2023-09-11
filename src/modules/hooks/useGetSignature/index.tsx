@@ -25,7 +25,11 @@ export const useGetSignature = () => {
   const { onboard, wallet, address } = useOnboard();
   const { data: msgData } = useTermsMessageQuery();
   const [signTerms] = useSignTermsMutation();
-  const { data: addressTerms, loading, refetch } = useHasSignedTermsQuery({
+  const {
+    data: addressTerms,
+    loading,
+    refetch,
+  } = useHasSignedTermsQuery({
     variables: {
       address,
     },

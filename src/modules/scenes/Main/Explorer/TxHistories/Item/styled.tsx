@@ -128,6 +128,7 @@ export const Status = styled.div`
 
 export const Ellipsis = styled(Icon.Ellipsis)`
   font-size: ${({ theme }) => rem(theme.pulsar.size.street)};
+  color: ${({ theme }) => theme.pulsar.color.text.masked};
   cursor: pointer;
   transition: all 0.3s ease 0s;
   :hover {

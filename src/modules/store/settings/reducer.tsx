@@ -21,6 +21,6 @@ export const settings: Reducer<State, Action> = (state = initialState, action) =
   return state;
 };
 
-export const actionSetSettings = (data: Partial<State>) => ({ type: Actions.Set, data } as const);
+export const actionSetSettings = (data: Partial<State>) => ({ type: Actions.Set, data }) as const;
 
 type Action = ReturnType<typeof actionSetSettings>;

@@ -1,7 +1,7 @@
 import { buildContext, SkybridgeContext, SkybridgeMode } from '@swingby-protocol/sdk';
 import React, { useContext, useEffect, useState } from 'react';
 
-const SdkContext = React.createContext<SkybridgeContext>((null as unknown) as SkybridgeContext);
+const SdkContext = React.createContext<SkybridgeContext>(null as unknown as SkybridgeContext);
 
 export const SdkContextProvider = ({
   children,
