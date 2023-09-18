@@ -38,7 +38,7 @@ export const Migrate = () => {
           <MigratePanelContainer>
             <MigratePanel>
               <MigrateChainContainer>
-                <Image src="/migrate-erc20.svg" width={222} height={55} />
+                <Image src="/migrate-erc20.svg" alt="migrate erc20" width={222} height={55} />
 
                 <MigrateChainAnchor href={URL.MigrateBep20} target="_blank">
                   <MigrateChain variant="secondary" size="city">
@@ -64,7 +64,7 @@ export const Migrate = () => {
                   onClick={() => copyToClipboard(copy, toastCopyAddress)}
                 >
                   <MigrateAddress>
-                    <Image src="/coin.svg" width={20} height={20} />
+                    <Image src="/coin.svg" alt="coin" width={20} height={20} />
                     <MigrateAddressText>{BRIDGE_ADDRESS}</MigrateAddressText>
                   </MigrateAddress>
                 </ButtonScale>

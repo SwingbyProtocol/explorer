@@ -8,7 +8,7 @@ import {
 import { rem } from 'polished';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { PromiseValue } from 'type-fest';
+import { PromiseValue } from 'type-fest'; // eslint-disable-line
 
 import { fetchNodeEarningsList } from '../../../metanodes';
 import { StylingConstants } from '../../../styles';
