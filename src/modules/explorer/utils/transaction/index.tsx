@@ -80,7 +80,7 @@ export const convertTxTime = (txTimeParam: number | DateTime) => {
         value={(ts - Date.now()) / 1000}
         numeric="auto"
         updateIntervalInSeconds={1}
-        style="short" // eslint-disable-line react/style-prop-object
+        style="short"
       />
     );
   }

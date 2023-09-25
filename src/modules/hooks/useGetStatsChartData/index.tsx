@@ -1,6 +1,6 @@
 import { SkybridgeBridge } from '@swingby-protocol/sdk';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { DefaultRootState, useSelector } from 'react-redux';
 
 import { IFloatHistoryObject } from '..';
 import { ENDPOINT_SKYBRIDGE_EXCHANGE, PATH } from '../../env';
@@ -12,9 +12,15 @@ import { useToggleBridge } from '../useToggleBridge';
 
 export const useGetStatsChartData = () => {
   const { bridge } = useToggleBridge(PATH.ROOT);
-  const volumes = useSelector((state) => state.explorer.networkInfos.stats.volumes);
-  const volumes1m = useSelector((state) => state.explorer.networkInfos.stats.volumes1m);
-  const volumes1y = useSelector((state) => state.explorer.networkInfos.stats.volumes1y);
+  const volumes = useSelector(
+    (state: DefaultRootState) => state.explorer.networkInfos.stats.volumes,
+  );
+  const volumes1m = useSelector(
+    (state: DefaultRootState) => state.explorer.networkInfos.stats.volumes1m,
+  );
+  const volumes1y = useSelector(
+    (state: DefaultRootState) => state.explorer.networkInfos.stats.volumes1y,
+  );
   const [floatHistories, setFloatHistories] = useState<IChartDate[]>(initialVolumes);
   const [lockHistories, setLockHistories] = useState<IChartDate[]>(initialVolumes);
   const [isLoading, setIsLoading] = useState(false);

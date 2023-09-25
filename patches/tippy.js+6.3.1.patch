@@ -1,0 +1,15 @@
+diff --git a/node_modules/tippy.js/dist/tippy.esm.js b/node_modules/tippy.js/dist/tippy.esm.js
+index 629a4c4..8706dbb 100644
+--- a/node_modules/tippy.js/dist/tippy.esm.js
++++ b/node_modules/tippy.js/dist/tippy.esm.js
+@@ -650,8 +650,9 @@ function createTippy(reference, passedProps) {
+   reference._tippy = instance;
+   popper._tippy = instance;
+   var pluginsHooks = plugins.map(function (plugin) {
++    if (typeof plugin.fn !== 'function') return;
+     return plugin.fn(instance);
+-  });
++  }).filter(Boolean);
+   var hasAriaExpanded = reference.hasAttribute('aria-expanded');
+   addListeners();
+   handleAriaExpandedAttribute();

@@ -52,9 +52,12 @@ export const StatsInfo = () => {
   const isLoading = useSelector(explorerLoadingSelector);
   const [volumeType, setVolumeType] = useState<VolumeType>('1Y');
 
-  const { bridge, defaultBridge, reward, isLoading: isLoadingMetanode } = useToggleMetanode(
-    PATH.EXPLORER,
-  );
+  const {
+    bridge,
+    defaultBridge,
+    reward,
+    isLoading: isLoadingMetanode,
+  } = useToggleMetanode(PATH.EXPLORER);
   const {
     volumes,
     volumes1m,

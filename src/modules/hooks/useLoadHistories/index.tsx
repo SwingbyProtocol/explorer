@@ -51,15 +51,8 @@ export const useLoadHistories = () => {
   };
 
   const getStatus = (isRejectedTx: string) => {
-    const {
-      Pending,
-      Signing,
-      Sending,
-      Completed,
-      SigningRefund,
-      SendingRefund,
-      Refunded,
-    } = TransactionStatus;
+    const { Pending, Signing, Sending, Completed, SigningRefund, SendingRefund, Refunded } =
+      TransactionStatus;
     return isRejectedTx === 'true'
       ? { in: [Refunded, SigningRefund, SendingRefund] }
       : { in: [Completed, Sending, Pending, Signing] };

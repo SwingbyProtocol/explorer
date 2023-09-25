@@ -1,5 +1,5 @@
 import { SkybridgeBridge } from '@swingby-protocol/sdk';
-import { API as OnboardInstance } from 'bnc-onboard/dist/src/interfaces'; // eslint-disable-line import/no-internal-modules
+import { API as OnboardInstance } from 'bnc-onboard/dist/src/interfaces'; // eslint-disable-line
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import { useTheme } from 'styled-components';

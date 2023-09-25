@@ -37,15 +37,15 @@ export const liquidity: Reducer<State, Action> = (state = initialState, action) 
   return state;
 };
 
-export const resetLiquidityState = () => ({ type: Actions.ResetLiquidityState } as const);
+export const resetLiquidityState = () => ({ type: Actions.ResetLiquidityState }) as const;
 
 export const toggleLiquidityMode = (data: PoolMode) =>
-  ({ type: Actions.ToggleLiquidityMode, data } as const);
+  ({ type: Actions.ToggleLiquidityMode, data }) as const;
 
-export const getLiquidityRecentTxs = (data) => ({ type: Actions.GetRecentTxs, data } as const);
+export const getLiquidityRecentTxs = (data) => ({ type: Actions.GetRecentTxs, data }) as const;
 
 export const getLiquidityMinimumWithdrawAmount = (data) =>
-  ({ type: Actions.GetMinimumWithdrawAmount, data } as const);
+  ({ type: Actions.GetMinimumWithdrawAmount, data }) as const;
 
 type Action =
   | ReturnType<typeof resetLiquidityState>

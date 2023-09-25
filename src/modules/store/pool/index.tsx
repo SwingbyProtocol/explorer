@@ -37,14 +37,14 @@ export const pool: Reducer<State, Action> = (state = initialState, action) => {
   return state;
 };
 
-export const resetPoolState = () => ({ type: Actions.ResetPoolState } as const);
+export const resetPoolState = () => ({ type: Actions.ResetPoolState }) as const;
 
-export const togglePoolMode = (data: PoolMode) => ({ type: Actions.TogglePoolMode, data } as const);
+export const togglePoolMode = (data: PoolMode) => ({ type: Actions.TogglePoolMode, data }) as const;
 
-export const getRecentTxs = (data) => ({ type: Actions.GetRecentTxs, data } as const);
+export const getRecentTxs = (data) => ({ type: Actions.GetRecentTxs, data }) as const;
 
 export const getMinimumWithdrawAmount = (data) =>
-  ({ type: Actions.GetMinimumWithdrawAmount, data } as const);
+  ({ type: Actions.GetMinimumWithdrawAmount, data }) as const;
 
 type Action =
   | ReturnType<typeof resetPoolState>

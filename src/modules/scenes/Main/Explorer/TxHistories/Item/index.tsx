@@ -54,7 +54,8 @@ import {
   TxHistoryRow,
 } from './styled';
 
-type QueriedTransaction = TransactionsHistoryQueryHookResult['data']['transactions']['edges'][number]['node'];
+type QueriedTransaction =
+  TransactionsHistoryQueryHookResult['data']['transactions']['edges'][number]['node'];
 
 export const TxHistoriesItem = ({
   tx,
@@ -193,6 +194,7 @@ export const TxHistoriesItem = ({
           <ColumnEllipsis
             onClick={(event) => {
               event.stopPropagation();
+              event.preventDefault();
             }}
           >
             <Dropdown target={<Ellipsis />} data-testid="dropdown">
