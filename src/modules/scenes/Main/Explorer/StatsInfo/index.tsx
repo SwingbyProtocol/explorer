@@ -242,26 +242,31 @@ export const StatsInfo = () => {
                             content={
                               <Tooltip.Content>
                                 <Text variant="accent">
-                                  <a
-                                    href="https://app.swingby.network/liquidity"
-                                    target="_blank"
-                                    rel="noreferrer"
-                                  >
-                                    Deposit liquidity
-                                  </a>
+                                  <ValidatorLinkSpan>
+                                    <a
+                                      href="https://app.swingby.network/liquidity"
+                                      target="_blank"
+                                      rel="noreferrer"
+                                    >
+                                      Deposit liquidity
+                                    </a>
+                                  </ValidatorLinkSpan>
                                   &nbsp; and then stake the LP tokens in the&nbsp;
-                                  <a
-                                    href="https://farm.swingby.network"
-                                    target="_blank"
-                                    rel="noreferrer"
-                                  >
-                                    Farm
-                                  </a>
+                                  <ValidatorLinkSpan>
+                                    <a
+                                      href="https://farm.swingby.network"
+                                      target="_blank"
+                                      rel="noreferrer"
+                                    >
+                                      Farm
+                                    </a>
+                                  </ValidatorLinkSpan>
                                   .
                                 </Text>
                               </Tooltip.Content>
                             }
                             data-testid="tooltip"
+                            interactive={true}
                           >
                             <IconInfo />
                           </Tooltip>

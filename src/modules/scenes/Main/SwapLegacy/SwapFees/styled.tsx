@@ -3,6 +3,7 @@ import { rem } from 'polished';
 import styled from 'styled-components';
 
 import { StylingConstants } from '../../../../styles';
+import { TextPrimary as CommonTextPrimary } from '../../../Common';
 
 const { media } = StylingConstants;
 
@@ -63,4 +64,8 @@ export const Center = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+`;
+
+export const TextPrimary = styled(CommonTextPrimary)`
+  cursor: pointer;
 `;
