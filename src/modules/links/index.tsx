@@ -24,11 +24,6 @@ export const URL = {
   BecomeLiquidityProvider:
     'https://skybridge-docs.swingby.network/getting-start/becoming-a-liquidity-provider',
   Fees: 'https://skybridge-docs.swingby.network/getting-start/network-fees',
-
-  MigrateBep20: 'https://bscscan.com/address/0x71de20e0c4616e7fcbfdd3f875d568492cbe4739',
-  MigrateErc20: 'https://etherscan.io/token/0x8287c7b963b405b7b8d467db9d79eec40625b13a',
-  MigrateIn: 'https://bscscan.com/address/0x640534D32D015e4C80318ad5256Ec7962fDB155f',
-  MigrateOut: 'https://etherscan.io/address/0x640534D32D015e4C80318ad5256Ec7962fDB155f',
   SetupNode: 'https://skybridge-docs.swingby.network/technical-details/the-swingby-node',
 };
 
