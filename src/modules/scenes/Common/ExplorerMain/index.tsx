@@ -19,7 +19,6 @@ import {
   BrowserPool,
   BrowserLiquidity,
   BrowserSwap,
-  Migrate,
 } from '../../Main';
 
 import { ExplorerMainContainer, HeadLine, TitleH1 } from './styled';
@@ -57,8 +56,6 @@ export const ExplorerMain = () => {
         return <BrowserAsset />;
       case PATH.ASSET_WBTC:
         return <BrowserAsset />;
-      case PATH.MIGRATE:
-        return <Migrate />;
 
       default:
         <Browser />;
@@ -86,8 +83,6 @@ export const ExplorerMain = () => {
       case PATH.ASSET_BTC:
         return <></>;
       case PATH.ASSET_WBTC:
-        return <></>;
-      case PATH.MIGRATE:
         return <></>;
 
       default:
