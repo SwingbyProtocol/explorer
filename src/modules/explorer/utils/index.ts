@@ -22,6 +22,7 @@ export {
 export {
   fetchFloatBalances,
   fetchVolumeInfo,
+  parseVolumeInfo,
   fetch1wksRewards,
   getUsdPrice,
   fetchVwap,

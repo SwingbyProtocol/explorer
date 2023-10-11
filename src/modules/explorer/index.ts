@@ -16,6 +16,7 @@ export {
   exponentialToNumber,
   fetchFloatBalances,
   fetchVolumeInfo,
+  parseVolumeInfo,
   fetch1wksRewards,
   getBorderColor,
   getDiffDays,
