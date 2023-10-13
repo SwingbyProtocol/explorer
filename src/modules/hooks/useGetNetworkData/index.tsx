@@ -12,6 +12,7 @@ import {
 } from '../../explorer';
 import { getNodeQty } from '../../network-stats';
 import { toggleIsLoading, updateNetworkInfos, usdPricesSelector } from '../../store';
+import { TransactionsConnectionEdges } from '../../../generated/graphql';
 
 export const useGetNetworkData = () => {
   const dispatch = useDispatch();
@@ -31,8 +32,11 @@ export const useGetNetworkData = () => {
       const results = await Promise.all([
         fetchFloatBalances(usd.BTC, bridge),
         fetchVolumeInfo(bridge, usd.BTC), // use for year chart
-        // @ts-expect-error
-        parseVolumeInfo(txData.transactions.edges, bridge, usd.BTC), // use for week / month chart
+        parseVolumeInfo(
+          txData.transactions.edges as Array<TransactionsConnectionEdges>,
+          bridge,
+          usd.BTC,
+        ), // use for week / month chart
         fetch1wksRewards(bridge),
         getNodeQty({ bridge, mode }),
       ]);
