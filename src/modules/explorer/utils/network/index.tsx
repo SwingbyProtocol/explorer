@@ -1,4 +1,5 @@
 import { buildContext, SkybridgeBridge } from '@swingby-protocol/sdk';
+import { DateTime } from 'luxon';
 
 import { CoinSymbol } from '../../../coins';
 import { getShortDate, sumArray } from '../../../common';
@@ -11,6 +12,7 @@ import {
 import { fetch, fetcher } from '../../../fetch';
 import { IReward } from '../../../metanodes';
 import { IChartDate, IFloat, IFloatAmount, IFloatBalances } from '../../index';
+import { TransactionsConnectionEdges } from '../../../../generated/graphql';
 
 export const getFixedBaseEndpoint = (bridge: SkybridgeBridge) => {
   switch (bridge) {
@@ -350,4 +352,72 @@ export const fetch1wksRewards = async (bridge: SkybridgeBridge): Promise<number>
     console.log(err);
     return 0;
   }
+};
+
+export const parseVolumeInfo = async (
+  txEdges: Array<TransactionsConnectionEdges>,
+  bridge: SkybridgeBridge,
+  usdBtc: number,
+): Promise<{
+  volume1wksWBTC_Skypool: number;
+  volume1wksBTC: number;
+  volumes: IChartDate[] | null;
+  volumes1mWBTC_Skypool: number;
+  volumes1mBTC: number;
+  volumes1m: IChartDate[] | null;
+}> => {
+  const skypoolNetwork24hrSwaps = Array(30).fill(0);
+  const skypoolNetwork24hrSwapsVolume = Array(30).fill(0);
+
+  const now = DateTime.local().startOf('day');
+  const oneMonthAgo = now.minus({ days: 29 }); // only 30 items in array
+
+  txEdges.forEach((edge) => {
+    const at = DateTime.fromISO(edge.node.at);
+
+    if (at >= oneMonthAgo) {
+      const diffDay = Math.floor(now.diff(at.startOf('day'), 'days').days);
+      skypoolNetwork24hrSwaps[diffDay]++;
+      skypoolNetwork24hrSwapsVolume[diffDay] += parseFloat(edge.node.depositAmount);
+    }
+  });
+
+  const volume1wksWBTC_Skypool: number = sumArray(skypoolNetwork24hrSwapsVolume.slice(0, 7));
+  const volume1wksBTC: number = getVolumesBTC({
+    bridge,
+    volumesWBTC_Skypool: volume1wksWBTC_Skypool,
+  });
+  const volumes: IChartDate[] = getVolumes({
+    bridge,
+    usdBtc,
+    swapsCount: skypoolNetwork24hrSwaps,
+    swapsVolume: skypoolNetwork24hrSwapsVolume,
+    volumeStep: 'day',
+  })
+    .slice(0, 7)
+    .reverse();
+
+  const volumes1mWBTC_Skypool: number = sumArray(skypoolNetwork24hrSwapsVolume.slice(0, 30));
+  const volumes1mBTC: number = getVolumesBTC({
+    bridge,
+    volumesWBTC_Skypool: volumes1mWBTC_Skypool,
+  });
+  const volumes1m: IChartDate[] = getVolumes({
+    bridge,
+    usdBtc,
+    swapsCount: skypoolNetwork24hrSwaps,
+    swapsVolume: skypoolNetwork24hrSwapsVolume,
+    volumeStep: 'day',
+  })
+    .slice(0, 30)
+    .reverse();
+
+  return {
+    volume1wksWBTC_Skypool,
+    volume1wksBTC,
+    volumes,
+    volumes1mWBTC_Skypool,
+    volumes1mBTC,
+    volumes1m,
+  };
 };
