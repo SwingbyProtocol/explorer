@@ -77,6 +77,10 @@ export const Row = styled.div<BgProps>`
       : props.bg === MayChurnIn
       ? 'rgba(143, 231, 217, 0.2)'
       : !props.bg && props.theme.pulsar.color.bg.hover};
+  color: ${(props) =>
+    props.bg === InactiveBondExpired || props.bg === Unreachable
+      ? props.theme.pulsar.color.text.placeholder
+      : props.theme.pulsar.color.text.normal};
   display: grid;
   align-items: center;
   grid-template-columns: ${nodeListGridTemplateColumnsFrameMobile};

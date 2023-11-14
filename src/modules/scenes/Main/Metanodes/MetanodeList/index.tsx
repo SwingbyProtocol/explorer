@@ -128,7 +128,7 @@ export const MetanodeList = (props: Props) => {
                         <StatusIcon status={toggleStatusIconColor(node.status)} />
 
                         {isNoRequiredTooltip ? (
-                          <TextNodeStatus variant="label">
+                          <TextNodeStatus>
                             <FormattedMessage id={toggleStatusWord(node.status) as string} />
                           </TextNodeStatus>
                         ) : (
@@ -140,7 +140,7 @@ export const MetanodeList = (props: Props) => {
                             }
                             targetHtmlTag="span"
                           >
-                            <TextNodeStatus variant="label">
+                            <TextNodeStatus>
                               <FormattedMessage id={toggleStatusWord(node.status) as string} />
                             </TextNodeStatus>
                           </TooltipStatus>
@@ -153,13 +153,12 @@ export const MetanodeList = (props: Props) => {
                   <TextRoom>{node.version}</TextRoom>
                 </SizeL>
                 <div>
-                  <TextRoom>{bondAmount}</TextRoom>{' '}
-                  <TextRoom variant="label">({lockedPortion}%)</TextRoom>
+                  <TextRoom>{bondAmount}</TextRoom> <TextRoom>({lockedPortion}%)</TextRoom>
                 </div>
                 <ColumnExpiry>
                   <Column>
                     <TextNowrap>{expireTime}</TextNowrap>
-                    <TextNowrap variant="label">({getDiffDays(expireTimestamp)})</TextNowrap>
+                    <TextNowrap>({getDiffDays(expireTimestamp)})</TextNowrap>
                   </Column>
                 </ColumnExpiry>
                 <SizeL>
@@ -167,9 +166,9 @@ export const MetanodeList = (props: Props) => {
                     <RowAddress>
                       <CurrencyColumn>
                         <CurrencyBox>
-                          <TextRoom variant="label">{sbBTCRewardCurrency}</TextRoom>
+                          <TextRoom>{sbBTCRewardCurrency}</TextRoom>
                         </CurrencyBox>
-                        <TextRoom variant="label">:</TextRoom>
+                        <TextRoom>:</TextRoom>
                       </CurrencyColumn>
                       <ColumnAddress>
                         <AddressP>{ethAddress}</AddressP>
