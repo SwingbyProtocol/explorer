@@ -36,4 +36,5 @@ export const SearchInput = styled(TextInput)`
 export const SearchIcon = styled(Icon.Search)`
   color: ${({ theme }) => theme.pulsar.color.primary.normal};
   font-size: ${({ theme }) => rem(theme.pulsar.size.street)};
+  cursor: pointer;
 `;
