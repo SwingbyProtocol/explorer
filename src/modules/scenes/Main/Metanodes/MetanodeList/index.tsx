@@ -14,7 +14,8 @@ import {
   toggleStatusWord,
 } from '../../../../metanodes';
 import { StylingConstants } from '../../../../styles';
-import { SizeL, TextBlock, TextRoom } from '../../../Common';
+import { SizeL, TextBlock, TextRoom, Atag } from '../../../Common';
+import { getScanDetailBaseEndpoint } from '../../../../pool';
 
 import {
   AddressP,
@@ -54,6 +55,8 @@ export const MetanodeList = (props: Props) => {
 
   const { media } = StylingConstants;
   const xl = useMatchMedia({ query: `(min-width: ${rem(media.xl)})` });
+
+  const baseUrl = getScanDetailBaseEndpoint(bridge);
 
   return (
     <MetanodeListContainer>
@@ -107,6 +110,8 @@ export const MetanodeList = (props: Props) => {
             const expireTime = convertDateTime(expireTimestamp);
             const isNoRequiredTooltip =
               xl || node.status === 'CHURNED_IN' || node.status === 'MAY_CHURN_IN';
+
+            const addressUrl = `${baseUrl}/address/${ethAddress}`;
 
             return (
               <Row key={node.id} bg={toggleStatusBg(node.status, i)}>
@@ -171,7 +176,9 @@ export const MetanodeList = (props: Props) => {
                         <TextRoom>:</TextRoom>
                       </CurrencyColumn>
                       <ColumnAddress>
-                        <AddressP>{ethAddress}</AddressP>
+                        <Atag href={addressUrl} rel="noopener noreferrer" target="_blank">
+                          <AddressP>{ethAddress}</AddressP>
+                        </Atag>
                       </ColumnAddress>
                     </RowAddress>
                   </BoxAddress>
