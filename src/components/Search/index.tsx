@@ -15,7 +15,7 @@ export const Search = () => {
   const params = router.query;
   const chainBridge = String(params.bridge || '');
 
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState(router.query.q);
   const { media } = StylingConstants;
   const lg = useMatchMedia({ query: `(min-width: ${rem(media.lg)})` });
   const md = useMatchMedia({ query: `(min-width: ${rem(media.md)})` });
@@ -37,40 +37,42 @@ export const Search = () => {
     }
   };
 
+  const handleSearch = async () => {
+    var address = await checkUD(search);
+    if (address)
+      router.push({
+        pathname: PATH.EXPLORER,
+        query: {
+          bridge: chainBridge,
+          type: address ? 'search' : '',
+          q: address,
+        },
+      });
+    else
+      router.push({
+        pathname: PATH.EXPLORER,
+        query: {
+          bridge: chainBridge,
+          type: search ? 'search' : '',
+          q: search,
+        },
+      });
+  };
+
   return (
     <SearchInput
       size={lg ? 'country' : md ? 'state' : 'country'}
-      value={search || router.query.q}
+      value={search}
+      onKeyDown={(evt) => {
+        if (evt.keyCode === 13) {
+          handleSearch();
+        }
+      }}
       onChange={(evt) => {
         setSearch(evt.target.value);
       }}
       placeholder={formatMessage({ id: 'common.placeholder.search' })}
-      right={
-        <SearchIcon
-          size="country"
-          onClick={async () => {
-            var address = await checkUD(search);
-            if (address)
-              router.push({
-                pathname: PATH.EXPLORER,
-                query: {
-                  bridge: chainBridge,
-                  type: address ? 'search' : '',
-                  q: address,
-                },
-              });
-            else
-              router.push({
-                pathname: PATH.EXPLORER,
-                query: {
-                  bridge: chainBridge,
-                  type: search ? 'search' : '',
-                  q: search,
-                },
-              });
-          }}
-        />
-      }
+      right={<SearchIcon size="country" onClick={handleSearch} />}
     />
   );
 };
